@@ -14,7 +14,7 @@
   @return map-get($color, $val); 
 }
 
-body {
+html,body {
   @include flex(column, flex-start, flex-start);
   background-color: color("deepWhite");
   min-width: 100%;
