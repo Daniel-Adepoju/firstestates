@@ -19,11 +19,12 @@
   min-width: 100%;
   min-height: 100vh;
   @include flex(row, flex-start, flex-start);
+  overflow-x: hidden;
 }
 body {
   @extend html;
   @include flex(column, flex-start, flex-start);
-  overflow-x: hidden;
+
 }
 .main {
   @extend body;
