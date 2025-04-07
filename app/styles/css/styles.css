@@ -374,7 +374,8 @@ html body, html .main {
   background-color: rgb(245, 245, 245);
   min-width: 100%;
   min-height: 100vh;
-}
+} 
+
 
 .main {
   margin-inline: auto;
