@@ -14,7 +14,7 @@
   @return map-get($color, $val); 
 }
 
-html,body {
+ html body {
   @include flex(column, flex-start, flex-start);
   background-color: color("deepWhite");
   min-width: 100%;
@@ -29,6 +29,7 @@ html,body {
 nav {
   @include transition(300ms,ease-out);
   @include flex(row, center, space-between);
+  position: sticky;
   animation: comeup 300ms ;
   background-color: color("white");
   z-index: 100;
@@ -150,7 +151,7 @@ nav {
   @include flex(column, center, flex-start);
   position: relative;
   background-color: white;
-  width: 300px;
+  width: 350px;
   box-shadow: 1px 1px 1px 1px rgb(222, 214, 214);
   cursor: pointer;
   border-radius: 5px 5px 10px 10px;
@@ -178,7 +179,7 @@ nav {
   }
   .houseImg {
     position: relative;
-    width: 280px;
+    width: 320px;
     // height: 5em;
     padding-top: 56.25%;
     margin-top: -14px;
