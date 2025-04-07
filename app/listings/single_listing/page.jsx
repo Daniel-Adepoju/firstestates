@@ -4,14 +4,14 @@ import Image from "next/image"
 import Button from "../../components/Button";
 import { Swiper, SwiperSlide} from 'swiper/react';
 import SwiperControls from '../../utils/SwpierControls'
-import { Navigation, Pagination, Autoplay, A11y, EffectCoverflow } from 'swiper/modules';
+import { Pagination, Autoplay, A11y, EffectCoverflow } from 'swiper/modules';
 import 'swiper/css'
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 
 const SingleListing = () => {
-   const [address, setAddress] = useState(`15 Ademola Afolabi, Orelope Bustop`)
+   const [address, setAddress] = useState(`15, lorem ipsum dolor sit amet, consectetur adipiscing`)
    const [isSwiperLoaded, setIsSwiperLoaded] = useState(false)
    const [phone,setPhone] = useState('07063939389')
   const [whatsApp, setWhatsApp] = useState('07063939389')
@@ -38,7 +38,6 @@ const SingleListing = () => {
       <Swiper
       className="house"
  modules={[Pagination,Autoplay, A11y,EffectCoverflow]}
-//  effect="coverflow"
  a11y={{enabled: true}}
  spaceBetween={0}
  slidesPerView={1}
@@ -87,7 +86,7 @@ const SingleListing = () => {
     </Swiper>
         </div>
          <div className="heading location">
-          Idimu
+          Town
           </div>
         <div className="address">
         <Image 
@@ -182,7 +181,7 @@ const SingleListing = () => {
         src='/icons/location.svg'
         />  
      <span>
-     60 PBO Lekki Aja
+     60, lorem ipsum dolor
       </span> 
       </div>
       <div className="subheading">

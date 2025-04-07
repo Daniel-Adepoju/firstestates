@@ -11,8 +11,6 @@ const page = () => {
     <div>
       <Link href="/">Go back to Homepage</Link>
     </div>
-    <div>If you think this is a mistake, please contact our support team at <Link href="mailto:support@example.com">support@example.com</Link>.</div>
-    <div>We apologize for any inconvenience caused.</div>
     <div>
     </div>
     <div>

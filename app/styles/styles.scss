@@ -166,7 +166,7 @@ nav {
       border-radius: 0;
       transform: scale(1);
       background-color: rgba(126, 126, 126, 0.443);
-    div{
+    div {
       @include transition(300ms,ease-out);
       opacity: 100%;
     }

@@ -28,7 +28,7 @@ const Nav = () => {
    </div>
    </Link>
       <div className="nav_items" style={{flexWrap: 'wrap',}}>
-        <Link href='/listings/single_listing'>Browse Listings</Link>
+        <Link href='/listings'>Browse Listings</Link>
         <Link href="/signup">Sign Up</Link>
         <Link href='/login'>Login</Link>
      </div>
