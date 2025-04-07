@@ -17,9 +17,13 @@
 body {
   @include flex(column, flex-start, flex-start);
   background-color: color("deepWhite");
-  width: 100%;
+  min-width: 100%;
   min-height: 100vh;
   
+}
+.main {
+  @extend body;
+  margin-inline: auto;
 }
 
 nav {
