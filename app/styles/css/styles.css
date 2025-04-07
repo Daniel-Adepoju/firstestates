@@ -371,11 +371,10 @@ html body, html .main {
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  background-color: rgb(245, 245, 245);
+  background-color: green;
   min-width: 100%;
   min-height: 100vh;
-} 
-
+}
 
 .main {
   margin-inline: auto;

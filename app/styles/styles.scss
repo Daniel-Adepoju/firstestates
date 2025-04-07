@@ -16,7 +16,8 @@
 
  html body {
   @include flex(column, flex-start, flex-start);
-  background-color: color("deepWhite");
+  // background-color: color("deepWhite");
+  background-color: green;
   min-width: 100%;
   min-height: 100vh;
   
