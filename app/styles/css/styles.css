@@ -372,7 +372,7 @@ body {
   align-items: flex-start;
   justify-content: flex-start;
   background-color: rgb(245, 245, 245);
-  min-width: 100%;
+  width: 100%;
   min-height: 100vh;
 }
 
@@ -519,7 +519,7 @@ nav .nav_items a:hover::after, .footer .nav_items a:hover::after {
   justify-content: flex-start;
   position: relative;
   background-color: white;
-  width: 350px;
+  width: 300px;
   box-shadow: 1px 1px 1px 1px rgb(222, 214, 214);
   cursor: pointer;
   border-radius: 5px 5px 10px 10px;
@@ -547,7 +547,7 @@ nav .nav_items a:hover::after, .footer .nav_items a:hover::after {
 }
 .card .houseImg {
   position: relative;
-  width: 330px;
+  width: 280px;
   padding-top: 56.25%;
   margin-top: -14px;
   margin-inline: auto;
