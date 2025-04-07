@@ -1,0 +1,26 @@
+@keyframes blink {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(0.97);
+    }
+}
+
+@keyframes comedown {
+    0% {
+        top: -20%;
+    }
+    100% {
+        top: 0%;
+    }
+}
+
+@keyframes comeup {
+//   0%{
+//     transform: translateY(50px);
+//   }
+//   100% {
+//     transform: translateY(0px);
+//     };
+  }
