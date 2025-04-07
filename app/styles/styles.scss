@@ -14,13 +14,15 @@
   @return map-get($color, $val); 
 }
 
- html body {
-  @include flex(column, flex-start, flex-start);
-  // background-color: color("deepWhite");
-  background-color: green;
+ html {
+  background-color: color('ghost');
   min-width: 100%;
   min-height: 100vh;
   
+}
+body {
+  @extend html;
+  @include flex(column, flex-start, flex-start);
 }
 .main {
   @extend body;
