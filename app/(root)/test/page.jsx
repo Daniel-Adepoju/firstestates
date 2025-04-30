@@ -4,9 +4,6 @@ import { useSignal } from "@preact/signals-react/runtime"
 import React from "react"
 
 const Page = () => {
-  const val = useSignal(true)
-
-
 
   return (
     <>
@@ -14,7 +11,7 @@ const Page = () => {
 
       <button
         style={{ margin: "200px auto" }}
-        onClick={qw}
+        onClick={() => {return}}
       >
         {/* {notification} */} Click
       </button>
