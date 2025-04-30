@@ -28,6 +28,6 @@
       "@models/*": ["api/models/*"],
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/(root)/layout.jsx", "app/(auth)/layout.jsx", "app/agent_dashboard/layout.jsx", "auth.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/(root)/layout.jsx", "app/(auth)/layout.jsx", "app/agent_dashboard/layout.jsx", "auth.js", "app/(root)/page.jsx"],
   "exclude": ["node_modules"]
 }
