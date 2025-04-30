@@ -152,7 +152,7 @@ const ListingForm = () => {
                   <Button
                     text="Upload Main Image"
                     className="clickable darkblueBtn"
-                    functions={() => open()}
+                    functions={() => open()} 
                   ></Button>
                 )
               }
@@ -183,6 +183,7 @@ const ListingForm = () => {
               )}
               {deleteImageMutation.isPending && <DeleteLoader />}
             </div>
+            
           </div>
 
           {/* Gallery */}
