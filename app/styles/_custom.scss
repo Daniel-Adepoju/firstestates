@@ -1,27 +1,41 @@
 @import "variables.scss";
 @import "mixin.scss";
+@import 'functions.scss';
 
 @function color($val) {
   @return map-get($color, $val);
 }
 
+
 #dot {
   visibility: hidden;
 }
 
+.timer {
+  color: goldenrod;
+  font-family: font('headers');
+}
 .heading {
   color: color("darkblue");
   padding-left: 6px;
   margin-top: 10px;
   font-size: 22px;
   font-weight: bold;
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-family: font('headers');
 }
 .subheading {
   @extend .heading;
   font-size: 20px;
   color: color("darkblue");
   font-weight: bold;
+  font-family: font('headers');
+}
+.title_heading {
+  @include flex(column, center, center);
+  margin:5px auto;
+  @extend .subheading;
+  opacity: 90%;
+  text-transform: capitalize;
 }
 
 .address {
@@ -35,7 +49,11 @@
   opacity: 60%;
   width: 100%;
 }
-
+ .navSmall {
+  @media(min-width:800px) {
+    display: none;
+  }
+ }
 .smallScreen {
   @media (min-width: 900px) {
     display: none !important;
@@ -51,7 +69,7 @@
   }
 }
 .currency, .bigNum {
-  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-family: font('headers');
   font-size: 25px; 
   color: color('darkblue');
   @include center();
@@ -84,9 +102,15 @@
 }
 
 //Buttons
+button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
 a:has(.clickable) {
   text-decoration: none;
 }
+
 .clickable {
   transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
   &:active {
@@ -95,6 +119,10 @@ a:has(.clickable) {
   }
 }
 .directional {
+  @include flex(row, center, center);
+  gap: 10px;
+  text-transform: capitalize;
+  font-family: font('body');
   position: relative;
   height: 40px;
   overflow: hidden;
@@ -135,7 +163,6 @@ a:has(.clickable) {
     background-color: transparent;
     width: 30%;
     height: 100%;
-    // z-index: 2;
     left: 35%;
     border-radius: 8px;
     @include transition(400ms, ease-out);
@@ -198,10 +225,15 @@ a:has(.clickable) {
 .form_container {
   @include flex(column, center, space-between);
   width: 100%;
+  min-height: 100vh;
   gap: 10px;
+  padding-bottom: 10px;
   @media (min-width: 1200px) {
     gap: 20px;
   }
+ &.listing {
+  margin-top:80px;
+ }
 }
 .form {
   @include flex(column, flex-start, space-between);
@@ -211,13 +243,16 @@ a:has(.clickable) {
   border-radius: 20px;
   padding: 4px 20px;
   margin-top: 30px;
-
+  font-family: font('body');
   @media (min-width: 750px) {
     width: 70%;
   }
   @media (min-width: 1200px) {
-    @include flex(row, center, flex-start);
+    flex-wrap: wrap;
     width: 100%;
+  }
+  label {
+    opacity: 50%;
   }
   input {
     @include transition(140ms, ease-out);
@@ -238,20 +273,21 @@ a:has(.clickable) {
 }
 
 .bottom {
+  font-family: font('body');
   margin-inline: auto;
   background-color: color("white");
   margin-top: auto;
   padding: 10px 6px 6px;
-  width: 90%;
+  width: 99%;
   padding: 16px;
   border-radius: 10px;
-  @include shadow();
-  .btns,
   .info {
     @include flex(row, center, center);
+    flex-wrap: wrap;
     gap: 6px;
-    width: 98%;
+    width: 100%;
     margin-bottom: 10px;
+
     button {
       margin-top: 20px;
       border: 0;
@@ -261,9 +297,12 @@ a:has(.clickable) {
   a {
     color: color("darkblue");
   }
-  button {
+
+  .clickable {
     @include flex(row, center, center);
-    width: 200px;
+    width: 300px !important;
+    margin-inline: auto;
+    margin-bottom: 10px;
   }
 }
 
@@ -284,8 +323,9 @@ a:has(.clickable) {
 
 .board {
   @include flex(column, center, space-evenly);
+  font-family: font('body');
   @include space(10px, 30px);
-  margin-inline: auto;
+  margin:80px auto;
   width: 90%;
   height: 50vh;
   background-color: color("white");
@@ -299,7 +339,95 @@ a:has(.clickable) {
     }
     .clickable {
       @include flex(row, center, center);
-      width: 200px;
+      width: 300px;
     }
   }
+}
+
+
+//Notifications
+
+.notification {
+  @media (min-width: 790px) {
+    width:50%;
+  }
+   &:is(.success) {
+    background-color: color("blue");
+    // &__progress {
+    //   background: white;
+    // }
+  }
+    &:is(.danger) {
+      background-color: darkred;
+    //  &__progress {
+    //   background: white;
+    // }
+    }
+   
+    &:is(.warning) {
+    background-color: rgb(209, 163, 0);
+    // &__progress {
+    //   background-color: white;
+    // }
+   
+  }
+   &:is(.active) {
+      @include flex(row,center, space-between)
+    } 
+    img {
+      cursor: pointer;
+    }
+  position: fixed;
+  left: 5%;
+  top: 11%;
+  z-index: 200;
+  display: none;
+  background-color: rgb(0, 0, 0);
+  color: #fff;
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.199);
+  overflow: hidden;
+  font-family: font('card');
+  // margin-top: 100px;
+  margin-inline: auto;
+  width: 90%;
+  animation: fadeIn 300ms ease-out;
+  &__content {
+    font-size: 1rem;
+  }
+
+  &__progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    background: color('white');
+    transition: width 0.1s linear;
+    border-radius: 6px 6px 60px 60px;
+  }
+}
+
+.darkblueBtn {
+  width: 50%;
+}
+
+
+.blackboard {
+  z-index: 100000;
+isolation: isolate;
+  background-color: color('black');
+  color: white;
+  padding: 10px;
+  width:100%;
+  min-height: 100vh;
+  position:fixed;
+  .blackboardItems {
+    margin-top: 200px;
+  @include flex(column,center, center);
+  gap:10px;
+  & > *  {
+  color: white;
+  }
+}
 }

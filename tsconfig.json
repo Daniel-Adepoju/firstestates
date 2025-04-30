@@ -18,10 +18,16 @@
         "name": "next"
       }
     ],
+    "baseUrl": "./app",
     "paths": {
-      "./*": ["./*"]
+      "@*": ["../*"],
+      "@lib/*": ["lib/*"],
+      "@components/*": ["components/*"],
+      "@utils/*": ["utils/*"],
+      "@styles": ["/styles/css/styles.css"],
+      "@models/*": ["api/models/*"],
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/(root)/layout.jsx", "app/(auth)/layout.jsx", "app/agent_dashboard/layout.jsx", "auth.js"],
   "exclude": ["node_modules"]
 }

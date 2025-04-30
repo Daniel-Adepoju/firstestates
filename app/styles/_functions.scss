@@ -1,0 +1,9 @@
+
+@function font($val) {
+    @return map-get($fonts, $val);
+}
+
+@function color($val) {
+    @return map-get($color, $val); 
+  }
+  

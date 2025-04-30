@@ -1,17 +1,31 @@
-@mixin flex($direction, $align: center, $justify: flex-start) {
-     display: flex;
-     flex-direction: $direction;
-     align-items: $align;
-     justify-content: $justify;
-   }
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Quicksand:wght@300..700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+$header : "Outfit", sans-serif;
+$list : "Quicksand", sans-serif;
+$body: "Funnel Sans", sans-serif;
+$body2: "Roboto", sans-serif;
+$card: "Istok Web", sans-serif;
+$price: "Darker Grotesque", sans-serif;
+$fonts: (
+     'headers': $header,
+     'body': $body,
+     'list': $list,
+     'body2': $body2,
+     'card': $card,
+     'price': $price,
+     );
+
+
 $color : (
+      'black': rgb(41, 42, 42),
      'blue': #0881a3,
      'darkblue': rgb(8, 116, 199),
      'white': #fffdfb,
      'deepWhite':rgb(245, 245, 245),
      'lightWheat': #fde9df,
-     'wheat': #ffd6a4,
-     'tertiaryGreen': rgb(0, 129, 43),
-     'brown':brown,
+     'wheat': #f29829,
+     'fade': rgba(78, 78, 78, 0.42) ,
+     'error':rgb(197, 12, 12),
      'ghost': rgba(240, 239, 238, 0.292),
 ) 

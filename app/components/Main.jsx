@@ -1,10 +1,18 @@
-import React from 'react'
-import Card from './Card'
-const Main = () => {
+'use client'
+import CardList from './CardList'
+import { useUser } from '@utils/user'
+
+const Main = ({children}) => {
+  const {session} = useUser()
+
+ 
   return (
-    <> 
-  <Card />
-    </>
+<>
+   <CardList/>
+</>
+
+
+
 
 
   )

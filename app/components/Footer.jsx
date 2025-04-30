@@ -2,7 +2,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { useEffect, useState } from "react"
-const Footer = () => {
+const Footer = ({className}) => {
   const year = new Date().getFullYear()
   const [goUpvisible,setgoUpVisible] = useState(false)
   
@@ -21,13 +21,13 @@ const Footer = () => {
   return () => window.removeEventListener('scroll', handleScroll)
   })
   return (
-    <div className="footer">
+    <footer className={`footer ${className}`}>
    {goUpvisible && <Link className="goUp" href='#nav'>
     <div className="clickable">
         <Image 
           width={50}
           height={50}
-          src='/icons/goUp.svg'
+          src={className ? '/icons/goUpBlack.svg' : '/icons/goUp.svg'}
           alt="up_arrow"
         />
       </div>
@@ -56,17 +56,10 @@ const Footer = () => {
           <Link href={'footer/privacy'}>
         Privacy Policy
         </Link>   
-          </div>
-     
-          <div className="footer_items">
-        <Link className='footer_items' href=''>
-        kilometer
-        </Link>  
-          </div>
-        
+          </div>        
       </div>
       <div className="copyright">&copy; {year}</div>
-    </div>
+    </footer>
   )
 }
 
