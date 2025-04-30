@@ -13,9 +13,8 @@
   scroll-behavior: smooth;
 }
 
-html {
-overflow: hidden;
-}
+// html {
+// }
 body {
   @include flex(column, flex-start, flex-start);
   background-color: color("ghost");
