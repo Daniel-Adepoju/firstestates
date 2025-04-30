@@ -52,4 +52,6 @@ const ListingSchema = new Schema({
 
 })
 
-const Listing = models.Listing || model('Listing', ListingSchema)
+const Listing = models?.Listing || model('Listing', ListingSchema)
+
+export default Listing
