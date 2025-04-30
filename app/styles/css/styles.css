@@ -250,7 +250,6 @@ a:has(.clickable) {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  min-height: 100vh;
   gap: 10px;
   padding-bottom: 10px;
 }

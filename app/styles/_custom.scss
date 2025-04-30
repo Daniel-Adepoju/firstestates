@@ -225,7 +225,7 @@ a:has(.clickable) {
 .form_container {
   @include flex(column, center, space-between);
   width: 100%;
-  min-height: 100vh;
+  // min-height: 100vh;
   gap: 10px;
   padding-bottom: 10px;
   @media (min-width: 1200px) {
