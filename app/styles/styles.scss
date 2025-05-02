@@ -18,10 +18,9 @@
 body {
   @include flex(column, flex-start, flex-start);
   background-color: color("ghost");
-  min-width: 100%;
+  width: 100%;
   min-height: 100vh;
-
- 
+  overflow-x: hidden;
 }
 body:has(.verify) {
   background-color: rgba(0, 0, 0, 0.895);
@@ -94,8 +93,9 @@ body:has(.verify) {
     }
     @media (max-width: 800px) {
       visibility: hidden;
+      // display:none;
       padding: 10px 10px;
-      position: absolute;
+      position: fixed;
       @include flex(column, flex-start, flex-start);
       top: 100%;
       right: -100%;
@@ -116,7 +116,9 @@ body:has(.verify) {
 .activeNav {
   @media (max-width: 800px) {
     .nav_items {
+      @include flex(column, flex-start, flex-start);
       @include transition(300ms, ease-out);
+      position: absolute;
       right: 0;
       visibility: visible;
     }

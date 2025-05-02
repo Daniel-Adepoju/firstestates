@@ -1,28 +1,26 @@
 "use client"
-import { signal, effect } from "@preact/signals-react"
+
 import { useSignal, useSignals } from "@preact/signals-react/runtime"
-import { axiosdata } from "@utils/axiosUrl"
-import { useMutation } from "@tanstack/react-query"
 import { WhiteLoader, DotsLoader } from "@utils/loaders"
 import Button from "@lib/Button"
 import { useEffect,useState } from "react"
 import { signIn } from "@auth"
 import { useNotification } from "@lib/Notification"
-import { useRouter } from "next/navigation"
-import { verifyOTP } from "@lib/server/auth"
+import { useRouter, useSearchParams } from "next/navigation"
+import { verifyOTP,sendOTP } from "@lib/server/auth"
 
 const Verify = () => {
   useSignals()
   const notification = useNotification()
   const validTime = useSignal(60)
   const router = useRouter()
-  // const role = useSearchParams().get("role")
-  // const username = useSearchParams().get("username")
-  // const email = useSearchParams().get("email")
-  // const password = useSearchParams().get("password")
-  // const phone = useSearchParams().get("phone")
-  // const whatsapp = useSearchParams().get("whatsapp")
-  // const address = useSearchParams().get("address")
+  const role = useSearchParams().get("role")
+  const username = useSearchParams().get("username")
+  const email = useSearchParams().get("email")
+  const password = useSearchParams().get("password")
+  const phone = useSearchParams().get("phone")
+  const whatsapp = useSearchParams().get("whatsapp")
+  const address = useSearchParams().get("address")
   const [verifying, setVerifying] = useState(false)
   const otpValues = {
     otp1: useSignal(""),
@@ -44,14 +42,11 @@ const Verify = () => {
     }, 1000)
   }, [])
 
-  //Resend
-  // const resendApi = async (values) => {
-  //   try {
-  //     const res = await axiosdata.value.post("/api/auth/create_account/send_otp", values)
-  //   } catch (err) {
-  //     return
-  //   }
-  // }
+  const handleResend = async (e) => {
+    e.preventDefault()
+    validTime.value = 60
+    await sendOTP({email})
+  }
 
   //Write OTP
   const writeOtp = (e) => {
@@ -77,13 +72,13 @@ const Verify = () => {
     try {
       const res = await verifyOTP({
         clientOtp: compiledOtp.toString(),
-        // role,
-        // username,
-        // email,
-        // userPassword: password,
-        // phone: phone || null,
-        // whatsapp: whatsapp || null,
-        // address: address || null,
+        role,
+        username,
+        email,
+        userPassword: password,
+        phone: phone || null,
+        whatsapp: whatsapp || null,
+        address: address || null,
       })
       notification.setIsActive(true)
       notification.setMessage(res.message)

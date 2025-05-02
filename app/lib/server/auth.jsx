@@ -40,12 +40,12 @@ export const sendOTP = async ({email}) => {
     tls: {
       rejectUnauthorized: false,
       minVersion: "TLSv1.2",
-    },
+    }, //remove from production
   })
    
   const mailOptions = {
     from: process.env.ZOHO_EMAIL,
-    to: "torrentboy149@gmail.com",
+    to: email,
     subject: "Verify Your Email Address",
     html: `
 <div style="background-color: #f9f9f9; padding: 20px; font-family: Arial, sans-serif; line-height: 1.5; color: #333; text-align: center;">
@@ -133,5 +133,5 @@ export const signInWithCredentials = async (email,password) => {
 
 export const logOut = async () => {
    await signOut('/')
-    revalidatePath('/login')
+    return redirect('/')
 }

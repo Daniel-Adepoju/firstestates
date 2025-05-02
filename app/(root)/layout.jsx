@@ -20,7 +20,7 @@ export default function RootLayout({children}) {
           <Provider>
           <User>
            <Backdrop>
-            <Nav />
+             <Nav />
          <Notification>
             {children}
             <Footer /> 

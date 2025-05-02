@@ -250,7 +250,6 @@ a:has(.clickable) {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  gap: 10px;
   padding-bottom: 10px;
 }
 @media (min-width: 1200px) {
@@ -269,10 +268,9 @@ a:has(.clickable) {
   justify-content: space-between;
   gap: 10px;
   margin-inline: auto;
-  width: 100%;
+  min-width: 100%;
   border-radius: 20px;
   padding: 4px 20px;
-  margin-top: 30px;
   font-family: "Funnel Sans", sans-serif;
 }
 @media (min-width: 750px) {
@@ -1205,8 +1203,9 @@ body {
   align-items: flex-start;
   justify-content: flex-start;
   background-color: rgba(240, 239, 238, 0.292);
-  min-width: 100%;
+  width: 100%;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 body:has(.verify, .verify form) {
@@ -1290,7 +1289,7 @@ body:has(.verify, .verify form) {
   .nav .nav_items, .footer .nav_items {
     visibility: hidden;
     padding: 10px 10px;
-    position: absolute;
+    position: fixed;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -1313,7 +1312,12 @@ body:has(.verify, .verify form) {
 
 @media (max-width: 800px) {
   .activeNav .nav_items {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
     transition: 300ms ease-out;
+    position: absolute;
     right: 0;
     visibility: visible;
   }

@@ -8,7 +8,7 @@ import { useUser } from "@utils/user"
 import { WhiteLoader,DotsLoader } from "@utils/loaders"
 import { useNotification } from "@lib/Notification"
 import { useState } from "react"
-import {sendOTP,signInWithCredentials,logOut} from '@lib/server/auth'
+import {sendOTP,signInWithCredentials} from '@lib/server/auth'
 
 export const userDeets = {
   email: signal(""),
@@ -102,7 +102,7 @@ const handleSendOTP = async (e) => {
   if(status === 'loading') {  
     return <DotsLoader/>
   }
-console.log(session)
+
 if(loggingIn) {
   return (<div className="blackboard">
     <div className='blackboardItems'>

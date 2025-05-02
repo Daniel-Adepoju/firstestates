@@ -5,8 +5,10 @@ import { CldUploadWidget, CldImage } from "next-cloudinary"
 import { useMutation } from "@tanstack/react-query"
 import { axiosdata } from "@utils/axiosUrl"
 import { DeleteLoader } from "@utils/loaders"
+import { deleteImage, deleteMultipleImages } from "@lib/server/deleteImage"
 import Image from "next/image"
 import Button from "@lib/Button"
+import { useNotification } from "@lib/Notification"
 const listingDeets = {
   description: signal(""),
   price: signal(""),
@@ -20,11 +22,13 @@ const listingDeets = {
 
 const ListingForm = () => {
   useSignals()
+  const notification = useNotification()
+  const deletingImage = useSignal(false)
   const deletingGallery = useSignal(false)
-  const selectedGalleryImageId = useSignal(1)
+  const selectedGalleryImageId = useSignal()
 
   const handleInputChange = (e) => {
-    const { name, value} = e.target
+    const { name, value } = e.target
     if (name === "amenities") {
       listingDeets.amenities.value = value.split(",")
     } else {
@@ -41,66 +45,73 @@ const ListingForm = () => {
   }
 
   // Delete Main Image
-  const handleDeleteApi = async (public_id) => {
-    const res = await axiosdata.value.post("/api/deleteImage", public_id)
-    if (res.status === 200) {
-      listingDeets.mainImage.value = null
-    } else {
-      console.error("Failed to delete image")
+
+  const handleDeleteImage = async () => {
+    deletingImage.value = true
+    try {
+      const res = await deleteImage(listingDeets.mainImage.value)
+      if (res.status === "success") {
+        listingDeets.mainImage.value = null
+      }
+      notification.setIsActive(true)
+      notification.setMessage(res.message)
+      notification.setType(res.status)
+      deletingImage.value = false
+    } catch (err) {
+      deletingImage.value = false
+      return null
     }
-  }
-  const deleteImageMutation = useMutation({
-    mutationKey: "deleteImage",
-    mutationFn: handleDeleteApi,
-    onSuccess: () => {
-      console.log("Image deleted successfully")
-    },
-  })
-  const handleDeleteImage = () => {
-    deleteImageMutation.mutate({ public_id: listingDeets.mainImage.value })
   }
 
   //Delete From Gallery
 
-  const handleDeleteFromGalleryApi = async (public_ids) => {
-    const res = await axiosdata.value.post("/api/deleteImage/gallery", public_ids)
-
-    if (res.status === 200) {
-      listingDeets.gallery.value = listingDeets.gallery.value.filter(
-        (imgSrc) => !public_ids.public_ids.includes(imgSrc)
-      )
-    } else {
-      console.error("Failed to delete images")
-    } 
-
-  }
-
-  const deleteFromGalleryMutation = useMutation({
-    mutationKey: ["deleteFromGallery"],
-    mutationFn: handleDeleteFromGalleryApi,
-    onSuccess: () => {
-      deletingGallery.value = false
-    },
-  })
-
-  const handleDeleteFromGallery = (e) => {
+  const handleDeleteFromGallery = async (e) => {
     selectedGalleryImageId.value = Number(e.target.id)
-    deleteFromGalleryMutation.mutate({ public_ids: [e.target.dataset.id] })
+    try {
+      const res = await deleteMultipleImages([e.target.dataset.id])
+      if (res.status === "success") {
+        listingDeets.gallery.value = listingDeets.gallery.value.filter(
+          (imgSrc) => imgSrc !== e.target.dataset.id
+        )
+      }
+      notification.setIsActive(true)
+      notification.setMessage(res.message)
+      notification.setType(res.status)
+      deletingGallery.value = false
+      selectedGalleryImageId.value = null
+    } catch (err) {
+      selectedGalleryImageId.value = null
+      console.log(err)
+      return null
+    }
   }
-  const handleDeleteGallery = () => {
+  const handleDeleteGallery = async () => {
     deletingGallery.value = true
-    deleteFromGalleryMutation.mutate({ public_ids: listingDeets.gallery.value })
+    try {
+      const res = await deleteMultipleImages(listingDeets.gallery.value)
+      if (res.status === "success") {
+        listingDeets.gallery.value = listingDeets.gallery.value.filter(
+          (imgSrc) => !listingDeets.gallery.value.includes(imgSrc)
+        )
+      }
+      notification.setIsActive(true)
+      notification.setMessage("All Items Removed From gallery ")
+      notification.setType(res.status)
+      deletingGallery.value = false
+    } catch (err) {
+      deletingGallery.value = false
+      return null
+    }
   }
 
   return (
-    <> 
-    <div className="form_container listing">
-      <div className="title_heading">
-        <h2>Create a new listing</h2>
-        <p>Fill in the details below to create a new listing</p>
-      </div>
+    <>
+      <div className="form_container listing">
+        <div className="title_heading">
+          <h2>Create a new listing</h2>
+          <p>Fill in the details below to create a new listing</p>
+        </div>
 
-    
         <form className="form listing">
           <div className="form_group">
             <label htmlFor="description">Description</label>
@@ -152,7 +163,7 @@ const ListingForm = () => {
                   <Button
                     text="Upload Main Image"
                     className="clickable darkblueBtn"
-                    functions={() => open()} 
+                    functions={() => open()}
                   ></Button>
                 )
               }
@@ -181,9 +192,8 @@ const ListingForm = () => {
                   />
                 </>
               )}
-              {deleteImageMutation.isPending && <DeleteLoader />}
+              {deletingImage.value && <DeleteLoader />}
             </div>
-            
           </div>
 
           {/* Gallery */}
@@ -229,27 +239,21 @@ const ListingForm = () => {
                       height={100}
                       crop={"fill"}
                     />
-
-                    {deleteFromGalleryMutation.isPending &&
-                      (index === selectedGalleryImageId.value ||
-                    deletingGallery.value === true) ? (
-                      <DeleteLoader />
-                    ) : (
-                      ""
-                    )}
+ {index === selectedGalleryImageId.value || deletingGallery.value === true   ?
+                    <DeleteLoader /> : ''}
                   </div>
                 )
               })}
             </div>
-           {listingDeets.gallery.value.length > 0 && (
+            {listingDeets.gallery.value.length > 0 && (
               <Button
                 className="directional clickable darkblueBtn"
                 functions={() => handleDeleteGallery()}
                 text="Delete All"
               />
-            )}  
+            )}
           </div>
-         
+
           {/* Amenities */}
           <div className="form_group">
             <label htmlFor="amenities">Amenities</label>
