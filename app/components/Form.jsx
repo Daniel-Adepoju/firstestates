@@ -77,6 +77,7 @@ const handleSendOTP = async (e) => {
         notification.setType(res.status)
       }
       setSending(false)
+      console.log(res.other)
     } 
    catch(err) {
     console.log(err)
