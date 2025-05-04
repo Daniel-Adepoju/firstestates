@@ -2,7 +2,7 @@
 import Link from "next/link"
 import { useState, useEffect } from "react"
 import { useUser } from "@utils/user"
-import { signOut } from "@auth"
+import { logOut } from "@lib/server/auth"
 import { CldImage } from "next-cloudinary"
 import { useBackdrop } from "@lib/Backdrop"
 const Nav = () => {
@@ -64,7 +64,12 @@ const Nav = () => {
             <Link href="/login">Login</Link>
           </>
         )}
-        {session?.user && <Link href="#"> Sign Out</Link>}
+        {session?.user && <Link
+        onClick={async () => {
+           await logOut()
+          console.log('out')
+          }}
+        href="#"> Sign Out</Link>}
       </div>
     </header>
   )

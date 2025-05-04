@@ -5,8 +5,7 @@ import {connectToDB} from '@utils/database'
 import {compare} from 'bcryptjs' 
 import User from '@models/user'
 
-// const {default:User} = await import('./models/user')
-console.log(User)
+
 export const {auth,handlers,signIn,signOut} = NextAuth({
      session: {
        strategy: 'jwt',
@@ -24,7 +23,7 @@ export const {auth,handlers,signIn,signOut} = NextAuth({
            await connectToDB()
            const user = await User.findOne({email: credentials?.email})
            if (!user) {
-            return null
+            throw new Error('no user')
         }
      
            const passwordMatch = await compare(credentials?.password || '', user?.password)
@@ -38,9 +37,9 @@ export const {auth,handlers,signIn,signOut} = NextAuth({
             }
            }
            if(!passwordMatch) {
-           return null
+           throw new Error('oi')
            }
-            return null
+        throw new Error('pp')
         }
  catch (err) {
     throw new Error(err.message)
