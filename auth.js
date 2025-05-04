@@ -23,7 +23,7 @@ export const {auth,handlers,signIn,signOut} = NextAuth({
            await connectToDB()
            const user = await User.findOne({email: credentials?.email})
            if (!user) {
-            throw new Error('no user')
+            return null
         }
      
            const passwordMatch = await compare(credentials?.password || '', user?.password)
@@ -37,9 +37,9 @@ export const {auth,handlers,signIn,signOut} = NextAuth({
             }
            }
            if(!passwordMatch) {
-           throw new Error('oi')
+           return null
            }
-        throw new Error('pp')
+            return null
         }
  catch (err) {
     throw new Error(err.message)

@@ -135,7 +135,7 @@ if (!res || typeof res !== "object") {
     if (err.type === "CredentialsSignin") {
       return { message: "Invalid Email or Password", status: "warning" }
     } else {
-      return { message: "something went wrong, please try again", status: "danger" ,other: err}
+      return { message: "something went wrong, please try again", status: "danger" ,other: err.type}
     }
   }
   return { message: "Log In Successful", status: "success" }
