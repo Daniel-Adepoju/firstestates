@@ -33,7 +33,7 @@ const Footer = ({className}) => {
       </div>
     </Link> }
       <div className="logo">LOGO</div>
-      <div className="footer_items_container">
+      {/* <div className="footer_items_container">
         <div className="footer_items">
          <Link href={'footer/contact'}>
           Contact Us
@@ -57,7 +57,7 @@ const Footer = ({className}) => {
         Privacy Policy
         </Link>   
           </div>        
-      </div>
+      </div> */}
       <div className="copyright">&copy; {year}</div>
     </footer>
   )
