@@ -10,6 +10,7 @@ import { signIn, signOut } from "@auth"
 import { headers } from "next/headers"
 import ratelimit from "@lib/server/ratelimit"
 import { redirect } from "next/navigation"
+
 export const sendOTP = async ({ email }) => {
   try {
     await connectToDB()
@@ -127,6 +128,7 @@ export const signInWithCredentials = async (email, password) => {
       return { message: res.error, status: "danger" }
     }
   } catch (err) {
+    console.log(err)
     if (err.type === "CredentialsSignin") {
       return { message: "Invalid Email or Password", status: "warning" }
     } else {
