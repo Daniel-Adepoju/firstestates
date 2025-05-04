@@ -79,6 +79,7 @@ const handleSendOTP = async (e) => {
       setSending(false)
     } 
    catch(err) {
+    console.log(err)
     setSending(false)
     notification.setIsActive(true)
     notification.setMessage('An error occured,please try again')

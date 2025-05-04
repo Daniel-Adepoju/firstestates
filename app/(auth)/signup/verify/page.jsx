@@ -4,10 +4,9 @@ import { useSignal, useSignals } from "@preact/signals-react/runtime"
 import { WhiteLoader, DotsLoader } from "@utils/loaders"
 import Button from "@lib/Button"
 import { useEffect,useState } from "react"
-import { signIn } from "@auth"
 import { useNotification } from "@lib/Notification"
 import { useRouter, useSearchParams } from "next/navigation"
-import { verifyOTP,sendOTP } from "@lib/server/auth"
+import { verifyOTP,sendOTP,signInWithCredentials} from "@lib/server/auth"
 
 const Verify = () => {
   useSignals()
@@ -87,14 +86,10 @@ const Verify = () => {
       setVerifying(false)
       if(res.status === 'success') {
            setLoggingIn(true)
-          await signIn("credentials", {
-            password,
-            email,
-            redirect:true,
-            callbackUrl:'/'
-          })
+           await signInWithCredentials(email,password)
       }
     } catch (err) {
+      console.log(err)
       setVerifying(false)
     }
   }
