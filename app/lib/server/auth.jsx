@@ -122,11 +122,8 @@ export const signInWithCredentials = async (email, password) => {
       email,
       password,
       redirect: false,
-    })
-     
-if (!res || typeof res !== "object") {
-  return { message: "Unexpected error occurred.", status: "danger" }
-}
+    })     
+
     if (res?.error) {
       return { message: res.error, status: "danger" }
     }
