@@ -14,8 +14,7 @@ export const metadata = {
 
 export default function RootLayout({children}) {
   return (
-       <html lang="en">
-      <body>
+       <>
         <ReactQueryProvider>
           <Provider>
           <User>
@@ -31,8 +30,7 @@ export default function RootLayout({children}) {
           </Provider> 
           
         </ReactQueryProvider>
-      </body>
-    </html> 
+    </> 
  
   );
 }

@@ -29,7 +29,10 @@ const UserSchema = new Schema({
         enum:['client','agent'],
         default:'client'
     },
-    
+    lastActivityDate : {
+        type:Date,
+        default: () => Date.now()
+    }
 })
 
 const User = models?.User || model("User",UserSchema)
