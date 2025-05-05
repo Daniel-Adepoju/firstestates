@@ -3,9 +3,9 @@ import { connectToDB } from "@utils/database";
 import  UserModel from "@models/user";
 import {sendEmail} from '@lib/server/workflow'
 
-const oneDay = 1000*60*60*24;
-const threeDays = 3 * oneDay;
-const  thirtyDays = 30 * oneDay;
+const oneDay = 24 * 60* 60 * 1000;
+const threeDays = oneDay * 3;
+const  thirtyDays = oneDay * 30;
 
 const getUserState = async(email) => {
   await connectToDB()
@@ -30,7 +30,7 @@ export const {POST} = serve(async (context) => {
   })
   })
 
-await context.sleep("wait for 3 days", 60*60*24*3)
+await context.sleep("wait for 3 days", threeDays)
 
 while(true) {
     const state = await context.run("check user state", async() => {
