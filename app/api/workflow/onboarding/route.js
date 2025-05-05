@@ -9,7 +9,7 @@ const  thirtyDays = 30 * oneDay;
 
 const getUserState = async(email) => {
   await connectToDB()
-  const user = await UserModel.findById(session?.user.id)
+  const user = await UserModel.findOne({email})
   if(!user) return "non-active"
   const lastActivityDate = new Date(user.lastActivityDate)
   const now = new Date()
