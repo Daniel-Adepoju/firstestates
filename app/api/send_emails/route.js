@@ -31,7 +31,6 @@ export const POST = async (req) => {
           }
     
           await transporter.sendMail(mailOptions)
-        console.log(success)
      return NextResponse.json({success: true})
      } catch(err) {
       console.log(err)
