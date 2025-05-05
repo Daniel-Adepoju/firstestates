@@ -9,6 +9,7 @@ import { getOtpFromCookie } from "@utils/otpUtils"
 import { signIn, signOut } from "@auth"
 import { headers } from "next/headers"
 import ratelimit from "@lib/server/ratelimit"
+import {workflowClient} from "@lib/server/workflow"
 import { redirect } from "next/navigation"
 
 export const sendOTP = async ({ email }) => {
@@ -101,6 +102,11 @@ export const verifyOTP = async ({
       }
       const user = new User(newUser)
       await user.save()
+
+      await workflowClient.trigger({
+        url:`${process.env.PROD_BASE_URL}/api/workflow/onboarding`,
+        body: {email,username}
+      })
       return { message: "Verification successful", status: "success" }
     } else {
       return { message: "Invalid OTP", status: "warning" }

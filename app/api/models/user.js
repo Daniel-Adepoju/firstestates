@@ -30,8 +30,8 @@ const UserSchema = new Schema({
         default:'client'
     },
     lastActivityDate : {
-        type:Date,
-        default: () => Date.now()
+        type:String,
+        default:new Date().toLocaleDateString("en-GB")
     }
 })
 

@@ -35,6 +35,7 @@ const Nav = () => {
     >
       <Link href="/">
         <div className="logo">LOGO</div>
+        <div style={{color:'black'}}>{session?.user.username}</div>
       </Link>
       <div
         onClick={showNav}
