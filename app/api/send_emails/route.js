@@ -1,3 +1,6 @@
+import nodemailer from 'nodemailer'
+import { NextResponse } from 'next/server'
+
 export const POST = async (req) => {
     const {to,subject,text} = await req.json()
      try {
@@ -17,7 +20,7 @@ export const POST = async (req) => {
           })
     
           const mailOptions = {
-            from:`FIRST ESTATES ${process.env.ZOHO_EMAIL}`,
+            from:`First Estates ${process.env.ZOHO_EMAIL}`,
             to: Array.isArray(to) ? to.join(',') : to,
             subject,
             html: `
@@ -28,10 +31,11 @@ export const POST = async (req) => {
           }
     
           await transporter.sendMail(mailOptions)
-        
-        return new Response(JSON.stringify({i:'lolo'}), {status:201})
+        console.log(success)
+     return NextResponse.json({success: true})
      } catch(err) {
-        return new Response({error: err.message},{status:500})
+      console.log(err)
+        return NextResponse.json({error: err.message},{status:500})
      }
     }
     
