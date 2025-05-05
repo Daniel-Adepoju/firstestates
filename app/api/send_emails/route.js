@@ -31,7 +31,7 @@ export const POST = async (req) => {
         
         return new Response(JSON.stringify({i:'lolo'}), {status:201})
      } catch(err) {
-        return new Response(err,{status:500})
+        return new Response({error: err.message},{status:500})
      }
     }
     
