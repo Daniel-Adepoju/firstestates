@@ -44,7 +44,7 @@ export const sendOTP = async ({ email }) => {
       })
 
       const mailOptions = {
-        from: process.env.ZOHO_EMAIL,
+        from:`FIRST ESTATES ${process.env.ZOHO_EMAIL}`,
         to: email,
         subject: "Verify Your Email Address",
         html: `

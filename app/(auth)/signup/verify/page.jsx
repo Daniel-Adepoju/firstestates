@@ -87,6 +87,7 @@ const Verify = () => {
       if(res.status === 'success') {
            setLoggingIn(true)
            await signInWithCredentials(email,password)
+           router.push('/')
       }
     } catch (err) {
       console.log(err)
