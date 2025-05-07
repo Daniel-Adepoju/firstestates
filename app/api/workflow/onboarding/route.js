@@ -26,7 +26,10 @@ export const {POST} = serve(async (context) => {
     await sendEmail({
       email,
       subject: 'Welcome to the platform',
-      message: `Welcome to firstestates ${username}`
+      message: `Hi there,
+We're thrilled to have you on board! First Estates is your new hub for finding and managing real estate listings with ease and confidence.
+
+To get started, simply log into your dashboard and begin exploring properties or managing your own.`
   })
   })
 

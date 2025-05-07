@@ -5,6 +5,7 @@
 @import "./loaders";
 @import "./functions";
 @import "./dashboards";
+@import "./admin";
 * {
   // outline: 1px solid green;
   margin: 0;
@@ -21,6 +22,7 @@ body {
   width: 100%;
   min-height: 100vh;
   overflow-x: hidden;
+ 
 }
 body:has(.verify) {
   background-color: rgba(0, 0, 0, 0.895);
@@ -28,12 +30,18 @@ body:has(.verify) {
 
 .backdrop {
   @media (max-width: 800px) {
+    @include transition(300ms,ease-out, background-color);
     position: fixed;
-    min-width: 100%;
-    background-color: rgba(20, 20, 20, 0.258);
+    min-width: 100%;;
     min-height: 100vh;
+    z-index: -100;
+    background-color: rgba(255, 255, 255, 0);
+    &.active {
+    background-color: rgba(20, 20, 20, 0.258);
     z-index: 96;
-    display: none;
+    @include transition(300ms,ease-in);
+    }
+  
   }
 }
 .nav {
@@ -41,7 +49,6 @@ body:has(.verify) {
   @include flex(row, center, space-between);
   position: absolute;
   font-family: font("list");
-  // animation: comeup 300ms ;
   background-color: color("white");
   z-index: 101;
   width: 100%;
@@ -93,7 +100,6 @@ body:has(.verify) {
     }
     @media (max-width: 800px) {
       visibility: hidden;
-      // display:none;
       padding: 10px 10px;
       position: fixed;
       @include flex(column, flex-start, flex-start);
@@ -125,24 +131,21 @@ body:has(.verify) {
     .toggle_nav {
       .toggle_items:nth-child(1) {
         @include transition(300ms, ease-out);
-        position: absolute;
         transform: rotate(-45deg);
-        right: 5%;
+        translate: 0 5px;
       }
       .toggle_items:nth-child(3) {
         @include transition(300ms, ease-out);
-        position: absolute;
         transform: rotate(45deg);
-        right: 5%;
+        translate:0 -5px;
       }
       .toggle_items:nth-child(2) {
-        position: relative;
         @include transition(300ms);
         position: absolute;
         width: 50px;
         height: 50px;
         padding: 20px;
-        right: 5%;
+        right: 15.9px;
         border-radius: 50%;
         background-color: transparent;
         opacity: 30%;
@@ -156,18 +159,23 @@ body:has(.verify) {
   display: none;
   @media (max-width: 800px) {
     @include flex(column, center, center);
-    gap: 6px;
+    gap: 5px;
     cursor: pointer;
 
     .toggle_items {
       width: 50px;
-      height: 6px;
+      height: 5px;
       border-radius: 10px;
       background-color: color("darkblue");
+      transform-origin: center;
+      @include transition(300ms, ease-out,translate);
       &:nth-child(1),
       &:nth-child(3) {
-        @include transition(300ms);
+        @include transition(300ms, ease-in,translate);
       }
+      // &:nth-child(1) {
+      //   transform: translateY(20px);
+      // }
     }
   }
 }
@@ -622,15 +630,15 @@ footer.hide {
   }
 }
 
+
+//Listing Form
+
 .galleryImagesContainer {
   @include flex(row, center, center);
   flex-wrap: wrap;
   width: 100%;
   gap: 10px;
-  margin: 5px auto;
-  @media (min-width: 1200px) {
-    margin-top: -60px;
-  }
+  margin: 10px auto;
   .galleryImages {
     width: fit-content;
     border-radius: 10px;
@@ -639,9 +647,8 @@ footer.hide {
 
 .mainImage {
   position: relative;
-  align-self: flex-start;
-  justify-self: flex-start;
   margin-top: 25px;
+  margin-inline: auto;
 
   img {
     width: 100%;
@@ -693,12 +700,33 @@ footer.hide {
     margin-left: 20px;
     margin-bottom: 20px;
   }
+  
 }
 
-.form_group.main_image {
+.form_group.main_image, .form_group.gallery{
+  @include flex(column, center, center);
+  margin-bottom: -10px;
+}
+
+.form_group.amenities {
+  .items {
   @include flex(row, center, center);
+  width: 100%;
+  div{
+     @include flex(column,center,center);
+     width: 100%;
+  }
+  }
+  input {
+    width: 60px;
+    text-align: center;
+    &[type="number"]::-webkit-outer-spin-button,
+    &[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
 }
-
 .form {
   &.listing {
     .form_group {
@@ -713,7 +741,7 @@ footer.hide {
       width: 210px;
       padding: 8px;
       @include center();
-      margin-inline: auto;
+      // margin-inline: auto;
     }
     @media (min-width: 1200px) {
       display: grid;

@@ -26,7 +26,7 @@ const UserSchema = new Schema({
      },
     role: {
         type:String,
-        enum:['client','agent'],
+        enum:['client','agent','admin'],
         default:'client'
     },
     lastActivityDate : {

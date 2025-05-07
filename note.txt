@@ -1,4 +1,3 @@
-1. COmeback to send otp and sen to actual user email
 2. Make cookie expire in 60secs
 3. make main page push to agent dashborad if agent logs in
 4. increase threshold of fixed nav

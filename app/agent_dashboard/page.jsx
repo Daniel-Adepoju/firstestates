@@ -1,8 +1,7 @@
-import React from 'react'
-
+import Agent from '@components/agent/Agent'
 const AgentInfo = () => {
   return (
-    null
+    <Agent />
   )
 }
 

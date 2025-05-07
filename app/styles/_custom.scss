@@ -32,9 +32,10 @@
 }
 .title_heading {
   @include flex(column, center, center);
-  margin:5px auto;
   @extend .subheading;
   opacity: 90%;
+  width: 100%;
+  margin-left: -5px;
   text-transform: capitalize;
 }
 
@@ -134,7 +135,7 @@ a:has(.clickable) {
     .left {
       @include transition(400ms);
       width: 100%;
-      background-color: rgba(97, 17, 17, 0.203);
+      background-color: rgba(154, 154, 154, 0.203);
     }
   }
   &:has(.right:hover) {
@@ -145,14 +146,14 @@ a:has(.clickable) {
       @include transition(400ms);
       width: 100%;
       left: 0;
-      background-color: rgba(97, 17, 17, 0.203);
+      background-color:rgba(154, 154, 154, 0.203);
     }
   }
   &:hover {
     &::before {
       width: 100%;
       left: 0;
-      background-color: rgba(97, 17, 17, 0.203);
+      background-color: rgba(154, 154, 154, 0.203);
     }
   }
   &::before,
@@ -231,7 +232,7 @@ a:has(.clickable) {
     gap: 20px;
   }
  &.listing {
-  margin-top:80px;
+  margin-top:-10px;
  }
 }
 .form {

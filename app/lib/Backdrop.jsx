@@ -8,7 +8,7 @@ const Backdrop = ({children}) => {
 
   return (
     <BackdropContext.Provider value={{setIsActive}}>
-      {isActive && <div className="backdrop">
+      {<div className={`backdrop ${isActive && "active"} `}>
         </div> }
         {children}
     </BackdropContext.Provider>

@@ -14,7 +14,7 @@ export const sendEmail = async ({email,subject,message})  => {
         body: {
             to: [email],
             subject,
-            text: message
+            message,
         }
     })
 }

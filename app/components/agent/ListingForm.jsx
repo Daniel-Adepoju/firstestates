@@ -2,31 +2,35 @@
 import { signal } from "@preact/signals-react"
 import { useSignal, useSignals } from "@preact/signals-react/runtime"
 import { CldUploadWidget, CldImage } from "next-cloudinary"
-import { useMutation } from "@tanstack/react-query"
-import { axiosdata } from "@utils/axiosUrl"
-import { DeleteLoader } from "@utils/loaders"
-import { deleteImage, deleteMultipleImages } from "@lib/server/deleteImage"
+import { DeleteLoader, WhiteLoader} from "@utils/loaders"
+import {deleteImage, deleteMultipleImages} from "@lib/server/deleteImage"
+import {createListing} from '@lib/server/createListing'
 import Image from "next/image"
 import Button from "@lib/Button"
 import { useNotification } from "@lib/Notification"
+import {useUser} from '@utils/user'
 const listingDeets = {
   description: signal(""),
   price: signal(""),
   location: signal(""),
-  category: signal(""),
   gallery: signal([]),
-  mainImage: signal(),
+  mainImage: signal(''),
   amenities: signal([]),
   address: signal(""),
+  bedrooms: signal(''),
+  bathrooms: signal(''),
+  toilets:signal(''),
 }
 
 const ListingForm = () => {
   useSignals()
+  const session = useUser()
   const notification = useNotification()
   const deletingImage = useSignal(false)
   const deletingGallery = useSignal(false)
   const selectedGalleryImageId = useSignal()
-
+  const creating = useSignal(false)
+ 
   const handleInputChange = (e) => {
     const { name, value } = e.target
     if (name === "amenities") {
@@ -103,16 +107,45 @@ const ListingForm = () => {
       return null
     }
   }
+ 
+  //Create Listing
+  const handleCreateListing = async(e) => {
+  e.preventDefault()
+  creating.value = true
+  try {
+    await session
+  const res = await createListing({
+    description: listingDeets.description.value,
+    price: listingDeets.price.value,
+    location: listingDeets.location.value,
+    gallery: listingDeets.gallery.value,
+    mainImage: listingDeets.mainImage.value,
+    address: listingDeets.address.value,
+    bathrooms: listingDeets.bathrooms.value,
+    bedrooms: listingDeets.bedrooms.value,
+    toilets: listingDeets.toilets.value,
+  })
+  if (res.status === 'success') {
+    notification.setIsActive(true)
+    notification.setMessage(res.message)
+    notification.setType(res.status)
+  }
+  creating.value=false
+  } catch(err) {
+  creating.value=false
+  console.log(err)
+  }
+  }
 
   return (
     <>
       <div className="form_container listing">
         <div className="title_heading">
-          <h2>Create a new listing</h2>
-          <p>Fill in the details below to create a new listing</p>
+      <h2>Create a new listing</h2>
+      <p className="text-base">Fill in the form below to create a new listing</p>
         </div>
 
-        <form className="form listing">
+        <form  onSubmit={handleCreateListing} className="form listing">
           <div className="form_group">
             <label htmlFor="description">Description</label>
             <input
@@ -197,15 +230,17 @@ const ListingForm = () => {
           </div>
 
           {/* Gallery */}
-          <div className="form_group">
+          <div className="form_group gallery">
             <CldUploadWidget
-              options={{ sources: ["local", "camera", "google_drive"] }}
-              multiple="false"
+              options={{
+            sources: ["local", "camera", "google_drive"],
+            maxFiles:5,
+            multiple:true}}
               uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
               onSuccess={(result) => handleCloudinaryUpload(result, "gallery")}
             >
               {({ open }) =>
-                !listingDeets.mainImage.value && (
+                !listingDeets.gallery.value.length < 5 && (
                   <Button
                     text="Upload To Gallery"
                     className="clickable darkblueBtn"
@@ -245,6 +280,7 @@ const ListingForm = () => {
                 )
               })}
             </div>
+     <p className='mx-auto text-center'>A Maximum Of 5 Images Can Be Uploaded To The Gallery</p>
             {listingDeets.gallery.value.length > 0 && (
               <Button
                 className="directional clickable darkblueBtn"
@@ -255,16 +291,42 @@ const ListingForm = () => {
           </div>
 
           {/* Amenities */}
-          <div className="form_group">
+          <div className="form_group amenities">
             <label htmlFor="amenities">Amenities</label>
+          <div className="items">
+            <div>
+               <label htmlFor="bedrooms">Bedrooms</label>
             <input
-              id="amenities"
-              name="amenities"
-              type="text"
-              value={listingDeets.amenities.value}
+              id="bedrooms"
+              name="bedrooms"
+              type="number"
+              value={listingDeets.bedrooms.value}
               onChange={handleInputChange}
-              placeholder="Enter amenities separated by commas"
+              placeholder='0'
             />
+            </div>
+           <div> 
+            <label htmlFor="bathrooms">Bathrooms</label>
+                  <input
+              id="bathrooms"
+              name="bathrooms"
+              type="number"
+              value={listingDeets.bathrooms.value}
+              onChange={handleInputChange}
+              placeholder='0'/>
+           </div>
+        <div>
+           <label htmlFor="toilets">Toilets</label>
+            <input
+              id="toilets"
+              name="toilets"
+              type="number"
+              value={listingDeets.toilets.value}
+              onChange={handleInputChange}
+              placeholder='0'/>
+        </div>
+            </div>
+
           </div>
 
           {/* Address */}
@@ -281,9 +343,12 @@ const ListingForm = () => {
           </div>
 
           <Button
+          type='submit'
             text="Create Listing"
             className="clickable directional darkblueBtn"
-          />
+          > 
+          {creating.value && <WhiteLoader/>}
+          </Button>
         </form>
       </div>
     </>

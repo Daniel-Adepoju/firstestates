@@ -9,7 +9,7 @@ const Nav = () => {
   const { session } = useUser()
   const [navbarFixed, setnavbarFixed] = useState(false)
   const [toggleNav, setToggleNav] = useState(false)
-  const scrollThreshold = 150
+  const scrollThreshold = 400
    const {setIsActive} = useBackdrop()
 
   useEffect(() => {
@@ -35,8 +35,8 @@ const Nav = () => {
     >
       <Link href="/">
         <div className="logo">LOGO</div>
-        <div style={{color:'black'}}>{session?.user.username}</div>
       </Link>
+      <div style={{color:'black'}}>{session?.user.username}</div>
       <div
         onClick={showNav}
         className={`toggle_nav`}
@@ -68,7 +68,6 @@ const Nav = () => {
         {session?.user && <Link
         onClick={async () => {
            await logOut()
-          console.log('out')
           }}
         href="#"> Sign Out</Link>}
       </div>

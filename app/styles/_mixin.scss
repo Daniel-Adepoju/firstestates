@@ -5,8 +5,8 @@
     justify-content: $justify;
   }
 
-  @mixin transition($duration: 300ms, $type: ease-in) {
-    transition: $duration $type;
+  @mixin transition($duration: 300ms, $type: ease-in, $items:all) {
+    transition: $items $duration $type;
   }
   
   @mixin space($margin:10px , $padding: 10px) {

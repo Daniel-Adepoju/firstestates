@@ -4,169 +4,19 @@
 @import "animation";
 @import "loaders";
 
-.nav:is(.agentNav) {
-  color: white;
-  &.fixedNav {
-    position: fixed;
-  }
-  @media (min-width: 800px) {
-    // position: fixed;
-    height: 20px;
-    &.fixedNav {
-      animation: none;
-    }
-  }
-  @include transition(300ms, ease-out);
-  @include flex(row, center, space-between);
-  background-color: color('black');
-  position: fixed;
-  font-family: font("list");
-  z-index: 101;
-  width: 100%;
-  
-  padding: 16px;
-  border-bottom: 1px solid rgba(128, 128, 128, 0.758);
-  a:has(.logo) {
-    color: rgb(8, 116, 199);
-    text-decoration: none;
-  }
-  .logo {
-    color: rgb(8, 116, 199);
-    font-size: 30px;
-    font-weight: bold;
-    font-family: monospace;
-  }
-  .nav_items {
-    @include flex(column, flex-start, flex-start);
-    gap: 10px;
-    height: 100vh;
-    width: 100%;
-    img {
-      cursor: pointer;
-      border-radius: 50%;
-    }
-    a {
-      position: relative;
-      text-decoration: none;
-      font-size: 16px;
-      color: rgb(255, 255, 255);
-      &::after {
-        content: "";
-        opacity: 1%;
-        position: absolute;
-        width: 100%;
-        background-color: color("darkblue");
-        height: 2px;
-        margin-top: 4px;
-        top: 100%;
-        left: 0;
-        border-radius: 20px;
-        @include transition(400ms, ease-in);
-      }
-      &:hover {
-        @include transition(400ms, ease-out);
-        &::after {
-          opacity: 100%;
-        }
-      }
-    }
-    
-      position: absolute;
-      top: 100%;
-      left: -100%;
-      background-color: color("black");
-      width: 300px;
-      border-top: 1px solid grey;
-      border-left: 1px solid rgba(183, 183, 183, 0.447);
-      padding-left: 20px;
-      @include transition(300ms);
-      img {
-        margin-top: 30px;
-        padding-left: -20px;
-      }
-    @media(min-width:800px) {
-        left:0;
-        width: 200px;
-    }
-  }
-  &.activeNav {
-    @media (max-width: 800px) {
-      .nav_items {
-        @include transition(300ms, ease-out);
-        left: 0;
-        visibility: visible;
-      }
-      .toggle_nav {
-        .toggle_items:nth-child(1) {
-          @include transition(300ms, ease-out);
-          position: absolute;
-          transform: rotate(-45deg);
-          left: 5%;
-        }
-        .toggle_items:nth-child(3) {
-          @include transition(300ms, ease-out);
-          position: absolute;
-          transform: rotate(45deg);
-          left: 5%;
-        }
-        .toggle_items:nth-child(2) {
-          position: relative;
-          @include transition(300ms);
-          position: absolute;
-          width: 50px;
-          height: 50px;
-          padding: 20px;
-          left: 5%;
-          border-radius: 50%;
-          background-color: transparent;
-          opacity: 30%;
-          border: 4px dashed color("darkblue");
-          animation: rollBorderWhite 5s ease-in-out infinite  alternate-reverse;
-        }
-      }
-    }
-  }
-  & .toggle_nav {
-    display: none;
-    @media (max-width: 800px) {
-      @include flex(column, center, center);
-      gap: 6px;
-      cursor: pointer;
+.agentDashboardContainer{
 
-      .toggle_items {
-        width: 50px;
-        height: 6px;
-        border-radius: 10px;
-        background-color: color("white");
-        &:nth-child(1),
-        &:nth-child(3) {
-          @include transition(300ms);
-        }
-      }
-    }
-  }
-}
-
-.agentDashboardContainer {
-  @media (min-width: 800px) {
-    margin-top: 70px;
-    width: clamp(70%, 75%, 95%);
-    margin-left: 200px;
-  }
-  @media (min-width: 900px) {
-    width: 80%;
-  }
-  @media (min-width: 1000px) {
-    width: 83%;
-  }
-  @media (min-width: 1500px) {
-    width: 90%;
-  }
   @include flex(column);
+  color: black;
   width: 100%;
-  margin-top: 70px;
+  // margin-top: 70px;
   margin-bottom: 16px;
   gap: 20px;
+  @media(max-width:769px) {
+  .card,.editSide {
+    transform: scale(0.9);
+  }
+}
   &.aic {
     .lists {
       @include flex(column, flex-start);
@@ -270,24 +120,35 @@
     }
   }
 }
- .cardContainer {
-    position: relative;
-    @include flex(column, center, flex-start);
- }
+.cardContainer {
+  position: relative;
+  @include flex(column, center, flex-start);
+}
 .editSide {
   @include transition(300ms, ease-out);
-    width:90%;
-    margin-top: -25px;
-    @include flex(row, center, center);
-    gap:20px;
-    background-color: color('white');
-    padding:4px  6px;
-    border-radius: 0 0px 20px 20px;
-    @include shadow(1px,1px);
-    img:hover {
-        @include transition(300ms);
-        border: 1px solid transparent;
-        filter:grayscale(100%);
-        cursor: pointer;
-    }
+  width: 90%;
+  margin-top: -25px;
+  @include flex(row, center, center);
+  gap: 20px;
+  background-color: color("white");
+  padding: 4px 6px;
+  border-radius: 0 0px 20px 20px;
+  @include shadow(1px, 1px);
+  img:hover {
+    @include transition(300ms);
+    border: 1px solid transparent;
+    filter: grayscale(100%);
+    cursor: pointer;
+  }
+}
+.addListing {
+  padding:26px 0;
+  border-radius: 18px;
+  // border: 1.8px solid rgba(174, 174, 174, 0.721);
+  width: 100%;
+  @include center();
+  gap: 10px;
+  .clickable {
+    border-radius: 50%;
+  }
 }

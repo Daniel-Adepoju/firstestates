@@ -6,9 +6,8 @@ import Link from "next/link"
     type={type}
     disabled={disabled}onClick={functions} className={className}>
     <div className="left"></div> 
-       <span> {text} </span>
-       
-        <div className="right"></div>
+      <span> {text} </span>
+    <div className="right"></div>
         {children}
       </button>
   )
