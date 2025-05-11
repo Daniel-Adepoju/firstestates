@@ -99,6 +99,7 @@
  
 .admin-content-container {
   @include flex(column,flex-start,flex-start);
+  background-color: rgba(255, 255, 255, 0.281);
   gap: 40px;
   padding-inline: 10px;
   flex:1;

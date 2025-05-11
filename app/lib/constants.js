@@ -36,28 +36,28 @@ export const sidebarItems = [
 export const agentSidebarItems = [
   {
     name: "Home",
-    link: "/agent_dashboard",
+    link: "/agent",
     icon: "/icons/home.svg",
   },
   
   {
     name: "Dashboard",
-    link: "/agent_dashboard/dashboard",
+    link: "/agent/dashboard",
     icon: "/icons/dashboard.svg",
   },
   {
     name: "Listings",
-    link: "/agent_dashboard/listings",
+    link: "/agent/listings",
     icon: "/icons/listings.svg",
   },
   {
     name: "Messages",
-    link: "/agent_dashboard/messages",
+    link: "/agent/messages",
     icon: "/icons/notification.svg",
   },
   {
     name: "Settings",
-    link: "/agent_dashboard/settings",
+    link: "/agent/settings",
     icon: "/icons/settings.svg",
   },
 ];

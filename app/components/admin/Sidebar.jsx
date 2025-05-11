@@ -10,9 +10,10 @@ const Sidebar = ({session}) => {
     <div className="sidebar">
   <ul>{
     sidebarItems.map((item, index) => {
+         const isActive = pathname === item.link || pathname.startsWith(item.link + '/') && item.link !== '/admin'
       return (
       <div  key={index}
-      className={` items ${pathname === item.link && "active"}`}
+      className={` items ${isActive && "active"}`}
       >
         <a href={item.link}>
     <Image src={item.icon}

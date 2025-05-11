@@ -14,7 +14,7 @@ const listingDeets = {
   price: signal(""),
   location: signal(""),
   gallery: signal([]),
-  mainImage: signal(''),
+  mainImage: signal(),
   amenities: signal([]),
   address: signal(""),
   bedrooms: signal(''),
@@ -281,7 +281,7 @@ const ListingForm = () => {
               })}
             </div>
      <p className='mx-auto text-center'>A Maximum Of 5 Images Can Be Uploaded To The Gallery</p>
-            {listingDeets.gallery.value.length > 0 && (
+            {listingDeets.gallery.value.length > 1 && (
               <Button
                 className="directional clickable darkblueBtn"
                 functions={() => handleDeleteGallery()}
@@ -342,13 +342,16 @@ const ListingForm = () => {
             />
           </div>
 
-          <Button
+  <div className={`form_group ${listingDeets.gallery.value.length > 0 &&  "submit"}`}>
+       <Button
           type='submit'
             text="Create Listing"
             className="clickable directional darkblueBtn"
           > 
           {creating.value && <WhiteLoader/>}
           </Button>
+  </div>
+       
         </form>
       </div>
     </>

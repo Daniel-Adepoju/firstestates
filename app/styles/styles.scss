@@ -53,7 +53,7 @@ body:has(.verify) {
   z-index: 101;
   width: 100%;
   min-height: 60px;
-  padding: 16px;
+  padding: 12px;
   border-bottom: 1px solid rgba(128, 128, 128, 0.758);
   a:has(.logo) {
     color: rgb(8, 116, 199);
@@ -66,9 +66,9 @@ body:has(.verify) {
     font-family: monospace;
   }
   .nav_items {
-    @include flex(row, center, flex-start);
+    display: none;
+    @include flex(row, center, center);
     gap: 10px;
-    padding-top: 15px;
     img {
       cursor: pointer;
       border-radius: 50%;
@@ -102,7 +102,7 @@ body:has(.verify) {
       visibility: hidden;
       padding: 10px 10px;
       position: fixed;
-      @include flex(column, flex-start, flex-start);
+      @include flex(column, center, flex-start);
       top: 100%;
       right: -100%;
       background-color: white;
@@ -145,7 +145,7 @@ body:has(.verify) {
         width: 50px;
         height: 50px;
         padding: 20px;
-        right: 15.9px;
+        right: 13.9px;
         border-radius: 50%;
         background-color: transparent;
         opacity: 30%;
@@ -173,9 +173,6 @@ body:has(.verify) {
       &:nth-child(3) {
         @include transition(300ms, ease-in,translate);
       }
-      // &:nth-child(1) {
-      //   transform: translateY(20px);
-      // }
     }
   }
 }
@@ -280,7 +277,6 @@ footer.hide {
 }
 .card {
   position: relative;
-  // isolation: isolate;
   font-family: font("card");
   font-size: 18px;
   margin: 30px 20px;
@@ -293,6 +289,11 @@ footer.hide {
   padding-top: 6px;
   padding-bottom: 10px;
   @include transition(300ms, ease-out);
+  a {
+  @include flex(column, center, flex-start);
+    width: 100%;
+    height: 100%;;
+  }
    &::after {
      content:'';
     border: 2px solid transparent;
@@ -356,7 +357,6 @@ footer.hide {
     overflow: hidden;
     position: relative;
     @include flex(column, flex-start, flex-start);
-    // background-color: color("ghost");
     background-color: white;
     @include shadow(0.1px,0.5px);
     padding-inline: 12px;
@@ -364,6 +364,7 @@ footer.hide {
     gap: 8px;
     margin-top: 8px;
     border-radius: 20px;
+    width: 96%;
     .location {
       font-size: 24px;
       font-weight: bold;
@@ -410,14 +411,14 @@ footer.hide {
     font-size: 15px;
     text-transform: capitalize;
     font-weight: bolder;
-    background-color: color("darkblue");
+    background-color: color("wheat");
     color: color("white");
     position: absolute;
     width: 100px;
-    padding: 8px;
-    top: -2.5%;
-    left: -1%;
-    border-radius: 0px 0px 10px 0;
+    padding: 4px;
+    top: -1%;
+    left: 3%;
+    border-radius:10px;
   }
 }
 
@@ -705,7 +706,7 @@ footer.hide {
 
 .form_group.main_image, .form_group.gallery{
   @include flex(column, center, center);
-  margin-bottom: -10px;
+  // margin-bottom: -10px;
 }
 
 .form_group.amenities {
@@ -727,6 +728,7 @@ footer.hide {
     }
   }
 }
+
 .form {
   &.listing {
     .form_group {
@@ -734,7 +736,7 @@ footer.hide {
     }
     .directional {
       width: 300px;
-      margin-top: 20px;
+      // margin-top: 20px;
       margin-inline: auto;
     }
     .darkblueBtn {
@@ -744,8 +746,12 @@ footer.hide {
       // margin-inline: auto;
     }
     @media (min-width: 1200px) {
+      .form_group.submit {
+        margin-top: -86px;
+      }
       display: grid;
       width: 100%;
+      row-gap: 10px;
       grid-template-columns: repeat(2, 1fr);
     }
   }

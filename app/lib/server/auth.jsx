@@ -85,7 +85,7 @@ export const verifyOTP = async ({
   try {
     await connectToDB()
     const ip = (await headers()).get("x-forwarded-for") || "127.0.0.1"
-    const { success } = await ratelimit.limit(ip)
+    const {success} = await ratelimit.limit(ip)
     if (!success) return redirect("/too-fast")
     
       //Create New User

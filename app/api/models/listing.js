@@ -60,7 +60,7 @@ const ListingSchema = new Schema({
     type: Number,
     required: [true, 'Number of toilets is required'],
   },
-});
+}, {timestamps: true});
 
 const Listing = models?.Listing || model('Listing', ListingSchema);
 

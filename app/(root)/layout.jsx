@@ -10,6 +10,7 @@ import { after } from "next/server";
 import { auth } from "@auth";
 import { connectToDB } from "@utils/database";
 import  UserModel from "@models/user";
+import {test,getAllListings} from '@lib/server/getPost'
 export const metadata = {
   title: "FirstEstates",
   description: "",
@@ -20,7 +21,10 @@ export const metadata = {
 export default async function RootLayout({children}) {
 
   const session = await auth()
-  after( async() => {
+  // const allListings = await getAllListings()
+   after( async() => {
+
+// await test()
     if(!session?.user.id) return 
    await connectToDB()
    const user = await UserModel.findById(session?.user.id)

@@ -1,6 +1,5 @@
 
 import '@styles'
-import '../globals.css'
 import Sidebar from "@components/admin/Sidebar";
 import User from '@utils/user'
 import Provider from '@utils/sessionProvider'

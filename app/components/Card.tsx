@@ -5,28 +5,48 @@ import Image from "next/image"
 import Button from "@lib/Button"
 import { truncateAddress } from "@utils/truncateAddress"
 import { useRouter } from "next/navigation"
-const Card = ({ edit }) => {
-  const [address, setAddress] = useState(
-    `23, lorem ipsum dolor sit amet, consectetur adipiscing elit`
-  )
+import Link from "next/link"
+
+interface Agent {
+  profilePic: string;
+  username: string;
+}
+type Listing = {
+  _id?: string;
+  title?: string;
+  address?: string;
+  location?: string;
+  image?: string;
+  price?: string;
+  description?: string;
+  bedrooms?: number;
+  bathrooms?: number;
+  toilets?: number;
+  agent: Agent;
+  mainImage?: string;
+  gallery?: string[];
+  createdAt?: string;
+}
+
+interface CardProps {
+ edit: boolean,
+ listing: Listing,
+}
+const Card = ({ edit, listing}: CardProps) => {
+  const [address, setAddress] = useState(listing?.address || "Lagos, Nigeria")
+  const price = listing?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   const router = useRouter()
 
-  const viewDetails = () => {
-    router.push("/listings/single_listing")
-  }
-
-  const img1 = "z989yqaqht7f9yggcxii"
-  const img2 = "brrajesvatevpbrnoi99"
   return (
     <>
       <div className="cardContainer">
-         
         <div className="card">
-          <div className="houseImg">
+          <Link className='no-underline' href={`/listings/single_listing?id=${listing?._id}`}>
+             <div className="houseImg">
             <CldImage
               fill={true}
               alt="post_img"
-              src={img2}
+              src={listing.mainImage!}
               crop={{
                 type: "auto",
                 source: true,
@@ -35,7 +55,7 @@ const Card = ({ edit }) => {
           </div>
 
           <div className="body">
-            <div className="location heading">Town</div>
+            <div className="location heading">{listing?.location}</div>
             <div className="address">
               <Image
                 width={20}
@@ -55,7 +75,7 @@ const Card = ({ edit }) => {
                       alt="icon"
                       src="/icons/bed.png"
                     />
-                    <span>2 bedrooms</span>
+                    <span>{listing?.bedrooms} bedrooms</span>
                   </div>
                   <div>
                     <Image
@@ -64,7 +84,7 @@ const Card = ({ edit }) => {
                       alt="icon"
                       src="/icons/bath.png"
                     />
-                    <span>2 bathrooms</span>
+                    <span>{listing?.bathrooms} bathrooms</span>
                   </div>
                   <div>
                     <Image
@@ -73,29 +93,29 @@ const Card = ({ edit }) => {
                       alt="icon"
                       src="/icons/toilet.png"
                     />
-                    <span>2 toilets</span>
+                    <span>{listing?.toilets} toilets</span>
                   </div>
                 </div>
 
                 <div className="agent">
-                  <Image
+                  <CldImage
                     width={20}
                     height={20}
                     alt="agent pic"
-                    src="/images/agent.jpg"
+                    src={listing.agent.profilePic}
                   />
                   <div>
-                    Listed by <span>John Doe</span>
+              Listed by <span>{listing.agent.username}</span>
                   </div>
                 </div>
               </>
             )}
           </div>
-          {!edit && <div className="price">&#8358;200k/year</div>}
+          </Link>
+       
+          {!edit && <div className="price">&#8358;{price}/year</div>}
         </div>
-        <div className="bottom-line">
-        </div>
-    
+     
         {edit && (
           <div className="editSide">
             <Image
