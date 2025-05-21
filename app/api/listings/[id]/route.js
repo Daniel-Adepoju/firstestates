@@ -2,8 +2,6 @@ import { connectToDB } from "@utils/database"
 import Listing from "@models/listing"
 import { NextResponse } from "next/server"
 import { incrementView } from "@lib/server/incrementView"
-import redis from "@lib/server/redis"
-import { syncWeeklyViewsToMongo } from "@lib/server/incrementView"
 
 export const GET = async (req, {params}) => {
   const listingId = (await params).id
@@ -12,7 +10,6 @@ export const GET = async (req, {params}) => {
     const post = await Listing.findById(listingId).populate(['agent'])
   if (!post) return new Response('Not found', { status: 404 });
   await incrementView(listingId)
-  await syncWeeklyViewsToMongo()
   return NextResponse.json(post, { status: 200 }) 
   } catch (err) {
     console.log(err)
