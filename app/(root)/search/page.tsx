@@ -6,7 +6,7 @@ import {Loader} from "@utils/loaders"
 import Card,{ CardProps } from "@components/Card"
 import {useGetListings} from "@lib/customApi"
 import { useEffect } from "react"
-const Search = () => {
+const Search = () => { 
 useSignals()
 const limit = useSignal(10)
 const page = useSignal(1)
