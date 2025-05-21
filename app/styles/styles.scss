@@ -8,8 +8,8 @@
 @import "./admin";
 * {
   // outline: 1px solid green;
-  margin: 0;
-  padding: 0;
+  // margin: 0;
+  // padding: 0;
   box-sizing: border-box;
   scroll-behavior: smooth;
 }
@@ -268,11 +268,12 @@ footer.hide {
   display: grid;
   column-gap: 6px;
   row-gap: 6px;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   align-items: center;
   justify-items: center;
   width: 100%;
-  margin-block: 70px;
+  // margin-block: 70px;
+  // margin-top: 600px;
   margin-inline: auto;
 }
 .card {
@@ -405,13 +406,13 @@ footer.hide {
       gap: 6px;
     }
   }
-  .price, .tag {
+  .tag {
+    @include center();
     z-index:2;
     font-family: font("price");
     font-size: 15px;
     text-transform: capitalize;
     font-weight: bolder;
-    background-color: color("wheat");
     color: color("white");
     position: absolute;
     width: 100px;
@@ -419,8 +420,14 @@ footer.hide {
     top: -1%;
     left: 3%;
     border-radius:10px;
+    background-color: rgb(23, 146, 23);
+    .rented {
+      background-color: color("wheat")
+    }
   }
 }
+
+
 
 .singleCardCon {
   @include flex(column, center, flex-start);

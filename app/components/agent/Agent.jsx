@@ -1,7 +1,12 @@
+'use client'
+
 import Image from "next/image"
+import {useUser} from "@utils/user"
+
 
 const Agent = () => {
-    //use params
+const {session} = useUser()
+
   return (
     <>
     <div className="agentProfile">
@@ -13,18 +18,17 @@ const Agent = () => {
             alt='profilePic'/>
         </div>
         <div className="agentName">
-            John Doe
+        {session?.user.username}
         </div>
-        <div className="address">
+ <div className="address">
         <Image
     width={30}
     height={30}
     src='/icons/location.svg' 
     alt='icon'/>
      <span>Office Address:</span>
-      <span>14,lorem ipsuddddddddddddddddddddddddddmdolor</span>
-       
-            </div>
+      <span>14,lorem ipsum dolor</span>
+    </div>
         <div className="agentProfileInfo"></div>
     </div>
     

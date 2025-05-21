@@ -3,8 +3,21 @@ import Image from "next/image"
 import { agentSidebarItems as sidebarItems } from "@lib/constants"
 import { usePathname } from "next/navigation"
 import { CldImage } from "next-cloudinary"
-const Sidebar = ({session}) => {
-  
+
+interface Session {
+  session: {
+    user: {
+      username: string,
+      email: string,
+      profilePic: string,
+    } 
+  }
+}
+
+
+const Sidebar = ({session}: Session) => {
+
+  //  console.log(session)
   const pathname = usePathname()
   return (
     <div className="sidebar agentbar">
@@ -28,7 +41,7 @@ const Sidebar = ({session}) => {
     })}</ul>
     <div className="adminLabel">
       {session &&
-  <CldImage src={session?.user.profilePic} alt='prifile pic'
+  <CldImage src={session?.user?.profilePic} alt='prifile pic'
   width={30} height={30}/>}
   <div className="adminDetails">
   <span>{session?.user.username}</span>

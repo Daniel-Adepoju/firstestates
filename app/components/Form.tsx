@@ -5,7 +5,7 @@ import { useSignals } from "@preact/signals-react/runtime"
 import { signal } from "@preact/signals-react"
 import Button from "@lib/Button"
 import { useUser } from "@utils/user"
-import { WhiteLoader,DotsLoader } from "@utils/loaders"
+import { WhiteLoader, Loader, DotsLoader } from "@utils/loaders"
 import { useNotification } from "@lib/Notification"
 import { useState } from "react"
 import {sendOTP,signInWithCredentials} from '@lib/server/auth'
@@ -22,19 +22,21 @@ export const userDeets = {
 const Form = () => {
   useSignals()
   const notification = useNotification()
-  const { session,status } = useUser()
+  const {status } = useUser()
   const pathName = usePathname()
   const router = useRouter()
   const [sending, setSending] = useState(false)
   const [loggingIn, setLoggingIn] = useState(false)
-  const handleInput = (e) => {
-    const { name, value } = e.target
-    userDeets[name].value = value
-  }
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target
+      if (name in userDeets) {
+          userDeets[name as keyof typeof userDeets].value = value
+      }
+    }
 
 
 // Send OTP
-const handleSendOTP = async (e) => {
+const handleSendOTP = async (e: React.FormEvent<HTMLFormElement>) => {
    e.preventDefault()
   setSending(true)
   try {
@@ -44,15 +46,14 @@ const handleSendOTP = async (e) => {
       notification.setMessage(res.message)
        notification.setType(res.status)
        notification.setDuration(2000)
-       if(res.status === 'success') {
-        pathName === "/signup/agent"
-      ? router.pushrouter.push(`/signup/verify?role=agent&username=${userDeets.username.value}&email=${userDeets.email.value}&password=${userDeets.password.value}&phone=${userDeets.phone.value}&whatsapp=${userDeets.whatsapp.value}&address=${userDeets.address.value}`)
-      : router.push(`/signup/verify?role=client&username=${userDeets.username.value}&email=${userDeets.email.value}&password=${userDeets.password.value}`)
+       if(res.status === 'success' && pathName === "/signup/agent") {
+      router.push(`/signup/verify?role=agent&username=${userDeets.username.value}&email=${userDeets.email.value}&password=${userDeets.password.value}&phone=${userDeets.phone.value}&whatsapp=${userDeets.whatsapp.value}&address=${userDeets.address.value}`)
+       } else if(res.status ==='success' && pathName === "/signup/client") {
+   router.push(`/signup/verify?role=client&username=${userDeets.username.value}&email=${userDeets.email.value}&password=${userDeets.password.value}`)
        }
   } catch(err) {
     setSending(false)
     notification.setIsActive(true)
-    notification.setMessage(err.response.data.message)
     notification.setType('danger')
     notification.setDuration(2000)
   }
@@ -60,7 +61,7 @@ const handleSendOTP = async (e) => {
 }
 
   //Log In
-  const handleSignIn = async (e) => {
+  const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()  
     setSending(true)
     try {
@@ -102,7 +103,7 @@ const handleSendOTP = async (e) => {
   //   )
   // }
   if(status === 'loading') {  
-    return <DotsLoader/>
+    return <Loader/>
   }
 
 if(loggingIn) {
@@ -122,7 +123,7 @@ if(loggingIn) {
             ? "Create a new agent account"
             : "Create a new client account"}
         </div>
-      ) : ( 
+      ) : (
         <div className="typeOfAccount">
           Log in to your account
           </div>      
@@ -144,6 +145,7 @@ if(loggingIn) {
                 id="username"
                 name="username"
                  className='red'
+                 required
               />
             </>
           )}
@@ -156,6 +158,7 @@ if(loggingIn) {
             id="email"
             name="email"
              className='red'
+             required
           />
 
           <label htmlFor="password">Password</label>
@@ -166,6 +169,7 @@ if(loggingIn) {
             id="password"
             name="password"
              className='red'
+             required
           />
         </div>
 
@@ -180,6 +184,7 @@ if(loggingIn) {
               onChange={(e) => handleInput(e)}
               value={userDeets.phone.value}
                className='red'
+               required
             />
             <label htmlFor="whatsApp">WhatsApp Number</label>
             <input
@@ -189,6 +194,7 @@ if(loggingIn) {
               onChange={(e) => handleInput(e)}
               value={userDeets.whatsapp.value}
                className='red'
+               required
             />
             <label htmlFor="address">Office Address</label>
             <input
@@ -198,6 +204,7 @@ if(loggingIn) {
               onChange={(e) => handleInput(e)}
               value={userDeets.address.value}
                className='red'
+               required
             />
           </div>
         )}

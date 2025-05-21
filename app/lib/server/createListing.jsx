@@ -2,6 +2,7 @@
 import {connectToDB} from '@utils/database'
 import Listing from '@models/listing'
 import {auth} from '@auth'
+import {revalidatePath} from 'next/cache'
 import {deleteImage, deleteMultipleImages} from './deleteImage'
 export const createListing = async(val) => {
     const session = await auth()
@@ -10,6 +11,7 @@ export const createListing = async(val) => {
   try {
     const newListing = new Listing(newVal)
     await newListing.save()
+    revalidatePath('/')
     return {message:'Created Successfully', status:'success'}
   } catch(err) {
     await deleteImage(val.mainImage)

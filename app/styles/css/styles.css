@@ -587,6 +587,23 @@ a:has(.clickable) {
     transform: rotate(-0.2deg) translateY(-0.1px);
   }
 }
+.loader {
+  --d:22px;
+  margin-inline: auto;
+  margin-top: 180px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  color: rgb(8, 116, 199);
+  box-shadow: calc(1 * var(--d)) calc(0 * var(--d)) 0 0, calc(0.707 * var(--d)) calc(0.707 * var(--d)) 0 1px, calc(0 * var(--d)) calc(1 * var(--d)) 0 2px, calc(-0.707 * var(--d)) calc(0.707 * var(--d)) 0 3px, calc(-1 * var(--d)) calc(0 * var(--d)) 0 4px, calc(-0.707 * var(--d)) calc(-0.707 * var(--d)) 0 5px, calc(0 * var(--d)) calc(-1 * var(--d)) 0 6px;
+  animation: l27 1s infinite steps(8);
+}
+
+@keyframes l27 {
+  100% {
+    transform: rotate(1turn);
+  }
+}
 .deleteLoader {
   width: 48px;
   height: 48px;
@@ -777,6 +794,23 @@ a:has(.clickable) {
   }
   75% {
     transform: rotate(-0.2deg) translateY(-0.1px);
+  }
+}
+.loader {
+  --d:22px;
+  margin-inline: auto;
+  margin-top: 180px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  color: rgb(8, 116, 199);
+  box-shadow: calc(1 * var(--d)) calc(0 * var(--d)) 0 0, calc(0.707 * var(--d)) calc(0.707 * var(--d)) 0 1px, calc(0 * var(--d)) calc(1 * var(--d)) 0 2px, calc(-0.707 * var(--d)) calc(0.707 * var(--d)) 0 3px, calc(-1 * var(--d)) calc(0 * var(--d)) 0 4px, calc(-0.707 * var(--d)) calc(-0.707 * var(--d)) 0 5px, calc(0 * var(--d)) calc(-1 * var(--d)) 0 6px;
+  animation: l27 1s infinite steps(8);
+}
+
+@keyframes l27 {
+  100% {
+    transform: rotate(1turn);
   }
 }
 .deleteLoader {
@@ -1251,6 +1285,23 @@ a:has(.clickable) {
     transform: rotate(-0.2deg) translateY(-0.1px);
   }
 }
+.loader {
+  --d:22px;
+  margin-inline: auto;
+  margin-top: 180px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  color: rgb(8, 116, 199);
+  box-shadow: calc(1 * var(--d)) calc(0 * var(--d)) 0 0, calc(0.707 * var(--d)) calc(0.707 * var(--d)) 0 1px, calc(0 * var(--d)) calc(1 * var(--d)) 0 2px, calc(-0.707 * var(--d)) calc(0.707 * var(--d)) 0 3px, calc(-1 * var(--d)) calc(0 * var(--d)) 0 4px, calc(-0.707 * var(--d)) calc(-0.707 * var(--d)) 0 5px, calc(0 * var(--d)) calc(-1 * var(--d)) 0 6px;
+  animation: l27 1s infinite steps(8);
+}
+
+@keyframes l27 {
+  100% {
+    transform: rotate(1turn);
+  }
+}
 .deleteLoader {
   width: 48px;
   height: 48px;
@@ -1453,8 +1504,6 @@ a:has(.clickable) {
 }
 
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
   scroll-behavior: smooth;
 }
@@ -1741,11 +1790,10 @@ footer.hide {
   -moz-column-gap: 6px;
        column-gap: 6px;
   row-gap: 6px;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   align-items: center;
   justify-items: center;
   width: 100%;
-  margin-block: 70px;
   margin-inline: auto;
 }
 
@@ -1892,13 +1940,16 @@ footer.hide {
   justify-content: flex-start;
   gap: 6px;
 }
-.card .price, .card .tag {
+.card .tag {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   z-index: 2;
   font-family: "Darker Grotesque", sans-serif;
   font-size: 15px;
   text-transform: capitalize;
   font-weight: bolder;
-  background-color: #f29829;
   color: #fffdfb;
   position: absolute;
   width: 100px;
@@ -1906,6 +1957,10 @@ footer.hide {
   top: -1%;
   left: 3%;
   border-radius: 10px;
+  background-color: rgb(23, 146, 23);
+}
+.card .tag .rented {
+  background-color: #f29829;
 }
 
 .singleCardCon {

@@ -22,7 +22,7 @@ const {searchParams} = new URL(req.url)
     }
 
     let postsConfig = Listing.find({ $or: [content] }).populate(["agent"])
-    postsConfig = postsConfig.skip(skipNum).limit(limit)
+    postsConfig = postsConfig.skip(skipNum).limit(limit).sort('-createdAt')
 
     const posts = await postsConfig
  return NextResponse.json({posts,cursor}, { status: 200 }) 

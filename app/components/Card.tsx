@@ -1,11 +1,10 @@
 "use client"
 import React, { useState } from "react"
 import { CldImage } from "next-cloudinary"
-import Image from "next/image"
-import Button from "@lib/Button"
 import { truncateAddress } from "@utils/truncateAddress"
-import { useRouter } from "next/navigation"
 import Link from "next/link"
+import Image from "next/image"
+
 
 interface Agent {
   profilePic: string;
@@ -13,9 +12,8 @@ interface Agent {
 }
 type Listing = {
   _id?: string;
-  title?: string;
-  address?: string;
-  location?: string;
+  address: string;
+  location: string;
   image?: string;
   price?: string;
   description?: string;
@@ -23,20 +21,20 @@ type Listing = {
   bathrooms?: number;
   toilets?: number;
   agent: Agent;
-  mainImage?: string;
+  mainImage: string;
   gallery?: string[];
   createdAt?: string;
+  status?: string;
 }
 
-interface CardProps {
+export interface CardProps {
  edit: boolean,
  listing: Listing,
 }
 const Card = ({ edit, listing}: CardProps) => {
   const [address, setAddress] = useState(listing?.address || "Lagos, Nigeria")
   const price = listing?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-  const router = useRouter()
-
+  console.log(listing?.status)
   return (
     <>
       <div className="cardContainer">
@@ -46,7 +44,7 @@ const Card = ({ edit, listing}: CardProps) => {
             <CldImage
               fill={true}
               alt="post_img"
-              src={listing.mainImage!}
+              src={listing?.mainImage}
               crop={{
                 type: "auto",
                 source: true,
@@ -102,18 +100,18 @@ const Card = ({ edit, listing}: CardProps) => {
                     width={20}
                     height={20}
                     alt="agent pic"
-                    src={listing.agent.profilePic}
+                    src={listing?.agent.profilePic}
                   />
                   <div>
-              Listed by <span>{listing.agent.username}</span>
+              Listed by <span>{listing?.agent.username}</span>
                   </div>
                 </div>
               </>
             )}
           </div>
           </Link>
-       
-          {!edit && <div className="price">&#8358;{price}/year</div>}
+     
+          {!edit && <div className={`tag ${listing?.status === 'rented' && "rented"}`}>{listing?.status}</div>}
         </div>
      
         {edit && (
@@ -140,7 +138,6 @@ const Card = ({ edit, listing}: CardProps) => {
         )}
       
       </div>
-
     </>
   )
 }

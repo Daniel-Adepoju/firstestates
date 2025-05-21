@@ -7,11 +7,12 @@ import { CldImage } from "next-cloudinary"
 import { useBackdrop } from "@lib/Backdrop"
 const Nav = () => {
   const { session } = useUser()
-  const [navbarFixed, setnavbarFixed] = useState(false)
-  const [toggleNav, setToggleNav] = useState(false)
+  const [navbarFixed, setnavbarFixed] = useState<boolean>(false)
+  const [toggleNav, setToggleNav] = useState<boolean>(false)
   const scrollThreshold = 400
-   const {setIsActive} = useBackdrop()
+   const backdrop = useBackdrop()
 
+  //  console.log(opp)
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > scrollThreshold) {
@@ -25,7 +26,7 @@ const Nav = () => {
   })
 
   const showNav = () => {
-    setIsActive(prev => !prev)
+    backdrop?.setIsActive(prev => !prev)
     setToggleNav(prev => !prev)
   }
   return (
@@ -65,11 +66,11 @@ const Nav = () => {
             <Link href="/login">Login</Link>
           </>
         )}
-        {session?.user && <Link
-        onClick={async () => {
+    {session?.user && <Link onClick={async () => {
            await logOut()
           }}
-        href="#"> Sign Out</Link>}
+        href="#"> Sign Out
+        </Link>}
       </div>
     </header>
   )

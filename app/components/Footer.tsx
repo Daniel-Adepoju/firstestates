@@ -1,37 +1,41 @@
-'use client'
+"use client"
 import Link from "next/link"
 import Image from "next/image"
 import { useEffect, useState } from "react"
-const Footer = ({className}) => {
+const Footer = () => {
   const year = new Date().getFullYear()
-  const [goUpvisible,setgoUpVisible] = useState(false)
-  
-  const scrollThreshold = 1000
-   
-  useEffect(() => {
-   const handleScroll =() => {
+  const [goUpvisible, setgoUpVisible] = useState(false)
 
-    if(window.scrollY > scrollThreshold) {
-      setgoUpVisible(true)
-    } else {
-      setgoUpVisible(false)
+  const scrollThreshold = 1000
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > scrollThreshold) {
+        setgoUpVisible(true)
+      } else {
+        setgoUpVisible(false)
+      }
     }
-  }
-  window.addEventListener('scroll', handleScroll)
-  return () => window.removeEventListener('scroll', handleScroll)
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
   })
   return (
-    <footer className={`footer ${className}`}>
-   {goUpvisible && <Link className="goUp" href='#nav'>
-    <div className="clickable">
-        <Image 
-          width={50}
-          height={50}
-          src={className ? '/icons/goUpBlack.svg' : '/icons/goUp.svg'}
-          alt="up_arrow"
-        />
-      </div>
-    </Link> }
+    <footer className={`footer`}>
+      {goUpvisible && (
+        <Link
+          className="goUp"
+          href="#nav"
+        >
+          <div className="clickable">
+            <Image
+              width={50}
+              height={50}
+              src={"/icons/goUp.svg"}
+              alt="up_arrow"
+            />
+          </div>
+        </Link>
+      )}
       <div className="logo">LOGO</div>
       {/* <div className="footer_items_container">
         <div className="footer_items">

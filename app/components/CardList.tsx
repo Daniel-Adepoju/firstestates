@@ -1,50 +1,48 @@
 'use client'
 import Card from "./Card"
-import {axiosdata} from "@utils/axiosUrl"
-import {useQuery} from "@tanstack/react-query"
+import Searchbar from "./Searchbar"
 import { useSignal, useSignals } from "@preact/signals-react/runtime"
+import {Loader} from "@utils/loaders"
+import { CardProps } from "./Card"
+import {useGetListings} from "@lib/customApi"
+import { useRouter } from "next/navigation"
 const CardList = () => {
 useSignals()
 const limit = useSignal(10)
 const page = useSignal(1)
 const search = useSignal("")
-
-const getListings = async (page: number) => {
- try {
-  const res = await axiosdata.value.get(`/api/listings?limit=${limit.value}?page=${page}?search=${search.value}`)
-  return res.data
-} catch (err) {
-  console.log(err)
-}
-}
-
-const {data,isLoading,isError} = useQuery({
-  queryKey: ["listings", {page:page.value}],
-  queryFn: () => getListings(page.value),
-})
+const router = useRouter()
 
 
-const mapCards = data?.posts?.map((item:any) => {
+const {data,isLoading,isError} = useGetListings({
+  limit: limit.value,
+  page: page.value,
+  search: search.value})
+
+ const mapCards = data?.posts?.map((item:CardProps['listing']) => {
 return <Card key={item._id} listing={item} edit={false} />
 })
 
-// if(isLoading) {
-//   return (
-//     <div className="loading">
-//       <h1>Loading...</h1>
-//     </div>
-//   )
-// }
-// if(isError) {
-//    return (
-//     <div className="card">Failure</div>
-//    )
-// }
+if(isLoading) {
+return (
+    <Loader />
+  )
+}
+if(isError) {
+   return (
+    <div className="card">Failed</div>
+   )
+}
   return (
-  
+    <>
+<Searchbar
+goToSearch={() => router.push('/search')}
+/>
+<div className="subheading w-full text-center">Recent Listings</div>
     <div className="card_list">
-{mapCards}
+   {mapCards}
     </div>
+       </>
   )
 }
 

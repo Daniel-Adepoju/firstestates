@@ -60,6 +60,15 @@ const ListingSchema = new Schema({
     type: Number,
     required: [true, 'Number of toilets is required'],
   },
+  status: {
+    type: String,
+    enum: ['available', 'rented'],
+    default: 'available',
+  },
+  weeklyViews: {
+    type: Number,
+    default: 0
+  }
 }, {timestamps: true});
 
 const Listing = models?.Listing || model('Listing', ListingSchema);

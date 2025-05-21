@@ -1,23 +1,24 @@
 "use client"
+import "swiper/css"
+import "swiper/css/navigation"
+import "swiper/css/pagination"
+import "swiper/css/scrollbar"
 import { useState } from "react"
 import Image from "next/image"
 import Button from "@lib/Button"
 import { Swiper, SwiperSlide } from "swiper/react"
 import SwiperControls from "@utils/SwpierControls"
 import { Pagination, Autoplay, A11y, EffectCoverflow } from "swiper/modules"
-import "swiper/css"
-import "swiper/css/navigation"
-import "swiper/css/pagination"
-import "swiper/css/scrollbar"
 import { CldImage } from "next-cloudinary"
 import { useSearchParams } from "next/navigation"
-import { axiosdata } from "@utils/axiosUrl"
-import { useQuery } from "@tanstack/react-query"
+import { Skeleton } from "@components/ui/skeleton"
+import { useGetSingleListing } from "@lib/customApi"
 const SingleListing = () => {
   const [isSwiperLoaded, setIsSwiperLoaded] = useState(false)
-  const [phone, setPhone] = useState("07063939389")
-  const [whatsApp, setWhatsApp] = useState("07063939389")
+  const [phone] = useState("07063939389")
+  const [whatsApp] = useState("07063939389")
   const listingId = useSearchParams().get("id")
+  const { data, isLoading, isError } = useGetSingleListing(listingId)
 
   const handlePhoneClick = () => {
     window.open(`tel:${phone}`)
@@ -30,21 +31,30 @@ const SingleListing = () => {
     window.open(`https://www.google.com/maps/search/?api=1&query=${encodedAddress}`, "_blank")
   }
 
-  const getListing = async () => {
-    try {
-      const res = await axiosdata.value.get(`/api/listings/${listingId}`)
-      console.log(res.data[0])
-      return res.data
-    } catch (err) {
-      console.error(err)
-    }
+  if (isLoading) {
+    return (
+      <div className= "pb-6 gap-[30px] flex flex-col  items-center w-full min-h-screen">
+        <Skeleton className="bg-gray-200 w-full h-[300px] rounded-4xl" />
+        <Skeleton className="bg-gray-200 w-[90%] h-[100px] rounded-xl" />
+        <Skeleton className=" bg-gray-200 w-[80%] h-[190px] rounded-xl" />
+      </div>
+    )
   }
-
-  const { data, isLoading } = useQuery({
-    queryKey: ["listing", { listingId }],
-    queryFn: () => getListing(),
-  })
-
+  if (isError) {
+    return (
+      <div
+        className="flex flex-col
+      items-center
+      justify-center
+      text-red-600
+      text-xl
+      w-full  min-h-screen
+       bg-black"
+      >
+    An error occured due to issues with your network or because the page no longer exists
+      </div>
+    )
+  }
   return (
     <div className="singleCardCon">
       <div className="singleCardSection">
@@ -64,16 +74,21 @@ const SingleListing = () => {
                 pagination={{ clickable: true, type: "bullets" }}
               >
                 {data?.gallery.map((image: string) => {
-              return ( <SwiperSlide key={image} className={`item ${isSwiperLoaded === false && "itemHide"}`}>
-                  <CldImage
-                    alt="gallery picture"
-                    src={image}
-                    fill={true}
-                    priority={true}
-                  />
-                </SwiperSlide>)
-                  })  }
-           
+                  return (
+                    <SwiperSlide
+                      key={image}
+                      className={`item ${isSwiperLoaded === false && "itemHide"}`}
+                    >
+                      <CldImage
+                        alt="gallery picture"
+                        src={image}
+                        fill={true}
+                        priority={true}
+                      />
+                    </SwiperSlide>
+                  )
+                })}
+
                 <SwiperControls />
                 <div id="dot">...</div>
               </Swiper>
@@ -147,7 +162,7 @@ const SingleListing = () => {
               width={20}
               height={20}
               alt="agent pic"
-              src={data?.agent.profilePic!}
+              src={data?.agent.profilePic}
             />
             <div>
               {" "}
@@ -156,8 +171,9 @@ const SingleListing = () => {
           </div>
         </div>
 
+        {/* agents details */}
         <div className="single_card agent_details">
-          <div className="txt heading">Agent's Details</div>
+          <div className="txt heading">Agent&apos;s Details</div>
           <div className="details">
             <div className="subheading">Office Address</div>
             <div className="address">

@@ -24,7 +24,7 @@ const Listings = () => {
     </div>
     
       <div className="addListing">
-      <Link href={'/agent_dashboard/listings/add'}>
+      <Link href={'/agent/listings/add'}>
      <Image className="clickable" src={'/icons/add.svg'} width={50} height={50} alt="add"/>
       </Link>
         <span>Add New Listing</span>

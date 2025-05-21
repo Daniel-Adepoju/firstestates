@@ -3,7 +3,18 @@ import Image from "next/image"
 import { sidebarItems } from "@lib/constants"
 import { usePathname } from "next/navigation"
 import { CldImage } from "next-cloudinary"
-const Sidebar = ({session}) => {
+
+interface Session {
+  session: {
+    user: {
+      username: string,
+      email: string,
+      profilePic: string,
+    } 
+  }
+}
+
+const Sidebar = ({session}: Session) => {
   
   const pathname = usePathname()
   return (
