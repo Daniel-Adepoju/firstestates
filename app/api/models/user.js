@@ -24,6 +24,12 @@ const UserSchema = new Schema({
         type:String,
         default: 'firstestatesdefaultuserpicture',
      },
+     phone: {
+        type: Number,
+     },
+     whatsapp: {
+        type: Number,
+     },
     role: {
         type:String,
         enum:['client','agent','admin'],

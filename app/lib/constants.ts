@@ -61,3 +61,17 @@ export const agentSidebarItems = [
     icon: "/icons/settings.svg",
   },
 ];
+
+
+
+export const schoolArea = {
+  "North West": ["Another Town", "Kano", "Katsina", "Kebbi", "Kogi", "Kwara", "Lagos", "Nasarawa", "Niger", "Plateau", "Rivers", "Sokoto", "Taraba", "Yobe"],
+  "North East": ["Benue", "Borno", "Gombe", "Jigawa", "Kaduna", "Kano", "Katsina", "Kebbi", "Kogi", "Kwara", "Lagos", "Ogun", "Ondo", "Osun", "Oyo"],
+  "Lasu":[
+    "Some Town",
+    "First Gate",
+    "Iyana School",
+    "Ipaye",
+    "Post Office"],
+}
+export const schools = Object.keys(schoolArea)

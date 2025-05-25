@@ -134,3 +134,10 @@
       --chart-5: 340 75% 55%;
     }
   }
+
+  @layer line {
+    .smallLine {
+  @apply after:content-[''] after:absolute after:bg-blue-300
+      after:w-10 after:h-1 after:rounded-sm after:bottom-0 after:left-0
+    }
+  }

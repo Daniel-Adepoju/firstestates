@@ -4,13 +4,15 @@ import { useSignal, useSignals } from "@preact/signals-react/runtime"
 import { CldUploadWidget, CldImage, CloudinaryUploadWidgetResults} from "next-cloudinary"
 import { DeleteLoader, WhiteLoader } from "@utils/loaders"
 import { deleteImage, deleteMultipleImages } from "@lib/server/deleteImage"
-import { createListing } from "@lib/server/createListing"
+import { createListing } from "@lib/server/listing"
 import Image from "next/image"
 import Button from "@lib/Button"
 import { useNotification } from "@lib/Notification"
 import { useUser } from "@utils/user"
 import { useRouter } from "next/navigation"
-
+import { useState,useEffect } from "react"
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { schoolArea,schools } from "@lib/constants"
 interface CloudinaryResult  {
  public_id: string
 }
@@ -26,7 +28,6 @@ interface DeleteFromGalleryEvent extends React.MouseEvent<HTMLImageElement> {
 const listingDeets = {
   description: signal(""),
   price: signal(""),
-  location: signal(""),
   gallery: signal<string[]>([]),
   mainImage: signal<string | null>(),
   amenities: signal<string[]>([]),
@@ -38,6 +39,7 @@ const listingDeets = {
 
 const ListingForm = () => {
   useSignals()
+    const queryClient = useQueryClient()
   const session = useUser()
   const router = useRouter()
   const notification = useNotification()
@@ -45,6 +47,31 @@ const ListingForm = () => {
   const deletingGallery = useSignal(false)
   const selectedGalleryImageId = useSignal<number | null>()
   const creating = useSignal(false)
+  const [area,setArea] = useState("")
+  const [school,setSchool] = useState("")
+  const [areas,setAreas] = useState<string[]>([])
+
+const resetFormFields = () => {
+  listingDeets.description.value = ""
+  listingDeets.price.value = ""
+  listingDeets.address.value = ""
+  listingDeets.bedrooms.value = ""
+  listingDeets.bathrooms.value = ""
+  listingDeets.toilets.value = ""
+  listingDeets.mainImage.value = null
+  listingDeets.gallery.value = []
+  setArea("")
+  setSchool("")
+}
+
+useEffect(() => {
+  if(!school) {
+    setAreas([])
+  }
+  if(school) {
+    setAreas(schoolArea[school as keyof typeof schoolArea])
+  }
+},[school])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -128,15 +155,15 @@ const ListingForm = () => {
   }
 
   //Create Listing
-  const handleCreateListing = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const handleCreateListing = async () => {
     creating.value = true
     try {
       await session
       const res = await createListing({
         description: listingDeets.description.value,
         price: listingDeets.price.value,
-        location: listingDeets.location.value,
+        location:area,
+        school,
         gallery: listingDeets.gallery.value,
         mainImage: listingDeets.mainImage.value,
         address: listingDeets.address.value,
@@ -150,13 +177,24 @@ const ListingForm = () => {
         notification.setType(res.status)
       }
       creating.value = false
+     resetFormFields()
     router.push('/agent/listings')
     } catch (err) {
       creating.value = false
       console.log(err)
     }
   }
+    const mutation = useMutation({
+      mutationFn:handleCreateListing,
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['listings'] })
+      },
+    })
 
+    const handleMutate = (e: React.FormEvent<HTMLFormElement>) => {
+   e.preventDefault()
+   mutation.mutate()
+    }
   return (
     <>
       <div className="form_container listing">
@@ -166,7 +204,7 @@ const ListingForm = () => {
         </div>
 
         <form
-          onSubmit={handleCreateListing}
+          onSubmit={handleMutate}
           className="form listing"
         >
           <div className="form_group">
@@ -194,18 +232,6 @@ const ListingForm = () => {
             />
           </div>
 
-          {/* Location */}
-          <div className="form_group">
-            <label htmlFor="location">Location</label>
-            <input
-              id="location"
-              name="location"
-              type="text"
-              value={listingDeets.location.value}
-              onChange={handleInputChange}
-              placeholder="Enter the location"
-            />
-          </div>
 
           {/* Main Image */}
           <div className="form_group main_image">
@@ -371,7 +397,39 @@ const ListingForm = () => {
             />
           </div>
 
-          <div className={`form_group ${listingDeets.gallery.value.length > 0 && "submit"}`}>
+          {/*School Select*/}
+          <div className="form_group">
+            <label>School</label>
+            <select
+            value={school}
+            onChange={(e) => setSchool(e.target.value)}
+            className="w-full border rounded p-2"
+          >
+            <option value="">Select a school</option>
+            {schools.map((school) => (
+        <option key={school} value={school}
+        >{school}</option>
+            ))}
+          </select>
+        </div>
+
+        {/* Location Select */}
+        <div className="form_group">
+          <label>Location</label>
+          <select
+            value={area}
+            onChange={(e) => setArea(e.target.value)}
+            className="w-full border rounded p-2"
+          >
+            <option value="">Select a location</option>
+            {areas.map((area) => (
+              <option key={area} value={area}>{area}</option>
+            ))}
+          </select>
+        </div>
+
+
+          <div className={`form_group ${listingDeets.gallery.value.length > 0 && "submi"}`}>
             <Button
               type="submit"
               text="Create Listing"

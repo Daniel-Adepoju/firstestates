@@ -1,47 +1,85 @@
-// components/PopularThisWeek.tsx
-
-'use client';
-
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
-
-type Listing = {
-  _id: string;
-  title: string;
-  weeklyViews: number;
-};
-
-const fetchPopularListings = async (): Promise<Listing[]> => {
-  const res = await axios.get('/api/listings/popular-weekly');
-  return res.data;
-};
-
+"use client"
+import { useGetPopularListings } from "@lib/customApi"
+import { Listing } from "./Card"
+import { CldImage } from "next-cloudinary"
+import Image from "next/image"
+import { Skeleton } from "./ui/skeleton"
+import Link from "next/link"
 export default function PopularThisWeek() {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['popularListingsThisWeek'],
-    queryFn: fetchPopularListings,
-    staleTime: 1000 * 60 * 10, // 10 minutes (optional caching),
-  });
-
-  if (isLoading) return <div>Loading popular listings...</div>;
-  if (isError) return <div>Failed to load popular listings.</div>;
+  const { data, isLoading } = useGetPopularListings()
+  console.log(data)
+  if (isLoading) return (
+    <>
+    <h2 className="subheading p-1  text-xl font-semibold mx-auto smallLine">Popular This Week</h2>
+  <div className="flex flex-row justify-evenly item-center w-full mt-4">
+    <Skeleton className="bg-gray-400 w-30 h-30"/>
+    <Skeleton className="bg-gray-400 w-30 h-30"/>
+    <Skeleton className="bg-gray-400 w-30 h-30"/>
+  </div>
+  </>
+  )
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-xl font-semibold">Popular This Week</h2>
-      <ul className="space-y-2">
-        {data?.map((listing) => (
-          <li
-            key={listing._id}
-            className="border p-4 rounded-lg shadow-md bg-white dark:bg-gray-900"
+    <>
+      <h2 className="subheading p-1 text-xl font-semibold mx-auto relative smallLine">
+        Popular This Week
+        </h2>
+      <div
+        className="popularList px-4 grid w-full grid-flow-col my-4 py-2
+    overflow-x-scroll content-center gap-4 snap-x snap-mandatory
+    "
+      >
+        
+        {data?.popularListings.map((listing: Listing) => (
+          <Link
+            key={listing?._id}
+            href={`/listings/single_listing?id=${listing?._id}`}
+            className="popularCard snap-center flex flex-col border w-[200px] h-50 p-2 rounded-lg shadow-md bg-white dark:bg-gray-900"
           >
-            <div className="text-lg font-medium">{listing.title}</div>
-            <div className="text-sm text-gray-500">
-              {listing.weeklyViews} views this week
+            <div className="w-[100%] h-50 relative">
+              <CldImage
+                    fill={true}
+                    alt="post_img"
+                    src={listing?.mainImage}
+                    crop={{
+                        type: "auto",
+                        source: true,
+                      }}/> 
             </div>
-          </li>
+
+            <div className="text-lg font-medium pb-2 capitalize">{listing?.school}</div>
+            <div className="home_details flex flex-row justify-evenly items-center">
+              <div className="flex flex-col">
+                <Image
+                  width={30}
+                  height={24}
+                  alt="icon"
+                  src="/icons/bed.png"
+                />
+                <span className="text-center">{listing?.bedrooms}</span>
+              </div>
+              <div className="flex flex-col">
+                <Image
+                  width={30}
+                  height={24}
+                  alt="icon"
+                  src="/icons/bath.png"
+                />
+                <span className='text-center'>{listing?.bathrooms}</span>
+              </div>
+              <div className="flex flex-col">
+                <Image
+                  width={30}
+                  height={24}
+                  alt="icon"
+                  src="/icons/toilet.png"
+                />
+                <span className="text-center">{listing?.toilets}</span>
+              </div>
+            </div>
+          </Link>
         ))}
-      </ul>
-    </div>
-  );
+      </div>
+    </>
+  )
 }

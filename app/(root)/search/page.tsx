@@ -4,7 +4,7 @@ import Searchbar from "@components/Searchbar"
 import { useSignal, useSignals } from "@preact/signals-react/runtime"
 import {Loader} from "@utils/loaders"
 import Card,{ CardProps } from "@components/Card"
-import {useGetListings} from "@lib/customApi"
+import {useSearchListings} from "@lib/customApi"
 import { useEffect } from "react"
 const Search = () => { 
 useSignals()
@@ -12,20 +12,30 @@ const limit = useSignal(10)
 const page = useSignal(1)
 const search = useSignal("")
 const debounced = useSignal("");
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
+// const schoolSearch = useSignal("")
+// const schoolDebounce = useSignal("")
+  
+useEffect(() => {
+    const timeoutId= setTimeout(() => {
       debounced.value = search.value
     }, 560)
 
-    return () => clearTimeout(handler)
-  }, [search.value]);
+    return () => clearTimeout(timeoutId)
+  }, [search.value])
 
+// useEffect(() => {
+//   const timeoutId = setTimeout(() => {
+//     schoolDebounce.value = search.value
+//   },560)
 
- const {data,isLoading,isError} = useGetListings({
+//   return clearTimeout(timeoutId)
+// }, [schoolSearch.value])
+
+ const {data,isLoading,isError} = useSearchListings({
   limit: limit.value,
   page: page.value,
-  search: debounced.value,
+  location: debounced.value,
+  school: debounced.value,
   enabled: search.value.trim() !== ""
 }
 )
@@ -40,7 +50,7 @@ if(isError) {
    )
 }
   return (
-    <>
+    <div className="w-full flex flex-col items-end pr-2">
 <Searchbar
 search={search.value}
 setSearch={(e) => search.value = e.target.value}
@@ -49,7 +59,7 @@ setSearch={(e) => search.value = e.target.value}
     <div className="card_list">
   {mapCards}
     </div>}
-       </>
+       </div>
   )
 }
 

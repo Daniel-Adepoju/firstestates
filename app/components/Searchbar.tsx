@@ -8,18 +8,21 @@ interface SearchProps {
 
 const Searchbar = ({search, goToSearch,setSearch}:SearchProps) => {
   return (
-  <div className="mt-[80px] gap-2 w-full flex flex-row justify-center items-center">
+  <div className=" mt-[80px] gap-1 w-full flex flex-row justify-center items-center md:justify-end  md:w-[60%]">
+   <div className="bg-blu-100 rounded-sm">
     <Image
-    src='/icons/search.svg'
-    alt="icon"
+    src={'/icons/search.svg'}
+    alt='search icon'
     width={40}
-    height={40}
-    />
-    <input className="p-1 border-gray-500 w-[80%] border-2 rounded-sm" type="text"
+    height={40} />  
+   </div>
+    <input className="
+    p-1 pl-4 border-gray-400 w-[80%] border-2
+    rounded-sm caret-blue-300 transition-all duration-300 ease-in focus:border-blue-100" type="text"
     onClick={goToSearch && goToSearch}
     onChange={setSearch}
     value={search}
-    placeholder="Search by location"
+    placeholder="Search by school or location"
     />
   </div>
   )

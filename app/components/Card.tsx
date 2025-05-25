@@ -1,16 +1,18 @@
 "use client"
-import React, { useState } from "react"
+import React, { useRef, useState } from "react"
 import { CldImage } from "next-cloudinary"
 import { truncateAddress } from "@utils/truncateAddress"
 import Link from "next/link"
 import Image from "next/image"
-
+import { useRouter } from "next/navigation"
+import DeleteModal from "./DeleteModal"
+import { DeleteLoader } from '@utils/loaders';
 
 interface Agent {
   profilePic: string;
   username: string;
 }
-type Listing = {
+export interface Listing {
   _id?: string;
   address: string;
   location: string;
@@ -25,6 +27,7 @@ type Listing = {
   gallery?: string[];
   createdAt?: string;
   status?: string;
+  school?:string;
 }
 
 export interface CardProps {
@@ -33,8 +36,12 @@ export interface CardProps {
 }
 const Card = ({ edit, listing}: CardProps) => {
   const [address, setAddress] = useState(listing?.address || "Lagos, Nigeria")
-  const price = listing?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-  console.log(listing?.status)
+  const router = useRouter()
+  const deleteRef = useRef<HTMLDialogElement>(null)
+  const [deleting,setDeleting] = useState(false)
+  const openDialog = () => {
+    deleteRef.current?.showModal()
+  }
   return (
     <>
       <div className="cardContainer">
@@ -94,7 +101,7 @@ const Card = ({ edit, listing}: CardProps) => {
                     <span>{listing?.toilets} toilets</span>
                   </div>
                 </div>
-
+           <div className="school">{listing?.school}</div>
                 <div className="agent">
                   <CldImage
                     width={20}
@@ -110,30 +117,37 @@ const Card = ({ edit, listing}: CardProps) => {
             )}
           </div>
           </Link>
-     
-          {!edit && <div className={`tag ${listing?.status === 'rented' && "rented"}`}>{listing?.status}</div>}
+       {!edit && <div className={`tag ${listing?.status === 'rented' && "rented"}`}>{listing?.status}</div>}
+        
         </div>
      
         {edit && (
           <div className="editSide">
             <Image
+              onClick={() => router.push(`/agent/listings/edit?id=${listing?._id}`)}
               src="/icons/edit.svg"
               width={40}
               height={40}
               alt="edit"
             />
-            <Image
+            {/* <Image
               src="/icons/archive.svg"
               width={40}
               height={40}
               alt="archive"
-            />
-            <Image
+            /> */}
+    {deleting ?  <DeleteLoader /> :
+           <Image
               src="/icons/delete.svg"
               width={40}
               height={40}
               alt="delete"
-            />
+              onClick={openDialog}
+            />}
+       <DeleteModal
+       ref={deleteRef}
+       setDeleting={setDeleting}
+       listingId={listing?._id ?? ""}/>
           </div>
         )}
       

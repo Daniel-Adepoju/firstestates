@@ -8,14 +8,16 @@ import { useBackdrop } from "@lib/Backdrop"
 const Nav = () => {
   const { session } = useUser()
   const [navbarFixed, setnavbarFixed] = useState<boolean>(false)
-  const [toggleNav, setToggleNav] = useState<boolean>(false)
-  const scrollThreshold = 400
+  const scrollThreshold = 500
    const backdrop = useBackdrop()
+   const isActive = backdrop?.isActive ?? false
+   const toggleNav = backdrop?.toggleNav
+   const setIsActive = backdrop?.setIsActive ?? (() => {})
+   const setToggleNav = backdrop?.setToggleNav ?? (() => {})
 
-  //  console.log(opp)
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > scrollThreshold) {
+      if (window.scrollY > scrollThreshold && !isActive) {
         setnavbarFixed(true)
       } else {
         setnavbarFixed(false)
@@ -26,13 +28,13 @@ const Nav = () => {
   })
 
   const showNav = () => {
-    backdrop?.setIsActive(prev => !prev)
+    setIsActive(prev => !prev)
     setToggleNav(prev => !prev)
   }
   return (
     <header
       id="nav"
-      className={`nav ${navbarFixed && "fixedNav"} ${toggleNav && "activeNav"}`}
+      className={`nav ${navbarFixed && "fixedNav"} ${isActive && "fixedNav"} ${toggleNav && "activeNav"}`}
     >
       <Link href="/">
         <div className="logo">LOGO</div>
@@ -59,18 +61,22 @@ const Nav = () => {
             crop={"fill"}
           />
         )}
-        <Link href="/listings">Browse Listings</Link>
+    
+        
+    {session?.user &&
+    <>
+    <Link href="/listings">Wishlist</Link>
+    <Link onClick={async () => {await logOut()}}
+        href="#"> Sign Out
+        </Link>
+        </>
+        }
         {!session?.user && (
           <>
             <Link href="/signup">Sign Up</Link>
             <Link href="/login">Login</Link>
           </>
         )}
-    {session?.user && <Link onClick={async () => {
-           await logOut()
-          }}
-        href="#"> Sign Out
-        </Link>}
       </div>
     </header>
   )

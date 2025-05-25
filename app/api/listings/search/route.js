@@ -8,17 +8,12 @@ const {searchParams} = new URL(req.url)
   const limit =  Number(searchParams.get('limit')) ||  10
   const location = searchParams.get('location') || ''
   const school = searchParams.get('school') || ''
-  const price = searchParams.get('price') || ''
   const skipNum = Number((page- 1) * Number(limit))
   let cursor = Number(page)
   const searchOptions = []
 
   if (location) {
    searchOptions.push({location: { $regex: location, $options: "i" }})
-  }
-
-  if (price) {
-   searchOptions.push({ price: { $gte: Number(price) } })
   }
 
   if (school) {
@@ -35,7 +30,7 @@ const {searchParams} = new URL(req.url)
 
     let listingConfig
     if(searchOptions.length > 0) {
-    listingConfig = Listing.find({$and:searchOptions}).populate(["agent"])
+    listingConfig = Listing.find({$or:searchOptions}).populate(["agent"])
     } else {
     listingConfig = Listing.find().populate(["agent"])
     }

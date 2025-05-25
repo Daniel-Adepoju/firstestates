@@ -7,6 +7,10 @@ const ListingSchema = new Schema({
     ref: User.modelName,
     required: [true, 'Agent is required'],
   },
+  school: {
+    type: String,
+    required: [true, 'School is required'],
+  },
   mainImage: {
     type: String,
     required: [true, 'Main image is required'],

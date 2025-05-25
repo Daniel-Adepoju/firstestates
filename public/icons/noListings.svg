@@ -1,0 +1,18 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background Circle -->
+    <circle cx="100" cy="100" r="80" fill="#F5F5F5"/>
+    
+    <!-- "No" Circle (Red prohibition sign) -->
+    <circle cx="100" cy="100" r="65" stroke="#FF3B30" stroke-width="12"/>
+    <line x1="60" y1="60" x2="140" y2="140" stroke="#FF3B30" stroke-width="12" stroke-linecap="round"/>
+    
+    <!-- Modern House Icon -->
+    <path d="M100 60L70 85V135H85V105H115V135H130V85L100 60Z" fill="#555"/>
+    
+    <!-- Roof Detail -->
+    <path d="M70 85L100 60L130 85" stroke="#333" stroke-width="3" stroke-linecap="round"/>
+    
+    <!-- Door -->
+    <rect x="90" y="110" width="20" height="25" fill="#333"/>
+    <circle cx="95" cy="125" r="1.5" fill="#F5F5F5"/>
+</svg>

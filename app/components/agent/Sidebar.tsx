@@ -25,6 +25,7 @@ const Sidebar = ({session}: Session) => {
     sidebarItems.map((item, index) => {
       const isActive = pathname === item.link || pathname.startsWith(item.link + '/') && item.link !== '/agent'
       return (
+      item.name !=='Dashboard' && (
       <div  key={index}
       className={` items ${isActive && "active"}`}
       >
@@ -36,7 +37,7 @@ const Sidebar = ({session}: Session) => {
       />
       <li>{item.name}</li>
       </a>
-      </div>
+      </div>)
       )
     })}</ul>
     <div className="adminLabel">

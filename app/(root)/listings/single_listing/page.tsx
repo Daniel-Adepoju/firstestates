@@ -155,7 +155,10 @@ const SingleListing = () => {
         <div className="single_card">
           <div className="price">
             <span className="currency">&#8358;</span>
-            {data?.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}/Year
+            {data?.price.toLocaleString()}/Year
+          </div>
+    <div className="school capitalize text-xl">
+            {data?.school}
           </div>
           <div className="agent">
             <CldImage

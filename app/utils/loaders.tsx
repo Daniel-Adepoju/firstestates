@@ -23,8 +23,8 @@
  }
 
 
- export  function Loader() {
- return <div className="loader"></div>
+ export  function Loader({className}:{className?:string}) {
+ return <div className={`loader ${className}`}></div>
  }
 
 

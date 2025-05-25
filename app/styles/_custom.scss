@@ -25,6 +25,7 @@
 }
 .subheading {
   @extend .heading;
+  position: relative;
   font-size: 20px;
   color: color("darkblue");
   font-weight: bold;
@@ -135,7 +136,7 @@ a:has(.clickable) {
     .left {
       @include transition(400ms);
       width: 100%;
-      background-color: rgba(154, 154, 154, 0.203);
+      background-color: rgba(0, 0, 0, 0.244);
     }
   }
   &:has(.right:hover) {
@@ -146,14 +147,14 @@ a:has(.clickable) {
       @include transition(400ms);
       width: 100%;
       left: 0;
-      background-color:rgba(154, 154, 154, 0.203);
+      background-color: rgba(0, 0, 0, 0.244);
     }
   }
   &:hover {
     &::before {
       width: 100%;
       left: 0;
-      background-color: rgba(154, 154, 154, 0.203);
+       background-color: rgba(0, 0, 0, 0.244);
     }
   }
   &::before,
@@ -429,4 +430,14 @@ isolation: isolate;
   color: white;
   }
 }
+}
+
+
+//dropdowns
+.triangle {
+  @include transition(200ms, ease-in);
+  &.active {
+    @include transition(200ms, ease-out);
+    transform: rotate(360deg);
+  }
 }

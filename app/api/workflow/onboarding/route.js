@@ -16,12 +16,12 @@ const getUserState = async(email) => {
   const timeDifference = now.getTime() - lastActivityDate.getTime()
  if (timeDifference > threeDays && timeDifference <= thirtyDays) {
   return "non-active"
- } 
+ }
  return "active"
 }
 
 export const {POST} = serve(async (context) => {
-  const {email, username} = context.requestPayload;
+  const {email, username} = context.requestPayload
   await context.run("new-signup", async() => {
     await sendEmail({
       email,
@@ -46,7 +46,7 @@ if (state === "non-active") {
         await sendEmail({
             email,
             subject: 'Newsletter',
-            message: `Hey ${username}, we've missed you!`
+            message: `Hey ${username}, you've not visited our platform in a while!`
         })
     })
 } else if (state === "active") {

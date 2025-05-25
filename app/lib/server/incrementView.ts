@@ -7,18 +7,19 @@ await redis.hincrby("views:weekly", listingId, 1)
 }
 
 export async function syncWeeklyViewsToMongo() {
+    const updatePromises = []
     const views: Record<string,number> | null = await redis.hgetall("views:weekly")
-    if (!views || Object.keys(views).length === 0) return
-        await connectToDB()
+    if (!views || Object.keys(views).length === 0) return  
+       await connectToDB()
         for (const [listingId, count] of Object.entries(views)) {
-           const parsedCount = parseInt(count as unknown as string);
-            if (!listingId || isNaN(parsedCount)) continue;
-          
-           await Listing.findByIdAndUpdate(listingId, {
-                $inc: { weeklyViews: parsedCount }
+       const parsedCount = parseInt(count as unknown as string);
+       if (!listingId || isNaN(parsedCount)) continue;
+       const updatePromise = Listing.findByIdAndUpdate(listingId, {
+            $inc: { weeklyViews: parsedCount }
             })
+            updatePromises.push(updatePromise)
         }
-    
+    await Promise.all(updatePromises)
 
     await redis.del("views:weekly")
 

@@ -25,6 +25,9 @@ export default async function AdminLayout({children}){
   //   }
 
     return (
+      <ReactQueryProvider>
+
+     
     <Provider>
       <User>
         <Notification>
@@ -43,6 +46,7 @@ export default async function AdminLayout({children}){
  </Notification>
       </User>
     </Provider>
+    </ReactQueryProvider>
   );
 }
 
