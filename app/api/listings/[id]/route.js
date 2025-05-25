@@ -9,9 +9,8 @@ export const GET = async (req, {params}) => {
     await connectToDB()
  
     const post = await Listing.findById(listingId).populate(['agent'])
-     await incrementView(listingId)
   if (!post) return new Response('Not found', { status: 404 });
-
+    await incrementView(listingId)
   return NextResponse.json(post, { status: 200 }) 
   } catch (err) {
     console.log(err)

@@ -27,13 +27,9 @@ export async function syncWeeklyViewsToMongo() {
 
 export async function resetWeeklyViews() {
   await connectToDB();
-  const views: Record<string,number> = await redis.hgetall("views:weekly") || {};
-   const listingIds = Object.keys(views)
-  await Listing.updateMany({ _id: { $in: listingIds } }, [
+  await Listing.updateMany({}, [
     {
-      $set: {
-        weeklyViews: 0
-      }
+      $set: {weeklyViews: 0}
     }
   ]);
 }
