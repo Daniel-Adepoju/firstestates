@@ -22,22 +22,22 @@ const {searchParams} = new URL(req.url)
 
   try {
     await connectToDB()
-    const listings = await Listing.find() 
-    const numOfPages = Math.ceil(listings.length / Number(limit))
-    if (cursor >= numOfPages) {
-      cursor = undefined
-    }
 
     let listingConfig
+    let totalDocs = await Listing.countDocuments({$or:searchOptions})
     if(searchOptions.length > 0) {
     listingConfig = Listing.find({$or:searchOptions}).populate(["agent"])
     } else {
     listingConfig = Listing.find().populate(["agent"])
     }
     listingConfig = listingConfig.skip(skipNum).limit(limit).sort('-createdAt')
-
+  const numOfPages = Math.ceil(totalDocs / Number(limit))
+    if (cursor >= numOfPages) {
+      cursor = numOfPages
+    }
     const posts = await listingConfig
- return NextResponse.json({posts,cursor}, { status: 200 }) 
+ 
+ return NextResponse.json({posts,cursor,numOfPages}, { status: 200 }) 
   } catch (err) {
     console.log(err)
     return NextResponse.json(err, { status: 500}) 

@@ -27,15 +27,13 @@ export const {auth,handlers,signIn,signOut} = NextAuth({
         }
      
            const passwordMatch = await compare(credentials?.password || '', user?.password)
-           if (passwordMatch) {
-            return {
-                id: user._id,
-                email: user.email,
-                username: user.username,
-                role: user.role,
-                profilePic: user.profilePic,
-            }
-           }
+         if (passwordMatch) {
+      const { password, _id, ...rest } = user.toObject()
+        return {
+         id: _id.toString(),
+           ...rest
+         }
+}
            if(!passwordMatch) {
            return null
            }

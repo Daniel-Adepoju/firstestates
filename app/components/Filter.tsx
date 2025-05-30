@@ -1,7 +1,7 @@
 'use client'
 import Button from "@lib/Button"
 import { useEffect, useState } from "react"
-import Image from "next/image"
+import { useUser } from "@utils/user"
 
 interface FilterProps {
     selectedSchool: Record<string, any>;
@@ -20,6 +20,8 @@ const Filter = ({active,selectedSchool, selectedArea,selectedPrice}: FilterProps
   const [area, setArea] = useState("")
   const [areas,setAreas] = useState<string[]>([])
   const [price, setPrice] = useState<number>(0)
+  const {session} = useUser()
+
 useEffect(() => {
   if(!school) {
     setAreas([])
@@ -28,6 +30,12 @@ useEffect(() => {
     setAreas(schoolArea[school as keyof typeof schoolArea])
   }
 },[school])
+
+useEffect(() => {
+  if(session) {
+    setSchool(session?.user.school)
+  }
+},[session])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -39,7 +47,8 @@ useEffect(() => {
   return (
     <>
    
-  {active && <form onSubmit={handleSubmit} className="bg-white mx-auto w-[80%] p-4 rounded-xl shadow space-y-4">
+  {active && 
+  <form onSubmit={handleSubmit} className="dark:bg-gray-600 bg-white mx-auto w-[80%] p-4 rounded-xl shadow space-y-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* School Select */}
         <div>

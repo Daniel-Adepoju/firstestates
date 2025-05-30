@@ -11,6 +11,8 @@ import { auth } from "@auth";
 import { connectToDB } from "@utils/database";
 import  UserModel from "@models/user";
 import {test,getAllListings} from '@lib/server/getPost'
+import {DarkModeProvider} from '@lib/DarkModeProvider'
+
 export const metadata = {
   title: "FirstEstates",
   description: "",
@@ -35,7 +37,8 @@ export default async function RootLayout({children}) {
 
   return (
        <>
-        <ReactQueryProvider>
+       <DarkModeProvider>
+         <ReactQueryProvider>
           <Provider>
           <User>
            <Backdrop>
@@ -50,6 +53,8 @@ export default async function RootLayout({children}) {
           </Provider> 
           
         </ReactQueryProvider>
+       </DarkModeProvider>
+       
     </> 
  
   );

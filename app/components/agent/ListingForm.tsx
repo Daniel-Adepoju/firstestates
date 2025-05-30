@@ -332,7 +332,7 @@ useEffect(() => {
                 )
               })}
             </div>
-            <p className="mx-auto text-center">
+            <p className="mx-auto text-center dark:text-white">
               A Maximum Of 5 Images Can Be Uploaded To The Gallery
             </p>
             {listingDeets.gallery.value.length > 1 && (
@@ -403,7 +403,7 @@ useEffect(() => {
             <select
             value={school}
             onChange={(e) => setSchool(e.target.value)}
-            className="w-full border rounded p-2"
+            className="w-full border rounded p-2 dark:text-white dark:bg-gray-600"
           >
             <option value="">Select a school</option>
             {schools.map((school) => (
@@ -419,7 +419,7 @@ useEffect(() => {
           <select
             value={area}
             onChange={(e) => setArea(e.target.value)}
-            className="w-full border rounded p-2"
+            className="w-full border rounded p-2 dark:text-white dark:bg-gray-600"
           >
             <option value="">Select a location</option>
             {areas.map((area) => (

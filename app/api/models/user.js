@@ -30,6 +30,9 @@ const UserSchema = new Schema({
      whatsapp: {
         type: Number,
      },
+     school: {
+        type: String,
+     },
     role: {
         type:String,
         enum:['client','agent','admin'],

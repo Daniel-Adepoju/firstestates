@@ -71,51 +71,50 @@ export const sendOTP = async ({ email }) => {
   }
 }
 
-export const verifyOTP = async ({
-  username,
-  email,
-  role,
-  userPassword,
-  phone,
-  whatsapp,
-  address,
-  clientOtp,
-}) => {
+export const verifyOTP = async (val) => {
   const getOtp = await getOtpFromCookie()
+
   try {
     await connectToDB()
+
     const ip = (await headers()).get("x-forwarded-for") || "127.0.0.1"
-    const {success} = await ratelimit.limit(ip)
+    const { success } = await ratelimit.limit(ip)
     if (!success) return redirect("/too-fast")
-    
-      //Create New User
-    if (getOtp === clientOtp) {
-      const password = await hash(userPassword, 10)
+
+    // Create New User
+    if (getOtp === val.clientOtp) {
+      const password = await hash(val.userPassword, 10)
+
       const newUser = {
-        username,
-        email,
-        role,
+        username: val.username,
+        email: val.email,
+        role: val.role,
         password,
-        phone: role === "client" ? null : phone,
-        whatsapp: role === "client" ? null : whatsapp,
-        address: role === "client" ? null : address
+        phone: val.role === "client" ? null : val.phone,
+        whatsapp: val.role === "client" ? null : val.whatsapp,
+        address: val.role === "client" ? null : val.address,
+        school: val.school || null,
       }
+
       const user = new User(newUser)
       await user.save()
 
       await workflowClient.trigger({
-        url:`${process.env.PROD_BASE_URL}/api/workflow/onboarding`,
-        body: {email,username}
+        url: `${process.env.PROD_BASE_URL}/api/workflow/onboarding`,
+        body: { email: val.email, username: val.username }
       })
+
       return { message: "Verification successful", status: "success" }
     } else {
       return { message: "Invalid OTP", status: "warning" }
     }
+
   } catch (err) {
     console.error(err)
     return { message: "An error occurred while verifying OTP", status: "danger" }
   }
 }
+
 
 export const signInWithCredentials = async (email, password) => {
   const ip = (await headers()).get("x-forwarded-for") || "127.0.0.1"

@@ -1,39 +1,37 @@
 'use client'
-
 import Searchbar from "@components/Searchbar"
 import { useSignal, useSignals } from "@preact/signals-react/runtime"
 import {Loader} from "@utils/loaders"
 import Card,{ CardProps } from "@components/Card"
 import {useSearchListings} from "@lib/customApi"
 import { useEffect } from "react"
+import { useSearchParams, useRouter } from "next/navigation"
+import Pagination from "@components/Pagination"
+
 const Search = () => { 
 useSignals()
 const limit = useSignal(10)
-const page = useSignal(1)
+const params = useSearchParams()
+const router = useRouter()
+let page = params.get('page') || '1'
 const search = useSignal("")
 const debounced = useSignal("");
-// const schoolSearch = useSignal("")
-// const schoolDebounce = useSignal("")
-  
+const searchParams = new URLSearchParams(params.toString())
+
 useEffect(() => {
     const timeoutId= setTimeout(() => {
+       searchParams.set('page', '1')
+       router.push(`?${searchParams.toString()}`)
       debounced.value = search.value
     }, 560)
 
     return () => clearTimeout(timeoutId)
   }, [search.value])
 
-// useEffect(() => {
-//   const timeoutId = setTimeout(() => {
-//     schoolDebounce.value = search.value
-//   },560)
-
-//   return clearTimeout(timeoutId)
-// }, [schoolSearch.value])
 
  const {data,isLoading,isError} = useSearchListings({
   limit: limit.value,
-  page: page.value,
+  page: page,
   location: debounced.value,
   school: debounced.value,
   enabled: search.value.trim() !== ""
@@ -55,10 +53,13 @@ if(isError) {
 search={search.value}
 setSearch={(e) => search.value = e.target.value}
 />  
- {isLoading ? <Loader /> :
+ {isLoading ? <Loader className='my-50'/> :
     <div className="card_list">
   {mapCards}
     </div>}
+     {data && !isLoading && <Pagination
+      currentPage={Number(data?.cursor)}
+      totalPages={Number(data?.numOfPages)}/>}
        </div>
   )
 }

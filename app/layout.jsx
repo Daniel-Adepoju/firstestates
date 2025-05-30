@@ -1,6 +1,7 @@
 import "@styles";
 import './globals.css'
-
+import {DarkModeProvider} from '@lib/DarkModeProvider'
+import Script from "next/script";
 export const metadata = {
   title: "FirstEstates",
   description: "",
@@ -11,10 +12,32 @@ export const metadata = {
 
 export default function RootLayout({children}) {
   return (
-       <html lang="en">
-      <body>
+       <html lang="en" suppressHydrationWarning>
+     <head>
+        <script
+        strategy="beforeInteractive">
+            {`
+    (function() {
+        const storedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        //  document.documentElement.classList.add(storedTheme');
+        if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        }
+    })();
+  `}
+        </script>
+            
+      
+      
+        </head>
+              <body>
+      <DarkModeProvider>
   {children}
+   </DarkModeProvider>
       </body>  
+       
+  
     </html> 
  
   );

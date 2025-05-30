@@ -9,7 +9,7 @@ import { WhiteLoader, Loader, DotsLoader } from "@utils/loaders"
 import { useNotification } from "@lib/Notification"
 import { useState } from "react"
 import {sendOTP,signInWithCredentials} from '@lib/server/auth'
-
+import { schoolArea,schools } from "@lib/constants"
 export const userDeets = {
   email: signal(""),
   password: signal(""),
@@ -27,6 +27,10 @@ const Form = () => {
   const router = useRouter()
   const [sending, setSending] = useState(false)
   const [loggingIn, setLoggingIn] = useState(false)
+  const [school,setSchool] = useState('')
+
+
+
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target
       if (name in userDeets) {
@@ -49,7 +53,7 @@ const handleSendOTP = async (e: React.FormEvent<HTMLFormElement>) => {
        if(res.status === 'success' && pathName === "/signup/agent") {
       router.push(`/signup/verify?role=agent&username=${userDeets.username.value}&email=${userDeets.email.value}&password=${userDeets.password.value}&phone=${userDeets.phone.value}&whatsapp=${userDeets.whatsapp.value}&address=${userDeets.address.value}`)
        } else if(res.status ==='success' && pathName === "/signup/client") {
-   router.push(`/signup/verify?role=client&username=${userDeets.username.value}&email=${userDeets.email.value}&password=${userDeets.password.value}`)
+   router.push(`/signup/verify?role=client&username=${userDeets.username.value}&email=${userDeets.email.value}&password=${userDeets.password.value}&school=${school}`)
        }
   } catch(err) {
     setSending(false)
@@ -103,7 +107,7 @@ const handleSendOTP = async (e: React.FormEvent<HTMLFormElement>) => {
   //   )
   // }
   if(status === 'loading') {  
-    return <Loader/>
+    return <Loader className="my-50"/>
   }
 
 if(loggingIn) {
@@ -171,8 +175,27 @@ if(loggingIn) {
              className='red'
              required
           />
-        </div>
 
+            {/* Unique To Students */}
+        {pathName === "/signup/client" &&
+          <div className="w-[90%] mx-auto">
+            <label>School</label>
+            <select
+            value={school}
+            onChange={(e) => setSchool(e.target.value)}
+            className="w-full border rounded p-3 dark:bg-gray-700"
+          >
+            <option value="">Select a school</option>
+            {schools.map((school) => (
+        <option
+        key={school} 
+        value={school}
+        >{school}</option>
+            ))}
+          </select>
+        </div>}
+        </div>
+      
         {/* Unique To Agents */}
         {pathName === "/signup/agent" && (
           <div className="agent_details">
@@ -211,7 +234,6 @@ if(loggingIn) {
 
         <div className="bottom">
           <div className="btns">
-            <WhiteLoader />
             <Button
               type="submit"
               disabled={sending}

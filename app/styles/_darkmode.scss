@@ -1,0 +1,127 @@
+html:is(.dark) {
+    .popularList {
+ &::-webkit-scrollbar {
+  width: 6px;
+  height: 8px;
+}
+
+&::-webkit-scrollbar-thumb {
+  background: rgb(179, 179, 179);
+  border-radius: 30px;
+}
+
+&::-webkit-scrollbar-thumb:hover {
+background:white;
+}
+
+&::-webkit-scrollbar-track {
+  background: transparent;
+}
+}
+
+  .loader {
+    color: white;
+  }
+  body {
+    background-color: color('dark');
+    color:white;
+  }
+ 
+  .nav,.nav_items,footer {
+    background-color:#1e2939;
+    color: white;
+    .goUp {
+      background-color: black;
+    }
+  } 
+  
+  .nav_items {
+      a {
+      color: white;
+      }
+     }
+    
+     .activeNav {
+      .toggle_nav{
+       .toggle_items:nth-child(2) {
+        @include transition(300ms);
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        padding: 20px;
+        right: 13.9px;
+        border-radius: 50%;
+        background-color: transparent;
+        // opacity: 30%;
+        border: 4px dashed white;
+        animation: rollBorderDark 5s ease-in-out infinite;
+      }
+     }
+    }
+  .toggle_items {
+        background-color: white;
+      }
+    .subheading, .heading {
+    color: white;
+  }
+
+ .card {
+  
+     background-color: color('black');
+  
+  
+      &:hover {
+    &::after {
+    //   background:color('wheat');
+    background-color: white;
+    }
+  } 
+    .body {
+       background-color: #1e2939;
+    }
+  .school {
+    color: white;
+    background-color: rgba(78, 78, 78, 0.546);
+    }
+  
+}
+
+
+.single_card {
+  background-color: #1e2939;
+}
+
+
+  .agentProfile,
+   .listingHistory,
+  .availableLists {
+     background-color: #1e2939;
+     color: white;
+     .agentName {
+        color:white;
+     }
+    }
+
+.form {
+
+  label {
+    opacity: 90%;
+    color: white;
+  }
+  input {
+    outline-color: white;
+    color: white;
+  }
+ 
+  .general_details,
+  .agent_details, .bottom,.board {
+    background-color: #1e2939;
+    color: white;
+  } 
+  }
+.board {
+    background-color: #1e2939;
+    color: white;
+}
+
+}

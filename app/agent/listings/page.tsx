@@ -6,12 +6,16 @@ import Link from "next/link"
 import {CardProps} from "@components/Card"
 import { useGetAgentListings } from "@lib/customApi"
 import { useUser } from "@utils/user"
-import { Loader } from "@utils/loaders"
+import { Loader, SkyBlueLoader} from "@utils/loaders"
+import {useSearchParams} from "next/navigation"
+import Pagination from "@components/Pagination"
+
 const Listings = () => {
+  const limit = 10
+  const page = useSearchParams().get('page') || '1'
   const [selected, setSelected] = useState('view') 
   const {session} = useUser()
   const [agentId,setAgentId] = useState("")
- const [spiningNum,setSpiningNum] = useState(0)
 
   useEffect(() => {
     if (session?.user.id && !agentId) {
@@ -19,20 +23,12 @@ const Listings = () => {
     }
   }, [session, agentId])
 
- useEffect(() => {
-  const intervalId = setInterval(() => {
-    setSpiningNum((prev) => {
-    if(prev === 10) setSpiningNum(0)
-      return prev + 1
-    })
-  },100)
-  return () => clearInterval(intervalId)
 
-},[spiningNum])
-  
-
-const { data,isLoading } = useGetAgentListings(agentId, {
-  enabled: !!agentId
+const { data,isLoading } = useGetAgentListings({
+  id: agentId,
+  enabled: !!agentId,
+  page,
+  limit
 })
   
    const mapCards = data?.listings?.map((item:CardProps['listing']) => {
@@ -43,27 +39,28 @@ const { data,isLoading } = useGetAgentListings(agentId, {
   return (
     <>
     <div className="listingHistory">
-       <div>
+       <div className="item">
       <span>Renting</span>
+      
        <strong className="currency">
-    {isLoading || !session ? spiningNum : 2}
+    {isLoading || !session ? <SkyBlueLoader /> : data?.currentRentings}
        </strong>
        <span>
-      {data?.listings.length > 1 ? "properties" : "property"}
+      {data?.currentRentings > 1 ? "properties" : "property"}
         </span>   
        </div>
      
-     <div>
-   <span> Currently Listing</span>
+     <div className="item">
+   <span>Listing</span>
     <strong className="currency">
-   {isLoading || !session ? spiningNum : data?.listings.length}
+   {isLoading || !session ? <SkyBlueLoader /> : data?.currentListings}
       </strong>
-   <span>{data?.listings.length > 1 ? "properties" : "property"}</span>
+   <span>{data?.currentListings > 1 ? "properties" : "property"}</span>
   </ div>
    
     </div>
     
-      <div className="addListing">
+      <div className="addListing dark:text-white">
       <Link href={'/agent/listings/add'}>
      <Image className="clickable" src={'/icons/add.svg'} width={50} height={50} alt="add"/>
       </Link>
@@ -78,6 +75,9 @@ const { data,isLoading } = useGetAgentListings(agentId, {
       </div>
   {!session || isLoading ? <Loader className="my-20" /> : mapCards }
     </div>
+     <Pagination
+   currentPage={Number(data?.cursor)}
+   totalPages={Number(data?.numOfPages)}/>
     </>
   )
 }

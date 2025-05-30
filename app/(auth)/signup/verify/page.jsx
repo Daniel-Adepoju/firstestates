@@ -20,6 +20,7 @@ const Verify = () => {
   const phone = useSearchParams().get("phone")
   const whatsapp = useSearchParams().get("whatsapp")
   const address = useSearchParams().get("address")
+  const school = useSearchParams().get("school")
   const [verifying, setVerifying] = useState(false)
   const otpValues = {
     otp1: useSignal(""),
@@ -75,6 +76,7 @@ const Verify = () => {
         username,
         email,
         userPassword: password,
+        school,
         phone: phone || null,
         whatsapp: whatsapp || null,
         address: address || null,

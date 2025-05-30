@@ -5,6 +5,8 @@ import { useUser } from "@utils/user"
 import { logOut } from "@lib/server/auth"
 import { CldImage } from "next-cloudinary"
 import { useBackdrop } from "@lib/Backdrop"
+import { useDarkMode } from "@lib/DarkModeProvider";
+import { Sun, Moon } from "lucide-react";
 const Nav = () => {
   const { session } = useUser()
   const [navbarFixed, setnavbarFixed] = useState<boolean>(false)
@@ -14,6 +16,7 @@ const Nav = () => {
    const toggleNav = backdrop?.toggleNav
    const setIsActive = backdrop?.setIsActive ?? (() => {})
    const setToggleNav = backdrop?.setToggleNav ?? (() => {})
+  const { darkMode, toggleDarkMode } = useDarkMode();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -52,6 +55,7 @@ const Nav = () => {
         className="nav_items"
         style={{ flexWrap: "wrap" }}
       >
+         
         {session?.user && (
           <CldImage
             width={35}
@@ -61,8 +65,22 @@ const Nav = () => {
             crop={"fill"}
           />
         )}
-    
-        
+      {/* mode button */}
+      <div  onClick={() => toggleDarkMode()} className="flex flex-row items-center gap-2 cursor-pointer">
+         <div
+         className='dark:bg-white bg-yellow-100 p-2 rounded-full '
+          >
+           {darkMode ?
+           (
+              <Moon size={16} color="#333" />
+            ) : (
+              <Sun size={16} color="#f59e0b" />
+            )}  
+         
+         </div>
+          <span>{darkMode ? 'Dark Mode' : 'Light Mode'}</span>
+         </div>
+
     {session?.user &&
     <>
     <Link href="/listings">Wishlist</Link>
@@ -77,6 +95,7 @@ const Nav = () => {
             <Link href="/login">Login</Link>
           </>
         )}
+       
       </div>
     </header>
   )

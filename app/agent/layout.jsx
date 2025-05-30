@@ -8,6 +8,9 @@ import ReactQueryProvider from '@utils/ReactQueryProvider';
 import Notification from '@lib/Notification'
 import {auth} from '@auth'
 import Header from "@components/admin/Header";
+import {DarkModeProvider} from '@lib/DarkModeProvider'
+
+
 export const metadata = {
 
  title: "First Estates | Agent",
@@ -25,9 +28,11 @@ export default async function AdminLayout({children}){
   //   }
 
     return (
-      <ReactQueryProvider>
+      <>
+ 
+      <DarkModeProvider>
 
-     
+       <ReactQueryProvider>
     <Provider>
       <User>
         <Notification>
@@ -47,6 +52,11 @@ export default async function AdminLayout({children}){
       </User>
     </Provider>
     </ReactQueryProvider>
+
+    </DarkModeProvider>  
+      </>
+     
+      
   );
 }
 

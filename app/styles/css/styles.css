@@ -370,7 +370,7 @@ a:has(.clickable) {
   width: 90%;
   height: 50vh;
   background-color: #fffdfb;
-  box-shadow: 2px 2px 2px 2px rgba(116, 116, 116, 0.269);
+  box-shadow: 1px 1px 1.2px 1.2px rgba(116, 116, 116, 0.269);
 }
 .board .types {
   display: flex;
@@ -925,7 +925,7 @@ a:has(.clickable) {
   margin: 0;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 2px 2px 2px 2px rgba(116, 116, 116, 0.269);
+  box-shadow: 1px 1px 1.2px 1.2px rgba(116, 116, 116, 0.269);
 }
 .agentDashboardContainer.aic .lists a {
   color: #0881a3;
@@ -938,8 +938,13 @@ a:has(.clickable) {
   width: 97%;
   margin: 10px;
   padding: 12px;
-  box-shadow: 2px 2px 2px 2px rgba(116, 116, 116, 0.269);
+  box-shadow: 1px 1px 1.2px 1.2px rgba(116, 116, 116, 0.269);
   border-radius: 8px;
+}
+.agentDashboardContainer .agentProfile {
+  box-shadow: 0.2px 0.2px 1.2px 1.2px rgba(116, 116, 116, 0.269);
+  border-radius: 20px;
+  padding-inline: 20px;
 }
 .agentDashboardContainer .agentProfile .agentProfilePic {
   width: 100px;
@@ -948,7 +953,7 @@ a:has(.clickable) {
 .agentDashboardContainer .agentProfile .agentProfilePic img {
   border: 1px solid rgba(46, 74, 98, 0.381);
   border-radius: 50%;
-  box-shadow: 2px 2px 2px 2px rgba(116, 116, 116, 0.269);
+  box-shadow: 0.6px 0.6px 1.2px 1.2px rgba(116, 116, 116, 0.269);
 }
 .agentDashboardContainer .agentProfile .agentName {
   color: rgb(8, 116, 199);
@@ -976,6 +981,7 @@ a:has(.clickable) {
   word-break: break-all;
 }
 .agentDashboardContainer .listingHistory {
+  width: 99%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -990,15 +996,18 @@ a:has(.clickable) {
     gap: 20px;
   }
 }
-.agentDashboardContainer .listingHistory div {
+.agentDashboardContainer .listingHistory .item {
   display: flex;
   flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
   width: 100%;
 }
 .agentDashboardContainer .listingHistory span {
-  width: 30%;
+  text-transform: capitalize;
+  width: 40%;
+  text-align: center;
 }
 .agentDashboardContainer .listingHistory strong {
   width: 20%;
@@ -1500,7 +1509,6 @@ a:has(.clickable) {
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  background-color: rgba(255, 255, 255, 0.281);
   gap: 40px;
   padding-inline: 10px;
   flex: 1;
@@ -1509,26 +1517,117 @@ a:has(.clickable) {
   overflow-x: hidden;
 }
 
+html:is(.dark) .popularList::-webkit-scrollbar {
+  width: 6px;
+  height: 8px;
+}
+html:is(.dark) .popularList::-webkit-scrollbar-thumb {
+  background: rgb(179, 179, 179);
+  border-radius: 30px;
+}
+html:is(.dark) .popularList::-webkit-scrollbar-thumb:hover {
+  background: white;
+}
+html:is(.dark) .popularList::-webkit-scrollbar-track {
+  background: transparent;
+}
+html:is(.dark) .loader {
+  color: white;
+}
+html:is(.dark) body {
+  background-color: rgb(47, 45, 45);
+  color: white;
+}
+html:is(.dark) .nav, html:is(.dark) .footer, html:is(.dark) .nav_items, html:is(.dark) footer {
+  background-color: #1e2939;
+  color: white;
+}
+html:is(.dark) .nav .goUp, html:is(.dark) .footer .goUp, html:is(.dark) .nav_items .goUp, html:is(.dark) footer .goUp {
+  background-color: black;
+}
+html:is(.dark) .nav_items a {
+  color: white;
+}
+html:is(.dark) .activeNav .toggle_nav .toggle_items:nth-child(2) {
+  transition: all 300ms ease-in;
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  padding: 20px;
+  right: 13.9px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 4px dashed white;
+  animation: rollBorderDark 5s ease-in-out infinite;
+}
+html:is(.dark) .toggle_items {
+  background-color: white;
+}
+html:is(.dark) .subheading, html:is(.dark) .title_heading, html:is(.dark) .heading {
+  color: white;
+}
+html:is(.dark) .card {
+  background-color: rgb(41, 42, 42);
+}
+html:is(.dark) .card:hover::after {
+  background-color: white;
+}
+html:is(.dark) .card .body {
+  background-color: #1e2939;
+}
+html:is(.dark) .card .school {
+  color: white;
+  background-color: rgba(78, 78, 78, 0.546);
+}
+html:is(.dark) .single_card {
+  background-color: #1e2939;
+}
+html:is(.dark) .agentProfile,
+html:is(.dark) .listingHistory,
+html:is(.dark) .availableLists {
+  background-color: #1e2939;
+  color: white;
+}
+html:is(.dark) .agentProfile .agentName,
+html:is(.dark) .listingHistory .agentName,
+html:is(.dark) .availableLists .agentName {
+  color: white;
+}
+html:is(.dark) .form label {
+  opacity: 90%;
+  color: white;
+}
+html:is(.dark) .form input {
+  outline-color: white;
+  color: white;
+}
+html:is(.dark) .form .general_details,
+html:is(.dark) .form .agent_details, html:is(.dark) .form .bottom, html:is(.dark) .form .board {
+  background-color: #1e2939;
+  color: white;
+}
+html:is(.dark) .board {
+  background-color: #1e2939;
+  color: white;
+}
+
 * {
   box-sizing: border-box;
   scroll-behavior: smooth;
 }
 
-::-webkit-scrollbar {
+.popularList::-webkit-scrollbar {
   width: 6px;
   height: 8px;
 }
-
-::-webkit-scrollbar-thumb {
-  background: rgba(20, 79, 155, 0.5411764706);
+.popularList::-webkit-scrollbar-thumb {
+  background: #fde9df;
   border-radius: 30px;
 }
-
-::-webkit-scrollbar-thumb:hover {
-  background: #718096;
+.popularList::-webkit-scrollbar-thumb:hover {
+  background: #f29829;
 }
-
-::-webkit-scrollbar-track {
+.popularList::-webkit-scrollbar-track {
   background: transparent;
 }
 
@@ -1541,6 +1640,7 @@ body {
   width: 100%;
   min-height: 100vh;
   overflow-x: hidden;
+  font-family: "Quicksand", sans-serif;
 }
 
 body:has(.verify, .verify form) {
@@ -1793,6 +1893,11 @@ body:has(.verify, .verify form) {
   animation: blink 500ms alternate infinite;
   background-color: rgb(6, 103, 164);
 }
+@media (max-width: 700px) {
+  .footer .goUp {
+    top: -130px;
+  }
+}
 .footer .goUp .clickable {
   display: flex;
   flex-direction: row;
@@ -1832,7 +1937,7 @@ footer.hide {
   justify-content: flex-start;
   background-color: rgb(255, 255, 255);
   width: 300px;
-  box-shadow: 1px 1px 1px 1px rgb(222, 214, 214);
+  box-shadow: 1px 1px 1px 1px rgba(128, 128, 128, 0.662);
   cursor: pointer;
   border-radius: 5px 5px 10px 10px;
   padding-top: 6px;
@@ -2031,7 +2136,7 @@ footer.hide {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  box-shadow: 2px 2px 2px 2px rgba(116, 116, 116, 0.269);
+  box-shadow: 0.5px 0.5px 1.2px 1.2px rgba(116, 116, 116, 0.269);
   font-family: "Istok Web", sans-serif;
   gap: 10px;
   margin-inline: auto;

@@ -7,7 +7,7 @@ import { Skeleton } from "./ui/skeleton"
 import Link from "next/link"
 export default function PopularThisWeek() {
   const { data, isLoading } = useGetPopularListings()
-  console.log(data)
+
   if (isLoading) return (
     <>
     <h2 className="subheading p-1  text-xl font-semibold mx-auto smallLine">Popular This Week</h2>
@@ -34,21 +34,34 @@ export default function PopularThisWeek() {
           <Link
             key={listing?._id}
             href={`/listings/single_listing?id=${listing?._id}`}
-            className="popularCard snap-center flex flex-col border w-[200px] h-50 p-2 rounded-lg shadow-md bg-white dark:bg-gray-900"
+            className="popularCard snap-center flex flex-col border w-[200px] min-h-50 p-2 rounded-lg shadow-md bg-white dark:bg-gray-800"
           >
-            <div className="w-[100%] h-50 relative">
+            <div className="w-[100%] h-30 relative">
+              {listing?.mainImage?.startsWith("http") ? (
+              <img
+                src='/images/house3.jpg'
+                alt="post_img"
+                className="object-contain mt-[-60%] w-full rounded-t-lg"
+              />
+            ) : (
               <CldImage
-                    fill={true}
-                    alt="post_img"
-                    src={listing?.mainImage}
-                    crop={{
-                        type: "auto",
-                        source: true,
-                      }}/> 
+                fill={true}
+                alt="post_img"
+                src={listing.mainImage}
+                crop={{
+                  type: "auto",
+                  source: true,
+                }}
+              />
+            )}
             </div>
+            {/* <div className="pt-4"> */}
 
-            <div className="text-lg font-medium pb-2 capitalize">{listing?.school}</div>
-            <div className="home_details flex flex-row justify-evenly items-center">
+        
+            <div className="text-lg font-bold capitalize">{listing?.school}</div>
+             <div className="dark:bg-gray-700 bg-slate-100 rounded-sm text-sm mb-2 font-small capitalize">{listing?.location}</div>
+              {/* </div> */}
+           <div className="home_details flex flex-row justify-evenly items-center">
               <div className="flex flex-col">
                 <Image
                   width={30}

@@ -48,15 +48,24 @@ const Card = ({ edit, listing}: CardProps) => {
         <div className="card">
           <Link className='no-underline' href={`/listings/single_listing?id=${listing?._id}`}>
              <div className="houseImg">
-            <CldImage
-              fill={true}
-              alt="post_img"
-              src={listing?.mainImage}
-              crop={{
-                type: "auto",
-                source: true,
-              }}
-            />
+            {listing?.mainImage?.startsWith("http") ? (
+  <img
+    src='/images/house3.jpg'
+    alt="post_img"
+    className="object-contain mt-[-60%] w-full rounded-t-lg"
+  />
+) : (
+  <CldImage
+    fill={true}
+    alt="post_img"
+    src={listing.mainImage}
+    crop={{
+      type: "auto",
+      source: true,
+    }}
+  />
+)}
+
           </div>
 
           <div className="body">
@@ -101,7 +110,7 @@ const Card = ({ edit, listing}: CardProps) => {
                     <span>{listing?.toilets} toilets</span>
                   </div>
                 </div>
-           <div className="school">{listing?.school}</div>
+           <div className="school rounded-sm">{listing?.school}</div>
                 <div className="agent">
                   <CldImage
                     width={20}

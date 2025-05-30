@@ -33,7 +33,7 @@
     }
   }
   .agentProfile,
-  .listingHistory,
+   .listingHistory,
   .availableLists {
     background-color: color("white");
     width: 97%;
@@ -41,14 +41,18 @@
     @include shadow;
     border-radius: 8px;
   }
+
   .agentProfile {
+    @include shadow(0.2px);
+    border-radius: 20px;
+    padding-inline: 20px;
     .agentProfilePic {
       width: 100px;
       border-radius: 50%;
       img {
         border: 1px solid rgba(46, 74, 98, 0.381);
         border-radius: 50%;
-        @include shadow();
+        @include shadow(0.6px);
       }
     }
     .agentName {
@@ -69,22 +73,26 @@
     }
   }
   .listingHistory {
+    width: 99%;
     @media (min-width: 700px) {
       @include flex(row, center, flex-start);
       gap: 20px;
     }
     @include flex(column, center, flex-start);
-    div {
+    .item {
       // @include center();
-      @include flex(row, center, space-around);
-      // gap: 10px;
+      @include flex(row, flex-start, space-between);
+      gap: 10px;
       width: 100%;
     }
     span {
-      width: 30%;
+      text-transform: capitalize;
+      width: 40%;
+      text-align: center;
     }
     strong {
       width: 20%;
+      // align-self: center;
     }
   }
   .availableLists {
@@ -144,7 +152,6 @@
 .addListing {
   padding:26px 0;
   border-radius: 18px;
-  // border: 1.8px solid rgba(174, 174, 174, 0.721);
   width: 100%;
   @include center();
   gap: 10px;
@@ -157,7 +164,6 @@
 .adminDashboard {
 @include flex(column, center, flex-start);
   width: 100%;
-  // background-color: grey;
   .adminDashboard_content {
     display: grid;
     justify-content: center;
@@ -167,11 +173,8 @@
     column-gap: 20px;
     margin-top: 20px;
     grid-template-columns: repeat(auto-fill,minmax(350px,1fr));
-    width: 100%;
-    // border: 2px solid purple;
+    width: 100%;;
       .content_item {
-        // align-self: end;
-  // border: 2px solid blue;
   background-color: rgb(255, 255, 255);
   border-radius: 10px;
   padding: 20px;

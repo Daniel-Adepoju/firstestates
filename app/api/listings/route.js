@@ -1,6 +1,8 @@
 import { connectToDB } from "@utils/database"
 import Listing from "@models/listing"
 import { NextResponse } from "next/server"
+import { auth } from "@auth"
+import { faker } from "@faker-js/faker";
 
 export const GET = async (req) => {
 const {searchParams} = new URL(req.url)
@@ -30,7 +32,7 @@ const {searchParams} = new URL(req.url)
     const listings = await Listing.find() 
     const numOfPages = Math.ceil(listings.length / Number(limit))
     if (cursor >= numOfPages) {
-      cursor = undefined
+      cursor = numOfPages
     }
 
     let listingConfig
@@ -42,9 +44,50 @@ const {searchParams} = new URL(req.url)
     listingConfig = listingConfig.skip(skipNum).limit(limit).sort('-createdAt')
 
     const posts = await listingConfig
- return NextResponse.json({posts,cursor}, { status: 200 }) 
+ return NextResponse.json({posts,cursor,numOfPages}, { status: 200 }) 
   } catch (err) {
     console.log(err)
     return NextResponse.json(err, { status: 500}) 
   }
 }
+
+
+
+
+// seeding
+// export const GET = async (req) => {
+//   await connectToDB() 
+//     const session = await auth()
+ 
+//   try {
+//     for(leti=0; i < 36; i++) {
+//           const val = {
+//         school: 'Lasu',
+//         mainImage: faker.image.urlLoremFlickr({ category: "house" }),
+//         gallery: Array.from({ length: 4 }, () => faker.image.urlLoremFlickr({ category: "interior" })),
+//         address: faker.location.streetAddress(),
+//         location: faker.location.city(),
+//         price: faker.number.int({ min: 50000, max: 300000 }),
+//         amenities: ["Water", "Light", "Parking"],
+//         description: faker.lorem.paragraph(),
+//         bedrooms: faker.number.int({ min: 1, max: 6 }),
+//         bathrooms: faker.number.int({ min: 1, max: 4 }),
+//         toilets: faker.number.int({ min: 1, max: 4 }),
+//         isFeatured: faker.datatype.boolean(),
+//         isVerified: faker.datatype.boolean(),
+//         status: "available",
+//         weeklyViews: 0,
+//         favorites: [],
+//       };
+//       const newVal = { ...val, agent: session?.user.id }
+//     const newListing = new Listing(newVal)
+//     await newListing.save()
+//     }
+//     return NextResponse.json({posts:[]}, { status: 201 }) 
+
+//   } catch (err) {
+// console.log(err)
+// return NextResponse.json(err, { status: 500})
+// }
+// }
+

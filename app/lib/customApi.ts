@@ -2,12 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import { axiosdata } from "@utils/axiosUrl";
 
 interface Config {
-  page: number;
+  page: string;
   limit: number;
-  location: string;
+  location?: string;
   price?: string;
   school?:string;
   enabled?: boolean;
+  id?:string;
 }
 
 // interface ListingParams {
@@ -15,8 +16,9 @@ interface Config {
 // }
 
 export const useGetListings = ({page,limit,location,school,price}: Config) => {
-  const getListings = async (page:number) => {
+  const getListings = async (page:string) => {
     const res = await axiosdata.value.get(`/api/listings?limit=${limit}&page=${page}&location=${location}&school=${school}&price=${price}`)
+    console.log(res)
     return res.data;
   }
 
@@ -28,15 +30,15 @@ export const useGetListings = ({page,limit,location,school,price}: Config) => {
   return {data,isLoading,isError}
 }
 
-export const useGetAgentListings = (id: string, { enabled = false }: { enabled?: boolean }) => {
-  const getListings = async () => {
-    const res = await axiosdata.value.get(`/api/agent/listings?id=${id}`)
+export const useGetAgentListings = ({id,page,limit,enabled=false} :Config) => {
+  const getListings = async (page:string) => {
+    const res = await axiosdata.value.get(`/api/agent/listings?id=${id}&limit=${limit}&page=${page}`)
     return res.data;
   }
 
   const {data, isLoading, isError} = useQuery({
-    queryKey: ["agentListings",id],
-    queryFn: () => getListings(),
+    queryKey: ["agentListings",id,page],
+    queryFn: () => getListings(page),
     enabled,
   })
 
@@ -45,7 +47,7 @@ export const useGetAgentListings = (id: string, { enabled = false }: { enabled?:
 
 
 export const useSearchListings = ({page,limit,location,school,enabled=true}: Config) => {
-  const getListings = async (page:number) => {
+  const getListings = async (page:string) => {
     const res = await axiosdata.value.get(`/api/listings/search?limit=${limit}&page=${page}&location=${location}&school=${school}`)
     return res.data;
   }

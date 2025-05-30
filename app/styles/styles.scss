@@ -6,6 +6,7 @@
 @import "./functions";
 @import "./dashboards";
 @import "./admin";
+@import "./darkmode";
 * {
   // outline: 1px solid green;
   // margin: 0;
@@ -13,24 +14,26 @@
   box-sizing: border-box;
   scroll-behavior: smooth;
 }
-
-::-webkit-scrollbar {
+.popularList {
+ &::-webkit-scrollbar {
   width: 6px;
   height: 8px;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #144f9b8a;
+&::-webkit-scrollbar-thumb {
+  background: color('lightWheat');
   border-radius: 30px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #718096;
+&::-webkit-scrollbar-thumb:hover {
+  background: color('wheat');
 }
 
-::-webkit-scrollbar-track {
+&::-webkit-scrollbar-track {
   background: transparent;
 }
+}
+
 
 body {
   @include flex(column, flex-start, flex-start);
@@ -38,8 +41,10 @@ body {
   width: 100%;
   min-height: 100vh;
   overflow-x: hidden;
+  font-family: font('list');
  
 }
+
 body:has(.verify) {
   background-color: rgba(0, 0, 0, 0.895);
 }
@@ -265,6 +270,9 @@ body:has(.verify) {
     isolation: isolate;
     animation: blink 500ms alternate infinite;
     background-color: rgb(6, 103, 164);
+    @media (max-width: 700px) {
+       top: calc(0px + -130px);
+    }
     .clickable {
       @include center();
       animation: none;
@@ -299,7 +307,7 @@ footer.hide {
   @include flex(column, center, flex-start);
   background-color: rgb(255, 255, 255);
   width: 300px;
-  box-shadow: 1px 1px 1px 1px rgb(222, 214, 214);
+  box-shadow: 1px 1px 1px 1px rgba(128, 128, 128, 0.662);
   cursor: pointer;
   border-radius: 5px 5px 10px 10px;
   padding-top: 6px;
@@ -473,7 +481,7 @@ footer.hide {
 }
 .single_card {
   @include flex(column, center, flex-start);
-  @include shadow();
+  @include shadow(0.5px);
   font-family: font("card");
   gap: 10px;
   margin-inline: auto;

@@ -10,6 +10,10 @@ export const createListing = async (val) => {
   const newVal = { ...val, agent: session?.user.id }
   await connectToDB()
   try {
+    if (!session?.user.id) {
+      return {message:"Unauthorized", status:"danger"};
+    }
+
     const newListing = new Listing(newVal)
     await newListing.save()
     return { message: "Created Successfully", status: "success" }
