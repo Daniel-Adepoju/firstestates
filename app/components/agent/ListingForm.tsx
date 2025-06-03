@@ -13,7 +13,8 @@ import { useRouter } from "next/navigation"
 import { useState,useEffect } from "react"
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { schoolArea,schools } from "@lib/constants"
-interface CloudinaryResult  {
+
+export interface CloudinaryResult  {
  public_id: string
 }
 interface DeleteFromGalleryEvent extends React.MouseEvent<HTMLImageElement> {

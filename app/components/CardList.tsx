@@ -11,8 +11,6 @@ import Filter from './Filter'
 import { Skeleton } from "./ui/skeleton"
 import Image from "next/image"
 import { useUser } from "@utils/user"
-import { useEffect } from "react"
-import { demoListings } from "./demolisting"
 import Pagination from './Pagination'
 
 const CardList = () => {
@@ -25,6 +23,8 @@ const school = useSignal("")
 const price = useSignal("")
 const active = useSignal(false)
 const router = useRouter()
+const placeholder = useSignal<string>('Search by school or location')
+const search = useSignal('')
 
 // useEffect(() => {
 //   if(session) {
@@ -54,7 +54,14 @@ if(isError) {
   return (
     <>
     <div className="w-full flex flex-col justify-center items-center md:items-end md:pr-2">
-   <Searchbar goToSearch={() => router.push('/search')}/>
+   <Searchbar
+   search={search.value}
+   setSearch={() => search.value = ''}
+   placeholder={placeholder.value}
+   goToSearch={() => {
+    placeholder.value = 'Redirecting to search page...'
+    router.push('/search')
+  }}/>
 
  <div 
     onClick={() => active.value =!active.value}
@@ -101,6 +108,9 @@ active={active.value}
    {!isLoading && <Pagination
    currentPage={Number(data?.cursor)}
    totalPages={Number(data?.numOfPages)}/>}
+
+   
+
    </>
   )
 }

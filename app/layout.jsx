@@ -14,8 +14,7 @@ export default function RootLayout({children}) {
   return (
        <html lang="en" suppressHydrationWarning>
      <head>
-        <script
-        strategy="beforeInteractive">
+        <script>
             {`
     (function() {
         const storedTheme = localStorage.getItem('theme');

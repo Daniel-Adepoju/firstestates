@@ -23,17 +23,24 @@ background:white;
     color: white;
   }
   body {
-    background-color: color('dark');
+    background-color: color('darkModePrimary');
     color:white;
   }
  
   .nav,.nav_items,footer {
-    background-color:#1e2939;
+    background-color:color('darkModeSecondary');
     color: white;
     .goUp {
       background-color: black;
     }
   } 
+  .logo {
+    color: color('coffee');
+    &::after,
+    &::before {
+    background-color: color('coffee');
+    }
+  }
   
   .nav_items {
       a {
@@ -54,12 +61,12 @@ background:white;
         background-color: transparent;
         // opacity: 30%;
         border: 4px dashed white;
-        animation: rollBorderDark 5s ease-in-out infinite;
+        animation: rollBorderWhite 5s ease-in-out infinite;
       }
      }
     }
   .toggle_items {
-        background-color: white;
+        background-color: color('coffee');
       }
     .subheading, .heading {
     color: white;
@@ -77,7 +84,12 @@ background:white;
     }
   } 
     .body {
-       background-color: #1e2939;
+       background-color: color('darkModeSecondary');
+       .address {
+        &:after {
+          background-color: color('coffee');
+        }
+       }
     }
   .school {
     color: white;
@@ -85,22 +97,31 @@ background:white;
     }
   
 }
-
-
-.single_card {
-  background-color: #1e2939;
+.agentCardName {
+  color: color('coffee')
+}
+.popularCard, .pagination {
+  background-color: color('darkModeSecondary');
 }
 
 
-  .agentProfile,
-   .listingHistory,
-  .availableLists {
-     background-color: #1e2939;
+.single_card, .user-card {
+  background-color: color('darkModeSecondary');
+}
+
+
+  .agentProfile,.listingHistory, .availableLists
+   {
+     background-color: color('darkModeSecondary');
      color: white;
      .agentName {
         color:white;
      }
     }
+    // .availableLists {
+    // background-color: rgb(49, 51, 65);
+    // color: white;
+    // }
 
 .form {
 
@@ -114,14 +135,32 @@ background:white;
   }
  
   .general_details,
-  .agent_details, .bottom,.board {
-    background-color: #1e2939;
+  .agent_details, .bottom {
+    background-color: color('darkModeSecondary');
     color: white;
   } 
   }
-.board {
-    background-color: #1e2939;
+.board,.editSide {
+    background-color: color('darkModeSecondary');
     color: white;
 }
 
+
+.adminDashboard {
+  .adminDashboard_content {
+  .content_item {
+  background-color: color('darkModeSecondary');
+}
+  }
+}
+
+.currency {
+  color: color('coffee')
+}
+
+.txt {
+  &:after {
+    background-color: color('coffee');
+  }
+}
 }

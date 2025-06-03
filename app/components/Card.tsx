@@ -7,6 +7,8 @@ import Image from "next/image"
 import { useRouter } from "next/navigation"
 import DeleteModal from "./DeleteModal"
 import { DeleteLoader } from '@utils/loaders';
+import { useDarkMode } from "@lib/DarkModeProvider"
+import {Toilet, Bed, Bath, MapPin} from "lucide-react"
 
 interface Agent {
   profilePic: string;
@@ -39,6 +41,8 @@ const Card = ({ edit, listing}: CardProps) => {
   const router = useRouter()
   const deleteRef = useRef<HTMLDialogElement>(null)
   const [deleting,setDeleting] = useState(false)
+  const {darkMode} = useDarkMode()
+  
   const openDialog = () => {
     deleteRef.current?.showModal()
   }
@@ -71,42 +75,34 @@ const Card = ({ edit, listing}: CardProps) => {
           <div className="body">
             <div className="location heading">{listing?.location}</div>
             <div className="address">
-              <Image
-                width={20}
-                height={20}
-                alt="gps_icon"
-                src="/icons/location.svg"
-              />
+            <MapPin 
+            size={24}
+            color={darkMode ? "#A88F6E" : "#0881A3"}
+            />
               <span>{truncateAddress(address, 30)}</span>
             </div>
             {!edit && (
               <>
                 <div className="home_details">
                   <div>
-                    <Image
-                      width={30}
-                      height={24}
-                      alt="icon"
-                      src="/icons/bed.png"
-                    />
+                        <Bed
+                  size={30}
+                  color={darkMode ? "#A88F6E" : "#0881A3"}
+                />
                     <span>{listing?.bedrooms} bedrooms</span>
                   </div>
                   <div>
-                    <Image
-                      width={30}
-                      height={24}
-                      alt="icon"
-                      src="/icons/bath.png"
-                    />
+                      <Bath
+                  size={30}
+                  color={darkMode ? "#A88F6E" : "#0881A3"}
+                />
                     <span>{listing?.bathrooms} bathrooms</span>
                   </div>
                   <div>
-                    <Image
-                      width={30}
-                      height={24}
-                      alt="icon"
-                      src="/icons/toilet.png"
-                    />
+                    <Toilet
+                  size={30}
+                  color={darkMode ? "#A88F6E" : "#0881A3"}
+                />
                     <span>{listing?.toilets} toilets</span>
                   </div>
                 </div>
@@ -119,7 +115,7 @@ const Card = ({ edit, listing}: CardProps) => {
                     src={listing?.agent.profilePic}
                   />
                   <div>
-              Listed by <span>{listing?.agent.username}</span>
+              Listed by <span className='agentCardName'>{listing?.agent.username}</span>
                   </div>
                 </div>
               </>

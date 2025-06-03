@@ -77,9 +77,9 @@ const Verify = () => {
         email,
         userPassword: password,
         school,
-        phone: phone || null,
-        whatsapp: whatsapp || null,
-        address: address || null,
+        ...(phone && {phone}),
+       ...(whatsapp && { whatsapp }),
+  ...(address && {address})
       })
       notification.setIsActive(true)
       notification.setMessage(res.message)

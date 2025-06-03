@@ -30,6 +30,9 @@ const UserSchema = new Schema({
      whatsapp: {
         type: Number,
      },
+     address: {
+        type: String,
+     },
      school: {
         type: String,
      },
@@ -42,7 +45,7 @@ const UserSchema = new Schema({
         type:String,
         default:new Date().toLocaleDateString("en-GB")
     }
-})
+},{timestamps: true})
 
 const User = models?.User || model("User",UserSchema)
 export default User

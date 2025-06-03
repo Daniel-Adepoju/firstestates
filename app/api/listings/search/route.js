@@ -22,15 +22,18 @@ const {searchParams} = new URL(req.url)
 
   try {
     await connectToDB()
+    let totalDocs = await Listing.countDocuments({$or:searchOptions})
 
     let listingConfig
-    let totalDocs = await Listing.countDocuments({$or:searchOptions})
+
     if(searchOptions.length > 0) {
     listingConfig = Listing.find({$or:searchOptions}).populate(["agent"])
     } else {
     listingConfig = Listing.find().populate(["agent"])
     }
+
     listingConfig = listingConfig.skip(skipNum).limit(limit).sort('-createdAt')
+    
   const numOfPages = Math.ceil(totalDocs / Number(limit))
     if (cursor >= numOfPages) {
       cursor = numOfPages

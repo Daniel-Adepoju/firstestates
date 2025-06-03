@@ -13,8 +13,6 @@ import { schoolArea,schools } from "@lib/constants"
 import {editListing} from "@lib/server/listing"
 import Image from "next/image"
 
-
-
 const EditForm = () => {
   useSignals()
   const listingId = useSearchParams().get('id')
@@ -28,44 +26,43 @@ const EditForm = () => {
   const [areas,setAreas] = useState<string[]>([])
   const [status,setStatus] = useState("")
   const listingDeets = {
-  description: useSignal(""),
-  price: useSignal(""),
-  address: useSignal(""),
-  bedrooms: useSignal(""),
-  bathrooms: useSignal(""),
-  toilets: useSignal(""),
-}
+    description: useSignal(""),
+    price: useSignal(""),
+    address: useSignal(""),
+    bedrooms: useSignal(""),
+    bathrooms: useSignal(""),
+    toilets: useSignal(""),
+  }
   console.log(data)
 
-useEffect(() => {
-  if (data) {
-    setArea(data.location)
-    setSchool(data.school)
-    setStatus(data.status)
-    listingDeets.description.value = data.description
-    listingDeets.price.value = data.price
-    listingDeets.address.value = data.address
-    listingDeets.bedrooms.value = data.bedrooms
-    listingDeets.bathrooms.value = data.bathrooms
-    listingDeets.toilets.value = data.toilets
-  }
-}, [data])
+  useEffect(() => {
+    if (data) {
+      setArea(data.location)
+      setSchool(data.school)
+      setStatus(data.status)
+      listingDeets.description.value = data.description
+      listingDeets.price.value = data.price
+      listingDeets.address.value = data.address
+      listingDeets.bedrooms.value = data.bedrooms
+      listingDeets.bathrooms.value = data.bathrooms
+      listingDeets.toilets.value = data.toilets
+    }
+  }, [data])
 
-useEffect(() => {
-  if(!school) {
-    setAreas([])
-  }
-  if(school) {
-   const areaOptions = schoolArea[school as keyof typeof schoolArea] || []
-    setAreas(areaOptions)  
-}
-},[school]) 
+  useEffect(() => {
+    if(!school) {
+      setAreas([])
+    }
+    if(school) {
+      const areaOptions = schoolArea[school as keyof typeof schoolArea] || []
+      setAreas(areaOptions)  
+    }
+  },[school]) 
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-      listingDeets[name as keyof typeof listingDeets].value = value
+    listingDeets[name as keyof typeof listingDeets].value = value
   }
-
 
   //Edit Listing
   const handleEditListing = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -91,7 +88,7 @@ useEffect(() => {
         notification.setType(res.status)
       }
       creating.value = false
-    router.push('/agent/listings')
+      router.push('/agent/listings')
     } catch (err) {
       creating.value = false
       console.log(err)
@@ -114,21 +111,20 @@ useEffect(() => {
           onSubmit={handleEditListing}
           className="form listing"
         >
-            {/* Status */}
-            <div className="form_group">
-          <label>Set Status</label> 
-           <select
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-            className="w-full border rounded p-2"
-          >
- <option value="available">Available</option>
-  <option value="rented">Rented</option>
-          </select>
-            </div>
-        
+          {/* Status */}
+          <div className="form_group">
+            <label>Set Status</label> 
+            <select
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              className="w-full border rounded p-2 dark:bg-gray-600 dark:text-white"
+            >
+              <option value="available">Available</option>
+              <option value="rented">Rented</option>
+            </select>
+          </div>
 
-            {/* Desc */}
+          {/* Desc */}
           <div className="form_group">
             <label htmlFor="description">Description</label>
             <input
@@ -153,7 +149,6 @@ useEffect(() => {
               placeholder="Enter the price"
             />
           </div>
-
 
           {/* Amenities */}
           <div className="form_group amenities">
@@ -208,42 +203,45 @@ useEffect(() => {
             />
           </div>
 
-          {/*School Select*/}
+          {/* School Select */}
           <div className="form_group">
             <label>School</label>
             <select
-            value={school}
-            onChange={(e) => setSchool(e.target.value)}
-            className="w-full border rounded p-2"
-          >
-            <option value="">Select a school</option>
-            {schools.map((school) => (
-        <option
-        key={school} 
-        value={school}
-        >{school}</option>
-            ))}
-          </select>
-        </div>
+              value={school}
+              onChange={(e) => setSchool(e.target.value)}
+              className="w-full border rounded p-2 dark:bg-gray-600 dark:text-white"
+            >
+              <option value="">Select a school</option>
+              {schools.map((school) => (
+                <option
+                  key={school} 
+                  value={school}
+                >
+                  {school}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        {/* Location Select */}
-        <div className="form_group">
-          <label>Location</label>
-          <select
-            value={area}
-            onChange={(e) => setArea(e.target.value)}
-            className="w-full border rounded p-2"
-          >
-            <option value="">Select a location</option>
-            {areas.map((area) => (
-              <option
-              key={area}
-              value={area}>
-                {area}</option>
-            ))}
-          </select>
-        </div>
-
+          {/* Location Select */}
+          <div className="form_group">
+            <label>Location</label>
+            <select
+              value={area}
+              onChange={(e) => setArea(e.target.value)}
+              className="w-full border rounded p-2 dark:bg-gray-600 dark:text-white"
+            >
+              <option value="">Select a location</option>
+              {areas.map((area) => (
+                <option
+                  key={area}
+                  value={area}
+                >
+                  {area}
+                </option>
+              ))}
+            </select>
+          </div>
 
           <div>
             <Button

@@ -141,7 +141,11 @@
   background-color: color("white");
   padding: 4px 6px;
   border-radius: 0 0px 20px 20px;
+
   @include shadow(1px, 1px);
+   @media (max-width:768px) {
+    margin-top: -45px;
+  }
   img:hover {
     @include transition(300ms);
     border: 1px solid transparent;

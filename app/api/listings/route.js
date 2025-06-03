@@ -29,8 +29,8 @@ const {searchParams} = new URL(req.url)
 
   try {
     await connectToDB()
-    const listings = await Listing.find() 
-    const numOfPages = Math.ceil(listings.length / Number(limit))
+    const listings = await Listing.countDocuments({$and:searchOptions})
+    const numOfPages = Math.ceil(listings / Number(limit))
     if (cursor >= numOfPages) {
       cursor = numOfPages
     }

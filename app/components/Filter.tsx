@@ -2,6 +2,8 @@
 import Button from "@lib/Button"
 import { useEffect, useState } from "react"
 import { useUser } from "@utils/user"
+import { schoolArea, schools } from "@lib/constants"
+import { useRouter, useSearchParams } from "next/navigation"
 
 interface FilterProps {
     selectedSchool: Record<string, any>;
@@ -9,13 +11,11 @@ interface FilterProps {
     selectedPrice: Record<string,any>;
     active:boolean;
 } 
-const schoolArea = {
-  "North West": ["Kaduna", "Kano", "Katsina", "Kebbi", "Kogi", "Kwara", "Lagos", "Nasarawa", "Niger", "Plateau", "Rivers", "Sokoto", "Taraba", "Yobe"],
-  "North East": ["Benue", "Borno", "Gombe", "Jigawa", "Kaduna", "Kano", "Katsina", "Kebbi", "Kogi", "Kwara", "Lagos", "Ogun", "Ondo", "Osun", "Oyo"],
-  "Lasu": ["First Gate","Iyana School","Ipaye","Post Office"]
-}
-const schools = Object.keys(schoolArea)
+
 const Filter = ({active,selectedSchool, selectedArea,selectedPrice}: FilterProps) => {
+    const params = useSearchParams()
+  const searchParams = new URLSearchParams(params.toString())
+  const router = useRouter()
   const [school, setSchool] = useState("")
   const [area, setArea] = useState("")
   const [areas,setAreas] = useState<string[]>([])
@@ -42,6 +42,8 @@ useEffect(() => {
     selectedSchool.value = school
     selectedArea.value = area
     selectedPrice.value = price
+       searchParams.set('page', '1')
+       router.push(`?${searchParams.toString()}`)
   }
 
   return (
@@ -56,7 +58,7 @@ useEffect(() => {
           <select
             value={school}
             onChange={(e) => setSchool(e.target.value)}
-            className="w-full border rounded p-2"
+            className="dark:bg-gray-600 w-full border rounded p-2"
           >
             <option value="">All Schools</option>
             {schools.map((school) => (
@@ -72,7 +74,7 @@ useEffect(() => {
           <select
             value={area}
             onChange={(e) => setArea(e.target.value)}
-            className="w-full border rounded p-2"
+            className="dark:bg-gray-600 w-full border rounded p-2"
           >
             <option value="">All Areas</option>
             {areas.map((area) => (

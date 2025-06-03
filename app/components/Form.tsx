@@ -9,7 +9,7 @@ import { WhiteLoader, Loader, DotsLoader } from "@utils/loaders"
 import { useNotification } from "@lib/Notification"
 import { useState } from "react"
 import {sendOTP,signInWithCredentials} from '@lib/server/auth'
-import { schoolArea,schools } from "@lib/constants"
+import {schools } from "@lib/constants"
 export const userDeets = {
   email: signal(""),
   password: signal(""),
@@ -45,7 +45,6 @@ const handleSendOTP = async (e: React.FormEvent<HTMLFormElement>) => {
   setSending(true)
   try {
     const res = await sendOTP({email:userDeets.email.value})
-    setSending(false)
     notification.setIsActive(true)
       notification.setMessage(res.message)
        notification.setType(res.status)
@@ -201,7 +200,7 @@ if(loggingIn) {
           <div className="agent_details">
             <label htmlFor="phone">Phone Number</label>
             <input
-              type="number"
+              type="tel"
               id="phone"
               name="phone"
               onChange={(e) => handleInput(e)}
@@ -211,7 +210,7 @@ if(loggingIn) {
             />
             <label htmlFor="whatsApp">WhatsApp Number</label>
             <input
-              type="number"
+              type="tel"
               id="whatsapp"
               name="whatsapp"
               onChange={(e) => handleInput(e)}

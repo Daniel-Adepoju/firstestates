@@ -6,11 +6,12 @@ import User from "@models/user"
 import { storeOtpInCookie } from "@utils/otpUtils"
 import { hash } from "bcryptjs"
 import { getOtpFromCookie } from "@utils/otpUtils"
-import { signIn, signOut } from "@auth"
+import { signIn, signOut, auth } from "@auth"
 import { headers } from "next/headers"
 import ratelimit from "@lib/server/ratelimit"
 import {workflowClient} from "@lib/server/workflow"
 import { redirect } from "next/navigation"
+import { deleteImage } from "./deleteImage"
 
 export const sendOTP = async ({ email }) => {
   try {
@@ -90,10 +91,10 @@ export const verifyOTP = async (val) => {
         email: val.email,
         role: val.role,
         password,
-        phone: val.role === "client" ? null : val.phone,
-        whatsapp: val.role === "client" ? null : val.whatsapp,
-        address: val.role === "client" ? null : val.address,
-        school: val.school || null,
+        school: val.role === "client" ? (val.school || null) : undefined,
+   ...(val.role === "agent" && val.phone && { phone: val.phone }),
+  ...(val.role === "agent" && val.whatsapp && { whatsapp: val.whatsapp }),
+  ...(val.role === "agent" && val.address && { address: val.address }),
       }
 
       const user = new User(newUser)
@@ -145,5 +146,40 @@ export const signInWithCredentials = async (email, password) => {
 
 export const logOut = async () => {
   await signOut("/")
-  return redirect("/")
+   return { message: 'Logged Out Successfully', status: "success" }
+}
+
+export const updateUser = async(val) => {
+  try {
+await connectToDB()
+const session = await auth()
+const userId = session.user.id
+ 
+await User.findOneAndUpdate(
+  {_id: userId},
+  val,
+  {
+    new: true,
+    runValidators: true,
+  }
+)
+      return { message: 'Update Successful', status: "success" }
+  } catch (err) {
+    console.log(err)
+      return { message: res.error, status: "danger" }
+  }
+
+}
+
+export const updateProfilePic = async(val) => {
+  console.log(val)
+  try {
+    if (val.oldPic !== 'firstestatesdefaultuserpicture') {
+ await deleteImage(val.oldPic)
+    }
+ await updateUser({profilePic: val.newPic})
+   return { message: 'Profile picture updated successfully', status: "success" }
+  } catch (err) {
+    console.log(err)
+  }
 }

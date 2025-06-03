@@ -20,7 +20,7 @@
 }
 
 .heading, .subheading, .title_heading {
-  color: rgb(8, 116, 199);
+  color: #0874c7;
   padding-left: 6px;
   margin-top: 10px;
   font-size: 22px;
@@ -31,7 +31,7 @@
 .subheading, .title_heading {
   position: relative;
   font-size: 20px;
-  color: rgb(8, 116, 199);
+  color: #0874c7;
   font-weight: bold;
   font-family: "Outfit", sans-serif;
 }
@@ -86,7 +86,7 @@
 .currency, .bigNum {
   font-family: "Outfit", sans-serif;
   font-size: 25px;
-  color: rgb(8, 116, 199);
+  color: #0874c7;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -201,7 +201,7 @@ a:has(.clickable) {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  background-color: rgb(8, 116, 199);
+  background-color: #0874c7;
   color: #fffdfb;
   border-radius: 8px;
   cursor: pointer;
@@ -235,12 +235,13 @@ a:has(.clickable) {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-evenly;
-  width: 200px;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
   font-family: Arial, Helvetica, sans-serif;
 }
 .agent span {
-  color: rgb(8, 116, 199);
+  color: #0874c7;
 }
 .agent img {
   width: 30px;
@@ -331,7 +332,7 @@ a:has(.clickable) {
   outline: 0;
 }
 .bottom a {
-  color: rgb(8, 116, 199);
+  color: #0874c7;
 }
 .bottom .clickable {
   display: flex;
@@ -349,7 +350,7 @@ a:has(.clickable) {
   align-items: center;
   justify-content: center;
   width: 100%;
-  background-color: rgb(8, 116, 199);
+  background-color: #0874c7;
   color: #fffdfb;
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
   padding: 16px;
@@ -602,7 +603,7 @@ a:has(.clickable) {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  color: rgb(8, 116, 199);
+  color: #0874c7;
   box-shadow: calc(1 * var(--d)) calc(0 * var(--d)) 0 0, calc(0.707 * var(--d)) calc(0.707 * var(--d)) 0 1px, calc(0 * var(--d)) calc(1 * var(--d)) 0 2px, calc(-0.707 * var(--d)) calc(0.707 * var(--d)) 0 3px, calc(-1 * var(--d)) calc(0 * var(--d)) 0 4px, calc(-0.707 * var(--d)) calc(-0.707 * var(--d)) 0 5px, calc(0 * var(--d)) calc(-1 * var(--d)) 0 6px;
   animation: l27 1s infinite steps(8);
 }
@@ -810,7 +811,7 @@ a:has(.clickable) {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  color: rgb(8, 116, 199);
+  color: #0874c7;
   box-shadow: calc(1 * var(--d)) calc(0 * var(--d)) 0 0, calc(0.707 * var(--d)) calc(0.707 * var(--d)) 0 1px, calc(0 * var(--d)) calc(1 * var(--d)) 0 2px, calc(-0.707 * var(--d)) calc(0.707 * var(--d)) 0 3px, calc(-1 * var(--d)) calc(0 * var(--d)) 0 4px, calc(-0.707 * var(--d)) calc(-0.707 * var(--d)) 0 5px, calc(0 * var(--d)) calc(-1 * var(--d)) 0 6px;
   animation: l27 1s infinite steps(8);
 }
@@ -956,7 +957,7 @@ a:has(.clickable) {
   box-shadow: 0.6px 0.6px 1.2px 1.2px rgba(116, 116, 116, 0.269);
 }
 .agentDashboardContainer .agentProfile .agentName {
-  color: rgb(8, 116, 199);
+  color: #0874c7;
   font-size: 30px;
 }
 .agentDashboardContainer .agentProfile .address {
@@ -1070,6 +1071,11 @@ a:has(.clickable) {
   padding: 4px 6px;
   border-radius: 0 0px 20px 20px;
   box-shadow: 1px 1px 1px 1px rgba(116, 116, 116, 0.269);
+}
+@media (max-width: 768px) {
+  .editSide {
+    margin-top: -45px;
+  }
 }
 .editSide img:hover {
   transition: all 300ms ease-in;
@@ -1307,7 +1313,7 @@ a:has(.clickable) {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  color: rgb(8, 116, 199);
+  color: #0874c7;
   box-shadow: calc(1 * var(--d)) calc(0 * var(--d)) 0 0, calc(0.707 * var(--d)) calc(0.707 * var(--d)) 0 1px, calc(0 * var(--d)) calc(1 * var(--d)) 0 2px, calc(-0.707 * var(--d)) calc(0.707 * var(--d)) 0 3px, calc(-1 * var(--d)) calc(0 * var(--d)) 0 4px, calc(-0.707 * var(--d)) calc(-0.707 * var(--d)) 0 5px, calc(0 * var(--d)) calc(-1 * var(--d)) 0 6px;
   animation: l27 1s infinite steps(8);
 }
@@ -1535,15 +1541,21 @@ html:is(.dark) .loader {
   color: white;
 }
 html:is(.dark) body {
-  background-color: rgb(47, 45, 45);
+  background-color: #393E46;
   color: white;
 }
 html:is(.dark) .nav, html:is(.dark) .footer, html:is(.dark) .nav_items, html:is(.dark) footer {
-  background-color: #1e2939;
+  background-color: #31363F;
   color: white;
 }
 html:is(.dark) .nav .goUp, html:is(.dark) .footer .goUp, html:is(.dark) .nav_items .goUp, html:is(.dark) footer .goUp {
   background-color: black;
+}
+html:is(.dark) .logo {
+  color: #A88F6E;
+}
+html:is(.dark) .logo::after, html:is(.dark) .logo::before {
+  background-color: #A88F6E;
 }
 html:is(.dark) .nav_items a {
   color: white;
@@ -1558,10 +1570,10 @@ html:is(.dark) .activeNav .toggle_nav .toggle_items:nth-child(2) {
   border-radius: 50%;
   background-color: transparent;
   border: 4px dashed white;
-  animation: rollBorderDark 5s ease-in-out infinite;
+  animation: rollBorderWhite 5s ease-in-out infinite;
 }
 html:is(.dark) .toggle_items {
-  background-color: white;
+  background-color: #A88F6E;
 }
 html:is(.dark) .subheading, html:is(.dark) .title_heading, html:is(.dark) .heading {
   color: white;
@@ -1573,24 +1585,29 @@ html:is(.dark) .card:hover::after {
   background-color: white;
 }
 html:is(.dark) .card .body {
-  background-color: #1e2939;
+  background-color: #31363F;
+}
+html:is(.dark) .card .body .address:after {
+  background-color: #A88F6E;
 }
 html:is(.dark) .card .school {
   color: white;
   background-color: rgba(78, 78, 78, 0.546);
 }
-html:is(.dark) .single_card {
-  background-color: #1e2939;
+html:is(.dark) .agentCardName {
+  color: #A88F6E;
 }
-html:is(.dark) .agentProfile,
-html:is(.dark) .listingHistory,
-html:is(.dark) .availableLists {
-  background-color: #1e2939;
+html:is(.dark) .popularCard, html:is(.dark) .pagination {
+  background-color: #31363F;
+}
+html:is(.dark) .single_card, html:is(.dark) .user-card {
+  background-color: #31363F;
+}
+html:is(.dark) .agentProfile, html:is(.dark) .listingHistory, html:is(.dark) .availableLists {
+  background-color: #31363F;
   color: white;
 }
-html:is(.dark) .agentProfile .agentName,
-html:is(.dark) .listingHistory .agentName,
-html:is(.dark) .availableLists .agentName {
+html:is(.dark) .agentProfile .agentName, html:is(.dark) .listingHistory .agentName, html:is(.dark) .availableLists .agentName {
   color: white;
 }
 html:is(.dark) .form label {
@@ -1602,13 +1619,22 @@ html:is(.dark) .form input {
   color: white;
 }
 html:is(.dark) .form .general_details,
-html:is(.dark) .form .agent_details, html:is(.dark) .form .bottom, html:is(.dark) .form .board {
-  background-color: #1e2939;
+html:is(.dark) .form .agent_details, html:is(.dark) .form .bottom {
+  background-color: #31363F;
   color: white;
 }
-html:is(.dark) .board {
-  background-color: #1e2939;
+html:is(.dark) .board, html:is(.dark) .editSide {
+  background-color: #31363F;
   color: white;
+}
+html:is(.dark) .adminDashboard .adminDashboard_content .content_item {
+  background-color: #31363F;
+}
+html:is(.dark) .currency {
+  color: #A88F6E;
+}
+html:is(.dark) .txt:after {
+  background-color: #A88F6E;
 }
 
 * {
@@ -1711,7 +1737,7 @@ body:has(.verify, .verify form) {
   opacity: 1%;
   position: absolute;
   width: 100%;
-  background-color: rgb(8, 116, 199);
+  background-color: #0874c7;
   height: 2px;
   margin-top: 4px;
   top: 100%;
@@ -1781,7 +1807,7 @@ body:has(.verify, .verify form) {
     border-radius: 50%;
     background-color: transparent;
     opacity: 30%;
-    border: 4px dashed rgb(8, 116, 199);
+    border: 4px dashed #0874c7;
     animation: rollBorder 5s ease-in-out infinite;
   }
 }
@@ -1802,7 +1828,7 @@ body:has(.verify, .verify form) {
     width: 50px;
     height: 5px;
     border-radius: 10px;
-    background-color: rgb(8, 116, 199);
+    background-color: #0874c7;
     transform-origin: center;
     transition: translate 300ms ease-out;
   }
@@ -1826,7 +1852,7 @@ body:has(.verify, .verify form) {
   position: relative;
   margin-top: auto;
   color: white;
-  background-color: rgb(8, 116, 199);
+  background-color: #0874c7;
   z-index: 99;
 }
 .footer .logo {
@@ -1963,7 +1989,6 @@ footer.hide {
   transform-origin: center;
   z-index: 0;
   width: 50%;
-  height: 20%;
   background-color: transparent;
   transition: all 300ms ease-out;
 }
@@ -1972,7 +1997,7 @@ footer.hide {
   transform: scale(0.97);
 }
 .card:hover::after {
-  background: rgb(8, 116, 199);
+  background: #0874c7;
   width: 100%;
   height: 57%;
   animation: drawBorder 300ms ease-in-out, wobbleEffect 0.6s infinite linear;
@@ -2065,7 +2090,7 @@ footer.hide {
   text-transform: capitalize;
   font-size: 15px;
   font-weight: bold;
-  color: rgb(8, 116, 199);
+  color: #0874c7;
   padding: 2px 18px;
   background-color: rgba(222, 222, 222, 0.518);
 }
@@ -2169,7 +2194,7 @@ footer.hide {
 }
 .single_card .header .house .arrow:active {
   transform: scale(0.9);
-  background-color: rgb(8, 116, 199);
+  background-color: #0874c7;
 }
 .single_card .header .house .arrow img {
   border-radius: 50%;
@@ -2363,7 +2388,7 @@ footer.hide {
   color: rgb(197, 12, 12);
 }
 .not_found a {
-  color: rgb(8, 116, 199);
+  color: #0874c7;
   font-size: 18px;
 }
 
@@ -2516,7 +2541,7 @@ footer.hide {
   color: #0881a3;
   cursor: pointer;
   text-decoration: underline;
-  -webkit-text-stroke: 0.1px rgb(8, 116, 199);
+  -webkit-text-stroke: 0.1px #0874c7;
 }
 .verify form {
   margin-top: 0;
@@ -2554,9 +2579,9 @@ footer.hide {
 .verify input:focus {
   transition: all 300ms ease-out;
   outline: none;
-  border: 2px solid rgb(8, 116, 199);
+  border: 2px solid #0874c7;
   background-color: #fffdfb;
-  color: rgb(8, 116, 199);
+  color: #0874c7;
 }
 .verify input[type=number]::-webkit-outer-spin-button,
 .verify input[type=number]::-webkit-inner-spin-button {

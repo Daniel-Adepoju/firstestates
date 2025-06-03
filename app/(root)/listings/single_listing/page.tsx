@@ -13,18 +13,23 @@ import { CldImage } from "next-cloudinary"
 import { useSearchParams } from "next/navigation"
 import { Skeleton } from "@components/ui/skeleton"
 import { useGetSingleListing } from "@lib/customApi"
+import { useDarkMode } from "@lib/DarkModeProvider"
+import { MapPin, Toilet, Bed, Bath,Phone} from "lucide-react"
+
 const SingleListing = () => {
   const [isSwiperLoaded, setIsSwiperLoaded] = useState(false)
   const [phone] = useState("07063939389")
   const [whatsApp] = useState("07063939389")
   const listingId = useSearchParams().get("id")
+  const {darkMode} = useDarkMode()
+
   const { data, isLoading, isError } = useGetSingleListing(listingId)
 
   const handlePhoneClick = () => {
-    window.open(`tel:${phone}`)
+    window.open(`tel:${data?.agent.phone}`)
   }
   const handleWhatsAppClick = () => {
-    window.open(`https://wa.me/${whatsApp}`)
+    window.open(`https://wa.me/${data?.agent.whatsapp}`)
   }
   const openInGoogleMap = (address: string) => {
     const encodedAddress = encodeURIComponent(address)
@@ -95,12 +100,10 @@ const SingleListing = () => {
             </div>
             <div className="heading location">{data?.location}</div>
             <div className="address">
-              <Image
-                height={30}
-                width={30}
-                alt="gps_icon"
-                src="/icons/location.svg"
-              />
+                 <MapPin
+                    size={30}
+                     color={darkMode ? "#A88F6E" : "#0881A3"}
+                            />
               <span>{data?.address}</span>
             </div>
           </div>
@@ -108,29 +111,23 @@ const SingleListing = () => {
           <div className="body">
             <div className="home_details">
               <div>
-                <Image
-                  width={30}
-                  height={24}
-                  alt="icon"
-                  src="/icons/bed.png"
+                <Bed
+                  size={30}
+                  color={darkMode ? "#A88F6E" : "#0881A3"}
                 />
                 <span>{data?.bedrooms} bedrooms</span>
               </div>
               <div>
-                <Image
-                  width={30}
-                  height={24}
-                  alt="icon"
-                  src="/icons/bath.png"
+                <Bath
+                  size={30}
+                  color={darkMode ? "#A88F6E" : "#0881A3"}
                 />
                 <span>{data?.bathrooms} bathrooms</span>
               </div>
               <div>
-                <Image
-                  width={30}
-                  height={24}
-                  alt="icon"
-                  src="/icons/toilet.png"
+               <Toilet
+                  size={30}
+                  color={darkMode ? "#A88F6E" : "#0881A3"}
                 />
                 <span>{data?.toilets} toilets</span>
               </div>
@@ -168,8 +165,7 @@ const SingleListing = () => {
               src={data?.agent.profilePic}
             />
             <div>
-              {" "}
-              Listed by <span>{data?.agent.username}</span>
+              Listed by <span className="agentCardName">{data?.agent.username}</span>
             </div>
           </div>
         </div>
@@ -180,34 +176,38 @@ const SingleListing = () => {
           <div className="details">
             <div className="subheading">Office Address</div>
             <div className="address">
-              <Image
-                height={30}
-                width={30}
-                alt="gps_icon"
-                src="/icons/location.svg"
-              />
-              <span>60, lorem ipsum dolor</span>
+                <MapPin
+                  size={30}
+                  color={darkMode ? "#A88F6E" : "#0881A3"}
+                />
+              <span>{data?.agent.address}</span>
             </div>
             <div className="subheading">Contacts</div>
             <div className="contact_items">
-              <Image
-                onClick={handlePhoneClick}
-                width={30}
-                height={30}
-                alt="icon"
-                src="/icons/phone.svg"
-              />
-              <span> {phone}</span>
+              <div
+              className='hover:scale-95 transition-transform duration-200'
+              onClick={handlePhoneClick}
+                >
+                    <Phone
+                  size={40}
+                  color={darkMode ? "#A88F6E" : "#0881A3"}
+                />
+                </div>
+              <span> {data?.agent.phone}</span>
             </div>
             <div className="contact_items">
-              <Image
+              <div
+                className='hover:scale-95 transition-transform duration-200'
                 onClick={handleWhatsAppClick}
-                width={45}
-                height={45}
-                alt="icon"
-                src="/icons/whatsapp.svg"
-              />
-              <span>{whatsApp}</span>
+              >
+        <Image
+              width={50}
+              height={50}
+              alt="agent pic"
+              src={darkMode ? '/icons/whatsAppDark.svg' : '/icons/whatsApp.svg'}
+            />
+                </div>
+              <span>{data?.agent.whatsapp}</span>
             </div>
           </div>
         </div>

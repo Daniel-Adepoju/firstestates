@@ -7,6 +7,8 @@ import ReactQueryProvider from '@utils/ReactQueryProvider';
 import Notification from '@lib/Notification'
 import {auth} from '@auth'
 import Header from "@components/admin/Header";
+
+
 export const metadata = {
   title: "Firstestate | Admin",
   description: "Admin dashboard",
@@ -21,7 +23,8 @@ export default async function AdminLayout({children}){
     }
 
     return (
-    <Provider>
+      <ReactQueryProvider>
+         <Provider>
       <User>
    <div className= 'admin-container'>
  <Sidebar session={session}/>
@@ -32,5 +35,7 @@ export default async function AdminLayout({children}){
  </div>
       </User>
     </Provider>
+      </ReactQueryProvider>
+   
   );
 }

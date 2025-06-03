@@ -9,16 +9,35 @@ interface Config {
   school?:string;
   enabled?: boolean;
   id?:string;
+  search?: string;
 }
+
 
 // interface ListingParams {
 //    page: number,
 // }
 
+
+
+
+export const useGetUsers = ({page,limit,search}: Config) => {
+  const getUsers = async (page:string) => {
+    const res = await axiosdata.value.get(`/api/users?limit=${limit}&page=${page}&search=${search}`)
+    return res.data; 
+  }
+
+  
+  const {data,isLoading,isError} = useQuery({
+    queryKey:["users",page,search],
+    queryFn:() => getUsers(page),
+  })
+
+  return {data,isLoading,isError}
+}
+
 export const useGetListings = ({page,limit,location,school,price}: Config) => {
   const getListings = async (page:string) => {
     const res = await axiosdata.value.get(`/api/listings?limit=${limit}&page=${page}&location=${location}&school=${school}&price=${price}`)
-    console.log(res)
     return res.data;
   }
 
@@ -30,14 +49,14 @@ export const useGetListings = ({page,limit,location,school,price}: Config) => {
   return {data,isLoading,isError}
 }
 
-export const useGetAgentListings = ({id,page,limit,enabled=false} :Config) => {
+export const useGetAgentListings = ({id,page,limit,location,school,enabled=false} :Config) => {
   const getListings = async (page:string) => {
-    const res = await axiosdata.value.get(`/api/agent/listings?id=${id}&limit=${limit}&page=${page}`)
+    const res = await axiosdata.value.get(`/api/agent/listings?id=${id}&limit=${limit}&page=${page}&school=${school}&location=${location}`)
     return res.data;
   }
 
   const {data, isLoading, isError} = useQuery({
-    queryKey: ["agentListings",id,page],
+    queryKey: ["agentListings",page,location,school],
     queryFn: () => getListings(page),
     enabled,
   })

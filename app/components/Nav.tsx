@@ -68,17 +68,16 @@ const Nav = () => {
       {/* mode button */}
       <div  onClick={() => toggleDarkMode()} className="flex flex-row items-center gap-2 cursor-pointer">
          <div
-         className='dark:bg-white bg-yellow-100 p-2 rounded-full '
+         className='dark:bg-white bg-[#0874c7] p-2 rounded-full '
           >
            {darkMode ?
-           (
-              <Moon size={16} color="#333" />
+           (  <Sun size={16} color="#f59e0b" />
             ) : (
-              <Sun size={16} color="#f59e0b" />
+              <Moon size={16} color="white" />
             )}  
          
          </div>
-          <span>{darkMode ? 'Dark Mode' : 'Light Mode'}</span>
+          <span>{darkMode ? 'Light Mode' : 'Dark Mode'}</span>
          </div>
 
     {session?.user &&

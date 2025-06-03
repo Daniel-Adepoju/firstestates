@@ -7,15 +7,23 @@ import {CardProps} from "@components/Card"
 import { useGetAgentListings } from "@lib/customApi"
 import { useUser } from "@utils/user"
 import { Loader, SkyBlueLoader} from "@utils/loaders"
-import {useSearchParams} from "next/navigation"
+import {useSearchParams, useRouter} from "next/navigation"
 import Pagination from "@components/Pagination"
+import Searchbar from "@components/Searchbar"
+import { useSignals, useSignal} from "@preact/signals-react/runtime"
 
 const Listings = () => {
+  useSignals()
+  const params = useSearchParams()
   const limit = 10
-  const page = useSearchParams().get('page') || '1'
+  const page = params.get('page') || '1'
   const [selected, setSelected] = useState('view') 
   const {session} = useUser()
   const [agentId,setAgentId] = useState("")
+  const search = useSignal("")
+  const debounced = useSignal("")
+const searchParams = new URLSearchParams(params.toString())
+const router = useRouter()
 
   useEffect(() => {
     if (session?.user.id && !agentId) {
@@ -24,11 +32,23 @@ const Listings = () => {
   }, [session, agentId])
 
 
+useEffect(() => {
+    const timeoutId= setTimeout(() => {
+       searchParams.set('page', '1')
+       router.push(`?${searchParams.toString()}`)
+      debounced.value = search.value
+    }, 560)
+    return () => clearTimeout(timeoutId)
+  }, [search.value])
+
+
 const { data,isLoading } = useGetAgentListings({
   id: agentId,
   enabled: !!agentId,
   page,
-  limit
+  limit,
+  school:debounced.value,
+  location: debounced.value,
 })
   
    const mapCards = data?.listings?.map((item:CardProps['listing']) => {
@@ -67,7 +87,12 @@ const { data,isLoading } = useGetAgentListings({
         <span>Add New Listing</span>
       </div>
      
-      {/* </div> */}
+   <Searchbar
+   search={search.value}
+   setSearch={(e) => search.value = e.target.value}
+   className='dark:text-white mt-[-19px] gap-1 w-full flex flex-row justify-center items-center md:justify-end  md:w-[60%]'
+   placeholder={"Search for your listings"}
+   />
     <div className="availableLists">
       <div className="header">
   <div onClick={() => setSelected('view')} className={`${selected === 'view' && 'active'} subheading`}>View Listings</div>

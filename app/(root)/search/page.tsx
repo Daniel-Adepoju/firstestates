@@ -50,6 +50,7 @@ if(isError) {
   return (
     <div className="w-full flex flex-col items-end pr-2">
 <Searchbar
+placeholder={"Search by school or location"}
 search={search.value}
 setSearch={(e) => search.value = e.target.value}
 />  

@@ -329,7 +329,7 @@ footer.hide {
     transform-origin: center;
     z-index:0;
     width: 50%;
-    height: 20%;
+    // height: 20%;
     background-color: transparent;
     @include transition(300ms,ease-out);
 

@@ -25,7 +25,6 @@ const Dashboard = async () => {
 
   return (
     <>
-    <div>{JSON.stringify(pageViews)}</div>
       <AnalyticsDashboard 
        visitorsToday={visitorsToday}
       avgPerDay={avgVisitorPerDay}

@@ -1,14 +1,17 @@
 import Image from "next/image"
+import { Signal } from "@preact/signals-react"
 
 interface SearchProps {
     search?: string
+    placeholder?: string
     goToSearch?: () => void
     setSearch?: (e: React.ChangeEvent<HTMLInputElement>) => void
+    className?:string
 }
 
-const Searchbar = ({search, goToSearch,setSearch}:SearchProps) => {
+const Searchbar = ({search,placeholder,goToSearch,setSearch,className}:SearchProps) => {
   return (
-  <div className=" mt-[80px] gap-1 w-full flex flex-row justify-center items-center md:justify-end  md:w-[60%]">
+  <div className={className || " mt-[80px] gap-1 w-full flex flex-row justify-center items-center md:justify-end  md:w-[60%]"}>
    <div className="dark:bg-white bg-blue-100 rounded-sm">
     <Image
     src={'/icons/search.svg'}
@@ -22,7 +25,7 @@ const Searchbar = ({search, goToSearch,setSearch}:SearchProps) => {
     onClick={goToSearch && goToSearch}
     onChange={setSearch}
     value={search}
-    placeholder="Search by school or location"
+    placeholder={placeholder}
     />
   </div>
   )
