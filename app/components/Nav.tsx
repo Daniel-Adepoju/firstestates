@@ -57,15 +57,18 @@ const Nav = () => {
       >
          
         {session?.user && (
-          <CldImage
+          <Link href='client-settings'>
+              <CldImage
             width={35}
             height={35}
             alt="profile image"
             src={session?.user?.profilePic}
             crop={"fill"}
           />
+          </Link>
+      
         )}
-      {/* mode button */}
+      {/* Mode button */}
       <div  onClick={() => toggleDarkMode()} className="flex flex-row items-center gap-2 cursor-pointer">
          <div
          className='dark:bg-white bg-[#0874c7] p-2 rounded-full '
@@ -83,9 +86,9 @@ const Nav = () => {
     {session?.user &&
     <>
     <Link href="/listings">Wishlist</Link>
-    <Link onClick={async () => {await logOut()}}
+    {/* <Link onClick={async () => {await logOut()}}
         href="#"> Sign Out
-        </Link>
+        </Link> */}
         </>
         }
         {!session?.user && (

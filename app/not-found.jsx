@@ -12,7 +12,7 @@ const page = () => {
       alt='error icon'
       src={'/icons/not_found.svg'}
       />
-    <div>Sorry the page you're looking for doesn't exist.This could be bacause it has been either deleted or archived.
+    <div>Sorry the page you're looking for doesn't exist.This could be bacause it has been deleted or archived.
       Please check the URL and try again.</div>
     <div>
       <Link href="/">Go back to Homepage</Link>

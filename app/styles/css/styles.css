@@ -83,7 +83,7 @@
   margin-inline: auto;
 }
 
-.currency, .bigNum {
+.currency, .smallNum, .bigNum {
   font-family: "Outfit", sans-serif;
   font-size: 25px;
   color: #0874c7;
@@ -91,6 +91,11 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+}
+
+.smallNum {
+  font-size: 16px;
+  font-weight: bold;
 }
 
 .swiper {
@@ -1630,7 +1635,7 @@ html:is(.dark) .board, html:is(.dark) .editSide {
 html:is(.dark) .adminDashboard .adminDashboard_content .content_item {
   background-color: #31363F;
 }
-html:is(.dark) .currency {
+html:is(.dark) .currency, html:is(.dark) .smallNum {
   color: #A88F6E;
 }
 html:is(.dark) .txt:after {

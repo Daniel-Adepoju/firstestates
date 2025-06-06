@@ -28,7 +28,7 @@ export const useGetUsers = ({page,limit,search}: Config) => {
 
   
   const {data,isLoading,isError} = useQuery({
-    queryKey:["users",page,search],
+    queryKey:['users',page,search],
     queryFn:() => getUsers(page),
   })
 

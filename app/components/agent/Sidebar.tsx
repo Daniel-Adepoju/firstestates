@@ -17,7 +17,6 @@ interface Session {
 
 const Sidebar = ({session}: Session) => {
 
-  //  console.log(session)
   const pathname = usePathname()
   return (
     <div className="sidebar agentbar">
@@ -27,9 +26,13 @@ const Sidebar = ({session}: Session) => {
       return (
       item.name !=='Dashboard' && (
       <div  key={index}
-      className={` items ${isActive && "active"}`}
+      className={`relative items ${isActive && "active"}`}
       >
+    
         <a href={item.link}>
+       {item.name === 'Messages' && 
+       <div className="absolute text-center bg-white rounded-full text-xl smallNum w-8 h-8">
+        99+</div> }
     <Image src={item.icon}
       alt='icons'
       width={30}
@@ -42,7 +45,7 @@ const Sidebar = ({session}: Session) => {
     })}</ul>
     <div className="adminLabel">
       {session &&
-  <CldImage src={session?.user?.profilePic} alt='prifile pic'
+  <CldImage src={session?.user?.profilePic} alt='profile pic'
   width={30} height={30}/>}
   <div className="adminDetails">
   <span>{session?.user.username}</span>

@@ -2,10 +2,12 @@
 import { useGetPopularListings } from "@lib/customApi"
 import { Listing } from "./Card"
 import { CldImage } from "next-cloudinary"
-import { Skeleton } from "./ui/skeleton"
+import {Skeleton} from "./ui/skeleton"
 import Link from "next/link"
 import { Bed, Bath, Toilet } from "lucide-react"
 import { useDarkMode } from "@lib/DarkModeProvider"
+
+
 export default function PopularThisWeek() {
   const { data, isLoading } = useGetPopularListings()
   const {darkMode} = useDarkMode()
@@ -68,7 +70,7 @@ export default function PopularThisWeek() {
               <div className="flex flex-col items-center">
                   <Bed
                     size={24}
-                   color={darkMode ? '#A88F6E' : '#0881A3'}
+                    color="white"
                     className="text-white"
                   />
                 <span className="text-center">{listing?.bedrooms}</span>

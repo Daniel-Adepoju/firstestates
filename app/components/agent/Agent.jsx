@@ -4,10 +4,12 @@ import Image from "next/image"
 import {useUser} from "@utils/user"
 import { CldImage } from "next-cloudinary"
 import { Skeleton } from "@components/ui/skeleton"
-
+import { MapPin, Phone } from "lucide-react"
+import { useDarkMode } from "@lib/DarkModeProvider"
 
 const Agent = () => {
 const {session} = useUser()
+  const {darkMode} = useDarkMode()
 
 if (!session) {
   return (
@@ -33,30 +35,25 @@ if (!session) {
         </div>
     <div className="opacity-60"><span className='pl-2'>{session?.user.email}</span></div>
  <div className="address">
-        <Image
-    width={30}
-    height={30}
-    src='/icons/location.svg' 
-    alt='icon'/>
+     <MapPin
+                  size={30}
+                  color={darkMode ? "#A88F6E" : "#0881A3"}
+                />
      <span>Office Address:</span>
-      <span>14,lorem ipsum dolor</span>
+      <span>{session?.user.address}</span>
     </div>
         <div className="agentProfileInfo">
-   <div className="mt-4 font-bold">
-    <Image
-      src={'/icons/phone.svg'}
-      alt='icon'
-      width={30}
-      height={30} />
-   <span className='pl-2'>0903333222{session?.user.phone}</span>
+   <div className="mt-6 font-bold">
+      <Phone size={34} color={darkMode ? "#A88F6E" : "#0881A3"}/>
+   <span className='pl-2'>{session?.user.phone}</span>
    </div>
     <div className="font-bold">
        <Image
-      src={'/icons/whatsapp.svg'}
+      src={darkMode ? '/icons/whatsappDark.svg' :'/icons/whatsapp.svg'}
       alt='icon'
       width={50}
       height={50} />
-      <span className='pl-2'>09054444433{session?.user.whatsapp}</span></div>
+      <span className='pl-2'>{session?.user.whatsapp}</span></div>
     </div>
     </div>
     

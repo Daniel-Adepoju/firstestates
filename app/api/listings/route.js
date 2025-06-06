@@ -1,6 +1,7 @@
 import { connectToDB } from "@utils/database"
 import Listing from "@models/listing"
 import { NextResponse } from "next/server"
+import Notification from "@models/notification"
 import { auth } from "@auth"
 import { faker } from "@faker-js/faker";
 
@@ -28,7 +29,18 @@ const {searchParams} = new URL(req.url)
 }
 
   try {
+    const session = await auth()
     await connectToDB()
+    const notification = new Notification({
+  userId: session?.user.id,
+  recipientRole: "agent",
+  type: "new_listing",
+  message: "Anakun been posted in your area.",
+  read: false,
+  mode: "individual"
+})
+await notification.save()
+
     const listings = await Listing.countDocuments({$and:searchOptions})
     const numOfPages = Math.ceil(listings / Number(limit))
     if (cursor >= numOfPages) {

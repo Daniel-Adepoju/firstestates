@@ -10,7 +10,6 @@ import { after } from "next/server";
 import { auth } from "@auth";
 import { connectToDB } from "@utils/database";
 import  UserModel from "@models/user";
-import {test,getAllListings} from '@lib/server/getPost'
 import {DarkModeProvider} from '@lib/DarkModeProvider'
 
 export const metadata = {

@@ -1,7 +1,7 @@
 import "@styles";
 import './globals.css'
 import {DarkModeProvider} from '@lib/DarkModeProvider'
-import Script from "next/script";
+
 export const metadata = {
   title: "FirstEstates",
   description: "",

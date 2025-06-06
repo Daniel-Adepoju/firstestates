@@ -146,14 +146,14 @@ export const signInWithCredentials = async (email, password) => {
 
 export const logOut = async () => {
   await signOut("/")
-   return { message: 'Logged Out Successfully', status: "success" }
+  redirect('/logged-out')
 }
 
 export const updateUser = async(val) => {
   try {
 await connectToDB()
 const session = await auth()
-const userId = session.user.id
+const userId = val.id || session.user.id
  
 await User.findOneAndUpdate(
   {_id: userId},

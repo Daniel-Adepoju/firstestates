@@ -18,8 +18,6 @@ import { MapPin, Toilet, Bed, Bath,Phone} from "lucide-react"
 
 const SingleListing = () => {
   const [isSwiperLoaded, setIsSwiperLoaded] = useState(false)
-  const [phone] = useState("07063939389")
-  const [whatsApp] = useState("07063939389")
   const listingId = useSearchParams().get("id")
   const {darkMode} = useDarkMode()
 
