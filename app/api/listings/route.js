@@ -31,16 +31,7 @@ const {searchParams} = new URL(req.url)
   try {
     const session = await auth()
     await connectToDB()
-    const notification = new Notification({
-  userId: session?.user.id,
-  recipientRole: "agent",
-  type: "new_listing",
-  message: "Anakun been posted in your area.",
-  read: false,
-  mode: "individual"
-})
-await notification.save()
-
+  
     const listings = await Listing.countDocuments({$and:searchOptions})
     const numOfPages = Math.ceil(listings / Number(limit))
     if (cursor >= numOfPages) {
@@ -66,13 +57,22 @@ await notification.save()
 
 
 
+
+
+
+
+
+
+
 // seeding
+
+
 // export const GET = async (req) => {
 //   await connectToDB() 
 //     const session = await auth()
  
 //   try {
-//     for(leti=0; i < 36; i++) {
+//     for(let i=0; i < 36; i++) {
 //           const val = {
 //         school: 'Lasu',
 //         mainImage: faker.image.urlLoremFlickr({ category: "house" }),

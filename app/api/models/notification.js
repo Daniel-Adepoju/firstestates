@@ -19,15 +19,23 @@ const NotificationSchema = new Schema({
     type: String,
     required: true
 },
-  read: {
-    type: Boolean,
-    default: false 
-},
-
+readBy: [{
+  type: Schema.Types.ObjectId,
+  ref:  User.modelName
+}],
+clearedBy: [{
+  type: Schema.Types.ObjectId,
+  ref:  User.modelName
+}],
   mode: {
-    type: String, enum: ["individual", "broadcast"],
+    type: String, enum: ["individual", "broadcast-agent","broadcast-admin"],
     default: "individual"
 },
+thumbnail: {
+  type: String,
+  required: false
+},
+  
 },{timestamps: true})
 
 NotificationSchema.index({ createdAt: 1 }, { expireAfterSeconds: 6 * 30 * 86400 });

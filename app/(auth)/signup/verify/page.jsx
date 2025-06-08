@@ -65,13 +65,14 @@ const Verify = () => {
     compiledOtp.value = `${otpValues.otp1.value}${otpValues.otp2.value}${otpValues.otp3.value}${otpValues.otp4.value}${otpValues.otp5.value}`
   }
 
+
   //Verify
   const handleVerify = async (e) => {
     e.preventDefault()
     setVerifying(true)
     try {
       const res = await verifyOTP({
-        clientOtp: compiledOtp.toString(),
+        clientOtp: compiledOtp.value.toString(),
         role,
         username,
         email,

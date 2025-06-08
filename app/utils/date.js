@@ -15,3 +15,6 @@ export const getDate = (sub = 0) => {
     return dayjs(date).format('YYYY-MM-DD')
   }
 
+  export const createdAt = (createdAt) => {
+  return dayjs(createdAt).fromNow()
+  }

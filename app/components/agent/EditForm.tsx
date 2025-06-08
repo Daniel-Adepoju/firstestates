@@ -11,13 +11,13 @@ import { useSearchParams } from "next/navigation"
 import { useGetSingleListing } from '@lib/customApi'
 import { schoolArea,schools } from "@lib/constants"
 import {editListing} from "@lib/server/listing"
-import Image from "next/image"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 const EditForm = () => {
   useSignals()
   const listingId = useSearchParams().get('id')
   const {data,isLoading} = useGetSingleListing(listingId)
-  const session = useUser()
+  const {session} = useUser()
   const router = useRouter()
   const notification = useNotification()
   const creating = useSignal(false)
@@ -33,7 +33,9 @@ const EditForm = () => {
     bathrooms: useSignal(""),
     toilets: useSignal(""),
   }
-  console.log(data)
+  const queryClient = useQueryClient()
+  const userId = session?.user.id
+  
 
   useEffect(() => {
     if (data) {
@@ -81,19 +83,28 @@ const EditForm = () => {
         bathrooms: listingDeets.bathrooms.value,
         bedrooms: listingDeets.bedrooms.value,
         toilets: listingDeets.toilets.value,
-      })
+        mainImage: data?.mainImage,
+      }, userId)
       if (res.status === "success") {
         notification.setIsActive(true)
         notification.setMessage(res.message)
         notification.setType(res.status)
       }
       creating.value = false
-      router.push('/agent/listings')
     } catch (err) {
       creating.value = false
       console.log(err)
     }
   }
+
+  const mutation = useMutation({
+    mutationFn:handleEditListing,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['agentListings'] })
+      queryClient.invalidateQueries({ queryKey: ['notifications'] })
+         router.push('/agent/listings')
+    },
+  })
 
   if (isLoading) {
     return <Loader className='my-50'/>
@@ -108,7 +119,7 @@ const EditForm = () => {
         </div>
 
         <form
-          onSubmit={handleEditListing}
+          onSubmit={(e) => mutation.mutate(e)}
           className="form listing"
         >
           {/* Status */}

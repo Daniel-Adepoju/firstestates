@@ -11,6 +11,10 @@ export const GET = async (req, {params}) => {
     const post = await Listing.findById(listingId).populate(['agent'])
   if (!post) return new Response('Not found', { status: 404 });
     await incrementView(listingId)
+    await Listing.updateOne(
+      { _id: listingId },
+      { $inc: { totalViews: 1 } }
+    )
   return NextResponse.json(post, { status: 200 }) 
   } catch (err) {
     console.log(err)

@@ -69,6 +69,10 @@ const ListingSchema = new Schema({
     enum: ['available', 'rented'],
     default: 'available',
   },
+  totalViews: {
+    type:Number,
+    default: 0
+  },
   weeklyViews: {
     type: Number,
     default: 0

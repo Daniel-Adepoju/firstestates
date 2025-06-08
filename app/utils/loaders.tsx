@@ -19,8 +19,15 @@ export const DotsLoader = () => {
 export const SkyBlueLoader = () => {
   return(
 
-<div className="w-6 h-6 border-4 border-r-sky-400 my-2 border-b-sky-500 border-l-sky-600 rounded-[50%] animate-spin"></div>
-
+<div className="w-6 h-6 border-4 my-2
+border-r-sky-600
+border-b-sky-600
+border-l-sky-600
+dark:border-r-white
+dark:border-b-white
+dark:border-l-white
+rounded-[50%] 
+animate-spin"></div>
   )
 }
 

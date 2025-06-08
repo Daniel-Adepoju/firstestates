@@ -70,7 +70,7 @@ export default function PopularThisWeek() {
               <div className="flex flex-col items-center">
                   <Bed
                     size={24}
-                    color="white"
+                    color={darkMode ? '#A88F6E' : '#0881A3'}
                     className="text-white"
                   />
                 <span className="text-center">{listing?.bedrooms}</span>

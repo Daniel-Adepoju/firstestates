@@ -1493,10 +1493,16 @@ a:has(.clickable) {
     width: 48px;
   }
   .sidebar .adminLabel img {
+    border-radius: 50%;
     width: 90%;
     height: 40px;
     margin: 20px 0;
   }
+}
+.sidebar .adminLabel img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
 }
 .sidebar .adminLabel .adminDetails {
   display: flex;
@@ -1518,10 +1524,11 @@ a:has(.clickable) {
 .admin-content-container {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
   gap: 40px;
   padding-inline: 10px;
+  padding-bottom: 10px;
   flex: 1;
   width: 80%;
   min-height: 100vh;

@@ -3,6 +3,7 @@ import Image from "next/image"
 import { agentSidebarItems as sidebarItems } from "@lib/constants"
 import { usePathname } from "next/navigation"
 import { CldImage } from "next-cloudinary"
+import { useGetNotifications } from "@lib/customApi"
 
 interface Session {
   session: {
@@ -18,6 +19,9 @@ interface Session {
 const Sidebar = ({session}: Session) => {
 
   const pathname = usePathname()
+ 
+  const {data,isLoading} = useGetNotifications({page:'1',limit:10})
+  //  console.log(data?.pages[0]?.unreadNotifications === 0)
   return (
     <div className="sidebar agentbar">
   <ul>{
@@ -30,9 +34,12 @@ const Sidebar = ({session}: Session) => {
       >
     
         <a href={item.link}>
-       {item.name === 'Messages' && 
-       <div className="absolute text-center bg-white rounded-full text-xl smallNum w-8 h-8">
-        99+</div> }
+       {item.name === 'Messages' && !isLoading
+       && data?.pages[0]?.unreadNotifications > 0
+       && (
+        <div className="z-1 absolute text-center bg-white rounded-full text-xl smallNum w-8 h-8">
+        {data?.pages[0]?.unreadNotifications > 99 ? '99+' : data?.pages[0].unreadNotifications}
+        </div> )}
     <Image src={item.icon}
       alt='icons'
       width={30}

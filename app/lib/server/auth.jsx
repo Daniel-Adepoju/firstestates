@@ -28,7 +28,7 @@ export const sendOTP = async ({ email }) => {
         specialChars: false,
       })
   await storeOtpInCookie(otp)
-
+  
       const transporter = nodemailer.createTransport({
         service: "zoho",
         host: "smtp.zoho.com",
@@ -83,6 +83,7 @@ export const verifyOTP = async (val) => {
     if (!success) return redirect("/too-fast")
 
     // Create New User
+    console.log("Verifying OTP", getOtp, val.clientOtp)
     if (getOtp === val.clientOtp) {
       const password = await hash(val.userPassword, 10)
 

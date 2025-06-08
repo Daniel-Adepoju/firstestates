@@ -74,11 +74,17 @@
     @media (max-width: 768px) { 
       width:48px;
       img {
+         border-radius: 50%;
          width: 90%;
          height: 40px;
          margin: 20px 0;
      }
    }
+    img {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+    }
     .adminDetails {
       @include flex(column,flex-start,center);
       width:100%;
@@ -98,9 +104,10 @@
 }
  
 .admin-content-container {
-  @include flex(column,flex-start,flex-start);
+  @include flex(column,center,flex-start);
   gap: 40px;
   padding-inline: 10px;
+  padding-bottom: 10px;
   flex:1;
   width: 80%;
   min-height: 100vh;

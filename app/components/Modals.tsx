@@ -41,6 +41,7 @@ export const DeleteModal = ({ ref, listingId, setDeleting }: DeleteModalProps) =
     mutationFn: handleDelete,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['agentListings']})
+      queryClient.invalidateQueries({ queryKey: ['notifications']})
     },
   })
   return (

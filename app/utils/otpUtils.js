@@ -17,6 +17,7 @@ export const storeOtpInCookie = async (otp) => {
 export const getOtpFromCookie = async () => {
     const cookieStore = await cookies()
     const otpCookie = cookieStore.get('otp')
+    console.log("otpCookie:", otpCookie)
     if (otpCookie) {
         console.log("OTP retrieved from cookie:", otpCookie.value)
         return otpCookie.value

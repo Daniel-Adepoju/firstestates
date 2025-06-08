@@ -11,9 +11,11 @@ import {useSearchParams, useRouter} from "next/navigation"
 import Pagination from "@components/Pagination"
 import Searchbar from "@components/Searchbar"
 import { useSignals, useSignal} from "@preact/signals-react/runtime"
+import { useDarkMode } from "@lib/DarkModeProvider"
 
 const Listings = () => {
   useSignals()
+  const {darkMode} = useDarkMode()
   const params = useSearchParams()
   const limit = 10
   const page = params.get('page') || '1'
@@ -22,13 +24,15 @@ const Listings = () => {
   const [agentId,setAgentId] = useState("")
   const search = useSignal("")
   const debounced = useSignal("")
-const searchParams = new URLSearchParams(params.toString())
-const router = useRouter()
+  const searchParams = new URLSearchParams(params.toString())
+  const router = useRouter()
+  const [showAdd, setShowAdd] = useState(false)
 
   useEffect(() => {
     if (session?.user.id && !agentId) {
       setAgentId(session.user.id)
     }
+    setShowAdd(true)
   }, [session, agentId])
 
 
@@ -52,7 +56,10 @@ const { data,isLoading } = useGetAgentListings({
 })
   
    const mapCards = data?.listings?.map((item:CardProps['listing']) => {
-  return <Card key={item._id} listing={item} edit={selected === 'edit' && true} />
+  return <Card
+  key={item._id} listing={item}
+  isAgentCard={true}
+  edit={selected === 'edit' && true} />
   })
 
 
@@ -80,16 +87,22 @@ const { data,isLoading } = useGetAgentListings({
    
     </div>
     
-      <div className="addListing dark:text-white">
+    {!showAdd ?  '' : <div className="addListing dark:text-white">
       <Link href={'/agent/listings/add'}>
-     <Image className="clickable" src={'/icons/add.svg'} width={50} height={50} alt="add"/>
+    <Image
+     className="clickable"
+     src={darkMode ? '/icons/addDark.svg'  : '/icons/add.svg'}
+     width={50}
+     height={50}
+     alt="add"
+     />
       </Link>
         <span>Add New Listing</span>
-      </div>
+      </div>}
      
    <Searchbar
    search={search.value}
-   setSearch={(e) => search.value = e.target.value}
+   setSearch={(e: React.ChangeEvent<HTMLInputElement>) => search.value = e.target.value}
    className='dark:text-white mt-[-19px] gap-1 w-full flex flex-row justify-center items-center md:justify-end  md:w-[60%]'
    placeholder={"Search for your listings"}
    />

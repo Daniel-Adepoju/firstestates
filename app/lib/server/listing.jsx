@@ -4,18 +4,28 @@ import Listing from "@models/listing"
 import { auth } from "@auth"
 import { revalidatePath } from "next/cache"
 import { deleteImage, deleteMultipleImages } from "./deleteImage"
+import { sendNotification } from "./notificationFunctions"
+
 
 export const createListing = async (val) => {
   const session = await auth()
-  const newVal = { ...val, agent: session?.user.id }
+  const userId = session?.user.id
+  const newVal = { ...val, agent: userId }
   await connectToDB()
   try {
-    if (!session?.user.id) {
+    if (!userId) {
       return {message:"Unauthorized", status:"danger"};
     }
 
     const newListing = new Listing(newVal)
     await newListing.save()
+      await sendNotification({
+      type: "New_Listing",
+      recipientRole: "agent",
+      message: `You created a new listing`,
+      userId,
+      thumbnail: val.mainImage,
+    })
     return { message: "Created Successfully", status: "success" }
   } catch (err) {
     await deleteImage(val.mainImage)
@@ -24,15 +34,34 @@ export const createListing = async (val) => {
   }
 }
 
-export const editListing = async (val) => {
+export const editListing = async (val, userId) => {
   try {
     await connectToDB()
     const newVal = { ...val }
-    await Listing.findOneAndUpdate({ _id: val.id }, newVal, {
+    await Listing.findOneAndUpdate({ _id: val.id },
+      newVal,
+      {
       new: true,
       runValidators: true,
     })
-    revalidatePath("/agent/listings")
+    // if(val.status === 'rented') {
+    //     await sendNotification({
+    //   type: "Listing_Edited",
+    //   recipientRole: "agent",
+    //   message: `You Rented a listing`,
+    //   userId,
+    //   thumbnail: val.mainImage,
+    // })
+    // } 
+    await sendNotification({
+      type: "Listing_Edited",
+      recipientRole: "agent",
+      message: `You edited a listing`,
+      userId,
+      thumbnail: val.mainImage,
+    })
+  
+    // revalidatePath("/agent/listings")
     return { message: "Edited Successfully", status: "success" }
   } catch (err) {
     return { message: "Unable To Edit,Refresh And Try Again", status: "danger" }
@@ -52,10 +81,16 @@ export const deleteListing = async (id) => {
     if (listing.status === "rented") {
       console.log("hahah")
       return { message: `You can't delete a rented listing`, status: "warning" }
-    }
+    } 
     await Listing.deleteOne({ _id: id })
     await deleteImage(listing.mainImage)
     await deleteMultipleImages(listing.gallery)
+    await sendNotification({
+      type: "Listing_Deleted",
+      recipientRole: "agent",
+      message: `You deleted a listing at ${listing.location}`,
+      userId: listing.agent._id,
+    })
     revalidatePath('/agent/listings')
     return { message: "Deleted Successfully", status: "success" }
    

@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 import { axiosdata } from "@utils/axiosUrl";
 
 interface Config {
@@ -106,10 +106,32 @@ const fetchPopularListings = async () => {
   return res.data;
 };
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError, } = useQuery({
     queryKey: ['popularListingsThisWeek'],
     queryFn:() => fetchPopularListings(),
   });
 
   return {data,isLoading}
+}
+
+
+export const useGetNotifications = ({page,limit}: Config) => {
+  const getNotifications = async (page:string) => {
+    const res = await axiosdata.value.get(`/api/notifications?limit=${limit}&page=${page}`)
+    return res.data; 
+  }
+
+  
+  const {data,isLoading,isError,isFetchingNextPage,fetchNextPage,hasNextPage,} = useInfiniteQuery({
+    queryKey: ['notifications'],
+    initialPageParam: 1,
+    getNextPageParam: (prevData: any) => {
+      return prevData?.cursor && prevData?.cursor !== prevData.numOfPages
+         ? prevData.cursor + 1
+         : undefined;
+    },
+    queryFn: ({ pageParam = 1 }) => getNotifications(String(pageParam)),
+  })
+
+  return {data,isLoading,isError,isFetchingNextPage,fetchNextPage,hasNextPage}
 }
