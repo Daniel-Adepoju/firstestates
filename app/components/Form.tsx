@@ -183,6 +183,7 @@ if(loggingIn) {
             value={school}
             onChange={(e) => setSchool(e.target.value)}
             className="w-full border rounded p-3 dark:bg-gray-700"
+            required
           >
             <option value="">Select a school</option>
             {schools.map((school) => (

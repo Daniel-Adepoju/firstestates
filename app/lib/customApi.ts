@@ -10,6 +10,7 @@ interface Config {
   enabled?: boolean;
   id?:string;
   search?: string;
+  listingId?: string;
 }
 
 
@@ -131,6 +132,27 @@ export const useGetNotifications = ({page,limit}: Config) => {
          : undefined;
     },
     queryFn: ({ pageParam = 1 }) => getNotifications(String(pageParam)),
+  })
+
+  return {data,isLoading,isError,isFetchingNextPage,fetchNextPage,hasNextPage}
+}
+
+export const useGetComments = ({listingId, page='1', limit=10}: Config) => {
+  const getComments = async (page:string) => {
+    const res = await axiosdata.value.get(`/api/listings/comments?listingId=${listingId}&limit=${limit}&page=${page}`)
+    return res.data; 
+  }
+
+  
+  const {data,isLoading,isError,isFetchingNextPage,fetchNextPage,hasNextPage,} = useInfiniteQuery({
+    queryKey: ['comments',listingId],
+    initialPageParam: 1,
+    getNextPageParam: (prevData: any) => {
+      return prevData?.cursor && prevData?.cursor !== prevData.numOfPages
+         ? prevData.cursor + 1
+         : undefined;
+    },
+    queryFn: ({ pageParam = 1 }) => getComments(String(pageParam)),
   })
 
   return {data,isLoading,isError,isFetchingNextPage,fetchNextPage,hasNextPage}

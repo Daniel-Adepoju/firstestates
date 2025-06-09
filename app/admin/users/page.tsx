@@ -47,12 +47,14 @@ const GetUsers = () => {
       <div className="container mx-auto py-8">
         <div>
           <h1 className="text-2xl font-semibold">Users</h1>
+          <div className="w-full flex flex-row justify-center items-center">
           <Searchbar
             search={search.value}
             setSearch={(e) => (search.value = e.target.value)}
             placeholder={"Search for users"}
             className="my-6 gap-1 w-full flex flex-row justify-center items-center md:justify-end  md:w-[60%]"
           />
+          </div>
         </div>
 
         {isLoading && <Loader className="my-18" />}

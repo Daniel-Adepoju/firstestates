@@ -76,7 +76,7 @@ const ListingSchema = new Schema({
   weeklyViews: {
     type: Number,
     default: 0
-  }
+  },
 }, {timestamps: true});
 
 const Listing = models?.Listing || model('Listing', ListingSchema);

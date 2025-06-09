@@ -76,6 +76,10 @@
   color: color('darkblue');
   @include center();
 }
+.description {
+  overflow-wrap: break-word;
+ white-space: pre-wrap;
+}
 
 .smallNum {
   @extend .currency;
@@ -445,4 +449,8 @@ isolation: isolate;
     @include transition(200ms, ease-out);
     transform: rotate(360deg);
   }
+}
+
+.quickLink {
+  color: color("darkblue");
 }

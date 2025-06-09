@@ -1,6 +1,7 @@
 "use client"
 import { analytics } from "@/utils/analytics"
 import CustomBarChart from "@/components/admin/CustomBarChart"
+import { formatNumber } from "@utils/formatNumber"
 
 interface AnalyticsDashboardProps {
   avgPerDay: string
@@ -24,7 +25,7 @@ const AnalyticsDashboard = ({
           <div className="content_item banner">
             <h3>Total Pageviews</h3>
             <div className="text">
-              <span>{totalPageViews}</span>
+              <span>{formatNumber(totalPageViews)}</span>
             </div>
           </div>
 

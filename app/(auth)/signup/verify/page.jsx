@@ -100,7 +100,7 @@ const Verify = () => {
 
   useEffect(() => {
     if(!email && !password && !username) {
-     return router.push('/login')
+    //  return router.push('/login')
     }
   },[])
   if(loggingIn) {
@@ -115,12 +115,15 @@ const Verify = () => {
   return (
     <div className="verify">
       <h2 className="subheading">Verify Your Email Address</h2>
-      <p className="verify__description">
+      <p className="verify_description">
         Input the 5-digits OTP sent to your provided email address.
       </p>
+      <p className='my[-90px]'>
+        OTP is valid for 5 minutes.
+      </p>
       {validTime.value > 0 && (
-        <p className="verify__description">
-          OTP is valid for <strong className="timer">{validTime.value}</strong> seconds.
+        <p className="verify_description">
+          You can resend in <strong className="timer">{validTime.value}</strong> seconds.
         </p>
       )}
       {validTime.value === 0 && (

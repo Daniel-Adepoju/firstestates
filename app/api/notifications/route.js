@@ -8,7 +8,6 @@ export const GET = async (req) => {
 const {searchParams} = new URL(req.url)
   const page = searchParams.get('page') || 1
   const limit =  Number(searchParams.get('limit')) ||  10
-
   const skipNum = Number((page- 1) * Number(limit))
   let cursor = Number(page)
   

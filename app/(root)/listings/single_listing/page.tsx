@@ -15,6 +15,8 @@ import { Skeleton } from "@components/ui/skeleton"
 import { useGetSingleListing } from "@lib/customApi"
 import { useDarkMode } from "@lib/DarkModeProvider"
 import { MapPin, Toilet, Bed, Bath,Phone} from "lucide-react"
+import {Comment, WriteComment, CommentProps} from "@components/Comment"
+import { useGetComments } from "@lib/customApi"
 
 const SingleListing = () => {
   const [isSwiperLoaded, setIsSwiperLoaded] = useState(false)
@@ -22,7 +24,8 @@ const SingleListing = () => {
   const {darkMode} = useDarkMode()
 
   const { data, isLoading, isError } = useGetSingleListing(listingId)
-
+  const { data: commentsData, isLoading:commentLoading } = useGetComments({ listingId: listingId ?? "", page: '1', limit: 10 })
+   console.log(commentsData)
   const handlePhoneClick = () => {
     window.open(`tel:${data?.agent.phone}`)
   }
@@ -36,7 +39,7 @@ const SingleListing = () => {
 
   if (isLoading) {
     return (
-      <div className= "pb-6 gap-[30px] flex flex-col  items-center w-full min-h-screen">
+      <div className= "gap-[30px] flex flex-col  items-center w-full min-h-screen">
         <Skeleton className="bg-gray-200 w-full h-[300px] rounded-4xl" />
         <Skeleton className="bg-gray-200 w-[90%] h-[100px] rounded-xl" />
         <Skeleton className=" bg-gray-200 w-[80%] h-[190px] rounded-xl" />
@@ -59,6 +62,7 @@ const SingleListing = () => {
     )
   }
   return (
+    <>
     <div className="singleCardCon">
       <div className="singleCardSection">
         <div className="single_card">
@@ -145,7 +149,6 @@ const SingleListing = () => {
           </Button>
         </div>
       </div>
-
       <div className="singleCardSection">
         <div className="single_card">
           <div className="price">
@@ -211,6 +214,65 @@ const SingleListing = () => {
         </div>
       </div>
     </div>
+
+     <div className="singleCardCon2">
+      {/* description */}
+    <div className="singleCardSection">
+      <div className="single_card">
+      <div className="heading mx-auto">
+      Description
+      </div>
+     <div className="description">
+        {data?.description}
+     </div> 
+      </div>
+
+    </div>
+   
+   {/* comments */}
+    <div className="singleCardSection relative">
+      <div className="single_card">
+      <div className="heading mx-auto">
+      Comments
+      </div>
+      <div className="
+     
+      pb-16 pt-6 mt-2 flex flex-col w-full
+      justify-start items-center
+       gap-4
+      max-h-200
+      overflow-y-auto
+      nobar
+      ">
+      {commentLoading ? (
+
+        <Skeleton className="bg-gray-200 w-full h-[100px] rounded-xl" />
+      ) : (
+        commentsData?.pages[0].comments.length === 0 ? 
+          <div className="text-gray-500 dark:text-white text-center">
+            No comments yet. Be the first to share your thoughts!
+          </div>
+         :
+        commentsData?.pages.flatMap((item) =>
+          item.comments.map((comment:CommentProps) => (
+            <Comment
+              key={comment._id}
+              comment={comment}
+              listingId={listingId ?? ""}
+            />
+          ))
+        )
+      
+      )}                
+      </div>
+     <WriteComment listingId={listingId ?? ""}/>
+      </div>
+
+    </div>
+
+
+    </div>
+    </>
   )
 }
 

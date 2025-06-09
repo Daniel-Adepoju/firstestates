@@ -1,6 +1,7 @@
 "use server"
 import { connectToDB } from "@utils/database"
 import Listing from "@models/listing"
+import Comment from "@models/comment"
 import { auth } from "@auth"
 import { revalidatePath } from "next/cache"
 import { deleteImage, deleteMultipleImages } from "./deleteImage"
@@ -83,6 +84,7 @@ export const deleteListing = async (id) => {
       return { message: `You can't delete a rented listing`, status: "warning" }
     } 
     await Listing.deleteOne({ _id: id })
+    await Comment.deleteMany({ listing: id })
     await deleteImage(listing.mainImage)
     await deleteMultipleImages(listing.gallery)
     await sendNotification({
@@ -96,5 +98,33 @@ export const deleteListing = async (id) => {
    
   } catch (err) {
     return { message: "Unable To Delete,Refresh And Try Again", status: "danger" }
+  }
+}
+
+export const sendComment = async (val) => {
+  const session = await auth()
+  const userId = session?.user.id
+  if (!userId) {
+    return { message: "Unauthorized", status: "danger" }
+  }
+  try {
+    await connectToDB()
+    const newVal = { ...val, author: userId }
+    const listing = await Listing.findOne({ _id: val.listing})
+    if (!listing) {
+      return { message: "Listing not found", status: "warning" }
+    }
+    const newComment = new Comment(newVal)
+    await newComment.save()
+    await sendNotification({
+      type: "New_Comment",
+      recipientRole: "agent",
+      message: `You have a new comment on your listing at ${listing.location}`,
+      userId: listing.agent._id,
+      thumbnail: listing.mainImage,
+    })
+    return { message: "Commented Successfully", status: "success" }
+  } catch (err) {
+    return { message: "Unable To Comment,Refresh And Try Again", status: "danger" }
   }
 }

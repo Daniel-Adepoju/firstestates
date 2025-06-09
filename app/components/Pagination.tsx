@@ -30,7 +30,7 @@ const Pagination = ({ currentPage, totalPages}:PaginationProps) => {
   }
 
   return (
-    <div className="pagination flex justify-between items-center p-4 px-8 bg-white shadow-md rounded-xl w-full max-w-md mx-auto
+    <div className="pagination flex justify-between items-center p-4 px-8 bg-white shadow-md rounded-xl w-sm lg:w-lg mx-auto
    
     ">
       <button
