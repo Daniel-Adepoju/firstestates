@@ -4,7 +4,7 @@ import { Listing } from "./Card"
 import { CldImage } from "next-cloudinary"
 import {Skeleton} from "./ui/skeleton"
 import Link from "next/link"
-import { Bed, Bath, Toilet } from "lucide-react"
+import { Bed, Bath, Toilet,ArrowLeft,ArrowRight } from "lucide-react"
 import { useDarkMode } from "@lib/DarkModeProvider"
 
 
@@ -31,6 +31,17 @@ export default function PopularThisWeek() {
       <h2 className="subheading p-1 text-xl font-semibold mx-auto relative smallLine">
         Popular This Week
       </h2>
+      <div className="w-[98%] flex justify-end">
+      <div className="flex flex-row gap-2">
+        <div className='smallScale cursor-pointer dark:bg-gray-600 bg-slate-100 p-2 rounded-full'>
+         <ArrowLeft size={30} color={darkMode ? '#A88F6E' : '#f29829'}/>  
+        </div>
+         
+       <div className='smallScale cursor-pointer dark:bg-gray-600 bg-slate-100 p-2 rounded-full'>
+        <ArrowRight size={30} color={darkMode ? '#A88F6E' : '#f29829'}/>
+      </div>
+      </div>
+      </div>
       <div
         className="popularList px-4 grid w-full grid-flow-col my-4 py-2
           overflow-x-scroll content-center gap-4 snap-x snap-mandatory"
@@ -39,7 +50,7 @@ export default function PopularThisWeek() {
           <Link
             key={listing?._id}
             href={`/listings/single_listing?id=${listing?._id}`}
-            className="popularCard snap-center flex flex-col border w-[200px] min-h-50 p-2 rounded-lg shadow-md bg-white"
+            className="popularCard snap-center flex flex-col border w-[200px] min-h-50 p-2 rounded-xl shadow-md bg-white"
           >
             <div className="w-[100%] h-30 relative">
               {listing?.mainImage?.startsWith("http") ? (

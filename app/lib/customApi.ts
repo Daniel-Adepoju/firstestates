@@ -36,6 +36,21 @@ export const useGetUsers = ({page,limit,search}: Config) => {
   return {data,isLoading,isError}
 }
 
+export const useGetUser = ({id,enabled}: Config) => {
+  const getUser = async () => {
+    const res = await axiosdata.value.get(`/api/users/${id}`)
+    return res.data;
+  }
+
+  const {data,isLoading,isError} = useQuery({
+    queryKey:['user',id],
+    queryFn:() => getUser(),
+    enabled,
+  })
+
+  return {data,isLoading,isError}
+}
+
 export const useGetListings = ({page,limit,location,school,price}: Config) => {
   const getListings = async (page:string) => {
     const res = await axiosdata.value.get(`/api/listings?limit=${limit}&page=${page}&location=${location}&school=${school}&price=${price}`)
@@ -156,4 +171,19 @@ export const useGetComments = ({listingId, page='1', limit=10}: Config) => {
   })
 
   return {data,isLoading,isError,isFetchingNextPage,fetchNextPage,hasNextPage}
+}
+
+export const useGetAgentPayments = ({userId,enabled}: { userId?: string, enabled?:boolean}) => {
+  const getPayments = async () => {
+    const res = await axiosdata.value.get(`/api/payments/agent?userId=${userId}`)
+    return res.data; 
+  }
+
+
+  const {data,isLoading,isError} = useQuery({
+    queryKey: ['agent-payments'],
+    queryFn: () => getPayments(),
+    enabled,
+  })
+  return {data,isLoading,isError}
 }

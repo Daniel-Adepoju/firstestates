@@ -214,19 +214,24 @@ const notificationMutation = useMutation({
   }
   return (
     <>
-     {data?.pages[0].notifications.length > 0 ?
-     <div onClick={() => notificationMutation.mutate()} className="hover:underline self-start cursor-pointer dark:text-red-400 text-red-600">
-    {notificationMutation.isPending ? 'Clearing' :  'Clear All'}
-      </div> :
-      <div className='subheading flex flex-col gap-4 items-center'>
-        No Notifications
-        <FileX size={160} color='#f29829'/>
-        </div> }
-
- {mappedNotifications}
- {isFetchingNextPage && <Loader2
-     color={darkMode ? "white" : '#0874c7'} 
-     size={30} className="animate-spin  my-3" />}
+      {data?.pages[0].notifications.length > 0 ? (
+        <div onClick={() => notificationMutation.mutate()} className="hover:underline self-start cursor-pointer dark:text-red-400 text-red-600">
+          {notificationMutation.isPending ? 'Clearing' :  'Clear All'}
+        </div>
+      ) : (
+        <div className='subheading flex flex-col gap-4 items-center'>
+          No Notifications
+          <FileX size={160} color='#f29829'/>
+        </div>
+      )}
+  {/* <div className='nobar w-full overflow-y-scrol flex flex-col gap-3 pb-3'> */}
+    {mappedNotifications}
+         
+  
+  {/* </div> */}
+    {isFetchingNextPage && <Loader2
+        color={darkMode ? "white" : '#0874c7'} 
+        size={30} className="animate-spin  my-3" />}
     </>
   );
 }

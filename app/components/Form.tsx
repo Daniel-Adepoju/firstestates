@@ -246,9 +246,9 @@ if(loggingIn) {
           <div className="info">
             {pathName === "/login" ? `Don't have an account?` : `Already have an account?`}
             {pathName === "/login" ? (
-              <Link href="/signup">Create One Here</Link>
+              <Link href="/signup" className="quickLink">Create One Here</Link>
             ) : (
-              <Link href="/login"> Login Here </Link>
+              <Link href="/login" className="quickLink"> Login Here </Link>
             )}
           </div>
         </div>

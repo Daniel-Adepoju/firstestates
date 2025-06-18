@@ -35,6 +35,24 @@ thumbnail: {
   type: String,
   required: false
 },
+sentBy: {
+  type: Schema.Types.ObjectId,
+  ref: User.modelName,
+  required: false
+},
+reportedUser: {
+  type: Schema.Types.ObjectId,
+   ref: User.modelName,
+  required: false
+},
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
+  }
   
 },{timestamps: true})
 

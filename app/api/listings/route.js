@@ -1,7 +1,6 @@
 import { connectToDB } from "@utils/database"
 import Listing from "@models/listing"
 import { NextResponse } from "next/server"
-import Notification from "@models/notification"
 import { auth } from "@auth"
 import { faker } from "@faker-js/faker";
 

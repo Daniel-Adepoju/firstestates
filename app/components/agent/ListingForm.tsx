@@ -1,7 +1,7 @@
 "use client"
 import { signal } from "@preact/signals-react"
 import { useSignal, useSignals } from "@preact/signals-react/runtime"
-import { CldUploadWidget, CldImage, CloudinaryUploadWidgetResults} from "next-cloudinary"
+import { CldUploadWidget, CldImage, CloudinaryUploadWidgetResults } from "next-cloudinary"
 import { DeleteLoader, WhiteLoader } from "@utils/loaders"
 import { deleteImage, deleteMultipleImages } from "@lib/server/deleteImage"
 import { createListing } from "@lib/server/listing"
@@ -10,16 +10,19 @@ import Button from "@lib/Button"
 import { useNotification } from "@lib/Notification"
 import { useUser } from "@utils/user"
 import { useRouter } from "next/navigation"
-import { useState,useEffect } from "react"
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { schoolArea,schools } from "@lib/constants"
+import { useState, useEffect } from "react"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { schoolArea, schools } from "@lib/constants"
+import { Info, MoreHorizontal } from "lucide-react"
+import Nav from "@components/Nav"
+import PaystackBtn from "@components/PayStackButton"
 
-export interface CloudinaryResult  {
- public_id: string
+export interface CloudinaryResult {
+  public_id: string
 }
 interface DeleteFromGalleryEvent extends React.MouseEvent<HTMLImageElement> {
   target: HTMLImageElement & {
-    id: string,
+    id: string
     dataset: {
       id: string
     }
@@ -40,39 +43,72 @@ const listingDeets = {
 
 const ListingForm = () => {
   useSignals()
-    const queryClient = useQueryClient()
-  const session = useUser()
+  const queryClient = useQueryClient()
+  const { session } = useUser()
+  const email = session?.user?.email
   const router = useRouter()
   const notification = useNotification()
   const deletingImage = useSignal(false)
   const deletingGallery = useSignal(false)
   const selectedGalleryImageId = useSignal<number | null>()
   const creating = useSignal(false)
-  const [area,setArea] = useState("")
-  const [school,setSchool] = useState("")
-  const [areas,setAreas] = useState<string[]>([])
+  const [area, setArea] = useState("")
+  const [school, setSchool] = useState("")
+  const [areas, setAreas] = useState<string[]>([])
+  const [incomplete, setIncomplete] = useState(true)
+  const amount = 500
 
-const resetFormFields = () => {
-  listingDeets.description.value = ""
-  listingDeets.price.value = ""
-  listingDeets.address.value = ""
-  listingDeets.bedrooms.value = ""
-  listingDeets.bathrooms.value = ""
-  listingDeets.toilets.value = ""
-  listingDeets.mainImage.value = null
-  listingDeets.gallery.value = []
-  setArea("")
-  setSchool("")
-}
+  useEffect(() => {
+    if (
+      listingDeets.description.value &&
+      listingDeets.price.value &&
+      listingDeets.address.value &&
+      listingDeets.bedrooms.value &&
+      listingDeets.bathrooms.value &&
+      listingDeets.toilets.value &&
+      listingDeets.mainImage.value &&
+      listingDeets.gallery.value &&
+      area &&
+      school
+    ) {
+      setIncomplete(false)
+    } else {
+      setIncomplete(true)
+    }
+  }, [
+    listingDeets.description.value,
+    listingDeets.price.value,
+    listingDeets.address.value,
+    listingDeets.bedrooms.value,
+    listingDeets.bathrooms.value,
+    listingDeets.toilets.value,
+    listingDeets.mainImage.value,
+    listingDeets.gallery.value,
+    area,
+    school,
+  ])
 
-useEffect(() => {
-  if(!school) {
-    setAreas([])
+  const resetFormFields = () => {
+    listingDeets.description.value = ""
+    listingDeets.price.value = ""
+    listingDeets.address.value = ""
+    listingDeets.bedrooms.value = ""
+    listingDeets.bathrooms.value = ""
+    listingDeets.toilets.value = ""
+    listingDeets.mainImage.value = null
+    listingDeets.gallery.value = []
+    setArea("")
+    setSchool("")
   }
-  if(school) {
-    setAreas(schoolArea[school as keyof typeof schoolArea])
-  }
-},[school])
+
+  useEffect(() => {
+    if (!school) {
+      setAreas([])
+    }
+    if (school) {
+      setAreas(schoolArea[school as keyof typeof schoolArea])
+    }
+  }, [school])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -158,12 +194,12 @@ useEffect(() => {
   //Create Listing
   const handleCreateListing = async () => {
     creating.value = true
+    console.log("created succesfully")
     try {
-      await session
       const res = await createListing({
         description: listingDeets.description.value,
         price: listingDeets.price.value,
-        location:area,
+        location: area,
         school,
         gallery: listingDeets.gallery.value,
         mainImage: listingDeets.mainImage.value,
@@ -178,34 +214,42 @@ useEffect(() => {
         notification.setType(res.status)
       }
       creating.value = false
-     resetFormFields()
-    router.push('/agent/listings')
+      resetFormFields()
+      router.push("/agent/listings")
     } catch (err) {
       creating.value = false
       console.log(err)
     }
   }
-    const mutation = useMutation({
-      mutationFn:handleCreateListing,
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['listings'] })
-      },
-    })
+  const mutation = useMutation({
+    mutationFn: handleCreateListing,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["listings"] })
+    },
+  })
 
-    const handleMutate = (e: React.FormEvent<HTMLFormElement>) => {
-   e.preventDefault()
-   mutation.mutate()
-    }
+  const handleMutate = () => {
+    mutation.mutate()
+  }
   return (
     <>
+      {/* <Nav/> */}
       <div className="form_container listing">
         <div className="title_heading">
           <h2>Create a new listing</h2>
           <p className="text-base">Fill in the form below to create a new listing</p>
         </div>
 
+        <div className="text-white dark:text-black listingInfoTooltip relative tooltip-above flex flex-row   rounded-full mt-3 cursor-pointer items-center justify-center w-8 mx-auto  bg-sky-700 dark:bg-yellow-600 ">
+          <Info
+            size={30}
+            color="white"
+            className="animate-pulse"
+          />
+        </div>
+
         <form
-          onSubmit={handleMutate}
+          // onSubmit={handleMutate}
           className="form listing"
         >
           <div className="form_group">
@@ -233,7 +277,6 @@ useEffect(() => {
             />
           </div>
 
-
           {/* Main Image */}
           <div className="form_group main_image">
             <CldUploadWidget
@@ -257,7 +300,8 @@ useEffect(() => {
                 <>
                   <div
                     className="clickable"
-                    onClick={handleDeleteImage}>
+                    onClick={handleDeleteImage}
+                  >
                     <Image
                       src="/icons/cancel.svg"
                       alt="Delete"
@@ -402,42 +446,65 @@ useEffect(() => {
           <div className="form_group">
             <label>School</label>
             <select
-            value={school}
-            onChange={(e) => setSchool(e.target.value)}
-            className="w-full border rounded p-2 dark:text-white dark:bg-gray-600"
-          >
-            <option value="">Select a school</option>
-            {schools.map((school) => (
-        <option key={school} value={school}
-        >{school}</option>
-            ))}
-          </select>
-        </div>
+              value={school}
+              onChange={(e) => setSchool(e.target.value)}
+              className="w-full border rounded p-2 dark:text-white dark:bg-gray-600"
+            >
+              <option value="">Select a school</option>
+              {schools.map((school) => (
+                <option
+                  key={school}
+                  value={school}
+                >
+                  {school}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        {/* Location Select */}
-        <div className="form_group">
-          <label>Location</label>
-          <select
-            value={area}
-            onChange={(e) => setArea(e.target.value)}
-            className="w-full border rounded p-2 dark:text-white dark:bg-gray-600"
-          >
-            <option value="">Select a location</option>
-            {areas.map((area) => (
-              <option key={area} value={area}>{area}</option>
-            ))}
-          </select>
-        </div>
-
+          {/* Location Select */}
+          <div className="form_group">
+            <label>Location</label>
+            <select
+              value={area}
+              onChange={(e) => setArea(e.target.value)}
+              className="w-full border rounded p-2 dark:text-white dark:bg-gray-600"
+            >
+              <option value="">Select a location</option>
+              {areas.map((area) => (
+                <option
+                  key={area}
+                  value={area}
+                >
+                  {area}
+                </option>
+              ))}
+            </select>
+          </div>
 
           <div className={`form_group ${listingDeets.gallery.value.length > 0 && "submi"}`}>
-            <Button
-              type="submit"
-              text="Create Listing"
-              className="clickable directional darkblueBtn"
-            >
-              {creating.value && <WhiteLoader />}
-            </Button>
+            {email ? (
+              incomplete ? (
+                <div className="mx-auto font-semibold text-gray-700 dark:text-white">
+                  Fill The Form To Proceed
+                </div>
+              ) : (
+                <PaystackBtn
+                  email={email || ""}
+                  amount={amount}
+                  creating={creating}
+                  successFunction={() => handleMutate()}
+                />
+              )
+            ) : (
+              <div className="font-semibold mx-auto flex flex-row items-center gap-1 dark:text-white text-gray-600">
+                <span>Loading</span>
+                <MoreHorizontal
+                  size={20}
+                  className="self-end animate-pulse"
+                />
+              </div>
+            )}
           </div>
         </form>
       </div>

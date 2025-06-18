@@ -5,24 +5,24 @@ import { auth } from "@auth"
 
 
 export const GET = async (req) => {
-const {searchParams} = new URL(req.url)
+  const {searchParams} = new URL(req.url)
   const page = searchParams.get('page') || 1
   const limit =  Number(searchParams.get('limit')) ||  10
   const skipNum = Number((page- 1) * Number(limit))
   let cursor = Number(page)
-  
 
   try {
     const session = await auth()
     const userId = session.user.id;
    const userRole = session.user.role;
+   console.log(userRole)
     const searchOptions = [
         { userId: userId},
        
         {
         clearedBy:{$ne:userId},
-        recipientRole: userRole, 
-        mode: "broadcast-agent"
+        recipientRole: userRole,
+        mode: `broadcast-${userRole}`
       }
     ]
     await connectToDB()

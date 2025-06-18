@@ -12,15 +12,18 @@ import Pagination from "@components/Pagination"
 import Searchbar from "@components/Searchbar"
 import { useSignals, useSignal} from "@preact/signals-react/runtime"
 import { useDarkMode } from "@lib/DarkModeProvider"
+import Payments from "@components/Payments"
+import { useGetAgentPayments } from '@lib/customApi';
 
 const Listings = () => {
   useSignals()
+  const {session} = useUser()
+  const userId = session?.user.email
   const {darkMode} = useDarkMode()
   const params = useSearchParams()
   const limit = 10
   const page = params.get('page') || '1'
   const [selected, setSelected] = useState('view') 
-  const {session} = useUser()
   const [agentId,setAgentId] = useState("")
   const search = useSignal("")
   const debounced = useSignal("")
@@ -54,8 +57,9 @@ const { data,isLoading } = useGetAgentListings({
   school:debounced.value,
   location: debounced.value,
 })
+const {data:paymentData,isLoading:paymentLoading} = useGetAgentPayments({userId,enabled:!!userId})
   
-   const mapCards = data?.listings?.map((item:CardProps['listing']) => {
+  const mapCards = data?.listings?.map((item:CardProps['listing']) => {
   return <Card
   key={item._id} listing={item}
   isAgentCard={true}
@@ -65,6 +69,9 @@ const { data,isLoading } = useGetAgentListings({
 
   return (
     <>
+    <Payments
+    data={paymentData}
+    isLoading={paymentLoading} />
     <div className="listingHistory">
        <div className="item">
       <span>Renting</span>

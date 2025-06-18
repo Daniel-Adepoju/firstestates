@@ -12,6 +12,7 @@ import {Toilet, Bed, Bath, MapPin, Eye} from "lucide-react"
 import { formatNumber } from "@utils/formatNumber"
 
 interface Agent {
+  _id: string;
   profilePic: string;
   username: string;
 }
@@ -52,12 +53,14 @@ const Card = ({ edit,listing,isAgentCard}: CardProps) => {
     deleteRef.current?.showModal()
   }
 
-console.log("listing", listing.weeklyViews, weeklyViews)
+  const visitCard = () => {
+    router.push(`/listings/single_listing?id=${listing?._id}`)
+  }
   return (
     <>
       <div className="cardContainer">
-        <div className="card">
-          <Link className='no-underline' href={`/listings/single_listing?id=${listing?._id}`}>
+        <div onClick={visitCard} className="card">
+          {/* <div className='no-underline'> */}
              <div className="houseImg">
             {listing?.mainImage?.startsWith("http") ? (
   <img
@@ -96,43 +99,53 @@ console.log("listing", listing.weeklyViews, weeklyViews)
                   size={30}
                   color={darkMode ? "#A88F6E" : "#0881A3"}
                 />
-                    <span>{listing?.bedrooms} bedrooms</span>
+                    <span>{listing?.bedrooms}</span>
                   </div>
                   <div>
                       <Bath
                   size={30}
                   color={darkMode ? "#A88F6E" : "#0881A3"}
                 />
-                    <span>{listing?.bathrooms} bathrooms</span>
+                    <span>{listing?.bathrooms}</span>
                   </div>
                   <div>
                     <Toilet
                   size={30}
                   color={darkMode ? "#A88F6E" : "#0881A3"}
                 />
-                    <span>{listing?.toilets} toilets</span>
+                    <span>{listing?.toilets}</span>
                   </div>
                 </div>
         
            
             {!isAgentCard && <div className="agent">
-                  <CldImage
+              
+        <div className=" w-full text-sm flex flex-col
+        items-center justify-start gap-1
+         break-words">
+              <div className="z-1000 text-md font-bold text-gray-600 dark:text-white">Listed By</div>
+              <Link 
+              onClick={(e) => e.stopPropagation()}
+              href={`/agent-view/${listing?.agent?._id}`}
+              className='block break-all text-start  agentCardName'>
+                <CldImage
                     width={20}
                     height={20}
                     alt="agent pic"
+                    className="my-1"
                     src={listing?.agent?.profilePic}
-                  />
-                  <div>
-              Listed by <span className='agentCardName'>{listing?.agent?.username}</span>
+                  /> 
+                  {listing?.agent?.username}
+               </Link>
                   </div>
                 </div> }
                       {isAgentCard && (
-      <div className="w-full flex flex-col pl-3">
+      <div className="w-full flex flex-col pl-3 font-semibold">
         <div className="flex flex-row gap-3 items-center text-sm">
             <Eye size={30}
                 color={darkMode ? "#A88F6E" : "#0881A3"}
             />
-             Weekly views
+             Past Week Views
         <span className="views smallNum ">
           {weeklyViews} 
           </span>
@@ -141,7 +154,7 @@ console.log("listing", listing.weeklyViews, weeklyViews)
         <div className="flex flex-row gap-3 items-center text-sm">
            <Eye size={30} 
            color={darkMode ? "#A88F6E" : "#0881A3"}/>
-           Total views
+           Total Views
         <span className="views smallNum">
         {totalViews} 
           </span>
@@ -152,7 +165,7 @@ console.log("listing", listing.weeklyViews, weeklyViews)
               </>
             )}
           </div>
-          </Link>
+          {/* </div> */}
        {!edit && <div className={`tag ${listing?.status === 'rented' && "rented"}`}>{listing?.status}</div>}
         
     

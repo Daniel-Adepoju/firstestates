@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { Signal } from "@preact/signals-react"
+import { Search } from "lucide-react"
 
 interface SearchProps {
     search?: string
@@ -13,11 +13,7 @@ const Searchbar = ({search,placeholder,goToSearch,setSearch,className}:SearchPro
   return (
   <div className={className || " mt-[80px] gap-1 w-full flex flex-row justify-center items-center md:justify-end  md:w-[60%]"}>
    <div className="dark:bg-white bg-blue-100 rounded-sm">
-    <Image
-    src={'/icons/search.svg'}
-    alt='search icon'
-    width={40}
-    height={40} />  
+    <Search size={35} color='#0874c7'/>
    </div>
     <input className="dark:bg-gray-600
     p-1 pl-4 border-gray-400 w-[80%] border-1

@@ -3,6 +3,7 @@
 import { analytics } from "@/utils/analytics"
 import AnalyticsDashboard from "@components/AnalyticsDashboard"
 import { getDate } from "@utils/date"
+ import { getPayment } from "@lib/server/makePayment"
 
 const Dashboard = async () => {
   const TRACKING_DAYS = 7
@@ -23,6 +24,8 @@ const Dashboard = async () => {
     )
   },0)
 
+const payments = await getPayment()
+   
   return (
     <>
       <AnalyticsDashboard 
@@ -30,6 +33,9 @@ const Dashboard = async () => {
       avgPerDay={avgVisitorPerDay}
       pageViews={pageViews}
       totalPageViews={totalPageViews}
+      dayPayments={payments?.getDayPayment?.amount}
+      weekPayments={payments?.getWeekPayment?.amount}
+      yearPayments={payments?.getYearPayment?.amount}
       />
     </>
   )

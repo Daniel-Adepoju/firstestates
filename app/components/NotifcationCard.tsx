@@ -8,6 +8,7 @@ import { clearSingleNotification } from "@lib/server/notificationFunctions";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CldImage } from "next-cloudinary";
 import {useState} from "react";
+import Link from "next/link";
 
 export interface Notification {
   _id: string
@@ -17,6 +18,8 @@ export interface Notification {
     readBy: [string]
   createdAt: string 
   thumbnail: string
+  sentBy?: string
+  reportedUser?: string
 }
 
 interface NotificationCardProps {
@@ -62,7 +65,8 @@ const NotifcationCard = ({ notification,refValue,page }: NotificationCardProps) 
         justify-between
         gap-4
        bg-white dark:bg-gray-600 border-gray-200 dark:border-gray-600
-      `}
+      ${notification.type === 'report' && 'dark:bg-red-700 bg-red-600'}
+       `}
     >
       {/* Left side: Icon + Type + Message */}
       <div className="w-full flex flex-col gap-2">
@@ -75,9 +79,14 @@ const NotifcationCard = ({ notification,refValue,page }: NotificationCardProps) 
             tracking-wide
             px-2
             py-1
-            rounded
+            rounded-sm
             text-center
-          bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300`}
+          bg-gray-200 
+          dark:bg-gray-700 
+          text-gray-700 
+          dark:text-gray-300
+          ${notification.type === 'report' && 'text-white dark:bg-red-800 bg-red-800'}
+          `}
         >
           {notification.type}
         </span>
@@ -85,22 +94,22 @@ const NotifcationCard = ({ notification,refValue,page }: NotificationCardProps) 
        
          {notification.thumbnail &&
           <div className="cursor-pointer">
-      {!notification.thumbnail.startsWith('http') || notification.thumbnail.startsWith('/images')
+      {notification.thumbnail.startsWith('http') || notification.thumbnail.startsWith('/images')
       ? <img className='rounded-sm w-25'
       src={notification.thumbnail} 
       alt='kd'/>
     : (
       <>
       {!noImage ? <CldImage
-          width={50}
-          height={50}
-          crop={"auto"}
+          width={60}
+          height={60}
+          // crop={"auto"}
           alt="notification thumbnail"
           src={notification.thumbnail}
           onError={(e) => {
             setNoImage(true)
           }}
-          className="rounded-sm w-25"
+          className="rounded-sm"
         />
         : (
           <img
@@ -118,7 +127,23 @@ const NotifcationCard = ({ notification,refValue,page }: NotificationCardProps) 
          <div>{notification.message}</div>
          </div>
       </div>
+      
+      {/*Additional Info */}
+      <div className="w-full flex flex-col gap-2 text-xs text-gray-500 dark:text-gray-300">
+        {notification?.sentBy && (
+          <span>
+            Sent by: <Link href={`/admin/users/${notification?.sentBy}`} className="font-semibold">{notification?.sentBy}</Link>
+          </span>
+        )}
+        {notification?.reportedUser && (
+          <span>
+            Reported User: <Link href={`/admin/users/${notification?.reportedUser}`}  className="font-semibold">{notification?.reportedUser}</Link>
+          </span>
+          
+        )}
+        </div>
 
+      {/* Clear */}
       <div className="w-full flex items-center gap-2">  
           <button
             onClick={() => deleteMutation.mutate(notification._id)}

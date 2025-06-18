@@ -1,17 +1,16 @@
 'use client'
 
 import Image from "next/image"
-import {useUser} from "@utils/user"
 import { CldImage } from "next-cloudinary"
 import { Skeleton } from "@components/ui/skeleton"
 import { MapPin, Phone } from "lucide-react"
 import { useDarkMode } from "@lib/DarkModeProvider"
 
-const Agent = () => {
-const {session} = useUser()
+const Agent = ({agent}) => {
+
   const {darkMode} = useDarkMode()
 
-if (!session) {
+if (!agent) {
   return (
     <div className="flex flex-col gap-4 w-full">
       <Skeleton className="w-30 h-30 rounded-[50%] bg-gray-300" />
@@ -27,25 +26,25 @@ if (!session) {
             <CldImage
             width={100}
             height={100}
-            src={session?.user.profilePic}
+            src={agent.profilePic}
             alt='profilePic'/>
         </div>
         <div className="agentName">
-        {session?.user.username}
+        {agent.username}
         </div>
-    <div className="opacity-60"><span className='pl-2'>{session?.user.email}</span></div>
+    <div className="opacity-60"><span className='pl-2'>{agent.email}</span></div>
  <div className="address">
      <MapPin
                   size={30}
                   color={darkMode ? "#A88F6E" : "#0881A3"}
                 />
      <span>Office Address:</span>
-      <span>{session?.user.address}</span>
+      <span>{agent.address}</span>
     </div>
         <div className="agentProfileInfo">
    <div className="mt-6 font-bold">
       <Phone size={34} color={darkMode ? "#A88F6E" : "#0881A3"}/>
-   <span className='pl-2'>{session?.user.phone}</span>
+   <span className='pl-2'>{agent.phone}</span>
    </div>
     <div className="font-bold">
        <Image
@@ -53,7 +52,7 @@ if (!session) {
       alt='icon'
       width={50}
       height={50} />
-      <span className='pl-2'>{session?.user.whatsapp}</span></div>
+      <span className='pl-2'>{agent.whatsapp}</span></div>
     </div>
     </div>
     

@@ -1,9 +1,5 @@
 html:is(.dark) {
     .popularList {
- &::-webkit-scrollbar {
-  width: 6px;
-  height: 8px;
-}
 
 &::-webkit-scrollbar-thumb {
   background: rgb(179, 179, 179);
@@ -18,7 +14,7 @@ background:white;
   background: transparent;
 }
 }
-
+   
   .loader {
     color: white;
   }
@@ -26,7 +22,9 @@ background:white;
     background-color: color('darkModePrimary');
     color:white;
   }
- 
+  .nav {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.317);
+  }
   .nav,.nav_items,footer {
     background-color:color('darkModeSecondary');
     color: white;
@@ -51,15 +49,6 @@ background:white;
      .activeNav {
       .toggle_nav{
        .toggle_items:nth-child(2) {
-        @include transition(300ms);
-        position: absolute;
-        width: 50px;
-        height: 50px;
-        padding: 20px;
-        right: 13.9px;
-        border-radius: 50%;
-        background-color: transparent;
-        // opacity: 30%;
         border: 4px dashed white;
         animation: rollBorderWhite 5s ease-in-out infinite;
       }
@@ -71,7 +60,9 @@ background:white;
     .subheading, .heading {
     color: white;
   }
-
+.card_list {
+  background-color: rgba(37, 37, 37, 0.146);
+}
  .card {
   
      background-color: color('black');
@@ -97,9 +88,7 @@ background:white;
     }
   
 }
-.agentCardName {
-  color: color('coffee')
-}
+
 .popularCard, .pagination {
   background-color: color('darkModeSecondary');
 }
@@ -162,5 +151,29 @@ background:white;
   &:after {
     background-color: color('coffee');
   }
+}
+
+.quickLink {
+  color: rgb(106, 180, 232);
+}
+
+.swiper-pagination-bullet {
+  background-color: color("coffee") !important;
+}
+.singleCardCon {
+  background-color: color('darkModeSecondary');
+}
+.agentCardName {
+  color: color('coffee');
+}
+
+.otherCard {
+  background-color: color('darkModeSecondary');
+}
+.otherHead {
+  color: white;
+}
+.hero {
+  color:white;
 }
 }

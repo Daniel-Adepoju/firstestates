@@ -58,6 +58,7 @@ if(isError) {
    search={search.value}
    setSearch={() => search.value = ''}
    placeholder={placeholder.value}
+   className={`mt-[0px] gap-1 w-full flex flex-row justify-center items-center md:justify-end  md:w-[60%]`}
    goToSearch={() => {
     placeholder.value = 'Redirecting to search page...'
     router.push('/search')

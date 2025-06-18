@@ -2,7 +2,7 @@ import { CldImage } from 'next-cloudinary';
 
 import { useDarkMode } from '@lib/DarkModeProvider';  
 import { useState, useEffect} from 'react';
-import { useSignals} from '@preact/signals-react/runtime';
+import { useSignals,useSignal} from '@preact/signals-react/runtime';
 import { Signal } from '@preact/signals-react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNotification } from '@lib/Notification';
@@ -14,12 +14,13 @@ export interface User {
           username: string;
           email: string;
           profilePic: string;
+          phone?: string;
           role: "admin" | "agent" | "user" | string;
         }
 
    interface UsersCardProps {
         user: User,
-        menuId: Signal<string>
+        menuId?: Signal<string>
         }
 
 const UsersCard = ({user, menuId}:UsersCardProps) => {
@@ -29,13 +30,13 @@ const [showMenu, setShowMenu] = useState(false);
 const [updating, setUpdating] = useState(false)
 const notification = useNotification()
 const queryClient = useQueryClient()
-
+const currentMenuId = menuId || useSignal("");
 
 useEffect(() => {
-   if (menuId.value !== user._id) {
+   if (currentMenuId.value !== user._id) {
     setShowMenu(false)
    }
-},[menuId.value])
+},[currentMenuId.value])
 
 
 const makeAdmin = async () => {
@@ -54,6 +55,30 @@ const makeAdmin = async () => {
 
 }
 
+const unmakeAdmin = async () => {
+  setShowMenu(false);
+  setUpdating(true);
+  try {
+    let newRole
+    if (user?.phone) {
+      newRole = "agent"
+    } else {
+      newRole = "client"
+    }
+
+    const res = await updateUser({ id: user._id, role: newRole })
+
+    notification.setIsActive(true)
+    notification.setMessage(res.message)
+    notification.setType(res.status)
+    setUpdating(false)
+  } catch (err) {
+    setUpdating(false)
+    console.log(err)
+  }
+};
+
+
 const banAccount = async () => {
   setShowMenu(false)
 }
@@ -65,6 +90,12 @@ const banAccount = async () => {
     },
   })
 
+   const unmakeAdminMutation = useMutation({
+    mutationFn: unmakeAdmin,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['users']})
+    },
+  })
      const banMutation = useMutation({
     mutationFn: banAccount,
     onSuccess: () => {
@@ -73,6 +104,7 @@ const banAccount = async () => {
   })
 
 
+  const pendingConditions = makeAdminMutation.isPending || banMutation.isPending
   return (
        <div
             key={user._id}
@@ -104,28 +136,35 @@ const banAccount = async () => {
                 >
                   {user.role}
                 </span>
-            {makeAdminMutation.isPending || banMutation.isPending ?  
+            {pendingConditions ?  
             <Loader2 size={40} className='animate-spin' /> 
             :   <Settings
                 onClick={() => {
                     setShowMenu(prev => !prev)
-                    menuId.value = user._id
+                    currentMenuId.value = user._id
                 }}
                 className='cursor-pointer smallScale'
                 color={darkMode ? "white" : '#0874c7'}
                 size={40} />
               }
-                  {showMenu && menuId.value === user._id  && (
+                  {showMenu && currentMenuId.value === user._id  && (
               <div className="absolute right--10 mt-2 w-40 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg z-50">
-              {user.role !=='admin' &&  <button
+              {user.role !=='admin' ?  <button
                   onClick={() => makeAdminMutation.mutate()}
                   className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
                 >
                   Make Admin
-                </button> }
+                </button> : 
+                 <button
+                  onClick={() => unmakeAdminMutation.mutate()}
+                  className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
+                >
+                  Remove as Admin
+                </button>
+                }
                 <button
                   onClick={() => banMutation.mutate()}
-                  className="block w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-200"
+                  className="block w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:opacity-90 hover:dark:bg-red-800 hover:dark:text-white"
                 >
                   Ban Account
                 </button>

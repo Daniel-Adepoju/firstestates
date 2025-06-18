@@ -152,4 +152,7 @@
     .mediumScale {
     @apply hover:scale-95 hover:ease-out hover:duration-300 ease-in transition-all duration-300
     }
+    .tooltip-above {
+    @apply after:animate-none after:top-[-110%] after:left-[-550%] after:absolute hover:after:w-50 hover:after:h-8 hover:after:bg-gray-600 dark:hover:after:bg-white hover:after:rounded-sm
+  }
   }

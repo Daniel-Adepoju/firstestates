@@ -7,7 +7,8 @@ import { useDarkMode } from '@lib/DarkModeProvider'
 import { sendComment } from '@lib/server/listing'
 import { useNotification } from '@lib/Notification'
 import {useMutation,useQueryClient} from '@tanstack/react-query'
-
+import { useNextPage } from '@lib/useIntersection'
+import { parseDate } from '@utils/date'
 
 interface CommentAuthor {
     username: string;
@@ -24,13 +25,14 @@ interface CommentAuthor {
 interface commentCardProps {
     comment?: CommentProps;
   listingId?: string;
+  refValue?: ReturnType<typeof useNextPage> | null
 }
 
-export const Comment = ({comment}: commentCardProps) => {
+export const Comment = ({comment, refValue}: commentCardProps) => {
     const [noImage,setNoImage] = useState(false)
     const defaultImage = "firstestatesdefaultuserpicture"
   return (
-    <div>
+    <div ref={refValue}>
         <div className="w-full overflow-hidden outline-1 outline-gray-300 p-4 rounded-lg flex flex-col gap-2">
             <div className="w-full rounded-full flex flex-row items-center gap-2">
             <CldImage
@@ -45,6 +47,9 @@ export const Comment = ({comment}: commentCardProps) => {
             <div className="whitespace-pre-wrap overflow-hidden break-words w-80 md:w-120 lg:w-150">
             {comment?.content}
             </div>
+        <div className='self-end text-sm text-gray-400'>
+      {parseDate(comment?.createdAt)}
+        </div>
         </div>
     </div>
   )
@@ -91,16 +96,18 @@ export const WriteComment = ({listingId}:commentCardProps) => {
           sendCommentMutation.mutate();
         }}
          className="
-        absolute bottom-0 left:0
+        absolute bottom-0 left-5
         p-6
+        px-5
         backdrop-blur-xs
-        w-full h-10 md:w-[70%] md:left-50 mx-auto flex flex-row justify-evenly items-center gap-2">
+        w-[90%] h-10 md:w-[70%] md:left-35 lg:left-50
+        flex flex-row justify-center items-center gap-2">
         <CldImage
         src={session?.user.profilePic}
         alt="user icon"
         width={30}
         height={30}
-        className="rounded-full border-1 border-white"/>
+        className=" rounded-full border-1 border-white"/>
         <input 
         className="flex-1 w-80 p-2 rounded-lg outline-2 outline-gray-600"
         type="text"
@@ -108,7 +115,7 @@ export const WriteComment = ({listingId}:commentCardProps) => {
         required
         minLength={10}
         onChange={(e) => setContent(e.target.value)}
-        placeholder='Share your thoughts about this listing...'
+        placeholder='Share your thoughts...'
         />
         <button>
         {sending ?
@@ -123,7 +130,10 @@ export const WriteComment = ({listingId}:commentCardProps) => {
         </button>
         </form>
         ) : (
-        <div><Link href='/login' className='quickLink'>Sign in</Link> to comment</div>
+        <div className='mx-auto text-center'>
+          <Link href='/login' className='quickLink '>
+          Sign in
+          </Link> to comment</div>
     )}
         </>
     )
