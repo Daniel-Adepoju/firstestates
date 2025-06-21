@@ -62,12 +62,38 @@ export const editListing = async (val, userId) => {
       thumbnail: val.mainImage,
     })
   
-    // revalidatePath("/agent/listings")
     return { message: "Edited Successfully", status: "success" }
   } catch (err) {
     return { message: "Unable To Edit,Refresh And Try Again", status: "danger" }
   }
 }
+
+export const markAsFeatured = async (val, userId) => {
+  try {
+    await connectToDB()
+    const newVal = { ...val }
+   const listing = await Listing.findOne({ _id: val.id })
+    await Listing.findOneAndUpdate({ _id: val.id },
+      newVal,
+      {
+      new: true,
+      runValidators: true,
+    })
+ 
+    await sendNotification({
+      type: "Listing_Edited",
+      recipientRole: "agent",
+      message: `You marked a listing as featured`,
+      userId,
+      thumbnail: listing.mainImage,
+    })
+  
+    return { message: "Successful", status: "success" }
+  } catch (err) {
+    return { message: "Unable To Edit,Refresh And Try Again", status: "danger" }
+  }
+}
+
 
 export const deleteListing = async (id) => {
   try {

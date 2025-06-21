@@ -77,8 +77,9 @@ const EditProfile = () => {
           <div className="relative">
             <CldImage
               src={session.user.profilePic}
-              width={150}
-              height={150}
+              width={120}
+              height={120}
+              crop={"fill"}
               alt="User Profile Picture"
               className="rounded-full"
             />

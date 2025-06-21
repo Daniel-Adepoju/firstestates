@@ -32,34 +32,29 @@
       }
     }
   }
-  .agentProfile,
+
    .listingHistory,
   .availableLists {
     background-color: color("white");
     width: 97%;
-    @include space(10px, 12px);
+    @include space(8px, 12px);
     @include shadow;
     border-radius: 8px;
   }
 
   .agentProfile {
-    @include shadow(0.2px);
+    @include space(1px, 8px);
+    @include shadow(0.1px);
     border-radius: 20px;
     padding-inline: 20px;
-    .agentProfilePic {
-      width: 100px;
-      border-radius: 50%;
-      img {
-        border: 1px solid rgba(46, 74, 98, 0.381);
-        border-radius: 50%;
-        @include shadow(0.6px);
-      }
-    }
+    width: 97%;
     .agentName {
       color: color("darkblue");
       font-size: 30px;
+      font-weight: 600;
     }
     .address {
+      width:100%;
       @include flex(row, center, flex-start);
       gap: 6px;
       span:nth-child(2) {

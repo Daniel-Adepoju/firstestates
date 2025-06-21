@@ -15,7 +15,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { schoolArea, schools } from "@lib/constants"
 import { Info, MoreHorizontal } from "lucide-react"
 import Nav from "@components/Nav"
-import PaystackBtn from "@components/PayStackButton"
+import dynamic from "next/dynamic"
+const PaystackBtn = dynamic(() => import("@components/PayStackButton"), { ssr: false });
+
 
 export interface CloudinaryResult {
   public_id: string
@@ -215,7 +217,7 @@ const ListingForm = () => {
       }
       creating.value = false
       resetFormFields()
-      router.push("/agent/listings")
+      router.push("/agent")
     } catch (err) {
       creating.value = false
       console.log(err)
@@ -490,6 +492,7 @@ const ListingForm = () => {
                 </div>
               ) : (
                 <PaystackBtn
+                  text={'Creating Listing'}
                   email={email || ""}
                   amount={amount}
                   creating={creating}

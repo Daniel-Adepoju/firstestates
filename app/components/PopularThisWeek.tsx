@@ -6,11 +6,39 @@ import {Skeleton} from "./ui/skeleton"
 import Link from "next/link"
 import { Bed, Bath, Toilet,ArrowLeft,ArrowRight } from "lucide-react"
 import { useDarkMode } from "@lib/DarkModeProvider"
-
+import { useState,useRef,useEffect } from "react"
 
 export default function PopularThisWeek() {
   const { data, isLoading } = useGetPopularListings()
   const {darkMode} = useDarkMode()
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const [showLeft, setShowLeft] = useState(false)
+  const [showRight, setShowRight] = useState(false)
+
+  const checkScroll = () => {
+    const el = scrollRef?.current;
+    if (!el) return
+    setShowLeft(el.scrollLeft > 0)
+    setShowRight(el.scrollLeft + el.clientWidth < el.scrollWidth)
+  }
+  
+    useEffect(() => {
+    checkScroll();
+    const el = scrollRef?.current;
+    if (!el) return;
+    el.addEventListener('scroll', checkScroll);
+    return () => el.removeEventListener('scroll', checkScroll);
+  }, [scrollRef.current]);
+
+  const scroll = (direction: 'left' | 'right') => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const scrollAmount = el.clientWidth * 0.8;
+    el.scrollBy({ left: direction === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' });
+  }
+  
+
+
 
   if (isLoading)
     return (
@@ -32,17 +60,22 @@ export default function PopularThisWeek() {
         Popular This Week
       </h2>
       <div className="w-[98%] flex justify-end">
-      <div className="flex flex-row gap-2">
-        <div className='smallScale cursor-pointer dark:bg-gray-600 bg-slate-100 p-2 rounded-full'>
+      <div className="flex flex-row gap-4">
+       {showLeft && <div 
+        onClick={() => scroll('left')}
+        className='mediumScale cursor-pointer dark:bg-gray-600 shadow-md p-2 rounded-full'>
          <ArrowLeft size={30} color={darkMode ? '#A88F6E' : '#f29829'}/>  
-        </div>
+        </div>}
          
-       <div className='smallScale cursor-pointer dark:bg-gray-600 bg-slate-100 p-2 rounded-full'>
+       {showRight && <div 
+        onClick={() => scroll('right')}
+       className='mediumScale cursor-pointer dark:bg-gray-600 shadow-md p-2 rounded-full'>
         <ArrowRight size={30} color={darkMode ? '#A88F6E' : '#f29829'}/>
-      </div>
+      </div>}
       </div>
       </div>
       <div
+        ref={scrollRef}
         className="popularList px-4 grid w-full grid-flow-col my-4 py-2
           overflow-x-scroll content-center gap-4 snap-x snap-mandatory"
       >

@@ -115,6 +115,7 @@ const banAccount = async () => {
               alt={`${user.username}'s profile picture`}
               width={60}
               height={60}
+              crop='auto'
               className="rounded-full"
             />
             <div className='w-full'>

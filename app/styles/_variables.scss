@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Sulphur+Point:wght@300;400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Cascadia+Code:ital,wght@0,200..700;1,200..700&family=Tangerine:wght@700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Tourney:ital,wght@0,100..900;1,100..900&display=swap');
 
 
 $header : "Outfit", sans-serif;
@@ -11,6 +11,7 @@ $body:"Cascadia Code", sans-serif;
 $body2: "Sulphur Point", sans-serif;
 $card: "Sulphur Point", sans-serif;
 $price: "Darker Grotesque", sans-serif;
+$price2: "Tourney", sans-serif;
 $write:  "Tangerine", cursive;
 $fonts: (
      'headers': $header,
@@ -20,6 +21,7 @@ $fonts: (
      'card': $card,
      'price': $price,
      'write':$write,
+     'price2':$price2,
      );
 
 

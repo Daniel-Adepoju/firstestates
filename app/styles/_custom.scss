@@ -14,6 +14,42 @@ input[type="number"] {
   }
   -moz-appearance: textfield;
 }
+// input[type="range"] {
+//   // -webkit-appearance: none;
+//   width: 100%;
+//   height: 6px;
+//   background: #ddd;
+//   border-radius: 4px;
+//   &::-webkit-slider-runnable-track {
+//   background: #ffffff; /* blue track */
+//   height: 6px;
+//   border-radius: 4px;
+// }
+// &::-moz-range-track {
+//   background: #ffffff;
+//   height: 6px;
+//   border-radius: 4px;
+// }
+// &::-webkit-slider-thumb {
+//   -webkit-appearance: none;
+//   height: 16px;
+//   width: 16px;
+//   background: color('darkblue');
+//   // border: 2px solid #0d6efd;
+//   border-radius: 50%;
+//   margin-top: -5px; /* Adjust based on track height */
+//   cursor: pointer;
+// }
+
+// &::-moz-range-thumb {
+//   height: 16px;
+//   width: 16px;
+//     background: color('darkblue');
+//   border: 2px solid #0d6efd;
+//   border-radius: 50%;
+//   cursor: pointer;
+// }
+// }
 .fullGrid {
   grid-column: 1/-1;
 }
@@ -212,6 +248,11 @@ a:has(.clickable) {
   color: color("white");
   border-radius: 8px;
   cursor: pointer;
+  @include transition('ease-in');
+  &:hover {
+    @include transition('ease-out');
+    transform: scale(1.009);
+  }
 }
 
 .blueBtn {
@@ -219,6 +260,11 @@ a:has(.clickable) {
   background-color: color("blue");
   color: color("white");
   border-radius: 8px;
+}
+.btnCover {
+.darkblueBtn {
+  width:100%;
+}
 }
 
 .openMap {
@@ -252,6 +298,8 @@ a:has(.clickable) {
 //Form
 .form_container {
   @include flex(column, center, space-between);
+  background-color: rgba(228, 224, 224, 0.422);
+
   width: 100%;
   padding-bottom: 10px;
   @media (min-width: 1200px) {
@@ -486,3 +534,15 @@ isolation: isolate;
   font-size: 40px;
   font-style: oblique;
 }
+.hero {
+  background-color: color('darkblue');
+  padding-block: 0;
+}
+.featured {
+  background-color: white;
+  @include shadow(0.8px)
+}
+
+//  'blue': #0881a3,
+//      'darkblue': #0874c7,
+//      'adminBlue':#154d86,

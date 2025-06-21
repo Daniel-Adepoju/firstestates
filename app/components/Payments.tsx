@@ -9,7 +9,6 @@ import {
   Tooltip,
   ResponsiveContainer} from 'recharts';
 
-import { useUser }from '@utils/user';
 import { months } from '@utils/date';
 import { useDarkMode } from '@lib/DarkModeProvider';
 import { MoreHorizontal,Banknote} from 'lucide-react';
@@ -20,9 +19,8 @@ interface PaymentProps {
     admin?:boolean;
 }
 
-const Payments = ({data,isLoading,admin}: PaymentProps) => {
+const Payments = ({data,isLoading=true,admin}: PaymentProps) => {
 
-// const {data,isLoading} = useGetAgentPayments({userId,enabled:!!userId})
 const {darkMode} = useDarkMode()
 const mappedData = data?.map((item:any) => {
   return {
@@ -34,13 +32,19 @@ const mappedData = data?.map((item:any) => {
 
 if(isLoading) {
     return (
-    <div className='flex items-center gap-1 font-semibold text-gray-700 dark:text-white'>
- <span>
+       <div className="w-full h-56 p-2 pt-4 pb-10 rounded-2xl shadow otherCard">
+      <h2 className="text-xl font-semibold subheading">Payments - Last 6 Months</h2>
+      <div className='
+      border-2 border-dashed border-gray-400 h-30
+      mt-4 flex justify-center items-center gap-1 font-semibold text-gray-700 dark:text-white'>
+ <span className='text-2xl'>
     Loading Payments
 </span>
  <MoreHorizontal size={30} color={darkMode ? 'white' : 'gray'} 
  className='animate-pulse'/>
     </div>
+    </div>
+
     )
 }
 
@@ -58,6 +62,8 @@ if(mappedData?.length < 1) {
         </div>
     )
 }
+
+
   return (
     <div className="w-full h-96 p-2 pt-4 pb-10 rounded-2xl shadow otherCard">
       <h2 className="text-xl font-semibold subheading">Payments - Last 6 Months</h2>
@@ -91,7 +97,7 @@ if(mappedData?.length < 1) {
         </AreaChart>
       </ResponsiveContainer>
     </div>
-  );
+  )
 }
 
 

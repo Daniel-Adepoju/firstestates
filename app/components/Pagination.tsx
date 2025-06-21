@@ -5,16 +5,17 @@ import { useRouter, useSearchParams } from 'next/navigation'
 interface PaginationProps {
   currentPage: number
   totalPages: number
+  hashParams?: string
 }
 
-const Pagination = ({ currentPage, totalPages}:PaginationProps) => {
+const Pagination = ({ currentPage, totalPages,hashParams}:PaginationProps) => {
   const router = useRouter()
   const params = useSearchParams()
 
   const navigateToPage = (page: number) => {
     const searchParams = new URLSearchParams(params.toString())
     searchParams.set('page', page.toString())
-    router.push(`?${searchParams.toString()}`)
+    router.push(`?${searchParams.toString()}${hashParams ? hashParams : ''}`)
   }
 
   const getPageNumbers = () => {

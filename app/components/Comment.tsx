@@ -107,6 +107,7 @@ export const WriteComment = ({listingId}:commentCardProps) => {
         alt="user icon"
         width={30}
         height={30}
+        crop={'auto'}
         className=" rounded-full border-1 border-white"/>
         <input 
         className="flex-1 w-80 p-2 rounded-lg outline-2 outline-gray-600"

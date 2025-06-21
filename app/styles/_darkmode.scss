@@ -22,6 +22,9 @@ background:white;
     background-color: color('darkModePrimary');
     color:white;
   }
+
+  // nav
+
   .nav {
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.317);
   }
@@ -41,10 +44,13 @@ background:white;
   }
   
   .nav_items {
-      a {
+      a,span {
       color: white;
-      }
+       &::after {
+        background-color: color("coffee");
+       }
      }
+    }
     
      .activeNav {
       .toggle_nav{
@@ -60,7 +66,9 @@ background:white;
     .subheading, .heading {
     color: white;
   }
-.card_list {
+
+// card
+  .card_list {
   background-color: rgba(37, 37, 37, 0.146);
 }
  .card {
@@ -99,19 +107,13 @@ background:white;
 }
 
 
-  .agentProfile,.listingHistory, .availableLists
-   {
-     background-color: color('darkModeSecondary');
-     color: white;
-     .agentName {
-        color:white;
-     }
+    // forms 
+    .form_container {
+   background-color: transparent;
+   .typeOfAccount {
+    background-color: color('coffee');
+   }
     }
-    // .availableLists {
-    // background-color: rgb(49, 51, 65);
-    // color: white;
-    // }
-
 .form {
 
   label {
@@ -129,12 +131,19 @@ background:white;
     color: white;
   } 
   }
-.board,.editSide {
+.board {
     background-color: color('darkModeSecondary');
     color: white;
 }
+.editSide {
+    background-color: color('darkModeSecondary');
+    color: white;
+    @include shadow(0.5px);
+    outline: 4px solid rgba(20, 20, 20, 0.447);
+}
 
 
+// dashboard
 .adminDashboard {
   .adminDashboard_content {
   .content_item {
@@ -142,6 +151,15 @@ background:white;
 }
   }
 }
+
+.agentProfile,.listingHistory, .availableLists
+   {
+     background-color: color('darkModeSecondary');
+     color: white;
+     .agentName {
+        color:white;
+     }
+    }
 
 .currency {
   color: color('coffee')
@@ -154,7 +172,7 @@ background:white;
 }
 
 .quickLink {
-  color: rgb(106, 180, 232);
+  color: rgb(211, 184, 47);
 }
 
 .swiper-pagination-bullet {
@@ -167,6 +185,9 @@ background:white;
   color: color('coffee');
 }
 
+
+// homepage
+
 .otherCard {
   background-color: color('darkModeSecondary');
 }
@@ -174,6 +195,18 @@ background:white;
   color: white;
 }
 .hero {
-  color:white;
+  background-color: color('coffee');
+  div,h1 {
+    color: white;
+  }
 }
+.featured {
+  background-color: color('coffee');
+}
+
+
+// buttons
+ .darkblueBtn {
+  background-color: color('coffee'); 
+ }
 }

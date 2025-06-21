@@ -102,7 +102,7 @@ const EditForm = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['agentListings'] })
       queryClient.invalidateQueries({ queryKey: ['notifications'] })
-         router.push('/agent/listings')
+         router.push('/agent')
     },
   })
 

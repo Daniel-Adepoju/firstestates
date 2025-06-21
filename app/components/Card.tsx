@@ -3,13 +3,12 @@ import React, { useRef, useState } from "react"
 import { CldImage } from "next-cloudinary"
 import { truncateAddress } from "@utils/truncateAddress"
 import Link from "next/link"
-import Image from "next/image"
 import { useRouter } from "next/navigation"
 import {DeleteModal} from "./Modals"
-import { DeleteLoader } from '@utils/loaders';
 import { useDarkMode } from "@lib/DarkModeProvider"
-import {Toilet, Bed, Bath, MapPin, Eye} from "lucide-react"
+import {Toilet, Bed, Bath, MapPin, Eye, Edit2, EditIcon, Trash2,LoaderPinwheel} from "lucide-react"
 import { formatNumber } from "@utils/formatNumber"
+import {FeaturedBtn} from "./Featured"
 
 interface Agent {
   _id: string;
@@ -34,10 +33,11 @@ export interface Listing {
   school?:string;
   weeklyViews?: number;
   totalViews?: number;
+  isFeatured?:boolean;
 }
 
 export interface CardProps {
- edit: boolean,
+ edit?: boolean,
  isAgentCard?: boolean,
  listing: Listing,
 }
@@ -120,10 +120,10 @@ const Card = ({ edit,listing,isAgentCard}: CardProps) => {
            
             {!isAgentCard && <div className="agent">
               
-        <div className=" w-full text-sm flex flex-col
+        <div className="w-full text-sm flex flex-col
         items-center justify-start gap-1
          break-words">
-              <div className="z-1000 text-md font-bold text-gray-600 dark:text-white">Listed By</div>
+              {/* <div className="z-1000 text-md font-bold text-gray-600 dark:text-white">Listed By</div> */}
               <Link 
               onClick={(e) => e.stopPropagation()}
               href={`/agent-view/${listing?.agent?._id}`}
@@ -161,7 +161,7 @@ const Card = ({ edit,listing,isAgentCard}: CardProps) => {
           </div>
       </div>     
      )}
-        <div className="school rounded-sm">{listing?.school}</div>
+        <div className="font-bold school rounded-sm">{listing?.school}</div>
               </>
             )}
           </div>
@@ -175,27 +175,34 @@ const Card = ({ edit,listing,isAgentCard}: CardProps) => {
 
         {edit && (
           <div className="editSide">
-            <Image
-              onClick={() => router.push(`/agent/listings/edit?id=${listing?._id}`)}
-              src="/icons/edit.svg"
-              width={40}
-              height={40}
-              alt="edit"
-            />
-            {/* <Image
-              src="/icons/archive.svg"
-              width={40}
-              height={40}
-              alt="archive"
-            /> */}
-    {deleting ?  <DeleteLoader /> :
-           <Image
-              src="/icons/delete.svg"
-              width={40}
-              height={40}
-              alt="delete"
-              onClick={openDialog}
-            />}
+      
+           <div 
+        onClick={() => router.push(`/agent/listings/edit?id=${listing?._id}`)}
+        className="dark:bg-black/20 bg-white/80 w-10 h-10 
+      flex flex-row items-center justify-center
+      rounded-full shadow-md
+      mediumScale cursor-pointer">
+           <EditIcon size={30} color="green"/>
+           </div>
+
+  <FeaturedBtn 
+  listingId={listing?._id} 
+  isFeatured={listing?.isFeatured}
+  createdDate={listing.createdAt}/>
+
+      <div className="dark:bg-black/20 bg-white/80 w-10 h-10 
+      flex flex-row items-center justify-center
+      rounded-full shadow-md
+      mediumScale cursor-pointer">
+    {deleting ? 
+    <LoaderPinwheel
+           size={30}
+           color='darkred'
+           className='animate-spin'
+           /> :
+    <Trash2 onClick={openDialog} size={30} color='darkred'/>
+           }
+        </div>
        <DeleteModal
        ref={deleteRef}
        setDeleting={setDeleting}

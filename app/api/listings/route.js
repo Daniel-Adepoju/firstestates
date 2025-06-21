@@ -10,7 +10,11 @@ const {searchParams} = new URL(req.url)
   const limit =  Number(searchParams.get('limit')) ||  10
   const location = searchParams.get('location') || ''
   const school = searchParams.get('school') || ''
-  const price = searchParams.get('price') || ''
+  const minPrice = searchParams.get('minPrice') || ''
+  const maxPrice = searchParams.get('maxPrice') || ''
+  const beds =  searchParams.get('beds') || ''
+  const baths = searchParams.get('baths') || ''
+  const toilets = searchParams.get('toilets') || ''
   const skipNum = Number((page- 1) * Number(limit))
   let cursor = Number(page)
   const searchOptions = []
@@ -19,19 +23,36 @@ const {searchParams} = new URL(req.url)
    searchOptions.push({location: { $regex: location, $options: "i" }})
   }
 
-  if (price) {
-   searchOptions.push({ price: { $gte: Number(price) } })
+  if (minPrice) {
+   searchOptions.push({ price: { $gte: Number(minPrice) } })
+  }
+
+   if (maxPrice) {
+   searchOptions.push({ price: { $lte: Number(maxPrice) } })
   }
 
   if (school) {
  searchOptions.push({school: { $regex: school, $options: "i" }})
 }
 
+if (beds) {
+ searchOptions.push({bedrooms: Number(beds)})
+}
+
+if (baths) {
+ searchOptions.push({bathrooms: Number(baths)})
+}
+
+if (toilets) {
+ searchOptions.push({toilets: Number(toilets)})
+}
+
   try {
     const session = await auth()
     await connectToDB()
-  
+    
     const listings = await Listing.countDocuments({$and:searchOptions})
+    
     const numOfPages = Math.ceil(listings / Number(limit))
     if (cursor >= numOfPages) {
       cursor = numOfPages

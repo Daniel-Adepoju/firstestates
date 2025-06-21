@@ -48,7 +48,7 @@ const Nav = () => {
       <Link href="/">
         <div className="logo">LOGO</div>
       </Link>
-      <div style={{ color: "black" }}>{session?.user.username}</div>
+      {/* <div style={{ color: "black" }}>{session?.user.username}</div> */}
       <div
         onClick={showNav}
         className={`toggle_nav`}
@@ -85,7 +85,7 @@ const Nav = () => {
         <Moon size={16} color="white" />
       )}
     </div>
-    <span>{darkMode ? "Light Mode" : "Dark Mode"}</span>
+    <span className="mode">{darkMode ? "Light Mode" : "Dark Mode"}</span>
   </div>
 
   {session?.user && (

@@ -8,7 +8,7 @@
   <defs>
     <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="rgb(8, 116, 199)" />
-      <stop offset="100%" stop-color="rgb(4, 90, 160)" />
+      <stop offset="100%" stop-color="#045aa0" />
     </linearGradient>
   </defs>
 

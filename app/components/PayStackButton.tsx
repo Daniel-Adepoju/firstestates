@@ -10,16 +10,17 @@ import { makePayment } from '@lib/server/makePayment';
 
 
 interface PaystackBtnProps {
+  text: string;
   email: string;
   amount: number;
   metadata?: any;
-  onVerified?: (data: any) => void;
+  // onVerified?: (data: any) => void;
   creating: Signal<boolean>;
   successFunction: () => void;
 }
 
 
-const PaystackBtn = ({creating,email, amount, metadata, onVerified,successFunction}:PaystackBtnProps) => {
+const PaystackBtn = ({creating,email, amount, metadata, text,successFunction}:PaystackBtnProps) => {
 const publicKey = process.env.NEXT_PUBLIC_PAYSTACK_KEY || '';
 
  let status:string;
@@ -103,7 +104,7 @@ const handlePay = async() => {
     <div className='text-white'>
     </div>
  <Button
-text="Create Listing"
+text={text}
 className="clickable directional darkblueBtn"
 functions={() => {
     creating.value = true

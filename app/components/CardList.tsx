@@ -12,7 +12,9 @@ import { Skeleton } from "./ui/skeleton"
 import Image from "next/image"
 import { useUser } from "@utils/user"
 import Pagination from './Pagination'
-
+import Featured from "./Featured"
+import Link from "next/link"
+import { ArrowLeftFromLine } from "lucide-react"
 const CardList = () => {
 useSignals()
 const {session} = useUser()
@@ -20,11 +22,18 @@ const limit = useSignal(10)
 const page = useSearchParams().get('page') || '1'
 const location = useSignal("")
 const school = useSignal("")
-const price = useSignal("")
+const minPrice = useSignal("")
+const maxPrice = useSignal("")
 const active = useSignal(false)
 const router = useRouter()
 const placeholder = useSignal<string>('Search by school or location')
 const search = useSignal('')
+const beds = useSignal('')
+const baths = useSignal('')
+const toilets = useSignal('')
+ const currentPage = useSearchParams().get('page')
+ const isSecondPage = Number(currentPage) >= 2
+ console.log(currentPage,isSecondPage)
 
 // useEffect(() => {
 //   if(session) {
@@ -37,7 +46,12 @@ const {data,isLoading,isError} = useGetListings({
   page: page,
   location: location.value,
   school: school.value,
-  price: price.value,
+  minPrice: minPrice.value,
+  maxPrice: maxPrice.value,
+  beds: beds.value,
+  baths: baths.value,
+  toilets: toilets.value,
+
 })
 
  
@@ -67,12 +81,12 @@ if(isError) {
  <div 
     onClick={() => active.value =!active.value}
     className="dark:bg-gray-600 flex items-center justify-between bg-white w-80 border-1
-     border-gray-400 p-1.5 px-2 shadow my-4 cursor-pointer rounded-sm">
+     border-gray-400 p-2 px-2 shadow my-4 cursor-pointer rounded-sm">
        <span>Filter</span>
     <Image
     src={`/icons/${active.value ?'upTriangle.svg':'downTriangle.svg'}`}
     alt='icon'
-    className={`triangle ${active.value && 'active'} dark:bg-white`}
+    className={`triangle ${active.value && 'active'} rounded-sm dark:bg-white`}
     width={20}
     height={20}
     
@@ -83,15 +97,35 @@ if(isError) {
 <Filter
 selectedSchool={school}
 selectedArea={location}
-selectedPrice={price}
-active={active.value}
+minPrice={minPrice}
+maxPrice={maxPrice}
+beds={beds}
+baths={baths}
+toilets={toilets}
+active={active}
 />   
-<PopularThisWeek/>
-
-   {isLoading ? <Skeleton className="w-[80%] m-4 h-1 mx-auto bg-blue-200"/> :
+{!isSecondPage ? (
+  <>
+    <PopularThisWeek/>
+    <Featured />
+  </>
+) : (
+  !isLoading && <Link
+  href="/"
+  className="flex flex-row gap-2 
+  mt-2 px-4 py-1.5 items-center self-center md:self-end
+  text-gray-400  transition-all
+  dark:bg-gray-600 bg-gray-200 rounded-lg
+   hover:text-gray-600 dark:hover:text-gray-200"
+>
+  <ArrowLeftFromLine size={30} />
+  Return To Homepage 
+</Link>
+)}
+   {isLoading ? <Skeleton className="w-[80%] m-4 h-1 mx-auto dark:bg-gray-500 bg-blue-200"/> :
    <div className='flex flex-col items-center capitalize subheading p-1 mx-auto'>
     <div>Showing Recent Listings</div> 
-    <div>From {school.value? school.value : 'all schools'}</div>
+    <div className="middleLine text-center">From {school.value? school.value : 'all schools'}</div>
     </div>}
     <div className="card_list">
    {isLoading ?  <Loader className='my-18'/> : mapCards}

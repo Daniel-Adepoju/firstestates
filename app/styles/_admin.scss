@@ -9,7 +9,7 @@
   @include flex(row,flex-start,space-between);
   width:100%;
   min-height: 100vh;
-
+  @include transition('ease-in');
  }
 
 .admin-header {
@@ -22,7 +22,8 @@
 
 .sidebar {
   @include flex(column, flex-start, space-between);
-    width: 220px;
+    @include transition('ease-in');
+  width: 220px;
     background-color: color('adminBlue');
     min-height: 100vh;
     padding: 20px 10px;
@@ -33,6 +34,13 @@
     &.agentbar {
       background-color: color('black');
     }
+     &.reduceBar{
+     @include transition('ease-out');
+      width: 60px;
+     li , span{
+        display: none;
+     }
+    } 
    ul {
     width: 100%;
     list-style: none;
@@ -60,9 +68,13 @@
     text-decoration: none;
     font-weight: 500;
   }
-}
+   }
+
   @media (max-width: 768px) {
      width: 60px;
+     .arrow {
+      display:none;
+     }
      li , span{
         display: none;
      }    
@@ -113,3 +125,4 @@
   min-height: 100vh;
   overflow-x: hidden; 
 }
+

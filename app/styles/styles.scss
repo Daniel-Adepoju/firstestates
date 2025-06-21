@@ -14,7 +14,7 @@
   box-sizing: border-box;
   scroll-behavior: smooth;
 }
-.popularList {
+.popularList,.featured_container {
  &::-webkit-scrollbar {
   width: 6px;
   height: 4px;
@@ -53,7 +53,60 @@
   background: transparent;
 }
 }
+.featured_container {
+  .agentCardName {
+    margin-left: 16px;
+    @include flex(row, center,flex-start);
+    gap: 8px;
+  }
+ 
+  
+  
+  .card {
+    margin-block:10px;
+    // margin-inline: 0px;
+    border-radius:20px;
+    width:320px;
+    // height: 16rem;
+     .houseImg {
+    width: 320px;
+    img {
+    border-radius: 20px 20px 0 0;
+    }
+  }
+     .tag {
+      background-color: rgba(255, 255, 255, 0.968);
+      border-radius: 50%;
+      height: 30px;
+      width:30px;
+      left:1%;
+       &.price {
+      background-color:transparent;
+      left: 80%;
+      color: color('wheat');
+      font-family: font('price2');
+      font-weight: bold;
+      font-size: 30px; 
+      font-optical-sizing: auto;
+    }
+    }
+  
 
+      &:hover {
+    @include transition(300ms, ease-in);
+    transform: scale(0.97);
+
+    &::after {
+      background:color('darkblue');
+      width:0%;
+      height:0%;
+      animation: drawBorder  0ms ease-in-out,
+      wobbleEffect 0s  linear;
+
+     }
+    }
+  }
+}
 
 body {
   @include flex(column, flex-start, flex-start);
@@ -117,7 +170,7 @@ body:has(.verify) {
       cursor: pointer;
       border-radius: 50%;
     }
-    a {
+    a,span {
       position: relative;
       text-decoration: none;
       font-size: 16px;
@@ -316,15 +369,14 @@ footer.hide {
 
 
 .card_list {
+  margin-top: 8px;
   background-color: color("ghost");
-  // background-color: black;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   align-items: center;
   column-gap: 2px;
   justify-items: center;
   width: 95%;
-  // padding-inline: 20px;
   border-radius:20px;
   margin-inline: auto;
 }
@@ -332,7 +384,7 @@ footer.hide {
   position: relative;
   font-family: font("card");
   font-size: 18px;
-  margin: 30px 20px;
+  margin: 15px 15px;
   @include flex(column, center, flex-start);
   background-color: rgb(255, 255, 255);
   width: 300px;
@@ -944,9 +996,4 @@ footer.hide {
     -webkit-appearance: none;
     margin: 0;
   }
-}
-
-.hero {
-  background-color: color('darkblue');
-  padding-block: 0;
 }

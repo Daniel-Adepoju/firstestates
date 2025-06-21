@@ -6,7 +6,7 @@ const HeroSection = () => {
   return (
     <section className="hero w-full
     dark:text-white rounded-b-4xl
-    mx-auto mb-3 relative bg-gradient-to-br min-h-[30vh] flex items-center overflow-hidden">
+    mx-auto mb-3 relative min-h-[30vh] flex items-center overflow-hidden">
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-0 left-0 w-full h-full bg-[url('/pattern-grid.svg')] bg-repeat"></div>
       </div>
@@ -17,7 +17,7 @@ const HeroSection = () => {
         <div className="flex flex-col lg:flex-row items-center gap-12">
           <div className="lg:w-1/2 space-y-6 text-center lg:text-left">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-100 leading-tight">
-              Find Your Perfect <span className="text-blue-200">Student Home</span>
+              Find Your Perfect <span className="text-blue-200 dark:text-[#8B7356]">Student Home</span>
             </h1>
             
             <p className="dark:text-white text-lg md:text-xl text-gray-100 max-w-lg mx-auto lg:mx-0">
