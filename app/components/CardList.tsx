@@ -118,10 +118,8 @@ active={active}
   dark:bg-gray-600 bg-gray-200 rounded-lg
    hover:text-gray-900 dark:hover:text-gray-200"
    >
-
   <ArrowLeftFromLine size={30} />
   Return To Homepage
-   
 </Link>
 )}
    {isLoading ? <Skeleton className="w-[80%] m-4 h-1 mx-auto dark:bg-gray-500 bg-blue-200"/> :
