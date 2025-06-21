@@ -113,10 +113,10 @@ active={active}
   !isLoading && <Link
   href="/"
   className="flex flex-row gap-2 
-  mt-2 px-4 py-1.5 items-center self-center md:self-end
-  text-gray-400  transition-all
+  mt-2  mx-1 px-4 py-1.5 items-center self-center md:self-end
+  dark:text-gray-400 text-gray-500  transition-all
   dark:bg-gray-600 bg-gray-200 rounded-lg
-   hover:text-gray-600 dark:hover:text-gray-200"
+   hover:text-gray-900 dark:hover:text-gray-200"
 >
   <ArrowLeftFromLine size={30} />
   Return To Homepage 
