@@ -6,6 +6,12 @@
   @return map-get($color, $val);
 }
 
+// fonts
+.headersFont {
+  font-family: font('price');
+  font-weight: bolder;
+}
+
 input[type="number"] {
   &::-webkit-inner-spin-button,
   &::-webkit-outer-spin-button {

@@ -15,6 +15,7 @@ import Pagination from './Pagination'
 import Featured from "./Featured"
 import Link from "next/link"
 import { ArrowLeftFromLine } from "lucide-react"
+
 const CardList = () => {
 useSignals()
 const {session} = useUser()
@@ -33,7 +34,7 @@ const baths = useSignal('')
 const toilets = useSignal('')
  const currentPage = useSearchParams().get('page')
  const isSecondPage = Number(currentPage) >= 2
- console.log(currentPage,isSecondPage)
+const current = useSignal(false)
 
 // useEffect(() => {
 //   if(session) {
@@ -67,6 +68,7 @@ if(isError) {
 
   return (
     <>
+    
     <div className="w-full flex flex-col justify-center items-center md:items-end md:pr-2">
    <Searchbar
    search={search.value}
@@ -77,7 +79,6 @@ if(isError) {
     placeholder.value = 'Redirecting to search page...'
     router.push('/search')
   }}/>
-
  <div 
     onClick={() => active.value =!active.value}
     className="dark:bg-gray-600 flex items-center justify-between bg-white w-80 border-1

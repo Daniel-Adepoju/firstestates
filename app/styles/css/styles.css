@@ -18,6 +18,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Sulphur+Point:wght@300;400;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Cascadia+Code:ital,wght@0,200..700;1,200..700&family=Tangerine:wght@700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Tourney:ital,wght@0,100..900;1,100..900&display=swap");
+.headersFont {
+  font-family: "Darker Grotesque", sans-serif;
+  font-weight: bolder;
+}
+
 input[type=number] {
   -moz-appearance: textfield;
 }
@@ -1146,7 +1151,7 @@ a:has(.clickable) {
 }
 @media (max-width: 768px) {
   .editSide {
-    margin-top: -45px;
+    margin-top: -40px;
   }
 }
 .editSide img:hover {
@@ -1680,7 +1685,7 @@ html:is(.dark) .card .body .address:after {
 }
 html:is(.dark) .card .school {
   color: white;
-  background-color: rgba(78, 78, 78, 0.546);
+  background-color: rgba(33, 36, 46, 0.546);
 }
 html:is(.dark) .popularCard, html:is(.dark) .pagination {
   background-color: #31363F;
@@ -1826,8 +1831,13 @@ html:is(.dark) .darkblueBtn {
   left: 1%;
 }
 .featured_container .card .tag.price {
+  -webkit-text-stroke: black;
+  -webkit-text-stroke-width: 0.2px;
+  stroke-width: 222px;
   background-color: transparent;
+  top: 1%;
   left: 80%;
+  width: 20px;
   color: #f29829;
   font-family: "Tourney", sans-serif;
   font-weight: bold;
@@ -2148,7 +2158,7 @@ footer.hide {
   position: relative;
   font-family: "Sulphur Point", sans-serif;
   font-size: 18px;
-  margin: 15px 15px;
+  margin: 24px 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2284,7 +2294,7 @@ footer.hide {
   text-transform: capitalize;
   font-size: 15px;
   font-weight: bold;
-  color: #0874c7;
+  color: rgb(93, 92, 92);
   padding: 2px 18px;
   background-color: rgba(222, 222, 222, 0.518);
 }

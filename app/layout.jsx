@@ -1,6 +1,7 @@
 import "@styles";
 import './globals.css'
 import {DarkModeProvider} from '@lib/DarkModeProvider'
+import Script from 'next/script'
 
 export const metadata = {
   title: "FirstEstates",
@@ -14,7 +15,11 @@ export default function RootLayout({children}) {
   return (
        <html lang="en" suppressHydrationWarning>
      <head>
-        <script>
+        {/* <Script 
+          src="https://js.paystack.co/v1/inline.js" 
+          strategy="beforeInteractive"
+        /> */}
+        <script  src="https://js.paystack.co/v2/inline.js" >
             {`
     (function() {
         const storedTheme = localStorage.getItem('theme');

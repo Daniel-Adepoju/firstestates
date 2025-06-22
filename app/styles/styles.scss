@@ -64,10 +64,8 @@
   
   .card {
     margin-block:10px;
-    // margin-inline: 0px;
     border-radius:20px;
     width:320px;
-    // height: 16rem;
      .houseImg {
     width: 320px;
     img {
@@ -81,8 +79,13 @@
       width:30px;
       left:1%;
        &.price {
+         -webkit-text-stroke: black;
+          -webkit-text-stroke-width: 0.2px;
+         stroke-width: 222px;
       background-color:transparent;
+      top:1%;
       left: 80%;
+      width:20px;
       color: color('wheat');
       font-family: font('price2');
       font-weight: bold;
@@ -384,7 +387,7 @@ footer.hide {
   position: relative;
   font-family: font("card");
   font-size: 18px;
-  margin: 15px 15px;
+  margin: 24px 15px;
   @include flex(column, center, flex-start);
   background-color: rgb(255, 255, 255);
   width: 300px;
@@ -509,7 +512,7 @@ footer.hide {
         text-transform: capitalize;
         font-size: 15px;
         font-weight: bold;
-        color: color("darkblue");
+        color: rgb(93, 92, 92);
         padding:2px 18px;
         background-color: rgba(222, 222, 222, 0.518);
        }

@@ -139,7 +139,7 @@
 
   @include shadow(1px, 1px);
    @media (max-width:768px) {
-    margin-top: -45px;
+    margin-top: -40px;
   }
   img:hover {
     @include transition(300ms);

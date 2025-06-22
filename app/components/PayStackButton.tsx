@@ -1,122 +1,106 @@
 'use client'
-import { axiosdata } from '@utils/axiosUrl';
-import { usePaystackPayment } from 'react-paystack';
-import Button from '@lib/Button';
-import { WhiteLoader } from '@utils/loaders';
-import { Signal } from '@preact/signals-react';
-import dynamic from 'next/dynamic';
-import { useState } from 'react';
-import { makePayment } from '@lib/server/makePayment';
 
+import { useEffect, useState } from 'react'
+import { axiosdata } from '@utils/axiosUrl'
+import Button from '@lib/Button'
+import { WhiteLoader } from '@utils/loaders'
+import { Signal } from '@preact/signals-react'
+import { makePayment } from '@lib/server/makePayment'
+import Paystack from '@paystack/inline-js';
 
 interface PaystackBtnProps {
-  text: string;
-  email: string;
-  amount: number;
-  metadata?: any;
-  // onVerified?: (data: any) => void;
-  creating: Signal<boolean>;
-  successFunction: () => void;
+  text: string
+  email: string
+  amount: number
+  metadata?: any
+  creating: Signal<boolean>
+  successFunction: () => void
 }
 
+const PaystackBtn = ({
+  creating,
+  email,
+  amount,
+  metadata,
+  text,
+  successFunction,
+}: PaystackBtnProps) => {
+  const [paystackReady, setPaystackReady] = useState(false)
+  const publicKey = process.env.NEXT_PUBLIC_PAYSTACK_KEY || ''
+ const popup = new Paystack()
 
-const PaystackBtn = ({creating,email, amount, metadata, text,successFunction}:PaystackBtnProps) => {
-const publicKey = process.env.NEXT_PUBLIC_PAYSTACK_KEY || '';
+  // Detect when Paystack is ready
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     if (typeof window !== 'undefined' && (window as any).PaystackPop) {
+  //       setPaystackReady(true)
+  //       clearInterval(interval)
+  //     }
+  //   }, 100)
 
- let status:string;
- let payAmount:number;
- let reference:string;
+  //   return () => clearInterval(interval)
+  // }, [])
 
-interface PaystackOptions {
-  reference: string;
-  email: string;
-  amount: number;
-  metadata?: any;
-  publicKey: string;
-}
+  const handlePaystack = () => {
+    // if (!paystackReady) {
+    //   alert('Paystack script not yet ready.')
+    //   creating.value = false
+    //   return
+    // }
 
-interface PaystackRef {
-  reference: string;
-  [key: string]: any;
-}
+    const reference = new Date().getTime().toString()
 
-  const paystackOptions = {
-   reference: (new Date()).getTime().toString(),
-    email:email,
-    amount: amount * 100,
-    metadata,
-    publicKey,
-  };
+    const handler = popup.newTransaction({
+      key: publicKey,
+      email: email,
+      amount: amount * 100,
+      currency: 'NGN',
+      // metadata,
+      reference,
+      onSuccess: async function (response: any) {
+        try {
+          const res = await axiosdata.value.get(`/api/transaction?ref=${response.reference}`)
+          const data = res.data
 
-  const handleVerify = async (ref: any) => {
-    try {
-   const res = await axiosdata.value.get(`/api/transaction?ref=${ref.reference}`)
-   const data = res.data
-     if (data.status && data.data.status === 'success') {
-       status = data.data.status
-       payAmount = data.data.amount /100
-        reference = data.data.reference
-    } else {
-        alert('Verification failed');
-      }  
-} 
-    
-    
-    catch(err) {
-        console.log(err)
-    }  
-};
+          if (data.status && data.data.status === 'success') {
+            creating.value = false
+            await makePayment({
+              userId: email,
+              amount: data.data.amount / 100,
+              status: data.data.status,
+              reference: data.data.reference,
+            })
 
-const handlePay = async() => {
-      await makePayment({
-    userId: email,
-    amount:  payAmount,
-    status: status,
-    reference: reference
-         })
- 
-}
-
-  const onSuccess = async (ref:any) => {
-    try { 
-    console.log(ref)
-    await handleVerify(ref)
-    await handlePay()
-
-    creating.value = false
-    successFunction()
-  } catch(err) {
-    console.log(err)
+            successFunction()
+          } else {
+            creating.value = false
+            alert('Payment verification failed')
+          }
+        } catch (err) {
+          creating.value = false
+          console.error('Verification error:', err)
+        } finally {
+          creating.value = false
+        }
+      },
+      onCancel: function () {
+        creating.value = false
+      },
+    })
   }
-}
-
-  
-  const onClose = () => {
-    creating.value = false
-    console.log('closed')
-  }
-
-
-  const initializePayment = usePaystackPayment(paystackOptions)
 
   return (
-    <>
-    <div className='text-white'>
-    </div>
- <Button
-text={text}
-className="clickable directional darkblueBtn"
-functions={() => {
-    creating.value = true
-    initializePayment({ onSuccess,onClose })
-}}
->
- {creating.value && <WhiteLoader />}
-</Button>
-    </>
-   
-
+    <Button
+      text={text}
+      className="clickable directional darkblueBtn"
+      functions={() => {
+        creating.value = true
+        handlePaystack()
+      }}
+    >
+      {creating.value && <WhiteLoader />}
+    </Button>
   )
 }
 
-export default PaystackBtn;
+export default PaystackBtn

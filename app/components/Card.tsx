@@ -6,7 +6,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import {DeleteModal} from "./Modals"
 import { useDarkMode } from "@lib/DarkModeProvider"
-import {Toilet, Bed, Bath, MapPin, Eye, Edit2, EditIcon, Trash2,LoaderPinwheel} from "lucide-react"
+import {TagIcon,Toilet, Bed, Bath, MapPin, Eye, Edit2, EditIcon, Trash2,LoaderPinwheel} from "lucide-react"
 import { formatNumber } from "@utils/formatNumber"
 import {FeaturedBtn} from "./Featured"
 
@@ -161,13 +161,19 @@ const Card = ({ edit,listing,isAgentCard}: CardProps) => {
           </div>
       </div>     
      )}
-        <div className="font-bold school rounded-sm">{listing?.school}</div>
+        <div className="headersFont font-bold school rounded-sm">{listing?.school}</div>
+            {!edit &&
+       <div className=" headersFont mx-auto inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-gray-100 dark:bg-gray-800 text-sm font-medium text-gray-800 dark:text-gray-200 shadow-sm">
+  <TagIcon size={20} className="text-green-600 dark:text-green-400" />
+  <span>&#8358;{formatNumber(Number(listing?.price) || 0)}</span>
+         </div>
+}   
               </>
             )}
           </div>
           {/* </div> */}
        {!edit && <div className={`tag ${listing?.status === 'rented' && "rented"}`}>{listing?.status}</div>}
-        
+       
     
         </div>
          
