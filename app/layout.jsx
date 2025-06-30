@@ -1,11 +1,11 @@
 import "@styles";
 import './globals.css'
 import {DarkModeProvider} from '@lib/DarkModeProvider'
-import Script from 'next/script'
+import Script from "next/script";
 
 export const metadata = {
   title: "FirstEstates",
-  description: "",
+  description: "Find Your Perfect Student Home",
   icons: {
     icon: "/icons/edit.svg",
   },
@@ -15,11 +15,9 @@ export default function RootLayout({children}) {
   return (
        <html lang="en" suppressHydrationWarning>
      <head>
-        {/* <Script 
-          src="https://js.paystack.co/v1/inline.js" 
-          strategy="beforeInteractive"
-        /> */}
-        <script  src="https://js.paystack.co/v2/inline.js" >
+      <Script src="https://js.paystack.co/v2/inline.js" 
+      strategy="beforeInteractive" />
+        <script>
             {`
     (function() {
         const storedTheme = localStorage.getItem('theme');
@@ -37,7 +35,7 @@ export default function RootLayout({children}) {
         </head>
               <body>
       <DarkModeProvider>
-  {children}
+       {children}  
    </DarkModeProvider>
       </body>  
        

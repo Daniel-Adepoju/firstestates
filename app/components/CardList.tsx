@@ -60,6 +60,10 @@ const {data,isLoading,isError} = useGetListings({
 return <Card key={item._id} listing={item} edit={false} />
 })
 
+const loadingCards = Array.from({length:6}).map((_,i) => {
+  return <Skeleton className="animate-none bg-gray-500/20 w-80 h-80" key={i} />
+})
+
 if(isError) {
    return (
     <div className="card">Failed</div>
@@ -123,13 +127,17 @@ active={active}
   Return To Homepage
 </Link>
 )}
-   {isLoading ? <Skeleton className="w-[80%] m-4 h-1 mx-auto dark:bg-gray-500 bg-blue-200"/> :
+   {isLoading ? <Skeleton className="w-[80%] m-4 h-1 mx-auto bg-gray-500/20"/> :
    <div className='flex flex-col items-center capitalize subheading p-1 mx-auto'>
     <div>Showing Recent Listings</div> 
     <div className="middleLine text-center">From {school.value? school.value : 'all schools'}</div>
     </div>}
     <div className="card_list">
-   {isLoading ?  <Loader className='my-18'/> : mapCards}
+   {isLoading ? 
+   <div className="mx-auto my-4 items-center justify-center flex flex-wrap gap-10">
+   {loadingCards}
+   </div>
+   : mapCards}
    {data?.posts.length < 1 &&
    <div className="flex items-center error m-6 text-2xl">
     <Image
@@ -144,9 +152,6 @@ active={active}
    {!isLoading && <Pagination
    currentPage={Number(data?.cursor)}
    totalPages={Number(data?.numOfPages)}/>}
-
-   
-
    </>
   )
 }

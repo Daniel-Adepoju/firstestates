@@ -109,7 +109,7 @@ const Featured = () => {
           {[...Array(6)].map((_, i) => (
             <Skeleton
               key={i}
-              className="w-90 h-60 animate-pulse bg-gray-300 dark:bg-gray-400 rounded-xl shadow-md"
+              className="w-90 h-60 animate-none bg-gray-500/20 rounded-xl shadow-md"
             />
           ))}
         </div>
@@ -121,11 +121,12 @@ const Featured = () => {
       {data?.featuredListings.length > 0 && (
         <>
           <h1 className="subheading text-center  mx-auto smallLine">Featured</h1>
-          <div
-            className="featured pt-4 w-full bg-blue-700 min-h-[20vh] my-4
-                        rounded-3xl flex flex-row items-center justify-center
-                    "
-          >
+          <div  className="featured pt-4 w-full min-h-[20vh] my-4
+                        rounded-3xl flex flex-col items-center justify-center
+                    ">
+     <div  className="pt-4 w-full min-h-[20vh] my-2
+                      flex flex-row items-center justify-center
+                    ">
 
             {/* big screen left arrow */}
             <div
@@ -166,15 +167,13 @@ const Featured = () => {
                 className="text-white"
               />
             </div>
-
-
           </div>
 
           {/* small screen arrows */}
-          <div className="w-full flex flex-row justify-center gap-15 lg:hidden">
+          <div className="w-full py-2 flex flex-row justify-center gap-15 lg:hidden">
             <div
               onClick={() => scrollByCards("left")}
-              className="flex flex-row items-center justify-center cursor-pointer smallScale  w-15 h-15 p-3 rounded-full shadow-md dark:bg-gray-800/60  bg-whit hover:shadow-lg transition"
+              className="flex flex-row items-center justify-center cursor-pointer smallScale  w-15 h-15 p-3 rounded-full shadow-md dark:bg-gray-700  bg-whit hover:shadow-lg transition"
             >
               <ArrowBigLeft
                 size={30}
@@ -183,13 +182,15 @@ const Featured = () => {
             </div>
             <div
               onClick={() => scrollByCards("right")}
-              className="flex flex-row items-center justify-center cursor-pointer smallScale   w-15 h-15 p-3 rounded-full shadow-md dark:bg-gray-800/60 bg-white hover:shadow-lg transition"
+              className="flex flex-row items-center justify-center cursor-pointer smallScale   w-15 h-15 p-3 rounded-full shadow-md dark:bg-gray-700 bg-white hover:shadow-lg transition"
             >
               <ArrowBigRight
                 size={30}
                 color="#f29829"
               />
             </div>
+          </div>
+
           </div>
         </>
       )}

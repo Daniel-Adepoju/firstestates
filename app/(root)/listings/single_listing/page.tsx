@@ -48,9 +48,9 @@ const SingleListing = () => {
   if (isLoading) {
     return (
       <div className="gap-[30px] flex flex-col  items-center w-full min-h-screen">
-        <Skeleton className="bg-gray-200 w-full h-[300px] rounded-4xl" />
-        <Skeleton className="bg-gray-200 w-[90%] h-[100px] rounded-xl" />
-        <Skeleton className=" bg-gray-200 w-[80%] h-[190px] rounded-xl" />
+        <Skeleton className="bg-gray-500/20 w-full h-[300px] rounded-4xl" />
+        <Skeleton className="bg-gray-500/20 w-[90%] h-[100px] rounded-xl" />
+        <Skeleton className=" bg-gray-500/20 w-[80%] h-[190px] rounded-xl" />
       </div>
     )
   }

@@ -1,7 +1,7 @@
 "use client"
 import { useState, useEffect } from "react"
 import { useUser } from "@utils/user"
-import { CldImage, CldUploadWidget,CloudinaryUploadWidgetResults } from "next-cloudinary"
+import { CldImage, CldUploadWidget, CloudinaryUploadWidgetResults } from "next-cloudinary"
 import Image from "next/image"
 import { Skeleton } from "@components/ui/skeleton"
 import { schools } from "@lib/constants"
@@ -9,34 +9,32 @@ import Button from "@lib/Button"
 import { WhiteLoader } from "@utils/loaders"
 import { updateUser, updateProfilePic } from "@lib/server/auth"
 import { useNotification } from "@lib/Notification"
-import { useRouter } from "next/navigation"
-import { CloudinaryResult } from "./agent/ListingForm"
+import { useRouter, useSearchParams } from "next/navigation"
+import { CloudinaryResult } from "@components/agent/ListingForm"
 import { getSession } from "next-auth/react"
-const EditProfile = () => {
+
+const Fields = () => {
   const { session, update } = useUser()
   const [username, setUsername] = useState("")
   const [phone, setPhone] = useState("")
   const [whatsapp, setWhatsapp] = useState("")
   const [school, setSchool] = useState("")
-  const [address,setAddress] = useState('')
+  const [address, setAddress] = useState("")
   const [isUpdating, setIsUpdating] = useState(false)
   const notification = useNotification()
   const router = useRouter()
+  const role = useSearchParams().get("role")
 
   useEffect(() => {
     if (session?.user) {
       setUsername(session?.user.username || "")
-      setPhone(session?.user.phone || "")
-      setWhatsapp(session?.user.whatsapp || "")
-      setSchool(session?.user.school || "")
-      setAddress(session?.user.address || "")
     }
   }, [session])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsUpdating(true)
-    const updatedFields = { username, phone, whatsapp, school }
+    const updatedFields = { username,phone,whatsapp,school,role,address }
     const filteredFields = Object.fromEntries(
       Object.entries(updatedFields).filter(
         ([key, value]) => value !== "" && value !== undefined && value !== null
@@ -49,35 +47,38 @@ const EditProfile = () => {
         phone,
         whatsapp,
         school,
+        role,
+        isNewUser:false,
       })
-      await getSession()
       const res = await updateUser(filteredFields)
       notification.setIsActive(true)
       notification.setMessage(res.message)
       notification.setType(res.status)
       setIsUpdating(false)
-      router.back()
+      router.push("/")
     } catch (err) {
       setIsUpdating(false)
       console.error("Failed to update profile:", err)
     }
   }
 
-  const updatePic = async (result:CloudinaryUploadWidgetResults)  => {
-     const resultInfo = result.info as CloudinaryResult
+  const updatePic = async (result: CloudinaryUploadWidgetResults) => {
+    const resultInfo = result.info as CloudinaryResult
     await update({
       ...session?.user,
       profilePic: resultInfo.public_id,
     })
-    await updateProfilePic({ oldPic: session?.user.profilePic, newPic: resultInfo.public_id})
+
+    await updateProfilePic({ oldPic: session?.user.profilePic, newPic: resultInfo.public_id })
     await getSession()
   }
-
+  // if (session?.user.isNewUser === false) {
+  //   return <div className="text-red-600 text-3xl mt-40 mx-auto">Not Authorized</div>
+  // }
   return (
     <div className="dark:text-white w-full flex flex-col">
-     <div className="subheading mb-4 mx-auto">Edit Your Profile</div>
+      <div className="subheading mb-4 mx-auto">Continue Your Setup</div>
       {session?.user ? (
-        <>
         <div className="flex flex-col items-center w-full gap-4">
           <div className="relative">
             <CldImage
@@ -105,15 +106,11 @@ const EditProfile = () => {
               )}
             </CldUploadWidget>
           </div>
-        </div>
 
-        
           <form
             onSubmit={handleSubmit}
-            className="
-             my-4 w-full min-h-10 flex flex-col items-center  space-y-4
-             lg:grid lg:grid-cols-2 lg:gap-4 justify-center px-4
-            "
+            className=" my-4 w-full min-h-10 flex flex-col items-center  space-y-4
+             lg:grid lg:grid-cols-2 lg:gap-4 justify-center px-4"
           >
             {/* Username */}
             <div className="form_item">
@@ -123,18 +120,20 @@ const EditProfile = () => {
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                required
                 className="w-full border rounded p-2 dark:bg-gray-600 dark:text-white"
               />
             </div>
 
-            {/* School Select */}
-            {session?.user.role === 'client' && (
+            {/* Unique To Student */}
+            {role === "client" && (
               <div className="form_item">
                 <label htmlFor="school">School</label>
                 <select
                   id="school"
                   value={school}
                   onChange={(e) => setSchool(e.target.value)}
+                  required
                   className="w-full border rounded p-3 dark:bg-gray-600 dark:text-white"
                 >
                   <option value="">Select a school</option>
@@ -152,9 +151,9 @@ const EditProfile = () => {
 
             {/* Unique To Agents */}
             {/* Phone */}
-            {session?.user.role === "agent" && (
+            {role === "agent" && (
               <>
-               <div className="form_item">
+                <div className="form_item">
                   <label htmlFor="address">Office Address</label>
                   <input
                     id="address"
@@ -172,6 +171,7 @@ const EditProfile = () => {
                     type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
+                    required
                     className="w-full border rounded p-2 dark:bg-gray-600 dark:text-white"
                   />
                 </div>
@@ -184,6 +184,7 @@ const EditProfile = () => {
                     type="tel"
                     value={whatsapp}
                     onChange={(e) => setWhatsapp(e.target.value)}
+                    required
                     className="w-full border rounded p-2 dark:bg-gray-600 dark:text-white"
                   />
                 </div>
@@ -191,10 +192,10 @@ const EditProfile = () => {
             )}
 
             {/* Submit Button */}
-            <div className="md:w-70 w-60 flex justify-center">
+            <div className="w-60 md:w-70 flex justify-center">
               <Button
                 type="submit"
-                text="Update Profile"
+                text="Finish Setup"
                 className="clickable darkblueBtn directional w-full"
               >
                 {" "}
@@ -202,18 +203,16 @@ const EditProfile = () => {
               </Button>
             </div>
           </form>
-
-
-      </>
+        </div>
       ) : (
         <div className="flex flex-col gap-3">
           <Skeleton className=" rounded-full  bg-gray-600 mx-auto w-40 h-40" />
-          <Skeleton className="rounded bg-gray-600 mx-auto w-80 h-10" />
-          <Skeleton className="rounded bg-gray-600 mx-auto w-80 h-10" />
+          <Skeleton className="rounded bg-gray-600 mx-auto w-100 h-10" />
+          <Skeleton className="rounded bg-gray-600 mx-auto w-100 h-10" />
         </div>
       )}
     </div>
   )
 }
 
-export default EditProfile
+export default Fields

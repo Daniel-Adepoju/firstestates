@@ -20,7 +20,9 @@ export default function RootLayout({children}) {
           <Provider>
           <User>
          <Notification>
-                {children} 
+          {/* <main> */}
+         {children}
+          {/* </main> */}
             </Notification>
           <Footer />   
           </User>

@@ -26,7 +26,8 @@ try {
       price: 1,
       address:1,
       mainImage: 1,
-      
+      location:1,
+      school:1,
       'agent.username': 1,
       'agent.email': 1,
         'agent.profilePic':1,

@@ -145,8 +145,20 @@ export const signInWithCredentials = async (email, password) => {
   return { message: "Log In Successful", status: "success" }
 }
 
+export const signInWithGoogle = async () => {
+  const ip = (await headers()).get("x-forwarded-for") || "127.0.0.1"
+  const { success } = await ratelimit.limit(ip)
+  if (!success) {
+    return redirect("/too-fast")
+  }
+    await signIn('google', {redirectTo:'/continue-google'})
+
+  return
+}
+
+
 export const logOut = async () => {
-  await signOut("/")
+  await signOut({redirect: false })
   redirect('/logged-out')
 }
 
@@ -183,4 +195,18 @@ export const updateProfilePic = async(val) => {
   } catch (err) {
     console.log(err)
   }
+}
+
+export const resetPassword = async (val) => {
+     await connectToDB()
+    const hashedPassword =  await hash(val.password,10)
+     await User.findOneAndUpdate(
+      {email: val.email},
+     {password:hashedPassword},
+      {
+    new: true,
+    runValidators: true,
+      }
+    )
+  return { message: "Password updated successfully" }
 }

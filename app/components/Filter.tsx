@@ -78,7 +78,7 @@ const Filter = ({
       {active.value && (
         <form
           onSubmit={handleSubmit}
-          className="dark:bg-gray-600 bg-white mx-auto w-[80%] p-4 rounded-xl shadow space-y-4"
+          className="dark:bg-gray-600 bg-white mx-auto w-[88%] p-4 rounded-xl shadow space-y-4"
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* School Select */}
@@ -164,7 +164,7 @@ const Filter = ({
             {/*beds toilets etc */}
             <div className="flex flex-row justify-evenly gap-2">
               <div className="flex flex-col items-center">
-                <label className="text-sm">Beds</label>
+                <label className="text-sm">Bedrooms</label>
                 <input
                   type="number"
                   min={0}
@@ -175,7 +175,7 @@ const Filter = ({
                 />
               </div>
               <div className="flex flex-col items-center">
-                <label className="text-sm">Baths</label>
+                <label className="text-sm">Bathrooms</label>
                 <input
                   type="number"
                   min={0}

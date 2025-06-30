@@ -161,11 +161,11 @@ const Card = ({ edit,listing,isAgentCard}: CardProps) => {
           </div>
       </div>     
      )}
-        <div className="headersFont font-bold school rounded-sm">{listing?.school}</div>
+        <div className="headersFont font-bold school rounded-md">{listing?.school}</div>
             {!edit &&
-       <div className=" headersFont mx-auto inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-gray-100 dark:bg-gray-800 text-sm font-medium text-gray-800 dark:text-gray-200 shadow-sm">
+       <div className=" headersFont mx-auto inline-flex items-center gap-2 px-3 py-2 rounded-md bg-gray-100 dark:bg-gray-800 text-sm font-medium text-gray-800 dark:text-gray-200 shadow-sm">
   <TagIcon size={20} className="text-green-600 dark:text-green-400" />
-  <span>&#8358;{formatNumber(Number(listing?.price) || 0)}</span>
+  <span className="text-sm">&#8358;{formatNumber(Number(listing?.price) || 0)}</span>
          </div>
 }   
               </>

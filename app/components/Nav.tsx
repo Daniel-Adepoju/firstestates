@@ -2,11 +2,10 @@
 import Link from "next/link"
 import { useState, useEffect } from "react"
 import { useUser } from "@utils/user"
-import { logOut } from "@lib/server/auth"
 import { CldImage } from "next-cloudinary"
 import { useBackdrop } from "@lib/Backdrop"
 import { useDarkMode } from "@lib/DarkModeProvider"
-import { Sun, Moon } from "lucide-react"
+import { Sun, Moon,LayoutDashboard, UserPlus2, UserPlus,LogIn} from "lucide-react"
 const Nav = () => {
   const { session } = useUser()
   const [navbarFixed, setnavbarFixed] = useState<boolean>(false)
@@ -70,6 +69,19 @@ const Nav = () => {
     </Link>
   )}
 
+  {/* Going To Dashboard */}
+  {session?.user && session?.user.role !=='client' && (
+    <div className="flex flex-row items-center gap-2 cursor-pointer">
+   <div className="dark:bg-white bg-[#0874c7] p-2 rounded-full ">
+      <LayoutDashboard size={20} color={darkMode ? '#f59e0b' : 'white'}/>
+      </div>
+      <Link href={session?.user.role ==='admin' ? '/admin' : '/agent'} 
+      onClick={handleNavItemClick}>
+        Dashboard
+    </Link>
+    </div>
+  )}
+
   {/* Mode */}
   <div
     onClick={() => {
@@ -80,24 +92,49 @@ const Nav = () => {
   >
     <div className="dark:bg-white bg-[#0874c7] p-2 rounded-full ">
       {darkMode ? (
-        <Sun size={16} color="#f59e0b" />
+        <Sun size={20} color="#f59e0b" />
       ) : (
-        <Moon size={16} color="white" />
+        <Moon size={20} color="white" />
       )}
     </div>
     <span className="mode">{darkMode ? "Light Mode" : "Dark Mode"}</span>
   </div>
 
+{/* add roomie */}
   {session?.user && (
-    <>
-      <Link href="/listings" onClick={handleNavItemClick}>Wishlist</Link>
-      {/* Sign out (optional) */}
-    </>
+      <div
+    onClick={handleNavItemClick}
+    className="flex flex-row items-center gap-2 cursor-pointer"
+  >
+    <div className="dark:bg-white bg-[#0874c7] p-2 rounded-full">
+      <UserPlus2 size={20} color={darkMode ? '#f59e0b' : 'white'}/>
+      </div>
+      <Link href="/listings" onClick={handleNavItemClick}>Request For Roomate</Link>
+  </div>
+  
   )}
+
   {!session?.user && (
     <>
-      <Link href="/signup" onClick={handleNavItemClick}>Sign Up</Link>
-      <Link href="/login" onClick={handleNavItemClick}>Login</Link>
+       <div
+    className="flex flex-row items-center gap-2 cursor-pointer"
+  >
+    <div className="dark:bg-white bg-[#0874c7] p-2 rounded-full">
+      <LogIn size={20} color={darkMode ? '#f59e0b' : 'white'}/>
+      </div>
+     <Link href="/login" onClick={handleNavItemClick}>Login</Link>
+  </div>
+
+     <div
+    className="flex flex-row items-center gap-2 cursor-pointer"
+  >
+    <div className="dark:bg-white bg-[#0874c7] p-2 rounded-full">
+      <UserPlus size={20} color={darkMode ? '#f59e0b' : 'white'}/>
+      </div>
+  <Link href="/signup" onClick={handleNavItemClick}>Sign Up</Link>
+  </div>
+  
+     
     </>
   )}
 </div>

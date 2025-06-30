@@ -19,7 +19,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Cascadia+Code:ital,wght@0,200..700;1,200..700&family=Tangerine:wght@700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Tourney:ital,wght@0,100..900;1,100..900&display=swap");
 .headersFont {
-  font-family: "Darker Grotesque", sans-serif;
+  font-family: "Quicksand", sans-serif;
   font-weight: bolder;
 }
 
@@ -365,7 +365,7 @@ a:has(.clickable) {
   background-color: #fffdfb;
   margin-top: auto;
   padding: 10px 6px 6px;
-  width: clamp(300px, 80%, 1200px);
+  width: clamp(350px, 44rem, 80%);
   padding: 16px;
   border-radius: 10px;
 }
@@ -416,15 +416,13 @@ a:has(.clickable) {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-around;
   font-family: "Sulphur Point", sans-serif;
-  margin: 10px;
-  padding: 30px;
+  border-radius: 20px;
   margin: 80px auto;
-  width: 90%;
-  height: 50vh;
+  min-width: 90%;
+  min-height: 60vh;
   background-color: #fffdfb;
-  box-shadow: 1px 1px 1.2px 1.2px rgba(116, 116, 116, 0.269);
 }
 .board .types {
   display: flex;
@@ -501,10 +499,6 @@ a:has(.clickable) {
   background: #fffdfb;
   transition: width 0.1s linear;
   border-radius: 6px 6px 60px 60px;
-}
-
-.darkblueBtn {
-  width: 50%;
 }
 
 .blackboard {
@@ -1693,6 +1687,12 @@ html:is(.dark) .popularCard, html:is(.dark) .pagination {
 html:is(.dark) .single_card, html:is(.dark) .user-card {
   background-color: #31363F;
 }
+html:is(.dark) .single_card .header .house .arrow:active {
+  background-color: #A88F6E;
+}
+html:is(.dark) .featured_container .card .tag.price {
+  background-color: rgba(27, 27, 27, 0.936);
+}
 html:is(.dark) .form_container {
   background-color: transparent;
 }
@@ -1815,6 +1815,7 @@ html:is(.dark) .darkblueBtn {
 .featured_container .card {
   margin-block: 10px;
   border-radius: 20px;
+  margin-inline: 20px;
   width: 320px;
 }
 .featured_container .card .houseImg {
@@ -1832,17 +1833,18 @@ html:is(.dark) .darkblueBtn {
 }
 .featured_container .card .tag.price {
   -webkit-text-stroke: black;
-  -webkit-text-stroke-width: 0.2px;
+  -webkit-text-stroke-width: 0px;
   stroke-width: 222px;
-  background-color: transparent;
-  top: 1%;
-  left: 80%;
-  width: 20px;
+  top: -2.1%;
+  left: 20%;
+  width: 200px;
+  border-radius: 10px;
   color: #f29829;
   font-family: "Tourney", sans-serif;
   font-weight: bold;
   font-size: 30px;
   font-optical-sizing: auto;
+  background-color: #0874c7;
 }
 .featured_container .card:hover {
   transition: all 300ms ease-in;
@@ -1865,6 +1867,11 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   font-family: "Quicksand", sans-serif;
+}
+
+main {
+  background-color: rgb(123, 0, 0);
+  flex: 1;
 }
 
 body:has(.verify, .verify form) {
@@ -2705,6 +2712,20 @@ footer.hide {
     margin-top: 0;
     margin-left: 20px;
     margin-bottom: 20px;
+  }
+}
+
+.form_item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 70%;
+  gap: 4px;
+}
+@media (min-width: 1024px) {
+  .form_item {
+    width: auto;
   }
 }
 

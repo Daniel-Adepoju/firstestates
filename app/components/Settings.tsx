@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { Sun, Moon, LogOut, User,} from "lucide-react";
+import { Sun, Moon, LogOut, User} from "lucide-react";
 import { useDarkMode } from "@lib/DarkModeProvider";
 import { logOut } from "@lib/server/auth";
 import { useRef } from "react";
@@ -45,7 +45,6 @@ export default function Settings({editProfile}: SettingProps) {
         {darkMode ? <Sun size={20} /> : <Moon size={20} />}
         {darkMode ? "Activate Light Mode" : "Activate Dark Mode"}
       </button>
-
 
       <button
         onClick={openDialog}

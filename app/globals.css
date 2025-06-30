@@ -42,7 +42,8 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-coffee: #A88F6E;
-  --color-darkGray: #31363F
+  --color-darkGray: #31363F;
+  --color-darkblue:#0874c7;
 }
 
 :root {

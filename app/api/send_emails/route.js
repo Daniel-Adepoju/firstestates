@@ -42,12 +42,12 @@ export const POST = async (req) => {
               </div>
 
                 <div style="margin: 30px 0; text-align:center;">
-                  <a href="https://yourplatform.com/login" style="background-color: rgb(8, 116, 199); color:white; padding:12px 24px; text-decoration:none; border-radius:6px; font-weight:bold;">
+                  <a href=${process.env.BASE_URL} style="background-color: rgb(8, 116, 199); color:white; padding:12px 24px; text-decoration:none; border-radius:6px; font-weight:bold;">
                     Go to Homepage
                   </a>
                 </div>
                 <p style="font-size:14px; color:#666;">
-                  If you have any questions, reply to this email or visit our <a href="https://yourplatform.com/help" style="color:#4f46e5; text-decoration:none;">Help Center</a>.
+                  If you have any questions, reply to this email or visit our <a href=${process.env.BASE_URL}/help style="color:#4f46e5; text-decoration:none;">Help Center</a>.
                 </p>
               </td>
             </tr>

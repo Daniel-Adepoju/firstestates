@@ -7,6 +7,10 @@ import { useState } from "react"
 import { sendNotification } from "@lib/server/notificationFunctions"
 import { useNotification } from "@lib/Notification"
 import { useUser } from "@utils/user"
+import { useGetAgentListings } from "@lib/customApi"
+import PopularCard from '@components/PopularCard'
+import { Listing } from "@components/Card"
+import { Skeleton } from "@components/ui/skeleton"
 
 const AgentViewPage = () => {
   const { id } = useParams()
@@ -16,7 +20,8 @@ const AgentViewPage = () => {
   const { session } = useUser()
 
   const { data: agent } = useGetUser({ id: id?.toString(), enabled: !!id, page: "1", limit: 1 })
-
+  const { data: listings,isLoading} = useGetAgentListings({ id: id?.toString(), enabled: !!id, page: "1", limit: 10,school:'',location:''})
+  console.log(listings)
   const handleReport = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setReporting(true)
@@ -41,6 +46,7 @@ const AgentViewPage = () => {
   }
 
   return (
+    <>
     <div className="agentProfile w-[80%] mx-auto mb-6 mt-20 p-6 rounded-lg shadow-md">
       <Agent agent={agent} />
 
@@ -70,6 +76,28 @@ const AgentViewPage = () => {
         </form>
       </div>
     </div>
+    {listings?.listings?.length > 0 && (
+      <>
+    <div className="subheading mx-auto my-2 overflow-clip">
+      Recent Listings From {agent?.username} 
+       </div>
+    {isLoading ?
+  <div className="mx-auto p-4 flex flex-wrap items-cener justify-center gap-4">
+  {Array.from({ length: 10 }).map((_, i) => (
+    <Skeleton
+      key={i}
+      className="w-40 h-40 bg-gray-500 animate-none"
+    />
+  ))}
+</div>
+    :<div className="py-4 popularList  w-full flex flex-wrap justify-evenly items-center gap-8">
+        {listings?.listings.map((listing: Listing) => (
+        <PopularCard key={listing._id} listing={listing} />
+      ))} 
+    </div>}
+    </>
+    )}
+    </>
   )
 }
 

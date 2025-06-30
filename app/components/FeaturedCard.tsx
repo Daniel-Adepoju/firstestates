@@ -47,6 +47,8 @@ const FeaturedCard = ({ edit,listing,isAgentCard}: CardProps) => {
           </div>
 
           <div className="body">
+            <div className="w-full">
+            </div>
             <div className="location heading">{listing?.location}</div>
             <div className="address">
               <MapPin

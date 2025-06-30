@@ -8,8 +8,11 @@ import { useUser } from "@utils/user"
 import { WhiteLoader, Loader, DotsLoader } from "@utils/loaders"
 import { useNotification } from "@lib/Notification"
 import { useState } from "react"
-import {sendOTP,signInWithCredentials} from '@lib/server/auth'
+import {sendOTP,signInWithCredentials,signInWithGoogle} from '@lib/server/auth'
 import {schools } from "@lib/constants"
+import Image from "next/image"
+import { HelpCircle,EyeOff,Eye} from "lucide-react"
+
 export const userDeets = {
   email: signal(""),
   password: signal(""),
@@ -28,8 +31,7 @@ const Form = () => {
   const [sending, setSending] = useState(false)
   const [loggingIn, setLoggingIn] = useState(false)
   const [school,setSchool] = useState('')
-
-
+  const [showPassword,setShowPassword] = useState(false)
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target
@@ -63,6 +65,11 @@ const handleSendOTP = async (e: React.FormEvent<HTMLFormElement>) => {
   
 }
 
+// Use Google
+const handleSignInWithGoogle = async () => {
+  await signInWithGoogle()
+}
+
   //Log In
   const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()  
@@ -92,21 +99,19 @@ const handleSendOTP = async (e: React.FormEvent<HTMLFormElement>) => {
   }
 
   }
-  // if (status === 'authenticated') {
-  //   return (
-  //     <div className="currentlyLogged">
-  //       <div>
-  //      {session?.user.username}, to access this page you have to signout first
-  //     </div>
-  //       <Button
-  //       text={'Signout'}
-  //       className={'clickable directional darkblueBtn'}
-  //       functions={() => signOut()}/>
-  //     </div>
-  //   )
-  // }
+
+  if (status === 'authenticated') {
+    return (
+      <div className="mt-35 mx-auto flex flex-col gap-4 items-center justify-center">
+     <div className="otherHead  mt-5 text-2xl font-bold">
+     You're already logged in
+      </div>
+      <Link href='/' className="smallScale cursor-pointer dark:bg-black/20 bg-darkblue text-white py-2 px-4 rounded-md"> Go Back To Homepage</Link>
+      </div>
+    )
+  }
   if(status === 'loading') {  
-    return <Loader className="my-50"/>
+    return <Loader className="my-45"/>
   }
 
 if(loggingIn) {
@@ -165,15 +170,26 @@ if(loggingIn) {
           />
 
           <label htmlFor="password">Password</label>
-          <input
+          <div className="relative w-full">
+              <input
             onChange={(e) => handleInput(e)}
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             value={userDeets.password.value}
             id="password"
             name="password"
              className='red'
              required
           />
+          <div className="absolute right-[4%] top-3">
+          <button
+          type="button"
+          onClick={() => setShowPassword(!showPassword)}
+          >
+          {showPassword ? <EyeOff color="gray"/> : <Eye color='gray'/>}
+          </button>
+          </div>
+          </div>
+     
 
             {/* Unique To Students */}
         {pathName === "/signup/client" &&
@@ -234,14 +250,26 @@ if(loggingIn) {
 
         <div className="bottom">
           <div className="btns">
-            <Button
+          
+          <Button
               type="submit"
               disabled={sending}
               className="clickable directional darkblueBtn"
             >
               {pathName === "/login" ? "Login" : "Create account"}
               {sending && <WhiteLoader />}
-            </Button>
+          </Button>
+   {pathName === '/login' &&
+          <Button 
+          text='Continue With Google'
+          reverse={true}
+          functions={() =>{
+            handleSignInWithGoogle()
+          }}
+          className="directional clickable mb-2 rounded-md mx-auto bg-gray-200 dark:bg-gray-700 w-80 h-10">
+            <Image width={25} height={25} src='/icons/google.svg' alt='icon'/>
+            </Button>}
+
           </div>
           <div className="info">
             {pathName === "/login" ? `Don't have an account?` : `Already have an account?`}
@@ -251,6 +279,14 @@ if(loggingIn) {
               <Link href="/login" className="quickLink"> Login Here </Link>
             )}
           </div>
+          {/* Forgot Password */}
+          {pathName === '/login' && (
+          <div className="mx-auto flex items-center justify-center gap-1">
+            <HelpCircle size={15} color="#9CA3AF"/>
+          <Link href='forgot-password' className="quickLink">
+          Forgot Password?
+          </Link> 
+            </div> )}
         </div>
       </form>
     </div>

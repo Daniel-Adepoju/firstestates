@@ -8,7 +8,7 @@
 
 // fonts
 .headersFont {
-  font-family: font('price');
+  font-family: font('list');
   font-weight: bolder;
 }
 
@@ -357,7 +357,7 @@ a:has(.clickable) {
   background-color: color("white");
   margin-top: auto;
   padding: 10px 6px 6px;
-width: clamp(300px, 80%, 1200px);
+width: clamp(350px,44rem,80%);
   padding: 16px;
   border-radius: 10px;
   .info {
@@ -401,14 +401,13 @@ width: clamp(300px, 80%, 1200px);
 //Boards And Modals
 
 .board {
-  @include flex(column, center, space-evenly);
+  @include flex(column, center, space-around);
   font-family: font('body2');
-  @include space(10px, 30px);
+  border-radius: 20px;
   margin:80px auto;
-  width: 90%;
-  height: 50vh;
+ min-width: 90%;
+  min-height: 60vh;
   background-color: color("white");
-  @include shadow();
   .types {
     @include flex(row, center, center);
     gap: 10px;
@@ -485,10 +484,6 @@ width: clamp(300px, 80%, 1200px);
     transition: width 0.1s linear;
     border-radius: 6px 6px 60px 60px;
   }
-}
-
-.darkblueBtn {
-  width: 50%;
 }
 
 

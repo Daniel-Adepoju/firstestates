@@ -45,8 +45,8 @@ const Agent = ({ agent }) => {
                 </Link>
               </div>
               <div className="text-center md:text-left">
-                <h1 className="text-2xl font-semibold">Monkey D. Luffy</h1>
-                <p className="text-sm text-gray-400">pikinperson449@gmail.com</p>
+                <h1 className="text-2xl font-semibold">{agent.username}</h1>
+                <p className="text-sm text-gray-400">{agent.email}</p>
               </div>
             </div>
           </div>
@@ -57,7 +57,7 @@ const Agent = ({ agent }) => {
                 size={34}
                 color={darkMode ? "#A88F6E" : "#0881A3"}
               />
-              <span>{agent.phone}09035035795</span>
+              <span>{agent.phone}</span>
             </div>
             <div className="md:w-100 dark:bg-black/10 bg-gray-100/70  px-4 rounded-lg mt-6 font-bold flex flex-row items-center">
               <Image
@@ -66,21 +66,20 @@ const Agent = ({ agent }) => {
                 width={50}
                 height={50}
               />
-              <span>{agent.whatsapp}09035035795</span>
+              <span>{agent.whatsapp}</span>
             </div>
           </div>
         </div>
       </div>
 
       <div className="agentProfile section_two">
-        <div className="flex flex-row gap-2 items-center">
+        <div className="mt-2 flex flex-row gap-2 items-center">
           <MapPin
-            size={50}
+            size={40}
             color={darkMode ? "#A88F6E" : "#0881A3"}
           />
           <span className="break-all text-sm text-ellipsis opacity-70">
-            {agent.address}14,lorem ipsum dolor dolor
-            dlodrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrwwwwwww
+            {agent.address}
           </span>
         </div>
       </div>

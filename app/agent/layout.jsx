@@ -14,7 +14,7 @@ import {DarkModeProvider} from '@lib/DarkModeProvider'
 export const metadata = {
 
  title: "First Estates | Agent",
-  description: "Agent Dashboard",
+  description: "Agent Dashboard For First Estates",
   icons: {
     icon: "/icons/edit.svg",
   }

@@ -9,16 +9,18 @@ interface ButtonProps {
  href?: string,
  link?: string,
  children?: React.ReactNode,
+ reverse?: boolean,
 }
- const Button = ({type='button',disabled, text, className,functions,href,link,children}: ButtonProps) => {
+ const Button = ({type='button',reverse,disabled, text, className,functions,href,link,children}: ButtonProps) => {
   return (
     <button 
     type={type}
     disabled={disabled}onClick={functions} className={className}>
-    <div className="left"></div> 
+    <div className="left"></div>
+    {reverse && children}
       <span> {text} </span>
     <div className="right"></div>
-        {children}
+    {!reverse && children}
       </button>
   )
 }

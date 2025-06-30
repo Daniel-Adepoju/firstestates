@@ -124,7 +124,9 @@ const {data:paymentData,isLoading:paymentLoading} = useGetAgentPayments({userId,
       <Link 
       className="rounded-full"
       href={'/agent/listings/add'}>
-     <PlusCircle size={50} className='mediumScale rounded-full p-1 shadow-xs bg-[#045aa0] dark:bg-[#f29829e7]'/>
+     <PlusCircle size={50} 
+     color='white'
+     className='mediumScale rounded-full p-1 shadow-xs bg-[#045aa0] dark:bg-[#f29829e7]'/>
       </Link>
         <span>Add New Listing</span>
       </div>}
