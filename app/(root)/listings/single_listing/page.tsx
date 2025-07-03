@@ -10,20 +10,23 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import SwiperControls from "@utils/SwpierControls"
 import { Pagination, Autoplay, A11y, EffectCoverflow } from "swiper/modules"
 import { CldImage } from "next-cloudinary"
-import { useSearchParams } from "next/navigation"
+import { useSearchParams,useRouter } from "next/navigation"
 import Link from "next/link"
 import { Skeleton } from "@components/ui/skeleton"
 import { useGetSingleListing } from "@lib/customApi"
 import { useDarkMode } from "@lib/DarkModeProvider"
-import { MapPin, Toilet, Bed, Bath, Phone,Loader2 } from "lucide-react"
+import { MapPin, Toilet, Bed, Bath, Phone,Loader2,MessageCircle } from "lucide-react"
 import { Comment, WriteComment, CommentProps } from "@components/Comment"
 import { useGetComments } from "@lib/customApi"
 import { useNextPage } from "@lib/useIntersection"
+import { useUser } from "@utils/user"
 
 const SingleListing = () => {
+  const {session} = useUser()
   const [isSwiperLoaded, setIsSwiperLoaded] = useState(false)
   const listingId = useSearchParams().get("id")
   const { darkMode } = useDarkMode()
+  const router = useRouter()
   const { data, isLoading, isError } = useGetSingleListing(listingId)
   const {
     data: commentsData,
@@ -37,8 +40,9 @@ const SingleListing = () => {
   const handlePhoneClick = () => {
     window.open(`tel:${data?.agent.phone}`)
   }
-  const handleWhatsAppClick = () => {
-    window.open(`https://wa.me/${data?.agent.whatsapp}`)
+  const handleChatClick = () => {
+
+   router.push(`/chat?=${data?.agent._id}`)
   }
   const openInGoogleMap = (address: string) => {
     const encodedAddress = encodeURIComponent(address)
@@ -200,26 +204,25 @@ const SingleListing = () => {
                   onClick={handlePhoneClick}
                 >
                   <Phone
-                    size={40}
+                    size={35}
                     color={darkMode ? "#A88F6E" : "#0881A3"}
                   />
                 </div>
-                <span> {data?.agent.phone}</span>
+                <span> {data?.agent.phone}0904575767</span>
               </div>
+             {session?.user.id !== data?.agent._id &&
               <div className="contact_items">
                 <div
                   className="hover:scale-95 transition-transform duration-200"
-                  onClick={handleWhatsAppClick}
+                  onClick={handleChatClick}
                 >
-                  <Image
-                    width={50}
-                    height={50}
-                    alt="agent pic"
-                    src={darkMode ? "/icons/whatsAppDark.svg" : "/icons/whatsapp.svg"}
+                  <MessageCircle
+                    size={35}
+                    color={darkMode ? "#A88F6E" : "#0881A3"}
                   />
                 </div>
-                <span>{data?.agent.whatsapp}</span>
-              </div>
+                <span>Chat With Agent</span>
+              </div>}
             </div>
           </div>
         </div>

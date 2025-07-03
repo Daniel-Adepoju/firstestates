@@ -18,16 +18,17 @@ const AgentViewPage = () => {
   const [reporting, setReporting] = useState(false)
   const notification = useNotification()
   const { session } = useUser()
-
+  const isYou = session?.user.id === id
   const { data: agent } = useGetUser({ id: id?.toString(), enabled: !!id, page: "1", limit: 1 })
   const { data: listings,isLoading} = useGetAgentListings({ id: id?.toString(), enabled: !!id, page: "1", limit: 10,school:'',location:''})
-  console.log(listings)
+ 
+
   const handleReport = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setReporting(true)
     try {
      await sendNotification({
-        type: "report",
+        type: "report_user",
         message: reportText,
         recipientRole: "admin",
         mode: "broadcast-admin",
@@ -51,35 +52,39 @@ const AgentViewPage = () => {
       <Agent agent={agent} />
 
       {/* report user */}
-      <div className="reportUser mt-4">
-        <h2 className="subheading font-semibold mb-2">Report Agent</h2>
-        <p>If you have any issues with this agent, please report them.</p>
-        <form
-          onSubmit={handleReport}
-          className="mt-4"
-        >
-          <textarea
-            required
-            className="w-full resize-none p-2 border rounded"
-            rows={6}
-            placeholder="Describe the issue..."
-            value={reportText}
-            onChange={(e) => setReportText(e.target.value)}
-          ></textarea>
-          <button
-            type="submit"
-            disabled={reporting}
-            className="mt-2 px-4 py-2 bg-red-800 text-white rounded hover:opacity-90"
+     {!isLoading && (
+      !isYou && (
+        <div className="reportUser mt-4">
+          <h2 className="subheading font-semibold mb-2">Report Agent</h2>
+          <p>If you have any issues with this agent, please report them.</p>
+          <form
+            onSubmit={handleReport}
+            className="mt-4"
           >
-            {reporting ? "Sending..." : "Send Report"}
-          </button>
-        </form>
-      </div>
+            <textarea
+              required
+              className="w-full resize-none p-2 border rounded"
+              rows={6}
+              placeholder="Describe the issue..."
+              value={reportText}
+              onChange={(e) => setReportText(e.target.value)}
+            ></textarea>
+            <button
+              type="submit"
+              disabled={reporting}
+              className="mt-2 px-4 py-2 bg-red-800 text-white rounded hover:opacity-90"
+            >
+              {reporting ? "Sending..." : "Send Report"}
+            </button>
+          </form>
+        </div>
+      )
+    )}
     </div>
     {listings?.listings?.length > 0 && (
       <>
     <div className="subheading mx-auto my-2 overflow-clip">
-      Recent Listings From {agent?.username} 
+     {isYou ? 'Your Recent Listings'  : `Recent Listings From ${agent?.username}`}
        </div>
     {isLoading ?
   <div className="mx-auto p-4 flex flex-wrap items-cener justify-center gap-4">

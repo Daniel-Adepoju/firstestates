@@ -9,13 +9,8 @@ const Page = () => {
     <>
       {/* <Notification  isActive={val.value} /> */}
 
-      <button
-        style={{ margin: "200px auto" }}
-        onClick={() => {return}}
-      >
-        {/* {notification} */} Click
-      </button>
-    </>
+      <div className=""> Content </div>
+          </>
   )
 }
 

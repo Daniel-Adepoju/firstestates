@@ -40,6 +40,10 @@ sentBy: {
   ref: User.modelName,
   required: false
 },
+chatContent: {
+  type:String,
+  required: false
+},
 reportedUser: {
   type: Schema.Types.ObjectId,
    ref: User.modelName,

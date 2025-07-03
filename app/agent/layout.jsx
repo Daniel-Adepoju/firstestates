@@ -36,11 +36,11 @@ export default async function AdminLayout({children}){
     <Provider>
       <User>
         <Notification>
-   <div className= 'admin-container'>
+   <div className= 'admin-container nobar null'>
  <Sidebar session={session}/>
- <div className="admin-content-container">
+ <div className="admin-content-container nobar null">
   <Header session={session}/>
-  <div className="agentDashboardContainer">
+  <div className="agentDashboardContainer nobar null">
    {children}  
   </div>
 

@@ -34,7 +34,12 @@
 }
 }
 .nobar {
-
+ &.null {
+    &::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+ }
   &::-webkit-scrollbar {
   width: 1px;
   height: 1px;
@@ -767,9 +772,12 @@ footer.hide {
     }
   }
   .contact_items {
-    @include flex(row, center, space-evenly);
+    @include flex(row, center, flex-start);
+    gap:10px;
     width: 200px;
     margin-top: 10px;
+    font-family: font('headers');
+    font-weight: bold;
     img {
       cursor: pointer;
       @include transition(300ms);
@@ -1016,4 +1024,11 @@ footer.hide {
     -webkit-appearance: none;
     margin: 0;
   }
+}
+
+.loginFirst {
+  margin: 180px auto;
+  width: 100%;
+ @include center();
+
 }

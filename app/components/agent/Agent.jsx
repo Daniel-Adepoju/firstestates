@@ -1,21 +1,24 @@
 "use client"
 
-import Image from "next/image"
 import { CldImage } from "next-cloudinary"
 import { Skeleton } from "@components/ui/skeleton"
-import { MapPin, Phone } from "lucide-react"
+import { MapPin, Phone, MessageCircle } from "lucide-react"
 import { useDarkMode } from "@lib/DarkModeProvider"
 import Link from "next/link"
+import { useUser } from "@utils/user"
 
 const Agent = ({ agent }) => {
   const { darkMode } = useDarkMode()
+  const {session} = useUser()
+  const userId = session?.user?.id
+
 
   if (!agent) {
     return (
       <div className="flex flex-col gap-4 w-full">
-        <Skeleton className="w-30 h-30 rounded-[50%] bg-gray-300" />
-        <Skeleton className="w-full h-10 rounded-md bg-gray-300" />
-        <Skeleton className="w-full h-10 rounded-md bg-gray-300" />
+        <Skeleton className="w-25 h-25 rounded-[50%] bg-gray-500/20" />
+        <Skeleton className="w-full h-10 rounded-md bg-gray-500/20" />
+        <Skeleton className="w-full h-10 rounded-md bg-gray-500/20" />
       </div>
     )
   }
@@ -59,15 +62,16 @@ const Agent = ({ agent }) => {
               />
               <span>{agent.phone}</span>
             </div>
-            <div className="md:w-100 dark:bg-black/10 bg-gray-100/70  px-4 rounded-lg mt-6 font-bold flex flex-row items-center">
-              <Image
-                src={darkMode ? "/icons/whatsappDark.svg" : "/icons/whatsapp.svg"}
-                alt="icon"
-                width={50}
-                height={50}
+
+          {userId !== agent?._id  || userId === agent.id &&
+           <div className="md:w-100 dark:bg-black/10 bg-gray-100/70 pt-2 pb-2.5 px-4  px-4 rounded-lg mt-6 font-bold flex flex-row gap-2 items-center">
+               <MessageCircle
+                size={34}
+                color={darkMode ? "#A88F6E" : "#0881A3"}
               />
-              <span>{agent.whatsapp}</span>
+              <Link href={`/chat?recipientId=${agent._id}`}>Chat With Agent</Link>
             </div>
+            }
           </div>
         </div>
       </div>

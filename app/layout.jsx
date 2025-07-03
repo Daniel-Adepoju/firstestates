@@ -2,7 +2,7 @@ import "@styles";
 import './globals.css'
 import {DarkModeProvider} from '@lib/DarkModeProvider'
 import Script from "next/script";
-
+import Nav from "@components/Nav";
 export const metadata = {
   title: "FirstEstates",
   description: "Find Your Perfect Student Home",
@@ -33,7 +33,7 @@ export default function RootLayout({children}) {
       
       
         </head>
-              <body>
+              <body> 
       <DarkModeProvider>
        {children}  
    </DarkModeProvider>

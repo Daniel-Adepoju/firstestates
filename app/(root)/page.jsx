@@ -1,6 +1,5 @@
 'use client'
 import { useSearchParams } from 'next/navigation'
-import Main from '@components/Main'
 import CardList from '@components/CardList'
 import HeroSection from '@components/Hero'
 

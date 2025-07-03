@@ -5,7 +5,7 @@ import { useUser } from "@utils/user"
 import { CldImage } from "next-cloudinary"
 import { useBackdrop } from "@lib/Backdrop"
 import { useDarkMode } from "@lib/DarkModeProvider"
-import { Sun, Moon,LayoutDashboard, UserPlus2, UserPlus,LogIn} from "lucide-react"
+import {MessageSquare, Sun, Moon,LayoutDashboard, UserPlus2, UserPlus,LogIn} from "lucide-react"
 const Nav = () => {
   const { session } = useUser()
   const [navbarFixed, setnavbarFixed] = useState<boolean>(false)
@@ -99,6 +99,21 @@ const Nav = () => {
     </div>
     <span className="mode">{darkMode ? "Light Mode" : "Dark Mode"}</span>
   </div>
+
+
+{/* chats */}
+  {session?.user && (
+      <div
+    onClick={handleNavItemClick}
+    className="flex flex-row items-center gap-2 cursor-pointer"
+  >
+    <div className="dark:bg-white bg-[#0874c7] p-2 rounded-full">
+      <MessageSquare size={20} color={darkMode ? '#f59e0b' : 'white'}/>
+      </div>
+      <Link href="/inbox" onClick={handleNavItemClick}>Chats</Link>
+  </div>
+  
+  )}
 
 {/* add roomie */}
   {session?.user && (

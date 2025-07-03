@@ -59,8 +59,8 @@ const Sidebar = ({session}: Session) => {
      flex flex-row items-center justify-center
      bg-inherit backdrop-blur-md shadow-lg mediumScale">
     {isCollapse ?
-    <ArrowRight size={30}/> :
-    <ArrowLeft size={30}/>
+    <ArrowRight size={30} color='white'/> :
+    <ArrowLeft size={30} color='white'/>
     }
     </div>
     </div>

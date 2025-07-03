@@ -1138,7 +1138,7 @@ a:has(.clickable) {
   align-items: center;
   justify-content: center;
   gap: 20px;
-  background-color: #fffdfb;
+  background-color: rgb(255, 255, 255);
   padding: 4px 6px;
   border-radius: 0 0px 20px 20px;
   box-shadow: 1px 1px 1px 1px rgba(116, 116, 116, 0.269);
@@ -1789,6 +1789,10 @@ html:is(.dark) .darkblueBtn {
   background: transparent;
 }
 
+.nobar.null::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
 .nobar::-webkit-scrollbar {
   width: 1px;
   height: 1px;
@@ -2577,9 +2581,12 @@ footer.hide {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: flex-start;
+  gap: 10px;
   width: 200px;
   margin-top: 10px;
+  font-family: "Outfit", sans-serif;
+  font-weight: bold;
 }
 .agent_details .contact_items img {
   cursor: pointer;
@@ -2849,4 +2856,13 @@ footer.hide {
 .verify input[type=number]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.loginFirst {
+  margin: 180px auto;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }/*# sourceMappingURL=styles.css.map */

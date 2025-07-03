@@ -1,3 +1,5 @@
+import { MessageCircle } from "lucide-react";
+
 export const sidebarItems = [
   {
     name: "Dashboard",
@@ -46,6 +48,11 @@ export const agentSidebarItems = [
     icon: "/icons/listings.svg",
   },
   {
+    name:'Chats',
+    link:'/agent/inbox',
+    icon: '/icons/chat.svg'
+  },
+  {
     name: "Messages",
     link: "/agent/messages",
     icon: "/icons/notification.svg",
@@ -55,6 +62,7 @@ export const agentSidebarItems = [
     link: "/agent/settings",
     icon: "/icons/settings.svg",
   },
+
 ];
 
 
