@@ -1,23 +1,25 @@
 import {useRef, useState} from 'react'
-import { Trash2,FlagTriangleRight} from 'lucide-react'
+import { Trash2,FlagTriangleRight,Check,CheckCheck} from 'lucide-react'
 import { ReportModal } from './Modals';
-import { deleteMessage } from '@lib/server/appwrite';
+import { deleteMessage } from '@lib/server/chats';
 
   interface Msg {
         $id: string;
         userId: string;
         text: string;
         createdAt: string | number | Date;
+        readBy: string[]
     }
 
     interface ChatBubbleProps {
         msg: Msg;
         userId: string;
         showId: string;
+        recipientId: string | null;
         setShowId: (id: string) => void;
     }
 
-    const ChatBubble = ({msg, userId, showId, setShowId}: ChatBubbleProps) => {
+    const ChatBubble = ({msg, userId, showId, setShowId,recipientId}: ChatBubbleProps) => {
   const [showOptions,setShowOptions] =  useState(false)
 const reportRef = useRef<HTMLDialogElement>(null)
 
@@ -52,6 +54,14 @@ const reportRef = useRef<HTMLDialogElement>(null)
             }`}
           >
             {msg.text}
+          <div className="checks self-end">
+            {recipientId !== null && msg?.readBy?.includes(recipientId) ? (
+              <CheckCheck color="white" size={15} />
+            ) : (
+              <Check color="white" size={15} />
+            )} 
+          </div>
+        
         <div className='self-end'>
         {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}
         </div>

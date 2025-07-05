@@ -41,6 +41,7 @@ export const Comment = ({comment, refValue}: commentCardProps) => {
             alt="user icon"
             width={30}
             height={30}
+            crop={'auto'}
             className="rounded-full border-1 border-white"/>
             <span className="username">{comment?.author.username}</span>
             </div>

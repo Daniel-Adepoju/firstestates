@@ -60,9 +60,14 @@ const Sidebar = ({session}: Session) => {
        {item.name === 'Messages' && !isLoading
        && data?.pages[0]?.unreadNotifications > 0
        && (
-        <div className="z-1 absolute text-center bg-white rounded-full text-xl smallNum w-8 h-8">
+        <div className="z-1  h-6 w-6 absolute top-[-16.5%] left-[0%] text-center bg-white rounded-full text-xs font-bold smallNum">
         {data?.pages[0]?.unreadNotifications > 99 ? '99+' : data?.pages[0].unreadNotifications}
         </div> )}
+        {item.name === 'Chats' && (
+          <div className="absolute flex items-center flex-center w-6 h-6 top-[-16.5%] left-[0%] bg-white  text-white rounded-full px-2 py-1 text-xs font-bold smallNum">
+          99+
+          </div>
+        )}
     <Image src={item.icon}
       alt='icons'
       width={30}

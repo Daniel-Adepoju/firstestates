@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useUser } from '@utils/user'
-import { getUserConversations } from '@/lib/server/appwrite'
+import { getUserConversations} from '@/lib/server/chats'
 import type { Models } from 'appwrite'
 import { CldImage } from 'next-cloudinary'
 import { MoreHorizontal } from 'lucide-react'
@@ -32,9 +32,6 @@ const [loading,setLoading] = useState(false)
     loadConversations()
   }, [userId])
 
-  const getOtherUserId = (userIds: string[]) => {
-    return userIds.find((id) => id !== userId) || 'Unknown'
-  }
 
   const handleOpenChat = (recipientId: string) => {
     router.push(`/chat?recipientId=${recipientId}`)
@@ -63,6 +60,7 @@ const [loading,setLoading] = useState(false)
           <ConversationRow
             key={convo.$id}
             convo={{
+              $id:convo.$id,
               userIds: convo.userIds,
               lastMessage: convo.lastMessage,
             }}

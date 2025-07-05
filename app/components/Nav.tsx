@@ -5,7 +5,9 @@ import { useUser } from "@utils/user"
 import { CldImage } from "next-cloudinary"
 import { useBackdrop } from "@lib/Backdrop"
 import { useDarkMode } from "@lib/DarkModeProvider"
+import { getUnreadChats } from "@lib/server/chats"
 import {MessageSquare, Sun, Moon,LayoutDashboard, UserPlus2, UserPlus,LogIn} from "lucide-react"
+
 const Nav = () => {
   const { session } = useUser()
   const [navbarFixed, setnavbarFixed] = useState<boolean>(false)
@@ -16,6 +18,7 @@ const Nav = () => {
   const setIsActive = backdrop?.setIsActive ?? (() => {})
   const setToggleNav = backdrop?.setToggleNav ?? (() => {})
   const { darkMode, toggleDarkMode } = useDarkMode()
+  const [unreadMessages, setUnreadMessages] = useState<string>('0')
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,10 +32,20 @@ const Nav = () => {
     return () => window.removeEventListener("scroll", handleScroll)
   })
 
+  useEffect(() => {
+  const getUnread = async () => {
+    if (!session?.user) return;
+    const unread = await getUnreadChats(session?.user.id);
+    setUnreadMessages(unread);
+  };
+  getUnread();
+  },[session?.user])
+
   const showNav = () => {
     setIsActive((prev) => !prev)
     setToggleNav((prev) => !prev)
   }
+
   const handleNavItemClick = () => {
   setIsActive(false);
   setToggleNav(false);
@@ -105,12 +118,17 @@ const Nav = () => {
   {session?.user && (
       <div
     onClick={handleNavItemClick}
-    className="flex flex-row items-center gap-2 cursor-pointer"
+    className="relative flex flex-row items-center gap-2 cursor-pointer"
   >
     <div className="dark:bg-white bg-[#0874c7] p-2 rounded-full">
       <MessageSquare size={20} color={darkMode ? '#f59e0b' : 'white'}/>
       </div>
       <Link href="/inbox" onClick={handleNavItemClick}>Chats</Link>
+      {unreadMessages && (
+        <div className="absolute w-6 h-6 top-[-16.5%] left-[0%] bg-red-800 text-white rounded-full px-2 py-1 text-xs font-bold">
+          {unreadMessages}
+        </div>
+      )}
   </div>
   
   )}

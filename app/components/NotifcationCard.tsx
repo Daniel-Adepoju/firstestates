@@ -20,6 +20,8 @@ export interface Notification {
   thumbnail: string
   sentBy?: string
   reportedUser?: string
+  chatContent?: string
+  listingId?: string
 }
 
 interface NotificationCardProps {
@@ -64,8 +66,8 @@ const NotifcationCard = ({ notification,refValue,page }: NotificationCardProps) 
         items-start
         justify-between
         gap-4
-       bg-white dark:bg-gray-600 border-gray-200 dark:border-gray-600
-      ${notification.type === 'report' && 'dark:bg-red-700 bg-red-600'}
+       bg-white dark:bg-gray-600/20 border-gray-200 dark:border-gray-600
+      '}
        `}
     >
       {/* Left side: Icon + Type + Message */}
@@ -85,7 +87,7 @@ const NotifcationCard = ({ notification,refValue,page }: NotificationCardProps) 
           dark:bg-gray-700 
           text-gray-700 
           dark:text-gray-300
-          ${notification.type === 'report' && 'text-white dark:bg-red-800 bg-red-800'}
+          ${notification.type.includes('report') && 'text-white dark:bg-red-800 bg-red-800'}
           `}
         >
           {notification.type}
@@ -99,7 +101,8 @@ const NotifcationCard = ({ notification,refValue,page }: NotificationCardProps) 
       src={notification.thumbnail} 
       alt='kd'/>
     : (
-      <>
+  <Link target={notification?.listingId ? "_blank" : "_self"}
+   href={notification?.listingId ? `/listings/single_listing?id=${notification?.listingId}` : '#'}>
       {!noImage ? <CldImage
           width={60}
           height={60}
@@ -118,13 +121,19 @@ const NotifcationCard = ({ notification,refValue,page }: NotificationCardProps) 
             alt='thumbnail'
           />
         )}
-      </>
+      </Link>
     )
     }
      
       </div>
          }
+
+         <div>
          <div>{notification.message}</div>
+         {notification?.chatContent && 
+         <div>Content of reported chat: {notification.chatContent}</div>}
+        </div>
+
          </div>
       </div>
       
@@ -137,7 +146,7 @@ const NotifcationCard = ({ notification,refValue,page }: NotificationCardProps) 
         )}
         {notification?.reportedUser && (
           <span>
-            Reported User: <Link href={`/admin/users/${notification?.reportedUser}`}  className="font-semibold">{notification?.reportedUser}</Link>
+            Reported User: <Link href={`/admin/users/${notification?.reportedUser}?reportedBy=${notification.sentBy}`}  className="font-semibold">{notification?.reportedUser}</Link>
           </span>
           
         )}

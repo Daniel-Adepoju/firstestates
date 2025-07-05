@@ -1,6 +1,7 @@
 'use client'
 import { useState, useRef, useEffect } from 'react'
-import {client,sendMessage,getMessages,getOrCreateConversation} from '@/lib/server/appwrite'
+import {client} from '@/lib/server/appwrite'
+import {sendMessage,getMessages,getOrCreateConversation,updateReadStatus} from '@/lib/server/chats'
 import { useUser } from '@utils/user'
 import type { Models } from 'appwrite';
 import { useSearchParams } from 'next/navigation';
@@ -42,12 +43,16 @@ await sendMessage(text,userId,conversationId)
       const msgs = await getMessages(convo.$id)
       setMessages(msgs)
       setLoading(false)
+   
     }
     setupConversation()
   }, [userId, recipientId])
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if(!conversationId) return
+   const updateRead = async () => await updateReadStatus(userId,conversationId)
+   updateRead()
   }, [sending,messages])
 
   useEffect(() => {
@@ -101,7 +106,8 @@ if (loading) {
     <h4 className="text-center dark:text-gray-300 text-gray-500 text-sm my-4">{date}</h4>
    <div className='flex flex-col gap-4 mb-2'>
     {msgs.map((msg:any) => (
-    <ChatBubble key={msg.$id} msg={msg} userId={userId} showId={showId} setShowId={setShowId} />
+    <ChatBubble key={msg.$id} msg={msg} userId={userId} showId={showId} setShowId={setShowId} recipientId={recipientId} />
+
     ))}
     </div>
   </div>

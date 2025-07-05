@@ -39,7 +39,7 @@ export const editListing = async (val, userId) => {
   try {
     await connectToDB()
     const newVal = { ...val }
-    await Listing.findOneAndUpdate({ _id: val.id },
+   const listing = await Listing.findOneAndUpdate({ _id: val.id },
       newVal,
       {
       new: true,
@@ -60,6 +60,7 @@ export const editListing = async (val, userId) => {
       message: `You edited a listing`,
       userId,
       thumbnail: val.mainImage,
+      listingId: val.id,
     })
   
     return { message: "Edited Successfully", status: "success" }
@@ -86,6 +87,7 @@ export const markAsFeatured = async (val, userId) => {
       message: `You marked a listing as featured`,
       userId,
       thumbnail: listing.mainImage,
+      listingId: val.id,
     })
   
     return { message: "Successful", status: "success" }
@@ -113,12 +115,15 @@ export const deleteListing = async (id) => {
     await Comment.deleteMany({ listing: id })
     await deleteImage(listing.mainImage)
     await deleteMultipleImages(listing.gallery)
+
     await sendNotification({
       type: "Listing_Deleted",
       recipientRole: "agent",
       message: `You deleted a listing at ${listing.location}`,
       userId: listing.agent._id,
+      listingId: id,
     })
+
     revalidatePath('/agent/listings')
     return { message: "Deleted Successfully", status: "success" }
    
@@ -148,6 +153,7 @@ export const sendComment = async (val) => {
       message: `You have a new comment on your listing at ${listing.location}`,
       userId: listing.agent._id,
       thumbnail: listing.mainImage,
+      listingId: listing._id,
     })
     return { message: "Commented Successfully", status: "success" }
   } catch (err) {

@@ -28,6 +28,7 @@ try {
       mainImage: 1,
       location:1,
       school:1,
+      'agent._id':1,
       'agent.username': 1,
       'agent.email': 1,
         'agent.profilePic':1,

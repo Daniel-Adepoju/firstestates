@@ -44,6 +44,10 @@ chatContent: {
   type:String,
   required: false
 },
+listingId: {
+  type:String,
+  required:false
+},
 reportedUser: {
   type: Schema.Types.ObjectId,
    ref: User.modelName,
