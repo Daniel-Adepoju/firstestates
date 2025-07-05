@@ -36,8 +36,22 @@ export default function ConversationRow({ convo, currentUserId, onClick }: Conve
         (res) => {
           const newMsg = res.payload as Models.Document
            if (newMsg.$id !== convo.$id) return;
-           setNewLastMessage(newMsg.lastMessage)
+
+               if (res.events.some((e) => e.includes('create'))) {
+         setNewLastMessage(newMsg.lastMessage)
            setUnreadMessages(prev => prev === '0' ? '1' : (parseInt(prev) + 1).toString())
+      }
+           
+            if (res.events.some((e) => e.includes('update'))) {
+          setNewLastMessage(newMsg.lastMessage)
+          setUnreadMessages(unreadMessages)
+        }
+      
+            if (res.events.some((e) => e.includes('delete'))) {
+          setNewLastMessage('Message Deleted')
+          setUnreadMessages(prev => prev === '0' ? '0' : (parseInt(prev) - 1).toString())
+        }
+          
         }
       )
     

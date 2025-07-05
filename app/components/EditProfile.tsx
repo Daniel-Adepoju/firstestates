@@ -12,6 +12,7 @@ import { useNotification } from "@lib/Notification"
 import { useRouter } from "next/navigation"
 import { CloudinaryResult } from "./agent/ListingForm"
 import { getSession } from "next-auth/react"
+import { MoreHorizontal } from "lucide-react"
 const EditProfile = () => {
   const { session, update } = useUser()
   const [username, setUsername] = useState("")
@@ -22,6 +23,7 @@ const EditProfile = () => {
   const [isUpdating, setIsUpdating] = useState(false)
   const notification = useNotification()
   const router = useRouter()
+  const [updatingProfilePic,setUpdatingProfilePic] = useState(false)
 
   useEffect(() => {
     if (session?.user) {
@@ -65,12 +67,14 @@ const EditProfile = () => {
 
   const updatePic = async (result:CloudinaryUploadWidgetResults)  => {
      const resultInfo = result.info as CloudinaryResult
+     setUpdatingProfilePic(true)
     await update({
       ...session?.user,
       profilePic: resultInfo.public_id,
     })
     await updateProfilePic({ oldPic: session?.user.profilePic, newPic: resultInfo.public_id})
     await getSession()
+      setUpdatingProfilePic(false)
   }
 
   return (
@@ -82,9 +86,10 @@ const EditProfile = () => {
           <div className="relative">
             <CldImage
               src={session.user.profilePic}
-              width={120}
-              height={120}
-              crop={"fill"}
+              width={100}
+              height={100}
+              gravity="auto"
+              crop={"auto"}
               alt="User Profile Picture"
               className="rounded-full"
             />
@@ -105,6 +110,14 @@ const EditProfile = () => {
               )}
             </CldUploadWidget>
           </div>
+             <div className="w-full flex  flex-row justify-center">
+        {updatingProfilePic && (
+          <div className=' flex  flex-row items-center gap-2'>
+            <span className="text-sm text-gray-500">Updating Profile Picture</span>
+            <MoreHorizontal  size={30} color="gray" className="animate-pulse"/>
+          </div>
+        )}
+        </div>
         </div>
 
         
@@ -207,9 +220,9 @@ const EditProfile = () => {
       </>
       ) : (
         <div className="flex flex-col gap-3">
-          <Skeleton className=" rounded-full  bg-gray-600 mx-auto w-40 h-40" />
-          <Skeleton className="rounded bg-gray-600 mx-auto w-80 h-10" />
-          <Skeleton className="rounded bg-gray-600 mx-auto w-80 h-10" />
+          <Skeleton className="animate-none rounded-full  bg-gray-500/20 mx-auto w-25 h-25" />
+          <Skeleton className="animate-none rounded-sm bg-gray-500/20 mx-auto w-80 h-10" />
+          <Skeleton className="animate-none  rounded-sm bg-gray-500/20 mx-auto w-80 h-10" />
         </div>
       )}
     </div>

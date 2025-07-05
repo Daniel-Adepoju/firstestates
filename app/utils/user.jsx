@@ -22,7 +22,7 @@ const User = ({children}) => {
     grabProvider()
    },[])
   
-
+// if (status === "loading") return null;
   return (
       <ProviderContext.Provider value={providers}>
       <UserContext.Provider value={{session, update,status}}>

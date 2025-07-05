@@ -1,5 +1,7 @@
 "use client"
 import Link from "next/link"
+import {client} from '@lib/server/appwrite'
+import { Models } from "appwrite"
 import { useState, useEffect } from "react"
 import { useUser } from "@utils/user"
 import { CldImage } from "next-cloudinary"
@@ -39,6 +41,26 @@ const Nav = () => {
     setUnreadMessages(unread);
   };
   getUnread();
+        const unsubscribe = client.subscribe(
+              `databases.${process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID}.collections.${process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID}.documents`,
+              (res) => {
+                const newMsg = res.payload as Models.Document
+                 if (newMsg?.userId === session?.user.id) return;
+      
+                     if (res.events.some((e) => e.includes('create'))) {
+                 setUnreadMessages(prev => prev === '0' ? '1' : (parseInt(prev) + 1).toString())
+            }
+                 
+                  if (res.events.some((e) => e.includes('update'))) {
+                setUnreadMessages(unreadMessages)
+              }
+            
+                  if (res.events.some((e) => e.includes('delete'))) {
+                setUnreadMessages(prev => prev === '0' ? '0' : (parseInt(prev) - 1).toString())
+              }
+                
+              })
+    return () => unsubscribe()
   },[session?.user])
 
   const showNav = () => {

@@ -52,7 +52,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   callbacks: {
     async jwt({ token, user, trigger, session, account }) {
       if (trigger === "update") {
-        token = session
         return { ...token, ...session.user }
       }
       if (account?.isNewUser !== undefined) {
@@ -62,6 +61,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       return { ...token, ...user }
     },
     async session({ session, token }) {
+      if (!token?.email) return null
       const user = await User.findOne({ email: token?.email })
 
       if (!user) {
