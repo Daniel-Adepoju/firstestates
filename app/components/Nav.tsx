@@ -147,7 +147,7 @@ const Nav = () => {
       </div>
       <Link href="/inbox" onClick={handleNavItemClick}>Chats</Link>
       {unreadMessages && parseInt(unreadMessages) > 0 && (
-        <div className="absolute w-6 h-6 top-[-16.5%] left-[0%] bg-red-800 text-white rounded-full px-2 py-1 text-xs font-bold">
+        <div className="flex items-center justify-center absolute w-6 h-6 top-[-16.5%] left-[0%] bg-red-800 text-white rounded-full px-2 py-1 text-xs font-bold">
           {unreadMessages}
         </div>
       )}

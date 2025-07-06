@@ -62,6 +62,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     },
     async session({ session, token }) {
       if (!token?.email) return null
+      await connectToDB()
       const user = await User.findOne({ email: token?.email })
 
       if (!user) {

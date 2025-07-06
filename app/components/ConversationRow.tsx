@@ -75,8 +75,8 @@ export default function ConversationRow({ convo, currentUserId, onClick }: Conve
         crop={'auto'}
         className="rounded-full"
         />}
-      <div className="font-medium ml-1">
-        {isLoading ? <Skeleton className="w-32 h-4 bg-gray-500/20" /> : user?.username || 'Unknown User'}
+      <div className="font-medium ml-1 dark:text-gray-300 text-gray-500">
+        {isLoading ? <Skeleton className="w-32 h-4  bg-gray-500/20" /> : user?.username || 'Unknown User'}
 
       </div>
       </div>
@@ -86,11 +86,11 @@ export default function ConversationRow({ convo, currentUserId, onClick }: Conve
       </div>
     {unreadMessages && unreadMessages !=='0' && 
     (<div className='absolute right-5 top-5 flex flex-col items-center'>
-      <h6 className='text-xs'>New</h6>
+      <h6 className='text-xs dark:text-gray-300 text-gray-500 '>New</h6>
       <div className="
-       w-8 h-8 flex itemms-center justify-center
-      text-lg font-bold text-white dark:bg-coffee bg-darkblue rounded-full">
-        {unreadMessages}
+       w-6 h-6 flex itemms-center justify-center
+      text-md font-bold text-white dark:bg-coffee bg-darkblue rounded-full">
+        {parseInt(unreadMessages) > 9 ? '9+' : unreadMessages}
         </div>
         </div>)}
     </div>
