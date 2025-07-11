@@ -19,7 +19,7 @@ import { ArrowLeftFromLine } from "lucide-react"
 const CardList = () => {
 useSignals()
 const {session} = useUser()
-const limit = useSignal(10)
+const limit = useSignal(12)
 const page = useSearchParams().get('page') || '1'
 const location = useSignal("")
 const school = useSignal("")
@@ -61,7 +61,7 @@ return <Card key={item._id} listing={item} edit={false} />
 })
 
 const loadingCards = Array.from({length:6}).map((_,i) => {
-  return <Skeleton className="animate-none bg-gray-500/20 w-80 h-80" key={i} />
+  return <Skeleton className="animate-none bg-gray-500/20 w-70 h-80" key={i} />
 })
 
 if(isError) {

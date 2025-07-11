@@ -385,7 +385,7 @@ footer.hide {
   margin-top: 8px;
   background-color: color("ghost");
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   align-items: center;
   column-gap: 2px;
   justify-items: center;
@@ -400,7 +400,7 @@ footer.hide {
   margin: 24px 15px;
   @include flex(column, center, flex-start);
   background-color: rgb(255, 255, 255);
-  width: 300px;
+  width: 280px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   cursor: pointer;
   border-radius: 5px 5px 10px 10px;
@@ -460,7 +460,7 @@ footer.hide {
   .houseImg {
     @include transition(300ms, ease-out);
     position: relative;
-    width: 293.5px;
+    width: 273.5px;
     padding-top: 56.25%;
     margin-top: -14px;
     margin-inline: auto;

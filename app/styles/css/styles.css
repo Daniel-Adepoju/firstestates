@@ -1176,37 +1176,38 @@ a:has(.clickable) {
   justify-content: flex-start;
   width: 100%;
 }
-.adminDashboard .adminDashboard_content {
+
+.adminDashboard_content {
   display: grid;
   justify-content: center;
   align-content: center;
   gap: 20px;
   row-gap: 20px;
-  -moz-column-gap: 20px;
-       column-gap: 20px;
   margin-top: 20px;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   width: 100%;
 }
-.adminDashboard .adminDashboard_content .content_item {
+.adminDashboard_content .content_item {
   background-color: rgb(255, 255, 255);
   border-radius: 10px;
   padding: 20px;
-  box-shadow: 1px 1px 1px 1px rgba(116, 116, 116, 0.269);
+  width: 90%;
+  margin-inline: auto;
+  box-shadow: 0.1px 0.1px 0.5px 0.5px rgba(0, 0, 0, 0.226);
 }
-.adminDashboard .adminDashboard_content .banner {
+.adminDashboard_content .banner {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 6px;
 }
-.adminDashboard .adminDashboard_content .banner .text {
+.adminDashboard_content .banner .text {
   position: relative;
   padding: 10px;
   font-weight: bold;
   color: #f29829;
-  font-size: 20px;
+  font-size: 16px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -1216,7 +1217,7 @@ a:has(.clickable) {
   border-radius: 50%;
   background-color: white;
 }
-.adminDashboard .adminDashboard_content .banner .text span {
+.adminDashboard_content .banner .text span {
   position: relative;
   display: inline-block;
   width: 100%;
@@ -1224,7 +1225,7 @@ a:has(.clickable) {
   text-align: center;
   background-color: white;
 }
-.adminDashboard .adminDashboard_content .banner .text::before {
+.adminDashboard_content .banner .text::before {
   content: "";
   position: absolute;
   display: block;
@@ -1239,6 +1240,13 @@ a:has(.clickable) {
   border-top-color: #fde9df;
   animation: spin 8s linear infinite;
 }
+.adminDashboard_content .banner.danger .text {
+  color: #e01414;
+}
+.adminDashboard_content .banner.danger .text::before {
+  border: 9px solid #e01414;
+  border-top-color: rgba(239, 167, 167, 0.909);
+}
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -1247,20 +1255,21 @@ a:has(.clickable) {
     transform: rotate(360deg);
   }
 }
-.adminDashboard .adminDashboard_content .barchart {
+.adminDashboard_content .barchart {
+  box-shadow: 0 0 0 0 rgba(116, 116, 116, 0.269);
   grid-column: 1/-1;
   background-color: rgb(255, 255, 255);
 }
 @media (min-width: 1000px) {
-  .adminDashboard .adminDashboard_content .barchart {
+  .adminDashboard_content .barchart {
     display: none;
   }
 }
-.adminDashboard .adminDashboard_content .barchart.large {
+.adminDashboard_content .barchart.large {
   display: none;
 }
 @media (min-width: 1000px) {
-  .adminDashboard .adminDashboard_content .barchart.large {
+  .adminDashboard_content .barchart.large {
     display: block;
   }
 }
@@ -1524,7 +1533,6 @@ a:has(.clickable) {
 .sidebar ul {
   min-width: 100%;
   flex: 1;
-  padding: 222px;
   list-style: none;
   padding: 0;
   padding-top: 12px;
@@ -1539,7 +1547,6 @@ a:has(.clickable) {
 .sidebar ul .items.active {
   transition: all 300ms ease-in;
   background-color: rgba(102, 195, 253, 0.217);
-  width: 100%;
   border-radius: 6px;
 }
 .sidebar ul .items.active img {
@@ -1739,8 +1746,12 @@ html:is(.dark) .editSide {
   box-shadow: 0.5px 0.5px 1.2px 1.2px rgba(116, 116, 116, 0.269);
   outline: 4px solid rgba(20, 20, 20, 0.447);
 }
-html:is(.dark) .adminDashboard .adminDashboard_content .content_item {
+html:is(.dark) .adminDashboard_content .content_item {
   background-color: #31363F;
+  box-shadow: 0.1px 0.1px 0.5px 0.5px rgba(219, 219, 219, 0.897);
+}
+html:is(.dark) .adminDashboard_content .barchart {
+  box-shadow: 0 0 0 0 rgba(116, 116, 116, 0.269);
 }
 html:is(.dark) .agentProfile, html:is(.dark) .listingHistory, html:is(.dark) .availableLists {
   background-color: #31363F;
@@ -2172,7 +2183,7 @@ footer.hide {
   margin-top: 8px;
   background-color: rgba(240, 239, 238, 0.292);
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   align-items: center;
   -moz-column-gap: 2px;
        column-gap: 2px;
@@ -2192,7 +2203,7 @@ footer.hide {
   align-items: center;
   justify-content: flex-start;
   background-color: rgb(255, 255, 255);
-  width: 300px;
+  width: 280px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   cursor: pointer;
   border-radius: 5px 5px 10px 10px;
@@ -2251,7 +2262,7 @@ footer.hide {
 .card .houseImg {
   transition: all 300ms ease-out;
   position: relative;
-  width: 293.5px;
+  width: 273.5px;
   padding-top: 56.25%;
   margin-top: -14px;
   margin-inline: auto;

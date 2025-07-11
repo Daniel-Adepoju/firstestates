@@ -165,13 +165,17 @@ background:white;
 
 
 // dashboard
-.adminDashboard {
+
   .adminDashboard_content {
   .content_item {
   background-color: color('darkModeSecondary');
+  @include shadow(0.1px,0.5px, rgba(219, 219, 219, 0.897));
+}
+.barchart {
+  @include shadow(0,0);
 }
   }
-}
+
 
 .agentProfile,.listingHistory, .availableLists
    {

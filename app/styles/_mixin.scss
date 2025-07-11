@@ -14,8 +14,8 @@
     padding: $padding;
   }
 
-  @mixin shadow($x:1px,$y:1.2px) {
-    box-shadow: $x $x $y $y rgba(116, 116, 116, 0.269);
+  @mixin shadow($x:1px,$y:1.2px, $color:rgba(116, 116, 116, 0.269)) {
+    box-shadow: $x $x $y $y $color;
   }
 
   @mixin center() {

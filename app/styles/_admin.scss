@@ -43,7 +43,6 @@
    ul {
     min-width: 100%;
     flex:1;
-    padding: 222px;
     list-style: none;
     padding: 0;
     padding-top: 12px;
@@ -59,7 +58,6 @@
     &.active {
    @include transition(300ms, ease-in);
    background-color: rgba(102, 195, 253, 0.217);
-    width: 100%;
     border-radius: 6px;
     img {
         filter: brightness(1.2) contrast(0.8) saturate(2.4) drop-shadow(0 0 4px rgba(0, 0, 0, 0.427));
