@@ -100,19 +100,19 @@ const handleSignInWithGoogle = async () => {
 
   }
 
-  // if (status === 'authenticated') {
-  //   return (
-  //     <div className="mt-35 mx-auto flex flex-col gap-4 items-center justify-center">
-  //    <div className="otherHead  mt-5 text-2xl font-bold">
-  //    You're already logged in
-  //     </div>
-  //     <Link href='/' className="smallScale cursor-pointer dark:bg-black/20 bg-darkblue text-white py-2 px-4 rounded-md"> Go Back To Homepage</Link>
-  //     </div>
-  //   )
-  // }
-  // if(status === 'loading') {  
-  //   return <Loader className="my-45"/>
-  // }
+  if (status === 'authenticated') {
+    return (
+      <div className="mt-35 mx-auto flex flex-col gap-4 items-center justify-center">
+     <div className="otherHead  mt-5 text-2xl font-bold">
+     You're already logged in
+      </div>
+      <Link href='/' className="smallScale cursor-pointer dark:bg-black/20 bg-darkblue text-white py-2 px-4 rounded-md"> Go Back To Homepage</Link>
+      </div>
+    )
+  }
+  if(status === 'loading') {  
+    return <Loader className="my-45"/>
+  }
 
 if(loggingIn) {
   return (<div className="blackboard">
@@ -180,7 +180,7 @@ if(loggingIn) {
              className='red'
              required
           />
-          <div className="absolute right-[4%] top-3">
+          <div className="absolute right-[4%] top-[26.5%]">
           <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
