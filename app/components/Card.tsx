@@ -42,7 +42,7 @@ export interface CardProps {
  listing: Listing,
 }
 const Card = ({ edit,listing,isAgentCard}: CardProps) => {
-  const [address, setAddress] = useState(listing?.address || "Nigeria")
+  const [address] = useState(listing?.address || "Nigeria")
   const router = useRouter()
   const deleteRef = useRef<HTMLDialogElement>(null)
   const [deleting,setDeleting] = useState(false)

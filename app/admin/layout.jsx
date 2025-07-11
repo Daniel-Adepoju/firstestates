@@ -26,6 +26,7 @@ export default async function AdminLayout({children}){
       <ReactQueryProvider>
          <Provider>
       <User>
+        <Notification>
    <div className= 'admin-container'>
  <Sidebar session={session}/>
  <div className="admin-content-container">
@@ -34,6 +35,7 @@ export default async function AdminLayout({children}){
    {children}
  </div>
  </div>
+  </Notification>
       </User>
     </Provider>
       </ReactQueryProvider>

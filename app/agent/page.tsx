@@ -2,7 +2,7 @@
 import Card from "@components/Card"
 import Agent from '@components/agent/Agent'
 import { useEffect, useState } from "react"
-import Image from "next/image"
+import {Skeleton} from "@components/ui/skeleton"
 import Link from "next/link"
 import {CardProps} from "@components/Card"
 import { useGetAgentListings } from "@lib/customApi"
@@ -17,6 +17,7 @@ import Payments from "@components/Payments"
 import { useGetAgentPayments } from '@lib/customApi';
 import { useChangeHash } from "@lib/useIntersection"
 import { PlusCircle } from "lucide-react"
+import { _ } from "node_modules/@upstash/redis/zmscore-CjoCv9kz.mjs"
 
 const AgentOnboarding = () => {
   useSignals()
@@ -148,7 +149,21 @@ const {data:paymentData,isLoading:paymentLoading} = useGetAgentPayments({userId,
   <div onClick={() => setSelected('view')} className={`${selected === 'view' && 'active'} subheading`}>View Listings</div>
   <div onClick={() => setSelected('edit')} className={`${selected === 'edit' && 'active'} subheading`}>Edit Listings</div> 
       </div>
-  {!session || isLoading ? <Loader className="my-20" /> : mapCards }
+  {!session || isLoading ? <div 
+  className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-4">
+  {Array.from({length: 8}).map((_,i) => {
+  return (
+  <Skeleton 
+  key={i}
+  className="w-70 h-70 bg-gray-500/20 animate-none"/> 
+  )
+  })}
+  </div> 
+  : mapCards
+}
+  <>
+  
+  </>
     </div>
     </div>
 

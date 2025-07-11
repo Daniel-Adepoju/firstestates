@@ -3,7 +3,7 @@ import "swiper/css"
 import "swiper/css/navigation"
 import "swiper/css/pagination"
 import "swiper/css/scrollbar"
-import { useState } from "react"
+import { useState, useRef } from "react"
 import Image from "next/image"
 import Button from "@lib/Button"
 import { Swiper, SwiperSlide } from "swiper/react"
@@ -15,11 +15,12 @@ import Link from "next/link"
 import { Skeleton } from "@components/ui/skeleton"
 import { useGetSingleListing } from "@lib/customApi"
 import { useDarkMode } from "@lib/DarkModeProvider"
-import { MapPin, Toilet, Bed, Bath, Phone,Loader2,MessageCircle } from "lucide-react"
+import { MapPin, Toilet, Bed, Bath, Phone,Loader2,MessageCircle, Flag, Trash2} from "lucide-react"
 import { Comment, WriteComment, CommentProps } from "@components/Comment"
 import { useGetComments } from "@lib/customApi"
 import { useNextPage } from "@lib/useIntersection"
 import { useUser } from "@utils/user"
+import { ReportListingModal } from "@components/Modals"
 
 const SingleListing = () => {
   const {session} = useUser()
@@ -27,6 +28,7 @@ const SingleListing = () => {
   const listingId = useSearchParams().get("id")
   const { darkMode } = useDarkMode()
   const router = useRouter()
+  const reportModalRef = useRef<HTMLDialogElement>(null)
   const { data, isLoading, isError } = useGetSingleListing(listingId)
   const {
     data: commentsData,
@@ -47,6 +49,10 @@ const SingleListing = () => {
   const openInGoogleMap = (address: string) => {
     const encodedAddress = encodeURIComponent(address)
     window.open(`https://www.google.com/maps/search/?api=1&query=${encodedAddress}`, "_blank")
+  }
+
+  const handleReport = () => {
+      reportModalRef.current?.showModal()
   }
 
   if (isLoading) {
@@ -175,6 +181,7 @@ const SingleListing = () => {
                 width={20}
                 height={20}
                 alt="agent pic"
+                crop={'auto'}
                 src={data?.agent.profilePic}
               />
               <div>
@@ -183,6 +190,35 @@ const SingleListing = () => {
                   </span>
               </div>
             </div>
+
+            {session?.user.role === "admin" ? 
+          <div className="flex flex-col items-center w-full text-gray-500 dark:text-white text-sm">
+       You have admin priviledges, you can delete this listing
+          <div
+          onClick={() => {
+            router.push(`/agent/listings/delete?id=${data?._id}`)
+          }}
+          className="smallScale text-md font-extrabold rounded-md p-2 px-10
+           bg-gray-500/10 report cursor-pointer flex flex-row items-center gap-2">
+          <Trash2 size={20} color='darkred' />
+          <span>Delete Listing</span>
+          </div>
+          </div>
+         : session?.user?.id === data?.agent._id + 'lk' ? (
+            <div className="text-gray-500 dark:text-white text-sm">
+              You are the owner of this listing
+            </div>
+          ) : session?.user ? (
+            <div
+              onClick={handleReport}
+              className="smallScale text-md font-extrabold rounded-md p-2 px-4
+               bg-gray-500/10 report cursor-pointer flex flex-row items-center gap-2">
+              <Flag size={20} color="darkred" /> <span>Report this listing</span>
+            </div>
+          ) : (
+            <div>Log in to report listing </div>
+          )
+        }
           </div>
 
           {/* agents details */}
@@ -198,7 +234,7 @@ const SingleListing = () => {
                 <span>{data?.agent.address}</span>
               </div>
               <div className="subheading">Contacts</div>
-              <div className="contact_items">
+              <div className="contact_items dark:text-white text-gray-600">
                 <div
                   className="hover:scale-95 transition-transform duration-200"
                   onClick={handlePhoneClick}
@@ -208,10 +244,10 @@ const SingleListing = () => {
                     color={darkMode ? "#A88F6E" : "#0881A3"}
                   />
                 </div>
-                <span> {data?.agent.phone}0904575767</span>
+                <span> {data?.agent.phone}</span>
               </div>
              {session?.user.id !== data?.agent._id &&
-              <div className="contact_items">
+              <div className="contact_items w-full dark:text-white text-gray-600">
                 <div
                   className="hover:scale-95 transition-transform duration-200"
                   onClick={handleChatClick}
@@ -221,7 +257,7 @@ const SingleListing = () => {
                     color={darkMode ? "#A88F6E" : "#0881A3"}
                   />
                 </div>
-                <span>Chat With Agent</span>
+              {session ? <Link href={`/chat?recipientId=${data?.agent._id}`} className="cursor-pointer">Chat With Agent</Link> : <span className="w-full">Log In To Chat With Agent</span>}
               </div>}
             </div>
           </div>
@@ -286,6 +322,14 @@ const SingleListing = () => {
           </div>
         </div>
       </div>
+
+        <ReportListingModal 
+        ref={reportModalRef} 
+        userId={session?.user.id ?? ""}
+        reportedUser={data?.agent._id ?? ""}
+        reportedListing={data?._id ?? ""}
+        thumbnail={data?.mainImage ?? ""}
+        />
     </>
   )
 }

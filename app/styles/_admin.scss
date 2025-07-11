@@ -21,12 +21,11 @@
 }
 
 .sidebar {
-  @include flex(column, flex-start, space-between);
+  @include flex(column, center, space-between);
     @include transition('ease-in');
   width: 220px;
     background-color: color('adminBlue');
     min-height: 100vh;
-    padding: 20px 10px;
     position: sticky;
     top: 0;
     left: 0%;
@@ -42,15 +41,21 @@
      }
     } 
    ul {
-    width: 100%;
+    min-width: 100%;
+    flex:1;
+    padding: 222px;
     list-style: none;
     padding: 0;
+    padding-top: 12px;
    .items {
+ 
+    padding: 6px 10px;
     @include transition(300ms, ease-out);
-    margin: 20px 0;
-    padding: 4px 8px;
-    padding-left: 4px;
-    width: 100%;
+    margin-block: 20px;
+    margin-inline: auto;
+    // padding: 4px 8px;
+    // padding-left: 4px;
+    width: 90%;
     &.active {
    @include transition(300ms, ease-in);
    background-color: rgba(102, 195, 253, 0.217);
@@ -60,6 +65,7 @@
         filter: brightness(1.2) contrast(0.8) saturate(2.4) drop-shadow(0 0 4px rgba(0, 0, 0, 0.427));
     }
 }
+
 }
   a {
     @include flex(row, center, flex-start);
@@ -68,6 +74,12 @@
     text-decoration: none;
     font-weight: 500;
   }
+  &:hover + .arrow {
+      @media (max-width: 768px) {
+  display: none;
+      }
+      display: flex;
+}
    }
 
   @media (max-width: 768px) {
@@ -83,15 +95,17 @@
     @include flex(row,center,center);
     gap: 10px;
     width: 100%;
-    @media (max-width: 768px) { 
-      width:48px;
-      img {
-         border-radius: 50%;
-         width: 90%;
-         height: 40px;
-         margin: 20px 0;
-     }
-   }
+    padding: 10px 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.142);
+  //   @media (max-width: 768px) { 
+  //     // width:48px;
+  //     img {
+  //        border-radius: 50%;
+  //       //  width:  40px;
+  //       //  height: 40px;
+  //        margin: 20px 0;
+  //    }
+  //  }
     img {
       width: 30px;
       height: 30px;
@@ -126,3 +140,12 @@
   overflow-x: hidden; 
 }
 
+.adminListings {
+  .items {
+  @include flex(column,center,flex-start);
+  width: 100%;
+  // background-color: bisque;
+  @include shadow(0.1px);
+  padding: 10px;
+  }
+}

@@ -29,13 +29,13 @@ const Sidebar = ({session}: Session) => {
          const isActive = pathname === item.link || pathname.startsWith(item.link + '/') && item.link !== '/admin'
       return (
       <div  key={index}
-      className={` items ${isActive && "active"}`}
+      className={` items ${isActive && "active"} relative`}
       >
         <a href={item.link}>
             {item.name === 'Messages' && !isLoading
        && data?.pages[0]?.unreadNotifications > 0
        && (
-        <div className="z-1 absolute text-center bg-white rounded-full text-xl smallNum w-8 h-8">
+        <div className="z-1 absolute flex items-center flex-center w-6 h-6 top-[-16.5%] left-[0%] bg-white  text-white rounded-full px-2 py-1 text-xs font-bold smallNum">
         {data?.pages[0]?.unreadNotifications > 99 ? '99+' : data?.pages[0].unreadNotifications}
         </div> )}
     <Image src={item.icon}
@@ -47,27 +47,30 @@ const Sidebar = ({session}: Session) => {
       </a>
       </div>
       )
-    })}
+    })} 
+     </ul>
     <div className="
-    arrow
-    w-full flex flex-row justify-end
+    arrow absolute top-65 left-[94%]
+    w-full hover:flex hidden
     ">
      <div 
      onClick={() => setIsCollapse(prev => !prev)}
      className="
      w-10 h-10 rounded-full cursor-pointer
      flex flex-row items-center justify-center
-     bg-inherit backdrop-blur-md shadow-lg mediumScale">
+      shadow-lg mediumScale bg-gray-500/70">
     {isCollapse ?
     <ArrowRight size={30} color='white'/> :
     <ArrowLeft size={30} color='white'/>
     }
     </div>
     </div>
-    </ul>
+  
     <div className="adminLabel">
       {session &&
-  <CldImage src={session?.user.profilePic} alt='profile pic'
+  <CldImage src={session?.user.profilePic}
+   alt='profile pic'
+  crop={'auto'}
   width={30} height={30}/>}
   <div className="adminDetails">
   <span>{session?.user.username}</span>

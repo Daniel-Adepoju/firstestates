@@ -87,12 +87,13 @@ await sendMessage(text,userId,conversationId)
 if (loading) {
  return  <MoreHorizontal color='grey' size={40} className='mt-50 mx-auto animate-pulse'/>
  }
-  if(!userId && !recipientId) {
+  if(!userId && !recipientId || !session) {
     return (<div className='loginFirst text-xl'>
     <span>To use our chat feature</span>
     <Link href='/login' className='cursor-pointer mx-1 p-1 px-4  rounded-md text-white dark:bg-coffee bg-darkblue'>Log in</Link>
     </div>
   )}
+
   return (
     <div className='flex gap-1 mt-18 w-full h-screen'>
         <div className='hidden md:block flex-1 w-[30%]'>

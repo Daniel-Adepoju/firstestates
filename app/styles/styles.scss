@@ -771,7 +771,7 @@ footer.hide {
   .contact_items {
     @include flex(row, center, flex-start);
     gap:10px;
-    width: 200px;
+    width: 100%;
     margin-top: 10px;
     font-family: font('headers');
     font-weight: bold;

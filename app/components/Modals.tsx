@@ -33,7 +33,9 @@ interface ReportModalProps {
   ref: React.RefObject<HTMLDialogElement | null>;
   userId: string;
   reportedUser: string;
-  chatContent: string;
+  chatContent?: string;
+  reportedListing?: string;
+  thumbnail?: string;
 }
 
 
@@ -61,6 +63,7 @@ export const DeleteModal = ({ ref, listingId, setDeleting }: DeleteModalProps) =
     mutationFn: handleDelete,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['agentListings']})
+      queryClient.invalidateQueries({ queryKey: ['searchListings']})
       queryClient.invalidateQueries({ queryKey: ['notifications']})
     },
   })
@@ -200,7 +203,7 @@ const makeFeaturedMutation = useMutation({
 
 
 
-export const ReportModal = ({ ref, userId ,reportedUser,chatContent}: ReportModalProps) => {
+export const ReportModal = ({ ref, userId, reportedUser, chatContent }: ReportModalProps) => {
   useSignals()
   const creating = useSignal(false)
   const notification = useNotification()
@@ -208,7 +211,6 @@ export const ReportModal = ({ ref, userId ,reportedUser,chatContent}: ReportModa
   
 const makeReport = async (val:any) => {
   creating.value = true
-  console.log({val})
   try {
      await sendNotification(val)
         notification.setIsActive(true)
@@ -278,63 +280,88 @@ const handleReport = () => {
 
     )}
 
-    // export const ReportListingModal = ({ref,userId}:FeaturedProps) => {
-//   useSignals()
-//   const creating = useSignal(false)
-//   const notification = useNotification()
-//   const queryClient = useQueryClient()
-  
-// const makeReport = async () => {
-// //   try {
-// //  const res = await reportListing({userId},userId)
-// //  if (res.status === "success" || "warning") {
-// //         notification.setIsActive(true)
-// //         notification.setMessage(res.message)
-// //         notification.setType(res.status)
-// //       }
-// //     } catch (err) {
-// //       console.log(err)
-// //     }
-// }
-// const makeReportMutation = useMutation({
-//   mutationFn: () => makeReport(),
-//   onSuccess: () => {
-//     creating.value = false
-//       // queryClient.invalidateQueries({ queryKey: ['agentListings']})
-//       queryClient.invalidateQueries({ queryKey: ['notifications']})
-//   }, 
-// })
-//   return (
-//   <dialog
-//   ref={ref}
-//   className="dark:bg-gray-700 dark:text-white bg-white mt-40 rounded-xl p-6 w-[90%] max-w-md mx-auto shadow-xl text-center border border-white"
-// >
-//   <div className="flex flex-col items-center justify-center mb-4">
-//     <AlertCircle size={50} color='gold' />
-//     <h2 className="text-xl font-semibold">Report Listing</h2>
-//   </div>
-//   <p className="text-sm leading-relaxed mb-6">
-//     Do you wish to <strong>report this listing</strong>?
-//     <br />
-//     <span className="text-shadow-red-600 font-medium">
-//       Note: This action cannot be reversed.
-//     </span>
-//   </p>
-//   <div className="flex justify-center gap-4">
-//         <div className='btnCover w-50 flex flex-row justify-center' onClick={() => ref.current?.close()}>
-//     <Button
-//     text='Proceed'
-//     // functions={() => makeReportMutation.mutate()}
-//     className='darkblueBtn directional clickable'
-//     />
-//     </div>
-//     <button
-//       // onClick={() => ref.current?.close()}
-//       className="px-4 py-2 rounded-md bg-gray-300 text-black hover:bg-gray-400 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-800"
-//     >
-//       Cancel
-//     </button>
-//   </div>
-// </dialog>
 
-//     )}
+    export const ReportListingModal = ({ref,userId,reportedUser,reportedListing, thumbnail}:ReportModalProps) => {
+  useSignals()
+  const creating = useSignal(false)
+  const message = useSignal('')
+  const notification = useNotification()
+  const queryClient = useQueryClient()
+
+  // message
+
+const makeReport = async (val: any) => {
+ 
+  creating.value = true
+
+  try {
+     await sendNotification(val)
+        notification.setIsActive(true)
+        notification.setMessage('Listing Reported')
+        notification.setType('success')
+    } catch (err) {
+      console.log(err)
+    }
+}
+const makeReportMutation = useMutation({
+  mutationFn: makeReport,
+  onSuccess: () => {
+    creating.value = false
+    ref.current?.close()
+  }
+})
+
+const handleReport = () => {
+  makeReportMutation.mutate(
+    {sentBy:userId,
+    reportedUser,
+    listingId:reportedListing,
+    thumbnail,
+    recipientRole:'admin',
+    message:message.value,
+    mode:"broadcast-admin",
+    type:'report_listing'
+  })
+}
+
+  return (
+  <dialog
+  ref={ref}
+  className=" dark:bg-gray-700 dark:text-white bg-white mt-20 rounded-xl p-6 w-[90%] max-w-md mx-auto shadow-xl text-center border border-white"
+>
+  <div className="flex flex-col items-center justify-center mb-4">
+    <AlertCircle size={50} color='gold' />
+    <h2 className="text-xl font-semibold">Report Listing</h2>
+  </div>
+  <p className="text-sm leading-relaxed mb-6">
+    Do you wish to <strong>report this listing</strong>?
+    <br />
+    <span className="text-shadow-red-600 font-medium">
+      Note: This action cannot be reversed.
+    </span>
+  </p>
+  <div>
+    <textarea 
+    placeholder='What are the issues do you have with this listing?'
+     value={message.value}
+    onChange={(e) => message.value = e.target.value}
+   className='w-100 h-40 p-3 mx-auto rounded-md bg-gray-500/20 resize-none'/>
+  </div>
+  <div className="flex justify-center gap-4">
+        <div className='btnCover w-50 flex flex-row justify-center'>
+    <Button
+    text='Proceed'
+    functions={() => handleReport()}
+    className='darkblueBtn directional clickable'
+    />
+    </div>
+    <button
+      onClick={() => ref.current?.close()}
+      className="px-4 py-2 rounded-md bg-gray-300 text-black hover:bg-gray-400 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-800"
+    >
+      Cancel
+    </button>
+  </div>
+</dialog>
+
+    )}

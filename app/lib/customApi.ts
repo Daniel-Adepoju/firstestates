@@ -58,8 +58,8 @@ export const useGetUser = ({id,enabled}: Config) => {
 
 // Listings
 export const useGetListings = ({
-  page,limit,location,school,
-  minPrice,maxPrice,beds,baths,toilets
+  page,limit,location='',school='',
+  minPrice='',maxPrice='',beds='',baths='',toilets=''
 }: Config) => {
   const getListings = async (page:string) => {
   const res = await axiosdata.value.get(
