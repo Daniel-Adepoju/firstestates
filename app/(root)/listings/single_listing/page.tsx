@@ -15,7 +15,7 @@ import Link from "next/link"
 import { Skeleton } from "@components/ui/skeleton"
 import { useGetSingleListing } from "@lib/customApi"
 import { useDarkMode } from "@lib/DarkModeProvider"
-import { MapPin, Toilet, Bed, Bath, Phone,Loader2,MessageCircle, Flag, Trash2} from "lucide-react"
+import { MapPin, Toilet, Bed, Bath, Phone,Loader2,MessageCircle, Flag,ScanSearch} from "lucide-react"
 import { Comment, WriteComment, CommentProps } from "@components/Comment"
 import { useGetComments } from "@lib/customApi"
 import { useNextPage } from "@lib/useIntersection"
@@ -40,11 +40,11 @@ const SingleListing = () => {
   const ref = useNextPage({ commentLoading, hasNextPage, fetchNextPage })
 
   const handlePhoneClick = () => {
-    window.open(`tel:${data?.agent.phone}`)
+    window.open(`tel:${data?.post.agent.phone}`)
   }
   const handleChatClick = () => {
 
-   router.push(`/chat?=${data?.agent._id}`)
+   router.push(`/chat?=${data?.post.agent._id}`)
   }
   const openInGoogleMap = (address: string) => {
     const encodedAddress = encodeURIComponent(address)
@@ -99,7 +99,7 @@ const SingleListing = () => {
                   onSwiper={() => setIsSwiperLoaded(true)}
                   pagination={{ clickable: true, type: "bullets" }}
                 >
-                  {data?.gallery.map((image: string) => {
+                  {data?.post.gallery.map((image: string) => {
                     return (
                       <SwiperSlide
                         key={image}
@@ -118,13 +118,13 @@ const SingleListing = () => {
                   <SwiperControls />
                 </Swiper>
               </div>
-              <div className="heading location">{data?.location}</div>
+              <div className="heading location">{data?.post.location}</div>
               <div className="address">
                 <MapPin
                   size={30}
                   color={darkMode ? "#A88F6E" : "#0881A3"}
                 />
-                <span>{data?.address}</span>
+                <span>{data?.post.address}</span>
               </div>
             </div>
 
@@ -135,26 +135,26 @@ const SingleListing = () => {
                     size={30}
                     color={darkMode ? "#A88F6E" : "#0881A3"}
                   />
-                  <span>{data?.bedrooms} bedrooms</span>
+                  <span>{data?.post.bedrooms} bedrooms</span>
                 </div>
                 <div>
                   <Bath
                     size={30}
                     color={darkMode ? "#A88F6E" : "#0881A3"}
                   />
-                  <span>{data?.bathrooms} bathrooms</span>
+                  <span>{data?.post.bathrooms} bathrooms</span>
                 </div>
                 <div>
                   <Toilet
                     size={30}
                     color={darkMode ? "#A88F6E" : "#0881A3"}
                   />
-                  <span>{data?.toilets} toilets</span>
+                  <span>{data?.post.toilets} toilets</span>
                 </div>
               </div>
             </div>
             <Button
-              functions={() => openInGoogleMap(data?.address)}
+              functions={() => openInGoogleMap(data?.post.address)}
               className="clickable directional darkblueBtn openMap"
             >
               <Image
@@ -173,20 +173,20 @@ const SingleListing = () => {
           <div className="single_card">
             <div className="price">
               <span className="currency">&#8358;</span>
-              {data?.price.toLocaleString()}/Year
+              {data?.post.price.toLocaleString()}/Year
             </div>
-            <div className="school capitalize text-xl">{data?.school}</div>
+            <div className="school capitalize text-xl">{data?.post.school}</div>
             <div className="agent">
               <CldImage
                 width={20}
                 height={20}
                 alt="agent pic"
                 crop={'auto'}
-                src={data?.agent.profilePic}
+                src={data?.post.agent.profilePic}
               />
               <div>
                 Listed by <span className="agentCardName">
-                  <Link href={`/agent-view/${data?.agent._id}`}>{data?.agent.username}</Link>
+                  <Link href={`/agent-view/${data?.post.agent._id}`}>{data?.post.agent.username}</Link>
                   </span>
               </div>
             </div>
@@ -196,15 +196,15 @@ const SingleListing = () => {
        You have admin priviledges, you can delete this listing
           <div
           onClick={() => {
-            router.push(`/agent/listings/delete?id=${data?._id}`)
+            router.push(`/admin/listings/${data?.post._id}`)
           }}
           className="smallScale text-md font-extrabold rounded-md p-2 px-10
            bg-gray-500/10 report cursor-pointer flex flex-row items-center gap-2">
-          <Trash2 size={20} color='darkred' />
-          <span>Delete Listing</span>
+          <ScanSearch size={24} color='green' />
+          <span>Investigate Listing</span>
           </div>
           </div>
-         : session?.user?.id === data?.agent._id + 'lk' ? (
+         : session?.user?.id === data?.post.agent._id + 'lk' ? (
             <div className="text-gray-500 dark:text-white text-sm">
               You are the owner of this listing
             </div>
@@ -231,7 +231,7 @@ const SingleListing = () => {
                   size={30}
                   color={darkMode ? "#A88F6E" : "#0881A3"}
                 />
-                <span>{data?.agent.address}</span>
+                <span>{data?.post.agent.address}</span>
               </div>
               <div className="subheading">Contacts</div>
               <div className="contact_items dark:text-white text-gray-600">
@@ -244,9 +244,9 @@ const SingleListing = () => {
                     color={darkMode ? "#A88F6E" : "#0881A3"}
                   />
                 </div>
-                <span> {data?.agent.phone}</span>
+                <span> {data?.post.agent.phone}</span>
               </div>
-             {session?.user.id !== data?.agent._id &&
+             {session?.user.id !== data?.post.agent._id &&
               <div className="contact_items w-full dark:text-white text-gray-600">
                 <div
                   className="hover:scale-95 transition-transform duration-200"
@@ -257,13 +257,21 @@ const SingleListing = () => {
                     color={darkMode ? "#A88F6E" : "#0881A3"}
                   />
                 </div>
-              {session ? <Link href={`/chat?recipientId=${data?.agent._id}`} className="cursor-pointer">Chat With Agent</Link> : <span className="w-full">Log In To Chat With Agent</span>}
+              {session ? <Link href={`/chat?recipientId=${data?.post.agent._id}`} className="cursor-pointer">Chat With Agent</Link> : <span className="w-full">Log In To Chat With Agent</span>}
               </div>}
             </div>
           </div>
         </div>
         
-        
+        {/* report to delete */}
+           <div
+              onClick={handleReport}
+              className="smallScale text-md font-extrabold rounded-md p-2 px-4
+               bg-gray-500/10 report cursor-pointer flex flex-row items-center gap-2">
+              <Flag size={20} color="darkred" /> <span>Report this listing</span>
+            </div>
+{/* ll */}
+
       </div>
 
       <div className="singleCardCon2">
@@ -271,7 +279,7 @@ const SingleListing = () => {
         <div className="singleCardSection">
           <div className="single_card">
             <div className="heading mx-auto">Description</div>
-            <div className="description">{data?.description}</div>
+            <div className="description">{data?.post.description}</div>
           </div>
         </div>
 
@@ -326,9 +334,9 @@ const SingleListing = () => {
         <ReportListingModal 
         ref={reportModalRef} 
         userId={session?.user.id ?? ""}
-        reportedUser={data?.agent._id ?? ""}
-        reportedListing={data?._id ?? ""}
-        thumbnail={data?.mainImage ?? ""}
+        reportedUser={data?.post.agent._id ?? ""}
+        reportedListing={data?.post._id ?? ""}
+        thumbnail={data?.post.mainImage ?? ""}
         />
     </>
   )

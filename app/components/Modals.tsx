@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import { deleteListing,markAsFeatured} from '@lib/server/listing';
+import { deleteListing,markAsFeatured, reportListing} from '@lib/server/listing';
 import { useNotification } from '@lib/Notification';
 import { sendNotification } from '@lib/server/notificationFunctions';
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -295,10 +295,10 @@ const makeReport = async (val: any) => {
   creating.value = true
 
   try {
-     await sendNotification(val)
+   const res = await reportListing(val)
         notification.setIsActive(true)
-        notification.setMessage('Listing Reported')
-        notification.setType('success')
+        notification.setMessage(res.message)
+        notification.setType(res.status)
     } catch (err) {
       console.log(err)
     }

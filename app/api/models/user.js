@@ -44,7 +44,11 @@ const UserSchema = new Schema({
     lastActivityDate : {
         type:String,
         default:new Date().toLocaleDateString("en-GB")
-    }
+    },
+    banStatus: {
+        type:Boolean,
+        default:false
+    },
 },{timestamps: true})
 
 const User = models?.User || model("User",UserSchema)

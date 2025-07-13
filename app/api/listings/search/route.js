@@ -25,7 +25,8 @@ const {searchParams} = new URL(req.url)
     let totalDocs = await Listing.countDocuments({$or:searchOptions})
     let totalListings = await Listing.countDocuments()
     let rentedListings = await Listing.countDocuments({status: 'rented'})
-    // let reportedListings = await Listing.countDocuments({status: 'available'})
+    let reportedListings = await Listing.countDocuments({reportedBy: {$not: { $size: 0 }}})
+
     let listingConfig
 
     if(searchOptions.length > 0) {
@@ -42,7 +43,7 @@ const {searchParams} = new URL(req.url)
     }
     const posts = await listingConfig
  
- return NextResponse.json({posts,cursor,numOfPages,totalListings,rentedListings}, { status: 200 }) 
+ return NextResponse.json({posts,cursor,numOfPages,totalListings,rentedListings,reportedListings}, { status: 200 }) 
   } catch (err) {
     console.log(err)
     return NextResponse.json(err, { status: 500}) 

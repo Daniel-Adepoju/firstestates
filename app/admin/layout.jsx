@@ -30,7 +30,7 @@ export default async function AdminLayout({children}){
    <div className= 'admin-container'>
  <Sidebar session={session}/>
  <div className="admin-content-container">
-  {/* <Nav /> */}
+  <Nav />
   <Header session={session}/>
    {children}
  </div>

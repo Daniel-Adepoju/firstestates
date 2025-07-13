@@ -96,10 +96,13 @@ export const useSearchListings = ({page,limit,location,school,enabled=true}: Con
   return {data,isLoading,isError}
 }
 
-export const useGetSingleListing = (listingId: string | null) => {
+export const useGetSingleListing = (listingId: string | null, agent=false) => {
 const getListing = async () => {
     try {
-      const res = await axiosdata.value.get(`/api/listings/${listingId}`)
+      const url = agent
+        ? `/api/listings/${listingId}/${agent}`
+        : `/api/listings/${listingId}`;
+      const res = await axiosdata.value.get(url);
       return res.data
     } catch (err) {
       console.error(err)

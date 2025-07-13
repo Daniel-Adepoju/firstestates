@@ -160,3 +160,27 @@ export const sendComment = async (val) => {
     return { message: "Unable To Comment,Refresh And Try Again", status: "danger" }
   }
 }
+
+export const reportListing = async (val) => {
+   if (!val?.listingId || !val?.sentBy) {
+    return { message: "Invalid data sent", status: "danger" }
+  }
+
+  try {
+    await connectToDB()
+    const listing = await Listing.findOne({ _id: val.listingId})
+    if (!listing) {
+      return { message: "Listing not found", status: "warning" }
+    }
+    // if (listing.reportedBy.includes(val.sentBy)) {
+    //   return { message: "You have already reported this listing", status: "warning" }
+    // }
+    await Listing.updateOne({ _id: val.listingId }, { $addToSet: { reportedBy: val.sentBy }})
+
+    await sendNotification(val)
+    
+    return { message: "Reported Successfully", status: "success" }
+  } catch (err) {
+    return { message: "Unable To Report,Refresh And Try Again", status: "danger" }
+  }
+}

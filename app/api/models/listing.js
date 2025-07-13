@@ -77,6 +77,11 @@ const ListingSchema = new Schema({
     type: Number,
     default: 0
   },
+  reportedBy: {
+    type: [Schema.Types.ObjectId],
+    ref: 'User',
+    default: [],
+  },
 }, {timestamps: true});
 
 const Listing = models?.Listing || model('Listing', ListingSchema);

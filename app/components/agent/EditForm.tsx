@@ -16,7 +16,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 const EditForm = () => {
   useSignals()
   const listingId = useSearchParams().get('id')
-  const {data,isLoading} = useGetSingleListing(listingId)
+  const {data,isLoading} = useGetSingleListing(listingId, true)
   const {session} = useUser()
   const router = useRouter()
   const notification = useNotification()
