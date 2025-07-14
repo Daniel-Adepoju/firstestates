@@ -8,6 +8,10 @@ type UserWithRole = {
   role?: string;
   [key: string]: any;
 };
+type Notification = {
+  isReport?: boolean,
+  listingId?: string,
+}
 
 export const markAsRead = async(notificationId:string) => {
  
@@ -34,7 +38,7 @@ if (!isRead) {
 }
 
 
-export const clearAllNotifications = async() => {
+export const clearAllNotifications = async({isReport,listingId}: Notification = {}) => {
   const session = await auth() as UserWithRole | null
   const userId = session?.user?.id
   const role = session?.user?.role
@@ -44,23 +48,30 @@ export const clearAllNotifications = async() => {
 
     await connectToDB()
     await Notification.deleteMany({userId: userId})
-
+  
+  // deleting type of report listing  
+  if (isReport) {
+  await Notification.deleteMany({listingId,type:'report_listing'})
+  }
     //clear batch
      await Notification.updateMany(
     {mode: `broadcast-${role}`},
     {$addToSet:{ clearedBy: userId}},
     { new: true, runValidators: true }
-  );
+  )
   }  catch (err) {
-
+ console.error(err)
   }
 }
 
-export const clearSingleNotification = async(notificationId:string) => {
+export const clearSingleNotification = async(notificationId:string,isReport=false,listingId?:string) => {
   const userId = (await auth())?.user?.id
 
   try {
     await connectToDB()
+    if (isReport) {
+    await Notification.deleteOne({_id: notificationId, listingId, type:'report_listing'})
+  }
     await Notification.deleteOne({_id: notificationId, userId: userId})
     await Notification.updateOne(
       {_id: notificationId},

@@ -222,6 +222,8 @@ const Verify = () => {
             required
           />
         </div>
+<span className="text-xs px-4 text-center">If you haven't received the OTP in your inbox, please wait for the timer to expire before resending. Also, be sure to check your spam or junk folder.</span>
+
         <Button
           type="submit"
           text="verify"

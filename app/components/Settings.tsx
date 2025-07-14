@@ -28,7 +28,7 @@ export default function Settings({editProfile}: SettingProps) {
   };
 
   return (
-    <div className="w-full bg-white dark:bg-gray-700 rounded-2xl shadow-lg p-4 space-y-3">
+    <div className="w-full bg-white dark:bg-gray-700/20 rounded-2xl shadow-md p-4 space-y-3">
       <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Settings</h2>
       <button
         onClick={handleEditProfile}

@@ -6,6 +6,13 @@ import { axiosdata } from "@utils/axiosUrl"
 import { nanoid } from 'nanoid'
 import { useNotification } from "@lib/Notification"
 
+export type SendEmailParams = {
+    to:string;
+    subject:string;
+    message:string;
+}
+
+
 const ForgotPassword = () => {
   const [email, setEmail] = useState("")
   const [success, setSuccess] = useState(false)
@@ -13,11 +20,6 @@ const ForgotPassword = () => {
   const notification = useNotification()
   const url = process.env.NEXT_PUBLIC_BASE_URL
   
-interface SendEmailParams {
-    to:string;
-    subject:string;
-    message:string;
-}
 
 const sendEmail = async (val: SendEmailParams): Promise<void> => {
     try {

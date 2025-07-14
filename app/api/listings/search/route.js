@@ -3,49 +3,87 @@ import Listing from "@models/listing"
 import { NextResponse } from "next/server"
 
 export const GET = async (req) => {
-const {searchParams} = new URL(req.url)
-  const page = searchParams.get('page') || 1
-  const limit =  Number(searchParams.get('limit')) ||  10
+  const { searchParams } = new URL(req.url)
+  const page = parseInt(searchParams.get('page')) || 1
+  const limit = parseInt(searchParams.get('limit')) || 10
   const location = searchParams.get('location') || ''
   const school = searchParams.get('school') || ''
-  const skipNum = Number((page- 1) * Number(limit))
-  let cursor = Number(page)
-  const searchOptions = []
-
-  if (location) {
-   searchOptions.push({location: { $regex: location, $options: "i" }})
-  }
-
-  if (school) {
- searchOptions.push({school: { $regex: school, $options: "i" }})
-}
+  const agentName = searchParams.get('agentName') || ''
+  const skip = (page - 1) * limit
 
   try {
     await connectToDB()
-    let totalDocs = await Listing.countDocuments({$or:searchOptions})
-    let totalListings = await Listing.countDocuments()
-    let rentedListings = await Listing.countDocuments({status: 'rented'})
-    let reportedListings = await Listing.countDocuments({reportedBy: {$not: { $size: 0 }}})
 
-    let listingConfig
+    // Base match conditions
+    const matchConditions = []
 
-    if(searchOptions.length > 0) {
-    listingConfig = Listing.find({$or:searchOptions}).populate(["agent"])
-    } else {
-    listingConfig = Listing.find().populate(["agent"])
+    if (location) {
+      matchConditions.push({ location: { $regex: location, $options: "i" } })
     }
 
-    listingConfig = listingConfig.skip(skipNum).limit(limit).sort('-createdAt')
-    
-  const numOfPages = Math.ceil(totalDocs / Number(limit))
-    if (cursor >= numOfPages) {
-      cursor = numOfPages
+    if (school) {
+      matchConditions.push({ school: { $regex: school, $options: "i" } })
     }
-    const posts = await listingConfig
- 
- return NextResponse.json({posts,cursor,numOfPages,totalListings,rentedListings,reportedListings}, { status: 200 }) 
+
+    if (agentName) {
+      matchConditions.push({ "agent.username": { $regex: agentName, $options: "i" } })
+    }
+
+    // Aggregation Pipeline
+    const basePipeline = [
+      {
+        $lookup: {
+          from: "users",
+          localField: "agent",
+          foreignField: "_id",
+          as: "agent"
+        }
+      },
+      { $unwind: "$agent" },
+    ]
+
+    if (matchConditions.length > 0) {
+      basePipeline.push({
+        $match: { $or: matchConditions }
+      })
+    }
+
+    // Total matched listings
+    const countPipeline = [...basePipeline, { $count: "total" }]
+    const countResult = await Listing.aggregate(countPipeline)
+    const totalDocs = countResult[0]?.total || 0
+
+    // Paginated listings
+    const listingsPipeline = [
+      ...basePipeline,
+      { $sort: { createdAt: -1 } },
+      { $skip: skip },
+      { $limit: limit }
+    ]
+
+    const posts = await Listing.aggregate(listingsPipeline)
+
+    // Additional stats
+    const totalListings = await Listing.countDocuments()
+    const rentedListings = await Listing.countDocuments({ status: 'rented' })
+    const reportedListings = await Listing.countDocuments({ reportedBy: { $not: { $size: 0 } } })
+
+    const numOfPages = Math.ceil(totalDocs / limit)
+    const cursor = Math.min(page, numOfPages)
+
+    return NextResponse.json(
+      {
+        posts,
+        cursor,
+        numOfPages,
+        totalListings,
+        rentedListings,
+        reportedListings
+      },
+      { status: 200 }
+    )
   } catch (err) {
-    console.log(err)
-    return NextResponse.json(err, { status: 500}) 
+    console.error(err)
+    return NextResponse.json(err, { status: 500 })
   }
 }

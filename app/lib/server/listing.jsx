@@ -35,7 +35,7 @@ export const createListing = async (val) => {
   }
 }
 
-export const editListing = async (val, userId) => {
+export const editListing = async (val, userId, extras=false) => {
   try {
     await connectToDB()
     const newVal = { ...val }
@@ -54,6 +54,8 @@ export const editListing = async (val, userId) => {
     //   thumbnail: val.mainImage,
     // })
     // } 
+
+    if (!extras){
     await sendNotification({
       type: "Listing_Edited",
       recipientRole: "agent",
@@ -62,10 +64,17 @@ export const editListing = async (val, userId) => {
       thumbnail: val.mainImage,
       listingId: val.id,
     })
-  
-    return { message: "Edited Successfully", status: "success" }
+     return { message: "Edited Successfully", status: "success" }
+  }
+   
+   return { message: "Successful", status: "success" }
   } catch (err) {
-    return { message: "Unable To Edit,Refresh And Try Again", status: "danger" }
+    if(!extras) {
+     return { message: "Unable To Edit,Refresh And Try Again", status: "danger" } 
+    } else {
+      return { message: "Failed", status: "danger" }
+    }
+    
   }
 }
 

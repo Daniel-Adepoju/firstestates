@@ -5,7 +5,7 @@ import { useSignal, useSignals } from "@preact/signals-react/runtime"
 import { useGetUsers } from "@lib/customApi"
 import Pagination from "@components/Pagination"
 import UsersCard, { User } from "@components/UsersCard"
-import { Loader } from "@utils/loaders"
+import { Skeleton } from "@components/ui/skeleton"
 import { useEffect } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 
@@ -46,7 +46,7 @@ const GetUsers = () => {
     <>
       <div className="container mx-auto py-8">
         <div>
-          <h1 className="text-2xl font-semibold">Users</h1>
+          <h1 className="w-40  text-center text-2xl font-semibold mx-auto">Users</h1>
           <div className="w-full flex flex-row justify-center items-center">
           <Searchbar
             search={search.value}
@@ -57,7 +57,13 @@ const GetUsers = () => {
           </div>
         </div>
 
-        {isLoading && <Loader className="my-18" />}
+        {isLoading && 
+        <div className="flex flex-wrap gap-4 items-center justify-center">
+          { Array.from({length:6}).map((_,i) => {
+   return <Skeleton  key={i} className="w-80 h-30 bg-gray-500/20 animate-none" />
+  })}
+  </div>
+  }
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {(data as UsersData | undefined)?.users.map((user) => (
             <div key={user._id}>

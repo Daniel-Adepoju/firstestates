@@ -40,6 +40,7 @@ const Sidebar = ({session}: Session) => {
       window.removeEventListener('hashchange', onHashChange)
     }
   },[])
+  
   useEffect(() => {
     const getUnreadMessages = async () => {
       const unread = await getUnreadChats(session?.user.id)

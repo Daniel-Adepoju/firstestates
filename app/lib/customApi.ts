@@ -15,6 +15,7 @@ interface Config {
   id?:string;
   search?: string;
   listingId?: string;
+  agentName?: string;
 }
 
 
@@ -80,9 +81,9 @@ export const useGetListings = ({
   return {data,isLoading,isError}
 }
 
-export const useSearchListings = ({page,limit,location,school,enabled=true}: Config) => {
+export const useSearchListings = ({page,limit,location,school,agentName='',enabled=true}: Config) => {
   const getListings = async (page:string) => {
-    const res = await axiosdata.value.get(`/api/listings/search?limit=${limit}&page=${page}&location=${location}&school=${school}`)
+    const res = await axiosdata.value.get(`/api/listings/search?limit=${limit}&page=${page}&location=${location}&school=${school}&agentName=${agentName}`);
     return res.data;
   }
 

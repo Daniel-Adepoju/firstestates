@@ -210,3 +210,24 @@ export const resetPassword = async (val) => {
     )
   return { message: "Password updated successfully" }
 }
+
+export const banUser = async (userId) => {
+  try {
+    await connectToDB()
+    const session = await auth()
+    if (!session || session.user.role !== 'admin') {
+      return { message: "Unauthorized", status: "warning" }
+    }
+
+   const user = await User.findByIdAndUpdate(userId)
+    user.banStatus = !user.banStatus;
+  await user.save();
+  if (!user.banStatus) {
+    return { message: "Restored successfully", status: "success" }
+  }
+    return { message: "User banned successfully", status: "success" }
+  } catch (err) {
+    console.error(err)
+    return { message: "An error occurred while banning user", status: "danger" }
+  }
+}

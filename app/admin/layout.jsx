@@ -29,8 +29,8 @@ export default async function AdminLayout({children}){
         <Notification>
    <div className= 'admin-container'>
  <Sidebar session={session}/>
- <div className="admin-content-container">
-  <Nav />
+ <div className="admin-content-container nobar null">
+  {/* <Nav /> */}
   <Header session={session}/>
    {children}
  </div>

@@ -6,7 +6,7 @@ export const WhiteLoader = () => {
   return <span className="whiteLoader"></span>
 }
 
-export const DotsLoader = () => {
+export const DotsLoader = (className: {className?:string}) => {
   return (
     <div className={`dots-loader `}>
       <span></span>
