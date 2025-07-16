@@ -49,10 +49,11 @@ export const GET = async (req) => {
     }
 
     // Total matched listings
+   
     const countPipeline = [...basePipeline, { $count: "total" }]
     const countResult = await Listing.aggregate(countPipeline)
     const totalDocs = countResult[0]?.total || 0
-
+ console.log('ff')
     // Paginated listings
     const listingsPipeline = [
       ...basePipeline,

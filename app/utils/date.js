@@ -31,6 +31,12 @@ export const getDate = (sub = 0) => {
 
   export const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
+  export const inMinutes = (minutes) => {
+  const now = new Date();
+  return new Date(now.getTime() + minutes * 60 * 1000);
+}
+
+
   // For Chat Section
 
 export const groupMessagesByDate = (messages) => {

@@ -9,7 +9,7 @@ import Notification from '@lib/Notification'
 import {auth} from '@auth'
 import Header from "@components/admin/Header";
 import {DarkModeProvider} from '@lib/DarkModeProvider'
-
+import Nav from '@components/Nav';
 
 export const metadata = {
 
@@ -35,6 +35,7 @@ export default async function AdminLayout({children}){
        <ReactQueryProvider>
     <Provider>
       <User>
+        {/* <Nav /> */}
         <Notification>
    <div className= 'admin-container nobar null'>
  <Sidebar session={session}/>

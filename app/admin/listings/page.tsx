@@ -79,7 +79,7 @@ return (
   <>
     <div className="flex flex-col items-center justify-center w-full h-full p-4">
       <h1 className="text-2xl font-bold mb-4 otherHead">Stats</h1>
-      <div className="adminDashboard_content grid grid-cols-1 md:grid-cols-3 items-center  justify-center gap-4 w-full">
+      <div className="adminDashboard_content grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center  justify-center gap-4">
         <div className="content_item banner">
           <h3>Total Listings</h3>
           <div className="text">

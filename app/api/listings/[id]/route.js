@@ -5,8 +5,9 @@ import { NextResponse } from "next/server"
 import { incrementView } from "@lib/server/incrementView"
 
 export const GET = async (req, {params}) => {
+  const {searchParams} = new URL(req.url)
   const listingId = (await params).id
-  const agent = (await params).agent
+  const agent = searchParams.get("agent") === "true"
   try {
     await connectToDB()
  

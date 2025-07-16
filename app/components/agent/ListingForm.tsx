@@ -2,7 +2,7 @@
 import { signal } from "@preact/signals-react"
 import { useSignal, useSignals } from "@preact/signals-react/runtime"
 import { CldUploadWidget, CldImage, CloudinaryUploadWidgetResults } from "next-cloudinary"
-import { DeleteLoader, WhiteLoader } from "@utils/loaders"
+import { DeleteLoader} from "@utils/loaders"
 import { deleteImage, deleteMultipleImages } from "@lib/server/deleteImage"
 import { createListing } from "@lib/server/listing"
 import Image from "next/image"
@@ -10,13 +10,13 @@ import Button from "@lib/Button"
 import { useNotification } from "@lib/Notification"
 import { useUser } from "@utils/user"
 import { useRouter } from "next/navigation"
-import { useState, useEffect } from "react"
+import { useState, useEffect,useRef } from "react"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { schoolArea, schools } from "@lib/constants"
 import { Info, MoreHorizontal } from "lucide-react"
-import Nav from "@components/Nav"
+import { InfoModal, LogOutModal } from "@components/Modals"
 import dynamic from "next/dynamic"
-const PaystackBtn = dynamic(() => import("@components/PayStackButton"), { ssr: false });
+const PaystackBtn = dynamic(() => import("@components/PayStackButton"), { ssr: false })
 
 
 export interface CloudinaryResult {
@@ -58,6 +58,7 @@ const ListingForm = () => {
   const [school, setSchool] = useState("")
   const [areas, setAreas] = useState<string[]>([])
   const [incomplete, setIncomplete] = useState(true)
+  const infoRef = useRef<HTMLDialogElement>(null)
   const amount = 500
 
   useEffect(() => {
@@ -242,13 +243,18 @@ const ListingForm = () => {
           <p className="text-base">Fill in the form below to create a new listing</p>
         </div>
 
-        <div className="text-white dark:text-black listingInfoTooltip relative tooltip-above flex flex-row   rounded-full mt-3 cursor-pointer items-center justify-center w-8 mx-auto  bg-sky-700 dark:bg-yellow-600 ">
+        <div 
+        // onClick={() => infoRef?.current?.showModal()}
+        className="text-white dark:text-black listingInfoTooltip relative tooltip-above flex flex-row   rounded-full mt-3 cursor-pointer items-center justify-center w-8 mx-auto  bg-sky-700 dark:bg-yellow-600 ">
           <Info
+          onClick={() => infoRef?.current?.showModal()}
             size={30}
             color="white"
             className="animate-pulse"
           />
+         
         </div>
+        
 
         <form
           // onSubmit={handleMutate}
@@ -510,7 +516,12 @@ const ListingForm = () => {
             )}
           </div>
         </form>
-      </div>
+        
+      </div> 
+     <div>
+      {/* <LogOutModal ref={infoRef}/> */}
+       <InfoModal ref={infoRef} />
+     </div>
     </>
   )
 }

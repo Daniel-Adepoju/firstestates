@@ -10,7 +10,7 @@ const CommentSchema = new Schema({
   },
     listing: {
     type: Schema.Types.ObjectId,
-    ref: 'Listing',
+    ref: Listing.modelName,
     required: [true, 'Listing is required'],
   },
   content: {

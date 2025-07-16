@@ -4,7 +4,7 @@ import { deleteListing,markAsFeatured, reportListing} from '@lib/server/listing'
 import { useNotification } from '@lib/Notification';
 import { sendNotification } from '@lib/server/notificationFunctions';
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { LogOut, Trash,AlertCircle, Loader2} from 'lucide-react';
+import { LogOut, Trash,AlertCircle, Loader2, X} from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useSignals,useSignal } from '@preact/signals-react/runtime';
 import Button from '@lib/Button';
@@ -19,7 +19,7 @@ interface DeleteModalProps {
 
 interface ModalProps {
   ref: React.RefObject<HTMLDialogElement | null>;
-  logOut: () => void
+  logOut?: () => void
 }
 
 interface FeaturedProps {
@@ -128,7 +128,7 @@ export const LogOutModal = ({ ref, logOut}: ModalProps) => {
           width={40}
           height={40}
           className="cursor-pointer smallScale"
-          onClick={() => logOut()}
+          onClick={() => logOut && logOut()}
         />
       </div>
     </dialog>
@@ -364,4 +364,42 @@ const handleReport = () => {
   </div>
 </dialog>
 
+    )}
+
+    export const InfoModal = ({ref}: ModalProps) => {
+
+    return (  
+    <dialog
+       ref={ref}
+       className='mt-50 dark:bg-gray-700 dark:text-white
+        bg-white rounded-xl p-6 w-[90%] max-w-md mx-auto shadow-xl
+       text-center border border-white'
+       >
+        <div className="flex flex-col gap-4 relative">
+          <h2 className='otherHead text-md font-bold'>How To List</h2>
+          <div>
+            Fill in the form below to list your property.
+          </div>
+       
+         <X 
+         onClick={() => ref.current && ref.current.close()}
+         size={40} color='darkred'
+         className='
+         absolute right-0 top-[-8px]
+         cursor-pointer dark:bg-gray-200 bg-gray-500/20 rounded-full p-1'
+         />
+      
+
+          <div>
+            You may select <strong>only one main image</strong>, which will be used as the cover photo on the homepage.
+          </div>
+          <div>
+            Additionally, you can upload up to <strong>five supplementary images</strong> to provide more views of your listing.
+          </div>
+          <div>
+            A fee of <strong>₦500</strong> is required to complete and publish your listing.
+          </div>
+ </div>
+       </dialog>
+      
     )}

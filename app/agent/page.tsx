@@ -17,7 +17,7 @@ import Payments from "@components/Payments"
 import { useGetAgentPayments } from '@lib/customApi';
 import { useChangeHash } from "@lib/useIntersection"
 import { PlusCircle } from "lucide-react"
-import { _ } from "node_modules/@upstash/redis/zmscore-CjoCv9kz.mjs"
+import { formatNumber } from "@utils/formatNumber"
 
 const AgentOnboarding = () => {
   useSignals()
@@ -65,6 +65,7 @@ const { data,isLoading } = useGetAgentListings({
   school:debounced.value,
   location: debounced.value,
 })
+
 const {data:paymentData,isLoading:paymentLoading} = useGetAgentPayments({userId,enabled:!!userId})
   
   const mapCards = data?.listings?.map((item:CardProps['listing']) => {
@@ -88,90 +89,84 @@ const {data:paymentData,isLoading:paymentLoading} = useGetAgentPayments({userId,
 
   return (
     <>
-    <div ref={hashRef} id='agent'
-    className="w-full flex flex-col items-center gap-4">
-     <Agent 
-    agent={session?.user}
-    />
-  
-    <Payments
-    data={paymentData}
-    isLoading={paymentLoading} />
+      <div ref={hashRef} id='agent'
+        className="w-full flex flex-col items-center gap-4">
+        <Agent
+          agent={session?.user}
+        />
 
-    <div className="listingHistory">
-       <div className="item">
-      <span>Renting</span>
-      
-       <strong className="currency">
-    {isLoading && rentings === undefined  || !session ? <SkyBlueLoader /> : rentings}
-       </strong>
-       <span>
-      {data?.currentRentings > 1 ? "properties" : "property"}
-        </span>   
-       </div>
-     
-     <div className="item py-2 relative md:py-0 dark:md:before:bg-transparent md:before:bg-transparent before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-[2px] before:bg-black/10 dark:before:bg-white/10">
-   <span>Listing</span>
-    <strong className="currency">
-   {isLoading && numOfListings === undefined || !session ? <SkyBlueLoader /> : numOfListings}
-      </strong>
-   <span>{data?.currentListings > 1 ? "properties" : "property"}</span>
-  </ div>
-   
-    </div>
-   
-    {!showAdd ?  '' : <div
-    className="addListing dark:text-white">
-      <Link 
-      className="rounded-full"
-      href={'/agent/listings/add'}>
-     <PlusCircle size={50} 
-     color='white'
-     className='mediumScale rounded-full p-1 shadow-xs bg-[#045aa0] dark:bg-[#f29829e7]'/>
-      </Link>
-        <span>Add New Listing</span>
-      </div>}
-    </div>
+        <Payments
+          data={paymentData}
+          isLoading={paymentLoading} />
 
-  <div
-  className="w-full flex flex-col items-center gap-4"
-  >
-   <Searchbar
-   search={search}
-   setSearch={(e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value)
-}}
-   className='dark:text-white mt-[-19px] gap-1 w-full flex flex-row justify-center items-center md:justify-end  md:w-[60%]'
-   placeholder={"Search for your listings"}
-   />
-    <div  ref={hashRef} id='listings' className="availableLists">
-      <div className="header">
-  <div onClick={() => setSelected('view')} className={`${selected === 'view' && 'active'} subheading`}>View Listings</div>
-  <div onClick={() => setSelected('edit')} className={`${selected === 'edit' && 'active'} subheading`}>Edit Listings</div> 
+        <div className="adminDashboard_content grid grid-cols-1 md:grid-cols-2 items-center justify-center gap-4 dark:text-white self-center">
+          <div className="content_item banner full">
+            <h3>Renting</h3>
+            <div className="text">
+              <span>{formatNumber(data?.currentRentings ?? '0')}</span>
+            </div>
+          </div>
+
+          <div className="content_item banner full">
+            <h3>Current Listings</h3>
+            <div className="text">
+              <span>{formatNumber(data?.currentListings ?? '0')}</span>
+            </div>
+          </div>
+
+         
+        </div>
+
+        {!showAdd ? '' : <div
+          className="addListing dark:text-white">
+          <Link
+            className="rounded-full"
+            href={'/agent/listings/add'}>
+            <PlusCircle size={50}
+              color='white'
+              className='mediumScale rounded-full p-1 shadow-xs bg-[#045aa0] dark:bg-[#f29829e7]' />
+          </Link>
+          <span>Add New Listing</span>
+        </div>}
+
+        <div
+          className="w-full flex flex-col items-center gap-4"
+        >
+          <Searchbar
+            search={search}
+            setSearch={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setSearch(e.target.value)
+            }}
+            className='dark:text-white mt-[-19px] gap-1 w-full flex flex-row justify-center items-center md:justify-end  md:w-[60%]'
+            placeholder={"Search for your listings"}
+          />
+          <div ref={hashRef} id='listings' className="availableLists">
+            <div className="header">
+              <div onClick={() => setSelected('view')} className={`${selected === 'view' && 'active'} subheading`}>View Listings</div>
+              <div onClick={() => setSelected('edit')} className={`${selected === 'edit' && 'active'} subheading`}>Edit Listings</div>
+            </div>
+            {!session || isLoading ? (
+              <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-4">
+                {Array.from({ length: 8 }).map((_, i) => {
+                  return (
+                    <Skeleton
+                      key={i}
+                      className="w-70 h-70 bg-gray-500/20 animate-none" />
+                  )
+                })}
+              </div>
+            )
+              : mapCards
+            }
+          </div>
+        </div>
+
+        <Pagination
+          currentPage={Number(data?.cursor)}
+          totalPages={Number(data?.numOfPages)}
+          hashParams='#listings'
+        />
       </div>
-  {!session || isLoading ? <div 
-  className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-4">
-  {Array.from({length: 8}).map((_,i) => {
-  return (
-  <Skeleton 
-  key={i}
-  className="w-70 h-70 bg-gray-500/20 animate-none"/> 
-  )
-  })}
-  </div> 
-  : mapCards
-}
-  <>
-  
-  </>
-    </div>
-    </div>
-
-     <Pagination
-   currentPage={Number(data?.cursor)}
-   totalPages={Number(data?.numOfPages)}
-   hashParams='#listings'
-   />
     </>
   )
 }

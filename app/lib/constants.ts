@@ -43,14 +43,14 @@ export const agentSidebarItems = [
   },
   
   {
-    name: "Dashboard",
-    link: "/agent/dashboard",
-    icon: "/icons/dashboard.svg",
-  },
-  {
     name: "Listings",
     link: "/agent/listings",
     icon: "/icons/listings.svg",
+  },
+    {
+    name:'Appointments',
+    link:'/agent/appointments',
+    icon: '/icons/calendar.svg'
   },
   {
     name:'Chats',

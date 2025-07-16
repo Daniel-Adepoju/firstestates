@@ -99,20 +99,17 @@ export const useSearchListings = ({page,limit,location,school,agentName='',enabl
 
 export const useGetSingleListing = (listingId: string | null, agent=false) => {
 const getListing = async () => {
-    try {
       const url = agent
-        ? `/api/listings/${listingId}/${agent}`
+        ? `/api/listings/${listingId}?agent=${agent}`
         : `/api/listings/${listingId}`;
       const res = await axiosdata.value.get(url);
       return res.data
-    } catch (err) {
-      console.error(err)
-    }
   }
 
   const { data, isLoading,isError } = useQuery({
     queryKey: ["listing",{listingId}],
     queryFn: () => getListing(),
+    enabled: !!listingId
   })
 
   return {data,isLoading,isError}
@@ -142,6 +139,19 @@ export const useGetFeaturedListings = () => {
     queryFn: () => fetchFeaturedListings(), 
   })
   return {data,isLoading,isError}
+}
+
+export const useGetAppointments = ({page,limit}:Config) => {
+  const getAppointment = async () => {
+    const res = await axiosdata.value.get(`/api/listings/appointment?page=${page}&limit=${limit}`)
+    return res.data;
+  }
+  const {data,isLoading,isError} = useQuery({
+    queryKey: ['appointments',page],
+    queryFn: () => getAppointment(),
+  })
+
+  return {data,isLoading}
 }
 
 

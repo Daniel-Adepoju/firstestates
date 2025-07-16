@@ -264,12 +264,12 @@ const SingleListing = () => {
         </div>
         
         {/* report to delete */}
-           <div
+           {/* <div
               onClick={handleReport}
               className="smallScale text-md font-extrabold rounded-md p-2 px-4
                bg-gray-500/10 report cursor-pointer flex flex-row items-center gap-2">
               <Flag size={20} color="darkred" /> <span>Report this listing</span>
-            </div>
+            </div> */}
 {/* ll */}
 
       </div>

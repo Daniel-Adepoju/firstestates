@@ -32,7 +32,7 @@ const AnalyticsDashboard = ({
         <div className="adminDashboard_header">
           <h2 className="subheading">Analytics Dashboard</h2>
         </div>
-        <div className="adminDashboard_content">
+        <div className="adminDashboard_content grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center  justify-center gap-4">
           <div className="content_item banner">
             <h3>Total Pageviews</h3>
             <div className="text">

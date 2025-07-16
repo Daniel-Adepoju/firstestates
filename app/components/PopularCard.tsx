@@ -4,12 +4,17 @@ import { Bed, Bath, Toilet} from "lucide-react"
 import { useDarkMode } from "@lib/DarkModeProvider"
 import { CardProps } from "./Card"
 
-const PopularCard = ({listing}:CardProps) => {
+interface PopCardProps {
+    listing: CardProps["listing"]
+    type?: string
+}
+
+const PopularCard = ({listing, type}:PopCardProps) => {
     const {darkMode} = useDarkMode()
 
   return (
     <Link
-      href={`/listings/single_listing?id=${listing?._id}`}
+      href={type === 'appointment' ? `/agent/appointments/${listing?._id}` : `/listings/single_listing?id=${listing?._id}`}
       className="popularCard snap-center flex flex-col border w-[200px] min-h-50 p-2 rounded-xl shadow-md bg-white"
     >
       <div className="w-[100%] h-30 relative">
