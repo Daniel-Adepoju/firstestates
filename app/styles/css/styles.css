@@ -346,7 +346,7 @@ a:has(.clickable) {
 .form label {
   opacity: 50%;
 }
-.form input, .form select {
+.form input, .form select, .form textarea {
   transition: all 140ms ease-out;
   width: 98%;
   padding: 10px 10px;
@@ -354,9 +354,12 @@ a:has(.clickable) {
   border: 0;
   outline: 1px solid #0874c7;
 }
-.form input:focus, .form select:focus {
+.form input:focus, .form select:focus, .form textarea:focus {
   transition: all 150ms ease-in;
   outline-width: 2px;
+}
+.form textarea {
+  padding-bottom: 24px;
 }
 .bottom {
   font-family: "Sulphur Point", sans-serif;
@@ -1723,7 +1726,7 @@ html:is(.dark) .form label {
   opacity: 90%;
   color: white;
 }
-html:is(.dark) .form input, html:is(.dark) .form select {
+html:is(.dark) .form input, html:is(.dark) .form select, html:is(.dark) .form textarea {
   outline-color: white;
   color: white;
 }
@@ -2298,11 +2301,11 @@ footer.hide {
 }
 .card .body .address:after {
   content: "";
-  opacity: 60%;
+  opacity: 100%;
   position: absolute;
   width: 100%;
   height: 2px;
-  background-color: #0881a3;
+  background-color: var(--color-darkblue);
   border-radius: 20px;
   bottom: -50%;
   left: 0%;

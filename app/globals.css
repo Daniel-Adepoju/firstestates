@@ -46,6 +46,10 @@
   --color-darkblue:#0874c7;
 }
 
+@theme fonts {
+  --font-head: "Outfit", sans-serif;
+}
+
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);

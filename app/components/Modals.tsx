@@ -371,7 +371,7 @@ const handleReport = () => {
     return (  
     <dialog
        ref={ref}
-       className='mt-50 dark:bg-gray-700 dark:text-white
+       className='mt-30 dark:bg-gray-700 dark:text-white
         bg-white rounded-xl p-6 w-[90%] max-w-md mx-auto shadow-xl
        text-center border border-white'
        >

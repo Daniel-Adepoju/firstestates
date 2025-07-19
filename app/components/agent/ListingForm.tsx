@@ -2,7 +2,7 @@
 import { signal } from "@preact/signals-react"
 import { useSignal, useSignals } from "@preact/signals-react/runtime"
 import { CldUploadWidget, CldImage, CloudinaryUploadWidgetResults } from "next-cloudinary"
-import { DeleteLoader} from "@utils/loaders"
+import { DeleteLoader } from "@utils/loaders"
 import { deleteImage, deleteMultipleImages } from "@lib/server/deleteImage"
 import { createListing } from "@lib/server/listing"
 import Image from "next/image"
@@ -10,14 +10,13 @@ import Button from "@lib/Button"
 import { useNotification } from "@lib/Notification"
 import { useUser } from "@utils/user"
 import { useRouter } from "next/navigation"
-import { useState, useEffect,useRef } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { schoolArea, schools } from "@lib/constants"
 import { Info, MoreHorizontal } from "lucide-react"
 import { InfoModal, LogOutModal } from "@components/Modals"
 import dynamic from "next/dynamic"
 const PaystackBtn = dynamic(() => import("@components/PayStackButton"), { ssr: false })
-
 
 export interface CloudinaryResult {
   public_id: string
@@ -54,6 +53,7 @@ const ListingForm = () => {
   const deletingGallery = useSignal(false)
   const selectedGalleryImageId = useSignal<number | null>()
   const creating = useSignal(false)
+  const [descriptionLength,setDescriptionLength] = useState(0)
   const [area, setArea] = useState("")
   const [school, setSchool] = useState("")
   const [areas, setAreas] = useState<string[]>([])
@@ -113,12 +113,16 @@ const ListingForm = () => {
     }
   }, [school])
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
-    if (name === "amenities") {
-      listingDeets.amenities.value = value.split(",")
-    } else {
+  
       listingDeets[name as keyof typeof listingDeets].value = value
+     if (listingDeets['description']) {
+    setDescriptionLength(value.replace(/\s+/g, '').length)
+     }
+    if (listingDeets['description'].value.length > 600) {
+      setDescriptionLength(600)
+      listingDeets['description'].value = listingDeets['description'].value.replace(/\s+/g, '').slice(0, 600)
     }
   }
 
@@ -243,33 +247,44 @@ const ListingForm = () => {
           <p className="text-base">Fill in the form below to create a new listing</p>
         </div>
 
-        <div 
-        // onClick={() => infoRef?.current?.showModal()}
-        className="text-white dark:text-black listingInfoTooltip relative tooltip-above flex flex-row   rounded-full mt-3 cursor-pointer items-center justify-center w-8 mx-auto  bg-sky-700 dark:bg-yellow-600 ">
+        <div
+          // onClick={() => infoRef?.current?.showModal()}
+          className="text-white dark:text-black listingInfoTooltip relative tooltip-above flex flex-row   rounded-full mt-3 cursor-pointer items-center justify-center w-8 mx-auto  bg-sky-700 dark:bg-yellow-600 "
+        >
           <Info
-          onClick={() => infoRef?.current?.showModal()}
+            onClick={() => infoRef?.current?.showModal()}
             size={30}
             color="white"
             className="animate-pulse"
           />
-         
         </div>
-        
 
         <form
           // onSubmit={handleMutate}
           className="form listing"
         >
-          <div className="form_group">
+          <div className="form_group relative">
             <label htmlFor="description">Description</label>
-            <input
+            <div className="text-sm text-foreground break-words">
+              Use the description to provide additional details, such as kitchen availability,
+              whether a roommate is required, any extra utility costs, and differences between the
+              first year's rent and subsequent years.
+            </div>
+
+            <textarea
               id="description"
               name="description"
-              type="text"
               value={listingDeets.description.value}
               onChange={handleInputChange}
-              placeholder="Enter a description"
+              placeholder="Enter a description, it cannot be more than 600 characters"
+              // cols={10}
+              // rows={10}
+              className="pb-5 nobar placeholder-gray-500 resize-none h-60"
             />
+            <div className="otherHead backdrop-blur-sm text-sm font-head font-bold absolute bottom-0 right-[5%]">
+              {descriptionLength}/600
+
+            </div>
           </div>
 
           {/* Price */}
@@ -498,7 +513,7 @@ const ListingForm = () => {
                 </div>
               ) : (
                 <PaystackBtn
-                  text={'Creating Listing'}
+                  text={"Creating Listing"}
                   email={email || ""}
                   amount={amount}
                   creating={creating}
@@ -516,12 +531,11 @@ const ListingForm = () => {
             )}
           </div>
         </form>
-        
-      </div> 
-     <div>
-      {/* <LogOutModal ref={infoRef}/> */}
-       <InfoModal ref={infoRef} />
-     </div>
+      </div>
+      <div>
+        {/* <LogOutModal ref={infoRef}/> */}
+        <InfoModal ref={infoRef} />
+      </div>
     </>
   )
 }

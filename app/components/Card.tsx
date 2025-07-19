@@ -97,21 +97,21 @@ const Card = ({ edit,listing,isAgentCard}: CardProps) => {
                   <div>
                         <Bed
                   size={30}
-                  color={darkMode ? "#A88F6E" : "#0881A3"}
+                  color={darkMode ? "#A88F6E" : "#0874c7"}
                 />
                     <span>{listing?.bedrooms}</span>
                   </div>
                   <div>
                       <Bath
                   size={30}
-                  color={darkMode ? "#A88F6E" : "#0881A3"}
+                  color={darkMode ? "#A88F6E" : "#0874c7"}
                 />
                     <span>{listing?.bathrooms}</span>
                   </div>
                   <div>
                     <Toilet
                   size={30}
-                  color={darkMode ? "#A88F6E" : "#0881A3"}
+                  color={darkMode ? "#A88F6E" : "#0874c7"}
                 />
                     <span>{listing?.toilets}</span>
                   </div>
