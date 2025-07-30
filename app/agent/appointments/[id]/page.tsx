@@ -22,9 +22,8 @@ const router = useRouter()
 
    const createAppointment = async (val: any) => {
     const res = await axiosdata.value.post('/api/listings/appointment',val)
-//     if(res.status == 200) {
-//    router.back()
-//     }
+    setAppointmentType('')
+    setClientName('')
 }
 
 
@@ -32,6 +31,7 @@ const router = useRouter()
     mutationFn: createAppointment,
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey:['appointments']})
+      router.back()
     }
   })
 

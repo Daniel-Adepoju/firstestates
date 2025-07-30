@@ -30,6 +30,10 @@ const AppointmentSchema = new Schema({
         enum:['initial','revisit','final'],
         default:'Initial'
     },
+    reminderSent: {
+        type: Boolean,
+        default: false,
+    },
 },{timestamps:true})
 
 const Appointment = models?.Appointment || model('Appointment', AppointmentSchema);

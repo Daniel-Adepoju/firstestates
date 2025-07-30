@@ -8,12 +8,14 @@ export const GET = async (req) => {
     try {
   await connectToDB()
       const now = new Date()
-  const appointment = await Appointment.findOne({
-      date: {$gte:now, $lte:inMinutes(1440)}
+         const oneHourFromNow = inMinutes(60)
+  const appointments = await Appointment.find({
+            date: { $gte: now, $lte: oneHourFromNow },
+            reminderSent: { $ne: true }
     }).sort('date').populate('creatorID clientID listingID')
  
-    if(appointment) {
-
+    if(appointments.length > 0) {
+      for (const appointment of appointments) {
    const subject = "Reminder: You have an appointment today"
       const message = `
       <div>
@@ -22,7 +24,7 @@ Hi ${appointment.creatorID?.username || "there"},
 Just a reminder that you have an appointment scheduled today:
 
 <p>
-  📅 <strong>Appointment Date:</strong> ${appointment.date.toLocaleString().slice(0,10)}
+  📅 <strong>Appointment Date:</strong> ${appointment?.date.toLocaleString().slice(0,10)}
 </p>
 <p>
   📍 <strong>Listing Location:</strong> ${appointment.listingID?.location || "Location not available"}
@@ -33,19 +35,22 @@ Just a reminder that you have an appointment scheduled today:
 
 Best,  
 First Estates
-     </div> `
+      </div>`
 
           await sendEmail({
         to: appointment.creatorID.email,
         subject,
         message,
-      })
-
+          })
+          appointment.reminderSent = true
+          await appointment.save()
+        }
+        
+     return NextResponse.json({posts:{message:'Reminders sent successfully'}}, { status: 200 }) 
     } else {
       return NextResponse.json({posts:{message:'No Reminder'}}, { status: 200 }) 
     }
 
-     return NextResponse.json({posts:{}}, { status: 200 }) 
     } catch(err) {
             console.error("Error in sending reminder:", err)
     return NextResponse.json({ error: err.message }, { status: 500 })

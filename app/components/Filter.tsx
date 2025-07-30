@@ -54,7 +54,7 @@ const Filter = ({
 
   useEffect(() => {
     if (session) {
-      setSchool(session?.user.school)
+      setSchool(session?.user.school ?? "")
     }
   }, [session])
 
@@ -204,7 +204,7 @@ const Filter = ({
             <Button
               type="submit"
               text="Apply Filters"
-              className="darkblueBtn clickable directional p-2"
+              className="darkblueBtn clickable directional p-2 w-50"
             ></Button>
           </div>
         </form>
