@@ -279,7 +279,7 @@ const SingleListing = () => {
         <div className="singleCardSection">
           <div className="single_card">
             <div className="heading mx-auto">Description</div>
-            <div className="description">{data?.post.description}</div>
+            <div className="description whitespace-prewrap">{data?.post.description}</div>
           </div>
         </div>
 

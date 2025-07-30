@@ -40,6 +40,9 @@ First Estates
         subject,
         message,
       })
+
+    } else {
+      return
     }
 
      return NextResponse.json({posts:{}}, { status: 200 }) 
