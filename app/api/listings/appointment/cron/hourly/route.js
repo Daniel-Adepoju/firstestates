@@ -42,7 +42,7 @@ First Estates
       })
 
     } else {
-      return
+      return NextResponse.json({posts:{message:'No Reminder'}}, { status: 200 }) 
     }
 
      return NextResponse.json({posts:{}}, { status: 200 }) 
