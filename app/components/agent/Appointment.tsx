@@ -9,10 +9,11 @@ import PopularCard from "../PopularCard"
 import { useGetAgentListings } from "@lib/customApi"
 import { useGetAppointments } from "@lib/customApi"
 import { useUser } from "@utils/user"
-import { useRouter, useSearchParams } from "next/navigation"
+import {useSearchParams } from "next/navigation"
 import { DotsLoader } from "@utils/loaders"
 import Pagination from "@components/Pagination"
 import { MoreHorizontal } from "lucide-react"
+import ScrollController,{scrollRef} from "@components/ScrollController"
 
 const Appointment = () => {
   const { session } = useUser()
@@ -84,15 +85,27 @@ const Appointment = () => {
               placeholder="Search your listings"
               className="dark:text-gray-200 gap-1 w-full flex flex-row justify-center items-center   "
             />
-            <div className="popularList dark:text-white w-full  overflow-x-auto grid grid-flow-col gap-x-4 pb-4">
-              {isLoading ? (
+
+            {/* listings */}
+              <ScrollController />
+         {isLoading ? (
                 <div className="my-4 ">
                   <DotsLoader />
+                </div>)
+                 :
+                 (
+                <div 
+            ref={scrollRef}
+            className="popularList dark:text-white w-full  overflow-x-auto grid grid-flow-col gap-x-4 pb-4">
+            
+            
+                <>
+               
+               {mapCards}
+                </>
                 </div>
-              ) : (
-                mapCards
               )}
-            </div>
+           
           </div>
         </div>
 

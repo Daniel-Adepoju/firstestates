@@ -2,21 +2,11 @@
 import { useGetPopularListings } from "@lib/customApi"
 import { Listing } from "./Card"
 import {Skeleton} from "./ui/skeleton"
-import { useDarkMode } from "@lib/DarkModeProvider"
 import { useState,useRef,useEffect } from "react"
 import PopularCard from "./PopularCard"
-import ScrollController from "./ScrollController"
+import ScrollController,{scrollRef} from "./ScrollController"
 export default function PopularThisWeek() {
   const { data, isLoading } = useGetPopularListings()
-
-  const scrollRef = useRef<HTMLDivElement>(null)
-
-
- 
-  
-
-
-
 
   return (
     <>
@@ -24,6 +14,7 @@ export default function PopularThisWeek() {
         Popular This Week
       </h2>
     <ScrollController />
+    
       <div
         ref={scrollRef}
         className="popularList px-4 grid w-full grid-flow-col my-4 py-2
