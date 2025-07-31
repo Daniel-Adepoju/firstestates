@@ -32,6 +32,7 @@ const search = useSignal('')
 const beds = useSignal('')
 const baths = useSignal('')
 const toilets = useSignal('')
+const statusVal = useSignal('')
  const currentPage = useSearchParams().get('page')
  const isSecondPage = Number(currentPage) >= 2
 const current = useSignal(false)
@@ -52,7 +53,7 @@ const {data,isLoading,isError} = useGetListings({
   beds: beds.value,
   baths: baths.value,
   toilets: toilets.value,
-
+  status: statusVal.value,
 })
 
  
@@ -100,6 +101,7 @@ if(isError) {
     </div>
 
 <Filter
+statusVal={statusVal}
 selectedSchool={school}
 selectedArea={location}
 minPrice={minPrice}
@@ -132,7 +134,9 @@ active={active}
     <div>Showing Recent Listings</div> 
     <div className="middleLine text-center">From {school.value? school.value : 'all schools'}</div>
     </div>}
-    <div className="card_list">
+    <div
+    id="listing"
+    className="card_list">
    {isLoading ? 
    <div className="mx-auto my-4 items-center justify-center flex flex-wrap gap-10">
    {loadingCards}

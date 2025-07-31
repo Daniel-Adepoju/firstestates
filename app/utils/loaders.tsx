@@ -1,3 +1,5 @@
+import { MoreHorizontal } from "lucide-react"
+
 export const DeleteLoader = () => {
   return <span className="deleteLoader"></span>
 }
@@ -32,5 +34,11 @@ animate-spin"></div>
 }
 
 export function Loader({ className }: { className?: string }) {
-  return <div className={`loader ${className}`}> </div>
+  return (
+   <div className='mt-50 mx-auto p-4 flex items-center justify-center'>
+    <MoreHorizontal
+    className="animate-pulse text-darkblue dark:text-coffee"
+    size={50}/>
+     </div>
+  )
 }

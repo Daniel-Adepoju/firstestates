@@ -15,6 +15,7 @@ const {searchParams} = new URL(req.url)
   const beds =  searchParams.get('beds') || ''
   const baths = searchParams.get('baths') || ''
   const toilets = searchParams.get('toilets') || ''
+  const status = searchParams.get('status') || ''
   const skipNum = Number((page- 1) * Number(limit))
   let cursor = Number(page)
   const searchOptions = []
@@ -45,6 +46,10 @@ if (baths) {
 
 if (toilets) {
  searchOptions.push({toilets: Number(toilets)})
+}
+
+if (status) {
+  searchOptions.push({status: status.toLowerCase()})
 }
 
   try {

@@ -16,6 +16,7 @@ interface Config {
   search?: string;
   listingId?: string;
   agentName?: string;
+  status?:string;
 }
 
 
@@ -60,21 +61,22 @@ export const useGetUser = ({id,enabled}: Config) => {
 // Listings
 export const useGetListings = ({
   page,limit,location='',school='',
-  minPrice='',maxPrice='',beds='',baths='',toilets=''
+  minPrice='',maxPrice='',beds='',baths='',toilets='',status='',
 }: Config) => {
   const getListings = async (page:string) => {
   const res = await axiosdata.value.get(
   `/api/listings?limit=${limit}&page=${page}` +
   `&location=${location}&school=${school}` +
   `&minPrice=${minPrice}&maxPrice=${maxPrice}` +
-  `&beds=${beds}&baths=${baths}&toilets=${toilets}`
+  `&beds=${beds}&baths=${baths}&toilets=${toilets}` +
+  `&status=${status}`
 );
 
     return res.data;
   }
 
   const {data,isLoading,isError} = useQuery({
-    queryKey:["listings",page,limit,location,school,minPrice,maxPrice,beds,baths,toilets],
+    queryKey:["listings",page,limit,location,school,minPrice,maxPrice,beds,baths,toilets,status],
     queryFn:() => getListings(page),
   })
 
