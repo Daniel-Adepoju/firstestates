@@ -8,7 +8,7 @@ import { CldImage } from "next-cloudinary"
 import { useBackdrop } from "@lib/Backdrop"
 import { useDarkMode } from "@lib/DarkModeProvider"
 import { getUnreadChats } from "@lib/server/chats"
-import {MessageSquare, Sun, Moon,LayoutDashboard, UserPlus2, UserPlus,LogIn} from "lucide-react"
+import {Heart,MessageSquare, Sun, Moon,LayoutDashboard, UserPlus2, UserPlus,LogIn} from "lucide-react"
 
 const Nav = () => {
   const { session } = useUser()
@@ -104,6 +104,7 @@ const Nav = () => {
     </Link>
   )}
 
+{/* Unique To Non-CLient Accounts */}
   {/* Going To Dashboard */}
   {session?.user && session?.user.role !=='client' && (
     <div className="flex flex-row items-center gap-2 cursor-pointer">
@@ -155,8 +156,10 @@ const Nav = () => {
   
   )}
 
+{/* Unique To Client Account */}
 {/* add roomie */}
   {session?.user && (
+    <>
       <div
     onClick={handleNavItemClick}
     className="flex flex-row items-center gap-2 cursor-pointer"
@@ -166,9 +169,21 @@ const Nav = () => {
       </div>
       <Link href="/listings" onClick={handleNavItemClick}>Request For Roomate</Link>
   </div>
-  
+
+     <div
+    onClick={handleNavItemClick}
+    className="flex flex-row items-center gap-2 cursor-pointer"
+  >
+    <div className="dark:bg-white bg-[#0874c7] p-2 rounded-full">
+      <Heart size={20} color={darkMode ? '#f59e0b' : 'white'}/>
+      </div>
+      <Link href="/listings/wishlists" onClick={handleNavItemClick}>Wishlists</Link>
+  </div>
+  </>
   )}
 
+
+{/* Unique to signed Out */}
   {!session?.user && (
     <>
        <div

@@ -15,7 +15,7 @@ import Link from "next/link"
 import { Skeleton } from "@components/ui/skeleton"
 import { useGetSingleListing } from "@lib/customApi"
 import { useDarkMode } from "@lib/DarkModeProvider"
-import { MapPin, Toilet, Bed, Bath, Phone,Loader2,MessageCircle, Flag,ScanSearch} from "lucide-react"
+import { MapPin, Toilet, Bed, Bath, Phone,Loader2,MessageCircle, Flag,ScanSearch, HeartPlus} from "lucide-react"
 import { Comment, WriteComment, CommentProps } from "@components/Comment"
 import { useGetComments } from "@lib/customApi"
 import { useNextPage } from "@lib/useIntersection"
@@ -219,6 +219,13 @@ const SingleListing = () => {
             <div>Log in to report listing </div>
           )
         }
+        <div className="bg-gray-500/10 p-2  px-4 w-55 rounded-sm 
+        flex items-center justify-center gap-2 cursor-pointer smallScale">
+         <HeartPlus
+         size={25}
+         className="text-red-700"/>
+          Add to wishlist
+          </div>
           </div>
 
           {/* agents details */}
