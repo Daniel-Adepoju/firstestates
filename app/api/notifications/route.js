@@ -15,7 +15,6 @@ export const GET = async (req) => {
     const session = await auth()
     const userId = session.user.id;
    const userRole = session.user.role;
-   console.log(userRole)
     const searchOptions = [
         { userId: userId},
        

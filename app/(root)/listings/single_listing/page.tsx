@@ -191,6 +191,7 @@ const SingleListing = () => {
               </div>
             </div>
 
+          {/*admin options  */}
             {session?.user.role === "admin" ? 
           <div className="flex flex-col items-center w-full text-gray-500 dark:text-white text-sm">
        You have admin priviledges, you can delete this listing
@@ -204,28 +205,36 @@ const SingleListing = () => {
           <span>Investigate Listing</span>
           </div>
           </div>
-         : session?.user?.id === data?.post.agent._id + 'lk' ? (
+          // agent options
+         : session?.user?.id === data?.post.agent._id  ? (
             <div className="text-gray-500 dark:text-white text-sm">
               You are the owner of this listing
             </div>
-          ) : session?.user ? (
+          ) 
+          // client options
+          : session?.user ? (
+            <>
             <div
               onClick={handleReport}
               className="smallScale text-md font-extrabold rounded-md p-2 px-4
                bg-gray-500/10 report cursor-pointer flex flex-row items-center gap-2">
               <Flag size={20} color="darkred" /> <span>Report this listing</span>
             </div>
-          ) : (
-            <div>Log in to report listing </div>
-          )
-        }
-        <div className="bg-gray-500/10 p-2  px-4 w-55 rounded-sm 
+             <div className="bg-gray-500/10 p-2  px-4 w-55 rounded-sm 
         flex items-center justify-center gap-2 cursor-pointer smallScale">
          <HeartPlus
          size={25}
          className="text-red-700"/>
           Add to wishlist
           </div>
+          </>
+          ) : (
+            <div>Log in to report listing </div>
+          )
+        }
+
+       
+
           </div>
 
           {/* agents details */}
@@ -314,9 +323,8 @@ const SingleListing = () => {
               ) : (
                 commentsData?.pages.flatMap((items) =>
                   items.comments.map((comment: CommentProps, index: Number) => (
-                    <>
+                    <div key={comment._id}>
                       <Comment
-                        key={comment._id}
                         comment={comment}
                         refValue={index === items.comments.length - 1 ? ref : null}
                         listingId={listingId ?? ""}
@@ -328,7 +336,7 @@ const SingleListing = () => {
                           color={darkMode ? "#A88F6E" : "#0881A3"}
                         />
                       )}
-                    </>
+                    </div>
                   ))
                 )
               )}
