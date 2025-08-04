@@ -21,8 +21,17 @@ import { useGetComments } from "@lib/customApi"
 import { useNextPage } from "@lib/useIntersection"
 import { useUser } from "@utils/user"
 import { ReportListingModal } from "@components/Modals"
+import { axiosdata } from "@utils/axiosUrl"
+import { useMutation } from "@tanstack/react-query"
+import Toast from "@components/Toast"
+import { previousDay } from "date-fns"
 
 const SingleListing = () => {
+  const [notification,setNotification] = useState({
+    isActive:false,
+    message:'',
+    status:''
+  })
   const {session} = useUser()
   const [isSwiperLoaded, setIsSwiperLoaded] = useState(false)
   const listingId = useSearchParams().get("id")
@@ -46,14 +55,50 @@ const SingleListing = () => {
 
    router.push(`/chat?=${data?.post.agent._id}`)
   }
+
+  // find in map
   const openInGoogleMap = (address: string) => {
     const encodedAddress = encodeURIComponent(address)
     window.open(`https://www.google.com/maps/search/?api=1&query=${encodedAddress}`, "_blank")
   }
 
+
+  // report logic
+
   const handleReport = () => {
       reportModalRef.current?.showModal()
   }
+
+// wishlist logic
+
+const addToWishList = async (val:{listingId:string | null}) => {
+ try {
+const res = await axiosdata.value.post('/api/listings/wishlists',val)
+  setNotification({
+    isActive:true,
+    message:res?.data.message,
+    status:res.status === 201 ? 'success' : 'danger'
+  })
+  console.log(res.data.message)
+return res
+ } catch (err:any) {
+    setNotification({
+    isActive:true,
+    message:err?.response?.data.message,
+    status:'danger'
+  })
+  console.log(err)
+ }
+
+}
+
+const wishListMutation = useMutation({
+  mutationFn: addToWishList,
+})
+
+const handleAddToWishList = () =>{
+ wishListMutation.mutate({listingId})
+}
 
   if (isLoading) {
     return (
@@ -81,6 +126,12 @@ const SingleListing = () => {
   }
   return (
     <>
+    <Toast 
+    isActive={notification.isActive}
+    setIsActive={setNotification}
+    message={notification.message}
+    status={notification.status}
+    />
       <div className="singleCardCon">
 
          <div className="singleCardSection">
@@ -212,20 +263,27 @@ const SingleListing = () => {
             </div>
           ) 
           // client options
-          : session?.user ? (
+          : session?.user  && session?.user.role === 'client' ? (
             <>
             <div
               onClick={handleReport}
-              className="smallScale text-md font-extrabold rounded-md p-2 px-4
-               bg-gray-500/10 report cursor-pointer flex flex-row items-center gap-2">
-              <Flag size={20} color="darkred" /> <span>Report this listing</span>
+              className="w-60 smallScale rounded-md p-2 px-4
+               bg-gray-500/10  cursor-pointer flex items-center justify-center gap-2">
+              <Flag size={20} className="text-red-700" /> 
+                <span className="text-md font-extrabold">Report this listing</span>
             </div>
-             <div className="bg-gray-500/10 p-2  px-4 w-55 rounded-sm 
-        flex items-center justify-center gap-2 cursor-pointer smallScale">
+      
+      {/* add to wishlist */}
+             <div
+             onClick={handleAddToWishList}
+              className="w-60 smallScale rounded-md p-2 px-4
+               bg-gray-500/10  cursor-pointer flex items-center justify-center gap-2">
          <HeartPlus
-         size={25}
+         size={20}
          className="text-red-700"/>
-          Add to wishlist
+          <span className="text-md font-extrabold">
+            Add to wishlist
+            </span>
           </div>
           </>
           ) : (

@@ -1,10 +1,9 @@
 "use client"
 import { useGetPopularListings } from "@lib/customApi"
-import { Listing } from "./Card"
 import {Skeleton} from "./ui/skeleton"
-import { useState,useRef,useEffect } from "react"
 import PopularCard from "./PopularCard"
 import ScrollController,{scrollRef} from "./ScrollController"
+
 export default function PopularThisWeek() {
   const { data, isLoading } = useGetPopularListings()
 

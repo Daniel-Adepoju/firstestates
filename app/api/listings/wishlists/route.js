@@ -1,6 +1,6 @@
-import Wishlist from "../../models/wishlist"
-import { connectToDB } from "../../utils/database";
-import { auth } from "../../utils/auth";
+import Wishlist from "@models/wishlist"
+import { connectToDB } from "@utils/database";
+import { auth } from "@auth";
 import { NextResponse } from "next/server";
 
 export const GET = async (req) => {
@@ -22,18 +22,18 @@ export const GET = async (req) => {
       cursor = numOfPages
     }
 
-    const wishlists = await Wishlist.find({user: session?.user.id}).populate({
+    const wishlist = await Wishlist.find({user: session?.user.id}).populate({
     path: 'listing',
     populate: {
       path: 'agent',    
     //   model: 'User'  
   }}).skip(skipNum).limit(limit)
 
-    if (!wishlists) {
+    if (!wishlist) {
       return NextResponse.json({message: 'No wishlists found'}, { status: 404 }) 
     }
 
-    return NextResponse.json({wishlists,numOfPages}, { status: 200 }) 
+    return NextResponse.json({wishlist,numOfPages,cursor}, { status: 200 }) 
   } catch (err) {
     console.log(err)
     return NextResponse.json(err, { status: 500}) 
@@ -46,15 +46,15 @@ export const POST = async (req) => {
     try {
         const { listingId } = await req.json()
         const checkExisting = await Wishlist.findOne({user: session?.user.id, listing: listingId})
-        if (checkExisting) {
-        return NextResponse.json({message: 'Listing already in wishlist'}, { status: 400 })
-        }
+        // if (checkExisting) {
+        // return NextResponse.json({message: 'Listing already in wishlist'}, { status: 400 })
+        // }
         const newWishlist = new Wishlist({
             user: session?.user.id,
             listing: listingId
         })
         await newWishlist.save()
-    return NextResponse.json({message: 'Added To Wishlist'}, { status: 200 })
+    return NextResponse.json({message: 'Added To Wishlist'}, { status: 201 })
     } catch (err) {
         console.log(err)
         return NextResponse.json(err, {status:500})
@@ -65,8 +65,8 @@ export const DELETE = async (req) => {
   const session = await auth()
   await connectToDB()
   try {
-    const { listingId } = await req.json()
-    const wishlist = await Wishlist.findOne({user: session?.user.id, listing: listingId})
+    const { listingId,wishlistId } = await req.json()
+    const wishlist = await Wishlist.findOne({_id:wishlistId, user: session?.user.id, listing: listingId})
     if (!wishlist) {
       return NextResponse.json({message: 'No wishlist found'}, { status: 404 }) 
     }

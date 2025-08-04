@@ -177,7 +177,7 @@ const Nav = () => {
     <div className="dark:bg-white bg-[#0874c7] p-2 rounded-full">
       <Heart size={20} color={darkMode ? '#f59e0b' : 'white'}/>
       </div>
-      <Link href="/listings/wishlists" onClick={handleNavItemClick}>Wishlists</Link>
+      <Link href="/listings/wishlists" onClick={handleNavItemClick}>Wishlist</Link>
   </div>
   </>
   )}

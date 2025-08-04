@@ -155,7 +155,24 @@ export const useGetAppointments = ({page,limit}:Config) => {
 
   return {data,isLoading}
 }
+export const useGetWishLists = ({page,limit}:Config) => {
+  const getWishLists = async (page:string) => {
+    const res = await axiosdata.value.get(`/api/listings/wishlists?page=${page}&limit=${limit}`)
+    return res.data;
+  }
+  const {data,isLoading,isFetchingNextPage,fetchNextPage,hasNextPage,isError} = useInfiniteQuery({
+    queryKey: ['wishlists'],
+   initialPageParam: 1,
+     getNextPageParam: (prevData: any) => {
+      return prevData?.cursor && prevData?.cursor !== prevData.numOfPages
+         ? prevData.cursor + 1
+         : undefined;
+    },
+    queryFn: ({ pageParam = 1 }) => getWishLists(String(pageParam)),
+  })
 
+  return {data,isLoading,isFetchingNextPage,fetchNextPage,hasNextPage}
+}
 
 // Agents
 export const useGetAgentListings = ({id,page,limit,location,school,enabled=false} :Config) => {
@@ -172,7 +189,6 @@ export const useGetAgentListings = ({id,page,limit,location,school,enabled=false
 
   return {data, isLoading, isError}
 }
-
 
 export const useGetAgentPayments = ({userId,enabled}: { userId?: string, enabled?:boolean}) => {
   const getPayments = async () => {

@@ -10,31 +10,6 @@ import {TagIcon,Toilet, Bed, Bath, MapPin, Eye, Edit2, EditIcon, Trash2,LoaderPi
 import { formatNumber } from "@utils/formatNumber"
 import {FeaturedBtn} from "./Featured"
 
-interface Agent {
-  _id: string;
-  profilePic: string;
-  username: string;
-}
-export interface Listing {
-  _id?: string;
-  address: string;
-  location: string;
-  image?: string;
-  price?: string;
-  description?: string;
-  bedrooms?: number;
-  bathrooms?: number;
-  toilets?: number;
-  agent: Agent;
-  mainImage: string;
-  gallery?: string[];
-  createdAt?: string;
-  status?: string;
-  school?:string;
-  weeklyViews?: number;
-  totalViews?: number;
-  isFeatured?:boolean;
-}
 
 export interface CardProps {
  edit?: boolean,
