@@ -9,7 +9,6 @@ import { useNotification } from "@lib/Notification"
 import { useUser } from "@utils/user"
 import { useGetAgentListings } from "@lib/customApi"
 import PopularCard from '@components/PopularCard'
-import { Listing } from "@components/Card"
 import { Skeleton } from "@components/ui/skeleton"
 
 const AgentViewPage = () => {

@@ -14,7 +14,7 @@ import {DarkModeProvider} from '@lib/DarkModeProvider'
 
 export const metadata = {
   title: "FirstEstates",
-  description: "",
+   description: "Find Your Perfect Student Home",
 };
 
 
