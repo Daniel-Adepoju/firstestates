@@ -20,10 +20,13 @@ const AdminSingleListing = () => {
 
   const removeSingleReport = async (reportId: string) => {
     await clearSingleNotification(reportId, true, listing?.post._id)
+    if(listing.reports.length === 1) {
+      await editListing({id,reportedBy: [] }, null, true)
+    }
   }
 
   const removeAllReports = async () => {
-    await editListing({ reportedBy: [] }, null, true)
+    await editListing({id,reportedBy: [] }, null, true)
     await clearAllNotifications({ isReport: true, listingId: listing?.post._id })
   }
 
@@ -35,8 +38,10 @@ const AdminSingleListing = () => {
 
   const allReportsMutation = useMutation({
     mutationFn: removeAllReports,
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["listing", { listingId: listing?.post._id }] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["listing", { listingId: listing?.post._id }] })
+      queryClient.invalidateQueries({ queryKey: ["reports"] })
+    }
   })
 
   const handleRemoveSingleReport = (reportId: string) => {
@@ -110,7 +115,7 @@ const AdminSingleListing = () => {
                       <strong>Report Details:</strong> {report.message}
                     </p>
                     <p>
-                      <strong>Reported by:</strong>{" "}
+                      <strong>Reporter Id:</strong>{" "}
                       <Link href={`/admin/users/${report.sentBy}`}>{report.sentBy}</Link>
                     </p>
                     <div

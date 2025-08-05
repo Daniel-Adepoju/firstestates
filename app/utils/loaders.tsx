@@ -35,7 +35,8 @@ animate-spin"></div>
 
 export function Loader({ className }: { className?: string }) {
   return (
-   <div className='mt-50 mx-auto p-4 flex items-center justify-center'>
+   <div className={`${className ? className : 'mt-50'}  mx-auto p-4 flex items-center justify-center`}>
+
     <MoreHorizontal
     className="animate-pulse text-darkblue dark:text-coffee"
     size={50}/>

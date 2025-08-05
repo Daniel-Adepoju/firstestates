@@ -306,6 +306,7 @@ const makeReport = async (val: any) => {
 const makeReportMutation = useMutation({
   mutationFn: makeReport,
   onSuccess: () => {
+    message.value = ''
     creating.value = false
     ref.current?.close()
   }
@@ -353,7 +354,10 @@ const handleReport = () => {
     text='Proceed'
     functions={() => handleReport()}
     className='darkblueBtn directional clickable'
-    />
+    disabled={makeReportMutation.isPending}
+    >
+      {makeReportMutation.isPending && <Loader2 color='white' className='animate-spin' />}
+      </Button>
     </div>
     <button
       onClick={() => ref.current?.close()}

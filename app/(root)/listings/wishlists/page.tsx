@@ -47,7 +47,8 @@ const WishLists = () => {
         ))
     )
      })}
-    {isFetchingNextPage && <Loader2 className='animate-spin mx-auto'/> }
+    {isFetchingNextPage && hasNextPage && <Loader2 className='animate-spin mx-auto'/> }
+
    </div>
 
      }

@@ -29,10 +29,7 @@ export const GET = async (req) => {
     //   model: 'User'  
   }}).skip(skipNum).limit(limit)
 
-    if (!wishlist) {
-      return NextResponse.json({message: 'No wishlists found'}, { status: 404 }) 
-    }
-
+ 
     return NextResponse.json({wishlist,numOfPages,cursor}, { status: 200 }) 
   } catch (err) {
     console.log(err)
@@ -46,9 +43,9 @@ export const POST = async (req) => {
     try {
         const { listingId } = await req.json()
         const checkExisting = await Wishlist.findOne({user: session?.user.id, listing: listingId})
-        // if (checkExisting) {
-        // return NextResponse.json({message: 'Listing already in wishlist'}, { status: 400 })
-        // }
+        if (checkExisting) {
+        return NextResponse.json({message: 'Listing already in wishlist'}, { status: 400 })
+        }
         const newWishlist = new Wishlist({
             user: session?.user.id,
             listing: listingId

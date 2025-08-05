@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import Card from "@components/Card"
-import { useSearchListings } from "@lib/customApi"
+import { useGetPopularListings, useSearchListings } from "@lib/customApi"
 import Searchbar from "@components/Searchbar"
 import {useRouter, useSearchParams} from "next/navigation"
 import Pagination from "@components/Pagination"
@@ -10,6 +10,8 @@ import { formatNumber } from "@utils/formatNumber"
 import PopularCard from "@components/PopularCard"
 import { Skeleton } from "@components/ui/skeleton"
 import Image from "next/image"
+import { ArrowRight } from "lucide-react"
+import Link from "next/link"
 
 const AdminListings = () => {
 
@@ -22,12 +24,7 @@ const AdminListings = () => {
 
     const { data, isLoading} = useSearchListings({page, limit: 10, school: debounced, location: debounced, agentName: debounced, enabled: true})
    
-    const { data: recentData, isLoading: loadingRecent } = useSearchListings({
-    page: '1',
-    limit: 10,
-    location: '',
-    school: '',
-   })
+    const { data: popularData, isLoading: loadingPopular } = useGetPopularListings()
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -42,8 +39,7 @@ const AdminListings = () => {
         return () => clearTimeout(timer)
     }, [search])
 
-
- const mapRecent = recentData?.posts.map((listing: Listing) => (
+ const mapRecent = popularData?.popularListings.map((listing: Listing) => (
     <PopularCard
       key={listing._id}
       listing={listing}
@@ -97,16 +93,23 @@ return (
 
       <div className="content_item banner danger">
           <h3>Reported Listings</h3>
-          <div className="text">
+          <div className="w-full flex items-center justify-center gap-6">
+              <div className="text">
             <span>{formatNumber(data?.reportedListings ?? '0')}</span>
           </div>
+          <Link href="/admin/listings/reported">
+            <ArrowRight className="bg-red-600 text-white w-10 h-10 p-2 rounded-full cursor-pointer smallScale"/>
+          </Link>
+          </div>
+        
+
         </div>
 
       </div>
 
-      <h1 className="mt-4 text-2xl font-bold mb-1 otherHead">Recent Listings</h1>
+      <h1 className="mt-4 text-2xl font-bold mb-1 otherHead">Popular Listings</h1>
       <div className="mt-4 w-full flex flex-row flex-wrap items-center justify-center gap-4">
-        {loadingRecent ? (
+        {loadingPopular ? (
           <div className="flex flex-row flex-wrap  gap-3 items-center justify-center w-full">
             <LoaderComponent />
           </div>

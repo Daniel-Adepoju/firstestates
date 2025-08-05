@@ -55,7 +55,7 @@ export const editListing = async (val, userId, extras=false) => {
     //   thumbnail: val.mainImage,
     // })
     // } 
-
+ console.log('ta da!!!')
     if (!extras){
     await sendNotification({
       type: "Listing_Edited",

@@ -17,6 +17,7 @@ type Listing = {
   agent: Agent;
   mainImage: string;
   gallery?: string[];
+  reportedBy: string[];
   createdAt?: string;
   status?: string;
   school?:string;

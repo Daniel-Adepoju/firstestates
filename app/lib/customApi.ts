@@ -155,7 +155,7 @@ export const useGetAppointments = ({page,limit}:Config) => {
 
   return {data,isLoading}
 }
-export const useGetWishLists = ({page,limit}:Config) => {
+export const useGetWishLists = ({limit}:Config) => {
   const getWishLists = async (page:string) => {
     const res = await axiosdata.value.get(`/api/listings/wishlists?page=${page}&limit=${limit}`)
     return res.data;
@@ -173,6 +173,26 @@ export const useGetWishLists = ({page,limit}:Config) => {
 
   return {data,isLoading,isFetchingNextPage,fetchNextPage,hasNextPage}
 }
+
+export const useGetReported = ({limit}:Config) => {
+  const getReported = async (page:string) => {
+    const res = await axiosdata.value.get(`/api/listings/reported?page=${page}&limit=${limit}`)
+    return res.data;
+  }
+  const {data,isLoading,isFetchingNextPage,fetchNextPage,hasNextPage,isError} = useInfiniteQuery({
+    queryKey: ['reported'],
+   initialPageParam: 1,
+     getNextPageParam: (prevData: any) => {
+      return prevData?.cursor && prevData?.cursor !== prevData.numOfPages
+         ? prevData.cursor + 1
+         : undefined;
+    },
+    queryFn: ({ pageParam = 1 }) => getReported(String(pageParam)),
+  })
+
+  return {data,isLoading,isFetchingNextPage,fetchNextPage,hasNextPage}
+}
+
 
 // Agents
 export const useGetAgentListings = ({id,page,limit,location,school,enabled=false} :Config) => {
