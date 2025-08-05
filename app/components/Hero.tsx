@@ -1,5 +1,6 @@
 import { useUser } from "@utils/user";
 import Link from "next/link";
+import { ArrowRightIcon } from "lucide-react";
 
 const HeroSection = () => {
   const {session} = useUser()
@@ -28,8 +29,10 @@ return  (
                   </span>
                 </p>
         <Link href='/agent' 
-        className="mediumScale clickable py-3 px-4 text-gray-100 dark:bg-coffee/30 bg-darkblue/50 rounded-md shadow-md">
-          Proceed To Dashboard
+        className="mediumScale w-60 flex items-center gap-1 clickable py-3 px-4
+         text-gray-100 dark:bg-coffee/30 bg-darkblue/50 rounded-md shadow-md">
+         <span>Proceed To Dashboard</span>
+         <ArrowRightIcon size={25} />
           </Link>
                 <div className="text-gray-100 flex flex-wrap justify-center lg:justify-start items-center gap-4 pt-6">
                   <div className="flex items-center gap-2">

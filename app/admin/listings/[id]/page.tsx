@@ -49,10 +49,20 @@ const AdminSingleListing = () => {
 
   return (
     <>
-      <div className="mx-auto mb-[-90px] lg:mb-[-45px] text-center w-100 md:w-full break-words">
+      <div className="mx-auto text-center w-100 md:w-full break-words">
         Note that you cannot delete a <strong>rented</strong> listing, you have to edit its status
         to available first.
       </div>
+      <div className="text-foreground mb-[-90px] lg:mb-[-45px] ">
+        <span>This listing is </span>
+        <span
+        className={`${listing?.post.status === 'available' ? 'bg-green-800' : 'bg-amber-600'}
+        py-1 px-2 rounded-sm text-white
+
+        `}
+
+        >{listing?.post.status}</span>
+          </div>
       <div className="flex flex-col lg:flex-row items-center justify-between mb-4 ">
         <div className="adminListingCard p-20">
           {isLoading ? (

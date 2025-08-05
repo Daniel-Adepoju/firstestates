@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import Card, {Listing} from "@components/Card"
+import Card from "@components/Card"
 import { useSearchListings } from "@lib/customApi"
 import Searchbar from "@components/Searchbar"
 import {useRouter, useSearchParams} from "next/navigation"
