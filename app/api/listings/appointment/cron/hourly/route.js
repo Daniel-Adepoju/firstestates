@@ -16,15 +16,15 @@ export const GET = async (req) => {
  
     if(appointments.length > 0) {
       for (const appointment of appointments) {
-   const subject = "Reminder: You have an appointment today"
+   const subject = "Appointment Reminder"
       const message = `
       <div>
 Hi ${appointment.creatorID?.username || "there"},
 
-Just a reminder that you have an appointment scheduled today:
+Just a reminder that you have a scheduled appointment:
 
 <p>
-  📅 <strong>Appointment Date:</strong> ${appointment?.date.toLocaleString().slice(0,10)}
+📅  <strong>Appointment Date:</strong> ${appointment?.date.toLocaleString().slice(0,10)}
 </p>
 <p>
   📍 <strong>Listing Location:</strong> ${appointment.listingID?.location || "Location not available"}

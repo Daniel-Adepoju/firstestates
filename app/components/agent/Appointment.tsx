@@ -111,6 +111,7 @@ const Appointment = () => {
 
         <div className="appointments w-full self-start">
           <h3 className="otherHead text-lg font-bold mx-auto text-center">Pending Inspections</h3>
+          <h6 className="text-foreground text-sm text-center">Expired appointments are removed on a weekly schedule</h6>
           <div className="mt-4 grid grid-cols-4 text-center border-gray-500/20">
             <div className="dark:text-white border-1 border-gray-500/40 ">Image</div>
             <div className="dark:text-white border-1 border-gray-500/40 "> Date</div>

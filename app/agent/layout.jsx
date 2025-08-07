@@ -3,6 +3,7 @@ import '@styles'
 import '../globals.css'
 import Sidebar from "@components/agent/Sidebar";
 import User from '@utils/user'
+import UserModel from '@models/user'
 import Provider from '@utils/sessionProvider'
 import ReactQueryProvider from '@utils/ReactQueryProvider';
 import Notification from '@lib/Notification'

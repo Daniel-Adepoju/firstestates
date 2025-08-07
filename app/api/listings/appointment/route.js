@@ -11,20 +11,21 @@ const {searchParams} = new URL(req.url)
    const skipNum = (cursor - 1) * limit
 
    try {
-    // const session = await auth() 
+    const session = await auth()
+    const creatorID = session.user.id
     const now = new Date()
     await connectToDB()
     
 
 
-    const appointments = await Appointment.countDocuments()
+    const appointments = await Appointment.countDocuments({creatorID})
     
     const numOfPages = Math.ceil(appointments / Number(limit))
     if (cursor >= numOfPages) {
       cursor = numOfPages
     }
 
-    const appointmentsConfig = Appointment.find().
+    const appointmentsConfig = Appointment.find({creatorID}).
     populate({path:"clientID",select:"_id"}).
     populate({path:"listingID", select:'mainImage _id'})
     .skip(skipNum).limit(limit).sort('-createdAt')
@@ -63,12 +64,11 @@ export const POST = async (req) => {
 export const DELETE = async(req) => {
 
   await connectToDB()
-
   try {
-   
-
+   const {appointmentId} = await req.json()
+   await Appointment.findOneAndDelete({_id:appointmentId})
     return NextResponse.json(
-      { message: `Deleted past appointments` },
+      { message: `Deleted appointment`},
       { status: 200 }
     )
   } catch (err) {

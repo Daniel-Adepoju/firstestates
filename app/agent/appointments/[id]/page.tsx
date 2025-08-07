@@ -15,6 +15,7 @@ const router = useRouter()
   const id = params?.id as string
   const [appointmentType, setAppointmentType] = useState('')
   const [clientName,setClientName] = useState('')
+  const [warning,setWarning] = useState('')
        const [date, setDate] = useState<Date | undefined>(undefined)
 
   const { data, isLoading } = useGetSingleListing(id, true)
@@ -24,6 +25,9 @@ const router = useRouter()
     const res = await axiosdata.value.post('/api/listings/appointment',val)
     setAppointmentType('')
     setClientName('')
+    if(res.status === 201){
+       router.back()
+    }
 }
 
 
@@ -31,11 +35,17 @@ const router = useRouter()
     mutationFn: createAppointment,
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey:['appointments']})
-      router.back()
+     
     }
   })
 
   const handleCreateAppointment = () => {
+       if(!appointmentType) {
+      setWarning('Pick appointment type')
+    } else if (!clientName) {
+       setWarning('Client name should not be empty')
+    } else {
+     setWarning('')
     appointmentMutation.mutate({
         appointmentType,
         // clientID,
@@ -44,6 +54,7 @@ const router = useRouter()
         listingID: id,
 
     })
+  }
   }
 
 
@@ -89,7 +100,11 @@ const router = useRouter()
             </div>
           </div>
         </form>
+        {warning &&
+<div className="mx-auto text-sm text-red-500">{warning}</div>
+        }
          <Button
+        disabled={!appointmentType && !clientName}
       functions={() => handleCreateAppointment()}
       text="Create Appointment"
       className="clickable directional darkblueBtn w-60 mx-auto"
