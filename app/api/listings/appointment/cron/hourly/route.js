@@ -8,7 +8,7 @@ export const GET = async (req) => {
     try {
   await connectToDB()
       const now = new Date()
-         const oneHourFromNow = inMinutes(60)
+         const oneHourFromNow = inMinutes(1400)
   const appointments = await Appointment.find({
             date: { $gte: now, $lte: oneHourFromNow },
             reminderSent: { $ne: true }

@@ -14,6 +14,7 @@ import { DotsLoader } from "@utils/loaders"
 import Pagination from "@components/Pagination"
 import { MoreHorizontal } from "lucide-react"
 import ScrollController,{scrollRef} from "@components/ScrollController"
+import { Skeleton } from "@components/ui/skeleton"
 
 const Appointment = () => {
   const { session } = useUser()
@@ -47,6 +48,10 @@ const Appointment = () => {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setDebounced(search)
+        if (scrollRef?.current) {
+    scrollRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+  }
+
     }, 560)
     return () => clearTimeout(timeoutId)
   }, [search])
@@ -90,25 +95,24 @@ const Appointment = () => {
             />
 
             {/* listings */}
-              <ScrollController />
-         {isLoading ? (
-                <div className="my-4 ">
-                  <DotsLoader />
-                </div>)
-                 :
-                 (
-                <div 
+            {agentId &&  <ScrollController />}
+                <div
             ref={scrollRef}
-            className="popularList dark:text-white w-full  overflow-x-auto grid grid-flow-col gap-x-4 pb-4">
-            
-            
+            className="popularList dark:text-white w-full 
+             overflow-x-auto grid grid-flow-col gap-x-4 pb-4">
+         {isLoading ?
+        (<>
+         {Array.from({length:12}).map((_,i) => (
+           <Skeleton key={`skeleton-${i}`} className="animate-none bg-gray-500/20 w-40 h-40" />
+         ))}
+         </>)
+                 :  
+                 (
                 <>
-               
                {mapCards}
                 </>
-                </div>
               )}
-           
+             </div> 
           </div>
         </div>
 

@@ -14,7 +14,7 @@ const ScrollController = () => {
     if (!el) return
     setShowLeft(el.scrollLeft > 0)
     setShowRight(el.scrollLeft + el.clientWidth < el.scrollWidth)
-  }
+  } 
   
     useEffect(() => {
     checkScroll();
@@ -30,6 +30,8 @@ const ScrollController = () => {
     const scrollAmount = el.clientWidth * 0.8;
     el.scrollBy({ left: direction === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' });
   }
+
+  if (!showLeft && !showRight) return null
 
   return (
      <div className="w-[98%] flex justify-end">
