@@ -4,12 +4,17 @@ import customParseFormat from 'dayjs/plugin/customParseFormat'
 import duration from 'dayjs/plugin/duration'
 import isToday from 'dayjs/plugin/isToday';
 import isYesterday from 'dayjs/plugin/isYesterday';
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone';
+
 
 dayjs.extend(isToday);
 dayjs.extend(isYesterday);
 dayjs.extend(relativeTime)
 dayjs.extend(customParseFormat)
 dayjs.extend(duration)
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 const date = dayjs()
 const now = new Date()
@@ -19,7 +24,7 @@ export const getDate = (sub = 0) => {
   }
 
   export const parseDate = (date) => {
-    return dayjs(date).format('YYYY-MM-DD')
+    return dayjs(date).tz("Africa/Lagos").format('YYYY-MM-DD')
   }
 
   export const createdAt = (createdAt,onlyNum) => {
