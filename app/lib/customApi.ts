@@ -210,6 +210,28 @@ export const useGetAgentListings = ({id,page,limit,location,school,enabled=false
   return {data, isLoading, isError}
 }
 
+export const useGetAgentListingsInfinite = ({id,page,limit,location,school,enabled=false} :Config) => {
+  const getListings = async (page:string) => {
+    const res = await axiosdata.value.get(`/api/agent/listings?id=${id}&limit=${limit}&page=${page}&school=${school}&location=${location}`)
+    return res.data;
+  }
+
+  const {data, isLoading, isError,isFetchingNextPage,fetchNextPage,hasNextPage} = useInfiniteQuery({
+    queryKey: ["agentListings",page,location,school],
+    initialPageParam: 1,
+     getNextPageParam: (prevData: any) => {
+      return prevData?.cursor && prevData?.cursor !== prevData.numOfPages
+         ? prevData.cursor + 1
+         : undefined;
+    },
+    queryFn: ({ pageParam = 1 }) => getListings(String(pageParam)),
+    enabled,
+  })
+
+  return {data, isLoading, isError,isFetchingNextPage,fetchNextPage,hasNextPage}
+
+}
+
 export const useGetAgentPayments = ({userId,enabled}: { userId?: string, enabled?:boolean}) => {
   const getPayments = async () => {
     const res = await axiosdata.value.get(`/api/payments/agent?userId=${userId}`)

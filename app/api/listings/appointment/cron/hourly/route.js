@@ -10,10 +10,10 @@ export const GET = async (req) => {
     
   await connectToDB()
       const now = new Date()
-         const oneHourFromNow = inMinutes(1400)
+         const oneHourFromNow = inMinutes(60)
   const appointments = await Appointment.find({
             date: { $gte: now, $lte: oneHourFromNow },
-            reminderSent: { $ne: false }
+            reminderSent: { $ne: true }
     }).sort('date').populate('creatorID clientID listingID')
  
     if(appointments.length > 0) {

@@ -1,20 +1,19 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef} from "react"
 import Searchbar from "../Searchbar"
 import AppointmentCard from "../agent/AppointmentCard"
 import ManageAppointment from "../agent/ManageAppointment"
-import { CardProps } from "../Card"
 import PopularCard from "../PopularCard"
-import { useGetAgentListings } from "@lib/customApi"
+import { useGetAgentListingsInfinite } from "@lib/customApi"
 import { useGetAppointments } from "@lib/customApi"
 import { useUser } from "@utils/user"
 import {useSearchParams } from "next/navigation"
-import { DotsLoader } from "@utils/loaders"
 import Pagination from "@components/Pagination"
-import { MoreHorizontal } from "lucide-react"
+import { MoreHorizontal, Loader2 } from "lucide-react"
 import ScrollController,{scrollRef} from "@components/ScrollController"
 import { Skeleton } from "@components/ui/skeleton"
+import { useNextPage } from "@lib/useIntersection"
 
 const Appointment = () => {
   const { session } = useUser()
@@ -23,16 +22,23 @@ const Appointment = () => {
   const [agentId, setAgentId] = useState("")
   const [search, setSearch] = useState("")
   const [debounced, setDebounced] = useState("")
-
+  
   // listings data
-  const { data, isLoading } = useGetAgentListings({
+  const { data, isLoading,isFetchingNextPage,fetchNextPage,hasNextPage } = useGetAgentListingsInfinite({
+
     id: agentId,
     enabled: !!agentId,
     page:'1',
-    limit: 100,
+    limit: 10,
     school: debounced,
     location: debounced,
   })
+
+  const useNextPageRef = useNextPage({
+    isLoading,
+    hasNextPage,
+    fetchNextPage,
+  }) 
 
   //  appointment data
   const {data:appointments, isLoading:appointmentLoading} = useGetAppointments({page,limit:10})
@@ -56,14 +62,17 @@ const Appointment = () => {
     return () => clearTimeout(timeoutId)
   }, [search])
 
-  const mapCards = data?.listings?.map((item: CardProps["listing"]) => {
-    return (
-      <PopularCard
-        key={item._id}
-        listing={item}
-        type={'appointment'}
-      />
-    )
+  const mapCards = data?.pages?.flatMap((item) => {
+    return item.listings.map((listing: Listing, index:number) => {
+      return (
+        <PopularCard
+          key={listing._id}
+          listing={listing}
+          type={'appointment'}
+          refValue={index === item.listings.length - 1 ? useNextPageRef : null}
+        />
+      )
+    })
   })
 
   return (
@@ -110,7 +119,10 @@ const Appointment = () => {
                  (
                 <>
                {mapCards}
+         {isFetchingNextPage && 
+         <Loader2 className="animate-spin mx-auto my-auto text-gray-700 dark:text-white"/>}
                 </>
+              
               )}
              </div> 
           </div>

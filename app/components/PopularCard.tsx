@@ -7,13 +7,15 @@ import { CardProps } from "./Card"
 interface PopCardProps {
     listing: CardProps["listing"]
     type?: string
+    refValue?: any
 }
 
-const PopularCard = ({listing, type}:PopCardProps) => {
+const PopularCard = ({listing, type,refValue}:PopCardProps) => {
     const {darkMode} = useDarkMode()
 
   return (
     <Link
+      ref={refValue || null}
       href={type === 'appointment' ? `/agent/appointments/${listing?._id}` : `/listings/single_listing?id=${listing?._id}`}
       className="popularCard snap-center flex flex-col border w-[200px] min-h-50 p-2 rounded-xl shadow-md bg-white"
     >
