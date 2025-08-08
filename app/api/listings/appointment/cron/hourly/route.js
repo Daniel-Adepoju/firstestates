@@ -3,15 +3,17 @@ import { connectToDB } from "@utils/database"
 import { NextResponse } from "next/server"
 import {inMinutes} from "@utils/date";
 import {sendEmail} from '@lib/server/sendEmail'
+import {parseDate} from "@utils/date";
 
 export const GET = async (req) => {
     try {
+    
   await connectToDB()
       const now = new Date()
          const oneHourFromNow = inMinutes(1400)
   const appointments = await Appointment.find({
             date: { $gte: now, $lte: oneHourFromNow },
-            reminderSent: { $ne: true }
+            reminderSent: { $ne: false }
     }).sort('date').populate('creatorID clientID listingID')
  
     if(appointments.length > 0) {
@@ -24,7 +26,7 @@ Hi ${appointment.creatorID?.username || "there"},
 Just a reminder that you have a scheduled appointment:
 
 <p>
-📅  <strong>Appointment Date:</strong> ${appointment?.date.toLocaleString().slice(0,10)}
+📅  <strong>Appointment Date:</strong> ${parseDate(appointment.date)}
 </p>
 <p>
   📍 <strong>Listing Location:</strong> ${appointment.listingID?.location || "Location not available"}
