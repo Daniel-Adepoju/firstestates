@@ -26,7 +26,7 @@ const Appointment = () => {
   // listings data
   const { data, isLoading } = useGetAgentListings({
     id: agentId,
-    enabled: !!agentId && !!debounced,
+    enabled: !!agentId,
     page:'1',
     limit: 100,
     school: debounced,
@@ -77,13 +77,16 @@ const Appointment = () => {
 
           <div className="w-full flex flex-col items-center gap-3">
             <h2 className="otherHead text-md font-bold capitalize text-center">
-              find a listing to schedule inspection
+              Schedule inspection
             </h2>
+                     <h6 className="text-sm text-center font-light text-gray-600 dark:text-gray-300">
+              Recent listings are displayed by default. You can search by school or location to schedule an appointment.
+                     </h6> 
             <Searchbar
               search={search}
               setSearch={(e) => setSearch(e.target.value)}
               placeholder="Search your listings"
-              className="dark:text-gray-200 gap-1 w-full flex flex-row justify-center items-center   "
+              className="dark:text-gray-200 gap-1 w-full flex flex-row justify-center items-center"
             />
 
             {/* listings */}
@@ -110,8 +113,8 @@ const Appointment = () => {
         </div>
 
         <div className="appointments w-full self-start">
-          <h3 className="otherHead text-lg font-bold mx-auto text-center">Pending Inspections</h3>
-          <h6 className="text-foreground text-sm text-center">Expired appointments are removed on a weekly schedule</h6>
+          <h3 className="otherHead text-lg font-bold mx-auto text-center ">Pending Inspections</h3>
+          <h6 className="text-sm text-center font-light text-gray-600 dark:text-gray-300">Expired appointments are removed on a weekly schedule</h6>
           <div className="mt-4 grid grid-cols-4 text-center border-gray-500/20">
             <div className="dark:text-white border-1 border-gray-500/40 ">Image</div>
             <div className="dark:text-white border-1 border-gray-500/40 "> Date</div>

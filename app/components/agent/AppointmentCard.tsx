@@ -99,9 +99,9 @@ const AppointmentCard = ({firstCard,data}:AppointmentCardProps) => {
 
   <div
  onClick={handleDeleteAppointment}  
-  className="bg-red-600 dark:bg-red-700 text-white 
+  className="bg-red-700/80 dark:bg-red-700 text-white 
    col-span-3 md:col-span-2 lg:col-span-1 flex items-center justify-between gap-1
-    p-2 rounded-sm cursor-pointer clickable
+    p-2 rounded-md cursor-pointer clickable
   ">
 <span className="font-bold">Remove Appointment</span>
  {!deleteAppointmentMutation.isPending ? <Trash 

@@ -10,7 +10,7 @@ const ManageAppointment = ({nextAppointment,lastAppointment}:{nextAppointment:Da
       <svg className="w-4 h-4 dark:text-coffee text-darkblue" fill="currentColor" viewBox="0 0 20 20">
         <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
       </svg>
-      Viewing Schedule
+      Inspection Schedule
     </h3>
   </div>
 
@@ -26,7 +26,7 @@ const ManageAppointment = ({nextAppointment,lastAppointment}:{nextAppointment:Da
         </div>
       </div>
       <div className="ml-3">
-        <p className="text-sm text-gray-600 dark:text-gray-300">Next viewing</p>
+        <p className="text-sm text-gray-600 dark:text-gray-300">Next Inspection</p>
         <div className="mt-1 flex items-center">
           <p className="text-sm font-medium text-gray-900 dark:text-white">{parseDate(nextAppointment)}</p>
           <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-darkblue dark:text-coffee dark:bg-blue-800/30">
@@ -46,7 +46,7 @@ const ManageAppointment = ({nextAppointment,lastAppointment}:{nextAppointment:Da
         </div>
       </div>
       <div className="ml-3">
-        <p className="text-sm text-gray-600 dark:text-gray-300">Last viewing</p>
+        <p className="text-sm text-gray-600 dark:text-gray-300">Last Inspection</p>
         <div className="mt-1 flex items-center">
           <p className="text-sm font-medium text-gray-900 dark:text-white">{parseDate(lastAppointment)}</p>
           <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300">
