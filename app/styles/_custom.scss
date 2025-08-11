@@ -1,24 +1,25 @@
-@import "variables.scss";
-@import "mixin.scss";
-@import 'functions.scss';
+@use 'sass:map';
+@use "variables.scss";
+@use "mixin.scss" as mx;
+@use "functions.scss" as fn;
 
 @function color($val) {
-  @return map-get($color, $val);
+  @return map.get(variables.$color, $val);
 }
 
 // fonts
 .headersFont {
-  font-family: font('list');
+  font-family: fn.font("list");
   font-weight: bolder;
 }
 
 input[type="number"] {
+  -moz-appearance: textfield;
   &::-webkit-inner-spin-button,
   &::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
-  -moz-appearance: textfield;
 }
 // input[type="range"] {
 //   // -webkit-appearance: none;
@@ -68,38 +69,39 @@ input[type="number"] {
 
 .timer {
   color: goldenrod;
-  font-family: font('headers');
+  font-family: fn.font("headers");
 }
 .heading {
-  color: color("darkblue");
+  color: fn.color("darkblue");
   padding-left: 6px;
   margin-top: 10px;
   font-size: 22px;
   font-weight: bold;
-  font-family: font('headers');
+  font-family: fn.font("headers");
 }
 .subheading {
   @extend .heading;
   position: relative;
   font-size: 20px;
-  color: color("darkblue");
+  color: fn.color("darkblue");
   font-weight: bold;
-  font-family: font('headers');
+  font-family: fn.font("headers");
 }
 .otherHead {
-   color: color("darkblue");
+  color: fn.color("darkblue");
 }
 .title_heading {
-  @include flex(column, center, center);
-  @extend .subheading;
-  opacity: 90%;
+    opacity: 90%;
   width: 100%;
   margin-left: -5px;
   text-transform: capitalize;
+  @include mx.flex(column, center, center);
+  @extend .subheading;
+
 }
 
 .address {
-  @include flex(row, center, flex-start);
+  @include mx.flex(row, center, flex-start);
   gap: 6px;
   padding-left: 6px;
   word-wrap: break-word;
@@ -109,11 +111,11 @@ input[type="number"] {
   opacity: 60%;
   width: 100%;
 }
- .navSmall {
-  @media(min-width:800px) {
+.navSmall {
+  @media (min-width: 800px) {
     display: none;
   }
- }
+}
 .smallScreen {
   @media (min-width: 900px) {
     display: none !important;
@@ -128,15 +130,16 @@ input[type="number"] {
     margin-inline: auto;
   }
 }
-.currency, .bigNum {
-  font-family: font('headers');
-  font-size: 25px; 
-  color: color('darkblue');
-  @include center();
+.currency,
+.bigNum {
+  font-family: fn.font("headers");
+  font-size: 25px;
+  color: fn.color("darkblue");
+  @include mx.center();
 }
 .description {
   overflow-wrap: break-word;
- white-space: pre-wrap;
+  white-space: pre-wrap;
 }
 
 .smallNum {
@@ -188,20 +191,28 @@ a:has(.clickable) {
   }
 }
 .directional {
-  @include flex(row, center, center);
+  @include mx.flex(row, center, center);
   gap: 10px;
   text-transform: capitalize;
-  font-family: font('body2');
+  font-family: fn.font("body2");
   position: relative;
   height: 40px;
   overflow: hidden;
-
+.left {
+    left: 0;
+  }
+  .right {
+    left: 70%;
+  }
+  span {
+    isolation: isolate;
+  }
   &:has(.left:hover) {
     &::before {
       display: none;
     }
     .left {
-      @include transition(400ms);
+      @include mx.transition(400ms);
       width: 100%;
       background-color: rgba(0, 0, 0, 0.244);
     }
@@ -211,7 +222,7 @@ a:has(.clickable) {
       display: none;
     }
     .right {
-      @include transition(400ms);
+      @include mx.transition(400ms);
       width: 100%;
       left: 0;
       background-color: rgba(0, 0, 0, 0.244);
@@ -221,7 +232,7 @@ a:has(.clickable) {
     &::before {
       width: 100%;
       left: 0;
-       background-color: rgba(0, 0, 0, 0.244);
+      background-color: rgba(0, 0, 0, 0.244);
     }
   }
   &::before,
@@ -234,50 +245,43 @@ a:has(.clickable) {
     height: 100%;
     left: 35%;
     border-radius: 8px;
-    @include transition(400ms, ease-out);
+    @include mx.transition(400ms, ease-out);
   }
-  .left {
-    left: 0;
-  }
-  .right {
-    left: 70%;
-  }
-  span {
-    isolation: isolate;
-  }
+  
 }
 
 .darkblueBtn {
-  @include flex(row, center, center);
+  @include mx.flex(row, center, center);
   gap: 10px;
-  background-color: color("darkblue");
-  color: color("white");
+  background-color: fn.color("darkblue");
+  color: fn.color("white");
   border-radius: 8px;
   cursor: pointer;
-  @include transition('ease-in');
+  @include mx.transition("ease-in");
   &:hover {
-    @include transition('ease-out');
+    @include mx.transition("ease-out");
     transform: scale(1.009);
   }
 }
 
 .blueBtn {
-  @include flex(row, center, center);
-  background-color: color("blue");
-  color: color("white");
+  @include mx.flex(row, center, center);
+  background-color: fn.color("blue");
+  color: fn.color("white");
   border-radius: 8px;
 }
+
 .btnCover {
-.darkblueBtn {
-  width:100%;
-}
+  .darkblueBtn {
+    width: 100%;
+  }
 }
 
 .openMap {
   width: clamp(150px, 300px, 400px);
 }
 .largeScreenBtn {
-  @include flex(row, center, center);
+  @include mx.flex(row, center, center);
   width: 66%;
   margin-top: 20px;
   margin-bottom: 10px;
@@ -286,44 +290,42 @@ a:has(.clickable) {
 //Agent
 
 .agent {
-  @include flex(row, center, center);
+  @include mx.flex(row, center, center);
   gap: 10px;
   width: 100%;
   font-family: Arial, Helvetica, sans-serif;
   span {
-    color: color("darkblue");
+    color: fn.color("darkblue");
   }
   img {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    outline: 1px solid color("blue");
+    outline: 1px solid fn.color("blue");
   }
 }
 
 //Form
 .form_container {
-  @include flex(column, center, space-between);
+  @include mx.flex(column, center, space-between);
   background-color: rgba(228, 224, 224, 0.422);
-
   width: 100%;
   padding-bottom: 10px;
   @media (min-width: 1200px) {
     gap: 20px;
   }
- &.listing {
-  margin-top:-10px;
- }
+  &.listing {
+    margin-top: -10px;
+  }
 }
 .form {
-  @include flex(column, flex-start, space-between);
+  @include mx.flex(column, flex-start, space-between);
   gap: 10px;
   margin-inline: auto;
   min-width: 100%;
   border-radius: 20px;
   padding: 4px 20px;
-  font-family: font('body2');
-
+  font-family: fn.font("body2");
   @media (min-width: 750px) {
     width: 70%;
   }
@@ -334,48 +336,43 @@ a:has(.clickable) {
   label {
     opacity: 50%;
   }
-  input, select,textarea {
-    @include transition(140ms, ease-out);
+  input,
+  select,
+  textarea {
+    @include mx.transition(140ms, ease-out);
     width: 98%;
     padding: 10px 10px;
     border-radius: 4px;
     border: 0;
-    outline: 1px solid color("darkblue");
-   
+    outline: 1px solid fn.color("darkblue");
     &:focus {
-      @include transition(150ms);
+      @include mx.transition(150ms);
       outline-width: 2px;
     }
     // &::backdrop {
-    //   background-color: color('blue');
+    //   background-color: fn.color('blue');
     // }
   }
-  textarea{
+  textarea {
     padding-bottom: 24px;
-  }
-  &.appoint {
-    input{
-      // width: clamp(150px, 250px, 450px);
-    }
   }
 }
 
 .bottom {
-  font-family: font('body2');
+  font-family: fn.font("body2");
   margin-inline: auto;
-  background-color: color("white");
+  background-color: fn.color("white");
   margin-top: auto;
   padding: 10px 6px 6px;
-width: clamp(350px,44rem,80%);
+  width: clamp(350px, 44rem, 80%);
   padding: 16px;
   border-radius: 10px;
   .info {
-    @include flex(row, center, center);
+    @include mx.flex(row, center, center);
     flex-wrap: wrap;
     gap: 6px;
     width: 100%;
     margin-bottom: 10px;
-
     button {
       margin-top: 20px;
       border: 0;
@@ -383,11 +380,10 @@ width: clamp(350px,44rem,80%);
     }
   }
   a {
-    color: color("darkblue");
+    color: fn.color("darkblue");
   }
-
   .clickable {
-    @include flex(row, center, center);
+    @include mx.flex(row, center, center);
     width: 300px !important;
     margin-inline: auto;
     margin-bottom: 10px;
@@ -395,10 +391,10 @@ width: clamp(350px,44rem,80%);
 }
 
 .typeOfAccount {
-  @include flex(row, center, center);
+  @include mx.flex(row, center, center);
   width: 100%;
-  background-color: color("darkblue");
-  color: color("white");
+  background-color: fn.color("darkblue");
+  color: fn.color("white");
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial,
     sans-serif;
   padding: 16px;
@@ -410,61 +406,31 @@ width: clamp(350px,44rem,80%);
 //Boards And Modals
 
 .board {
-  @include flex(column, center, space-around);
-  font-family: font('body2');
+  @include mx.flex(column, center, space-around);
+  font-family: fn.font("body2");
   border-radius: 20px;
-  margin:80px auto;
- min-width: 90%;
+  margin: 80px auto;
+  min-width: 90%;
   min-height: 60vh;
-  background-color: color("white");
+  background-color: fn.color("white");
   .types {
-    @include flex(row, center, center);
+    @include mx.flex(row, center, center);
     gap: 10px;
     width: 100%;
     @media (max-width: 749px) {
-      @include flex(column, center, center);
+      @include mx.flex(column, center, center);
     }
     .clickable {
-      @include flex(row, center, center);
+      @include mx.flex(row, center, center);
       width: 300px;
     }
   }
 }
 
-
 //Notifications
 
 .notification {
-  @media (min-width: 790px) {
-    width:50%;
-  }
-   &:is(.success) {
-    background-color: color("blue");
-    // &__progress {
-    //   background: white;
-    // }
-  }
-    &:is(.danger) {
-      background-color: darkred;
-    //  &__progress {
-    //   background: white;
-    // }
-    }
-   
-    &:is(.warning) {
-    background-color: rgb(209, 163, 0);
-    // &__progress {
-    //   background-color: white;
-    // }
-   
-  }
-   &:is(.active) {
-      @include flex(row,center, space-between)
-    } 
-    img {
-      cursor: pointer;
-    }
-  position: fixed;
+    position: fixed;
   left: 5%;
   top: 11%;
   z-index: 200;
@@ -475,84 +441,114 @@ width: clamp(350px,44rem,80%);
   border-radius: 6px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.199);
   overflow: hidden;
-  font-family: font('card');
+  font-family: fn.font("card");
   // margin-top: 100px;
   margin-inline: auto;
   width: 90%;
   animation: fadeIn 300ms ease-out;
+  @media (min-width: 790px) {
+    width: 50%;
+  }
+  &:is(.success) {
+    background-color: fn.color("blue");
+    // &__progress {
+    //   background: white;
+    // }
+  }
+  &:is(.danger) {
+    background-color: darkred;
+    //  &__progress {
+    //   background: white;
+    // }
+  }
+  &:is(.warning) {
+    background-color: rgb(209, 163, 0);
+    // &__progress {
+    //   background-color: white;
+    // }
+  }
+  &:is(.active) {
+    @include mx.flex(row, center, space-between);
+  }
+  img {
+    cursor: pointer;
+  }
+
   &__content {
     font-size: 1rem;
   }
-
   &__progress {
     position: absolute;
     bottom: 0;
     left: 0;
     height: 4px;
-    background: color('white');
+    background: fn.color("white");
     transition: width 0.1s linear;
     border-radius: 6px 6px 60px 60px;
   }
 }
 
-
 .blackboard {
   z-index: 100000;
-isolation: isolate;
-  background-color: color('black');
+  isolation: isolate;
+  background-color: fn.color("black");
   color: white;
   padding: 10px;
-  width:100%;
+  width: 100%;
   min-height: 100vh;
-  position:fixed;
+  position: fixed;
   .blackboardItems {
     margin-top: 200px;
-  @include flex(column,center, center);
-  gap:10px;
-  & > *  {
-  color: white;
+    @include mx.flex(column, center, center);
+    gap: 10px;
+    & > * {
+      color: white;
+    }
   }
 }
-}
-
 
 //dropdowns
 .triangle {
-  @include transition(200ms, ease-in);
+  @include mx.transition(200ms, ease-in);
   &.active {
-    @include transition(200ms, ease-out);
+    @include mx.transition(200ms, ease-out);
     transform: rotate(360deg);
   }
 }
 
 .quickLink {
-  color: color("darkblue");
+  color: fn.color("darkblue");
 }
 
 .listingInfoTooltip {
- &:hover {
-
- &::after {
-    content:'Listing Guide';
-    @include center();
-  }}
+  &:hover {
+    &::after {
+      content: "Listing Guide";
+      @include mx.center();
+    }
+  }
 }
 
 .writeName {
   font-weight: bold;
-  font-family: font('write');
+  font-family: fn.font("write");
   font-size: 40px;
   font-style: oblique;
 }
 .hero {
-  background-color: color('darkblue');
+  background-color: fn.color("darkblue");
   padding-block: 0;
 }
 .featured {
-  background-color: white;
-  @include shadow(0.8px)
+  background-color: white; 
+  @include mx.shadow(0.8px);
 }
 
 //  'blue': #0881a3,
 //      'darkblue': #0874c7,
 //      'adminBlue':#154d86,
+
+.showPriority {
+  z-index: 1000000;
+}
+ 

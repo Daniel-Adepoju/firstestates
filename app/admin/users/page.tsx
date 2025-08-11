@@ -46,7 +46,7 @@ const GetUsers = () => {
     <>
       <div className="container mx-auto py-8">
         <div>
-          <h1 className="w-40  text-center text-2xl font-semibold mx-auto">Users</h1>
+          <h1 className="w-40  text-center text-2xl font-semibold mx-auto otherHead">Users</h1>
           <div className="w-full flex flex-row justify-center items-center">
           <Searchbar
             search={search.value}

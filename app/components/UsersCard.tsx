@@ -140,7 +140,7 @@ const banAccount = async (val:SendEmailParams) => {
   return (
        <div
             key={user._id}
-            className="user-card relative bg-white dark:bg-gray-800 shadow-md rounded-lg p-4 flex items-center gap-4"
+            className="user-car dark:bg-gray-900/20 relative shadow-md rounded-lg p-4 flex items-center gap-4"
           >
           {user?.banStatus &&  <div className="w-20 absolute right-5 top-4">
               <BannedSticker />
@@ -179,8 +179,7 @@ const banAccount = async (val:SendEmailParams) => {
                     setShowMenu(prev => !prev)
                     currentMenuId.value = user._id
                 }}
-                className='cursor-pointer smallScale'
-                color={darkMode ? "white" : '#0874c7'}
+                className='cursor-pointer smallScale text-gray-500 dark:text-white'
                 size={40} />
               }
                   {showMenu && currentMenuId.value === user._id  && (

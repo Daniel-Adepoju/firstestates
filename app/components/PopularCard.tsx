@@ -39,6 +39,7 @@ const PopularCard = ({listing, type,refValue}:PopCardProps) => {
               type: "auto",
               source: true,
             }}
+            className="rounded-md"
           />
         )}
       </div>

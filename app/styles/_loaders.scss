@@ -1,3 +1,5 @@
+@use './functions.scss' as fn;
+
 //main loader
 
 .loader {
@@ -7,7 +9,7 @@
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  color: color('darkblue');
+  color: fn.color('darkblue');
   box-shadow: 
     calc(1*var(--d))      calc(0*var(--d))     0 0,
     calc(0.707*var(--d))  calc(0.707*var(--d)) 0 1px,

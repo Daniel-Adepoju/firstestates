@@ -130,6 +130,7 @@ const Appointment = () => {
 
         <div className="appointments w-full self-start">
           <h3 className="otherHead text-lg font-bold mx-auto text-center ">Pending Inspections</h3>
+           <h6 className="text-sm text-center text-gray-600 dark:text-gray-300 font-semibold">A reminder email will be sent to you before your appointment</h6>
           <h6 className="text-sm text-center font-light text-gray-600 dark:text-gray-300">Expired appointments are removed on a weekly schedule</h6>
           <div className="mt-4 grid grid-cols-4 text-center border-gray-500/20">
             <div className="dark:text-white border-1 border-gray-500/40 ">Image</div>

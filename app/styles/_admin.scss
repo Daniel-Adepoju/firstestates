@@ -1,149 +1,134 @@
-@import "variables.scss";
-@import "mixin.scss";
-@import "functions.scss";
-@import "animation";
-@import "loaders";
-
+@use "variables.scss";
+@use "mixin.scss" as mx;
+@use "functions.scss" as fn;
+@use "animation";
+@use "loaders";
 
 .admin-container {
-  @include flex(row,flex-start,space-between);
-  width:100%;
+  @include mx.flex(row, flex-start, space-between);
+  width: 100%;
   min-height: 100vh;
-  @include transition('ease-in');
- }
+  @include mx.transition("ease-in");
+}
 
 .admin-header {
   width: 100%;
-   .subheading {
+  .subheading {
     color: rgba(0, 0, 0, 0.854);
     margin-left: -4px;
-   }
+  }
 }
 
 .sidebar {
-  @include flex(column, center, space-between);
-    @include transition('ease-in');
+  @include mx.flex(column, center, space-between);
+  @include mx.transition("ease-in");
   width: 220px;
-    background-color: color('adminBlue');
-    min-height: 100vh;
-    position: sticky;
-    top: 0;
-    left: 0%;
-    font-family: font('list');
-    &.agentbar {
-      background-color: color('black');
+  background-color: fn.color("adminBlue");
+  min-height: 100vh;
+  position: sticky;
+  top: 0;
+  left: 0%;
+  font-family: fn.font("list");
+  &.agentbar {
+    background-color: fn.color("black");
+  }
+  &.reduceBar {
+    @include mx.transition("ease-out");
+    width: 60px;
+    li,
+    span {
+      display: none;
     }
-     &.reduceBar{
-     @include transition('ease-out');
-      width: 60px;
-     li , span{
-        display: none;
-     }
-    } 
-   ul {
+  }
+  ul {
     min-width: 100%;
-    flex:1;
+    flex: 1;
     list-style: none;
     padding: 0;
     padding-top: 12px;
-   .items {
- 
-    padding: 6px 10px;
-    @include transition(300ms, ease-out);
-    margin-block: 20px;
-    margin-inline: auto;
-    // padding: 4px 8px;
-    // padding-left: 4px;
-    width: 90%;
-    &.active {
-   @include transition(300ms, ease-in);
-   background-color: rgba(102, 195, 253, 0.217);
-    border-radius: 6px;
-    img {
-        filter: brightness(1.2) contrast(0.8) saturate(2.4) drop-shadow(0 0 4px rgba(0, 0, 0, 0.427));
-    }
-}
-
-}
-  a {
-    @include flex(row, center, flex-start);
-    gap: 14px;
-    color: white;
-    text-decoration: none;
-    font-weight: 500;
-  }
-  &:hover + .arrow {
-      @media (max-width: 768px) {
-  display: none;
+    .items {
+      padding: 6px 10px;
+      @include mx.transition(300ms, ease-out);
+      margin-block: 20px;
+      margin-inline: auto;
+      width: 90%;
+      &.active {
+        @include mx.transition(300ms, ease-in);
+        background-color: rgba(102, 195, 253, 0.217);
+        border-radius: 6px;
+        img {
+          filter: brightness(1.2) contrast(0.8) saturate(2.4)
+            drop-shadow(0 0 4px rgba(0, 0, 0, 0.427));
+        }
       }
-      display: flex;
-}
-   }
-
-  @media (max-width: 768px) {
-     width: 60px;
-     .arrow {
-      display:none;
-     }
-     li , span{
+    }
+    a {
+      @include mx.flex(row, center, flex-start);
+      gap: 14px;
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    &:hover + .arrow {
+      display:flex;
+      @media (max-width: 768px) {
         display: none;
-     }    
+      }
+    }
+  }
+  @media (max-width: 768px) {
+    width: 60px;
+    .arrow {
+      display: none;
+    }
+    li,
+    span {
+      display: none;
+    }
   }
   .adminLabel {
-    @include flex(row,center,center);
+    @include mx.flex(row, center, center);
     gap: 10px;
     width: 100%;
     padding: 10px 8px;
     border-top: 1px solid rgba(255, 255, 255, 0.142);
-  //   @media (max-width: 768px) { 
-  //     // width:48px;
-  //     img {
-  //        border-radius: 50%;
-  //       //  width:  40px;
-  //       //  height: 40px;
-  //        margin: 20px 0;
-  //    }
-  //  }
     img {
       width: 30px;
       height: 30px;
       border-radius: 50%;
     }
     .adminDetails {
-      @include flex(column,flex-start,center);
-      width:100%;
+      @include mx.flex(column, flex-start, center);
+      width: 100%;
       word-break: break-all;
-     
       span {
-        width:100%;  
+        width: 100%;
         font-size: 13px;
-      color: rgb(255, 255, 255);
-     &:nth-child(2) {
-      font-size: 11px;
-     }
+        color: rgb(255, 255, 255);
+        &:nth-child(2) {
+          font-size: 11px;
+        }
+      }
     }
-    }
-    
   }
 }
- 
+
 .admin-content-container {
-  @include flex(column,center,flex-start);
+  @include mx.flex(column, center, flex-start);
   gap: 40px;
   padding-inline: 10px;
   padding-bottom: 10px;
-  flex:1;
+  flex: 1;
   width: 80%;
   min-height: 100vh;
-  overflow-x: hidden; 
+  overflow-x: hidden;
 }
 
 .adminListings {
   .items {
-  @include flex(column,center,flex-start);
-  width: 100%;
-  // background-color: bisque;
-  @include shadow(0.1px);
-  padding: 10px;
+    @include mx.flex(column, center, flex-start);
+    width: 100%;
+    @include mx.shadow(0.1px);
+    padding: 10px;
   }
 }

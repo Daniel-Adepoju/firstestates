@@ -167,7 +167,7 @@ const Nav = () => {
     <div className="dark:bg-white bg-[#0874c7] p-2 rounded-full">
       <UserPlus2 size={20} color={darkMode ? '#f59e0b' : 'white'}/>
       </div>
-      <Link href="/listings" onClick={handleNavItemClick}>Request For Roomate</Link>
+      <Link href="/listings" onClick={handleNavItemClick}>Roomate Match</Link>
   </div>
 
      <div

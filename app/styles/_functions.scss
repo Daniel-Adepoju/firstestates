@@ -1,9 +1,11 @@
+@use 'sass:map';
+@use './variables';
 
 @function font($val) {
-    @return map-get($fonts, $val);
+    @return map.get(variables.$fonts, $val);
 }
 
 @function color($val) {
-    @return map-get($color, $val); 
+    @return map.get(variables.$color, $val);  
   }
-  
+   

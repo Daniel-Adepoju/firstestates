@@ -1,3 +1,6 @@
+@use 'functions' as *;
+@use 'mixin' as *;
+
 html:is(.dark) {
     .popularList {
 

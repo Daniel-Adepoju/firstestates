@@ -1,67 +1,67 @@
-@import "variables.scss";
-@import "mixin.scss";
-@import "functions.scss";
-@import "animation";
-@import "loaders";
+@use "variables.scss";
+@use "mixin.scss" as mx;
+@use "functions.scss" as fn;
+@use "animation" as animation;
+@use "loaders";
 
-.agentDashboardContainer{
- 
-  @include flex(column);
+.agentDashboardContainer {
+  @include mx.flex(column);
   color: black;
   width: 100%;
   // margin-top: 70px;
   margin-bottom: 16px;
   gap: 20px;
-  @media(max-width:769px) {
-  .card,.editSide {
-    transform: scale(0.9);
+  @media (max-width: 769px) {
+    .card,
+    .editSide {
+      transform: scale(0.9);
+    }
   }
-}
   &.aic {
     .lists {
-      @include flex(column, flex-start);
+      @include mx.flex(column, flex-start);
       gap: 15px;
       width: 97%;
       background-color: white;
-      @include space(0, 20px);
+      @include mx.space(0, 20px);
       border-radius: 8px;
-      @include shadow();
+      @include mx.shadow();
       a {
-        color: color("blue");
+        color: fn.color("blue");
         text-decoration: none;
       }
     }
   }
 
-   .listingHistory,
+  .listingHistory,
   .availableLists {
-    background-color: color("white");
+    background-color: fn.color("white");
     width: 97%;
-    @include space(8px, 12px);
-    @include shadow;
+    @include mx.space(8px, 12px);
+    @include mx.shadow;
     border-radius: 8px;
   }
 
   .agentProfile {
-    @include space(1px, 8px);
-    @include shadow(0.1px);
+    @include mx.space(1px, 8px);
+    @include mx.shadow(0.1px);
     border-radius: 20px;
     padding-inline: 20px;
     width: 97%;
     .agentName {
-      color: color("darkblue");
+      color: fn.color("darkblue");
       font-size: 30px;
       font-weight: 600;
     }
     .address {
-      width:100%;
-      @include flex(row, center, flex-start);
+      width: 100%;
+      @include mx.flex(row, center, flex-start);
       gap: 6px;
       span:nth-child(2) {
-        @include center();
+        @include mx.center();
       }
       span:nth-child(3) {
-        @include center();
+        @include mx.center();
         white-space: pre-wrap;
         word-break: break-all;
       }
@@ -70,13 +70,13 @@
   .listingHistory {
     width: 99%;
     @media (min-width: 700px) {
-      @include flex(row, center, flex-start);
+      @include mx.flex(row, center, flex-start);
       gap: 20px;
     }
-    @include flex(column, center, flex-start);
+    @include mx.flex(column, center, flex-start);
     .item {
-      // @include center();
-      @include flex(row, flex-start, space-between);
+      // @include mx.center();
+      @include mx.flex(row, flex-start, space-between);
       gap: 10px;
       width: 100%;
     }
@@ -91,31 +91,31 @@
     }
   }
   .availableLists {
-    @include flex(row, center, center);
+    @include mx.flex(row, center, center);
     flex-wrap: wrap;
     .header {
-      @include flex(row, center, space-evenly);
+      @include mx.flex(row, center, space-evenly);
       width: 100%;
       padding-bottom: 10px;
-      border-bottom: 2px solid color("fade");
+      border-bottom: 2px solid fn.color("fade");
       .subheading {
         cursor: pointer;
         position: relative;
         &::after {
-          @include transition(300ms, ease-out);
+          @include mx.transition(300ms, ease-out);
           content: "";
           position: absolute;
           width: 135px;
           height: 3px;
           border-radius: 10px;
-          background-color: color("wheat");
+          background-color: fn.color("wheat");
           bottom: -4px;
           left: 0;
           opacity: 0;
         }
         &.active {
           &::after {
-            @include transition(300ms, ease-in);
+            @include mx.transition(300ms, ease-in);
             opacity: 100%;
           }
         }
@@ -123,151 +123,150 @@
     }
   }
 }
+
 .cardContainer {
   position: relative;
-  @include flex(column, center, flex-start);
+  @include mx.flex(column, center, flex-start);
 }
+
 .editSide {
-  @include transition(300ms, ease-out);
+  @include mx.transition(300ms, ease-out);
   width: 90%;
   margin-top: -25px;
-  @include flex(row, center, center);
+  @include mx.flex(row, center, center);
   gap: 20px;
   background-color: rgb(255, 255, 255);
   padding: 4px 6px;
   border-radius: 0 0px 20px 20px;
-
-  @include shadow(1px, 1px);
-   @media (max-width:768px) {
+  @include mx.shadow(1px, 1px);
+  @media (max-width: 768px) {
     margin-top: -44px;
   }
   img:hover {
-    @include transition(300ms);
+    @include mx.transition(300ms);
     border: 1px solid transparent;
     filter: grayscale(100%);
     cursor: pointer;
   }
 }
+
 .addListing {
-  padding:26px 0;
+  padding: 26px 0;
   border-radius: 18px;
   width: 100%;
-  @include center();
+  @include mx.center();
   gap: 10px;
   .clickable {
     border-radius: 50%;
   }
 }
 
-
 .adminDashboard {
-@include flex(column, center, flex-start);
+  @include mx.flex(column, center, flex-start);
   width: 100%;
- 
-
 }
- .adminDashboard_content {
-    // display: grid;
-    // justify-content: center;
-    // align-content: center;
-    gap: 20px;
-    row-gap: 20px;
-    margin-top: 20px;
-    // grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
-    width: 100%;
-   
-      .content_item {
-  background-color: rgb(255, 255, 255);
-  border-radius: 10px;
-  padding: 20px;
-  width: 90%;
-  margin-inline: auto;
 
-  @include shadow(0.1px, 0.5px, rgba(0, 0, 0, 0.226));
- }
+.adminDashboard_content {
+  // display: grid;
+  // justify-content: center;
+  // align-content: center;
+  gap: 20px;
+  row-gap: 20px;
+  margin-top: 20px;
+  // grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
+  width: 100%;
 
- .banner {
-  @include flex(column, center, center);
-  gap: 6px;
+  .content_item {
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    padding: 20px;
+    width: 90%;
+    margin-inline: auto;
 
-   .text{
-    position: relative;
-    padding: 10px;
-     font-weight: bold;
-     font-family: font('number');
-     color: color("wheat");
-    font-size: 16px;
-    @include center();
-    width: 80px;
-    height:80px;
-    border-radius: 50%;
- background-color: white;
-//  z-index:1;
-    span{
+    @include mx.shadow(0.1px, 0.5px, rgba(0, 0, 0, 0.226));
+  }
+
+  .banner {
+    @include mx.flex(column, center, center);
+    gap: 6px;
+
+    .text {
       position: relative;
-      display: inline-block;
-   width: 100%;
-   border-radius: 50%;
-   text-align: center;
-   background-color: white;
-    }  
-    &::before {
-      content: "";
-      position: absolute;
-      display: block;
-      width: 100%;
-      height: 100%;
-      top: 0%;
-      left:0%;
+      padding: 10px;
+      font-weight: bold;
+      font-family: fn.font("number");
+      color: fn.color("wheat");
+      font-size: 16px;
+      @include mx.center();
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
-      padding: 20px;    
-      background: radial-gradient(circle, rgb(255, 255, 255) 40%, #f2f3f3 100%);
-      border: 9px solid color("wheat");
-      border-top-color: color("lightWheat");
-      // border-top-color:transparent ;
-       animation: spin 8s linear infinite;
-
-   }
-   }
-  &.danger {
-    .text{
-      color:#e01414;
+      background-color: white;
+      //  z-index:1;
+      span {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        border-radius: 50%;
+        text-align: center;
+        background-color: white;
+      }
       &::before {
-      border: 9px solid #e01414;
-      border-top-color: rgba(239, 167, 167, 0.909);
+        content: "";
+        position: absolute;
+        display: block;
+        width: 100%;
+        height: 100%;
+        top: 0%;
+        left: 0%;
+        border-radius: 50%;
+        padding: 20px;
+        background: radial-gradient(circle, rgb(255, 255, 255) 40%, #f2f3f3 100%);
+        border: 9px solid fn.color("wheat");
+        border-top-color: fn.color("lightWheat");
+        // border-top-color:transparent ;
+        animation: spin 8s linear infinite;
+      }
+    }
+    &.danger {
+      .text {
+        color: #e01414;
+        &::before {
+          border: 9px solid #e01414;
+          border-top-color: rgba(239, 167, 167, 0.909);
+        }
+      }
     }
   }
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
- }
- @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
+  .barchart {
+    @include mx.shadow(0, 0);
+    width: 100%;
+    grid-column: 1/-1;
+    background-color: rgb(255, 255, 255);
+    @media (min-width: 1000px) {
+      display: none;
+    }
+    &.large {
+      display: none;
+      @media (min-width: 1000px) {
+        display: block;
+      }
+    }
   }
 }
- .barchart {
-  @include shadow(0,0);
-  width: 100%;
-  grid-column: 1/-1;
-  background-color: rgb(255, 255, 255);
-  @media (min-width: 1000px) {
-    display:none;
-  }
-  &.large {
-    display: none;
-    @media (min-width: 1000px) {
-      display:block
-    }
-  }
- }
-  }
 
 .adminListingCard {
   .editSide {
-       @media (max-width:768px) {
-    margin-top: -28px;
-  }
+    @media (max-width: 768px) {
+      margin-top: -28px;
+    }
   }
 }
