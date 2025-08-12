@@ -9,9 +9,8 @@ import { useUser } from "@utils/user"
 
 const Agent = ({ agent }) => {
   const { darkMode } = useDarkMode()
-  const {session} = useUser()
+  const { session } = useUser()
   const userId = session?.user?.id
-
 
   if (!agent) {
     return (
@@ -58,20 +57,21 @@ const Agent = ({ agent }) => {
             <div className="md:w-100 dark:bg-black/10 bg-gray-100/70 pt-2 pb-2.5 px-4 rounded-lg mt-6 font-bold flex flex-row items-center gap-2">
               <Phone
                 size={34}
-                color={darkMode ? "#A88F6E" : "#0881A3"}
+                color={darkMode ? "#A88F6E" : "#0874c7"}
               />
               <span>{agent.phone}</span>
             </div>
 
-          {userId !== agent?._id  || userId === agent.id &&
-           <div className="md:w-100 dark:bg-black/10 bg-gray-100/70 pt-2 pb-2.5 px-4  px-4 rounded-lg mt-6 font-bold flex flex-row gap-2 items-center">
-               <MessageCircle
-                size={34}
-                color={darkMode ? "#A88F6E" : "#0881A3"}
-              />
-              <Link href={`/chat?recipientId=${agent._id}`}>Chat With Agent</Link>
-            </div>
-            }
+            {userId !== agent?._id ||
+              (userId === agent.id && (
+                <div className="md:w-100 dark:bg-black/10 bg-gray-100/70 pt-2 pb-2.5 px-4  px-4 rounded-lg mt-6 font-bold flex flex-row gap-2 items-center">
+                  <MessageCircle
+                    size={34}
+                    color={darkMode ? "#A88F6E" : "#0874c7"}
+                  />
+                  <Link href={`/chat?recipientId=${agent._id}`}>Chat With Agent</Link>
+                </div>
+              ))}
           </div>
         </div>
       </div>
@@ -80,11 +80,9 @@ const Agent = ({ agent }) => {
         <div className="mt-2 flex flex-row gap-2 items-center">
           <MapPin
             size={40}
-            color={darkMode ? "#A88F6E" : "#0881A3"}
+            color={darkMode ? "#A88F6E" : "#0874c7"}
           />
-          <span className="break-all text-sm text-ellipsis opacity-70">
-            {agent.address}
-          </span>
+          <span className="break-all text-sm text-ellipsis opacity-70">{agent.address}</span>
         </div>
       </div>
     </>

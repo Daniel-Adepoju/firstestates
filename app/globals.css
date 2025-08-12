@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Quicksand:wght@300..700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 /* @import './styles/variables.scss'; */
@@ -48,6 +49,7 @@
 
 @theme fonts {
   --font-head: "Outfit", sans-serif;
+  --font-list: "Quicksand", sans-serif;
 }
 
 :root {
@@ -146,8 +148,8 @@
 
   @layer line {
     .smallLine {
-  @apply after:content-[''] after:absolute dark:after:bg-gray-100/80 after:bg-blue-300
-      after:w-15 after:h-0.5 after:rounded-sm after:bottom-0 after:right-0
+  @apply after:content-[''] after:absolute dark:after:bg-gray-300/90 after:bg-blue-200/90
+      after:w-15 after:h-0.5 after:rounded-md after:bottom-0 after:right-0
     }
     .middleLine {
        @apply after:content-[''] after:absolute dark:after:bg-gray-100/80 after:bg-blue-300

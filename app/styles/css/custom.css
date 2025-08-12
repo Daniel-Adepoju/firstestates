@@ -2,7 +2,8 @@
   visibility: hidden;
 }
 
-.heading, .subheading {
+.heading,
+.subheading {
   color: rgb(8, 116, 199);
   padding-left: 6px;
   margin-top: 10px;
@@ -57,7 +58,7 @@
 
 .swiper-pagination-bullet {
   transition: 300ms ease-in-out;
-  background-color: #0881a3 !important;
+  background-color: #0874c7 !important;
   top: 20% !important;
 }
 
@@ -100,8 +101,8 @@
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  background-color: #0881a3;
+  background-color: #0874c7;
   color: #fffdfb;
   padding: 10px 30px;
   border-radius: 10px;
-}/*# sourceMappingURL=custom.css.map */
+} /*# sourceMappingURL=custom.css.map */

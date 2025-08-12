@@ -7,9 +7,11 @@ import { useState } from "react"
 import { sendNotification } from "@lib/server/notificationFunctions"
 import { useNotification } from "@lib/Notification"
 import { useUser } from "@utils/user"
-import { useGetAgentListings } from "@lib/customApi"
+import { useGetAgentListingsInfinite } from "@lib/customApi"
+import { useNextPage } from "@lib/useIntersection"
 import PopularCard from '@components/PopularCard'
 import { Skeleton } from "@components/ui/skeleton"
+import { Loader2 } from "lucide-react"
 
 const AgentViewPage = () => {
   const { id } = useParams()
@@ -19,8 +21,10 @@ const AgentViewPage = () => {
   const { session } = useUser()
   const isYou = session?.user.id === id
   const { data: agent } = useGetUser({ id: id?.toString(), enabled: !!id, page: "1", limit: 1 })
-  const { data: listings,isLoading} = useGetAgentListings({ id: id?.toString(), enabled: !!id, page: "1", limit: 10,school:'',location:''})
- 
+  const { data: listings,isLoading,hasNextPage,fetchNextPage,isFetchingNextPage} = useGetAgentListingsInfinite({ id: id?.toString(), enabled: !!id, page: "1", limit: 10,school:'',location:''})
+console.log(listings)
+  const useNextpageRef = useNextPage({hasNextPage,fetchNextPage,isFetchingNextPage})
+
 
   const handleReport = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -80,10 +84,10 @@ const AgentViewPage = () => {
       )
     )}
     </div>
-    {listings?.listings?.length > 0 && (
+    {listings?.pages[0]?.listings.length > 0 && (
       <>
-    <div className="subheading mx-auto my-2 overflow-clip">
-     {isYou ? 'Your Recent Listings'  : `Recent Listings From ${agent?.username}`}
+    <div className="subheading mx-auto my-2 overflow-clip [word-spacing:4px]">
+     {isYou ? 'Your Listings'  : `Listings From ${agent?.username}`}
        </div>
     {isLoading ?
   <div className="mx-auto p-4 flex flex-wrap items-cener justify-center gap-4">
@@ -95,12 +99,22 @@ const AgentViewPage = () => {
   ))}
 </div>
     :<div className="py-4 popularList  w-full flex flex-wrap justify-evenly items-center gap-8">
-        {listings?.listings.map((listing: Listing) => (
-        <PopularCard key={listing._id} listing={listing} />
-      ))} 
+        {listings?.pages.flatMap((item) => {
+         return (
+            item.listings.flatMap((listingItem: Listing,index:number) => {
+          return (  <PopularCard 
+            key={listingItem._id} 
+            listing={listingItem}
+            refValue={index === item.listings.length - 1 ? useNextpageRef : null}
+            />)
+        })
+        )
+    })}
     </div>}
     </>
+   
     )}
+    {!isFetchingNextPage && !hasNextPage && <Loader2 className='animate-spin mx-auto text-gray-500 dark:text-white my-4'/> }
     </>
   )
 }

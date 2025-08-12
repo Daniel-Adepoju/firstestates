@@ -1,5 +1,5 @@
 import { useRef, useEffect } from "react"
-import { ArrowBigLeft, ArrowBigRight,Star} from "lucide-react"
+import { ArrowBigLeft, ArrowBigRight,ArrowRightCircle,Star} from "lucide-react"
 import FeaturedCard from "./FeaturedCard"
 import { useGetFeaturedListings } from "@lib/customApi"
 import { Skeleton } from "./ui/skeleton"
@@ -120,7 +120,10 @@ const Featured = () => {
     <>
       {data?.featuredListings.length > 0 && (
         <>
-          <h1 className="subheading text-center  mx-auto smallLine">Featured</h1>
+          <h1 className="subheading flex items-center gap-1 ml-4 text-center">
+            Featured
+            <ArrowRightCircle className="relative w-6 h-6" />
+            </h1>
           <div  className="featured pt-4 w-full min-h-[20vh] my-4
                         rounded-3xl flex flex-col items-center justify-center
                     ">

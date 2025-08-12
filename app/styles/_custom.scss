@@ -1,4 +1,4 @@
-@use 'sass:map';
+@use "sass:map";
 @use "variables.scss";
 @use "mixin.scss" as mx;
 @use "functions.scss" as fn;
@@ -91,13 +91,12 @@ input[type="number"] {
   color: fn.color("darkblue");
 }
 .title_heading {
-    opacity: 90%;
+  opacity: 90%;
   width: 100%;
   margin-left: -5px;
   text-transform: capitalize;
   @include mx.flex(column, center, center);
   @extend .subheading;
-
 }
 
 .address {
@@ -198,7 +197,7 @@ a:has(.clickable) {
   position: relative;
   height: 40px;
   overflow: hidden;
-.left {
+  .left {
     left: 0;
   }
   .right {
@@ -247,7 +246,6 @@ a:has(.clickable) {
     border-radius: 8px;
     @include mx.transition(400ms, ease-out);
   }
-  
 }
 
 .darkblueBtn {
@@ -430,7 +428,7 @@ a:has(.clickable) {
 //Notifications
 
 .notification {
-    position: fixed;
+  position: fixed;
   left: 5%;
   top: 11%;
   z-index: 200;
@@ -540,15 +538,14 @@ a:has(.clickable) {
   padding-block: 0;
 }
 .featured {
-  background-color: white; 
+  background-color: white;
   @include mx.shadow(0.8px);
 }
 
-//  'blue': #0881a3,
+//  'blue': #0874c7,
 //      'darkblue': #0874c7,
 //      'adminBlue':#154d86,
 
 .showPriority {
   z-index: 1000000;
 }
- 

@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import { axiosdata } from '@utils/axiosUrl'
 import Button from '@lib/Button'
 import { WhiteLoader } from '@utils/loaders'
@@ -25,21 +24,9 @@ const PaystackBtn = ({
   text,
   successFunction,
 }: PaystackBtnProps) => {
-  const [paystackReady, setPaystackReady] = useState(false)
   const publicKey = process.env.NEXT_PUBLIC_PAYSTACK_KEY || ''
  const popup = new Paystack()
 
-  // Detect when Paystack is ready
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     if (typeof window !== 'undefined' && (window as any).PaystackPop) {
-  //       setPaystackReady(true)
-  //       clearInterval(interval)
-  //     }
-  //   }, 100)
-
-  //   return () => clearInterval(interval)
-  // }, [])
 
   const handlePaystack = () => {
     // if (!paystackReady) {
@@ -57,7 +44,7 @@ const PaystackBtn = ({
       currency: 'NGN',
       // metadata,
       reference,
-      onSuccess: async function (response: any) {
+      onSuccess: async (response: any) => {
         try {
           const res = await axiosdata.value.get(`/api/transaction?ref=${response.reference}`)
           const data = res.data

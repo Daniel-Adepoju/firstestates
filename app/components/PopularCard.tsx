@@ -1,30 +1,34 @@
 import Link from "next/link"
 import { CldImage } from "next-cloudinary"
-import { Bed, Bath, Toilet} from "lucide-react"
+import { Bed, Bath, Toilet } from "lucide-react"
 import { useDarkMode } from "@lib/DarkModeProvider"
 import { CardProps } from "./Card"
 
 interface PopCardProps {
-    listing: CardProps["listing"]
-    type?: string
-    refValue?: any
+  listing: CardProps["listing"]
+  type?: string
+  refValue?: any
 }
 
-const PopularCard = ({listing, type,refValue}:PopCardProps) => {
-    const {darkMode} = useDarkMode()
+const PopularCard = ({ listing, type, refValue }: PopCardProps) => {
+  const { darkMode } = useDarkMode()
 
   return (
     <Link
       ref={refValue || null}
-      href={type === 'appointment' ? `/agent/appointments/${listing?._id}` : `/listings/single_listing?id=${listing?._id}`}
+      href={
+        type === "appointment"
+          ? `/agent/appointments/${listing?._id}`
+          : `/listings/single_listing?id=${listing?._id}`
+      }
       className="popularCard snap-center flex flex-col border w-[200px] min-h-50 p-2 rounded-xl shadow-md bg-white"
     >
       <div className="w-[100%] h-30 relative">
         {listing?.mainImage?.startsWith("http") ? (
-            <CldImage
+          <CldImage
             fill={true}
             alt="post_img"
-            src={'kfettsopnyhqhuq8o4aj'}
+            src={"kfettsopnyhqhuq8o4aj"}
             crop={{
               type: "auto",
               source: true,
@@ -53,7 +57,7 @@ const PopularCard = ({listing, type,refValue}:PopCardProps) => {
         <div className="flex flex-col items-center">
           <Bed
             size={24}
-            color={darkMode ? "#A88F6E" : "#0881A3"}
+            color={darkMode ? "#A88F6E" : "#0874c7"}
             className="text-white"
           />
           <span className="text-center">{listing?.bedrooms}</span>
@@ -62,7 +66,7 @@ const PopularCard = ({listing, type,refValue}:PopCardProps) => {
         <div className="flex flex-col items-center">
           <Bath
             size={24}
-            color={darkMode ? "#A88F6E" : "#0881A3"}
+            color={darkMode ? "#A88F6E" : "#0874c7"}
             className="text-white"
           />
           <span className="text-center">{listing?.bathrooms}</span>
@@ -71,7 +75,7 @@ const PopularCard = ({listing, type,refValue}:PopCardProps) => {
         <div className="flex flex-col items-center">
           <Toilet
             size={24}
-            color={darkMode ? "#A88F6E" : "#0881A3"}
+            color={darkMode ? "#A88F6E" : "#0874c7"}
             className="text-white"
           />
           <span className="text-center">{listing?.toilets}</span>

@@ -2,21 +2,7 @@
 @use 'mixin' as *;
 
 html:is(.dark) {
-    .popularList {
 
-&::-webkit-scrollbar-thumb {
-  background: rgb(179, 179, 179);
-  border-radius: 30px;
-}
-
-&::-webkit-scrollbar-thumb:hover {
-background:white;
-}
-
-&::-webkit-scrollbar-track {
-  background: transparent;
-}
-}
    
   .loader {
     color: white;

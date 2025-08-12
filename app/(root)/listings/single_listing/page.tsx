@@ -10,12 +10,23 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import SwiperControls from "@utils/SwpierControls"
 import { Pagination, Autoplay, A11y, EffectCoverflow } from "swiper/modules"
 import { CldImage } from "next-cloudinary"
-import { useSearchParams,useRouter } from "next/navigation"
+import { useSearchParams, useRouter } from "next/navigation"
 import Link from "next/link"
 import { Skeleton } from "@components/ui/skeleton"
 import { useGetSingleListing } from "@lib/customApi"
 import { useDarkMode } from "@lib/DarkModeProvider"
-import { MapPin, Toilet, Bed, Bath, Phone,Loader2,MessageCircle, Flag,ScanSearch, HeartPlus} from "lucide-react"
+import {
+  MapPin,
+  Toilet,
+  Bed,
+  Bath,
+  Phone,
+  Loader2,
+  MessageCircle,
+  Flag,
+  ScanSearch,
+  HeartPlus,
+} from "lucide-react"
 import { Comment, WriteComment, CommentProps } from "@components/Comment"
 import { useGetComments } from "@lib/customApi"
 import { useNextPage } from "@lib/useIntersection"
@@ -27,12 +38,12 @@ import Toast from "@components/Toast"
 import { previousDay } from "date-fns"
 
 const SingleListing = () => {
-  const [notification,setNotification] = useState({
-    isActive:false,
-    message:'',
-    status:''
+  const [notification, setNotification] = useState({
+    isActive: false,
+    message: "",
+    status: "",
   })
-  const {session} = useUser()
+  const { session } = useUser()
   const [isSwiperLoaded, setIsSwiperLoaded] = useState(false)
   const listingId = useSearchParams().get("id")
   const { darkMode } = useDarkMode()
@@ -52,8 +63,7 @@ const SingleListing = () => {
     window.open(`tel:${data?.post.agent.phone}`)
   }
   const handleChatClick = () => {
-
-   router.push(`/chat?=${data?.post.agent._id}`)
+    router.push(`/chat?=${data?.post.agent._id}`)
   }
 
   // find in map
@@ -62,43 +72,41 @@ const SingleListing = () => {
     window.open(`https://www.google.com/maps/search/?api=1&query=${encodedAddress}`, "_blank")
   }
 
-
   // report logic
 
   const handleReport = () => {
-      reportModalRef.current?.showModal()
+    reportModalRef.current?.showModal()
   }
 
-// wishlist logic
+  // wishlist logic
 
-const addToWishList = async (val:{listingId:string | null}) => {
- try {
-const res = await axiosdata.value.post('/api/listings/wishlists',val)
-  setNotification({
-    isActive:true,
-    message:res?.data.message,
-    status:res.status === 201 ? 'success' : 'danger'
+  const addToWishList = async (val: { listingId: string | null }) => {
+    try {
+      const res = await axiosdata.value.post("/api/listings/wishlists", val)
+      setNotification({
+        isActive: true,
+        message: res?.data.message,
+        status: res.status === 201 ? "success" : "danger",
+      })
+      console.log(res.data.message)
+      return res
+    } catch (err: any) {
+      setNotification({
+        isActive: true,
+        message: err?.response?.data.message,
+        status: "danger",
+      })
+      console.log(err)
+    }
+  }
+
+  const wishListMutation = useMutation({
+    mutationFn: addToWishList,
   })
-  console.log(res.data.message)
-return res
- } catch (err:any) {
-    setNotification({
-    isActive:true,
-    message:err?.response?.data.message,
-    status:'danger'
-  })
-  console.log(err)
- }
 
-}
-
-const wishListMutation = useMutation({
-  mutationFn: addToWishList,
-})
-
-const handleAddToWishList = () =>{
- wishListMutation.mutate({listingId})
-}
+  const handleAddToWishList = () => {
+    wishListMutation.mutate({ listingId })
+  }
 
   if (isLoading) {
     return (
@@ -126,15 +134,14 @@ const handleAddToWishList = () =>{
   }
   return (
     <>
-    <Toast 
-    isActive={notification.isActive}
-    setIsActive={setNotification}
-    message={notification.message}
-    status={notification.status}
-    />
+      <Toast
+        isActive={notification.isActive}
+        setIsActive={setNotification}
+        message={notification.message}
+        status={notification.status}
+      />
       <div className="singleCardCon">
-
-         <div className="singleCardSection">
+        <div className="singleCardSection">
           <div className="single_card">
             <div className="header">
               <div className="house">
@@ -173,7 +180,7 @@ const handleAddToWishList = () =>{
               <div className="address">
                 <MapPin
                   size={30}
-                  color={darkMode ? "#A88F6E" : "#0881A3"}
+                  color={darkMode ? "#A88F6E" : "#0874c7"}
                 />
                 <span>{data?.post.address}</span>
               </div>
@@ -184,21 +191,21 @@ const handleAddToWishList = () =>{
                 <div>
                   <Bed
                     size={30}
-                    color={darkMode ? "#A88F6E" : "#0881A3"}
+                    color={darkMode ? "#A88F6E" : "#0874c7"}
                   />
                   <span>{data?.post.bedrooms} bedrooms</span>
                 </div>
                 <div>
                   <Bath
                     size={30}
-                    color={darkMode ? "#A88F6E" : "#0881A3"}
+                    color={darkMode ? "#A88F6E" : "#0874c7"}
                   />
                   <span>{data?.post.bathrooms} bathrooms</span>
                 </div>
                 <div>
                   <Toilet
                     size={30}
-                    color={darkMode ? "#A88F6E" : "#0881A3"}
+                    color={darkMode ? "#A88F6E" : "#0874c7"}
                   />
                   <span>{data?.post.toilets} toilets</span>
                 </div>
@@ -219,7 +226,6 @@ const handleAddToWishList = () =>{
           </div>
         </div>
 
-        
         <div className="singleCardSection">
           <div className="single_card">
             <div className="price">
@@ -232,67 +238,73 @@ const handleAddToWishList = () =>{
                 width={20}
                 height={20}
                 alt="agent pic"
-                crop={'auto'}
+                crop={"auto"}
                 src={data?.post.agent.profilePic}
               />
               <div>
-                Listed by <span className="agentCardName">
-                  <Link href={`/agent-view/${data?.post.agent._id}`}>{data?.post.agent.username}</Link>
-                  </span>
+                Listed by{" "}
+                <span className="agentCardName">
+                  <Link href={`/agent-view/${data?.post.agent._id}`}>
+                    {data?.post.agent.username}
+                  </Link>
+                </span>
               </div>
             </div>
 
-          {/*admin options  */}
-            {session?.user.role === "admin" ? 
-          <div className="flex flex-col items-center w-full text-gray-500 dark:text-white text-sm">
-       You have admin priviledges, you can delete this listing
-          <div
-          onClick={() => {
-            router.push(`/admin/listings/${data?.post._id}`)
-          }}
-          className="smallScale text-md font-extrabold rounded-md p-2 px-10
-           bg-gray-500/10 report cursor-pointer flex flex-row items-center gap-2">
-          <ScanSearch size={24} color='green' />
-          <span>Investigate Listing</span>
-          </div>
-          </div>
-          // agent options
-         : session?.user?.id === data?.post.agent._id  ? (
-            <div className="text-gray-500 dark:text-white text-sm">
-              You are the owner of this listing
-            </div>
-          ) 
-          // client options
-          : session?.user  && session?.user.role === 'client' ? (
-            <>
-            <div
-              onClick={handleReport}
-              className="w-60 smallScale rounded-md p-2 px-4
-               bg-gray-500/10  cursor-pointer flex items-center justify-center gap-2">
-              <Flag size={20} className="text-red-700" /> 
-                <span className="text-md font-extrabold">Report this listing</span>
-            </div>
-      
-      {/* add to wishlist */}
-             <div
-             onClick={handleAddToWishList}
-              className="w-60 smallScale rounded-md p-2 px-4
-               bg-gray-500/10  cursor-pointer flex items-center justify-center gap-2">
-         <HeartPlus
-         size={20}
-         className="text-red-700"/>
-          <span className="text-md font-extrabold">
-            Add to wishlist
-            </span>
-          </div>
-          </>
-          ) : (
-            <div>Log in to report listing </div>
-          )
-        }
+            {/*admin options  */}
+            {session?.user.role === "admin" ? (
+              <div className="flex flex-col items-center w-full text-gray-500 dark:text-white text-sm">
+                You have admin priviledges, you can delete this listing
+                <div
+                  onClick={() => {
+                    router.push(`/admin/listings/${data?.post._id}`)
+                  }}
+                  className="smallScale text-md font-extrabold rounded-md p-2 px-10
+           bg-gray-500/10 report cursor-pointer flex flex-row items-center gap-2"
+                >
+                  <ScanSearch
+                    size={24}
+                    color="green"
+                  />
+                  <span>Investigate Listing</span>
+                </div>
+              </div>
+            ) : // agent options
+            session?.user?.id === data?.post.agent._id ? (
+              <div className="text-gray-500 dark:text-white text-sm">
+                You are the owner of this listing
+              </div>
+            ) : // client options
+            session?.user && session?.user.role === "client" ? (
+              <>
+                <div
+                  onClick={handleReport}
+                  className="w-60 smallScale rounded-md p-2 px-4
+               bg-gray-500/10  cursor-pointer flex items-center justify-center gap-2"
+                >
+                  <Flag
+                    size={20}
+                    className="text-red-700"
+                  />
+                  <span className="text-md font-extrabold">Report this listing</span>
+                </div>
 
-       
-
+                {/* add to wishlist */}
+                <div
+                  onClick={handleAddToWishList}
+                  className="w-60 smallScale rounded-md p-2 px-4
+               bg-gray-500/10  cursor-pointer flex items-center justify-center gap-2"
+                >
+                  <HeartPlus
+                    size={20}
+                    className="text-red-700"
+                  />
+                  <span className="text-md font-extrabold">Add to wishlist</span>
+                </div>
+              </>
+            ) : (
+              <div>Log in to report listing </div>
+            )}
           </div>
 
           {/* agents details */}
@@ -303,7 +315,7 @@ const handleAddToWishList = () =>{
               <div className="address">
                 <MapPin
                   size={30}
-                  color={darkMode ? "#A88F6E" : "#0881A3"}
+                  color={darkMode ? "#A88F6E" : "#0874c7"}
                 />
                 <span>{data?.post.agent.address}</span>
               </div>
@@ -315,37 +327,46 @@ const handleAddToWishList = () =>{
                 >
                   <Phone
                     size={35}
-                    color={darkMode ? "#A88F6E" : "#0881A3"}
+                    color={darkMode ? "#A88F6E" : "#0874c7"}
                   />
                 </div>
                 <span> {data?.post.agent.phone}</span>
               </div>
-             {session?.user.id !== data?.post.agent._id &&
-              <div className="contact_items w-full dark:text-white text-gray-600">
-                <div
-                  className="hover:scale-95 transition-transform duration-200"
-                  onClick={handleChatClick}
-                >
-                  <MessageCircle
-                    size={35}
-                    color={darkMode ? "#A88F6E" : "#0881A3"}
-                  />
+              {session?.user.id !== data?.post.agent._id && (
+                <div className="contact_items w-full dark:text-white text-gray-600">
+                  <div
+                    className="hover:scale-95 transition-transform duration-200"
+                    onClick={handleChatClick}
+                  >
+                    <MessageCircle
+                      size={35}
+                      color={darkMode ? "#A88F6E" : "#0874c7"}
+                    />
+                  </div>
+                  {session ? (
+                    <Link
+                      href={`/chat?recipientId=${data?.post.agent._id}`}
+                      className="cursor-pointer"
+                    >
+                      Chat With Agent
+                    </Link>
+                  ) : (
+                    <span className="w-full">Log In To Chat With Agent</span>
+                  )}
                 </div>
-              {session ? <Link href={`/chat?recipientId=${data?.post.agent._id}`} className="cursor-pointer">Chat With Agent</Link> : <span className="w-full">Log In To Chat With Agent</span>}
-              </div>}
+              )}
             </div>
           </div>
         </div>
-        
+
         {/* report to delete */}
-           {/* <div
+        {/* <div
               onClick={handleReport}
               className="smallScale text-md font-extrabold rounded-md p-2 px-4
                bg-gray-500/10 report cursor-pointer flex flex-row items-center gap-2">
               <Flag size={20} color="darkred" /> <span>Report this listing</span>
             </div> */}
-{/* ll */}
-
+        {/* ll */}
       </div>
 
       <div className="singleCardCon2">
@@ -391,7 +412,7 @@ const handleAddToWishList = () =>{
                         <Loader2
                           size={20}
                           className="animate-spin absolute bottom-12 left-[50%}"
-                          color={darkMode ? "#A88F6E" : "#0881A3"}
+                          color={darkMode ? "#A88F6E" : "#0874c7"}
                         />
                       )}
                     </div>
@@ -404,13 +425,13 @@ const handleAddToWishList = () =>{
         </div>
       </div>
 
-        <ReportListingModal 
-        ref={reportModalRef} 
+      <ReportListingModal
+        ref={reportModalRef}
         userId={session?.user.id ?? ""}
         reportedUser={data?.post.agent._id ?? ""}
         reportedListing={data?.post._id ?? ""}
         thumbnail={data?.post.mainImage ?? ""}
-        />
+      />
     </>
   )
 }

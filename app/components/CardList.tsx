@@ -14,7 +14,7 @@ import { useUser } from "@utils/user"
 import Pagination from './Pagination'
 import Featured from "./Featured"
 import Link from "next/link"
-import { ArrowLeftFromLine } from "lucide-react"
+import { ArrowLeftFromLine, ArrowRightCircle } from "lucide-react"
 
 const CardList = () => {
 useSignals()
@@ -86,16 +86,15 @@ if(isError) {
   }}/>
  <div 
     onClick={() => active.value =!active.value}
-    className="dark:bg-gray-600 flex items-center justify-between bg-white w-80 border-1
-     border-gray-400 p-2 px-2 shadow my-4 cursor-pointer rounded-sm">
-       <span>Filter</span>
+    className="dark:bg-gray-600 flex items-center justify-center  bg-white w-80 border-1
+     border-gray-400 p-2 px-2 shadow-xs my-4 cursor-pointer rounded-sm">
+       <span className=" font-semibold font-list text-gray-500 dark:text-gray-300  text-center ml-aut">Filter Listings</span>
     <Image
     src={`/icons/${active.value ?'upTriangle.svg':'downTriangle.svg'}`}
     alt='icon'
-    className={`triangle ${active.value && 'active'} rounded-sm dark:bg-white`}
+    className={`triangle ${active.value && 'active'}  rounded-sm bg-blue-200 dark:bg-white ml-auto`}
     width={20}
     height={20}
-    
     />
         </div>
     </div>
@@ -130,10 +129,17 @@ active={active}
 </Link>
 )}
    {isLoading ? <Skeleton className="w-[80%] m-4 h-1 mx-auto bg-gray-500/20"/> :
-   <div className='flex flex-col items-center capitalize subheading p-1 mx-auto'>
-    <div>Showing Recent Listings</div> 
-    <div className="middleLine text-center">From {school.value? school.value : 'all schools'}</div>
-    </div>}
+   <div className='flex items-center subheading ml-4 p-1 gap-1'>
+    <div>
+      Showing Recent Listings from 
+      <span className='capitalize ml-2'>
+        {school.value? school.value : 'All schools'}
+      </span>
+
+      </div> 
+       <ArrowRightCircle className="w-6 h-6"/>
+    </div>
+    }
     <div
     id="listing"
     className="card_list">
