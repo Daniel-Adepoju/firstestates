@@ -2,7 +2,6 @@
 import Card from "./Card"
 import Searchbar from "./Searchbar"
 import { useSignal, useSignals } from "@preact/signals-react/runtime"
-import {Loader} from "@utils/loaders"
 import { CardProps } from "./Card"
 import {useGetListings} from "@lib/customApi"
 import { useRouter, useSearchParams } from "next/navigation"
@@ -14,7 +13,7 @@ import { useUser } from "@utils/user"
 import Pagination from './Pagination'
 import Featured from "./Featured"
 import Link from "next/link"
-import { ArrowLeftFromLine, ArrowRightCircle } from "lucide-react"
+import {ArrowDownCircle, ArrowLeftFromLine, ArrowRightCircle,ArrowUpCircle } from "lucide-react"
 
 const CardList = () => {
 useSignals()
@@ -89,13 +88,13 @@ if(isError) {
     className="dark:bg-gray-600 flex items-center justify-center  bg-white w-80 border-1
      border-gray-400 p-2 px-2 shadow-xs my-4 cursor-pointer rounded-sm">
        <span className=" font-semibold font-list text-gray-500 dark:text-gray-300  text-center ml-aut">Filter Listings</span>
-    <Image
-    src={`/icons/${active.value ?'upTriangle.svg':'downTriangle.svg'}`}
-    alt='icon'
-    className={`triangle ${active.value && 'active'}  rounded-sm bg-blue-200 dark:bg-white ml-auto`}
-    width={20}
-    height={20}
-    />
+    <div
+    className={`triangle ${active.value && 'active'}  rounded-sm ml-auto`}>
+  {active.value ? 
+  <ArrowUpCircle className="w-6 h-6 text-gray-500 dark:text-gray-300" />
+  : <ArrowDownCircle className="w-6 h-6 text-gray-500 dark:text-gray-300"/>
+        }
+      </div>
         </div>
     </div>
 

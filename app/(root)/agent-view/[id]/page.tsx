@@ -11,7 +11,7 @@ import { useGetAgentListingsInfinite } from "@lib/customApi"
 import { useNextPage } from "@lib/useIntersection"
 import PopularCard from '@components/PopularCard'
 import { Skeleton } from "@components/ui/skeleton"
-import { Loader2 } from "lucide-react"
+import { Loader2, ArrowRightCircle } from "lucide-react"
 
 const AgentViewPage = () => {
   const { id } = useParams()
@@ -22,7 +22,6 @@ const AgentViewPage = () => {
   const isYou = session?.user.id === id
   const { data: agent } = useGetUser({ id: id?.toString(), enabled: !!id, page: "1", limit: 1 })
   const { data: listings,isLoading,hasNextPage,fetchNextPage,isFetchingNextPage} = useGetAgentListingsInfinite({ id: id?.toString(), enabled: !!id, page: "1", limit: 10,school:'',location:''})
-console.log(listings)
   const useNextpageRef = useNextPage({hasNextPage,fetchNextPage,isFetchingNextPage})
 
 
@@ -86,11 +85,12 @@ console.log(listings)
     </div>
     {listings?.pages[0]?.listings.length > 0 && (
       <>
-    <div className="subheading mx-auto my-2 overflow-clip [word-spacing:4px]">
+    <div className="subheading flex items-center gap-1 ml-4 my-2 overflow-clip [word-spacing:3px]">
      {isYou ? 'Your Listings'  : `Listings From ${agent?.username}`}
+      <ArrowRightCircle className="w-5 h-5"/>
        </div>
     {isLoading ?
-  <div className="mx-auto p-4 flex flex-wrap items-cener justify-center gap-4">
+  <div className="mx-auto p-4 flex flex-wrap items-center  ">
   {Array.from({ length: 10 }).map((_, i) => (
     <Skeleton
       key={i}
@@ -114,7 +114,7 @@ console.log(listings)
     </>
    
     )}
-    {!isFetchingNextPage && !hasNextPage && <Loader2 className='animate-spin mx-auto text-gray-500 dark:text-white my-4'/> }
+    {isFetchingNextPage && hasNextPage && <Loader2 className='animate-spin mx-auto text-gray-500 dark:text-white my-4'/> }
     </>
   )
 }
