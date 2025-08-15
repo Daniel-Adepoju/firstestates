@@ -27,9 +27,7 @@ const UserSchema = new Schema({
      phone: {
         type: Number,
      },
-     whatsapp: {
-        type: Number,
-     },
+
      address: {
         type: String,
      },

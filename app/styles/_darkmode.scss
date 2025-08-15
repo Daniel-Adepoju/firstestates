@@ -115,14 +115,15 @@ html:is(.dark) {
     }
   }
 }
+ 
 
-
-    // forms 
-    .form_container {
-   background-color: transparent;
-   .typeOfAccount {
+    // forms  
+     .typeOfAccount {
     background-color: color('coffee');
    }
+    .form_container {
+  //  background-color: transparent;
+
     }
 .form {
 
@@ -137,12 +138,11 @@ html:is(.dark) {
  
   .general_details,
   .agent_details, .bottom {
-    background-color: color('darkModeSecondary');
+    background-color: inherit;
     color: white;
   } 
   }
 .board {
-    background-color: color('darkModeSecondary');
     color: white;
 }
 .editSide {

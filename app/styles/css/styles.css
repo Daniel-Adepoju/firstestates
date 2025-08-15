@@ -290,12 +290,8 @@ a:has(.clickable) {
 }
 
 .form_container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  background-color: rgba(228, 224, 224, 0.422);
   width: 100%;
+  height: 80vh;
   padding-bottom: 10px;
 }
 @media (min-width: 1200px) {
@@ -310,25 +306,13 @@ a:has(.clickable) {
 .form {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+  margin-block: auto;
   gap: 10px;
-  margin-inline: auto;
-  min-width: 100%;
-  border-radius: 20px;
+  border-radius: 14px;
   padding: 4px 20px;
   font-family: "Sulphur Point", sans-serif;
-}
-@media (min-width: 750px) {
-  .form {
-    width: 70%;
-  }
-}
-@media (min-width: 1200px) {
-  .form {
-    flex-wrap: wrap;
-    width: 100%;
-  }
 }
 .form label {
   opacity: 50%;
@@ -338,7 +322,7 @@ a:has(.clickable) {
 .form textarea {
   transition: all 140ms ease-out;
   width: 98%;
-  padding: 10px 10px;
+  padding: 12px 10px;
   border-radius: 4px;
   border: 0;
   outline: 1px solid #0874c7;
@@ -348,6 +332,9 @@ a:has(.clickable) {
 .form textarea:focus {
   transition: all 150ms ease-in;
   outline-width: 2px;
+}
+.form select {
+  padding: 15px 10px;
 }
 .form textarea {
   padding-bottom: 24px;
@@ -359,7 +346,7 @@ a:has(.clickable) {
   background-color: #fffdfb;
   margin-top: auto;
   padding: 10px 6px 6px;
-  width: clamp(350px, 44rem, 80%);
+  width: 100%;
   padding: 16px;
   border-radius: 10px;
 }
@@ -396,34 +383,28 @@ a:has(.clickable) {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  min-width: 100%;
   background-color: #0874c7;
   color: #fffdfb;
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+  font-family: "Quicksand", sans-serif;
   padding: 16px;
   text-transform: capitalize;
-  font-weight: 550;
-  border-radius: 0px 0px 40px 40px;
+  font-weight: 650;
+  border-radius: 0px 0px 30px 30px;
 }
 
 .board {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  font-family: "Sulphur Point", sans-serif;
   border-radius: 20px;
-  margin: 80px auto;
   min-width: 90%;
-  min-height: 60vh;
-  background-color: #fffdfb;
+  min-height: 80vh;
+  padding: 6px;
 }
 .board .types {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
   width: 100%;
 }
 @media (max-width: 749px) {
@@ -440,6 +421,7 @@ a:has(.clickable) {
   align-items: center;
   justify-content: center;
   width: 300px;
+  padding: 25px;
 }
 
 .notification {
@@ -1289,10 +1271,7 @@ html:is(.dark) .single_card .header .house .arrow:active {
 html:is(.dark) .featured_container .card .tag.price {
   background-color: rgba(27, 27, 27, 0.936);
 }
-html:is(.dark) .form_container {
-  background-color: transparent;
-}
-html:is(.dark) .form_container .typeOfAccount {
+html:is(.dark) .typeOfAccount {
   background-color: #A88F6E;
 }
 html:is(.dark) .form label {
@@ -1305,11 +1284,10 @@ html:is(.dark) .form input, html:is(.dark) .form select, html:is(.dark) .form te
 }
 html:is(.dark) .form .general_details,
 html:is(.dark) .form .agent_details, html:is(.dark) .form .bottom {
-  background-color: #31363F;
+  background-color: inherit;
   color: white;
 }
 html:is(.dark) .board {
-  background-color: #31363F;
   color: white;
 }
 html:is(.dark) .editSide {
@@ -2234,13 +2212,17 @@ footer.hide {
   justify-content: space-between;
   gap: 10px;
   margin-inline: auto;
-  background-color: #fffdfb;
   width: 98%;
   padding: 16px;
   border-radius: 10px;
-  box-shadow: 1px 2px 2px 1px rgba(169, 169, 169, 0.073);
 }
-@media (min-width: 1200px) {
+@media (min-width: 800px) {
+  .signUpAndLogin .general_details,
+  .signUpAndLogin .agent_details {
+    width: 80%;
+  }
+}
+@media (min-width: 900px) {
   .signUpAndLogin .general_details,
   .signUpAndLogin .agent_details {
     width: 70%;

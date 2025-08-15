@@ -13,7 +13,7 @@ import { useUser } from "@utils/user"
 import Pagination from './Pagination'
 import Featured from "./Featured"
 import Link from "next/link"
-import {ArrowDownCircle, ArrowLeftFromLine, ArrowRightCircle,ArrowUpCircle } from "lucide-react"
+import {ChevronDownCircle, ArrowLeftFromLine, ChevronRightCircle,ChevronUpCircle } from "lucide-react"
 
 const CardList = () => {
 useSignals()
@@ -91,8 +91,8 @@ if(isError) {
     <div
     className={`triangle ${active.value && 'active'}  rounded-sm ml-auto`}>
   {active.value ? 
-  <ArrowUpCircle className="w-6 h-6 text-gray-500 dark:text-gray-300" />
-  : <ArrowDownCircle className="w-6 h-6 text-gray-500 dark:text-gray-300"/>
+  <ChevronUpCircle className="w-6 h-6 text-gray-500 dark:text-gray-300" />
+  : <ChevronDownCircle className="w-6 h-6 text-gray-500 dark:text-gray-300"/>
         }
       </div>
         </div>
@@ -132,11 +132,11 @@ active={active}
     <div>
       Showing Recent Listings from 
       <span className='capitalize ml-2'>
-        {school.value? school.value : 'All schools'}
+        {school.value? school.value : 'all schools'}
       </span>
 
       </div> 
-       <ArrowRightCircle className="w-6 h-6"/>
+       <ChevronRightCircle className="w-6 h-6"/>
     </div>
     }
     <div

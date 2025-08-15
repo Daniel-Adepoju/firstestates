@@ -3,7 +3,7 @@ import { useGetPopularListings } from "@lib/customApi"
 import {Skeleton} from "./ui/skeleton"
 import PopularCard from "./PopularCard"
 import ScrollController,{scrollRef} from "./ScrollController"
-import { ArrowRightCircle } from "lucide-react"
+import { ChevronRightCircle } from "lucide-react"
 
 export default function PopularThisWeek() {
   const { data, isLoading } = useGetPopularListings()
@@ -12,7 +12,7 @@ export default function PopularThisWeek() {
     <>
       <h2 className="subheading flex items-center gap-1 ml-4 mb-[-40px] py-1 text-xl font-semibold relative">
         Popular This Week
-        <ArrowRightCircle className="relative w-6 h-6"/>
+        <ChevronRightCircle className="relative w-6 h-6"/>
       </h2>
     <ScrollController />
     

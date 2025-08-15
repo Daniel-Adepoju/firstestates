@@ -305,10 +305,12 @@ a:has(.clickable) {
 
 //Form
 .form_container {
-  @include mx.flex(column, center, space-between);
-  background-color: rgba(228, 224, 224, 0.422);
+ 
   width: 100%;
+  height: 80vh;
   padding-bottom: 10px;
+
+ 
   @media (min-width: 1200px) {
     gap: 20px;
   }
@@ -317,20 +319,13 @@ a:has(.clickable) {
   }
 }
 .form {
-  @include mx.flex(column, flex-start, space-between);
+  @include mx.flex(column, center, center);
+   margin-block:auto;
   gap: 10px;
-  margin-inline: auto;
-  min-width: 100%;
-  border-radius: 20px;
+  border-radius: 14px;
   padding: 4px 20px;
   font-family: fn.font("body2");
-  @media (min-width: 750px) {
-    width: 70%;
-  }
-  @media (min-width: 1200px) {
-    flex-wrap: wrap;
-    width: 100%;
-  }
+
   label {
     opacity: 50%;
   }
@@ -339,7 +334,7 @@ a:has(.clickable) {
   textarea {
     @include mx.transition(140ms, ease-out);
     width: 98%;
-    padding: 10px 10px;
+    padding: 12px 10px;
     border-radius: 4px;
     border: 0;
     outline: 1px solid fn.color("darkblue");
@@ -350,6 +345,9 @@ a:has(.clickable) {
     // &::backdrop {
     //   background-color: fn.color('blue');
     // }
+  }
+  select {
+    padding: 15px 10px;
   }
   textarea {
     padding-bottom: 24px;
@@ -362,7 +360,7 @@ a:has(.clickable) {
   background-color: fn.color("white");
   margin-top: auto;
   padding: 10px 6px 6px;
-  width: clamp(350px, 44rem, 80%);
+  width: 100%;
   padding: 16px;
   border-radius: 10px;
   .info {
@@ -390,30 +388,26 @@ a:has(.clickable) {
 
 .typeOfAccount {
   @include mx.flex(row, center, center);
-  width: 100%;
+  min-width: 100%;
   background-color: fn.color("darkblue");
   color: fn.color("white");
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial,
-    sans-serif;
+  font-family: fn.font("list");
   padding: 16px;
   text-transform: capitalize;
-  font-weight: 550;
-  border-radius: 0px 0px 40px 40px;
+  font-weight: 650;
+  border-radius: 0px 0px 30px 30px;
 }
 
 //Boards And Modals
 
 .board {
-  @include mx.flex(column, center, space-around);
-  font-family: fn.font("body2");
   border-radius: 20px;
-  margin: 80px auto;
   min-width: 90%;
-  min-height: 60vh;
-  background-color: fn.color("white");
+  min-height: 80vh;
+  padding: 6px;
   .types {
     @include mx.flex(row, center, center);
-    gap: 10px;
+    gap: 12px;
     width: 100%;
     @media (max-width: 749px) {
       @include mx.flex(column, center, center);
@@ -421,6 +415,7 @@ a:has(.clickable) {
     .clickable {
       @include mx.flex(row, center, center);
       width: 300px;
+      padding: 25px;
     }
   }
 }

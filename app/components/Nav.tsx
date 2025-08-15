@@ -82,6 +82,26 @@ const Nav = () => {
       <Link href="/">
         <div className="logo">LOGO</div>
       </Link>
+
+{/* test */}
+  <div
+    onClick={() => {
+      toggleDarkMode();
+      handleNavItemClick();
+    }}
+    className="flex flex-row items-center gap-2 cursor-pointer"
+  >
+    <div className="dark:bg-white bg-[#0874c7] p-2 rounded-full ">
+      {darkMode ? (
+        <Sun size={20} color="#f59e0b" />
+      ) : (
+        <Moon size={20} color="white" />
+      )}
+    </div>
+    <span className="mode">{darkMode ? "Light Mode" : "Dark Mode"}</span>
+  </div>
+{/*  */}
+
       {/* <div style={{ color: "black" }}>{session?.user.username}</div> */}
       <div
         onClick={showNav}

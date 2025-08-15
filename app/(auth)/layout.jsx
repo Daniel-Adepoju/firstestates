@@ -25,7 +25,7 @@ export default function RootLayout({children}) {
          {children}
           {/* </main> */}
             </Notification>
-          <Footer />   
+          {/* <Footer />    */}
           </User>
           </Provider>
         </ReactQueryProvider>
