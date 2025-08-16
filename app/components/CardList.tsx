@@ -128,15 +128,16 @@ active={active}
 </Link>
 )}
    {isLoading ? <Skeleton className="w-[80%] m-4 h-1 mx-auto bg-gray-500/20"/> :
-   <div className='flex items-center subheading ml-4 p-1 gap-1'>
-    <div>
+   <div className='w-full subheading ml-4 p-1 border-1 border-black'>
+    <div className="w-full">
       Showing Recent Listings from 
-      <span className='capitalize ml-2'>
+      <div className='capitalize ml-2 inline-flex items-center gap-1'>
         {school.value? school.value : 'all schools'}
-      </span>
+          <ChevronRightCircle className="w-6 h-6"/>
+      </div>
 
       </div> 
-       <ChevronRightCircle className="w-6 h-6"/>
+     
     </div>
     }
     <div

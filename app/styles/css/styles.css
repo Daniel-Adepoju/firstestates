@@ -35,7 +35,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 }
 
 .heading, .subheading, .title_heading {
-  color: #0874c7;
+  color: rgba(52, 45, 45, 0.815);
   padding-left: 6px;
   margin-top: 10px;
   font-size: 22px;
@@ -46,7 +46,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 .subheading, .title_heading {
   position: relative;
   font-size: 20px;
-  color: #0874c7;
+  color: rgba(52, 45, 45, 0.815);
   font-weight: bold;
   font-family: "Figtree", sans-serif;
 }
@@ -1385,6 +1385,10 @@ html:is(.dark) .darkblueBtn {
   background: transparent;
 }
 
+.featured {
+  background-color: #0874c7;
+}
+
 .featured_container .agentCardName {
   margin-left: 16px;
   display: flex;
@@ -1425,7 +1429,7 @@ html:is(.dark) .darkblueBtn {
   font-weight: bold;
   font-size: 30px;
   font-optical-sizing: auto;
-  background-color: #0874c7;
+  background-color: rgb(255, 255, 255);
 }
 .featured_container .card:hover {
   transition: all 300ms ease-in;
@@ -1787,8 +1791,8 @@ footer.hide {
   transition: all 300ms ease-out;
 }
 .card:hover {
-  transition: all 300ms ease-in;
-  transform: scale(0.97);
+  transition: transform 200ms ease-in;
+  transform: scale(0.99);
 }
 .card:hover::after {
   background: #0874c7;

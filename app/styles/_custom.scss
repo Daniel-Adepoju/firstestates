@@ -72,7 +72,7 @@ input[type="number"] {
   font-family: fn.font("headers");
 }
 .heading {
-  color: fn.color("darkblue");
+ color: fn.color("lightBlack");
   padding-left: 6px;
   margin-top: 10px;
   font-size: 22px;
@@ -82,8 +82,8 @@ input[type="number"] {
 .subheading {
   @extend .heading;
   position: relative;
-  font-size: 20px;
-  color: fn.color("darkblue");
+  font-size: 20px; 
+  color: fn.color("lightBlack");
   font-weight: bold;
   font-family: fn.font("headers");
 }

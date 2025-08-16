@@ -53,6 +53,9 @@
   }
 }
 
+.featured {
+  background-color: fn.color("darkblue");
+}
 .featured_container {
   .agentCardName {
     margin-left: 16px;
@@ -90,7 +93,7 @@
         font-weight: bold;
         font-size: 30px;
         font-optical-sizing: auto;
-        background-color: fn.color("darkblue");
+        background-color: rgb(255, 255, 255);
       }
     }
 
@@ -415,8 +418,8 @@ footer.hide {
     @include mx.transition(300ms, ease-out);
   }
   &:hover {
-    @include mx.transition(300ms, ease-in);
-    transform: scale(0.97);
+    @include mx.transition(200ms, ease-in, transform);
+    transform: scale(0.99);
 
     &::after {
       background: fn.color("darkblue");

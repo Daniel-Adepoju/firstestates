@@ -176,7 +176,7 @@ const Featured = () => {
           <div className="w-full py-2 flex flex-row justify-center gap-15 lg:hidden">
             <div
               onClick={() => scrollByCards("left")}
-              className="flex flex-row items-center justify-center cursor-pointer smallScale  w-15 h-15 p-3 rounded-full shadow-md dark:bg-gray-700  bg-whit hover:shadow-lg transition"
+              className="flex flex-row items-center justify-center cursor-pointer smallScale  w-15 h-15 p-3 rounded-full shadow-md dark:bg-gray-700  bg-white hover:shadow-lg transition"
             >
               <ArrowBigLeft
                 size={30}
