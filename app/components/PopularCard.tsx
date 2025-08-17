@@ -48,7 +48,7 @@ const PopularCard = ({ listing, type, refValue }: PopCardProps) => {
         )}
       </div>
 
-      <div className="text-lg font-bold capitalize">{listing?.school}</div>
+      <div className="text-lg text-gray-700 dark:text-white font-bold capitalize">{listing?.school}</div>
       <div className="dark:bg-gray-700 bg-slate-100 rounded-sm text-sm mb-2 font-small capitalize">
         {listing?.location}
       </div>

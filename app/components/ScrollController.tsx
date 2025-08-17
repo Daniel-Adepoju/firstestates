@@ -38,13 +38,13 @@ const ScrollController = () => {
       <div className="flex flex-row gap-4">
        {showLeft && <div 
         onClick={() => scroll('left')}
-        className='mediumScale cursor-pointer dark:bg-gray-800/80 shadow-md p-2 rounded-full'>
+        className='mediumScale cursor-pointer dark:bg-gray-800/60 shadow-md p-2 rounded-full'>
          <ArrowLeft size={30} color={'#f29829'}/>  
         </div>}
          
        {showRight && <div 
         onClick={() => scroll('right')}
-       className='mediumScale cursor-pointer dark:bg-gray-800/80 shadow-md p-2 rounded-full'>
+       className='mediumScale cursor-pointer dark:bg-gray-800/60 shadow-md p-2 rounded-full'>
         <ArrowRight size={30} color={'#f29829'}/>
       </div>}
       </div>

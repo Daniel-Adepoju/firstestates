@@ -35,7 +35,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 }
 
 .heading, .subheading, .title_heading {
-  color: rgba(52, 45, 45, 0.815);
+  color: #374151;
   padding-left: 6px;
   margin-top: 10px;
   font-size: 22px;
@@ -46,7 +46,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 .subheading, .title_heading {
   position: relative;
   font-size: 20px;
-  color: rgba(52, 45, 45, 0.815);
+  color: #374151;
   font-weight: bold;
   font-family: "Figtree", sans-serif;
 }

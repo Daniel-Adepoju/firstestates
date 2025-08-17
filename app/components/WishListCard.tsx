@@ -130,4 +130,48 @@ const WishListCard = ({listing,wishlistId,refValue}:WishListProps) => {
   )
 }
 
+export const WishlistButton = ({listingId}:{listingId:string}) => {
+  const queryClient = useQueryClient()
+  const [notification,setNotification] = useState({
+    isActive:false,
+    message:'',
+    status:''
+  })
+
+  const addToWishList = async (listingId:string) => {
+    try {
+      await axiosdata.value.post('/api/listings/wishlists',{listingId})
+      setNotification({
+        isActive:true,
+        message:'Added to wishlist',
+        status:'success'
+      })
+    } catch (err) {
+      setNotification({
+        isActive:true,
+        message:'Failed to add to wishlist',
+        status:'danger'
+      })
+    }
+  }
+
+  const addToWishListMutation = useMutation({
+    mutationFn: addToWishList,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ['wishlists']})
+    }
+  })
+
+  return (
+    <div className="flex items-center justify-center">
+      <button
+        onClick={() => addToWishListMutation.mutate(listingId)}
+        className="text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100 transition-all"
+      >
+        Add to Wishlist
+      </button>
+    </div>
+  )
+}
+
 export default WishListCard
