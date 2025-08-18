@@ -144,7 +144,7 @@ const Nav = () => {
       toggleDarkMode();
       handleNavItemClick();
     }}
-    className="flex flex-row items-center gap-2 cursor-pointer"
+    className={` flex flex-row items-center gap-2 cursor-pointer ${!session?.user && 'mt-3'}`}
   >
     <div className="dark:bg-white bg-[#0874c7] p-2 rounded-full ">
       {darkMode ? (

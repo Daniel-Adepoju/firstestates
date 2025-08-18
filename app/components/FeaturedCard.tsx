@@ -59,11 +59,16 @@ const FeaturedCard = ({ edit, listing, isAgentCard }: CardProps) => {
               />
               <span>{truncateAddress(address, 30)}</span>
             </div>
-            <div className="w-full text-xl dark:text-gray-300 text-gray-500 font-bold p-2 pb-0 rounded-sm">
+         
+               <div 
+                className=" headersFont mx-auto px-3 py-2 mt-2
+                bg-gray-50 dark:bg-gray-800/10 text-sm font-medium
+                 text-gray-700 dark:text-gray-200 shadow-sm  rounded-md">
               {listing?.school}
             </div>
+            {/* agent */}
             {!isAgentCard && (
-              <div className="agent">
+              <div className="w-full font-bold font-list">
                 <div
                   className="w-full text-sm 
         items-center justify-start
@@ -75,10 +80,11 @@ const FeaturedCard = ({ edit, listing, isAgentCard }: CardProps) => {
                     className="block break-all text-start  agentCardName"
                   >
                     <CldImage
-                      width={20}
-                      height={20}
+                      width={30}
+                      height={30}
                       alt="agent pic"
-                      className="my-1"
+                      crop={'auto'}
+                      className="my-1 rounded-full"
                       src={listing.agent.profilePic}
                     />
                     {listing.agent.username}

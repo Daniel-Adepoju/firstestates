@@ -46,7 +46,7 @@ const Card = ({ edit, listing, isAgentCard }: CardProps) => {
       <div className="cardContainer">
         <div
           onClick={visitCard}
-          className="card"
+          className="card font-card"
         >
           {/* <div className='no-underline'> */}
           <div className="houseImg">
@@ -80,32 +80,34 @@ const Card = ({ edit, listing, isAgentCard }: CardProps) => {
             </div>
             {!edit && (
               <>
-                <div className="home_details">
+              {/* toilets,beds,baths */}
+                <div className="home_details font-list foont-bold">
                   <div>
                     <Bed
                       size={30}
                       color={darkMode ? "#A88F6E" : "#0874c7"}
                     />
-                    <span>{listing?.bedrooms}</span>
+                    <span className="text-gray-700 dark:text-white">{listing?.bedrooms}</span>
                   </div>
                   <div>
                     <Bath
                       size={30}
                       color={darkMode ? "#A88F6E" : "#0874c7"}
                     />
-                    <span>{listing?.bathrooms}</span>
+                    <span className='text-gray-700 dark:text-white'>{listing?.bathrooms}</span>
                   </div>
                   <div>
                     <Toilet
                       size={30}
                       color={darkMode ? "#A88F6E" : "#0874c7"}
                     />
-                    <span>{listing?.toilets}</span>
+                    <span className='text-gray-700 dark:text-white'>{listing?.toilets}</span>
                   </div>
                 </div>
 
+         {/* agent */}
                 {!isAgentCard && (
-                  <div className="agent">
+                  <div className="agent font-list font-bold">
                     <div
                       className="w-full text-sm flex flex-col
         items-center justify-start gap-1
@@ -129,6 +131,8 @@ const Card = ({ edit, listing, isAgentCard }: CardProps) => {
                     </div>
                   </div>
                 )}
+
+                {/* views */}
                 {isAgentCard && (
                   <div className="w-full flex flex-col pl-3 font-semibold">
                     <div className="flex flex-row gap-3 items-center text-sm">
@@ -150,9 +154,18 @@ const Card = ({ edit, listing, isAgentCard }: CardProps) => {
                     </div>
                   </div>
                 )}
-                <div className="headersFont font-bold school rounded-md">{listing?.school}</div>
+
+{/* school and price tzg */}
+                <div 
+                className=" headersFont mx-auto px-3 py-2
+                bg-gray-50 dark:bg-gray-800/10 text-sm font-medium
+                   text-gray-700 dark:text-gray-200 shadow-sm  rounded-md">
+                    {listing?.school}
+                    </div>
                 {!edit && (
-                  <div className=" headersFont mx-auto inline-flex items-center gap-2 px-3 py-2 rounded-md bg-gray-100 dark:bg-gray-800 text-sm font-medium text-gray-800 dark:text-gray-200 shadow-sm">
+                  <div className=" headersFont mx-auto inline-flex items-center gap-2 px-3 py-2 rounded-md
+                   bg-gray-50 dark:bg-gray-800/10 text-sm font-medium
+                   text-gray-700 dark:text-gray-200 shadow-sm">
                     <TagIcon
                       size={20}
                       className="text-green-600 dark:text-green-400"
@@ -166,6 +179,8 @@ const Card = ({ edit, listing, isAgentCard }: CardProps) => {
             )}
           </div>
           {/* </div> */}
+
+
           {!edit && (
             <div className={`tag ${listing?.status === "rented" && "rented"}`}>
               {listing?.status}
@@ -173,6 +188,7 @@ const Card = ({ edit, listing, isAgentCard }: CardProps) => {
           )}
         </div>
 
+{/* edit buttons */}
         {edit && (
           <div className="editSide">
             <div

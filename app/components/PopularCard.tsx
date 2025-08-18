@@ -60,7 +60,7 @@ const PopularCard = ({ listing, type, refValue }: PopCardProps) => {
             color={darkMode ? "#A88F6E" : "#0874c7"}
             className="text-white"
           />
-          <span className="text-center">{listing?.bedrooms}</span>
+          <span className="text-center text-gray-700">{listing?.bedrooms}</span>
         </div>
 
         <div className="flex flex-col items-center">
@@ -69,7 +69,7 @@ const PopularCard = ({ listing, type, refValue }: PopCardProps) => {
             color={darkMode ? "#A88F6E" : "#0874c7"}
             className="text-white"
           />
-          <span className="text-center">{listing?.bathrooms}</span>
+          <span className="text-center text-gray-700">{listing?.bathrooms}</span>
         </div>
 
         <div className="flex flex-col items-center">
@@ -78,7 +78,7 @@ const PopularCard = ({ listing, type, refValue }: PopCardProps) => {
             color={darkMode ? "#A88F6E" : "#0874c7"}
             className="text-white"
           />
-          <span className="text-center">{listing?.toilets}</span>
+          <span className="text-center text-gray-700">{listing?.toilets}</span>
         </div>
       </div>
     </Link>

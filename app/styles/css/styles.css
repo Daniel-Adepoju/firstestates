@@ -52,7 +52,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 }
 
 .otherHead {
-  color: #0874c7;
+  color: #374151;
 }
 
 .title_heading {
@@ -1431,12 +1431,15 @@ html:is(.dark) .darkblueBtn {
   font-optical-sizing: auto;
   background-color: rgb(255, 255, 255);
 }
+.featured_container .card:after {
+  width: 50%;
+}
 .featured_container .card:hover {
   transition: all 300ms ease-in;
   transform: scale(0.97);
 }
 .featured_container .card:hover::after {
-  background: #0874c7;
+  background-color: white;
   width: 0%;
   height: 0%;
   animation: drawBorder 0ms ease-in-out, wobbleEffect 0s linear;
@@ -1519,7 +1522,6 @@ main {
   position: relative;
   text-decoration: none;
   font-size: 16px;
-  color: grey;
 }
 .nav .nav_items a::after, .footer .nav_items a::after,
 .nav .nav_items span::after,
@@ -1752,7 +1754,6 @@ footer.hide {
 
 .card {
   position: relative;
-  font-family: "Sulphur Point", sans-serif;
   font-size: 18px;
   margin: 24px 15px;
   display: flex;
@@ -1786,7 +1787,8 @@ footer.hide {
   transition: all 300ms ease;
   transform-origin: center;
   z-index: 0;
-  width: 50%;
+  width: 0%;
+  height: 0;
   background-color: transparent;
   transition: all 300ms ease-out;
 }
@@ -1795,10 +1797,10 @@ footer.hide {
   transform: scale(0.99);
 }
 .card:hover::after {
-  background: #0874c7;
+  background-color: #0874c7;
   width: 100%;
-  height: 57%;
-  animation: drawBorder 300ms ease-in-out, wobbleEffect 0.6s infinite linear;
+  height: 0;
+  animation: wobbleEffect 0.6s linear;
 }
 .card:hover .houseImg {
   z-index: 1;
@@ -1837,7 +1839,7 @@ footer.hide {
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  background-color: white;
+  background-color: #feffff;
   box-shadow: 0.1px 0.1px 0.5px 0.5px rgba(116, 116, 116, 0.269);
   padding-inline: 12px;
   padding-bottom: 4px;
@@ -1890,7 +1892,7 @@ footer.hide {
   text-transform: capitalize;
   font-size: 15px;
   font-weight: bold;
-  color: rgb(93, 92, 92);
+  color: rgb(59, 56, 56);
   padding: 2px 18px;
   background-color: rgba(222, 222, 222, 0.518);
 }

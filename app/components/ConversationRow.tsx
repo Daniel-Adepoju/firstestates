@@ -60,7 +60,9 @@ export default function ConversationRow({ convo, currentUserId, onClick }: Conve
 
   return (
     <div
-      className="relative p-3 bg-gray-100 dark:bg-black/10 rounded border-1 border-transparent border-t-gray-500/30 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-500/20"
+      className="relative p-3 bg-black/5 dark:bg-black/10 rounded-sm
+      border-1 border-transparent border-t-gray-500/30 cursor-pointer
+       hover:bg-gray-400/20 dark:hover:bg-gray-500/20"
       onClick={() => otherId && onClick(otherId)}
     >
       

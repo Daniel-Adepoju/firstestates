@@ -4,12 +4,12 @@ import { useState } from "react";
 import NotifcationCard from "./NotifcationCard";
 import { useGetNotifications } from "@lib/customApi";
 import { Notification } from "./NotifcationCard";
-import { Loader } from '@utils/loaders';
 import { FileX, Loader2 } from "lucide-react";
 import {useNextPage} from '@lib/useIntersection'
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { clearAllNotifications } from '@lib/server/notificationFunctions';
-
+import { Skeleton } from './ui/skeleton';
+import { _ } from 'node_modules/@upstash/redis/zmscore-CjoCv9kz.mjs';
 
 const NotificationList = () => {
   const [page] = useState('1')
@@ -47,7 +47,14 @@ const notificationMutation = useMutation({
   })
 
   if(isLoading) {
-     return <Loader className='my-30'/>
+     return (
+ Array.from({length:5}).map((_,i) => {
+  return (
+  <Skeleton key={i}
+  className='w-[96%] h-25 rounded-sm bg-gray-500/20'
+  />)
+ })
+     )
   }
   return (
     <>
