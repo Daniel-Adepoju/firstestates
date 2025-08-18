@@ -45,7 +45,7 @@
   --color-sidebar-ring: var(--sidebar-ring);
   --color-coffee: #A88F6E;
   --color-darkGray: #31363F;
-  --color-darkblue:#0874c7;
+  --color-darkblue: #0874c7;
 }
 
 @theme fonts {
@@ -58,6 +58,7 @@
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
+  --darkblueSecondary: #0874c7;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -92,6 +93,7 @@
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
+  --darkblueSecondary: #A88F6E;
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);

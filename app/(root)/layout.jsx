@@ -11,6 +11,7 @@ import { auth } from "@auth";
 import { connectToDB } from "@utils/database";
 import  UserModel from "@models/user";
 import {DarkModeProvider} from '@lib/DarkModeProvider'
+import Main from "@components/Main";
 
 export const metadata = {
   title: "FirstEstates",
@@ -43,8 +44,11 @@ export default async function RootLayout({children}) {
            <Backdrop>
              <Nav />
          <Notification>
+            <Main>
             {children}
-            <Footer /> 
+             <Footer /> 
+            </Main>
+           
              </Notification> 
           </Backdrop>
            

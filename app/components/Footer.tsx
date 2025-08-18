@@ -8,36 +8,9 @@ const Footer = () => {
   const { darkMode } = useDarkMode()
   const [goUpvisible, setgoUpVisible] = useState(false)
 
-  const scrollThreshold = 1000
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > scrollThreshold) {
-        setgoUpVisible(true)
-      } else {
-        setgoUpVisible(false)
-      }
-    }
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  })
   return (
     <footer className={`footer`}>
-      {goUpvisible && (
-        <Link
-          className="goUp"
-          href="#nav"
-        >
-          <div className="clickable">
-            <Image
-              width={50}
-              height={50}
-              src={!darkMode ? "/icons/goUp.svg" : "/icons/goUpDark.svg"}
-              alt="up_arrow"
-            />
-          </div>
-        </Link>
-      )}
       <div className="logo">LOGO</div>
       <div className="footer_items_container">
         <div className="footer_items">

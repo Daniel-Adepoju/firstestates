@@ -7,6 +7,7 @@ import { auth } from "@auth";
 import Image from "next/image";
 import Link from "next/link";
 
+
 export const metadata = {
   title: "FirstEstates",
   description: "Find Your Perfect Student Home",
@@ -95,10 +96,12 @@ if (session?.user?.banStatus === true) {
       
       
         </head>
-              <body> 
+              <body>
+    
       <DarkModeProvider>
-       {children}  
+          {children} 
    </DarkModeProvider>
+
       </body>  
        
   
