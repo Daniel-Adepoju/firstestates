@@ -49,7 +49,7 @@ export default async function AdminLayout({children}){
        <ReactQueryProvider>
     <Provider>
       <User>
-        <Nav />
+        {/* <Nav /> */}
         <Notification>
    <div className= 'admin-container nobar null'>
  <Sidebar session={session}/>
