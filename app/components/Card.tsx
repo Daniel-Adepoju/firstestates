@@ -138,16 +138,17 @@ const Card = ({ edit, listing, isAgentCard }: CardProps) => {
                     <div className="flex flex-row gap-3 items-center text-sm">
                       <Eye
                         size={30}
-                        color={darkMode ? "#A88F6E" : "#0874c7"}
+                       className="text-gray-700 dark:text-white"
                       />
                       Past Week Views
-                      <span className="views smallNum ">{weeklyViews}</span>
+                      <span className="views smallNum text-gray-700 dark:text-white">{weeklyViews}</span>
+
                     </div>
 
                     <div className="flex flex-row gap-3 items-center text-sm">
                       <Eye
                         size={30}
-                        color={darkMode ? "#A88F6E" : "#0874c7"}
+                        className="text-gray-700 dark:text-white"
                       />
                       Total Views
                       <span className="views smallNum">{totalViews}</span>
@@ -180,7 +181,7 @@ const Card = ({ edit, listing, isAgentCard }: CardProps) => {
           </div>
           {/* </div> */}
 
-
+  {/* listing availability status */}
           {!edit && (
             <div className={`tag ${listing?.status === "rented" && "rented"}`}>
               {listing?.status}

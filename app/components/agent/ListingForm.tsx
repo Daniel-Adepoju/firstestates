@@ -247,9 +247,9 @@ const ListingForm = () => {
           <p className="text-base">Fill in the form below to create a new listing</p>
         </div>
 
+{/* info btn */}
         <div
-          // onClick={() => infoRef?.current?.showModal()}
-          className="text-white dark:text-black listingInfoTooltip relative tooltip-above flex flex-row   rounded-full mt-3 cursor-pointer items-center justify-center w-8 mx-auto  bg-sky-700 dark:bg-yellow-600 "
+          className="text-white dark:text-black listingInfoTooltip relative tooltip-above flex flex-row   rounded-full mt-3 cursor-pointer items-center justify-center w-8 mx-auto  bg-darkblue dark:bg-coffee "
         >
           <Info
             onClick={() => infoRef?.current?.showModal()}
@@ -263,9 +263,10 @@ const ListingForm = () => {
           // onSubmit={handleMutate}
           className="form listing"
         >
+          {/*description */}
           <div className="form_group relative">
             <label htmlFor="description">Description</label>
-            <div className="text-sm text-foreground break-words">
+            <div className="text-xs text-foreground break-words">
               Use the description to provide additional details, such as kitchen availability,
               whether a roommate is required, any extra utility costs, and differences between the
               first year's rent and subsequent years.

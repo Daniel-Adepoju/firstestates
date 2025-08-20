@@ -91,14 +91,16 @@ const {data:paymentData,isLoading:paymentLoading} = useGetAgentPayments({userId,
     <>
       <div ref={hashRef} id='agent'
         className="w-full flex flex-col items-center gap-4">
+       {/* agent profile */}
         <Agent
           agent={session?.user}
         />
-
+   {/* payment stats */}
         <Payments
           data={paymentData}
           isLoading={paymentLoading} />
 
+{/* listing stats */}
         <div className="adminDashboard_content grid grid-cols-1 md:grid-cols-2 items-center justify-center gap-4 dark:text-white self-center">
           <div className="content_item banner full">
             <h3>Renting</h3>
@@ -117,16 +119,16 @@ const {data:paymentData,isLoading:paymentLoading} = useGetAgentPayments({userId,
          
         </div>
 
+{/* add listing */}
         {!showAdd ? '' : <div
           className="addListing dark:text-white">
           <Link
             className="rounded-full"
             href={'/agent/listings/add'}>
             <PlusCircle size={50}
-              color='white'
-              className='mediumScale rounded-full p-1 shadow-xs bg-[#045aa0] dark:bg-[#f29829e7]' />
+              className='text-darkblue dark:text-coffee mediumScale rounded-full shadow-xs ' />
           </Link>
-          <span>Add New Listing</span>
+          <span className="font-bold text-gray-600 dark:text-gray-200">Add New Listing</span>
         </div>}
 
         <div

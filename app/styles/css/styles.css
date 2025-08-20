@@ -4,6 +4,156 @@
 @import url("https://fonts.googleapis.com/css2?family=Cascadia+Code:ital,wght@0,200..700;1,200..700&family=Tangerine:wght@700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Tourney:ital,wght@0,100..900;1,100..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400..900;1,300..900&display=swap");
+html:is(.dark) .loader {
+  color: white;
+}
+html:is(.dark) body, html:is(.dark) main {
+  background-color: #393E46;
+  color: white;
+}
+html:is(.dark) .nav, html:is(.dark) .footer {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.317);
+}
+html:is(.dark) .nav, html:is(.dark) .footer, html:is(.dark) .nav_items {
+  background-color: #31363F;
+  color: white;
+}
+html:is(.dark) .nav .goUp, html:is(.dark) .footer .goUp, html:is(.dark) .nav_items .goUp {
+  background-color: black;
+}
+html:is(.dark) .footer {
+  background-color: #A88F6E;
+}
+html:is(.dark) .logo {
+  color: #fffdfb;
+}
+html:is(.dark) .nav_items a, html:is(.dark) .nav_items span {
+  color: white;
+}
+html:is(.dark) .nav_items a::after, html:is(.dark) .nav_items span::after {
+  background-color: #A88F6E;
+}
+html:is(.dark) .activeNav .toggle_nav .toggle_items:nth-child(2) {
+  border: 4px dashed white;
+  animation: rollBorderWhite 5s ease-in-out infinite;
+}
+html:is(.dark) .toggle_items {
+  background-color: #A88F6E;
+}
+html:is(.dark) .subheading, html:is(.dark) .heading, html:is(.dark) .title_heading {
+  color: white;
+}
+html:is(.dark) .card_list {
+  background-color: rgba(37, 37, 37, 0.146);
+}
+html:is(.dark) .card {
+  background-color: rgb(41, 42, 42);
+}
+html:is(.dark) .card:hover::after {
+  background-color: white;
+}
+html:is(.dark) .card .body {
+  background-color: #31363F;
+}
+html:is(.dark) .card .body .address:after {
+  background-color: #A88F6E;
+}
+html:is(.dark) .card .school {
+  color: white;
+  background-color: rgba(33, 36, 46, 0.546);
+}
+html:is(.dark) .popularCard, html:is(.dark) .pagination {
+  background-color: #31363F;
+}
+html:is(.dark) .single_card, html:is(.dark) .user-card {
+  background-color: #31363F;
+}
+html:is(.dark) .single_card .header .house .arrow:active {
+  background-color: #A88F6E;
+}
+html:is(.dark) .featured_container .card .tag.price {
+  background-color: rgba(27, 27, 27, 0.936);
+}
+html:is(.dark) .typeOfAccount {
+  background-color: #A88F6E;
+}
+html:is(.dark) .form label {
+  opacity: 90%;
+  color: white;
+}
+html:is(.dark) .form input, html:is(.dark) .form select, html:is(.dark) .form textarea {
+  outline-color: white;
+  color: white;
+}
+html:is(.dark) .form .general_details,
+html:is(.dark) .form .agent_details, html:is(.dark) .form .bottom {
+  background-color: inherit;
+  color: white;
+}
+html:is(.dark) .board {
+  color: white;
+}
+html:is(.dark) .editSide {
+  background-color: #31363F;
+  color: white;
+  box-shadow: 0.5px 0.5px 1.2px 1.2px rgba(116, 116, 116, 0.269);
+  outline: 4px solid rgba(20, 20, 20, 0.447);
+}
+html:is(.dark) .adminDashboard_content .content_item {
+  background-color: #31363F;
+  box-shadow: 0.1px 0.1px 0.5px 0.5px rgba(219, 219, 219, 0.897);
+}
+html:is(.dark) .adminDashboard_content .barchart {
+  box-shadow: 0 0 0 0 rgba(116, 116, 116, 0.269);
+}
+html:is(.dark) .agentProfile, html:is(.dark) .listingHistory, html:is(.dark) .availableLists {
+  background-color: #31363F;
+  color: white;
+}
+html:is(.dark) .agentProfile .agentName, html:is(.dark) .listingHistory .agentName, html:is(.dark) .availableLists .agentName {
+  color: white;
+}
+html:is(.dark) .currency, html:is(.dark) .smallNum {
+  color: #A88F6E;
+}
+html:is(.dark) .txt:after {
+  background-color: #A88F6E;
+}
+html:is(.dark) .quickLink {
+  color: rgb(211, 184, 47);
+}
+html:is(.dark) .swiper-pagination-bullet {
+  background-color: #A88F6E !important;
+}
+html:is(.dark) .singleCardCon {
+  background-color: #31363F;
+}
+html:is(.dark) .agentCardName {
+  color: #A88F6E;
+}
+html:is(.dark) .otherCard {
+  background-color: #31363F;
+}
+html:is(.dark) .otherHead {
+  color: white;
+}
+html:is(.dark) .hero {
+  background-color: #A88F6E;
+}
+html:is(.dark) .hero div, html:is(.dark) .hero h1 {
+  color: white;
+}
+html:is(.dark) .featured {
+  background-color: #A88F6E;
+}
+html:is(.dark) .darkblueBtn {
+  background-color: #A88F6E;
+}
+
+.verify .inputContainer input {
+  color: rgb(255, 255, 255);
+}
+
 .headersFont {
   font-family: "Quicksand", sans-serif;
   font-weight: bolder;
@@ -119,7 +269,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 }
 
 .smallNum {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: bold;
 }
 
@@ -312,7 +462,7 @@ a:has(.clickable) {
   gap: 10px;
   border-radius: 14px;
   padding: 4px 20px;
-  font-family: "Sulphur Point", sans-serif;
+  font-family: "Quicksand", sans-serif;
 }
 .form label {
   opacity: 50%;
@@ -1201,156 +1351,6 @@ a:has(.clickable) {
   padding: 10px;
 }
 
-html:is(.dark) .loader {
-  color: white;
-}
-html:is(.dark) body, html:is(.dark) main {
-  background-color: #393E46;
-  color: white;
-}
-html:is(.dark) .nav, html:is(.dark) .footer {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.317);
-}
-html:is(.dark) .nav, html:is(.dark) .footer, html:is(.dark) .nav_items, html:is(.dark) footer {
-  background-color: #31363F;
-  color: white;
-}
-html:is(.dark) .nav .goUp, html:is(.dark) .footer .goUp, html:is(.dark) .nav_items .goUp, html:is(.dark) footer .goUp {
-  background-color: black;
-}
-html:is(.dark) .logo {
-  color: #A88F6E;
-}
-html:is(.dark) .logo::after, html:is(.dark) .logo::before {
-  background-color: #A88F6E;
-}
-html:is(.dark) .nav_items a, html:is(.dark) .nav_items span {
-  color: white;
-}
-html:is(.dark) .nav_items a::after, html:is(.dark) .nav_items span::after {
-  background-color: #A88F6E;
-}
-html:is(.dark) .activeNav .toggle_nav .toggle_items:nth-child(2) {
-  border: 4px dashed white;
-  animation: rollBorderWhite 5s ease-in-out infinite;
-}
-html:is(.dark) .toggle_items {
-  background-color: #A88F6E;
-}
-html:is(.dark) .subheading, html:is(.dark) .heading {
-  color: white;
-}
-html:is(.dark) .card_list {
-  background-color: rgba(37, 37, 37, 0.146);
-}
-html:is(.dark) .card {
-  background-color: rgb(41, 42, 42);
-}
-html:is(.dark) .card:hover::after {
-  background-color: white;
-}
-html:is(.dark) .card .body {
-  background-color: #31363F;
-}
-html:is(.dark) .card .body .address:after {
-  background-color: #A88F6E;
-}
-html:is(.dark) .card .school {
-  color: white;
-  background-color: rgba(33, 36, 46, 0.546);
-}
-html:is(.dark) .popularCard, html:is(.dark) .pagination {
-  background-color: #31363F;
-}
-html:is(.dark) .single_card, html:is(.dark) .user-card {
-  background-color: #31363F;
-}
-html:is(.dark) .single_card .header .house .arrow:active {
-  background-color: #A88F6E;
-}
-html:is(.dark) .featured_container .card .tag.price {
-  background-color: rgba(27, 27, 27, 0.936);
-}
-html:is(.dark) .typeOfAccount {
-  background-color: #A88F6E;
-}
-html:is(.dark) .form label {
-  opacity: 90%;
-  color: white;
-}
-html:is(.dark) .form input, html:is(.dark) .form select, html:is(.dark) .form textarea {
-  outline-color: white;
-  color: white;
-}
-html:is(.dark) .form .general_details,
-html:is(.dark) .form .agent_details, html:is(.dark) .form .bottom {
-  background-color: inherit;
-  color: white;
-}
-html:is(.dark) .board {
-  color: white;
-}
-html:is(.dark) .editSide {
-  background-color: #31363F;
-  color: white;
-  box-shadow: 0.5px 0.5px 1.2px 1.2px rgba(116, 116, 116, 0.269);
-  outline: 4px solid rgba(20, 20, 20, 0.447);
-}
-html:is(.dark) .adminDashboard_content .content_item {
-  background-color: #31363F;
-  box-shadow: 0.1px 0.1px 0.5px 0.5px rgba(219, 219, 219, 0.897);
-}
-html:is(.dark) .adminDashboard_content .barchart {
-  box-shadow: 0 0 0 0 rgba(116, 116, 116, 0.269);
-}
-html:is(.dark) .agentProfile, html:is(.dark) .listingHistory, html:is(.dark) .availableLists {
-  background-color: #31363F;
-  color: white;
-}
-html:is(.dark) .agentProfile .agentName, html:is(.dark) .listingHistory .agentName, html:is(.dark) .availableLists .agentName {
-  color: white;
-}
-html:is(.dark) .currency {
-  color: #A88F6E;
-}
-html:is(.dark) .txt:after {
-  background-color: #A88F6E;
-}
-html:is(.dark) .quickLink {
-  color: rgb(211, 184, 47);
-}
-html:is(.dark) .swiper-pagination-bullet {
-  background-color: #A88F6E !important;
-}
-html:is(.dark) .singleCardCon {
-  background-color: #31363F;
-}
-html:is(.dark) .agentCardName {
-  color: #A88F6E;
-}
-html:is(.dark) .otherCard {
-  background-color: #31363F;
-}
-html:is(.dark) .otherHead {
-  color: white;
-}
-html:is(.dark) .hero {
-  background-color: #A88F6E;
-}
-html:is(.dark) .hero div, html:is(.dark) .hero h1 {
-  color: white;
-}
-html:is(.dark) .featured {
-  background-color: #A88F6E;
-}
-html:is(.dark) .darkblueBtn {
-  background-color: #A88F6E;
-}
-
-.verify .inputContainer input {
-  color: rgb(255, 255, 255);
-}
-
 * {
   box-sizing: border-box;
   scroll-behavior: smooth;
@@ -1656,7 +1656,7 @@ footer.hide {
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  top: 98%;
+  top: 90%;
   right: 3%;
   isolation: isolate;
   animation: blink 500ms alternate infinite;

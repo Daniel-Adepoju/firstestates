@@ -1,4 +1,5 @@
 @use "./variables";
+@use "./darkmode";
 @use "./custom";
 @use "./mixin" as mx;
 @use "./animation";
@@ -6,7 +7,7 @@
 @use "./functions" as fn;
 @use "./dashboards";
 @use "./admin";
-@use "./darkmode";
+
 * {
   // outline: 1px solid green;
   // margin: 0;
@@ -233,9 +234,6 @@ main {
   border-top: 1px solid grey;
   position: relative;
   margin-top: auto;
-  // flex-grow: 1;
-  // flex-basis: 1;
-  // flex-shrink:0;
   color: white;
   background-color: fn.color("darkblue");
   z-index: 99;
@@ -298,7 +296,7 @@ footer.hide {
     border-radius: 50%;
     width: 40px;
     height: 40px;
-    top: 98%;
+    top: 90%;
     right: 3%;
     isolation: isolate;
     animation: blink 500ms alternate infinite;

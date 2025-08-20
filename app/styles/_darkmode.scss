@@ -17,18 +17,21 @@ html:is(.dark) {
   .nav {
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.317);
   }
-  .nav,.nav_items,footer {
+  .nav,.nav_items {
     background-color:color('darkModeSecondary');
     color: white;
     .goUp {
       background-color: black;
     }
-  } 
+  }
+  .footer {
+    background-color: color('coffee');
+  }
   .logo {
-    color: color('coffee');
+    color: color('white');
     &::after,
     &::before {
-    background-color: color('coffee');
+    background-color: color('wwite');
     }
   }
   
@@ -52,7 +55,7 @@ html:is(.dark) {
   .toggle_items {
         background-color: color('coffee');
       }
-    .subheading, .heading {
+    .subheading, .heading, .title_heading {
     color: white;
   }
 
@@ -175,16 +178,15 @@ html:is(.dark) {
      }
     }
 
-.currency {
-  color: color('coffee')
-}
-
+.currency, .smallNum {
+  color: color('coffee'); 
+} 
 .txt {
   &:after {
     background-color: color('coffee');
   }
 }
-
+ 
 .quickLink {
   color: rgb(211, 184, 47);
 }

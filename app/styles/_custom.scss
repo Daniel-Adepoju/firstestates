@@ -80,12 +80,12 @@ input[type="number"] {
   font-family: fn.font("headers");
 }
 .subheading {
-  @extend .heading;
   position: relative;
   font-size: 20px; 
   color: fn.color("lightBlack");
   font-weight: bold;
   font-family: fn.font("headers");
+   @extend .heading;
 }
 .otherHead {
   color: fn.color("lightBlack");
@@ -96,7 +96,8 @@ input[type="number"] {
   margin-left: -5px;
   text-transform: capitalize;
   @include mx.flex(column, center, center);
-  @extend .subheading;
+   @extend .subheading;
+ 
 }
 
 .address {
@@ -143,7 +144,7 @@ input[type="number"] {
 
 .smallNum {
   @extend .currency;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: bold;
 }
 //Swiper
@@ -324,7 +325,7 @@ a:has(.clickable) {
   gap: 10px;
   border-radius: 14px;
   padding: 4px 20px;
-  font-family: fn.font("body2");
+  font-family: fn.font("list");
 
   label {
     opacity: 50%;
