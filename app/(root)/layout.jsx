@@ -13,12 +13,6 @@ import  UserModel from "@models/user";
 import {DarkModeProvider} from '@lib/DarkModeProvider'
 import Main from "@components/Main";
 
-export const metadata = {
-  title: "FirstEstates",
-   description: "Find Your Perfect Student Home",
-};
-
-
 
 export default async function RootLayout({children}) {
 
