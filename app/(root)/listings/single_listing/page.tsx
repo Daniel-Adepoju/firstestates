@@ -20,16 +20,18 @@ export async function generateMetadata({ searchParams }: Props) {
     const res = await fetch(`${process.env.BASE_URL}/api/listings/${listingId}`, {
       cache: "no-store",
     })
-    if (res.ok) {
+    
       data = await res.json()
-    }
+  if (!res.ok) {
+    throw new Error("Failed to fetch listing")
+  }
   } catch (err) {
     console.error("Error fetching listing:", err)
   }
 
   if (!data) {
     return {
-      title: "Listing not found",
+      title: "La Not found",
       description: "The listing you are looking for does not exist.",
       url: `${process.env.BASE_URL}/listings/single_listing/?id=${listingId}`,
       siteName: "First Estates",
