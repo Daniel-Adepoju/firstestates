@@ -8,12 +8,12 @@ export async function generateMetadata({ searchParams }: Props) {
   const sp = (await searchParams) ?? {}
   const listingId = sp.id
 
-  if (!listingId) {
-    return {
-      title: "Listing not found",
-      description: "No listing ID provided.",
-    }
-  }
+  // if (!listingId) {
+  //   return {
+  //     title: "Listing not found",
+  //     description: "No listing ID provided.",
+  //   }
+  // }
 
   let data: any = null
   try {
@@ -31,7 +31,7 @@ export async function generateMetadata({ searchParams }: Props) {
     return {
       title: "Listing not found",
       description: "The listing you are looking for does not exist.",
-      url: `${process.env.BASE_URL}/listings/${listingId}`,
+      url: `${process.env.BASE_URL}/listings/single_listing/?id=${listingId}`,
       siteName: "First Estates",
       images: [
         {
