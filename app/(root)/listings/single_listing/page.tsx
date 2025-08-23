@@ -32,8 +32,13 @@ export async function generateMetadata({ searchParams }: Props) {
     return {
       title: "La Not found",
       description: "The listing you are looking for does not exist.",
+     
+     openGraph: {
+      title: "Not found",
+      description: "The listing you are looking for does not exist.",
       url: `${process.env.BASE_URL}/listings/single_listing/?id=${listingId}`,
       siteName: "First Estates",
+
       images: [
         {
           url: `${process.env.BASE_URL}/og.png`,
@@ -42,10 +47,14 @@ export async function generateMetadata({ searchParams }: Props) {
         },
       ],
     }
+    }
   }
 
   return {
     title: `Listing at ${data?.post.location}`,
+    description: data?.post.description,
+    openGraph: {
+     title: `Listing at ${data?.post.location}`,
     description: data?.post.description,
     url: `${process.env.BASE_URL}/listings/single_listing?id=${listingId}`,
     siteName: "First Estates",
@@ -56,6 +65,7 @@ export async function generateMetadata({ searchParams }: Props) {
         height: 630,
       },
     ],
+  }
   }
   } catch (err) {
     console.error("Error fetching listing:", err)
