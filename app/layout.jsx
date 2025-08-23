@@ -9,10 +9,28 @@ import Link from "next/link";
 
 
 export const metadata = {
-  title: "FirstEstates",
+  title: {
+    default: "First Estates",
+    template: "%s | FirstEstates",
+  },
   description: "Find Your Perfect Student Home",
   icons: {
     icon: "/icons/edit.svg",
+  },
+  openGraph: {
+    title: "First Estates",
+    description: "Find Your Perfect Student Home",
+    url: process.env.BASE_URL,
+    siteName: "First Estates",
+    images: [
+      {
+        url: `${process.env.BASE_URL}/og.png`,
+        width: 800,
+        height: 600,
+      },
+    ],
+    locale: "en-US",
+    type: "website",
   },
 };
 

@@ -117,14 +117,14 @@ const Sidebar = ({session}: Session) => {
     {/* collapsible arrow */}
       <div className="
     arrow absolute top-65 left-[94%]
-    w-full  hover:flex hidde showPriority
+    w-full  hover:flex hidden showPriority
     ">
      <div 
      onClick={() => setIsCollapse(prev => !prev)}
      className="
      w-10 h-10 rounded-full cursor-pointer
      flex flex-row items-center justify-center
-      bg-gray-500/70 z-50 shadow-lg mediumScale ">
+      bg-gray-500/70 shadow-lg mediumScale z-50">
     {isCollapse ?
     <ArrowRight size={30} color='white'/> :
     <ArrowLeft size={30} color='white'/>
