@@ -1,7 +1,8 @@
+import { PageProps } from ".next/types/app/layout";
 import SingleListing from "@components/SingleListing"
 import { SearchParams } from "next/dist/server/request/search-params";
 
-export async function generateMetadata({ searchParams }: { searchParams: SearchParams }) {
+export async function generateMetadata({ searchParams }: { searchParams: PageProps['searchParams'] }) {
 
   const sp = await searchParams
   const listingId = sp.id
@@ -45,7 +46,8 @@ export async function generateMetadata({ searchParams }: { searchParams: SearchP
 
 
 
-const SingleListingPage =  async ({searchParams}: { searchParams: SearchParams }) => {
+const SingleListingPage =  async ({searchParams}: { searchParams: PageProps['searchParams'] }) => {
+
 const sp = await  searchParams
 const listingId = sp.id
   return (
