@@ -21,15 +21,14 @@ export async function generateMetadata({ searchParams }: Props) {
       cache: "no-store",
     })
     
-      data = await res.json()
+      const listingData = await res.json()
+      data = listingData
   if (!res.ok) {
     throw new Error("Failed to fetch listing")
   }
-  } catch (err) {
-    console.error("Error fetching listing:", err)
-  }
 
-  if (!data) {
+
+   if (!data) {
     return {
       title: "La Not found",
       description: "The listing you are looking for does not exist.",
@@ -58,6 +57,11 @@ export async function generateMetadata({ searchParams }: Props) {
       },
     ],
   }
+  } catch (err) {
+    console.error("Error fetching listing:", err)
+  }
+
+ 
 }
 
 const SingleListingPage = async ({ searchParams }: Props) => {
