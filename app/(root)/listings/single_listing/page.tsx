@@ -1,23 +1,32 @@
 import SingleListing from "@components/SingleListing"
 
 type Props = {
- searchParams:{ id?: string } | Promise<{ id?: string }>
+  searchParams?: Promise<{ id?: string }>
 }
 
 export async function generateMetadata({ searchParams }: Props) {
-
-  const sp =  await Promise.resolve(searchParams)
+  const sp = (await searchParams) ?? {}
   const listingId = sp.id
- if (!listingId) {
+
+  if (!listingId) {
     return {
       title: "Listing not found",
       description: "No listing ID provided.",
     }
   }
 
-  const res =  await fetch(`${process.env.BASE_URL}/api/listings/${listingId}`)
-  const data = await res.json()
- console.log("Metadata data:", data.post.mainImage)
+  let data: any = null
+  try {
+    const res = await fetch(`${process.env.BASE_URL}/api/listings/${listingId}`, {
+      cache: "no-store",
+    })
+    if (res.ok) {
+      data = await res.json()
+    }
+  } catch (err) {
+    console.error("Error fetching listing:", err)
+  }
+
   if (!data) {
     return {
       title: "Listing not found",
@@ -31,8 +40,6 @@ export async function generateMetadata({ searchParams }: Props) {
           height: 630,
         },
       ],
-      locale: "en-US",
-      type: "website",
     }
   }
 
@@ -48,27 +55,18 @@ export async function generateMetadata({ searchParams }: Props) {
         height: 630,
       },
     ],
-    locale: "en-US",
-    type: "website",
   }
 }
 
+const SingleListingPage = async ({ searchParams }: Props) => {
+  const sp = (await searchParams) ?? {}
+  const listingId = sp.id
 
-
-const SingleListingPage =  async ({searchParams}: Props) => {
-const sp = await Promise.resolve(searchParams)
-const listingId = sp.id
-
-
- if (!listingId) {
+  if (!listingId) {
     return <div>No listing ID provided</div>
   }
-  return (
-    <>
-      <SingleListing listingId={listingId as string} />
 
-    </>
-  )
+  return <SingleListing listingId={listingId} />
 }
 
 export default SingleListingPage

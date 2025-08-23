@@ -24,7 +24,7 @@ export const metadata = {
     siteName: "First Estates",
     images: [
       {
-        url: `${process.env.BASE_URL}/og.png`,
+        url: `/og.png`,
         width: 1200,
         height: 630,
       },
