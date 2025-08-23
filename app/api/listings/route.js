@@ -72,6 +72,10 @@ if (status) {
     listingConfig = listingConfig.skip(skipNum).limit(limit).sort('-createdAt')
 
     const posts = await listingConfig
+    // no listings
+    if (posts.length === 0) { 
+      return NextResponse.json({post:'no posts', cursor:0, numOfPages:0}, { status: 500 })
+    }
  return NextResponse.json({posts,cursor,numOfPages}, { status: 200 }) 
   } catch (err) {
     console.log(err)

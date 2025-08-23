@@ -50,10 +50,7 @@ const sp = await  searchParams
 const listingId = sp.id
   return (
     <>
-    <div>
-    </div>
       <SingleListing listingId={listingId as string} />
-
     </>
   )
 }
