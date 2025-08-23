@@ -16,11 +16,26 @@ import Nav from '@components/Nav';
 
 export const metadata = {
 
- title: "First Estates | Agent",
-  description: "Agent Dashboard For First Estates",
+ title: "Agent",
+  description: "Manage listings, clients, and performance in the First Estates Agent Dashboard.",
   icons: {
     icon: "/icons/edit.svg",
-  }
+  },
+  openGraph: {
+    title: "First Estates Agent Dashboard",
+    description: "Manage listings, clients, and performance in the First Estates Agent Dashboard.",
+    url: `${process.env.BASE_URL}/agent`,
+    siteName: "First Estates",
+    // images: [
+    //   {
+    //     url: `${process.env.BASE_URL}/og.png`,
+    //     width: 1200,
+    //     height: 630,
+    //   },
+    // ],
+    locale: "en-US",
+    type: "website",
+  },
 }
 export default async function AdminLayout({children}){ 
     const session = await auth()
