@@ -492,6 +492,7 @@ footer.hide {
   width: 40px;
   overflow-wrap: break-word;
 }
+
 .popularCard {
   cursor: pointer;
   @include mx.transition(300ms, ease-out);
@@ -637,7 +638,7 @@ footer.hide {
 .single_card {
   @include mx.flex(column, center, flex-start);
   box-shadow: 1px 2px 2px 1px rgba(169, 169, 169, 0.073);
-  font-family: fn.font("card");
+  font-family: fn.font("list");
   gap: 10px;
   margin-inline: auto;
   width: 100%;
