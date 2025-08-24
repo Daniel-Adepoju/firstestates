@@ -1,10 +1,14 @@
 import SingleListing from "@components/SingleListing"
-
+import { headers } from "next/headers"
 type Props = {
   searchParams?: Promise<{ id?: string }>
 }
 
 export async function generateMetadata({ searchParams }: Props) {
+    const headersList = await headers()
+  const host = headersList.get("host")
+  const protocol = process.env.NODE_ENV === "development" ? "http" : "https"
+  const baseUrl = `${protocol}://${host}`
   const sp = (await searchParams) ?? {}
   const listingId = sp.id
 
@@ -17,7 +21,7 @@ export async function generateMetadata({ searchParams }: Props) {
 
   let data: any = null
   try {
-    const res = await fetch(`${process.env.BASE_URL}/api/listings/${listingId}`, {
+    const res = await fetch(`${baseUrl}/api/listings/${listingId}`, {
       cache: "no-store",
     })
     
