@@ -1,13 +1,14 @@
 'use client'
 import { useState } from "react"
 import { CldImage } from "next-cloudinary"
-import { Trash, Loader2 } from "lucide-react"
+import { Trash, Loader2, Heart} from "lucide-react"
 import Link from "next/link"
 import { formatNumber } from "@utils/formatNumber"
 import { truncateAddress } from "@utils/truncateAddress"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { axiosdata } from "@utils/axiosUrl"
 import Toast from "./Toast"
+import { useQuery } from "@tanstack/react-query"
 
 interface WishListProps {
     listing:Listing,
@@ -130,7 +131,7 @@ const WishListCard = ({listing,wishlistId,refValue}:WishListProps) => {
   )
 }
 
-export const WishlistButton = ({listingId}:{listingId:string}) => {
+export const WishlistButton = ({listingId,isInWishList}:{listingId:string,isInWishList:boolean}) => {
   const queryClient = useQueryClient()
   const [notification,setNotification] = useState({
     isActive:false,
@@ -138,15 +139,24 @@ export const WishlistButton = ({listingId}:{listingId:string}) => {
     status:''
   })
 
+ 
   const addToWishList = async (listingId:string) => {
     try {
-      await axiosdata.value.post('/api/listings/wishlists',{listingId})
+     const res = await axiosdata.value.post('/api/listings/wishlists',{listingId})
       setNotification({
         isActive:true,
-        message:'Added to wishlist',
-        status:'success'
+        message: res?.data.message,
+       status: res.status === 201 ? "success" : "danger",
       })
-    } catch (err) {
+    } catch (err: any) {
+      console.log(err.response.data.message)
+      if(err.response.data.message.startsWith('Log')) {
+        return  setNotification({
+        isActive:true,
+        message:err.response.data.message,
+        status:'warning'
+      })
+      }
       setNotification({
         isActive:true,
         message:'Failed to add to wishlist',
@@ -162,15 +172,39 @@ export const WishlistButton = ({listingId}:{listingId:string}) => {
     }
   })
 
+  // if listingId === wishList.listing, then remove from wishlist
+
   return (
-    <div className="flex items-center justify-center">
+    <>
+       <Toast 
+      isActive={notification.isActive}
+      setIsActive={setNotification}
+      message={notification.message}
+      status={notification.status}
+      />
+    <div className="flex items-center justify-center absolute top-3 right-3 z-10">
       <button
-        onClick={() => addToWishListMutation.mutate(listingId)}
+        onClick={(e) => {
+          e.stopPropagation()
+          addToWishListMutation.mutate(listingId)
+          }}
         className="text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100 transition-all"
       >
-        Add to Wishlist
+        {!addToWishListMutation.isPending ? (
+          <Heart
+           size={30}
+           fill={isInWishList ? 'red' : 'transparent'}
+           className={!isInWishList ? "text-red-600 dark:text-red-500" : "text-gray-800 dark:text-gray-800"} />
+
+        ) : (
+          <Loader2
+            size={25}
+            className="text-red-600 dark:text-red-500 animate-spin"
+          />
+        )}
       </button>
     </div>
+    </>
   )
 }
 

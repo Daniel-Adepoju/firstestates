@@ -9,6 +9,7 @@ import Link from "next/link";
 
 
 export const metadata = {
+  metadataBase: process.env.BASE_URL,
   title: {
     default: "First Estates",
     template: "%s | FirstEstates",

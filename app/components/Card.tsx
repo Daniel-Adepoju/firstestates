@@ -20,13 +20,15 @@ import {
 } from "lucide-react"
 import { formatNumber } from "@utils/formatNumber"
 import { FeaturedBtn } from "./Featured"
+import { WishlistButton } from "./WishListCard"
 
 export interface CardProps {
   edit?: boolean
   isAgentCard?: boolean
   listing: Listing
+  isInWishList?:boolean
 }
-const Card = ({ edit, listing, isAgentCard }: CardProps) => {
+const Card = ({ edit, listing, isAgentCard, isInWishList }: CardProps) => {
   const [address] = useState(listing?.address || "Nigeria")
   const router = useRouter()
   const deleteRef = useRef<HTMLDialogElement>(null)
@@ -67,6 +69,9 @@ const Card = ({ edit, listing, isAgentCard }: CardProps) => {
                 }}
               />
             )}
+             <WishlistButton 
+                isInWishList={isInWishList || false}
+                listingId={listing?._id ?? ""} />
           </div>
 
           <div className="body">
@@ -163,6 +168,7 @@ const Card = ({ edit, listing, isAgentCard }: CardProps) => {
                    text-gray-700 dark:text-gray-200 shadow-sm  rounded-md">
                     {listing?.school}
                     </div>
+
                 {!edit && (
                   <div className=" headersFont mx-auto inline-flex items-center gap-2 px-3 py-2 rounded-md
                    bg-gray-50 dark:bg-gray-800/10 text-sm font-medium
@@ -176,6 +182,7 @@ const Card = ({ edit, listing, isAgentCard }: CardProps) => {
                     </span>
                   </div>
                 )}
+
               </>
             )}
           </div>

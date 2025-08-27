@@ -271,7 +271,7 @@ export const useGetNotifications = ({page,limit}: Config) => {
   return {data,isLoading,isError,isFetchingNextPage,fetchNextPage,hasNextPage}
 }
 
-export const useGetComments = ({listingId, page='1', limit=10}: Config) => {
+export const useGetComments = ({listingId, limit=10}: Config) => {
   const getComments = async (page:string) => {
     const res = await axiosdata.value.get(`/api/listings/comments?listingId=${listingId}&limit=${limit}&page=${page}`)
     return res.data; 

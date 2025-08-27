@@ -14,6 +14,9 @@ import Pagination from './Pagination'
 import Featured from "./Featured"
 import Link from "next/link"
 import {ChevronDownCircle, ArrowLeftFromLine, ChevronRightCircle,ChevronUpCircle } from "lucide-react"
+import { useQuery } from "@tanstack/react-query"
+import { axiosdata } from "@utils/axiosUrl"
+import { it } from "node:test"
 
 const CardList = () => {
 useSignals()
@@ -41,7 +44,6 @@ const current = useSignal(false)
 //    school.value = session?.user.school
 //   }
 // },[session])
-
 const {data,isLoading,isError} = useGetListings({
   limit: limit.value,
   page: page,
@@ -55,9 +57,22 @@ const {data,isLoading,isError} = useGetListings({
   status: statusVal.value,
 })
 
+// check which listings are in wishlist
+const { data: wishlistMap } = useQuery({
+  queryKey: ["wishlists", data?.posts.map((listing:Listing) => listing._id)],
+  queryFn: () => axiosdata.value
+    .post("/api/listings/wishlists/check", { listingIds: data?.posts.map((listing:Listing) => listing._id) })
+    .then(res => res.data),
+  enabled: !!data?.posts
+})
  
+// map through listings and render Card component
  const mapCards = data?.posts?.map((item:CardProps['listing']) => {
-return <Card key={item._id} listing={item} edit={false} />
+return <Card key={item._id}
+ listing={item} 
+ edit={false}
+ isInWishList={item?._id ? wishlistMap?.[item._id] : false}
+ />
 })
 
 const loadingCards = Array.from({length:6}).map((_,i) => {
@@ -130,8 +145,8 @@ active={active}
    {isLoading ? <Skeleton className="w-[80%] m-4 h-1 mx-auto bg-gray-500/20"/> :
    <div className='subheading ml-4 p-1 '>
     <div className="w-full">
-      Showing Recent Listings from {school.value? '' : 'all'}
-      <div className='capitalize ml-1 inline-flex items-center gap-1'>
+      Showing Recent Listings from {school.value ? '' : 'all '}
+      <div className='capitalize  inline-flex items-center gap-1'>
         {school.value? school.value : 'schools'}
           <ChevronRightCircle className="w-6 h-6"/>
       </div>

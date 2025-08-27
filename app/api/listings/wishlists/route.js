@@ -42,6 +42,9 @@ export const POST = async (req) => {
     await connectToDB()
     try {
         const { listingId } = await req.json()
+        if(!session?.user) {
+       return NextResponse.json({message: 'Log in to add a listing to wishlist'}, { status: 400 })
+        }
         const checkExisting = await Wishlist.findOne({user: session?.user.id, listing: listingId})
         if (checkExisting) {
         return NextResponse.json({message: 'Listing already in wishlist'}, { status: 400 })
