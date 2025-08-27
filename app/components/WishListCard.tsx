@@ -182,7 +182,7 @@ export const WishlistButton = ({listingId,isInWishList}:{listingId:string,isInWi
       message={notification.message}
       status={notification.status}
       />
-    <div className="flex items-center justify-center absolute top-3 right-3 z-10">
+    <div className="flex items-center justify-center absolute top-2 right-3 z-10">
       <button
         onClick={(e) => {
           e.stopPropagation()
@@ -193,8 +193,8 @@ export const WishlistButton = ({listingId,isInWishList}:{listingId:string,isInWi
         {!addToWishListMutation.isPending ? (
           <Heart
            size={30}
-           fill={isInWishList ? 'red' : 'transparent'}
-           className={!isInWishList ? "text-red-600 dark:text-red-500" : "text-gray-800 dark:text-gray-800"} />
+           fill={isInWishList ? 'red' : 'black'}
+           className={!isInWishList ? "text-gray-600" : "text-gray-800 dark:text-black"} />
 
         ) : (
           <Loader2
