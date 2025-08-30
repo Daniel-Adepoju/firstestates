@@ -84,22 +84,7 @@ const Nav = () => {
       </Link>
 
 {/* test */}
-  <div
-    onClick={() => {
-      toggleDarkMode();
-      handleNavItemClick();
-    }}
-    className="flex flex-row items-center gap-2 cursor-pointer"
-  >
-    <div className="dark:bg-white bg-[#0874c7] p-2 rounded-full ">
-      {darkMode ? (
-        <Sun size={20} color="#f59e0b" />
-      ) : (
-        <Moon size={20} color="white" />
-      )}
-    </div>
-    <span className="mode">{darkMode ? "Light Mode" : "Dark Mode"}</span>
-  </div>
+  
 {/*  */}
 
       {/* <div style={{ color: "black" }}>{session?.user.username}</div> */}
@@ -128,8 +113,8 @@ const Nav = () => {
   {/* Going To Dashboard */}
   {session?.user && session?.user.role !=='client' && (
     <div className="flex flex-row items-center gap-2 cursor-pointer">
-   <div className="dark:bg-white bg-[#0874c7] p-2 rounded-full ">
-      <LayoutDashboard size={20} color={darkMode ? '#f59e0b' : 'white'}/>
+   <div className="dark:bg-coffee bg-darkblue p-2 rounded-full ">
+      <LayoutDashboard size={20} color={'white'}/>
       </div>
       <Link href={session?.user.role ==='admin' ? '/admin' : '/agent'} 
       onClick={handleNavItemClick}>
@@ -146,9 +131,9 @@ const Nav = () => {
     }}
     className={` flex flex-row items-center gap-2 cursor-pointer ${!session?.user && 'mt-3'}`}
   >
-    <div className="dark:bg-white bg-[#0874c7] p-2 rounded-full ">
+    <div className="dark:bg-coffee bg-darkblue p-2 rounded-full ">
       {darkMode ? (
-        <Sun size={20} color="#f59e0b" />
+        <Sun size={20} color="white" />
       ) : (
         <Moon size={20} color="white" />
       )}
@@ -163,8 +148,8 @@ const Nav = () => {
     onClick={handleNavItemClick}
     className="relative flex flex-row items-center gap-2 cursor-pointer"
   >
-    <div className="dark:bg-white bg-[#0874c7] p-2 rounded-full">
-      <MessageSquare size={20} color={darkMode ? '#f59e0b' : 'white'}/>
+    <div className="dark:bg-coffee bg-darkblue p-2 rounded-full">
+      <MessageSquare size={20} color={'white'}/>
       </div>
       <Link href="/inbox" onClick={handleNavItemClick}>Chats</Link>
       {unreadMessages && parseInt(unreadMessages) > 0 && (
@@ -177,30 +162,36 @@ const Nav = () => {
   )}
 
 {/* Unique To Client Account */}
-{/* add roomie */}
+
   {session?.user && (
     <>
+    {/* add roomie */}
       <div
     onClick={handleNavItemClick}
     className="flex flex-row items-center gap-2 cursor-pointer"
   >
-    <div className="dark:bg-white bg-[#0874c7] p-2 rounded-full">
-      <UserPlus2 size={20} color={darkMode ? '#f59e0b' : 'white'}/>
+    <div className="dark:bg-coffee bg-darkblue p-2 rounded-full">
+      <UserPlus2 size={20} color={'white'}/>
       </div>
       <Link href="/listings" onClick={handleNavItemClick}>Roomate Match</Link>
   </div>
 
+
+  </>
+  )}
+
+{/* Other Features */}
+
+{/* wishlists */}
      <div
     onClick={handleNavItemClick}
     className="flex flex-row items-center gap-2 cursor-pointer"
   >
-    <div className="dark:bg-white bg-[#0874c7] p-2 rounded-full">
-      <Heart size={20} color={darkMode ? '#f59e0b' : 'white'}/>
+    <div className="dark:bg-coffee bg-darkblue p-2 rounded-full">
+      <Heart size={20} color={'white'}/>
       </div>
       <Link href="/listings/wishlists" onClick={handleNavItemClick}>Wishlist</Link>
   </div>
-  </>
-  )}
 
 
 {/* Unique to signed Out */}
@@ -209,8 +200,8 @@ const Nav = () => {
        <div
     className="flex flex-row items-center gap-2 cursor-pointer"
   >
-    <div className="dark:bg-white bg-[#0874c7] p-2 rounded-full">
-      <LogIn size={20} color={darkMode ? '#f59e0b' : 'white'}/>
+    <div className="dark:bg-coffee bg-darkblue p-2 rounded-full">
+      <LogIn size={20} color={'white'}/>
       </div>
      <Link href="/login" onClick={handleNavItemClick}>Login</Link>
   </div>
@@ -218,8 +209,8 @@ const Nav = () => {
      <div
     className="flex flex-row items-center gap-2 cursor-pointer"
   >
-    <div className="dark:bg-white bg-[#0874c7] p-2 rounded-full">
-      <UserPlus size={20} color={darkMode ? '#f59e0b' : 'white'}/>
+    <div className="dark:bg-coffee bg-darkblue p-2 rounded-full">
+      <UserPlus size={20} color={ 'white'}/>
       </div>
   <Link href="/signup" onClick={handleNavItemClick}>Sign Up</Link>
   </div>

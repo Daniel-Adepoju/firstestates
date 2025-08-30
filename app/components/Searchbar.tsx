@@ -13,8 +13,8 @@ interface SearchProps {
 const Searchbar = ({search,placeholder,goToSearch,setSearch,className}:SearchProps) => {
   const {darkMode} = useDarkMode()
   return (
-  <div className={className || " mt-[80px] gap-1 w-full flex flex-row justify-center items-center md:justify-end  md:w-[60%]"}>
-   <div className="dark:bg-white bg-blue-100 rounded-sm p-1">
+  <div className={className || "mt-[80px] gap-1 w-full flex flex-row justify-center items-center md:justify-end  md:w-[60%]"}>
+   <div className="dark:bg-white bg-gray-600/20 rounded-sm p-1">
     <Search size={32} color={darkMode ? '#A88F6E' : '#0874c7'}/>
    </div>
     <input className="dark:bg-gray-600

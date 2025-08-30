@@ -206,7 +206,7 @@ export const WishlistButton = ({listingId,isInWishList}:{listingId:string,isInWi
         className="
         w-10 h-10 flex items-center justify-center p-2
         clickable bg-gray-700/60
-      hover:bg-gray-700  hover:scale-105 transition-all
+      hover:bg-gray-700  hover:scale-105 duration-300 transition-all
          rounded-full"
       >
         {!addToWishListMutation.isPending ? (
