@@ -1770,7 +1770,7 @@ footer.hide {
 }
 .card .houseImg img {
   padding: relative;
-  border-radius: 0 0 10px 10px;
+  border-radius: 6px 6px 10px 10px;
 }
 .card .body {
   z-index: 1;

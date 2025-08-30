@@ -141,13 +141,27 @@ export const WishlistButton = ({listingId,isInWishList}:{listingId:string,isInWi
 
  
   const addToWishList = async (listingId:string) => {
+    let res
+
     try {
-     const res = await axiosdata.value.post('/api/listings/wishlists',{listingId})
+      if (isInWishList) {
+        console.log('true')
+        res = await axiosdata.value.delete(`/api/listings/wishlists`,{data:{listingId}})
+      return   setNotification({
+        isActive:true,
+        message: res?.data.message,
+       status: res.status === 201 || res.status === 200 ? "success" : "danger",
+      })
+      } else {
+
+     res = await axiosdata.value.post('/api/listings/wishlists',{listingId})
       setNotification({
         isActive:true,
         message: res?.data.message,
        status: res.status === 201 ? "success" : "danger",
       })
+      
+    }
     } catch (err: any) {
       console.log(err.response.data.message)
       if(err.response.data.message.startsWith('Log')) {
@@ -188,18 +202,22 @@ export const WishlistButton = ({listingId,isInWishList}:{listingId:string,isInWi
           e.stopPropagation()
           addToWishListMutation.mutate(listingId)
           }}
-        className="text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100 transition-all"
+          disabled={addToWishListMutation.isPending}
+        className="
+        w-10 h-10 flex items-center justify-center p-2
+        clickable bg-gray-700/60
+      hover:bg-gray-700  hover:scale-105 transition-all
+         rounded-full"
       >
         {!addToWishListMutation.isPending ? (
           <Heart
            size={30}
-           fill={isInWishList ? 'red' : 'black'}
-           className={!isInWishList ? "text-gray-600" : "text-gray-800 dark:text-black"} />
+           className={!isInWishList ?  "fill-gray-500/40 text-white" : "fill-darkblue dark:fill-coffee text-white"} />
 
         ) : (
           <Loader2
             size={25}
-            className="text-red-600 dark:text-red-500 animate-spin"
+            className="text-gray-300 dark:text-white animate-spin"
           />
         )}
       </button>

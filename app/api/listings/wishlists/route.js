@@ -65,8 +65,8 @@ export const DELETE = async (req) => {
   const session = await auth()
   await connectToDB()
   try {
-    const { listingId,wishlistId } = await req.json()
-    const wishlist = await Wishlist.findOne({_id:wishlistId, user: session?.user.id, listing: listingId})
+    const { listingId} = await req.json()
+    const wishlist = await Wishlist.findOne({user: session?.user.id, listing: listingId})
     if (!wishlist) {
       return NextResponse.json({message: 'No wishlist found'}, { status: 404 }) 
     }
