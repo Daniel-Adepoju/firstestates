@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Quicksand:wght@300..700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Sulphur+Point:wght@300;400;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Cascadia+Code:ital,wght@0,200..700;1,200..700&family=Tangerine:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cascadia+Code:ital,wght@0,200..700;1,200..700&family=Tangerine:wght@800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Tourney:ital,wght@0,100..900;1,100..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400..900;1,300..900&display=swap");
 html:is(.dark) .loader {
@@ -1443,6 +1443,10 @@ main {
   font-weight: bold;
   font-family: monospace;
 }
+.nav .profilePic, .footer .profilePic {
+  cursor: pointer;
+  border-radius: 50%;
+}
 .nav .nav_items, .footer .nav_items {
   display: none;
   display: flex;
@@ -1450,10 +1454,6 @@ main {
   align-items: center;
   justify-content: center;
   gap: 20px;
-}
-.nav .nav_items img, .footer .nav_items img {
-  cursor: pointer;
-  border-radius: 50%;
 }
 .nav .nav_items a, .footer .nav_items a,
 .nav .nav_items span,
@@ -1490,7 +1490,6 @@ main {
 @media (max-width: 800px) {
   .nav .nav_items, .footer .nav_items {
     visibility: hidden;
-    padding: 10px 10px;
     position: fixed;
     display: flex;
     flex-direction: column;

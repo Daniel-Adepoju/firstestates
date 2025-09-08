@@ -109,14 +109,14 @@ main {
     font-weight: bold;
     font-family: monospace;
   }
+   .profilePic {
+      cursor: pointer;
+      border-radius: 50%;
+    }
   .nav_items {
     display: none;
     @include mx.flex(row, center, center);
     gap: 20px;
-    img {
-      cursor: pointer;
-      border-radius: 50%;
-    }
     a,
     span {
       position: relative;
@@ -145,7 +145,6 @@ main {
     }
     @media (max-width: 800px) {
       visibility: hidden;
-      padding: 10px 10px;
       position: fixed;
       @include mx.flex(column, center, flex-start);
       top: 100%;

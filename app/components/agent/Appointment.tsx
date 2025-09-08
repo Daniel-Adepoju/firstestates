@@ -11,7 +11,7 @@ import { useUser } from "@utils/user"
 import {useSearchParams } from "next/navigation"
 import Pagination from "@components/Pagination"
 import { MoreHorizontal, Loader2 } from "lucide-react"
-import ScrollController,{scrollRef} from "@components/ScrollController"
+import ScrollController from "@components/ScrollController"
 import { Skeleton } from "@components/ui/skeleton"
 import { useNextPage } from "@lib/useIntersection"
 
@@ -22,7 +22,7 @@ const Appointment = () => {
   const [agentId, setAgentId] = useState("")
   const [search, setSearch] = useState("")
   const [debounced, setDebounced] = useState("")
-  
+    const scrollRef = useRef<HTMLDivElement>(null)
   // listings data
   const { data, isLoading,isFetchingNextPage,fetchNextPage,hasNextPage } = useGetAgentListingsInfinite({
 
@@ -104,7 +104,7 @@ const Appointment = () => {
             />
 
             {/* listings */}
-            {agentId &&  <ScrollController />}
+            {agentId &&  <ScrollController scrollRef={scrollRef} />}
                 <div
             ref={scrollRef}
             className="popularList dark:text-white w-full 

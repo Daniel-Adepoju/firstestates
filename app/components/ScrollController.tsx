@@ -1,13 +1,14 @@
-import { useDarkMode } from "@lib/DarkModeProvider"
+
 import { useState,useRef,useEffect } from "react"
 import {ArrowLeft,ArrowRight } from "lucide-react"
 
-export let scrollRef: React.RefObject<HTMLDivElement | null>
-const ScrollController = () => {
-  const {darkMode} = useDarkMode()
+type ScrollControllerProps = {
+  scrollRef: React.RefObject<HTMLDivElement | null>
+}
+
+const ScrollController = ({scrollRef}:ScrollControllerProps) => {
   const [showLeft, setShowLeft] = useState(false)
   const [showRight, setShowRight] = useState(false)
-   scrollRef = useRef<HTMLDivElement>(null)
 
    const checkScroll = () => {
     const el = scrollRef?.current;

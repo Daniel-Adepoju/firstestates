@@ -66,7 +66,8 @@ const WishListCard = ({listing,wishlistId,refValue}:WishListProps) => {
      />
     <div
     ref={refValue}
-    className="w-full max-w-220 flex items-center gap-4 shadow-sm rounded-md dark:bg-gray-800/50">
+    className="w-full max-w-220 flex items-center md:justify-between gap-4 pr-3 shadow-sm rounded-md dark:bg-gray-800/50">
+   
       <CldImage
     width={90}
     height={90}
@@ -78,30 +79,39 @@ const WishListCard = ({listing,wishlistId,refValue}:WishListProps) => {
         }}
         className="rounded-md"
         />
-        <div className="flex flex-col items- enter">
+        <div className="flex flex-col items-center">
 
-      
+      {/* address */}
         <div className="
         address text-sm">
          {truncateAddress(listing.address)}
         </div>  
+
+{/* school */}
      <div className="
       font-bold text-gray-500 dark:text-gray-300 text-sm px-3 py-2">
         {listing.school}
         </div>
-        <div className="agent pb-2">
+
+         {/* agent */}
+        <div className="flex items-center gap-2 w-full pb-2">
                 <CldImage
-    width={90}
-    height={90}
+    width={30}
+    height={30}
     alt="post_img"
     src={listing.agent.profilePic}
     crop= "auto"
+    gravity="center"
     className="rounded-full"
         />
-        <Link href={`/chat?recipientId=${listing.agent._id}`} className="text-sm text-darkblue dark:text-coffee underline ">Chat With Agent </Link>
+        <Link
+         href={`/chat?recipientId=${listing.agent._id}`}
+         className=" block text-sm text-darkblue dark:text-coffee underline ">Chat With Agent </Link>
+        </div> 
         </div>
-        </div>
-
+ 
+ <div className='flex flex-col items-center justify-center ml-auto md:ml-0 gap-2'>
+    {/* price and status */}
 
    <div className="text-gray-500 dark:text-gray-300 font-bold text-sm ml-auto">
     <div className="text-center">
@@ -113,8 +123,8 @@ const WishListCard = ({listing,wishlistId,refValue}:WishListProps) => {
     </div>
     </div>
    </div>
-
-
+ 
+ {/* delete btn */}
         <div 
         onClick={handleDeleteWishList}
         className="ml-auto pr-6 cursor-pointer smallScale">
@@ -125,6 +135,9 @@ const WishListCard = ({listing,wishlistId,refValue}:WishListProps) => {
           dark:text-white animate-spin"/>
        }
         </div>
+</div>
+
+
     </div>
     </>
   

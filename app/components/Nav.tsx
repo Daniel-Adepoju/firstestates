@@ -84,52 +84,12 @@ const Nav = () => {
       </Link>
 
 {/* test */}
-  
-{/*  */}
-
-      {/* <div style={{ color: "black" }}>{session?.user.username}</div> */}
-      <div
-        onClick={showNav}
-        className={`toggle_nav`}
-      >
-        <span className="toggle_items"></span>
-        <span className="toggle_items"></span>
-        <span className="toggle_items"></span>
-      </div>
-    <div className="nav_items" style={{ flexWrap: "wrap" }}>
-  {session?.user && (
-    <Link href="/client-settings" onClick={handleNavItemClick}>
-      <CldImage
-        width={35}
-        height={35}
-        alt="profile image"
-        src={session?.user?.profilePic}
-        crop={"fill"}
-      />
-    </Link>
-  )}
-
-{/* Unique To Non-CLient Accounts */}
-  {/* Going To Dashboard */}
-  {session?.user && session?.user.role !=='client' && (
-    <div className="flex flex-row items-center gap-2 cursor-pointer">
-   <div className="dark:bg-coffee bg-darkblue p-2 rounded-full ">
-      <LayoutDashboard size={20} color={'white'}/>
-      </div>
-      <Link href={session?.user.role ==='admin' ? '/admin' : '/agent'} 
-      onClick={handleNavItemClick}>
-        Dashboard
-    </Link>
-    </div>
-  )}
-
-  {/* Mode */}
-  <div
+  {/* <div
     onClick={() => {
       toggleDarkMode();
       handleNavItemClick();
     }}
-    className={` flex flex-row items-center gap-2 cursor-pointer ${!session?.user && 'mt-3'}`}
+    className="flex flex-row items-center gap-2 cursor-pointer"
   >
     <div className="dark:bg-coffee bg-darkblue p-2 rounded-full ">
       {darkMode ? (
@@ -139,7 +99,51 @@ const Nav = () => {
       )}
     </div>
     <span className="mode">{darkMode ? "Light Mode" : "Dark Mode"}</span>
-  </div>
+  </div> */}
+{/*  */}
+  
+     <div className="flex gap-4 items-center">
+     {/* profile pic */}
+      {session?.user && (
+    <Link href="/client-settings" onClick={handleNavItemClick}>
+      <CldImage
+        width={35}
+        height={35}
+        alt="profile image"
+        src={session?.user?.profilePic}
+        crop={"fill"}
+        className="profilePic"
+      />
+    </Link>
+  )}
+  {/* hamburger menu */}
+      <div
+        onClick={showNav}
+        className={`toggle_nav`}
+      >
+        <span className="toggle_items"></span>
+        <span className="toggle_items"></span>
+        <span className="toggle_items"></span>
+      </div>
+    <div className={`nav_items md:pr-3 ${isActive && 'p-3 md:p-0'}`}>
+ 
+
+{/* Unique To Non-CLient Accounts */}
+  {/* Going To Dashboard */}
+  {session?.user && session?.user.role !=='client' && (
+    <div className="flex flex-row items-center gap-2 cursor-pointer">
+   <div className="dark:bg-coffee bg-darkblue p-2 rounded-full ">
+      <LayoutDashboard size={20} color={'white'}/>
+      </div>
+      <Link 
+      href={session?.user.role ==='admin' ? '/admin' : '/agent'} 
+      onClick={handleNavItemClick}
+      className="w-50 md:w-full text-white bg-darkblue dark:bg-coffee px-4 py-2 rounded-md hover:opacity-95 transition"
+      >
+        Dashboard
+    </Link>
+    </div>
+  )}
 
 
 {/* chats */}
@@ -163,7 +167,7 @@ const Nav = () => {
 
 {/* Unique To Client Account */}
 
-  {session?.user && (
+  {session?.user &&  session?.user.role ==='client' && (
     <>
     {/* add roomie */}
       <div
@@ -194,6 +198,24 @@ const Nav = () => {
   </div>
 
 
+ {/* Mode */}
+  <div
+    onClick={() => {
+      toggleDarkMode();
+      handleNavItemClick();
+    }}
+    className={` flex flex-row items-center gap-2 cursor-pointer`}
+  >
+    <div className="dark:bg-coffee bg-darkblue p-2 rounded-full ">
+      {darkMode ? (
+        <Sun size={20} color="white" />
+      ) : (
+        <Moon size={20} color="white" />
+      )}
+    </div>
+    <span className="mode">{darkMode ? "Light Mode" : "Dark Mode"}</span>
+  </div>
+
 {/* Unique to signed Out */}
   {!session?.user && (
     <>
@@ -203,7 +225,13 @@ const Nav = () => {
     <div className="dark:bg-coffee bg-darkblue p-2 rounded-full">
       <LogIn size={20} color={'white'}/>
       </div>
-     <Link href="/login" onClick={handleNavItemClick}>Login</Link>
+     <Link
+     href="/login"
+     onClick={handleNavItemClick}
+     className="w-50 md:w-full text-white bg-darkblue dark:bg-coffee px-4 py-2 rounded-md hover:opacity-95 transition"
+     >
+      Login
+      </Link>
   </div>
 
      <div
@@ -212,7 +240,12 @@ const Nav = () => {
     <div className="dark:bg-coffee bg-darkblue p-2 rounded-full">
       <UserPlus size={20} color={ 'white'}/>
       </div>
-  <Link href="/signup" onClick={handleNavItemClick}>Sign Up</Link>
+  <Link href="/signup"
+  onClick={handleNavItemClick}
+  className="w-50 md:w-full text-darkblue dark:text-coffee border-2 border-darkblue dark:border-coffee px-4 py-2 rounded-md hover:opacity-90 transition"
+  >
+    Sign Up
+    </Link>
   </div>
   
      
@@ -220,6 +253,7 @@ const Nav = () => {
   )}
 </div>
 
+</div>
     </header>
   )
 }
