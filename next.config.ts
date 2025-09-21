@@ -5,7 +5,17 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   }, 
   images: {
-    domains: ['placehold.co'],
+    // domains: ['placehold.co'],
+      remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**', // allow ALL https domains
+      },
+      {
+        protocol: 'http',
+        hostname: '**', // allow ALL http domains
+      },
+    ],
   },
 };
 

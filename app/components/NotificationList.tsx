@@ -9,7 +9,7 @@ import {useNextPage} from '@lib/useIntersection'
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { clearAllNotifications } from '@lib/server/notificationFunctions';
 import { Skeleton } from './ui/skeleton';
-import { _ } from 'node_modules/@upstash/redis/zmscore-CjoCv9kz.mjs';
+
 
 const NotificationList = () => {
   const [page] = useState('1')

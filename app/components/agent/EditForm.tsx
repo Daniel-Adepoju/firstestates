@@ -1,30 +1,35 @@
 "use client"
 
 import { useSignal, useSignals } from "@preact/signals-react/runtime"
-import {WhiteLoader, Loader } from "@utils/loaders"
+import { WhiteLoader, Loader } from "@utils/loaders"
 import Button from "@lib/Button"
 import { useNotification } from "@lib/Notification"
 import { useUser } from "@utils/user"
 import { useRouter } from "next/navigation"
-import { useState,useEffect } from "react"
+import { useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
-import { useGetSingleListing } from '@lib/customApi'
-import { schoolArea,schools } from "@lib/constants"
-import {editListing} from "@lib/server/listing"
+import { useGetSingleListing } from "@lib/customApi"
+import { useSchools } from "@lib/useSchools"
+import { editListing } from "@lib/server/listing"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 const EditForm = () => {
   useSignals()
-  const listingId = useSearchParams().get('id')
-  const {data,isLoading} = useGetSingleListing(listingId, true)
-  const {session} = useUser()
+  const listingId = useSearchParams().get("id")
+  const { data, isLoading } = useGetSingleListing(listingId, true)
+  const { session } = useUser()
   const router = useRouter()
   const notification = useNotification()
   const creating = useSignal(false)
-  const [area,setArea] = useState('')
-  const [school,setSchool] = useState('')
-  const [areas,setAreas] = useState<string[]>([])
-  const [status,setStatus] = useState("")
+  const [area, setArea] = useState("")
+  const [school, setSchool] = useState("")
+  const [areas, setAreas] = useState<string[]>([])
+  const { schools } = useSchools()
+  const schoolArea = schools
+    ?.filter((s: any) => s?.shortname.toLocaleLowerCase() === school?.toLocaleLowerCase())
+    .map((s: any) => s?.schoolAreas)
+    .flat()
+  const [status, setStatus] = useState("")
   const listingDeets = {
     description: useSignal(""),
     price: useSignal(""),
@@ -33,37 +38,51 @@ const EditForm = () => {
     bathrooms: useSignal(""),
     toilets: useSignal(""),
   }
+  const [descriptionLength, setDescriptionLength] = useState(0)
   const queryClient = useQueryClient()
   const userId = session?.user.id
-  
 
+  console.log("DATA", data?.post.school)
+  // Set form values when data is loaded
   useEffect(() => {
     if (data) {
-      setArea(data.location)
-      setSchool(data.school)
-      setStatus(data.status)
-      listingDeets.description.value = data.description
-      listingDeets.price.value = data.price
-      listingDeets.address.value = data.address
-      listingDeets.bedrooms.value = data.bedrooms
-      listingDeets.bathrooms.value = data.bathrooms
-      listingDeets.toilets.value = data.toilets
+      setArea(data.post.location)
+      setSchool(data.post.school)
+      setStatus(data.post.status)
+      listingDeets.description.value = data.post.description
+      setDescriptionLength(data.post.description.replace(/\s+/g, "").length)
+      listingDeets.price.value = data.post.price
+      listingDeets.address.value = data.post.address
+      listingDeets.bedrooms.value = data.post.bedrooms
+      listingDeets.bathrooms.value = data.post.bathrooms
+      listingDeets.toilets.value = data.post.toilets
     }
+    return () => {}
   }, [data])
 
+  // Set areas when school changes
   useEffect(() => {
-    if(!school) {
+    if (!school) {
       setAreas([])
     }
-    if(school) {
-      const areaOptions = schoolArea[school as keyof typeof schoolArea] || []
-      setAreas(areaOptions)  
+    if (school) {
+      const areaOptions = schoolArea || []
+      setAreas(areaOptions)
     }
-  },[school]) 
+  }, [school])
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     listingDeets[name as keyof typeof listingDeets].value = value
+    if (listingDeets["description"]) {
+      setDescriptionLength(value.replace(/\s+/g, "").length)
+    }
+    if (listingDeets["description"].value.replace(/\s+/g, "").length > 600) {
+      setDescriptionLength(600)
+      listingDeets["description"].value = listingDeets["description"].value
+        .replace(/\s+/g, "")
+        .slice(0, 600)
+    }
   }
 
   //Edit Listing
@@ -72,19 +91,22 @@ const EditForm = () => {
     creating.value = true
     try {
       await session
-      const res = await editListing({
-        id: listingId,
-        status,
-        description: listingDeets.description.value,
-        price: listingDeets.price.value,
-        location:area,
-        school,
-        address: listingDeets.address.value,
-        bathrooms: listingDeets.bathrooms.value,
-        bedrooms: listingDeets.bedrooms.value,
-        toilets: listingDeets.toilets.value,
-        mainImage: data?.mainImage,
-      }, userId)
+      const res = await editListing(
+        {
+          id: listingId,
+          status,
+          description: listingDeets.description.value,
+          price: listingDeets.price.value,
+          location: area,
+          school,
+          address: listingDeets.address.value,
+          bathrooms: listingDeets.bathrooms.value,
+          bedrooms: listingDeets.bedrooms.value,
+          toilets: listingDeets.toilets.value,
+          mainImage: data?.mainImage,
+        },
+        userId
+      )
       if (res.status === "success") {
         notification.setIsActive(true)
         notification.setMessage(res.message)
@@ -98,16 +120,16 @@ const EditForm = () => {
   }
 
   const mutation = useMutation({
-    mutationFn:handleEditListing,
+    mutationFn: handleEditListing,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['agentListings'] })
-      queryClient.invalidateQueries({ queryKey: ['notifications'] })
-         router.push('/agent')
+      queryClient.invalidateQueries({ queryKey: ["agentListings"] })
+      queryClient.invalidateQueries({ queryKey: ["notifications"] })
+      router.push("/agent")
     },
   })
 
   if (isLoading) {
-    return <Loader className='my-50'/>
+    return <Loader className="my-50" />
   }
 
   return (
@@ -124,7 +146,7 @@ const EditForm = () => {
         >
           {/* Status */}
           <div className="form_group">
-            <label>Set Status</label> 
+            <label>Set Status</label>
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value)}
@@ -136,16 +158,19 @@ const EditForm = () => {
           </div>
 
           {/* Desc */}
-          <div className="form_group">
+          <div className="form_group relative">
             <label htmlFor="description">Description</label>
-            <input
+            <textarea
               id="description"
               name="description"
-              type="text"
               value={listingDeets.description.value}
               onChange={handleInputChange}
-              placeholder="Enter a description"
+              placeholder="Enter a description, it cannot be more than 600 characters"
+              className="pb-5 nobar placeholder-gray-500 resize-none h-60"
             />
+            <div className="otherHead backdrop-blur-sm text-sm font-head font-bold absolute bottom-0 right-[5%]">
+              {descriptionLength}/600
+            </div>
           </div>
 
           {/* Price */}
@@ -223,12 +248,12 @@ const EditForm = () => {
               className="w-full border rounded p-2 dark:bg-gray-600 dark:text-white"
             >
               <option value="">Select a school</option>
-              {schools.map((school) => (
+              {schools.map((school: any) => (
                 <option
-                  key={school} 
-                  value={school}
+                  key={school._id}
+                  value={school?.shortname}
                 >
-                  {school}
+                  {school?.shortname} ({school?.fullname})
                 </option>
               ))}
             </select>

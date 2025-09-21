@@ -65,3 +65,41 @@ export const  AgentIcon = ({className}:{className:string}) => {
 
   )
 }
+
+export const HouseSearchIcon = ({className}:{className:string}) => {
+
+  return (
+<div className={className}>
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 95 64"
+     width="95" height="64"
+     fill="none"
+     stroke="#ffffff"
+     stroke-width="2"
+     stroke-linecap="round"
+     stroke-linejoin="round">
+
+
+  <path d="M30 28 L45 12 L60 28" />
+  
+
+  <rect x="30" y="28" width="30" height="28" rx="2" />
+
+
+  <rect x="42" y="38" width="6" height="18" rx="1.5" />
+
+ 
+  <rect x="34" y="34" width="6" height="6" rx="1" />
+  <rect x="50" y="34" width="6" height="6" rx="1" />
+
+  {/* <!-- Search icon (shifted a bit outward) --> */}
+  <g transform="translate(74,16)">
+    <circle cx="0" cy="20" r="8" />
+    <line x1="5" y1="25" x2="12" y2="32" />
+  </g>
+</svg>
+
+</div>
+
+  )
+}

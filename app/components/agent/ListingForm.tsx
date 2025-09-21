@@ -12,7 +12,7 @@ import { useUser } from "@utils/user"
 import { useRouter } from "next/navigation"
 import { useState, useEffect, useRef } from "react"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { schoolArea, schools } from "@lib/constants"
+import { useSchools } from "@lib/useSchools"
 import { Info, MoreHorizontal } from "lucide-react"
 import { InfoModal, LogOutModal } from "@components/Modals"
 import dynamic from "next/dynamic"
@@ -53,13 +53,18 @@ const ListingForm = () => {
   const deletingGallery = useSignal(false)
   const selectedGalleryImageId = useSignal<number | null>()
   const creating = useSignal(false)
-  const [descriptionLength,setDescriptionLength] = useState(0)
+  const [descriptionLength, setDescriptionLength] = useState(0)
   const [area, setArea] = useState("")
   const [school, setSchool] = useState("")
   const [areas, setAreas] = useState<string[]>([])
+  const { schools } = useSchools()
   const [incomplete, setIncomplete] = useState(true)
   const infoRef = useRef<HTMLDialogElement>(null)
   const amount = 500
+  const schoolArea = schools
+    .filter((s: any) => s.shortname.toLocaleLowerCase() === school.toLocaleLowerCase())
+    .map((s: any) => s.schoolAreas)
+    .flat()
 
   useEffect(() => {
     if (
@@ -109,20 +114,22 @@ const ListingForm = () => {
       setAreas([])
     }
     if (school) {
-      setAreas(schoolArea[school as keyof typeof schoolArea])
+      setAreas(schoolArea)
     }
   }, [school])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
-  
-      listingDeets[name as keyof typeof listingDeets].value = value
-     if (listingDeets['description']) {
-    setDescriptionLength(value.replace(/\s+/g, '').length)
-     }
-    if (listingDeets['description'].value.length > 600) {
+
+    listingDeets[name as keyof typeof listingDeets].value = value
+    if (listingDeets["description"]) {
+      setDescriptionLength(value.replace(/\s+/g, "").length)
+    }
+    if (listingDeets["description"].value.replace(/\s+/g, "").length > 600) {
       setDescriptionLength(600)
-      listingDeets['description'].value = listingDeets['description'].value.replace(/\s+/g, '').slice(0, 600)
+      listingDeets["description"].value = listingDeets["description"].value
+        .replace(/\s+/g, "")
+        .slice(0, 600)
     }
   }
 
@@ -245,12 +252,13 @@ const ListingForm = () => {
         <div className="title_heading">
           <h2>Create a new listing</h2>
           <p className="text-base">Fill in the form below to create a new listing</p>
+          <p className="text-xs font-light text-gray-500 dark:text-gray-300">
+            Click the info icon to view our listing guide
+          </p>
         </div>
 
-{/* info btn */}
-        <div
-          className="text-white dark:text-black listingInfoTooltip relative tooltip-above flex flex-row   rounded-full mt-3 cursor-pointer items-center justify-center w-8 mx-auto  bg-darkblue dark:bg-coffee "
-        >
+        {/* info btn */}
+        <div className="text-white dark:text-black listingInfoTooltip relative tooltip-above flex flex-row   rounded-full mt-3 cursor-pointer items-center justify-center w-8 mx-auto  bg-darkblue dark:bg-coffee ">
           <Info
             onClick={() => infoRef?.current?.showModal()}
             size={30}
@@ -278,13 +286,10 @@ const ListingForm = () => {
               value={listingDeets.description.value}
               onChange={handleInputChange}
               placeholder="Enter a description, it cannot be more than 600 characters"
-              // cols={10}
-              // rows={10}
               className="pb-5 nobar placeholder-gray-500 resize-none h-60"
             />
             <div className="otherHead backdrop-blur-sm text-sm font-head font-bold absolute bottom-0 right-[5%]">
               {descriptionLength}/600
-
             </div>
           </div>
 
@@ -472,15 +477,15 @@ const ListingForm = () => {
             <select
               value={school}
               onChange={(e) => setSchool(e.target.value)}
-              className="w-full border rounded p-2 dark:text-white dark:bg-gray-600"
+              className="w-full border rounded p-1.5 dark:text-white dark:bg-gray-600"
             >
               <option value="">Select a school</option>
-              {schools.map((school) => (
+              {schools.map((school:School) => (
                 <option
-                  key={school}
-                  value={school}
+                  key={school._id}
+                  value={school?.shortname}
                 >
-                  {school}
+                  {school?.shortname} ({school?.fullname})
                 </option>
               ))}
             </select>

@@ -8,8 +8,8 @@ import { CldImage } from "next-cloudinary"
 import { useBackdrop } from "@lib/Backdrop"
 import { useDarkMode } from "@lib/DarkModeProvider"
 import { getUnreadChats } from "@lib/server/chats"
-import {Heart,MessageSquare, Sun, Moon,LayoutDashboard, UserPlus2, UserPlus,LogIn} from "lucide-react"
-
+import {Heart,MessageSquare, Sun, Moon,LayoutDashboard, UserPlus2, UserPlus,LogIn, Focus, MapPinHouse, } from "lucide-react"
+import { HouseSearchIcon } from "./custom-ui/Icons"
 const Nav = () => {
   const { session } = useUser()
   const [navbarFixed, setnavbarFixed] = useState<boolean>(false)
@@ -84,7 +84,7 @@ const Nav = () => {
       </Link>
 
 {/* test */}
-  {/* <div
+  <div
     onClick={() => {
       toggleDarkMode();
       handleNavItemClick();
@@ -99,7 +99,7 @@ const Nav = () => {
       )}
     </div>
     <span className="mode">{darkMode ? "Light Mode" : "Dark Mode"}</span>
-  </div> */}
+  </div>
 {/*  */}
   
      <div className="flex gap-4 items-center">
@@ -146,6 +146,40 @@ const Nav = () => {
   )}
 
 
+
+{/* Unique To Client Account */}
+
+  {session?.user &&  session?.user.role ==='client' && (
+    <>
+    {/* add roomie */}
+      {/* <div
+    onClick={handleNavItemClick}
+    className="flex flex-row items-center gap-2 cursor-pointer"
+  >
+    <div className="dark:bg-coffee bg-darkblue p-2 rounded-full">
+      <UserPlus2 size={20} color={'white'}/>
+      </div>
+      <Link href="/listings" onClick={handleNavItemClick}>Roomate Match</Link>
+  </div> */}
+
+{/* school focus */}
+   <div className="flex flex-row items-center gap-2 cursor-pointer">
+   <div className="dark:bg-coffee bg-darkblue p-2 rounded-full ">
+     <MapPinHouse className="w-5 h-5 text-white" />
+      </div>
+      <Link 
+      href={session?.user.role ==='admin' ? '/admin' : '/agent'} 
+      onClick={handleNavItemClick}
+      className="w-50 md:w-full text-white bg-darkblue dark:bg-coffee px-4 py-2 rounded-md hover:opacity-95 transition"
+      >
+        School Focus
+    </Link>
+    </div>
+  </>
+  )}
+
+{/* Other Features */}
+
 {/* chats */}
   {session?.user && (
       <div
@@ -165,26 +199,6 @@ const Nav = () => {
   
   )}
 
-{/* Unique To Client Account */}
-
-  {session?.user &&  session?.user.role ==='client' && (
-    <>
-    {/* add roomie */}
-      <div
-    onClick={handleNavItemClick}
-    className="flex flex-row items-center gap-2 cursor-pointer"
-  >
-    <div className="dark:bg-coffee bg-darkblue p-2 rounded-full">
-      <UserPlus2 size={20} color={'white'}/>
-      </div>
-      <Link href="/listings" onClick={handleNavItemClick}>Roomate Match</Link>
-  </div>
-
-
-  </>
-  )}
-
-{/* Other Features */}
 
 {/* wishlists */}
      <div

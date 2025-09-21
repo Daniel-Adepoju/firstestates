@@ -8,7 +8,7 @@ import { truncateAddress } from "@utils/truncateAddress"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { axiosdata } from "@utils/axiosUrl"
 import Toast from "./Toast"
-import { useQuery } from "@tanstack/react-query"
+import { usePathname } from "next/navigation"
 
 interface WishListProps {
     listing:Listing,
@@ -106,7 +106,8 @@ const WishListCard = ({listing,wishlistId,refValue}:WishListProps) => {
         />
         <Link
          href={`/chat?recipientId=${listing.agent._id}`}
-         className=" block text-sm text-darkblue dark:text-coffee underline ">Chat With Agent </Link>
+         className="font-bold text-xs md:text-sm text-darkblue dark:text-coffee underline ">Chat With Agent </Link>
+
         </div> 
         </div>
  
@@ -146,6 +147,7 @@ const WishListCard = ({listing,wishlistId,refValue}:WishListProps) => {
 
 export const WishlistButton = ({listingId,isInWishList}:{listingId:string,isInWishList:boolean}) => {
   const queryClient = useQueryClient()
+  const pathname = usePathname()
   const [notification,setNotification] = useState({
     isActive:false,
     message:'',
@@ -199,7 +201,6 @@ export const WishlistButton = ({listingId,isInWishList}:{listingId:string,isInWi
     }
   })
 
-  // if listingId === wishList.listing, then remove from wishlist
 
   return (
     <>
@@ -209,7 +210,7 @@ export const WishlistButton = ({listingId,isInWishList}:{listingId:string,isInWi
       message={notification.message}
       status={notification.status}
       />
-    <div className="flex items-center justify-center absolute top-2 right-3 z-10">
+    <div className={`${pathname.startsWith('/a') && 'hidden'} flex items-center justify-center absolute top-2 right-3 z-10`}>
       <button
         onClick={(e) => {
           e.stopPropagation()

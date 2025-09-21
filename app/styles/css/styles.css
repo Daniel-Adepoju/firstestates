@@ -580,7 +580,7 @@ a:has(.clickable) {
   top: 11%;
   z-index: 200;
   display: none;
-  background-color: rgb(0, 0, 0);
+  background-color: black;
   color: #fff;
   padding: 0.8rem 1.5rem;
   border-radius: 6px;
@@ -591,13 +591,8 @@ a:has(.clickable) {
   width: 90%;
   animation: fadeIn 300ms ease-out;
 }
-@media (min-width: 790px) {
-  .notification {
-    width: 50%;
-  }
-}
 .notification:is(.success) {
-  background-color: #0881a3;
+  background-color: var(--color-darkGray);
 }
 .notification:is(.danger) {
   background-color: darkred;
@@ -625,6 +620,11 @@ a:has(.clickable) {
   background: #fffdfb;
   transition: width 0.1s linear;
   border-radius: 6px 6px 60px 60px;
+}
+@media (min-width: 790px) {
+  .notification {
+    width: 50%;
+  }
 }
 
 .blackboard {
@@ -1448,7 +1448,6 @@ main {
   border-radius: 50%;
 }
 .nav .nav_items, .footer .nav_items {
-  display: none;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -1490,6 +1489,7 @@ main {
 @media (max-width: 800px) {
   .nav .nav_items, .footer .nav_items {
     visibility: hidden;
+    padding: 10px 10px;
     position: fixed;
     display: flex;
     flex-direction: column;
@@ -1644,7 +1644,7 @@ footer.hide {
 }
 
 .goUp {
-  z-index: 102;
+  z-index: 100;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -1656,7 +1656,7 @@ footer.hide {
   width: 40px;
   height: 40px;
   top: 90%;
-  right: 3%;
+  right: 2.5%;
   isolation: isolate;
   animation: blink 500ms alternate infinite;
   background-color: var(--darkblueSecondary);
@@ -1769,7 +1769,7 @@ footer.hide {
 }
 .card .houseImg img {
   padding: relative;
-  border-radius: 6px 6px 10px 10px;
+  border-radius: 0 0 10px 10px;
 }
 .card .body {
   z-index: 1;

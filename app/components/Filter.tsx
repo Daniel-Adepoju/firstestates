@@ -2,11 +2,11 @@
 import Button from "@lib/Button"
 import { useEffect, useState } from "react"
 import { useUser } from "@utils/user"
-import { schoolArea, schools } from "@lib/constants"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Signal } from "@preact/signals-react"
 import { useSignals } from "@preact/signals-react/runtime"
 import { Slider } from "./ui/slider"
+import { useSchools } from "@lib/useSchools"
 
 interface FilterProps {
   selectedSchool: Record<string, any>
@@ -45,21 +45,27 @@ const Filter = ({
   const [toiletsState, setToiletsState] = useState("")
   const [status, setStatus] = useState("")
   const { session } = useUser()
+  const { schools } = useSchools()
+
+  const schoolArea = schools
+    .filter((s: any) => s.shortname.toLocaleLowerCase() === school.toLocaleLowerCase())
+    .map((s: any) => s.schoolAreas)
+    .flat()
 
   useEffect(() => {
     if (!school) {
       setAreas([])
     }
     if (school) {
-      setAreas(schoolArea[school as keyof typeof schoolArea])
+      setAreas(schoolArea)
     }
   }, [school])
 
-  useEffect(() => {
-    if (session) {
-      setSchool(session?.user.school ?? "")
-    }
-  }, [session])
+  // useEffect(() => {
+  //   if (session) {
+  //     setSchool(session?.user.school ?? "")
+  //   }
+  // }, [session])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -84,26 +90,35 @@ const Filter = ({
           className="dark:bg-gray-600 bg-white mx-auto w-[88%] p-4 rounded-xl shadow space-y-4"
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-           
-           {/* Status */}
-          <div>
-            <label htmlFor="status" className="block text-sm font-medium">Status</label>
-            <select
-              id="status"
-              name="status"
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
-              className="dark:bg-gray-600 w-full border rounded-sm p-2 py-2.5"
-            >
-              <option value="">All</option>
-              <option value="Available">Available</option>
-              <option value="Rented">Rented</option>
-            </select>
-          </div>
+            {/* Status */}
+            <div>
+              <label
+                htmlFor="status"
+                className="block text-sm font-medium"
+              >
+                Status
+              </label>
+              <select
+                id="status"
+                name="status"
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+                className="dark:bg-gray-600 w-full border rounded-sm p-2 py-2.5"
+              >
+                <option value="">All</option>
+                <option value="Available">Available</option>
+                <option value="Rented">Rented</option>
+              </select>
+            </div>
 
             {/* School Select */}
             <div>
-              <label htmlFor="school" className="block text-sm font-medium">School</label>
+              <label
+                htmlFor="school"
+                className="block text-sm font-medium"
+              >
+                School
+              </label>
               <select
                 id="school"
                 name="school"
@@ -112,12 +127,12 @@ const Filter = ({
                 className="dark:bg-gray-600 w-full border rounded-sm p-2 py-2.5"
               >
                 <option value="">All Schools</option>
-                {schools.map((school) => (
+                {schools.map((school:School) => (
                   <option
-                    key={school}
-                    value={school}
+                    key={school._id}
+                    value={school?.shortname}
                   >
-                    {school}
+                    {school?.shortname} ({school?.fullname})
                   </option>
                 ))}
               </select>
@@ -125,7 +140,12 @@ const Filter = ({
 
             {/* Area Select */}
             <div>
-              <label htmlFor="area" className="block text-sm font-medium">Area</label>
+              <label
+                htmlFor="area"
+                className="block text-sm font-medium"
+              >
+                Area
+              </label>
               <select
                 id="area"
                 name="area"
@@ -147,9 +167,13 @@ const Filter = ({
 
             {/* Price Range */}
             <div className="flex gap-2">
-            
               <div className="w-1/2">
-                <label htmlFor="minPrice" className="p-2 block text-sm font-medium">Min Price Range</label>
+                <label
+                  htmlFor="minPrice"
+                  className="p-2 block text-sm font-medium"
+                >
+                  Min Price Range
+                </label>
                 <Slider
                   id="minPrice"
                   name="minPrice"
@@ -168,7 +192,12 @@ const Filter = ({
                 <div className="ml-4">&#8358; {minPriceState.toLocaleString()}</div>
               </div>
               <div className="w-1/2 direction-rtl">
-                <label htmlFor="maxPrice" className="p-2 block text-sm font-medium">Max Price Range</label>
+                <label
+                  htmlFor="maxPrice"
+                  className="p-2 block text-sm font-medium"
+                >
+                  Max Price Range
+                </label>
                 <Slider
                   id="maxPrice"
                   name="maxPrice"
@@ -192,7 +221,12 @@ const Filter = ({
             {/*beds toilets etc */}
             <div className="flex flex-row justify-evenly gap-2">
               <div className="flex flex-col items-center">
-                <label htmlFor="bedrooms" className="text-sm">Bedrooms</label>
+                <label
+                  htmlFor="bedrooms"
+                  className="text-sm"
+                >
+                  Bedrooms
+                </label>
                 <input
                   id="bedrooms"
                   name="bedrooms"
@@ -205,7 +239,12 @@ const Filter = ({
                 />
               </div>
               <div className="flex flex-col items-center">
-                <label htmlFor="bathrooms" className="text-sm">Bathrooms</label>
+                <label
+                  htmlFor="bathrooms"
+                  className="text-sm"
+                >
+                  Bathrooms
+                </label>
                 <input
                   id="bathrooms"
                   name="bathrooms"
@@ -218,7 +257,12 @@ const Filter = ({
                 />
               </div>
               <div className="flex flex-col items-center">
-                <label htmlFor="toilets" className="text-sm">Toilets</label>
+                <label
+                  htmlFor="toilets"
+                  className="text-sm"
+                >
+                  Toilets
+                </label>
                 <input
                   id="toilets"
                   name="toilets"

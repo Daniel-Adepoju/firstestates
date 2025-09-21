@@ -25,3 +25,10 @@ type Listing = {
   totalViews?: number;
   isFeatured?:boolean;
 }
+
+type School = {
+  _id?: string;
+  shortname?: string;
+  fullname?: string;
+  schoolAreas?: string[];
+}

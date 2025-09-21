@@ -114,9 +114,8 @@ main {
       border-radius: 50%;
     }
   .nav_items {
-    display: none;
     @include mx.flex(row, center, center);
-    gap: 20px;
+    gap: 20px; 
     a,
     span {
       position: relative;
@@ -145,6 +144,7 @@ main {
     }
     @media (max-width: 800px) {
       visibility: hidden;
+      padding: 10px 10px;
       position: fixed;
       @include mx.flex(column, center, flex-start);
       top: 100%;
@@ -233,6 +233,9 @@ main {
   border-top: 1px solid grey;
   position: relative;
   margin-top: auto;
+  // flex-grow: 1;
+  // flex-basis: 1;
+  // flex-shrink:0;
   color: white;
   background-color: fn.color("darkblue");
   z-index: 99;
@@ -287,7 +290,7 @@ footer.hide {
 }
 
 .goUp {
-   z-index: 102;
+   z-index: 100;
     @include mx.center();
     position: fixed;
     cursor: pointer;
@@ -296,7 +299,7 @@ footer.hide {
     width: 40px;
     height: 40px;
     top: 90%;
-    right: 3%;
+    right: 2.5%;
     isolation: isolate;
     animation: blink 500ms alternate infinite;
     background-color: var(--darkblueSecondary);
@@ -363,7 +366,6 @@ footer.hide {
   &:hover {
     @include mx.transition(200ms, ease-in, transform);
     transform: scale(0.99);
-
     &::after {
       // background: fn.color("darkblue");
       background-color: fn.color('darkblue');
@@ -399,7 +401,7 @@ footer.hide {
     border-radius: 10px;
     img {
       padding: relative;
-      border-radius: 6px 6px 10px 10px;
+      border-radius: 0 0 10px 10px;
     }
   }
   .body {

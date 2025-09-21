@@ -1,10 +1,10 @@
 "use client"
 import { useState, useEffect } from "react"
 import { useUser } from "@utils/user"
-import { CldImage, CldUploadWidget,CloudinaryUploadWidgetResults } from "next-cloudinary"
+import { CldImage, CldUploadWidget, CloudinaryUploadWidgetResults } from "next-cloudinary"
 import Image from "next/image"
 import { Skeleton } from "@components/ui/skeleton"
-import { schools } from "@lib/constants"
+import { useSchools } from "@lib/useSchools"
 import Button from "@lib/Button"
 import { WhiteLoader } from "@utils/loaders"
 import { updateUser, updateProfilePic } from "@lib/server/auth"
@@ -19,11 +19,12 @@ const EditProfile = () => {
   const [phone, setPhone] = useState("")
   const [whatsapp, setWhatsapp] = useState("")
   const [school, setSchool] = useState("")
-  const [address,setAddress] = useState('')
+  const { schools } = useSchools()
+  const [address, setAddress] = useState("")
   const [isUpdating, setIsUpdating] = useState(false)
   const notification = useNotification()
   const router = useRouter()
-  const [updatingProfilePic,setUpdatingProfilePic] = useState(false)
+  const [updatingProfilePic, setUpdatingProfilePic] = useState(false)
 
   useEffect(() => {
     if (session?.user) {
@@ -65,62 +66,65 @@ const EditProfile = () => {
     }
   }
 
-  const updatePic = async (result:CloudinaryUploadWidgetResults)  => {
-     const resultInfo = result.info as CloudinaryResult
-     setUpdatingProfilePic(true)
+  const updatePic = async (result: CloudinaryUploadWidgetResults) => {
+    const resultInfo = result.info as CloudinaryResult
+    setUpdatingProfilePic(true)
     await update({
       ...session?.user,
       profilePic: resultInfo.public_id,
     })
-    await updateProfilePic({ oldPic: session?.user.profilePic, newPic: resultInfo.public_id})
+    await updateProfilePic({ oldPic: session?.user.profilePic, newPic: resultInfo.public_id })
     await getSession()
-      setUpdatingProfilePic(false)
+    setUpdatingProfilePic(false)
   }
 
   return (
     <div className="dark:text-white w-full flex flex-col">
-     <div className="subheading mb-4 mx-auto">Edit Your Profile</div>
+      <div className="subheading mb-4 mx-auto">Edit Your Profile</div>
       {session?.user ? (
         <>
-        <div className="flex flex-col items-center w-full gap-4">
-          <div className="relative">
-            <CldImage
-              src={session.user.profilePic}
-              width={100}
-              height={100}
-              gravity="auto"
-              crop={"auto"}
-              alt="User Profile Picture"
-              className="rounded-full"
-            />
-            <CldUploadWidget
-              options={{ sources: ["local", "camera", "google_drive"] }}
-              uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
-              onSuccess={(result) => updatePic(result)}
-            >
-              {({ open }) => (
-                <Image
-                  src="/icons/edit.svg"
-                  width={40}
-                  height={40}
-                  alt="edit"
-                  className="clickable cursor-pointer rounded-full absolute bottom-0 right-0 bg-white p-2"
-                  onClick={() => open()}
-                />
+          <div className="flex flex-col items-center w-full gap-4">
+            <div className="relative">
+              <CldImage
+                src={session.user.profilePic}
+                width={100}
+                height={100}
+                gravity="auto"
+                crop={"auto"}
+                alt="User Profile Picture"
+                className="rounded-full"
+              />
+              <CldUploadWidget
+                options={{ sources: ["local", "camera", "google_drive"] }}
+                uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
+                onSuccess={(result) => updatePic(result)}
+              >
+                {({ open }) => (
+                  <Image
+                    src="/icons/edit.svg"
+                    width={40}
+                    height={40}
+                    alt="edit"
+                    className="clickable cursor-pointer rounded-full absolute bottom-0 right-0 bg-white p-2"
+                    onClick={() => open()}
+                  />
+                )}
+              </CldUploadWidget>
+            </div>
+            <div className="w-full flex  flex-row justify-center">
+              {updatingProfilePic && (
+                <div className=" flex  flex-row items-center gap-2">
+                  <span className="text-sm text-gray-500">Updating Profile Picture</span>
+                  <MoreHorizontal
+                    size={30}
+                    color="gray"
+                    className="animate-pulse"
+                  />
+                </div>
               )}
-            </CldUploadWidget>
+            </div>
           </div>
-             <div className="w-full flex  flex-row justify-center">
-        {updatingProfilePic && (
-          <div className=' flex  flex-row items-center gap-2'>
-            <span className="text-sm text-gray-500">Updating Profile Picture</span>
-            <MoreHorizontal  size={30} color="gray" className="animate-pulse"/>
-          </div>
-        )}
-        </div>
-        </div>
 
-        
           <form
             onSubmit={handleSubmit}
             className="
@@ -141,7 +145,7 @@ const EditProfile = () => {
             </div>
 
             {/* School Select */}
-            {session?.user.role === 'client' && (
+            {session?.user.role === "client" && session?.user.school && (
               <div className="form_item">
                 <label htmlFor="school">School</label>
                 <select
@@ -151,12 +155,12 @@ const EditProfile = () => {
                   className="w-full border rounded p-3 dark:bg-gray-600 dark:text-white"
                 >
                   <option value="">Select a school</option>
-                  {schools.map((sch) => (
+                  {schools.map((school: School) => (
                     <option
-                      key={sch}
-                      value={sch}
+                      key={school._id}
+                      value={school?.shortname}
                     >
-                      {sch}
+                      {school?.shortname} ({school?.fullname})
                     </option>
                   ))}
                 </select>
@@ -167,7 +171,7 @@ const EditProfile = () => {
             {/* Phone */}
             {session?.user.role === "agent" && (
               <>
-               <div className="form_item">
+                <div className="form_item">
                   <label htmlFor="address">Office Address</label>
                   <input
                     id="address"
@@ -215,9 +219,7 @@ const EditProfile = () => {
               </Button>
             </div>
           </form>
-
-
-      </>
+        </>
       ) : (
         <div className="flex flex-col gap-3">
           <Skeleton className="animate-none rounded-full  bg-gray-500/20 mx-auto w-25 h-25" />

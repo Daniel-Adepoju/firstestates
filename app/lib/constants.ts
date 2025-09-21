@@ -1,4 +1,5 @@
-
+'use client'
+// import 
 
 export const sidebarItems = [
   {
@@ -16,6 +17,11 @@ export const sidebarItems = [
     name: "Listings",
     link: "/admin/listings",
     icon: "/icons/listings.svg",
+  },
+    {
+    name: "Schoools",
+    link: "/admin/schools",
+    icon: "/icons/campus.svg",
   },
   {
     name: "Messages",
@@ -72,14 +78,14 @@ export const agentSidebarItems = [
 
 
 
-export const schoolArea = {
-  "North West": ["Another Town", "Kano", "Katsina", "Kebbi", "Kogi", "Kwara", "Lagos", "Nasarawa", "Niger", "Plateau", "Rivers", "Sokoto", "Taraba", "Yobe"],
-  "North East": ["Benue", "Borno", "Gombe", "Jigawa", "Kaduna", "Kano", "Katsina", "Kebbi", "Kogi", "Kwara", "Lagos", "Ogun", "Ondo", "Osun", "Oyo"],
-  "Lasu":[
-    "Some Town",
-    "First Gate",
-    "Iyana School",
-    "Ipaye",
-    "Post Office"],
-}
-export const schools = Object.keys(schoolArea)
+// export const schoolArea = {
+//   "North West": ["Another Town", "Kano", "Katsina", "Kebbi", "Kogi", "Kwara", "Lagos", "Nasarawa", "Niger", "Plateau", "Rivers", "Sokoto", "Taraba", "Yobe"],
+//   "North East": ["Benue", "Borno", "Gombe", "Jigawa", "Kaduna", "Kano", "Katsina", "Kebbi", "Kogi", "Kwara", "Lagos", "Ogun", "Ondo", "Osun", "Oyo"],
+//   "Lasu":[
+//     "Some Town",
+//     "First Gate",
+//     "Iyana School",
+//     "Ipaye",
+//     "Post Office"],
+// }
+// export const schools = Object.keys(schoolArea)

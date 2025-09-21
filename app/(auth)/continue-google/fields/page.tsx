@@ -4,7 +4,7 @@ import { useUser } from "@utils/user"
 import { CldImage, CldUploadWidget, CloudinaryUploadWidgetResults } from "next-cloudinary"
 import Image from "next/image"
 import { Skeleton } from "@components/ui/skeleton"
-import { schools } from "@lib/constants"
+import { useSchools } from "@lib/useSchools"
 import Button from "@lib/Button"
 import { WhiteLoader } from "@utils/loaders"
 import { updateUser, updateProfilePic } from "@lib/server/auth"
@@ -19,6 +19,7 @@ const Fields = () => {
   const [phone, setPhone] = useState("")
   const [whatsapp, setWhatsapp] = useState("")
   const [school, setSchool] = useState("")
+  const { schools } = useSchools()
   const [address, setAddress] = useState("")
   const [isUpdating, setIsUpdating] = useState(false)
   const notification = useNotification()
@@ -34,7 +35,7 @@ const Fields = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsUpdating(true)
-    const updatedFields = { username,phone,whatsapp,school,role,address }
+    const updatedFields = { username, phone, whatsapp, school, role, address }
     const filteredFields = Object.fromEntries(
       Object.entries(updatedFields).filter(
         ([key, value]) => value !== "" && value !== undefined && value !== null
@@ -48,7 +49,7 @@ const Fields = () => {
         whatsapp,
         school,
         role,
-        isNewUser:false,
+        isNewUser: false,
       })
       const res = await updateUser(filteredFields)
       notification.setIsActive(true)
@@ -137,12 +138,12 @@ const Fields = () => {
                   className="w-full border rounded p-3 dark:bg-gray-600 dark:text-white"
                 >
                   <option value="">Select a school</option>
-                  {schools.map((sch) => (
+                  {schools.map((school:School) => (
                     <option
-                      key={sch}
-                      value={sch}
+                      key={school._id}
+                      value={school?.shortname}
                     >
-                      {sch}
+                      {school?.shortname} ({school?.fullname})
                     </option>
                   ))}
                 </select>
