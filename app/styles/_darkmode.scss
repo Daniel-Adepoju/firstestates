@@ -151,8 +151,9 @@ html:is(.dark) {
 .editSide {
     background-color: color('darkModeSecondary');
     color: white;
-    @include shadow(0.5px);
-    outline: 4px solid rgba(20, 20, 20, 0.447);
+
+    outline: 4px solid rgba(20, 20, 20, 0.447); 
+       @include shadow(0.5px);
 }
 
 
@@ -170,7 +171,7 @@ html:is(.dark) {
 
 
 .agentProfile,.listingHistory, .availableLists
-   {
+   { 
      background-color: color('darkModeSecondary');
      color: white;
      .agentName {

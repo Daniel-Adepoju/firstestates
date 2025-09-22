@@ -5,10 +5,11 @@
 @use "loaders";
 
 .admin-container {
-  @include mx.flex(row, flex-start, space-between);
+
   width: 100%;
   min-height: 100vh;
-  @include mx.transition("ease-in");
+  @include mx.transition("ease-in"); 
+    @include mx.flex(row, flex-start, space-between);
 }
 
 .admin-header {
@@ -20,8 +21,7 @@
 }
 
 .sidebar {
-  @include mx.flex(column, center, space-between);
-  @include mx.transition("ease-in");
+
   width: 220px;
   background-color: fn.color("adminBlue");
   min-height: 100vh;
@@ -29,12 +29,15 @@
   top: 0;
   left: 0%;
   font-family: fn.font("list");
+    @include mx.flex(column, center, space-between);
+  @include mx.transition("ease-in");
   &.agentbar {
     background-color: fn.color("black");
   }
   &.reduceBar {
-    @include mx.transition("ease-out");
+   
     width: 60px;
+     @include mx.transition("ease-out");
     li,
     span {
       display: none;
@@ -48,14 +51,16 @@
     padding-top: 12px;
     .items {
       padding: 6px 10px;
-      @include mx.transition(300ms, ease-out);
+    
       margin-block: 20px;
       margin-inline: auto;
-      width: 90%;
+      width: 90%; 
+       @include mx.transition(300ms, ease-out);
       &.active {
-        @include mx.transition(300ms, ease-in);
+       
         background-color: rgba(102, 195, 253, 0.217);
-        border-radius: 6px;
+        border-radius: 6px; 
+        @include mx.transition(300ms, ease-in);
         img {
           filter: brightness(1.2) contrast(0.8) saturate(2.4)
             drop-shadow(0 0 4px rgba(0, 0, 0, 0.427));
@@ -63,11 +68,12 @@
       }
     }
     a {
-      @include mx.flex(row, center, flex-start);
+    
       gap: 14px;
       color: white;
       text-decoration: none;
-      font-weight: 500;
+      font-weight: 500; 
+       @include mx.flex(row, center, flex-start);
     }
     &:hover + .arrow {
       display:flex;
@@ -87,20 +93,22 @@
     }
   }
   .adminLabel {
-    @include mx.flex(row, center, center);
+   
     gap: 10px;
     width: 100%;
     padding: 10px 8px;
     border-top: 1px solid rgba(255, 255, 255, 0.142);
+     @include mx.flex(row, center, center);
     img {
       width: 30px;
       height: 30px;
       border-radius: 50%;
     }
     .adminDetails {
-      @include mx.flex(column, flex-start, center);
+    
       width: 100%;
-      word-break: break-all;
+      word-break: break-all; 
+       @include mx.flex(column, flex-start, center);
       span {
         width: 100%;
         font-size: 13px;
@@ -114,7 +122,7 @@
 }
 
 .admin-content-container {
-  @include mx.flex(column, center, flex-start);
+
   gap: 40px;
   padding-inline: 10px;
   padding-bottom: 10px;
@@ -122,13 +130,15 @@
   width: 80%;
   min-height: 100vh;
   overflow-x: hidden;
+    @include mx.flex(column, center, flex-start);
 }
 
 .adminListings {
-  .items {
-    @include mx.flex(column, center, flex-start);
+  .items { 
     width: 100%;
-    @include mx.shadow(0.1px);
     padding: 10px;
+     @include mx.shadow(0.1px);
+    @include mx.flex(column, center, flex-start);
+   
   }
 }

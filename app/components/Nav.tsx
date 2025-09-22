@@ -163,6 +163,7 @@ const Nav = () => {
   </div> */}
 
 {/* school focus */}
+ {session?.user.school && (
    <div className="flex flex-row items-center gap-2 cursor-pointer">
    <div className="dark:bg-coffee bg-darkblue p-2 rounded-full ">
      <MapPinHouse className="w-5 h-5 text-white" />
@@ -175,6 +176,8 @@ const Nav = () => {
         School Focus
     </Link>
     </div>
+ )
+ }
   </>
   )}
 

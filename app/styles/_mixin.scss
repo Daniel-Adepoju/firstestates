@@ -1,22 +1,33 @@
 @mixin flex($direction, $align: center, $justify: flex-start) {
+     
+  & {
     display: flex;
     flex-direction: $direction; 
     align-items: $align;
     justify-content: $justify;
 }
+}
   @mixin transition($duration: 300ms, $type: ease-in, $items:all) {
-    transition: $items $duration $type;
-  }
+   &{
+     transition: $items $duration $type;
+   }
+    }
   
   @mixin space($margin:10px , $padding: 10px) {
-    margin: $margin;
+    & {
+      margin: $margin;
     padding: $padding;
   }
+}
 
   @mixin shadow($x:1px,$y:1.2px, $color:rgba(116, 116, 116, 0.269)) {
-    box-shadow: $x $x $y $y $color;
+   &{
+     box-shadow: $x $x $y $y $color;
   }
+}
 
   @mixin center() {
-    @include flex(row,center,center);
+   & {
+     @include flex(row,center,center);
   }
+}

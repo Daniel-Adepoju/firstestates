@@ -5,12 +5,12 @@
 @use "loaders";
 
 .agentDashboardContainer {
-  @include mx.flex(column);
   color: black;
-  width: 100%;
+  width: 100%; 
   // margin-top: 70px;
   margin-bottom: 16px;
-  gap: 20px;
+  gap: 20px; 
+   @include mx.flex(column);
   @media (max-width: 769px) {
     .card,
     .editSide {
@@ -19,12 +19,13 @@
   }
   &.aic {
     .lists {
-      @include mx.flex(column, flex-start);
+     
       gap: 15px;
       width: 97%;
       background-color: white;
-      @include mx.space(0, 20px);
       border-radius: 8px;
+      @include mx.space(0, 20px);
+       @include mx.flex(column, flex-start);
       @include mx.shadow();
       a {
         color: fn.color("blue");
@@ -37,17 +38,19 @@
   .availableLists {
     background-color: fn.color("white");
     width: 97%;
+        border-radius: 8px;
     @include mx.space(8px, 12px);
     @include mx.shadow;
-    border-radius: 8px;
+
   }
 
   .agentProfile {
-    @include mx.space(1px, 8px);
-    @include mx.shadow(0.1px);
+   
     border-radius: 20px;
     padding-inline: 20px;
     width: 97%;
+     @include mx.space(1px, 8px);
+    @include mx.shadow(0.1px);
     .agentName {
       color: fn.color("darkblue");
       font-size: 30px;
@@ -55,30 +58,34 @@
     }
     .address {
       width: 100%;
-      @include mx.flex(row, center, flex-start);
+    
       gap: 6px;
+        @include mx.flex(row, center, flex-start);
       span:nth-child(2) {
         @include mx.center();
       }
       span:nth-child(3) {
-        @include mx.center();
+      
         white-space: pre-wrap;
         word-break: break-all;
+          @include mx.center();
       }
     }
   }
   .listingHistory {
     width: 99%;
     @media (min-width: 700px) {
-      @include mx.flex(row, center, flex-start);
-      gap: 20px;
+
+      gap: 20px; 
+           @include mx.flex(row, center, flex-start);
     }
     @include mx.flex(column, center, flex-start);
     .item {
       // @include mx.center();
-      @include mx.flex(row, flex-start, space-between);
+    
       gap: 10px;
       width: 100%;
+      @include mx.flex(row, flex-start, space-between);
     }
     span {
       text-transform: capitalize;
@@ -91,18 +98,20 @@
     }
   }
   .availableLists {
-    @include mx.flex(row, center, center);
+   
     flex-wrap: wrap;
+     @include mx.flex(row, center, center);
     .header {
-      @include mx.flex(row, center, space-evenly);
+     
       width: 100%;
       padding-bottom: 10px;
       border-bottom: 2px solid fn.color("fade");
+       @include mx.flex(row, center, space-evenly);
       .subheading {
         cursor: pointer;
         position: relative;
         &::after {
-          @include mx.transition(300ms, ease-out);
+          
           content: "";
           position: absolute;
           width: 135px;
@@ -112,11 +121,13 @@
           bottom: -4px;
           left: 0;
           opacity: 0;
+          @include mx.transition(300ms, ease-out);
         }
         &.active {
           &::after {
-            @include mx.transition(300ms, ease-in);
-            opacity: 100%;
+     
+            opacity: 100%; 
+                  @include mx.transition(300ms, ease-in);
           }
         }
       }
@@ -130,40 +141,45 @@
 }
 
 .editSide {
-  @include mx.transition(300ms, ease-out);
+ 
   width: 90%;
   margin-top: -25px;
-  @include mx.flex(row, center, center);
+
   gap: 20px;
   background-color: rgb(255, 255, 255);
   padding: 4px 6px;
   border-radius: 0 0px 20px 20px;
-  @include mx.shadow(1px, 1px);
+    @include mx.flex(row, center, center);
+  @include mx.shadow(1px, 1px); 
+  @include mx.transition(300ms, ease-out);
   @media (max-width: 768px) {
     margin-top: -44px;
   }
   img:hover {
-    @include mx.transition(300ms);
+  
     border: 1px solid transparent;
     filter: grayscale(100%);
-    cursor: pointer;
+    cursor: pointer; 
+     @include mx.transition(300ms);
   }
 }
 
 .addListing {
   padding: 26px 0;
   border-radius: 18px;
-  width: 100%;
+  width: 100%; 
+   gap: 10px;
   @include mx.center();
-  gap: 10px;
+
   .clickable {
     border-radius: 50%;
   }
 }
 
 .adminDashboard {
-  @include mx.flex(column, center, flex-start);
+ 
   width: 100%;
+   @include mx.flex(column, center, flex-start);
 }
 
 .adminDashboard_content {
@@ -187,9 +203,9 @@
   }
 
   .banner {
-    @include mx.flex(column, center, center);
+   
     gap: 6px;
-
+ @include mx.flex(column, center, center);
     .text {
       position: relative;
       padding: 10px;
@@ -197,12 +213,12 @@
       font-family: fn.font("number");
       color: fn.color("wheat");
       font-size: 16px;
-      @include mx.center();
+     
       width: 80px;
       height: 80px;
       border-radius: 50%;
       background-color: white;
-      //  z-index:1;
+     @include mx.center();
       span {
         position: relative;
         display: inline-block;
@@ -247,10 +263,11 @@
     }
   }
   .barchart {
-    @include mx.shadow(0, 0);
+    
     width: 100%;
     grid-column: 1/-1;
     background-color: rgb(255, 255, 255);
+     @include mx.shadow(0, 0);
     @media (min-width: 1000px) {
       display: none;
     }
