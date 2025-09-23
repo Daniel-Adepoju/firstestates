@@ -126,7 +126,7 @@ active={active}
 />   
 {!isSecondPage ? (
   <>
-    {/* <PopularThisWeek/> */}
+    <PopularThisWeek/>
     <Featured />
   </>
 ) : (
@@ -142,7 +142,7 @@ active={active}
   Return To Homepage
 </Link>
 )}
-   {/* {isLoading ? <Skeleton className="w-[80%] m-4 h-1 mx-auto bg-gray-500/20"/> :
+   {isLoading ? <Skeleton className="w-[80%] m-4 h-1 mx-auto bg-gray-500/20"/> :
    <div className='subheading ml-4 p-1 '>
     <div className="w-full">
       Showing Recent Listings from {school.value ? '' : 'all '}
@@ -176,7 +176,7 @@ active={active}
     </div>
    {!isLoading && <Pagination
    currentPage={Number(data?.cursor)}
-   totalPages={Number(data?.numOfPages)}/>} */}
+   totalPages={Number(data?.numOfPages)}/>}
    </>
   )
 }

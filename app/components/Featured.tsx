@@ -8,7 +8,7 @@ import { FeaturedModal } from "./Modals"
 import { useUser } from "@utils/user"
 import { getDate, createdAt } from "@utils/date"
 import { Swiper, SwiperSlide } from "swiper/react"
-import { Pagination, Autoplay, A11y, EffectCoverflow, EffectFade } from "swiper/modules"
+import { Pagination, Autoplay, A11y, EffectCoverflow} from "swiper/modules"
 import SwpierControls from "@utils/SwpierControls"
 
 export const FeaturedBtn = ({
@@ -60,59 +60,6 @@ export const FeaturedBtn = ({
 
 const Featured = () => {
   const { data, isLoading } = useGetFeaturedListings()
-  const scrollRef = useRef<HTMLDivElement>(null)
-  const scrollLock = useRef(false)
-  const touchStartX = useRef<number | null>(null)
-  const touchEndX = useRef<number | null>(null)
-
-  const scrollByCards = (direction: "left" | "right") => {
-    const container = scrollRef.current
-    if (!container) return
-
-    const card = container.querySelector(".card") as HTMLElement | null
-    if (!card) return
-
-    const style = getComputedStyle(card)
-    const marginLeft = parseFloat(style.marginLeft || "0")
-    const marginRight = parseFloat(style.marginRight || "0")
-    const totalCardWidth = card.offsetWidth + marginLeft + marginRight
-
-    const visibleCount = Math.floor(container.offsetWidth / totalCardWidth)
-    const scrollAmount = totalCardWidth * visibleCount
-    if (!container || scrollLock.current) return
-    container.scrollBy({
-      left: direction === "right" ? scrollAmount : -scrollAmount,
-      behavior: "smooth",
-    })
-    scrollLock.current = true
-    setTimeout(() => {
-      scrollLock.current = false
-    }, 500)
-  }
-
-  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
-    touchStartX.current = e.touches[0].clientX
-  }
-
-  const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
-    touchEndX.current = e.changedTouches[0].clientX
-
-    if (!touchStartX.current || !touchEndX.current) return
-
-    const distance = touchStartX.current - touchEndX.current
-    const threshold = 50
-
-    if (distance > threshold) {
-      // Swiped left
-      scrollByCards("right")
-    } else if (distance < -threshold) {
-      // Swiped right
-      scrollByCards("left")
-    }
-
-    touchStartX.current = null
-    touchEndX.current = null
-  }
 
   if (isLoading) {
     return (
@@ -133,6 +80,7 @@ const Featured = () => {
       </div>
     )
   }
+
   return (
     <>
       {data?.featuredListings.length > 0 && (
@@ -145,26 +93,32 @@ const Featured = () => {
           {!isLoading && (
             <>
               <Swiper
-                modules={[Pagination, Autoplay, A11y, EffectCoverflow, EffectFade]}
-                // effect="coverflow"
+                modules={[Pagination, Autoplay, A11y, EffectCoverflow]}
+                effect="coverflow"
                 a11y={{ enabled: true }}
-                autoplay={{ delay: 4000, disableOnInteraction: true }}
-                // coverflowEffect={{
-                //   rotate: 0,
-                //   stretch: 0,
-                //   depth: 0,
-
-                //   modifier: 0,
-                //   slideShadows: false,
-                // }}
-                loop
+                autoplay={{ delay: 5000, disableOnInteraction: true }}
+                coverflowEffect={{
+                  rotate: -2,
+                  stretch: 0,
+                  depth: 50,
+                  modifier: 1,
+                  slideShadows: false,
+                }}
+                loop={true}
+                loopAddBlankSlides={false}
                 pagination={{
                   clickable: true,
                   type: "bullets",
+                  dynamicBullets:true,
+                  dynamicMainBullets:3,
+
                 }}
                 observer={true}
                 observeParents={true}
-                onResize={(swiper) => swiper.slideTo(0)}
+                onResize={(swiper) => {
+                   swiper.slideTo(0)
+                  swiper.update()
+                  }}
                 slidesPerView={1}
                 slidesPerGroup={1}
                 slidesPerGroupSkip={1}
@@ -177,7 +131,7 @@ const Featured = () => {
                 onBreakpoint={(swiper) => {
                   swiper.update()
                 }}
-                className="pt-4  w-[90%] md:w-[95%] lg:w-[98%] min-h-[20vh] my-2 rounded-xl featured"
+                className="pt-4  w-[92%] md:w-[95%] lg:w-[98%] min-h-[20vh] my-2 rounded-xl featured"
               >
                 {data?.featuredListings.map((featured: CardProps["listing"]) => (
                   <SwiperSlide
@@ -190,8 +144,18 @@ const Featured = () => {
                     />
                   </SwiperSlide>
                 ))}
-
-                <SwpierControls className="w-full  mt--4 mb-4 flex items-center justify-center gap-2" />
+     {data?.featuredListings.map((featured: CardProps["listing"]) => (
+                  <SwiperSlide
+                    key={featured._id}
+                    className="featured_container"
+                  >
+                    <FeaturedCard
+                      key={featured._id}
+                      listing={featured}
+                    />
+                  </SwiperSlide>
+                ))}
+                <SwpierControls className="w-full  mt--8 mb-6 flex items-center justify-center gap-2" />
               </Swiper>
             </>
           )}
