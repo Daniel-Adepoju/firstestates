@@ -1765,7 +1765,7 @@ main {
   margin-top: auto;
   color: white;
   background-color: #0874c7;
-  z-index: 99;
+  z-index: 102;
 }
 .footer {
   display: flex;
@@ -1806,6 +1806,12 @@ main {
 .footer .footer_items_container {
   margin: 0;
   padding: 10px;
+}
+.footer .footer_items_container .footer_items {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 .footer .footer_items_container .footer_items a {
   text-decoration: none;

@@ -77,15 +77,17 @@ export const agentSidebarItems = [
 ];
 
 
-
-// export const schoolArea = {
-//   "North West": ["Another Town", "Kano", "Katsina", "Kebbi", "Kogi", "Kwara", "Lagos", "Nasarawa", "Niger", "Plateau", "Rivers", "Sokoto", "Taraba", "Yobe"],
-//   "North East": ["Benue", "Borno", "Gombe", "Jigawa", "Kaduna", "Kano", "Katsina", "Kebbi", "Kogi", "Kwara", "Lagos", "Ogun", "Ondo", "Osun", "Oyo"],
-//   "Lasu":[
-//     "Some Town",
-//     "First Gate",
-//     "Iyana School",
-//     "Ipaye",
-//     "Post Office"],
-// }
-// export const schools = Object.keys(schoolArea)
+export const footerItems = [
+  { name: "Contact Us",
+    link: "/contact",
+  },
+  { name: "About",
+    link: "/about",
+  },
+  { name: "Terms and conditions",
+    link: "/terms",
+  },
+  { name: "Privacy Policy",
+    link: "/privacy",
+  },
+]

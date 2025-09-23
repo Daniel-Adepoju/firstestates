@@ -243,7 +243,7 @@ main {
   // flex-shrink:0;
   color: white;
   background-color: fn.color("darkblue");
-  z-index: 99;
+  z-index: 102;
    @include mx.flex(column, center, flex-start);
   .logo {
     position: relative;
@@ -272,11 +272,12 @@ main {
     margin-block: 10px;
     margin-inline: auto;
        @include mx.flex(column, flex-start, flex-start);
-    @include mx.space(0);
+    @include mx.space(0); 
     .footer_items {
+      @include mx.flex(row, center, center);
       a {
         text-decoration: none;
-        color: fn.color("white");
+        color: fn.color("white");  
       }
     }
   }
