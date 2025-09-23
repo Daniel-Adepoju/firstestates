@@ -1,50 +1,62 @@
 import { useRef, useEffect } from "react"
-import { ArrowBigLeft, ArrowBigRight,ChevronRightCircle,Star} from "lucide-react"
+import { ArrowBigLeft, ArrowBigRight, ChevronRightCircle, Star } from "lucide-react"
 import FeaturedCard from "./FeaturedCard"
 import { useGetFeaturedListings } from "@lib/customApi"
 import { Skeleton } from "./ui/skeleton"
 import { CardProps } from "./Card"
 import { FeaturedModal } from "./Modals"
 import { useUser } from "@utils/user"
-import { getDate,createdAt} from "@utils/date"
+import { getDate, createdAt } from "@utils/date"
+import { Swiper, SwiperSlide } from "swiper/react"
+import { Pagination, Autoplay, A11y, EffectCoverflow, EffectFade } from "swiper/modules"
+import SwpierControls from "@utils/SwpierControls"
 
-export const FeaturedBtn = ({listingId,isFeatured,createdDate}: {listingId?:string,isFeatured?:boolean,createdDate:any}) => {
+export const FeaturedBtn = ({
+  listingId,
+  isFeatured,
+  createdDate,
+}: {
+  listingId?: string
+  isFeatured?: boolean
+  createdDate: any
+}) => {
   const ref = useRef<HTMLDialogElement>(null)
-  const {session} = useUser()
+  const { session } = useUser()
   const email = session?.user.email
   const userId = session?.user.id
 
- const subDate = createdAt(createdDate,true)
+  const subDate = createdAt(createdDate, true)
   const showModal = () => {
     ref.current?.showModal()
   }
 
   return (
     <>
-    {!isFeatured && (Number(subDate) < 30) && (
-    <>
-      <div 
-        onClick={showModal}
-        className="dark:bg-black/20 bg-white/80 w-10 h-10 
+      {!isFeatured && Number(subDate) < 30 && (
+        <>
+          <div
+            onClick={showModal}
+            className="dark:bg-black/20 bg-white/80 w-10 h-10 
           flex flex-row items-center justify-center
           rounded-full shadow-md
-          mediumScale cursor-pointer">
-          <Star 
-            size={30}
-            color='#daa520'/>
-      </div>
-      <FeaturedModal
-        userId={userId}
-        listingId={listingId}
-        email={email}
-        ref={ref}
-      />
+          mediumScale cursor-pointer"
+          >
+            <Star
+              size={30}
+              color="#daa520"
+            />
+          </div>
+          <FeaturedModal
+            userId={userId}
+            listingId={listingId}
+            email={email}
+            ref={ref}
+          />
+        </>
+      )}
     </>
-  )}
-  
-  
-  </>
-  )}
+  )
+}
 
 const Featured = () => {
   const { data, isLoading } = useGetFeaturedListings()
@@ -105,6 +117,11 @@ const Featured = () => {
   if (isLoading) {
     return (
       <div className="w-full my-4">
+        <h1 className="subheading flex items-center gap-1 ml-4 mb-2 text-center">
+          Featured
+          <ChevronRightCircle className="relative w-6 h-6" />
+        </h1>
+
         <div className="mx-auto featured_container w-90 md:w-181 xl:w-271 grid grid-flow-col auto-cols-auto gap-1 overflow-x-hidden">
           {[...Array(6)].map((_, i) => (
             <Skeleton
@@ -120,81 +137,64 @@ const Featured = () => {
     <>
       {data?.featuredListings.length > 0 && (
         <>
-          <h1 className="subheading flex items-center gap-1 ml-4 text-center">
+          <h1 className="subheading flex items-center gap-1 ml-4  text-center">
             Featured
             <ChevronRightCircle className="relative w-6 h-6" />
-            </h1>
-          <div  className="featured pt-4 w-full min-h-[20vh] my-4
-                        rounded-3xl flex flex-col items-center justify-center
-                    ">
-     <div  className="pt-4 w-full min-h-[20vh] my-2
-                      flex flex-row items-center justify-center
-                    ">
+          </h1>
 
-            {/* big screen left arrow */}
-            <div
-              onClick={() => scrollByCards("left")}
-              className="flex-row items-center justify-center hidden lg:flex cursor-pointer smallScale w-15 h-15 p-3 rounded-full shadow-md dark:bg-gray-700  bg-white hover:shadow-lg transition"
-            >
-              <ArrowBigLeft
-                size={30}
-                color="#f29829"
-                className="text-white"
-              />
-            </div>
+          {!isLoading && (
+            <>
+              <Swiper
+                modules={[Pagination, Autoplay, A11y, EffectCoverflow, EffectFade]}
+                // effect="coverflow"
+                a11y={{ enabled: true }}
+                autoplay={{ delay: 4000, disableOnInteraction: true }}
+                // coverflowEffect={{
+                //   rotate: 0,
+                //   stretch: 0,
+                //   depth: 0,
 
-            {!isLoading && (
-              <div
-                onTouchStart={handleTouchStart}
-                onTouchEnd={handleTouchEnd}
-                ref={scrollRef}
-                className="featured_container w-90 md:w-181 xl:w-271 overflow-x-hidden grid grid-flow-col auto-cols-auto"
+                //   modifier: 0,
+                //   slideShadows: false,
+                // }}
+                loop
+                pagination={{
+                  clickable: true,
+                  type: "bullets",
+                }}
+                observer={true}
+                observeParents={true}
+                onResize={(swiper) => swiper.slideTo(0)}
+                slidesPerView={1}
+                slidesPerGroup={1}
+                slidesPerGroupSkip={1}
+                spaceBetween={0}
+                breakpoints={{
+                  640: { slidesPerView: 1, spaceBetween: 20, slidesPerGroup: 1 },
+                  768: { slidesPerView: 2, spaceBetween: 40, slidesPerGroup: 2 },
+                  1054: { slidesPerView: 3, spaceBetween: 50, slidesPerGroup: 3 },
+                }}
+                onBreakpoint={(swiper) => {
+                  swiper.update()
+                }}
+                className="pt-4  w-[90%] md:w-[95%] lg:w-[98%] min-h-[20vh] my-2 rounded-xl featured"
               >
                 {data?.featuredListings.map((featured: CardProps["listing"]) => (
-                  <FeaturedCard
+                  <SwiperSlide
                     key={featured._id}
-                    listing={featured}
-                  />
+                    className="featured_container"
+                  >
+                    <FeaturedCard
+                      key={featured._id}
+                      listing={featured}
+                    />
+                  </SwiperSlide>
                 ))}
-              </div>
-            )}
 
-  {/* big screen right arrow */}
-            <div
-              onClick={() => scrollByCards("right")}
-              className="flex-row items-center justify-center hidden lg:flex cursor-pointer smallScale  w-15 h-15 p-3 rounded-full shadow-md dark:bg-gray-700 bg-white hover:shadow-lg transition"
-            >
-              <ArrowBigRight
-                size={30}
-                color="#f29829"
-                className="text-white"
-              />
-            </div>
-          </div>
-
-          {/* small screen arrows */}
-          <div className="w-full py-2 flex flex-row justify-center gap-15 lg:hidden">
-            <div
-              onClick={() => scrollByCards("left")}
-              className="flex flex-row items-center justify-center cursor-pointer smallScale  w-15 h-15 p-3 rounded-full shadow-md dark:bg-gray-700  bg-white hover:shadow-lg transition"
-            >
-              <ArrowBigLeft
-                size={30}
-                color="#f29829"
-              />
-            </div>
-            <div
-              onClick={() => scrollByCards("right")}
-              className="flex flex-row items-center justify-center cursor-pointer smallScale   w-15 h-15 p-3 rounded-full shadow-md dark:bg-gray-700 bg-white hover:shadow-lg transition"
-            >
-              <ArrowBigRight
-                size={30}
-                color="#f29829"
-              />
-            </div>
-          </div>
-
-          </div>
+                <SwpierControls className="w-full  mt--4 mb-4 flex items-center justify-center gap-2" />
+              </Swiper>
+            </>
+          )}
         </>
       )}
     </>

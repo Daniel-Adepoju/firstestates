@@ -119,14 +119,17 @@ input[type="number"] {
 .swiper-pagination {
   bottom: -1px !important;
 }
+
 .swiper-pagination-bullet {
   transition: 300ms ease-in-out;
-  background-color: color("blue") !important;
+  background-color: color("darkblue") !important;
   top: 20% !important;
+  opacity: 70% !important;
 }
 .swiper-pagination-bullet-active {
   transition: 300ms ease-out;
   transform: scale(1.5);
+  opacity: 100% !important;
 }
 
 .swiper-button-next,
@@ -134,9 +137,31 @@ input[type="number"] {
   visibility: hidden !important;
 }
 
-.itemHide {
-  visibility: hidden !important;
+
+// featured swiper
+.featured {
+  .swiper-pagination {
+  bottom: -1.2px !important;
+  padding-block: 4px;
 }
+.swiper-pagination-bullet {
+  transition: 300ms ease-in-out;
+  background-color: rgb(255, 255, 255) !important;
+  top: 20% !important;
+}
+.swiper-pagination-bullet-active {
+  transition: 300ms ease-out;
+  transform: scale(1.5);
+}
+
+}
+
+
+
+
+// .itemHide {
+//   visibility: hidden !important;
+// }
 
 //Buttons
 button {

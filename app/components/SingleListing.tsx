@@ -1,8 +1,5 @@
 "use client"
-import "swiper/css"
-import "swiper/css/navigation"
-import "swiper/css/pagination"
-import "swiper/css/scrollbar"
+
 import { useState, useRef } from "react"
 import Image from "next/image"
 import Button from "@lib/Button"
@@ -37,8 +34,7 @@ import { useMutation } from "@tanstack/react-query"
 import Toast from "@components/Toast"
 import { previousDay } from "date-fns"
 
-const SingleListing = ({listingId}: {listingId: string}) => {
-
+const SingleListing = ({ listingId }: { listingId: string }) => {
   const [notification, setNotification] = useState({
     isActive: false,
     message: "",
@@ -88,7 +84,7 @@ const SingleListing = ({listingId}: {listingId: string}) => {
         message: res?.data.message,
         status: res.status === 201 ? "success" : "danger",
       })
-      console.log(res.data.message)
+
       return res
     } catch (err: any) {
       setNotification({
@@ -153,8 +149,8 @@ const SingleListing = ({listingId}: {listingId: string}) => {
                   slidesPerView={1}
                   loop={true}
                   autoplay={{ delay: 5000, disableOnInteraction: false }}
-                  navigation
-                  onSwiper={() => setIsSwiperLoaded(true)}
+                  // navigation
+                  // onSwiper={() => setIsSwiperLoaded(true)}
                   pagination={{ clickable: true, type: "bullets" }}
                 >
                   {data?.post.gallery.map((image: string) => {

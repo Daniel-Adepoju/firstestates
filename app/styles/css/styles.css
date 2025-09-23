@@ -126,6 +126,9 @@ html:is(.dark) .txt:after {
 html:is(.dark) .quickLink {
   color: rgb(211, 184, 47);
 }
+html:is(.dark) .featured .swiper-pagination-bullet {
+  background-color: rgb(255, 255, 255) !important;
+}
 html:is(.dark) .swiper-pagination-bullet {
   background-color: #A88F6E !important;
 }
@@ -294,13 +297,15 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 
 .swiper-pagination-bullet {
   transition: 300ms ease-in-out;
-  background-color: #0881a3 !important;
+  background-color: #0874c7 !important;
   top: 20% !important;
+  opacity: 70% !important;
 }
 
 .swiper-pagination-bullet-active {
   transition: 300ms ease-out;
   transform: scale(1.5);
+  opacity: 100% !important;
 }
 
 .swiper-button-next,
@@ -308,8 +313,18 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
   visibility: hidden !important;
 }
 
-.itemHide {
-  visibility: hidden !important;
+.featured .swiper-pagination {
+  bottom: -1.2px !important;
+  padding-block: 4px;
+}
+.featured .swiper-pagination-bullet {
+  transition: 300ms ease-in-out;
+  background-color: rgb(255, 255, 255) !important;
+  top: 20% !important;
+}
+.featured .swiper-pagination-bullet-active {
+  transition: 300ms ease-out;
+  transform: scale(1.5);
 }
 
 button {
@@ -2136,7 +2151,7 @@ footer.hide {
   justify-content: flex-start;
 }
 .featured_container .card {
-  margin-block: 10px;
+  margin-block: 20px;
   border-radius: 20px;
   margin-inline: 20px;
   width: 320px;

@@ -192,6 +192,11 @@ html:is(.dark) {
   color: rgb(211, 184, 47);
 }
 
+.featured {
+  .swiper-pagination-bullet {
+  background-color: rgb(255, 255, 255) !important;
+}
+}
 .swiper-pagination-bullet {
   background-color: color("coffee") !important;
 }
