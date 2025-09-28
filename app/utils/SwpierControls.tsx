@@ -7,22 +7,12 @@ const SwpierControls = ({className}:{className?:string}) => {
     const swiper = useSwiper()
   return (
     <div className={className}>
-     <span onClick={() => swiper.slidePrev()} className="clickable left arrow rounded-full">
-    <Image 
-    width={60}
-    height={60}
-    src='/icons/left_arrow.svg'
-     alt="arrow"
-    />   
+     <span onClick={() => swiper.slidePrev()} className="flex items-center justify-center clickable left arrow rounded-full">
+          <ChevronLeftCircle size={40} color="white"/>  
     </span>
    
-    <span onClick={() => swiper.slideNext()} className="clickable right arrow rounded-full">
-    <Image 
-    width={60}
-    height={60}
-    src='/icons/right_arrow.svg'
-     alt="arrow"
-    />   
+    <span onClick={() => swiper.slideNext()} className="flex items-center justify-center clickable right arrow rounded-full">
+       <ChevronRightCircle size={40} color="white"/>  
     </span>
     </div>
    

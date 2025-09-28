@@ -91,7 +91,7 @@ const Featured = () => {
           </h1>
 
           {!isLoading && (
-            <>
+            <div className="featured w-[92%] md:w-[95%] lg:w-[98%] min-h-[20vh] mx-auto my-2 rounded-xl">
               <Swiper
                 modules={[Pagination, Autoplay, A11y, EffectCoverflow]}
                 effect="coverflow"
@@ -110,7 +110,7 @@ const Featured = () => {
                   clickable: true,
                   type: "bullets",
                   dynamicBullets:true,
-                  dynamicMainBullets:3,
+                  dynamicMainBullets:1,
 
                 }}
                 observer={true}
@@ -131,7 +131,7 @@ const Featured = () => {
                 onBreakpoint={(swiper) => {
                   swiper.update()
                 }}
-                className="pt-4  w-[92%] md:w-[95%] lg:w-[98%] min-h-[20vh] my-2 rounded-xl featured"
+                className="pt-3  w-[92%] md:w-[95%] lg:w-[98%] min-h-[20vh] mx-auto my-2 rounded-xl"
               >
                 {data?.featuredListings.map((featured: CardProps["listing"]) => (
                   <SwiperSlide
@@ -144,20 +144,10 @@ const Featured = () => {
                     />
                   </SwiperSlide>
                 ))}
-     {data?.featuredListings.map((featured: CardProps["listing"]) => (
-                  <SwiperSlide
-                    key={featured._id}
-                    className="featured_container"
-                  >
-                    <FeaturedCard
-                      key={featured._id}
-                      listing={featured}
-                    />
-                  </SwiperSlide>
-                ))}
-                <SwpierControls className="w-full  mt--8 mb-6 flex items-center justify-center gap-2" />
+
+                <SwpierControls className="w-full  mt--8 mb-6 flex items-center justify-center gap-6" />
               </Swiper>
-            </>
+            </div>
           )}
         </>
       )}

@@ -10,7 +10,7 @@ export default function Home() {
    <>
    {!isPage && <HeroSection />}
    {isPage && <div className='mt-20'></div>}
-   <CardList/>
+   {/* <CardList/> */}
    </>
   );
 }
