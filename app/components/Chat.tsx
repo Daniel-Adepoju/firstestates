@@ -28,7 +28,7 @@ export default function Chat() {
   const handleSendMessage = async () => {
     if (!text.trim() || !conversationId || !userId) return
    setSending(true)
-await sendMessage(text,userId,conversationId)
+await sendMessage(text, userId, recipientId!, conversationId)
  setText('')
  setSending(false)
   } 

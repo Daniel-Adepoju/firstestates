@@ -123,7 +123,18 @@ main {
   .nav_items {
     gap: 20px; 
     @include mx.flex(row, center, center);
-    a,
+    a:hover {
+       .link_line,
+    span {
+    &:hover {
+        &::after {
+          opacity: 100%;
+        }
+        @include mx.transition(400ms, ease-out);
+      }
+    }
+    }
+    .link_line,
     span {
       position: relative;
       text-decoration: none;
@@ -142,12 +153,6 @@ main {
         border-radius: 20px;
         @include mx.transition(400ms, ease-in);
       }
-      &:hover {
-        &::after {
-          opacity: 100%;
-        }
-        @include mx.transition(400ms, ease-out);
-      }
     }
 // mobile footer nav
     @media (max-width: 767.9px) {   
@@ -164,7 +169,7 @@ main {
       padding-top:auto;
       padding-bottom:0;
       gap: 40px;
-      a,span {
+      .link_line,span {
         font-size: 12px;
       }
       img {
@@ -303,7 +308,7 @@ footer.hide {
     border-radius: 50%;
     width: 40px;
     height: 40px;
-    top: 90%;
+     bottom:5%;
     right: 2.5%;
     isolation: isolate;
     animation: blink 500ms alternate infinite;
@@ -311,7 +316,7 @@ footer.hide {
   @include mx.center();
     @media (max-width: 767.9px) { 
       top:auto;
-    bottom:clamp(12.5%, 15%, 10.5%);
+    bottom:clamp(14%, 15%, 12.6%);
     }
     .clickable {
    

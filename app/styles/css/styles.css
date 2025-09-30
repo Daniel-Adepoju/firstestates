@@ -1616,14 +1616,24 @@ main {
   align-items: center;
   justify-content: center;
 }
-.nav .nav_items a, .footer .nav_items a,
+.nav .nav_items a:hover .link_line:hover::after, .footer .nav_items a:hover .link_line:hover::after,
+.nav .nav_items a:hover span:hover::after,
+.footer .nav_items a:hover span:hover::after {
+  opacity: 100%;
+}
+.nav .nav_items a:hover .link_line:hover, .footer .nav_items a:hover .link_line:hover,
+.nav .nav_items a:hover span:hover,
+.footer .nav_items a:hover span:hover {
+  transition: all 400ms ease-out;
+}
+.nav .nav_items .link_line, .footer .nav_items .link_line,
 .nav .nav_items span,
 .footer .nav_items span {
   position: relative;
   text-decoration: none;
   font-size: 16px;
 }
-.nav .nav_items a::after, .footer .nav_items a::after,
+.nav .nav_items .link_line::after, .footer .nav_items .link_line::after,
 .nav .nav_items span::after,
 .footer .nav_items span::after {
   content: "";
@@ -1637,20 +1647,10 @@ main {
   left: 0;
   border-radius: 20px;
 }
-.nav .nav_items a::after, .footer .nav_items a::after,
+.nav .nav_items .link_line::after, .footer .nav_items .link_line::after,
 .nav .nav_items span::after,
 .footer .nav_items span::after {
   transition: all 400ms ease-in;
-}
-.nav .nav_items a:hover::after, .footer .nav_items a:hover::after,
-.nav .nav_items span:hover::after,
-.footer .nav_items span:hover::after {
-  opacity: 100%;
-}
-.nav .nav_items a:hover, .footer .nav_items a:hover,
-.nav .nav_items span:hover,
-.footer .nav_items span:hover {
-  transition: all 400ms ease-out;
 }
 @media (max-width: 767.9px) {
   .nav .nav_items, .footer .nav_items {
@@ -1668,7 +1668,7 @@ main {
     padding-bottom: 0;
     gap: 40px;
   }
-  .nav .nav_items a, .footer .nav_items a, .nav .nav_items span, .footer .nav_items span {
+  .nav .nav_items .link_line, .footer .nav_items .link_line, .nav .nav_items span, .footer .nav_items span {
     font-size: 12px;
   }
   .nav .nav_items img, .footer .nav_items img {
@@ -1830,7 +1830,7 @@ footer.hide {
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  top: 90%;
+  bottom: 5%;
   right: 2.5%;
   isolation: isolate;
   animation: blink 500ms alternate infinite;
@@ -1845,7 +1845,7 @@ footer.hide {
 @media (max-width: 767.9px) {
   .goUp {
     top: auto;
-    bottom: 10.5%;
+    bottom: 12.6%;
   }
 }
 .goUp .clickable {

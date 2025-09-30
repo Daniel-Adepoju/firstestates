@@ -89,6 +89,7 @@ const Nav = () => {
     setIsActive(false)
     setToggleNav(false)
   }
+
   return (
     <header
       id="nav"
@@ -103,7 +104,7 @@ const Nav = () => {
       {/*  */}
 
       <div className="flex gap-4 items-center">
-         {/* profile pic */}
+        {/* profile pic */}
         {session?.user && (
           <Link
             href="/client-settings"
@@ -141,28 +142,27 @@ const Nav = () => {
             )}
           </div>
         </div>
-     
 
-      {/*nav items  */}
+        {/*nav items  */}
         <div className={`nav_items md:pr-3 md:pt-1`}>
           {/* Unique To Non-CLient Accounts */}
           {/* Going To Dashboard */}
           {session?.user && session?.user.role !== "client" && (
-            <div className="flex flex-col md:flex-row items-center gap-0 md:gap-2 cursor-pointer">
+            <Link
+              href={session?.user.role === "admin" ? "/admin" : "/agent"}
+              onClick={handleNavItemClick}
+              className="flex flex-col md:flex-row items-center gap-0 md:gap-2 cursor-pointer"
+            >
               <div className="dark:bg-coffee bg-darkblue p-2 rounded-full ">
                 <LayoutDashboard
                   size={20}
                   color={"white"}
                 />
               </div>
-              <Link
-                href={session?.user.role === "admin" ? "/admin" : "/agent"}
-                onClick={handleNavItemClick}
-                className="md:w-full md:text-white md:bg-darkblue md:dark:bg-coffee md:px-4 md:py-2 rounded-md hover:opacity-95 transition"
-              >
+              <div className="link_line md:w-full md:text-white md:bg-darkblue md:dark:bg-coffee md:px-4 md:py-2 rounded-md hover:opacity-95 transition">
                 Dashboard
-              </Link>
-            </div>
+              </div>
+            </Link>
           )}
 
           {/* Unique To Client Account */}
@@ -182,18 +182,18 @@ const Nav = () => {
 
               {/* school focus */}
               {session?.user.school && (
-                <div className="flex flex-row items-center gap-2 cursor-pointer">
+                <Link
+                  href={session?.user.role === "admin" ? "/admin" : "/agent"}
+                  onClick={handleNavItemClick}
+                  className="flex flex-col md:flex-row items-center gap-2 cursor-pointer"
+                >
                   <div className="dark:bg-coffee bg-darkblue p-2 rounded-full ">
                     <MapPinHouse className="w-5 h-5 text-white" />
                   </div>
-                  <Link
-                    href={session?.user.role === "admin" ? "/admin" : "/agent"}
-                    onClick={handleNavItemClick}
-                    className="w-50 md:w-full text-white bg-darkblue dark:bg-coffee px-4 py-2 rounded-md hover:opacity-95 transition"
-                  >
+                  <div className="link_line md:w-full md:text-white md:bg-darkblue md:dark:bg-coffee md:px-4 md:py-2 rounded-md hover:opacity-95 transition">
                     School Focus
-                  </Link>
-                </div>
+                  </div>
+                </Link>
               )}
             </>
           )}
@@ -202,33 +202,30 @@ const Nav = () => {
 
           {/* chats */}
           {session?.user && (
-            <div
+            <Link
+              href="/inbox"
               onClick={handleNavItemClick}
               className="relative flex flex-col md:flex-row items-center gap-0 md:gap-2 cursor-pointer"
             >
-              <div className="dark:bg-coffee bg-darkblue p-2 rounded-full">
+              <div className=" dark:bg-coffee bg-darkblue p-2 rounded-full">
                 <MessageSquare
                   size={20}
                   color={"white"}
                 />
               </div>
-              <Link
-                href="/inbox"
-                onClick={handleNavItemClick}
-              >
-                Chats
-              </Link>
+              <div className="link_line">Chats</div>
               {unreadMessages && parseInt(unreadMessages) > 0 && (
                 <div className="flex items-center justify-center absolute w-6 h-6 top-[-16.5%] left-[0%] bg-red-800 text-white rounded-full px-2 py-1 text-xs font-bold">
                   {unreadMessages}
                 </div>
               )}
-            </div>
+            </Link>
           )}
 
           {/* wishlists */}
           {session?.user && (
-            <div
+            <Link
+              href="/listings/wishlists"
               onClick={handleNavItemClick}
               className="flex flex-col md:flex-row items-center gap-0 md:gap-2 cursor-pointer"
             >
@@ -238,70 +235,67 @@ const Nav = () => {
                   color={"white"}
                 />
               </div>
-              <Link
-                href="/listings/wishlists"
+              <div
+                className="link_line"
                 onClick={handleNavItemClick}
               >
                 Wishlist
-              </Link>
-            </div>
+              </div>
+            </Link>
           )}
-           
-          {/* more */}
-          {/* more btn */}
-          <div className="flex flex-col md:flex-row items-center gap-1 md:gap-2 cursor-pointer">
-           <div
-        onClick={showNav}
-        className={`toggle_nav`}
-      >
-        <div className="toggle_items"></div>
-        <div className="toggle_items"></div>
-        <div className="toggle_items"></div>
-       
-      </div> 
-      </div>
-          {/* more content */}
 
           {/* Unique to signed Out */}
           {!session?.user && (
             <>
               {/* login */}
-              <div className="flex flex-col md:flex-row items-center gap-0 md:gap-2 cursor-pointer">
+              <Link
+                href="/login"
+                onClick={handleNavItemClick}
+                className="flex flex-col md:flex-row items-center gap-0 md:gap-2 cursor-pointer"
+              >
                 <div className="dark:bg-coffee bg-darkblue p-2 rounded-full">
                   <LogIn
                     size={20}
                     color={"white"}
                   />
                 </div>
-                <Link
-                  href="/login"
-                  onClick={handleNavItemClick}
-                  className="md:w-full md:text-white md:bg-darkblue md:dark:bg-coffee md:px-4 md:py-2 rounded-md hover:opacity-95 transition"
-                >
+                <div className="link_line md:w-full md:text-white md:bg-darkblue md:dark:bg-coffee md:px-4 md:py-2 rounded-md hover:opacity-95 transition">
                   Login
-                </Link>
-              </div>
+                </div>
+              </Link>
 
               {/* signup */}
-              <div className="flex flex-col md:flex-row items-center gap-0 md:gap-2 cursor-pointer">
+              <Link
+                href="/signup"
+                onClick={handleNavItemClick}
+                className="flex flex-col md:flex-row items-center gap-0 md:gap-2 cursor-pointer"
+              >
                 <div className="dark:bg-coffee bg-darkblue p-2 rounded-full">
                   <UserPlus
                     size={20}
                     color={"white"}
                   />
                 </div>
-                <Link
-                  href="/signup"
-                  onClick={handleNavItemClick}
-                  className="md:w-full md:text-darkblue md:dark:text-coffee md:border-2 md:border-darkblue md:dark:border-coffee md:px-4 md:py-2 md:rounded-md hover:opacity-90 transition"
-                >
+                <div className="link_line md:w-full md:text-darkblue md:dark:text-coffee md:border-2 md:border-darkblue md:dark:border-coffee md:px-4 md:py-2 md:rounded-md hover:opacity-90 transition">
                   Sign Up
-                </Link>
-              </div>
+                </div>
+              </Link>
             </>
           )}
 
-          {/* features in grid */}
+          {/* more */}
+          {/* more btn */}
+          <div className="flex flex-col md:flex-row items-center gap-1 md:gap-2 cursor-pointer">
+            <div
+              onClick={showNav}
+              className={`toggle_nav`}
+            >
+              <div className="toggle_items"></div>
+              <div className="toggle_items"></div>
+              <div className="toggle_items"></div>
+            </div>
+          </div>
+          {/* more content */}
         </div>
       </div>
     </header>
