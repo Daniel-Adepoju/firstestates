@@ -131,7 +131,7 @@ const Featured = () => {
                 onBreakpoint={(swiper) => {
                   swiper.update()
                 }}
-                className="pt-3  w-[92%] md:w-[95%] lg:w-[98%] min-h-[20vh] mx-auto my-2 rounded-xl"
+                className="pt-3 w-[100%] md:w-[95%] lg:w-[98%] min-h-[20vh] mx-auto my-2 rounded-xl"
               >
                 {data?.featuredListings.map((featured: CardProps["listing"]) => (
                   <SwiperSlide

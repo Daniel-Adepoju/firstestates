@@ -7,16 +7,18 @@ import { useRouter } from "next/navigation"
 import { DeleteModal } from "./Modals"
 import { useDarkMode } from "@lib/DarkModeProvider"
 import {
-  TagIcon,
   Toilet,
   Bed,
   Bath,
   MapPin,
   Eye,
-  Edit2,
   EditIcon,
   Trash2,
   LoaderPinwheel,
+  MoreVerticalIcon,
+  ChevronDown,
+  ChevronUp,
+  MoreHorizontal,
 } from "lucide-react"
 import { formatNumber } from "@utils/formatNumber"
 import { FeaturedBtn } from "./Featured"
@@ -26,7 +28,7 @@ export interface CardProps {
   edit?: boolean
   isAgentCard?: boolean
   listing: Listing
-  isInWishList?:boolean
+  isInWishList?: boolean
 }
 const Card = ({ edit, listing, isAgentCard, isInWishList }: CardProps) => {
   const [address] = useState(listing?.address || "Nigeria")
@@ -36,6 +38,7 @@ const Card = ({ edit, listing, isAgentCard, isInWishList }: CardProps) => {
   const { darkMode } = useDarkMode()
   const [weeklyViews] = useState(formatNumber(listing?.weeklyViews ?? 0) || 0)
   const [totalViews] = useState(formatNumber(listing?.totalViews ?? 0) || 0)
+  const [showMore, setShowMore] = useState(false)
   const openDialog = () => {
     deleteRef.current?.showModal()
   }
@@ -43,6 +46,7 @@ const Card = ({ edit, listing, isAgentCard, isInWishList }: CardProps) => {
   const visitCard = () => {
     router.push(`/listings/single_listing?id=${listing?._id}`)
   }
+
   return (
     <>
       <div className="cardContainer">
@@ -50,13 +54,17 @@ const Card = ({ edit, listing, isAgentCard, isInWishList }: CardProps) => {
           onClick={visitCard}
           className="card font-card"
         >
-          {/* <div className='no-underline'> */}
+          {/* image */}
           <div className="houseImg">
             {listing?.mainImage?.startsWith("http") ? (
-              <img
-                src="/images/house3.jpg"
+              <CldImage
+                fill={true}
                 alt="post_img"
-                className="object-contain mt-[-60%] w-full rounded-t-lg"
+                src={"igy0tozve5oyjrsfmq3o"}
+                crop={{
+                  type: "auto",
+                  source: true,
+                }}
               />
             ) : (
               <CldImage
@@ -69,13 +77,25 @@ const Card = ({ edit, listing, isAgentCard, isInWishList }: CardProps) => {
                 }}
               />
             )}
-             <WishlistButton 
-                isInWishList={isInWishList || false}
-                listingId={listing?._id ?? ""} />
+
+            {/*actions  */}
+            <div className="flex flex-col items-center justify-center gap-1 absolute top-2 right-3 z-10">
+               <WishlistButton
+              isInWishList={isInWishList || false}
+              listingId={listing?._id ?? ""}
+            />
+              <div className="rounded-full bg-white dark:bg-gray-700 w-6.5 h-6.5 flex items-center justify-center p-0.5">
+            <MoreHorizontal size={30} className="text-gray-700 dark:text-white"/>
+            </div>
+            </div>
+           
           </div>
 
           <div className="body">
+            {/* location */}
             <div className="location heading">{listing?.location}</div>
+
+            {/* address */}
             <div className="address">
               <MapPin
                 size={24}
@@ -83,9 +103,10 @@ const Card = ({ edit, listing, isAgentCard, isInWishList }: CardProps) => {
               />
               <span>{truncateAddress(address, 30)}</span>
             </div>
+
             {!edit && (
               <>
-              {/* toilets,beds,baths */}
+                {/* amenities */}
                 <div className="home_details font-list foont-bold">
                   <div>
                     <Bed
@@ -99,18 +120,19 @@ const Card = ({ edit, listing, isAgentCard, isInWishList }: CardProps) => {
                       size={30}
                       color={darkMode ? "#A88F6E" : "#0874c7"}
                     />
-                    <span className='text-gray-700 dark:text-white'>{listing?.bathrooms}</span>
+                    <span className="text-gray-700 dark:text-white">{listing?.bathrooms}</span>
                   </div>
                   <div>
                     <Toilet
                       size={30}
                       color={darkMode ? "#A88F6E" : "#0874c7"}
                     />
-                    <span className='text-gray-700 dark:text-white'>{listing?.toilets}</span>
+                    <span className="text-gray-700 dark:text-white">{listing?.toilets}</span>
                   </div>
                 </div>
 
-         {/* agent */}
+              {/* unique to client */}
+                {/* agent */}
                 {!isAgentCard && (
                   <div className="agent font-list font-bold">
                     <div
@@ -137,17 +159,21 @@ const Card = ({ edit, listing, isAgentCard, isInWishList }: CardProps) => {
                   </div>
                 )}
 
+
+                {/* unique to agents */}
+                
                 {/* views */}
                 {isAgentCard && (
                   <div className="w-full flex flex-col pl-3 font-semibold">
                     <div className="flex flex-row gap-3 items-center text-sm">
                       <Eye
                         size={30}
-                       className="text-gray-700 dark:text-white"
+                        className="text-gray-700 dark:text-white"
                       />
                       Past Week Views
-                      <span className="views smallNum text-gray-700 dark:text-white">{weeklyViews}</span>
-
+                      <span className="views smallNum text-gray-700 dark:text-white">
+                        {weeklyViews}
+                      </span>
                     </div>
 
                     <div className="flex flex-row gap-3 items-center text-sm">
@@ -160,43 +186,79 @@ const Card = ({ edit, listing, isAgentCard, isInWishList }: CardProps) => {
                     </div>
                   </div>
                 )}
-
-{/* school and price tzg */}
-                <div 
-                className=" headersFont mx-auto px-3 py-2
-                bg-gray-50 dark:bg-gray-800/10 text-sm font-medium
-                   text-gray-700 dark:text-gray-200 shadow-sm  rounded-md">
-                    {listing?.school}
-                    </div>
-
-                {!edit && (
-                  <div className=" headersFont mx-auto inline-flex items-center gap-2 px-3 py-2 rounded-md
-                   bg-gray-50 dark:bg-gray-800/10 text-sm font-medium
-                   text-gray-700 dark:text-gray-200 shadow-sm">
-                    <TagIcon
-                      size={20}
-                      className="text-green-600 dark:text-green-400"
-                    />
-                    <span className="text-sm">
-                      &#8358;{formatNumber(Number(listing?.price) || 0)}
-                    </span>
-                  </div>
-                )}
-
               </>
             )}
           </div>
-          {/* </div> */}
 
-  {/* listing availability status */}
+          {/*more content --> listing availability status,school and price*/}
           {!edit && (
-            <div className={`tag ${listing?.status === "rented" && "rented"}`}>
-              {listing?.status}
+            <div className="capitalize absolute top-0 left-[1px] flex flex-col items-center justify-start justify-content-start gap-1 px-2 z-2">
+              {/* school*/}
+              <div
+                className="self-start headersFont w-25 inline-flex item-center justify-center px-3 py-2
+                bg-white dark:bg-gray-700 text-sm font-medium
+                   text-gray-700 dark:text-gray-200 rounded-md"
+              >
+                {listing?.school}
+              </div>
+
+              {/* status */}
+              <div
+                className={`tag no_absolute ${
+                  listing?.status === "rented" && "rented"
+                } w-25 self-start px-3.5 py-2 text-sm rounded-md  headersFont`}
+              >
+                {listing?.status}
+              </div>
+
+              {/* price */}
+              {showMore && (
+                <div
+                  className="self-start headersFont w-25 inline-flex items-center justify-center gap-1 px-3.5 py-2 rounded-md
+                   bg-gray-50 dark:bg-gray-700 text-sm font-medium
+                   text-gray-700 dark:text-gray-200 shadow-sm"
+                >
+                  <span className="text-sm">
+                    &#8358;{formatNumber(Number(listing?.price) || 0)}
+                  </span>
+                </div>
+              )}
+
+              {showMore && (
+                <div
+                  className=" headersFont w-full self-start inline-flex items-center justify-center gap-1 px-3.5 py-2 rounded-md
+                   bg-green-700  text-sm font-medium
+                   text-gray-700 dark:text-gray-200 shadow-sm"
+                >
+                  <span className="text-sm text-white">Roomate Request</span>
+                </div>
+              )}
+
+              {/* showmore btn */}
+              <div
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setShowMore(!showMore)
+                }}
+                className="bg-white dark:bg-gray-700 rounded-full self-start ml-2 p-1 h-6.5 w-6.5 flex items-center justify-center"
+              >
+                {!showMore ? (
+                  <ChevronDown
+                    size={20}
+                    className="animate-spin repeat-1 duration-50 text-gray-700 dark:text-white"
+                  />
+                ) : (
+                  <ChevronUp
+                    size={20}
+                    className="animate-spin repeat-1 duration-50 text-gray-700 dark:text-white"
+                  />
+                )}
+              </div>
             </div>
           )}
         </div>
 
-{/* edit buttons */}
+        {/* edit buttons */}
         {edit && (
           <div className="editSide">
             <div

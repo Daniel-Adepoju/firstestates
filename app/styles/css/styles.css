@@ -27,10 +27,10 @@ html:is(.dark) .footer {
 html:is(.dark) .logo {
   color: #fffdfb;
 }
-html:is(.dark) .nav_items a, html:is(.dark) .nav_items span {
+html:is(.dark) .nav_items .link_line, html:is(.dark) .nav_items span {
   color: white;
 }
-html:is(.dark) .nav_items a::after, html:is(.dark) .nav_items span::after {
+html:is(.dark) .nav_items .link_line::after, html:is(.dark) .nav_items span::after {
   background-color: #A88F6E;
 }
 html:is(.dark) .activeNav .toggle_nav .toggle_items:nth-child(2) {
@@ -1668,7 +1668,9 @@ main {
     padding-bottom: 0;
     gap: 40px;
   }
-  .nav .nav_items .link_line, .footer .nav_items .link_line, .nav .nav_items span, .footer .nav_items span {
+  .nav .nav_items .link_line, .footer .nav_items .link_line,
+  .nav .nav_items span,
+  .footer .nav_items span {
     font-size: 12px;
   }
   .nav .nav_items img, .footer .nav_items img {
@@ -1871,14 +1873,18 @@ footer.hide {
   margin-top: 8px;
   background-color: rgba(240, 239, 238, 0.292);
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(310px, max-content));
   align-items: center;
-  -moz-column-gap: 2px;
-       column-gap: 2px;
   justify-items: center;
-  width: 95%;
+  justify-content: center;
+  -moz-column-gap: 6px;
+       column-gap: 6px;
+  row-gap: 0;
+  justify-items: center;
+  width: 98%;
   border-radius: 20px;
   margin-inline: auto;
+  padding-inline: 2px;
 }
 
 .card {
@@ -1886,7 +1892,7 @@ footer.hide {
   font-size: 18px;
   margin: 24px 15px;
   background-color: rgb(255, 255, 255);
-  width: 280px;
+  width: 310px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   cursor: pointer;
   border-radius: 5px 5px 10px 10px;
@@ -1900,7 +1906,7 @@ footer.hide {
   justify-content: flex-start;
 }
 .card {
-  transition: all 300ms ease-out;
+  transition: transform 300ms ease-out;
 }
 .card a {
   width: 100%;
@@ -1945,7 +1951,7 @@ footer.hide {
   z-index: 1;
 }
 .card:hover .houseImg {
-  transition: all 300ms ease-in;
+  transition: background 300ms ease-in;
 }
 .card:hover .houseImg::after {
   content: "";
@@ -1963,8 +1969,8 @@ footer.hide {
 }
 .card .houseImg {
   position: relative;
-  width: 273.5px;
-  padding-top: 56.25%;
+  width: 306.5px;
+  padding-top: 66.25%;
   margin-top: -14px;
   margin-inline: auto;
   border-radius: 10px;
@@ -1982,7 +1988,7 @@ footer.hide {
   position: relative;
   background-color: #feffff;
   padding-inline: 12px;
-  padding-bottom: 4px;
+  padding-bottom: 10px;
   gap: 8px;
   margin-top: 8px;
   border-radius: 20px;
@@ -2061,18 +2067,12 @@ footer.hide {
   justify-content: flex-start;
 }
 .card .tag {
-  z-index: 2;
-  font-family: "Darker Grotesque", sans-serif;
-  font-size: 15px;
+  z-index: inherit;
   text-transform: capitalize;
-  font-weight: bolder;
   color: #fffdfb;
   position: absolute;
-  width: 100px;
-  padding: 4px;
   top: -1%;
   left: 3%;
-  border-radius: 10px;
   background-color: rgb(23, 146, 23);
 }
 .card .tag {
@@ -2083,6 +2083,9 @@ footer.hide {
 }
 .card .tag.rented {
   background-color: #f29829;
+}
+.card .tag.no_absolute {
+  position: relative;
 }
 
 .agentCardName {
@@ -2140,16 +2143,27 @@ footer.hide {
 .featured_container .card {
   margin-bottom: 10px;
   border-radius: 20px;
-  margin-inline: 20px;
+  margin-inline: auto;
   width: 320px;
+}
+@supports (-moz-appearance: none) {
+  .featured_container .card {
+    width: 300px;
+  }
 }
 .featured_container .card .houseImg {
   width: 320px;
+}
+@supports (-moz-appearance: none) {
+  .featured_container .card .houseImg {
+    width: 300px;
+  }
 }
 .featured_container .card .houseImg img {
   border-radius: 20px 20px 0 0;
 }
 .featured_container .card .tag {
+  z-index: 2;
   background-color: rgba(255, 255, 255, 0.968);
   border-radius: 50%;
   height: 30px;
@@ -2160,6 +2174,7 @@ footer.hide {
   -webkit-text-stroke: black;
   -webkit-text-stroke-width: 0px;
   stroke-width: 222px;
+  padding-block: 20px;
   top: -2.1%;
   left: 20%;
   width: 200px;

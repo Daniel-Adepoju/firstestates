@@ -210,7 +210,7 @@ export const WishlistButton = ({listingId,isInWishList}:{listingId:string,isInWi
       message={notification.message}
       status={notification.status}
       />
-    <div className={`${pathname.startsWith('/a') && 'hidden'} flex items-center justify-center absolute top-2 right-3 z-10`}>
+    <div className={`${pathname.startsWith('/a') && 'hidden'}`}>
       <button
         onClick={(e) => {
           e.stopPropagation()

@@ -20,7 +20,7 @@ const FeaturedCard = ({ edit, listing, isAgentCard }: CardProps) => {
 
   return (
     <>
-      <div className="cardContainer">
+      <div className="w-full">
         <div
           onClick={visitCard}
           className="card"
@@ -72,7 +72,7 @@ const FeaturedCard = ({ edit, listing, isAgentCard }: CardProps) => {
                 <div
                   className="w-full text-sm 
         items-center justify-start
-         break-words otherCard rounded-2xl shadow-xs"
+         break-words otherCard rounded-2xl "
                 >
                   <Link
                     onClick={(e) => e.stopPropagation()}

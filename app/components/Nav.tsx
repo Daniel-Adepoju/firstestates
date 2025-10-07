@@ -31,17 +31,13 @@ const Nav = () => {
   const router = useRouter()
   const [navbarFixed, setnavbarFixed] = useState<boolean>(false)
   const scrollThreshold = 500
-  const backdrop = useBackdrop()
-  const isActive = backdrop?.isActive ?? false
-  const toggleNav = backdrop?.toggleNav
-  const setIsActive = backdrop?.setIsActive ?? (() => {})
-  const setToggleNav = backdrop?.setToggleNav ?? (() => {})
+  const {backdrop,setBackdrop} = useBackdrop()
   const { darkMode, toggleDarkMode } = useDarkMode()
   const [unreadMessages, setUnreadMessages] = useState<string>("0")
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > scrollThreshold && !isActive) {
+      if (window.scrollY > scrollThreshold && !backdrop.isOpen) {
         setnavbarFixed(true)
       } else {
         setnavbarFixed(false)
@@ -81,19 +77,16 @@ const Nav = () => {
   }, [session?.user])
 
   const showNav = () => {
-    setIsActive((prev) => !prev)
-    setToggleNav((prev) => !prev)
+  setBackdrop({isOpen: !backdrop.isOpen})
   }
-
   const handleNavItemClick = () => {
-    setIsActive(false)
-    setToggleNav(false)
+    setBackdrop({isOpen: false})
   }
 
   return (
     <header
       id="nav"
-      className={`nav ${navbarFixed && "fixedNav"} ${isActive && "activeNav"}`}
+      className={`nav ${navbarFixed && "fixedNav"} ${backdrop.isOpen && "activeNav"}`}
     >
       <Link href="/">
         <div className="logo">LOGO</div>

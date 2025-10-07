@@ -9,7 +9,7 @@
 @use "./admin";
 
 * {
-  // outline: 1px solid green;
+  // outline: 2px solid green;
   // margin: 0;
   // padding: 0;
   box-sizing: border-box;
@@ -19,7 +19,6 @@
 *::after {
   box-sizing: inherit;
 }
-
 
 .popularList,
 .featured_container {
@@ -59,8 +58,6 @@
   }
 }
 
-
-
 body {
   -webkit-overflow-scrolling: touch;
   overflow-y: auto;
@@ -74,17 +71,17 @@ body {
 }
 main {
   @extend body;
-  position:relative;
+  position: relative;
 }
 
 // .backdrop {
 //   @media (max-width: 800px) {
-  
+
 //     position: fixed;
 //     min-width: 100%;
 //     min-height: 100vh;
 //     z-index: -100;
-//     background-color: rgba(255, 255, 255, 0); 
+//     background-color: rgba(255, 255, 255, 0);
 //      @include mx.transition(300ms, ease-out, background-color);
 //     &.active {
 //       background-color: rgba(20, 20, 20, 0.258);
@@ -93,6 +90,8 @@ main {
 //     }
 //   }
 // }
+
+// nav
 
 .nav {
   position: absolute;
@@ -116,30 +115,30 @@ main {
     font-weight: bold;
     font-family: monospace;
   }
-   .profilePic {
-      cursor: pointer;
-      border-radius: 50%;
-    }
+  .profilePic {
+    cursor: pointer;
+    border-radius: 50%;
+  }
   .nav_items {
-    gap: 20px; 
+    gap: 20px;
     @include mx.flex(row, center, center);
     a:hover {
-       .link_line,
-    span {
-    &:hover {
-        &::after {
-          opacity: 100%;
+      .link_line,
+      span {
+        &:hover {
+          &::after {
+            opacity: 100%;
+          }
+          @include mx.transition(400ms, ease-out);
         }
-        @include mx.transition(400ms, ease-out);
       }
-    }
     }
     .link_line,
     span {
       position: relative;
       text-decoration: none;
       font-size: 16px;
-      color: fn.color('lightDark');
+      color: fn.color("lightDark");
       &::after {
         content: "";
         opacity: 1%;
@@ -154,22 +153,23 @@ main {
         @include mx.transition(400ms, ease-in);
       }
     }
-// mobile footer nav
-    @media (max-width: 767.9px) {   
+    // mobile footer nav
+    @media (max-width: 767.9px) {
       z-index: 103;
       background-color: rgb(255, 255, 255);
       position: fixed;
       bottom: 0%;
-      left:0;
-      right:0;
-      height:76px;
+      left: 0;
+      right: 0;
+      height: 76px;
       width: 100%;
       box-shadow: 2px 4px 10px rgba(20, 19, 19, 0.176);
       border-radius: 20px 20px 0 0;
-      padding-top:auto;
-      padding-bottom:0;
+      padding-top: auto;
+      padding-bottom: 0;
       gap: 40px;
-      .link_line,span {
+      .link_line,
+      span {
         font-size: 12px;
       }
       img {
@@ -177,83 +177,78 @@ main {
         padding-left: -20px;
       }
       @include mx.flex(row, center, center);
-        @supports (-moz-appearance: none) {
-     bottom:auto;
-     top: calc(100vh - 76px);
-  }
+      @supports (-moz-appearance: none) {
+        bottom: auto;
+        top: calc(100vh - 76px);
+      }
     }
   }
 }
 .activeNav {
-  // @media (max-width: 800px) {
-    .toggle_nav {
-      position:relative;
-      .toggle_items:nth-child(1) {
-       
-        transform: rotate(-45deg);
-        translate: 0 5px;
-         @include mx.transition(300ms, ease-out);
-      }
-      .toggle_items:nth-child(3) {
-       
-        transform: rotate(45deg);
-        translate: 0 -5px; 
-        @include mx.transition(300ms, ease-out);
-      }
-      .toggle_items:nth-child(2) {
- 
-        position: absolute;
-        width: 50px;
-        height: 50px;
-        padding: 20px;
-        right: 0;
-        border-radius: 50%;
-        background-color: transparent;
-        opacity: 30%;
-        border: 4px dashed fn.color("darkblue");
-        animation: rollBorder 5s ease-in-out infinite;
-               @include mx.transition(300ms);
-      }
+  .toggle_nav {
+    position: relative;
+    .toggle_items:nth-child(1) {
+      transform: rotate(-45deg);
+      translate: 0 5px;
+      @include mx.transition(300ms, ease-out);
     }
-  // }
-}
-.toggle_nav {
-    gap: 5px;
-    cursor: pointer;
- @include mx.flex(column, center, center);
-    .toggle_items { 
-      
-      width: 45px;
-      height: 4.3px;
-      border-radius: 100px;
-      background-color: fn.color("darkblue");
-      transform-origin: center;
-     @include mx.transition(300ms, ease-out, translate);
-      &:nth-child(1),
-      &:nth-child(3) {
-        @include mx.transition(300ms, ease-in, translate);
-      }
+    .toggle_items:nth-child(3) {
+      transform: rotate(45deg);
+      translate: 0 -5px;
+      @include mx.transition(300ms, ease-out);
+    }
+    .toggle_items:nth-child(2) {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      padding: 20px;
+      right: 0;
+      border-radius: 50%;
+      background-color: transparent;
+      opacity: 30%;
+      border: 4px dashed fn.color("darkblue");
+      animation: rollBorder 5s ease-in-out infinite;
+      @include mx.transition(300ms);
     }
   }
+}
+.toggle_nav {
+  gap: 5px;
+  cursor: pointer;
+  @include mx.flex(column, center, center);
+  .toggle_items {
+    width: 45px;
+    height: 4.3px;
+    border-radius: 100px;
+    background-color: fn.color("darkblue");
+    transform-origin: center;
+    @include mx.transition(300ms, ease-out, translate);
+    &:nth-child(1),
+    &:nth-child(3) {
+      @include mx.transition(300ms, ease-in, translate);
+    }
+  }
+}
 
 .fixedNav {
-
   position: fixed;
-  animation: comedown 400ms; 
-   @include mx.transition(400ms, ease-out);
+  animation: comedown 400ms;
+  @include mx.transition(400ms, ease-out);
 }
+
+// footer
 
 .footer {
   @extend .nav;
- 
+
   border-top: 1px solid grey;
   position: relative;
   margin-top: auto;
   color: white;
   background-color: fn.color("darkblue");
-  padding-bottom: 80px; 
+  padding-bottom: 80px;
   z-index: 101;
-   @include mx.flex(column, center, flex-start);
+  @include mx.flex(column, center, flex-start);
   .logo {
     position: relative;
     width: 100%;
@@ -275,18 +270,17 @@ main {
   }
 
   .footer_items_container {
- 
     gap: 8px;
     width: 90%;
     margin-block: 10px;
     margin-inline: auto;
-       @include mx.flex(column, flex-start, flex-start);
-    @include mx.space(0); 
+    @include mx.flex(column, flex-start, flex-start);
+    @include mx.space(0);
     .footer_items {
       @include mx.flex(row, center, center);
       a {
         text-decoration: none;
-        color: fn.color("white");  
+        color: fn.color("white");
       }
     }
   }
@@ -294,75 +288,78 @@ main {
     margin-top: auto;
     text-align: center;
   }
-  
 }
 footer.hide {
   display: none;
 }
 
 .goUp {
-   z-index: 100;
-    position: fixed;
-    cursor: pointer;
-    padding: 3.1px;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-     bottom:5%;
-    right: 2.5%;
-    isolation: isolate;
-    animation: blink 500ms alternate infinite;
-    background-color: var(--darkblueSecondary);
+  z-index: 100;
+  position: fixed;
+  cursor: pointer;
+  padding: 3.1px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  bottom: 5%;
+  right: 2.5%;
+  isolation: isolate;
+  animation: blink 500ms alternate infinite;
+  background-color: var(--darkblueSecondary);
   @include mx.center();
-    @media (max-width: 767.9px) { 
-      top:auto;
-    bottom:clamp(14%, 15%, 12.6%);
-    }
-    .clickable {
-   
-      animation: none;
-      border-radius: 50%; 
-        @include mx.center();
-    }
-    img {
-      border-radius: 50%;
-    }
-        @media (min-width: 1000px) {
-      right: 1%;
-    }
+  @media (max-width: 767.9px) {
+    top: auto;
+    bottom: clamp(14%, 15%, 12.6%);
   }
+  .clickable {
+    animation: none;
+    border-radius: 50%;
+    @include mx.center();
+  }
+  img {
+    border-radius: 50%;
+  }
+  @media (min-width: 1000px) {
+    right: 1%;
+  }
+}
+
+
+// card
 
 .card_list {
   margin-top: 8px;
   background-color: fn.color("ghost");
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(310px, max-content));
   align-items: center;
-  column-gap: 2px;
   justify-items: center;
-  width: 95%;
+  justify-content: center;
+  column-gap: 6px;
+  row-gap: 0;
+  justify-items: center;
+  width: 98%;
   border-radius: 20px;
   margin-inline: auto;
+  padding-inline: 2px;
 }
 .card {
   position: relative;
   font-size: 18px;
   margin: 24px 15px;
-
   background-color: rgb(255, 255, 255);
-  width: 280px;
+  width: 310px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   cursor: pointer;
   border-radius: 5px 5px 10px 10px;
   padding-top: 6px;
   padding-bottom: 10px;
-    @include mx.flex(column, center, flex-start);
-  @include mx.transition(300ms, ease-out);
+  @include mx.flex(column, center, flex-start);
+  @include mx.transition(300ms, ease-out,transform);
   a {
-  
     width: 100%;
     height: 100%;
-      @include mx.flex(column, center, flex-start);
+    @include mx.flex(column, center, flex-start);
   }
   &::after {
     content: "";
@@ -375,7 +372,7 @@ footer.hide {
     transform-origin: center;
     z-index: 0;
     width: 0%;
-    height:0;
+    height: 0;
     // height: 20%;
     background-color: transparent;
     @include mx.transition(300ms, ease-out);
@@ -383,18 +380,16 @@ footer.hide {
   &:hover {
     transform: scale(0.99);
     @include mx.transition(200ms, ease-in, transform);
-    
+
     &::after {
-      // background: fn.color("darkblue");
-      background-color: fn.color('darkblue');
+      background-color: fn.color("darkblue");
       width: 100%;
-      height:0;
-      // height: 57%;
-      animation:  wobbleEffect 0.6s  linear;
+      height: 0;
+      animation: wobbleEffect 0.6s linear;
     }
     .houseImg {
       z-index: 1;
-      @include mx.transition(300ms, ease-in);
+      @include mx.transition(300ms, ease-in, background);
       &::after {
         content: "";
         position: absolute;
@@ -410,14 +405,14 @@ footer.hide {
     }
   }
   .houseImg {
-  
     position: relative;
-    width: 273.5px;
-    padding-top: 56.25%;
+
+ width: 306.5px;
+    padding-top: 66.25%;
     margin-top: -14px;
     margin-inline: auto;
-    border-radius: 10px; 
-     @include mx.transition(300ms, ease-out);
+    border-radius: 10px;
+    @include mx.transition(300ms, ease-out);
     img {
       padding: relative;
       border-radius: 0 0 10px 10px;
@@ -427,16 +422,14 @@ footer.hide {
     z-index: 1;
     overflow: hidden;
     position: relative;
-   
-    background-color:  #feffff;
-   
+    background-color: #feffff;
     padding-inline: 12px;
-    padding-bottom: 4px;
+    padding-bottom: 10px;
     gap: 8px;
     margin-top: 8px;
     border-radius: 20px;
     width: 96%;
-     @include mx.flex(column, flex-start, flex-start);
+    @include mx.flex(column, flex-start, flex-start);
     @include mx.shadow(0.1px, 0.5px);
     .location {
       font-size: 24px;
@@ -453,7 +446,7 @@ footer.hide {
         opacity: 100%;
         position: absolute;
         width: 100%;
-        height: 2px; 
+        height: 2px;
         background-color: fn.color("darkblue");
         border-radius: 20px;
         bottom: -50%;
@@ -462,15 +455,13 @@ footer.hide {
     }
 
     .home_details {
-    
       width: 90%;
       gap: 6px;
       margin-top: 20px;
       margin-inline: auto;
-        @include mx.flex(row, center, space-evenly);
+      @include mx.flex(row, center, space-evenly);
       div {
-       
-        gap: 6px; 
+        gap: 6px;
         @include mx.flex(row, center);
       }
     }
@@ -486,31 +477,28 @@ footer.hide {
     .agent {
       margin-top: 4px;
       margin-inline: auto;
-    
-      gap: 6px; 
-       @include mx.flex(row, center, flex-start);
+
+      gap: 6px;
+      @include mx.flex(row, center, flex-start);
     }
   }
   .tag {
-
-    z-index: 2;
-    font-family: fn.font("price");
-    font-size: 15px;
+    z-index: inherit;
     text-transform: capitalize;
-    font-weight: bolder;
     color: fn.color("white");
     position: absolute;
-    width: 100px;
-    padding: 4px;
     top: -1%;
     left: 3%;
-    border-radius: 10px;
     background-color: rgb(23, 146, 23);
-        @include mx.center();
+    @include mx.center();
     &.rented {
       background-color: fn.color("wheat");
     }
+    &.no_absolute {
+      position: relative;
+    }
   }
+
 }
 .agentCardName {
   color: fn.color("darkblue");
@@ -524,55 +512,60 @@ footer.hide {
   @include mx.transition(300ms, ease-out);
 
   &:hover {
-
-    transform: scale(0.98); 
-       @include mx.transition(300ms, ease-in);
+    transform: scale(0.98);
+    @include mx.transition(300ms, ease-in);
     .h-30 {
-        position: relative;
-       display:block;
-        &::after {
-          content: "";
-            z-index: 1;
-          position: absolute;
-          top: 0%;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background-color: black;
-          background: linear-gradient(to top, rgba(0, 0, 0, 0.384), transparent);
-          border-radius: inherit;
-          @include mx.transition(300ms, ease-in);
-        }
-      
+      position: relative;
+      display: block;
+      &::after {
+        content: "";
+        z-index: 1;
+        position: absolute;
+        top: 0%;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.384), transparent);
+        border-radius: inherit;
+        @include mx.transition(300ms, ease-in);
+      }
     }
   }
 }
 
-
 // featured content
+
 .featured {
   background-color: fn.color("darkblue");
 }
 .featured_container {
   .agentCardName {
     margin-left: 16px;
-
-    gap: 8px; 
-       @include mx.flex(row, center, flex-start);
+    gap: 8px;
+    @include mx.flex(row, center, flex-start);
   }
 
   .card {
     margin-bottom: 10px;
     border-radius: 20px;
-    margin-inline: 20px;
+    margin-inline: auto;
     width: 320px;
+    @supports (-moz-appearance: none) {
+      width: 300px;
+    }
+
     .houseImg {
       width: 320px;
+      @supports (-moz-appearance: none) {
+        width: 300px;
+      }
       img {
         border-radius: 20px 20px 0 0;
       }
     }
     .tag {
+      z-index: 2;
       background-color: rgba(255, 255, 255, 0.968);
       border-radius: 50%;
       height: 30px;
@@ -582,6 +575,7 @@ footer.hide {
         -webkit-text-stroke: black;
         -webkit-text-stroke-width: 0px;
         stroke-width: 222px;
+        padding-block:20px;
         top: -2.1%;
         left: 20%;
         width: 200px;
@@ -594,15 +588,13 @@ footer.hide {
         background-color: rgb(255, 255, 255);
       }
     }
-   &:after {
-    width: 50%;
-   }
+    &:after {
+      width: 50%;
+    }
     &:hover {
-     
       transform: scale(0.97);
- @include mx.transition(300ms, ease-in);
+      @include mx.transition(300ms, ease-in);
       &::after {
-   
         background-color: white;
         width: 0%;
         height: 0%;
@@ -623,13 +615,12 @@ footer.hide {
   width: 100%;
   margin-top: 70px;
   margin-bottom: 30px;
-    @include mx.flex(column, stretch, flex-start);
+  @include mx.flex(column, stretch, flex-start);
   @media (min-width: 900px) {
-  
     margin-top: 100px;
     gap: 3px;
     min-height: 100%;
-  @include mx.flex(row, stretch, flex-start);
+    @include mx.flex(row, stretch, flex-start);
     .singleCardSection {
       flex: 1 1 0%;
       // aspect-ratio:1;
@@ -643,14 +634,13 @@ footer.hide {
 }
 
 .singleCardSection {
- 
   // overflow: hidden;
   // background-color: red;
   // border:2px solid white;
   gap: 30px;
   width: 100%;
   margin-top: 20px;
- @include mx.flex(column, center, flex-start);
+  @include mx.flex(column, center, flex-start);
   .directional {
     width: 220px;
     margin-block: 10px;
@@ -665,7 +655,6 @@ footer.hide {
 }
 
 .single_card {
-  
   box-shadow: 1px 2px 2px 1px rgba(169, 169, 169, 0.073);
   font-family: fn.font("list");
   gap: 10px;
@@ -674,7 +663,7 @@ footer.hide {
   background-color: fn.color("white");
   padding: 12px 12px;
   border-radius: 10px;
-@include mx.flex(column, center, flex-start);
+  @include mx.flex(column, center, flex-start);
   .header {
     width: 100%;
     margin-inline: auto;
@@ -751,15 +740,14 @@ footer.hide {
     .home_details {
       position: relative;
       width: 100%;
-   
+
       gap: 10px;
       flex-wrap: wrap;
-         @include mx.flex(row, center, center);
+      @include mx.flex(row, center, center);
       div {
-    
         flex: 1;
         gap: 4px;
-            @include mx.flex(row, center);
+        @include mx.flex(row, center);
         @media (min-width: 500px) {
           @include mx.flex(row, center, center);
         }
@@ -772,7 +760,6 @@ footer.hide {
 }
 
 .singleCardCon2 {
-
   gap: 30px;
   position: relative;
   width: 100%;
@@ -791,7 +778,6 @@ footer.hide {
 
   @media (min-width: 900px) {
     // @include flex(row, center, center);
-
   }
 }
 
@@ -812,13 +798,12 @@ footer.hide {
     }
   }
   .contact_items {
-  
     gap: 10px;
     width: 100%;
     margin-top: 10px;
     font-family: fn.font("headers");
     font-weight: bold;
-      @include mx.flex(row, center, flex-start);
+    @include mx.flex(row, center, flex-start);
     img {
       cursor: pointer;
       @include mx.transition(300ms);
@@ -830,25 +815,23 @@ footer.hide {
 }
 
 .price {
-
   gap: 4px;
   margin-inline: auto;
-  width: 200px; 
-   @include mx.flex(row, center, center);
+  width: 200px;
+  @include mx.flex(row, center, center);
 }
 
 .signUpAndLogin {
   .general_details,
   .agent_details {
-   
     gap: 10px;
     margin-inline: auto;
     width: 98%;
     padding: 16px;
     border-radius: 10px;
-     @include mx.flex(column, flex-start, space-between);
-    @media (min-width:800px) {
-      width:80%;
+    @include mx.flex(column, flex-start, space-between);
+    @media (min-width: 800px) {
+      width: 80%;
     }
     @media (min-width: 900px) {
       width: 70%;
@@ -857,14 +840,13 @@ footer.hide {
 }
 
 .not_found {
-
   gap: 15px;
   margin-inline: auto;
   margin-top: 100px;
   width: 90%;
   white-space: pre-wrap;
   font-family: fn.font("body");
-    @include mx.flex(column, center, center);
+  @include mx.flex(column, center, center);
   h1 {
     color: fn.color("error");
   }
@@ -877,12 +859,11 @@ footer.hide {
 //Listing Form
 
 .galleryImagesContainer {
-
   flex-wrap: wrap;
   width: 100%;
   gap: 10px;
-  margin: 10px auto; 
-   @include mx.flex(row, center, center);
+  margin: 10px auto;
+  @include mx.flex(row, center, center);
   .galleryImages {
     width: fit-content;
     border-radius: 10px;
@@ -933,11 +914,10 @@ footer.hide {
   }
 }
 .form_group {
-  
   width: 80%;
   gap: 10px;
   margin-top: 20px;
-@include mx.flex(column, flex-start, center);
+  @include mx.flex(column, flex-start, center);
 
   @media (min-width: 1200px) {
     width: 100%;
@@ -947,10 +927,9 @@ footer.hide {
   }
 }
 .form_item {
- 
   width: 70%;
   gap: 4px;
- @include mx.flex(column, flex-start, space-between);
+  @include mx.flex(column, flex-start, space-between);
   @media (min-width: 1024px) {
     width: auto;
   }
@@ -959,18 +938,16 @@ footer.hide {
 .form_group.main_image,
 .form_group.gallery {
   @include mx.flex(column, center, center);
-
 }
 
 .form_group.amenities {
   .items {
-     width: 100%;
+    width: 100%;
     @include mx.flex(row, center, center);
-   
+
     div {
-       width: 100%;
+      width: 100%;
       @include mx.flex(column, center, center);
-     
     }
   }
   input {
@@ -995,11 +972,9 @@ footer.hide {
       margin-inline: auto;
     }
     .darkblueBtn {
-     
       width: 210px;
       padding: 8px;
-       @include mx.center();
-   
+      @include mx.center();
     }
     @media (min-width: 1200px) {
       .form_group.submit {
@@ -1014,13 +989,12 @@ footer.hide {
 }
 
 .verify {
- 
   gap: 20px;
   margin-top: 70px;
   margin-bottom: 6px;
   width: 100%;
   margin-inline: auto;
- @include mx.flex(column, center, center);
+  @include mx.flex(column, center, center);
   .resend {
     cursor: pointer;
     text-decoration: underline;
@@ -1041,13 +1015,11 @@ footer.hide {
     text-align: center;
   }
   .inputContainer {
-    
     gap: 10px;
     width: 100%;
     @include mx.flex(row, center, center);
   }
   .otp-input {
-    
     width: 60px;
     height: 60px;
     text-align: center;
@@ -1061,12 +1033,11 @@ footer.hide {
     @include mx.transition(300ms, ease-out);
   }
   .otp-input:focus {
-
     outline: none;
     border: 2px solid fn.color("darkblue");
     background-color: fn.color("white");
-    color: fn.color("darkblue"); 
-       @include mx.transition(300ms, ease-out);
+    color: fn.color("darkblue");
+    @include mx.transition(300ms, ease-out);
   }
   input[type="number"]::-webkit-outer-spin-button,
   input[type="number"]::-webkit-inner-spin-button {
@@ -1076,8 +1047,7 @@ footer.hide {
 }
 
 .loginFirst {
-    
   margin: 180px auto;
   width: 100%;
-@include mx.center(); 
+  @include mx.center();
 }
