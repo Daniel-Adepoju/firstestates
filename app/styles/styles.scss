@@ -74,22 +74,21 @@ main {
   position: relative;
 }
 
-// .backdrop {
-//   @media (max-width: 800px) {
-
-//     position: fixed;
-//     min-width: 100%;
-//     min-height: 100vh;
-//     z-index: -100;
-//     background-color: rgba(255, 255, 255, 0);
-//      @include mx.transition(300ms, ease-out, background-color);
-//     &.active {
-//       background-color: rgba(20, 20, 20, 0.258);
-//       z-index: 96;
-//       @include mx.transition(300ms, ease-in);
-//     }
-//   }
-// }
+.backdrop {
+  // @media (max-width: 800px) {
+    position: fixed;
+    min-width: 100%;
+    min-height: 100vh;
+    z-index: -100;
+    background-color: rgba(255, 255, 255, 0);
+     @include mx.transition(300ms, ease-out, background-color);
+    &.active {
+      background-color: rgba(20, 20, 20, 0.258);
+      z-index: 96;
+      @include mx.transition(300ms, ease-in);
+    }
+  // }
+}
 
 // nav
 
@@ -424,7 +423,8 @@ footer.hide {
     position: relative;
     background-color: #feffff;
     padding-inline: 12px;
-    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 26px;
     gap: 8px;
     margin-top: 8px;
     border-radius: 20px;
@@ -539,6 +539,7 @@ footer.hide {
 .featured {
   background-color: fn.color("darkblue");
 }
+
 .featured_container {
   .agentCardName {
     margin-left: 16px;
@@ -554,7 +555,10 @@ footer.hide {
     @supports (-moz-appearance: none) {
       width: 300px;
     }
-
+    .body {
+      padding-top: 0px;
+      padding-bottom: 16px;
+    }
     .houseImg {
       width: 320px;
       @supports (-moz-appearance: none) {

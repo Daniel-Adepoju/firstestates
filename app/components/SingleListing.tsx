@@ -249,7 +249,9 @@ const SingleListing = ({ listingId }: { listingId: string }) => {
 
             {/*admin options  */}
             {session?.user.role === "admin" ? (
-              <div className="flex flex-col items-center w-full text-gray-500 dark:text-white text-sm">
+              <div 
+              id="adminOptions"
+              className="flex flex-col items-center w-full text-gray-500 dark:text-white text-sm">
                 You have admin priviledges, you can delete this listing
                 <div
                   onClick={() => {
@@ -275,6 +277,7 @@ const SingleListing = ({ listingId }: { listingId: string }) => {
               <>
                 <div
                   onClick={handleReport}
+                  id="clientReport"
                   className="w-60 smallScale rounded-md p-2 px-4
                bg-gray-500/10  cursor-pointer flex items-center justify-center gap-2"
                 >

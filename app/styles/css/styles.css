@@ -881,6 +881,52 @@ a:has(.clickable) {
     transform: rotate(-0.2deg) translateY(-0.1px);
   }
 }
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotateReverse {
+  0% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+@keyframes slide-in-top {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.animation-rotate {
+  animation: rotate 0.5s linear;
+}
+
+.animation-rotateReverse {
+  animation: rotateReverse 0.5s linear;
+}
+
+.animation-slide-in-top-fast {
+  animation: slide-in-top 0.5s linear;
+}
+
+.animation-slide-in-top-faster {
+  animation: slide-in-top 0.3s linear;
+}
+
+.animation-slide-in-top-slow {
+  animation: slide-in-top 1s linear;
+}
+
 .loader {
   --d:22px;
   margin-inline: auto;
@@ -1573,6 +1619,24 @@ main {
   position: relative;
 }
 
+.backdrop {
+  position: fixed;
+  min-width: 100%;
+  min-height: 100vh;
+  z-index: -100;
+  background-color: rgba(255, 255, 255, 0);
+}
+.backdrop {
+  transition: background-color 300ms ease-out;
+}
+.backdrop.active {
+  background-color: rgba(20, 20, 20, 0.258);
+  z-index: 96;
+}
+.backdrop.active {
+  transition: all 300ms ease-in;
+}
+
 .nav, .footer {
   position: absolute;
   font-family: "Quicksand", sans-serif;
@@ -1988,7 +2052,8 @@ footer.hide {
   position: relative;
   background-color: #feffff;
   padding-inline: 12px;
-  padding-bottom: 10px;
+  padding-top: 10px;
+  padding-bottom: 26px;
   gap: 8px;
   margin-top: 8px;
   border-radius: 20px;
@@ -2150,6 +2215,10 @@ footer.hide {
   .featured_container .card {
     width: 300px;
   }
+}
+.featured_container .card .body {
+  padding-top: 0px;
+  padding-bottom: 16px;
 }
 .featured_container .card .houseImg {
   width: 320px;

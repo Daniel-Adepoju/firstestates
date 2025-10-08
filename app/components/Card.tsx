@@ -23,6 +23,7 @@ import {
 import { formatNumber } from "@utils/formatNumber"
 import { FeaturedBtn } from "./Featured"
 import { WishlistButton } from "./WishListCard"
+import { useBackdrop } from "@lib/Backdrop"
 
 export interface CardProps {
   edit?: boolean
@@ -39,6 +40,8 @@ const Card = ({ edit, listing, isAgentCard, isInWishList }: CardProps) => {
   const [weeklyViews] = useState(formatNumber(listing?.weeklyViews ?? 0) || 0)
   const [totalViews] = useState(formatNumber(listing?.totalViews ?? 0) || 0)
   const [showMore, setShowMore] = useState(false)
+  const { backdrop, setBackdrop } = useBackdrop()
+
   const openDialog = () => {
     deleteRef.current?.showModal()
   }
@@ -79,16 +82,26 @@ const Card = ({ edit, listing, isAgentCard, isInWishList }: CardProps) => {
             )}
 
             {/*actions  */}
-            <div className="flex flex-col items-center justify-center gap-1 absolute top-2 right-3 z-10">
-               <WishlistButton
-              isInWishList={isInWishList || false}
-              listingId={listing?._id ?? ""}
-            />
-              <div className="rounded-full bg-white dark:bg-gray-700 w-6.5 h-6.5 flex items-center justify-center p-0.5">
-            <MoreHorizontal size={30} className="text-gray-700 dark:text-white"/>
-            </div>
-            </div>
-           
+            {!isAgentCard && (
+              <div className="flex flex-col items-center justify-center gap-1 absolute top-2 right-3 z-10">
+                <WishlistButton
+                  isInWishList={isInWishList || false}
+                  listingId={listing?._id ?? ""}
+                />
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setBackdrop({ isOptionsOpen: !backdrop.isOptionsOpen, selectedData: listing })
+                  }}
+                  className="clickable rounded-full bg-white dark:bg-gray-700 w-6.5 h-6.5 flex items-center justify-center p-0.5"
+                >
+                  <MoreHorizontal
+                    size={30}
+                    className="text-gray-700 dark:text-white"
+                  />
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="body">
@@ -131,7 +144,7 @@ const Card = ({ edit, listing, isAgentCard, isInWishList }: CardProps) => {
                   </div>
                 </div>
 
-              {/* unique to client */}
+                {/* unique to client */}
                 {/* agent */}
                 {!isAgentCard && (
                   <div className="agent font-list font-bold">
@@ -159,9 +172,8 @@ const Card = ({ edit, listing, isAgentCard, isInWishList }: CardProps) => {
                   </div>
                 )}
 
-
                 {/* unique to agents */}
-                
+
                 {/* views */}
                 {isAgentCard && (
                   <div className="w-full flex flex-col pl-3 font-semibold">
@@ -214,7 +226,7 @@ const Card = ({ edit, listing, isAgentCard, isInWishList }: CardProps) => {
               {/* price */}
               {showMore && (
                 <div
-                  className="self-start headersFont w-25 inline-flex items-center justify-center gap-1 px-3.5 py-2 rounded-md
+                  className="animation-slide-in-top-faster self-start headersFont w-25 inline-flex items-center justify-center gap-1 px-3.5 py-2 rounded-md
                    bg-gray-50 dark:bg-gray-700 text-sm font-medium
                    text-gray-700 dark:text-gray-200 shadow-sm"
                 >
@@ -226,9 +238,9 @@ const Card = ({ edit, listing, isAgentCard, isInWishList }: CardProps) => {
 
               {showMore && (
                 <div
-                  className=" headersFont w-full self-start inline-flex items-center justify-center gap-1 px-3.5 py-2 rounded-md
-                   bg-green-700  text-sm font-medium
-                   text-gray-700 dark:text-gray-200 shadow-sm"
+                  className={`animation-slide-in-top-fast headersFont w-full self-start inline-flex items-center justify-center gap-1 px-3.5 py-2 rounded-md
+                  ${listing?.status === "rented" ? 'bg-[#f29829]' : 'bg-green-700'} text-sm font-medium
+                   text-gray-700 dark:text-gray-200 shadow-sm`}
                 >
                   <span className="text-sm text-white">Roomate Request</span>
                 </div>
@@ -240,19 +252,14 @@ const Card = ({ edit, listing, isAgentCard, isInWishList }: CardProps) => {
                   e.stopPropagation()
                   setShowMore(!showMore)
                 }}
-                className="bg-white dark:bg-gray-700 rounded-full self-start ml-2 p-1 h-6.5 w-6.5 flex items-center justify-center"
+                className="clickable bg-white dark:bg-gray-700 rounded-full self-start ml-2 p-1 h-6.5 w-6.5 flex items-center justify-center"
               >
-                {!showMore ? (
+                
                   <ChevronDown
                     size={20}
-                    className="animate-spin repeat-1 duration-50 text-gray-700 dark:text-white"
+                    className={`transition-transform ${showMore && 'rotate-180'} duration-500 text-gray-700 dark:text-white`}
                   />
-                ) : (
-                  <ChevronUp
-                    size={20}
-                    className="animate-spin repeat-1 duration-50 text-gray-700 dark:text-white"
-                  />
-                )}
+
               </div>
             </div>
           )}

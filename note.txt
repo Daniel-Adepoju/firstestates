@@ -1,5 +1,7 @@
 ## Important
-1.Fixed Featured Look, use phone
+circlurlar agent border gray / black in card
+
+conditionals for rommate reques in card and card options components
 
 
 2. Make cookie expire in 5min butt resend in 60secs

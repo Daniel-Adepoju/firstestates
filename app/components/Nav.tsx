@@ -26,6 +26,7 @@ import {
 } from "lucide-react"
 import { HouseSearchIcon } from "./custom-ui/Icons"
 import { useRouter } from "next/navigation"
+import CardOptions from "./CardOptions"
 const Nav = () => {
   const { session } = useUser()
   const router = useRouter()
@@ -37,7 +38,7 @@ const Nav = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > scrollThreshold && !backdrop.isOpen) {
+      if (window.scrollY > scrollThreshold && !backdrop.isNavOpen) {
         setnavbarFixed(true)
       } else {
         setnavbarFixed(false)
@@ -77,16 +78,16 @@ const Nav = () => {
   }, [session?.user])
 
   const showNav = () => {
-  setBackdrop({isOpen: !backdrop.isOpen})
+  setBackdrop({isNavOpen: !backdrop.isNavOpen})
   }
   const handleNavItemClick = () => {
-    setBackdrop({isOpen: false})
+    setBackdrop({isNavOpen: false})
   }
 
   return (
     <header
       id="nav"
-      className={`nav ${navbarFixed && "fixedNav"} ${backdrop.isOpen && "activeNav"}`}
+      className={`nav ${navbarFixed && "fixedNav"} ${backdrop.isNavOpen && "activeNav"}`}
     >
       <Link href="/">
         <div className="logo">LOGO</div>
@@ -288,7 +289,11 @@ const Nav = () => {
               <div className="toggle_items"></div>
             </div>
           </div>
+
           {/* more content */}
+
+          {/* display options */}
+          <CardOptions />
         </div>
       </div>
     </header>

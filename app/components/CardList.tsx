@@ -98,11 +98,12 @@ if(isError) {
     placeholder.value = 'Redirecting to search page...'
     router.push('/search')
   }}/>
+  {/* filter bar */}
  <div 
     onClick={() => active.value =!active.value}
     className="dark:bg-gray-600 flex items-center justify-center  bg-white w-80 border-1
-     border-gray-400 p-2 px-2 shadow-xs my-4 cursor-pointer rounded-sm">
-       <span className=" font-semibold font-list text-gray-500 dark:text-gray-300  text-center ml-aut">Filter Listings</span>
+     border-gray-400 py-2.5 px-2 shadow-xs my-4 cursor-pointer rounded-sm">
+       <span className=" font-semibold font-list text-gray-500 dark:text-gray-300 pl-2">Filter Listings</span>
     <div
     className={`triangle ${active.value && 'active'}  rounded-sm ml-auto`}>
   {active.value ? 

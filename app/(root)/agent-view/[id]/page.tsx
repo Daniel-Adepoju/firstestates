@@ -43,6 +43,11 @@ const AgentViewPage = () => {
       notification.setType("success")
       setReportText("")
       setReporting(false)
+      if(!session?.user) {
+        notification.setDuration(3000)
+        notification.setType('warning')
+        notification.setMessage("You need to be logged in to report an agent")
+      }
     } catch (err) {
       setReporting(false)
     }
