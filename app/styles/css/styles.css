@@ -404,7 +404,6 @@ a:has(.clickable) {
   background-color: transparent;
   width: 30%;
   height: 100%;
-  left: 35%;
   border-radius: 8px;
 }
 .directional::before,
@@ -486,7 +485,7 @@ a:has(.clickable) {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  outline: 1px solid #0881a3;
+  outline: 1px solid rgba(42, 42, 44, 0.906);
 }
 
 .form_container {

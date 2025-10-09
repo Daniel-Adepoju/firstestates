@@ -183,7 +183,6 @@ a:has(.clickable) {
   }
 }
 .directional {
-
   gap: 10px;
   text-transform: capitalize;
   font-family: fn.font("body2");
@@ -236,7 +235,6 @@ a:has(.clickable) {
     background-color: transparent;
     width: 30%;
     height: 100%;
-    left: 35%;
     border-radius: 8px;
     @include mx.transition(400ms, ease-out);
   }
@@ -296,7 +294,7 @@ a:has(.clickable) {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    outline: 1px solid fn.color("blue");
+    outline: 1px solid rgba(42, 42, 44, 0.906);
   }
 }
 
