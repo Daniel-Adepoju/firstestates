@@ -22,7 +22,7 @@ const SchoolSchema = new Schema({
     type: String,
   },
    
-});
+},{timestamps: true});
 
 const School = models?.School || model("School", SchoolSchema);
 

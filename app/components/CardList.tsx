@@ -1,184 +1,104 @@
-'use client'
-import Card from "./Card"
-import Searchbar from "./Searchbar"
+"use client"
+
 import { useSignal, useSignals } from "@preact/signals-react/runtime"
 import { CardProps } from "./Card"
-import {useGetListings} from "@lib/customApi"
-import { useRouter, useSearchParams } from "next/navigation"
-import PopularThisWeek from "./PopularThisWeek"
-import Filter from './Filter'
+import Card from "./Card"
+import Pagination from "./Pagination"
 import { Skeleton } from "./ui/skeleton"
 import Image from "next/image"
-import { useUser } from "@utils/user"
-import Pagination from './Pagination'
-import Featured from "./Featured"
-import Link from "next/link"
-import {ChevronDownCircle, ArrowLeftFromLine, ChevronRightCircle,ChevronUpCircle } from "lucide-react"
 import { useQuery } from "@tanstack/react-query"
 import { axiosdata } from "@utils/axiosUrl"
-import { it } from "node:test"
+import { useGetListings } from "@lib/customApi"
 
-const CardList = () => {
-useSignals()
-const {session} = useUser()
-const limit = useSignal(12)
-const page = useSearchParams().get('page') || '1'
-const location = useSignal("")
-const school = useSignal("")
-const minPrice = useSignal("")
-const maxPrice = useSignal("")
-const active = useSignal(false)
-const router = useRouter()
-const placeholder = useSignal<string>('Search by school or location')
-const search = useSignal('')
-const beds = useSignal('')
-const baths = useSignal('')
-const toilets = useSignal('')
-const statusVal = useSignal('')
- const currentPage = useSearchParams().get('page')
- const isSecondPage = Number(currentPage) >= 2
-const current = useSignal(false)
-
-// useEffect(() => {
-//   if(session) {
-//    school.value = session?.user.school
-//   }
-// },[session])
-const {data,isLoading,isError} = useGetListings({
-  limit: limit.value,
-  page: page,
-  location: location.value,
-  school: school.value,
-  minPrice: minPrice.value,
-  maxPrice: maxPrice.value,
-  beds: beds.value,
-  baths: baths.value,
-  toilets: toilets.value,
-  status: statusVal.value,
-})
-
-// check which listings are in wishlist
-const { data: wishlistMap } = useQuery({
-  queryKey: ["wishlists", data?.posts.map((listing:Listing) => listing._id)],
-  queryFn: () => axiosdata.value
-    .post("/api/listings/wishlists/check", { listingIds: data?.posts.map((listing:Listing) => listing._id) })
-    .then(res => res.data),
-  enabled: !!data?.posts
-})
- 
-// map through listings and render Card component
- const mapCards = data?.posts?.map((item:CardProps['listing']) => {
-return <Card key={item._id}
- listing={item} 
- edit={false}
- isInWishList={item?._id ? wishlistMap?.[item._id] : false}
- />
-})
-
-const loadingCards = Array.from({length:6}).map((_,i) => {
-  return <Skeleton className="animate-none bg-gray-500/20 w-70 h-80" key={i} />
-})
-
-if(isError) {
-   return (
-    <div className="card">Failed</div>
-   )
+type CardListProps = {
+  limit?: number
+  filters: {
+    location: string
+    school: string
+    minPrice: string
+    maxPrice: string
+    beds: string
+    baths: string
+    toilets: string
+    status: string
+  }
+  page: string
 }
+
+const CardList = ({ limit = 6, filters, page }: CardListProps) => {
+  useSignals()
+
+  const { data, isLoading, isError } = useGetListings({
+    limit,
+    page,
+    location: filters.location,
+    school: filters.school,
+    minPrice: filters.minPrice,
+    maxPrice: filters.maxPrice,
+    beds: filters.beds,
+    baths: filters.baths,
+    toilets: filters.toilets,
+    status: filters.status,
+  })
+
+  // check which listings are in wishlist
+  const { data: wishlistMap } = useQuery({
+    queryKey: ["wishlists", data?.posts?.map((l: CardProps["listing"]) => l._id).join(",")],
+    queryFn: () =>
+      axiosdata.value
+        .post("/api/listings/wishlists/check", {
+          listingIds: data?.posts.map((l: CardProps["listing"]) => l._id),
+        })
+        .then((res) => res.data),
+    enabled: !!data?.posts,
+  })
+
+  const mapCards = data?.posts?.map((item: CardProps["listing"]) => (
+    <Card
+      key={item._id}
+      listing={item}
+      edit={false}
+      isInWishList={item?._id ? wishlistMap?.[item._id] : false}
+    />
+  ))
+
+  const loadingCards = Array.from({ length: 6 }).map((_, i) => (
+    <Skeleton
+      className="animate-none bg-gray-500/20 w-70 h-80"
+      key={i}
+    />
+  ))
+
+  if (isError) {
+    return <div className="card">Failed to load listings</div>
+  }
 
   return (
     <>
-    
-    <div className="w-full flex flex-col justify-center items-center md:items-end md:pr-2">
-   <Searchbar
-   search={search.value}
-   setSearch={() => search.value = ''}
-   placeholder={placeholder.value}
-   className={`mt-[0px] gap-1 w-full flex flex-row justify-center items-center md:justify-end  md:w-[60%]`}
-   goToSearch={() => {
-    placeholder.value = 'Redirecting to search page...'
-    router.push('/search')
-  }}/>
-  {/* filter bar */}
- <div 
-    onClick={() => active.value =!active.value}
-    className="dark:bg-gray-600 flex items-center justify-center  bg-white w-80 border-1
-     border-gray-400 py-2.5 px-2 shadow-xs my-4 cursor-pointer rounded-sm">
-       <span className=" font-semibold font-list text-gray-500 dark:text-gray-300 pl-2">Filter Listings</span>
-    <div
-    className={`triangle ${active.value && 'active'}  rounded-sm ml-auto`}>
-  {active.value ? 
-  <ChevronUpCircle className="w-6 h-6 text-gray-500 dark:text-gray-300" />
-  : <ChevronDownCircle className="w-6 h-6 text-gray-500 dark:text-gray-300"/>
-        }
-      </div>
+      {isLoading ? (
+        <div className="mx-auto my-4 flex flex-wrap gap-10 justify-center">
+          {loadingCards}
         </div>
-    </div>
-
-<Filter
-statusVal={statusVal}
-selectedSchool={school}
-selectedArea={location}
-minPrice={minPrice}
-maxPrice={maxPrice}
-beds={beds}
-baths={baths}
-toilets={toilets}
-active={active}
-/>   
-{!isSecondPage ? (
-  <>
-    <PopularThisWeek/>
-    <Featured />
-  </>
-) : (
-  !isLoading && <Link
-  href="/"
-  className="flex flex-row gap-2 
-  mt-2  mx-1 px-4 py-1.5 items-center self-center md:self-end
-  dark:text-gray-400 text-gray-500  transition-all
-  dark:bg-gray-600 bg-gray-200 rounded-lg
-   hover:text-gray-900 dark:hover:text-gray-200"
-   >
-  <ArrowLeftFromLine size={30} />
-  Return To Homepage
-</Link>
-)}
-   {isLoading ? <Skeleton className="w-[80%] m-4 h-1 mx-auto bg-gray-500/20"/> :
-   <div className='subheading ml-4 p-1 '>
-    <div className="w-full">
-      Showing Recent Listings from {school.value ? '' : 'all '}
-      <div className='capitalize  inline-flex items-center gap-1'>
-        {school.value? school.value : 'schools'}
-          <ChevronRightCircle className="w-6 h-6"/>
-      </div>
-
-      </div> 
-     
-    </div>
-    }
-    <div
-    id="listing"
-    className="card_list">
-   {isLoading ? 
-   <div className="mx-auto my-4 items-center justify-center flex flex-wrap gap-10">
-   {loadingCards}
-   </div>
-   : mapCards}
-   {data?.posts.length < 1 &&
-   <div className="flex items-center error m-6 text-2xl">
-    <Image
-    src="/icons/noListings.svg"
-    width={100}
-    height={100}
-    alt='icon' />
-   <div> No Listing Available</div>
-    </div>}
-
-    </div>
-   {!isLoading && <Pagination
-   currentPage={Number(data?.cursor)}
-   totalPages={Number(data?.numOfPages)}/>}
-   </>
+      ) : data?.posts?.length ? (
+        <>
+          <div className="card_list">{mapCards}</div>
+          <Pagination
+            currentPage={Number(data?.cursor)}
+            totalPages={Number(data?.numOfPages)}
+          />
+        </>
+      ) : (
+        <div className="flex items-center error m-6 text-2xl">
+          <Image
+            src="/icons/noListings.svg"
+            width={100}
+            height={100}
+            alt="icon"
+          />
+          <div>No Listing Available</div>
+        </div>
+      )}
+    </>
   )
 }
 

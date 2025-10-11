@@ -1,5 +1,5 @@
-import "@styles";
 import './globals.css'
+import "@styles";
 import {DarkModeProvider} from '@lib/DarkModeProvider'
 import Script from "next/script";
 import Nav from "@components/Nav";

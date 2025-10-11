@@ -1971,6 +1971,10 @@ footer.hide {
 .card {
   transition: transform 300ms ease-out;
 }
+.card.blankSlate {
+  margin: 0px;
+  padding-bottom: 9px;
+}
 .card a {
   width: 100%;
   height: 100%;

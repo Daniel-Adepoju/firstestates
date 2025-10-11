@@ -15,7 +15,7 @@ const CardOptions = () => {
       try {
         await navigator.share({
           title: "Check out this listing",
-          text: "I found this amazing listing on FirstEstates!",
+          text: "",
           url: `${process.env.NEXT_PUBLIC_BASE_URL}/listings/single_listing?id=${backdrop.selectedData?._id}`,
         })
         setBackdrop({ isOptionsOpen: false })
@@ -25,6 +25,7 @@ const CardOptions = () => {
       }
     } else {
       alert("Sharing is not supported on your device or browser.")
+      navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_BASE_URL}/listings/single_listing?id=${backdrop.selectedData?._id}`)
       setBackdrop({ isOptionsOpen: false })
     }
   }

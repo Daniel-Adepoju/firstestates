@@ -30,8 +30,9 @@ export interface CardProps {
   isAgentCard?: boolean
   listing: Listing
   isInWishList?: boolean
+  blankSlate?:boolean
 }
-const Card = ({ edit, listing, isAgentCard, isInWishList }: CardProps) => {
+const Card = ({ edit, listing, isAgentCard, isInWishList ,blankSlate=false}: CardProps) => {
   const [address] = useState(listing?.address || "Nigeria")
   const router = useRouter()
   const deleteRef = useRef<HTMLDialogElement>(null)
@@ -55,7 +56,7 @@ const Card = ({ edit, listing, isAgentCard, isInWishList }: CardProps) => {
       <div className="cardContainer">
         <div
           onClick={visitCard}
-          className="card font-card"
+          className={`card font-card ${blankSlate && 'blankSlate'}`}
         >
           {/* image */}
           <div className="houseImg">
@@ -82,7 +83,7 @@ const Card = ({ edit, listing, isAgentCard, isInWishList }: CardProps) => {
             )}
 
             {/*actions  */}
-            {!isAgentCard && (
+            {(!isAgentCard || !blankSlate) && (
               <div className="flex flex-col items-center justify-center gap-1 absolute top-2 right-3 z-10">
                 <WishlistButton
                   isInWishList={isInWishList || false}
@@ -203,7 +204,7 @@ const Card = ({ edit, listing, isAgentCard, isInWishList }: CardProps) => {
           </div>
 
           {/*more content --> listing availability status,school and price*/}
-          {!edit && (
+          {(!edit || !blankSlate) && (
             <div className="capitalize absolute top-0 left-[1px] flex flex-col items-center justify-start justify-content-start gap-1 px-2 z-2">
               {/* school*/}
               <div
@@ -236,13 +237,19 @@ const Card = ({ edit, listing, isAgentCard, isInWishList }: CardProps) => {
                 </div>
               )}
 
+{/* co-rent and roomie requests */}
               {showMore && (
                 <div
                   className={`animation-slide-in-top-fast headersFont w-full self-start inline-flex items-center justify-center gap-1 px-3.5 py-2 rounded-md
                   ${listing?.status === "rented" ? 'bg-[#f29829]' : 'bg-green-700'} text-sm font-medium
-                   text-gray-700 dark:text-gray-200 shadow-sm`}
+                   shadow-sm`}
                 >
-                  <span className="text-sm text-white">Roomate Request</span>
+                  {listing?.status === "rented" ? (
+                    <span className="text-sm text-white ">1 Roommate Request</span>
+                  ) : (
+                    <span className="text-sm text-white ">3 Co-Rent Requests</span>
+                  )}
+                  
                 </div>
               )}
 

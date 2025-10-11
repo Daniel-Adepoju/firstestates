@@ -17,6 +17,7 @@ interface Config {
   listingId?: string
   agentName?: string
   status?: string
+  requestType?: string
 }
 
 // interface ListingParams {
@@ -356,4 +357,36 @@ export const useGetSchools = ({ search }: { search: string }) => {
       queryFn: ({ pageParam = 1 }) => getSchools(String(pageParam)),
     })
   return { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage }
+}
+
+
+// Requests
+export const useGetRequests = ({
+  page,
+  limit,
+  requestType='',
+  school='',
+  enabled = false,
+}: Config) => {
+  const getRequests = async (page: string) => {
+    const res = await axiosdata.value.get(
+      `/api/requests?page=${page}&limit=${limit}&requestType=${requestType}&school=${school}`
+    )
+    return res.data
+  }
+
+ const { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage } =
+    useInfiniteQuery({
+      queryKey: ["requests", page, school,requestType],
+      initialPageParam: 1,
+      getNextPageParam: (prevData: any) => {
+        return prevData?.cursor && prevData?.cursor !== prevData.numOfPages
+          ? prevData.cursor + 1
+          : undefined
+      },
+      queryFn: ({ pageParam = 1 }) => getRequests(String(pageParam)),
+      enabled,
+    })
+
+    return { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage }
 }
