@@ -8,7 +8,6 @@ conditionals for rommate request in card and card options components
 To Do In request
 
 Fix Pictures in card(check unilag)
-Fix text display
 Delete Request If THe Listing it belongs to is deleted
 
 To Do In Agent

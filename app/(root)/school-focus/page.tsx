@@ -34,20 +34,22 @@ const SchoolFocus = () => {
     limit: 4,
     page: "1",
     school: school || "",
-    // requestType:"co-rent",
+    requestType: "co-rent",
+    requester: session?.user.id,
     enabled: !!school,
   })
 
-  const { data: roommateRequests , isLoading: roommateLoading} = useGetRequests({
+  const { data: roommateRequests, isLoading: roommateLoading } = useGetRequests({
     limit: 4,
     page: "1",
-    // school: school || "",
-    // requestType:"roommate",
+    school: school || "",
+    requestType: "roommate",
+    requester: session?.user.id,
     enabled: !!school,
   })
 
   const coRentMap =
-    coRentRequests?.pages[0]?.requests?.length > 0 
+    coRentRequests?.pages[0]?.requests?.length > 0
       ? coRentRequests?.pages.flatMap((items) =>
           items?.requests?.flatMap((request: Request) => (
             <RoomateCard
@@ -70,11 +72,25 @@ const SchoolFocus = () => {
         )
       : "No roommate requests found"
 
- const loadingMap = (quantity:number) => {
-  return Array.from({ length: quantity }).map((_, i) => (
-  <Skeleton key={i} className="inline-block h-80 w-60 rounded-md bg-gray-500/20 mb-6"/>
-))
- }
+  const loadingMap = (quantity: number, request?: boolean) => {
+    if (request) {
+      return Array.from({ length: quantity }).map((_, i) => (
+        <Skeleton
+          key={i}
+          className="relative inline-block h-60 w-85 rounded-md bg-gray-500/20 mb-6"
+        >
+          <Skeleton className="absolute z-1 bg-gray-300 dark:bg-gray-600 w-70 h-40 left-7.5 bottom-[-40px] !animate-none" />
+        </Skeleton>
+      ))
+    } else {
+      return Array.from({ length: quantity }).map((_, i) => (
+        <Skeleton
+          key={i}
+          className="inline-block h-75 w-65 rounded-md bg-gray-500/20 mb-6"
+        />
+      ))
+    }
+  }
 
   return (
     <div className="w-full mt-20 mb-10">
@@ -92,57 +108,70 @@ const SchoolFocus = () => {
 
       {/* Main content for listings and roommate requests */}
 
-    {/* co-rent requests header */}
-    <section className="flex items-center w-[98%] mt-4.5 pb-2">
-        <h2 className="headersFont w-120 px-4 text-lg">
-       Co-Rent Requests
-        </h2>
+      {/* co-rent requests header */}
+      <section className="flex items-center w-[98%] mt-4.5 pb-2">
+        <h2 className="headersFont w-120 px-4 text-lg">Co-Rent Requests</h2>
         {!coRentLoading && <ScrollController scrollRef={scrollRef} />}
-        </section>
-     
+      </section>
+
       {/* co-rent requests container */}
 
       <div
         ref={scrollRef}
-        className={`grid grid-flow-col auto-cols-min ${(coRentRequests?.pages[0]?.requests?.length > 0 || coRentLoading) ? 'h-90' : 'h-10 p-0 gap-1 text-sm text-center'} gap-6 p-2  snap-x snap-mandatory overflow-x-scroll nobar null`}
+        className={`grid grid-flow-col auto-cols-min ${
+          coRentRequests?.pages[0]?.requests?.length > 0 || coRentLoading
+            ? "h-90"
+            : "h-20 whitespace-nowrap mx-auto w-100 flex items-center justify-center text-sm"
+        } gap-6 p-2  snap-x snap-mandatory overflow-x-scroll nobar null`}
       >
-        {!coRentLoading ? coRentMap : loadingMap(1)}
+      
+        {!coRentLoading ? coRentMap : loadingMap(9, true)}
         {/* <MoreVertical className="h-8 w-8 my-auto  text-gray-500 dark:text-gray-100 animate-pulse" /> */}
       </div>
 
       {/* roommate requests header */}
       <section className="flex items-center w-[98%] pb-2">
-        <h2 className="headersFont w-120 px-4 text-lg">
-        Roommate Requests
-        </h2>
+        <h2 className="headersFont w-120 px-4 text-lg">Roommate Requests</h2>
         {!roommateLoading && <ScrollController scrollRef={scrollRef2} />}
-        </section>
-      
-       {/*roomate requests container*/}
+      </section>
+
+      {/*roomate requests container*/}
       <div
         ref={scrollRef2}
-        className={`grid grid-flow-col auto-cols-min ${(roommateRequests?.pages[0]?.requests?.length > 0 || roommateLoading) ? 'h-90' : 'h-10 p-0 gap-1 text-sm text-center'} gap-6 p-2  snap-x snap-mandatory overflow-x-scroll nobar null`}
+        className={`grid grid-flow-col auto-cols-min ${
+          roommateRequests?.pages[0]?.requests?.length > 0 || roommateLoading
+            ? "h-90 "
+            : "h-20 whitespace-nowrap mx-auto w-100 flex items-center justify-center text-sm"
+        } gap-6 p-2  snap-x snap-mandatory overflow-x-scroll nobar null`}
       >
-        {!roommateLoading ? roommateMap : loadingMap(9)}
+        {!roommateLoading ? roommateMap : loadingMap(9, true)}
         {/* <MoreVertical className="h-8 w-8 my-auto  text-gray-500 dark:text-gray-100 animate-pulse" /> */}
       </div>
 
       {/*listings in school*/}
+
       <h2 className="headersFont px-4 text-lg capitalize mx-auto text-center">Listings</h2>
+
       {/*listings container*/}
       <div
         id="listing"
         className="card_list"
       >
-        {isLoading
-          ? // loadingCards
-            loadingMap(6)
-          : listings?.posts?.map((listing: Listing) => (
-              <Card
-                key={listing._id}
-                listing={listing}
-              />
-            ))}
+        {isLoading ? (
+          loadingMap(6)
+        ) : listings.posts.length > 0 ? (
+          listings?.posts?.map((listing: Listing) => (
+            <Card
+              key={listing._id}
+              listing={listing}
+            />
+          ))
+        ) : (
+          <p className="pb-2">
+            There are currently no listings near{" "}
+            <span className="capitalize font-bold">{school}</span>{" "}
+          </p>
+        )}
       </div>
       {!isLoading && (
         <Pagination

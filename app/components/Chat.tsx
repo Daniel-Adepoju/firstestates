@@ -93,6 +93,11 @@ if (loading) {
     <Link href='/login' className='cursor-pointer mx-1 p-1 px-4  rounded-md text-white dark:bg-coffee bg-darkblue'>Log in</Link>
     </div>
   )}
+  if (userId === recipientId) {
+    return <div className='text-xl text-gray-600 dark:text-white mt-40 text-center mx-auto font-bold'>
+    <span>You can't chat with yourself</span>
+    </div>
+  }
 
   return (
     <div className='flex gap-1 mt-18 w-full h-screen'>

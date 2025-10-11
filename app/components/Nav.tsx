@@ -32,9 +32,13 @@ const Nav = () => {
   const router = useRouter()
   const [navbarFixed, setnavbarFixed] = useState<boolean>(false)
   const scrollThreshold = 500
-  const {backdrop,setBackdrop} = useBackdrop()
+  const { backdrop, setBackdrop } = useBackdrop()
   const { darkMode, toggleDarkMode } = useDarkMode()
   const [unreadMessages, setUnreadMessages] = useState<string>("0")
+
+  const handleNavItemClick = () => {
+    setBackdrop({ isNavOpen: false })
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -78,11 +82,94 @@ const Nav = () => {
   }, [session?.user])
 
   const showNav = () => {
-  setBackdrop({isNavOpen: !backdrop.isNavOpen})
+    setBackdrop({ isNavOpen: !backdrop.isNavOpen })
   }
-  const handleNavItemClick = () => {
-    setBackdrop({isNavOpen: false})
-  }
+  const navItems = [
+    // Non-client dashboard
+    {
+      condition: session?.user && session.user.role !== "client",
+      link: session?.user?.role === "admin" ? "/admin" : "/agent",
+      text: "Dashboard",
+      icon: (
+        <LayoutDashboard
+          size={20}
+          color="white"
+        />
+      ),
+      onClick: handleNavItemClick,
+      className: "md:bg-darkblue md:dark:bg-coffee md:text-white md:px-4 md:py-2 md:rounded-md",
+    },
+
+    // School focus for clients
+    {
+      condition: session?.user?.role === "client" && session?.user?.school,
+      link: `/school-focus?school=${encodeURIComponent(session?.user?.school.toLowerCase())}`,
+      text: "School Focus",
+      icon: <MapPinHouse className="w-5 h-5 text-white" />,
+      onClick: handleNavItemClick,
+      className: "md:bg-darkblue md:dark:bg-coffee md:text-white md:px-4 md:py-2 md:rounded-md",
+    },
+
+    // Chats
+    {
+      condition: session?.user,
+      link: "/inbox",
+      text: "Chats",
+      icon: (
+        <MessageSquare
+          size={20}
+          color="white"
+        />
+      ),
+      badge: unreadMessages,
+      onClick: handleNavItemClick,
+    },
+
+    // Wishlist
+    {
+      condition: session?.user,
+      link: "/listings/wishlists",
+      text: "Wishlist",
+      icon: (
+        <Heart
+          size={20}
+          color="white"
+        />
+      ),
+      onClick: handleNavItemClick,
+    },
+
+    // Login (only signed out)
+    {
+      condition: !session?.user,
+      link: "/login",
+      text: "Login",
+      icon: (
+        <LogIn
+          size={20}
+          color="white"
+        />
+      ),
+      onClick: handleNavItemClick,
+      className: "md:bg-darkblue md:dark:bg-coffee md:text-white md:px-4 md:py-2 md:rounded-md",
+    },
+
+    // Sign Up (only signed out)
+    {
+      condition: !session?.user,
+      link: "/signup",
+      text: "Sign Up",
+      icon: (
+        <UserPlus
+          size={20}
+          color="white"
+        />
+      ),
+      onClick: handleNavItemClick,
+      className:
+        "md:border-2 md:border-darkblue md:dark:border-coffee md:text-darkblue md:dark:text-coffee md:px-4 md:py-2 md:rounded-md",
+    },
+  ].filter((item) => item.condition)
 
   return (
     <header
@@ -139,143 +226,25 @@ const Nav = () => {
 
         {/*nav items  */}
         <div className={`nav_items md:pr-3 md:pt-1`}>
-          {/* Unique To Non-CLient Accounts */}
-          {/* Going To Dashboard */}
-          {session?.user && session?.user.role !== "client" && (
+          {navItems.map((item, index) => (
             <Link
-              href={session?.user.role === "admin" ? "/admin" : "/agent"}
-              onClick={handleNavItemClick}
-              className="flex flex-col md:flex-row items-center gap-0 md:gap-2 cursor-pointer"
+              key={index}
+              href={item.link}
+              onClick={item.onClick}
+              className={`flex flex-col md:flex-row items-center gap-0 md:gap-2 cursor-pointer`}
             >
-              <div className="dark:bg-coffee bg-darkblue p-2 rounded-full ">
-                <LayoutDashboard
-                  size={20}
-                  color={"white"}
-                />
-              </div>
-              <div className="link_line md:w-full md:text-white md:bg-darkblue md:dark:bg-coffee md:px-4 md:py-2 rounded-md hover:opacity-95 transition">
-                Dashboard
-              </div>
-            </Link>
-          )}
-
-          {/* Unique To Client Account */}
-
-          {session?.user && session?.user.role === "client" && (
-            <>
-              {/* add roomie */}
-              {/* <div
-    onClick={handleNavItemClick}
-    className="flex flex-col md:flex-row items-center gap-0 md:gap-2 cursor-pointer"
-  >
-    <div className="dark:bg-coffee bg-darkblue p-2 rounded-full">
-      <UserPlus2 size={20} color={'white'}/>
-      </div>
-      <Link href="/listings" onClick={handleNavItemClick}>Roomate Match</Link>
-  </div> */}
-
-              {/* school focus */}
-              {session?.user.school && (
-                <Link
-                  href={session?.user.role === "admin" ? "/admin" : "/agent"}
-                  onClick={handleNavItemClick}
-                  className="flex flex-col md:flex-row items-center gap-2 cursor-pointer"
-                >
-                  <div className="dark:bg-coffee bg-darkblue p-2 rounded-full ">
-                    <MapPinHouse className="w-5 h-5 text-white" />
-                  </div>
-                  <div className="link_line md:w-full md:text-white md:bg-darkblue md:dark:bg-coffee md:px-4 md:py-2 rounded-md hover:opacity-95 transition">
-                    School Focus
-                  </div>
-                </Link>
-              )}
-            </>
-          )}
-
-          {/* Other Features */}
-
-          {/* chats */}
-          {session?.user && (
-            <Link
-              href="/inbox"
-              onClick={handleNavItemClick}
-              className="relative flex flex-col md:flex-row items-center gap-0 md:gap-2 cursor-pointer"
-            >
-              <div className=" dark:bg-coffee bg-darkblue p-2 rounded-full">
-                <MessageSquare
-                  size={20}
-                  color={"white"}
-                />
-              </div>
-              <div className="link_line">Chats</div>
-              {unreadMessages && parseInt(unreadMessages) > 0 && (
+              {/* icon */}
+              <div className="dark:bg-coffee bg-darkblue p-2 rounded-full">{item.icon}</div>
+              {/* text */}
+              <div className={`link_line ${item.className || ""}`}>{item.text}</div>
+              {/* Optional unread badge */}
+              {item.text === "Chats" && unreadMessages && parseInt(unreadMessages) > 0 && (
                 <div className="flex items-center justify-center absolute w-6 h-6 top-[-16.5%] left-[0%] bg-red-800 text-white rounded-full px-2 py-1 text-xs font-bold">
                   {unreadMessages}
                 </div>
               )}
             </Link>
-          )}
-
-          {/* wishlists */}
-          {session?.user && (
-            <Link
-              href="/listings/wishlists"
-              onClick={handleNavItemClick}
-              className="flex flex-col md:flex-row items-center gap-0 md:gap-2 cursor-pointer"
-            >
-              <div className="dark:bg-coffee bg-darkblue p-2 rounded-full">
-                <Heart
-                  size={20}
-                  color={"white"}
-                />
-              </div>
-              <div
-                className="link_line"
-                onClick={handleNavItemClick}
-              >
-                Wishlist
-              </div>
-            </Link>
-          )}
-
-          {/* Unique to signed Out */}
-          {!session?.user && (
-            <>
-              {/* login */}
-              <Link
-                href="/login"
-                onClick={handleNavItemClick}
-                className="flex flex-col md:flex-row items-center gap-0 md:gap-2 cursor-pointer"
-              >
-                <div className="dark:bg-coffee bg-darkblue p-2 rounded-full">
-                  <LogIn
-                    size={20}
-                    color={"white"}
-                  />
-                </div>
-                <div className="link_line md:w-full md:text-white md:bg-darkblue md:dark:bg-coffee md:px-4 md:py-2 rounded-md hover:opacity-95 transition">
-                  Login
-                </div>
-              </Link>
-
-              {/* signup */}
-              <Link
-                href="/signup"
-                onClick={handleNavItemClick}
-                className="flex flex-col md:flex-row items-center gap-0 md:gap-2 cursor-pointer"
-              >
-                <div className="dark:bg-coffee bg-darkblue p-2 rounded-full">
-                  <UserPlus
-                    size={20}
-                    color={"white"}
-                  />
-                </div>
-                <div className="link_line md:w-full md:text-darkblue md:dark:text-coffee md:border-2 md:border-darkblue md:dark:border-coffee md:px-4 md:py-2 md:rounded-md hover:opacity-90 transition">
-                  Sign Up
-                </div>
-              </Link>
-            </>
-          )}
+          ))}
 
           {/* more */}
           {/* more btn */}

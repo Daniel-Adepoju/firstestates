@@ -2,6 +2,7 @@ import { connectToDB } from "@utils/database"
 import Request from "@models/request"
 import { NextResponse } from "next/server"
 import { auth } from "@auth"
+import mongoose from "mongoose"
 
 export const GET = async (req) => {
   const { searchParams } = new URL(req.url)
@@ -9,9 +10,16 @@ export const GET = async (req) => {
   const limit = Number(searchParams.get("limit")) || 10
   const school = searchParams.get("school")
   const status = searchParams.get("status") || ""
+  const currentUser = searchParams.get("currentUser") || ""
   const requestType = searchParams.get("requestType") || ""
   const skipNum = (page - 1) * limit
   let cursor = page
+
+  let currentUserId
+
+  if (mongoose.Types.ObjectId.isValid(currentUser)) {
+    currentUserId = new mongoose.Types.ObjectId(currentUser)
+  }
 
   const matchConditions = []
 
@@ -31,7 +39,12 @@ export const GET = async (req) => {
 
   // Filter by school in listing
   if (school) {
-    matchConditions.push({"listing.school": {$regex: school, $options: "i"}})
+    matchConditions.push({ "listing.school": { $regex: school, $options: "i" } })
+  }
+
+  // Filter by currentUserId
+  if (currentUserId) {
+    matchConditions.push({ "requester._id": { $ne: currentUserId } })
   }
 
   try {
@@ -84,17 +97,21 @@ export const GET = async (req) => {
         },
       },
       {
-        $unwind: "$requester",
+        $unwind: {
+          path: "$requester",
+          preserveNullAndEmptyArrays: true,
+        },
       },
     ]
 
     const requests = await Request.aggregate([
       ...viewsPipeline,
+      ...populatePipeline,
+      matchStage,
       { $sort: { viewsDecay: -1 } },
       { $skip: skipNum },
       { $limit: limit },
 
-      ...populatePipeline,
       {
         $project: {
           status: 1,
@@ -104,8 +121,9 @@ export const GET = async (req) => {
           requestType: 1,
           views: 1,
           "requester.profilePic": 1,
-          // 'requester._id': 1,
+          "requester._id": 1,
           "requester.username": 1,
+          "listing._id": 1,
           "listing.mainImage": 1,
           "listing.price": 1,
           "listing.address": 1,
@@ -116,7 +134,6 @@ export const GET = async (req) => {
           "listing.toilets": 1,
         },
       },
-      matchStage,
     ])
 
     return NextResponse.json({ requests, totalRequests, page: cursor, numOfPages }, { status: 200 })

@@ -1,12 +1,9 @@
 import { CldImage } from "next-cloudinary"
-import Image from "next/image"
-import { AlertTriangle, ArrowLeft, ArrowRight, Bookmark, MapPin, MessageCircle } from "lucide-react"
+import { AlertTriangle, ArrowLeft, ArrowRight, Bookmark,MapPin, MessageCircle } from "lucide-react"
 import { useState } from "react"
-
-import React from "react"
 import Button from "@lib/Button"
 import { truncateAddress } from "@utils/truncateAddress"
-import { r } from "node_modules/@upstash/redis/zmscore-CjoCv9kz.mjs"
+import Link from "next/link"
 
 interface RoomateCardProps {
   request: Request,
@@ -31,19 +28,23 @@ const RoomateCard = ({ request, rentedRequest }: RoomateCardProps) => {
           alt="ee"
           width={60}
           height={60}
-          className="rounded-full mx-auto"
+          className="rounded-full w-12 h-12 mx-auto mb-1 outline-2 outline-gray-200"
         />
         <div className="text-white text-sm font-card mx-auto">{request?.requester?.username}</div>
 
         {/* options row */}
         <div className="w-full flex flex-row justify-around mt-2">
-          <div className="flex items-center gap-1 text-white font-bold">
+          <Link
+          href={`chat?recipientId=${request?.requester?._id}`}
+     >
+           <div className="flex items-center gap-1 text-white font-bold">
             <MessageCircle
               size={30}
               color="white"
             />
             <span>Chat</span>
-          </div>
+            </div>
+          </Link>
 
           <div className="flex items-center gap-1 text-white font-bold">
             <Bookmark
@@ -62,9 +63,9 @@ const RoomateCard = ({ request, rentedRequest }: RoomateCardProps) => {
           </div>
         </div>
 
-        {/* message row */}
+        {/* description box */}
         <div className="w-full h-35 bg-white dark:bg-gray-700  shadow-md rounded-md mt-2.5 p-2 overflow-y-scroll nobar null border-1 border-black/30 dark:border-black">
-          <p className="text-sm text-gray-700 dark:text-white font-head">
+          <p className="text-sm text-gray-700 dark:text-white font-head whitespace-pre-wrap">
            {request?.description}
           </p>
         </div>
@@ -84,13 +85,16 @@ const RoomateCard = ({ request, rentedRequest }: RoomateCardProps) => {
             setShowListing(false)
           }}
         ></Button>
-        <CldImage
+      {request?.listing.mainImage && (
+         <CldImage
           src={request?.listing.mainImage}
           alt="ee"
           width={150}
           height={150}
+          gravity="center"
           className="rounded-lg mx-auto w-full h-40 aspect-square object-fill object-center"
         />
+  )}
       </div>
       {/* options row */}
       <div className="w-full h-25 flex flex-col items-center  gap-1.5 mt-1.5 py-2 rounded-sm bg-white dark:bg-gray-700 border-1 border-black/30 dark:border-black">
@@ -104,13 +108,15 @@ const RoomateCard = ({ request, rentedRequest }: RoomateCardProps) => {
           />
           {truncateAddress(request?.listing.address, 38)}
         </p>
-        <div className="flex items-center gap-1 font-bold cursor-pointer">
+        <Link
+        href={`/listings/single_listing?id=${request?.listing._id}`}
+        className="flex items-center gap-1 font-bold cursor-pointer">
           <ArrowRight
             size={20}
             className="dark:text-white"
           />
           <span>View Listing</span>
-        </div>
+        </Link>
       </div>
     </div>
   )
