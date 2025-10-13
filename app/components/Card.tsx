@@ -83,7 +83,7 @@ const Card = ({ edit, listing, isAgentCard, isInWishList ,blankSlate=false}: Car
             )}
 
             {/*actions  */}
-            {(!isAgentCard || !blankSlate) && (
+            {(!blankSlate && !isAgentCard) ? (
               <div className="flex flex-col items-center justify-center gap-1 absolute top-2 right-3 z-10">
                 <WishlistButton
                   isInWishList={isInWishList || false}
@@ -102,7 +102,7 @@ const Card = ({ edit, listing, isAgentCard, isInWishList ,blankSlate=false}: Car
                   />
                 </div>
               </div>
-            )}
+            ) : ''}
           </div>
 
           <div className="body">
@@ -204,7 +204,7 @@ const Card = ({ edit, listing, isAgentCard, isInWishList ,blankSlate=false}: Car
           </div>
 
           {/*more content --> listing availability status,school and price*/}
-          {(!edit || !blankSlate) && (
+          {(!edit) && (
             <div className="capitalize absolute top-0 left-[1px] flex flex-col items-center justify-start justify-content-start gap-1 px-2 z-2">
               {/* school*/}
               <div

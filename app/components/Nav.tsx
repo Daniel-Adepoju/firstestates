@@ -103,7 +103,7 @@ const Nav = () => {
     // School focus for clients
     {
       condition: session?.user?.role === "client" && session?.user?.school,
-      link: `/school-focus?school=${encodeURIComponent(session?.user?.school.toLowerCase())}`,
+      link: session?.user?.school ? `/school-focus?school=${encodeURIComponent(session?.user?.school.toLowerCase())}` : "/",
       text: "School Focus",
       icon: <MapPinHouse className="w-5 h-5 text-white" />,
       onClick: handleNavItemClick,
