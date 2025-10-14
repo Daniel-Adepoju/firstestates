@@ -10,6 +10,7 @@ import ScrollController from "@components/ScrollController"
 import { useRef } from "react"
 import { MoreVertical } from "lucide-react"
 import { Skeleton } from "@components/ui/skeleton"
+import { useNextPage } from "@lib/useIntersection"
 
 const SchoolFocus = () => {
   const searchParams = useSearchParams()
@@ -20,39 +21,65 @@ const SchoolFocus = () => {
   const userName = session?.user?.username
   const displayName = userName ? `, ${userName}` : ""
   const page = useSearchParams().get("page") || "1"
+
+  // listings fetch
   const {
     data: listings,
     isLoading,
     isError,
-  } = useGetListings({
-    limit: 2,
-    page: page,
-    school: school || "",
-  })
+  } = useGetListings({ limit: 2, page: page, school: school || "" })
 
-  const { data: coRentRequests, isLoading: coRentLoading } = useGetRequests({
-    limit: 4,
-    page: "1",
+  // co rent fetch
+
+  const {
+    data: coRentRequests,
+    isLoading: coRentLoading,
+    hasNextPage: coRentHasNextPage,
+    fetchNextPage: coRentFetchNextPage,
+    isFetchingNextPage: coRentIsFetchingNextPage,
+  } = useGetRequests({
+    limit: 2,
     school: school || "",
     requestType: "co-rent",
     requester: session?.user.id,
     enabled: !!school,
   })
+  const coRentNextPageRef = useNextPage({
+    isLoading: coRentLoading,
+    hasNextPage: coRentHasNextPage,
+    fetchNextPage: coRentFetchNextPage,
+    
+  })
+  console.log(coRentRequests)
 
-  const { data: roommateRequests, isLoading: roommateLoading } = useGetRequests({
+  //  roommate fetch
+  const {
+    data: roommateRequests,
+    isLoading: roommateLoading,
+    hasNextPage: roommateHasNextPage,
+    fetchNextPage: roommateFetchNextPage,
+    isFetchingNextPage: roommateIsFetchingNextPage,
+  } = useGetRequests({
     limit: 4,
-    page: "1",
     school: school || "",
     requestType: "roommate",
     requester: session?.user.id,
     enabled: !!school,
   })
 
+  const roommateNextPageRef = useNextPage({
+    isLoading: roommateLoading,
+    hasNextPage: roommateHasNextPage,
+    fetchNextPage: roommateFetchNextPage,
+  })
+
+  // co-rent map
   const coRentMap =
     coRentRequests?.pages[0]?.requests?.length > 0
       ? coRentRequests?.pages.flatMap((items) =>
-          items?.requests?.flatMap((request: Request) => (
+          items?.requests?.flatMap((request: Request,index:number) => (
             <RoomateCard
+              refValue={ index === items?.requests?.length - 1 ? coRentNextPageRef : null}
               key={request._id}
               request={request}
             />
@@ -60,11 +87,17 @@ const SchoolFocus = () => {
         )
       : "No co-rent requests found"
 
+      // roommate map
   const roommateMap =
     roommateRequests?.pages[0]?.requests?.length > 0
       ? roommateRequests?.pages.flatMap((items) =>
-          items?.requests?.flatMap((request: Request) => (
+          items?.requests?.flatMap((request: Request,index:number) => (
             <RoomateCard
+              refValue={
+                items?.requests?.length - 1 === index
+                  ? roommateNextPageRef
+                  : null
+              }
               key={request._id}
               request={request}
             />
@@ -99,24 +132,23 @@ const SchoolFocus = () => {
           School Focus - {school}
         </h1>
       )}
-
+     <div
+     onClick={() => coRentFetchNextPage()}
+     className="text-3xl"
+     >Next</div>
       <p className="text-center text-sm p-2 text-gray-700 dark:text-gray-200">
         {`Welcome to School Focus${displayName}. Here you can find listings and roommate requests near your school of choice.`}
       </p>
 
-      {/* Future header components can go here */}
-
-      {/* Main content for listings and roommate requests */}
-
       {/* co-rent requests header */}
-      <section className="flex items-center w-[98%] mt-4.5 pb-2">
+      <div className="flex items-center w-[98%] mt-4.5 pb-2">
         <h2 className="headersFont w-120 px-4 text-lg">Co-Rent Requests</h2>
         {!coRentLoading && <ScrollController scrollRef={scrollRef} />}
-      </section>
+      </div>
 
       {/* co-rent requests container */}
 
-      <div
+      <section
         ref={scrollRef}
         className={`grid grid-flow-col auto-cols-min ${
           coRentRequests?.pages[0]?.requests?.length > 0 || coRentLoading
@@ -124,19 +156,18 @@ const SchoolFocus = () => {
             : "h-20 whitespace-nowrap mx-auto w-100 flex items-center justify-center text-sm"
         } gap-6 p-2  snap-x snap-mandatory overflow-x-scroll nobar null`}
       >
-      
         {!coRentLoading ? coRentMap : loadingMap(9, true)}
-        {/* <MoreVertical className="h-8 w-8 my-auto  text-gray-500 dark:text-gray-100 animate-pulse" /> */}
-      </div>
-
-      {/* roommate requests header */}
-      <section className="flex items-center w-[98%] pb-2">
-        <h2 className="headersFont w-120 px-4 text-lg">Roommate Requests</h2>
-        {!roommateLoading && <ScrollController scrollRef={scrollRef2} />}
+     {coRentIsFetchingNextPage && <MoreVertical size={50} className=" h-8 w-8 my-auto  text-gray-500 dark:text-gray-100 animate-pulse" />}
       </section>
 
+      {/* roommate requests header */}
+      <div className="flex items-center w-[98%] pb-2">
+        <h2 className="headersFont w-120 px-4 text-lg">Roommate Requests</h2>
+        {!roommateLoading && <ScrollController scrollRef={scrollRef2} />}
+      </div>
+
       {/*roomate requests container*/}
-      <div
+      <section
         ref={scrollRef2}
         className={`grid grid-flow-col auto-cols-min ${
           roommateRequests?.pages[0]?.requests?.length > 0 || roommateLoading
@@ -145,8 +176,8 @@ const SchoolFocus = () => {
         } gap-6 p-2  snap-x snap-mandatory overflow-x-scroll nobar null`}
       >
         {!roommateLoading ? roommateMap : loadingMap(9, true)}
-        {/* <MoreVertical className="h-8 w-8 my-auto  text-gray-500 dark:text-gray-100 animate-pulse" /> */}
-      </div>
+       {roommateIsFetchingNextPage && <MoreVertical className="h-8 w-8 my-auto  text-gray-500 dark:text-gray-100 animate-pulse" />}
+      </section>
 
       {/*listings in school*/}
 

@@ -2,7 +2,7 @@ import { useQuery, useInfiniteQuery } from "@tanstack/react-query"
 import { axiosdata } from "@utils/axiosUrl"
 
 interface Config {
-  page: string
+  page?: string
   limit: number
   location?: string
   minPrice?: string
@@ -34,7 +34,7 @@ export const useGetUsers = ({ page, limit, search }: Config) => {
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["users", page, search],
-    queryFn: () => getUsers(page),
+    queryFn: () => getUsers(page ?? "1"),
   })
 
   return { data, isLoading, isError }
@@ -94,7 +94,7 @@ export const useGetListings = ({
       toilets,
       status,
     ],
-    queryFn: () => getListings(page),
+    queryFn: () => getListings(page ?? "1"),
   })
 
   return { data, isLoading, isError }
@@ -106,18 +106,19 @@ export const useSearchListings = ({
   location,
   school,
   agentName = "",
+  search,
   enabled = true,
 }: Config) => {
   const getListings = async (page: string) => {
     const res = await axiosdata.value.get(
-      `/api/listings/search?limit=${limit}&page=${page}&location=${location}&school=${school}&agentName=${agentName}`
+      `/api/listings/search?limit=${limit}&page=${page}&location=${location}&search=${search}&agentName=${agentName}`
     )
     return res.data
   }
 
   const { data, isLoading, isError } = useQuery({
     queryKey: !enabled ? [] : ["searchListings", { page, limit, location, school }],
-    queryFn: () => getListings(page),
+    queryFn: () => getListings(page ?? "1"),
     enabled: enabled,
   })
 
@@ -236,7 +237,7 @@ export const useGetAgentListings = ({
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["agentListings", page, location, school],
-    queryFn: () => getListings(page),
+    queryFn: () => getListings(page ?? "1"),
     enabled,
   })
 
@@ -363,7 +364,6 @@ export const useGetSchools = ({ search }: { search: string }) => {
 
 // Requests
 export const useGetRequests = ({
-  page,
   limit,
   requestType='',
   school='',
@@ -379,7 +379,7 @@ export const useGetRequests = ({
 
  const { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["requests", page, school,requestType,requester],
+      queryKey: ["requests", school,requestType,requester],
       initialPageParam: 1,
       getNextPageParam: (prevData: any) => {
         return prevData?.cursor && prevData?.cursor !== prevData.numOfPages

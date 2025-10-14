@@ -3,10 +3,10 @@ import Card from "@components/Card"
 import Button from "@lib/Button"
 import { useSearchParams } from "next/navigation"
 import { useGetSingleListing } from "@lib/customApi"
+import { useRouter } from "next/navigation"
 import { WhiteLoader } from "@utils/loaders"
 import { useState } from "react"
 import { Slider } from "./ui/slider"
-import { Calendar } from "./ui/calendar"
 import { DatePicker } from "./DatePicker"
 import { formatNumber } from "@utils/formatNumber"
 import { useMutation } from "@tanstack/react-query"
@@ -25,6 +25,8 @@ type InputConfig = {
 
 const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" }) => {
   const searchParams = useSearchParams()
+  const router = useRouter()
+  const { setToastValues } = useToast()
   const listingId = searchParams.get("listing")
   const { data: listing, isLoading } = useGetSingleListing(listingId as string)
   const [isDatePlaceHolder, setIsDatePlaceHolder] = useState(true)
@@ -32,16 +34,24 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
     description: "",
     budget: "",
     moveInDate: "",
-    expirationDate: '',
-    preferredGender: '',
+    expirationDate: "",
+    preferredGender: "",
   })
-  const { setToastValues } = useToast()
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setInputValues({
       ...inputValues,
       [name]: value,
+    })
+  }
+  const resetInputValues = () => {
+    setInputValues({
+      description: "",
+      budget: "",
+      moveInDate: "",
+      expirationDate: "",
+      preferredGender: "",
     })
   }
 
@@ -60,7 +70,7 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
       function: handleInputChange,
     },
     //  budget
-    requestType === 'co-rent' && {
+    requestType === "co-rent" && {
       elementType: "Slider",
       label: "Your Budget",
       name: "budget",
@@ -103,7 +113,7 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
       label: "Preferred Gender",
       name: "preferredGender",
       options: [
-        {value:'', label:'Pick Preferred Roommate Gender'},
+        { value: "", label: "Pick Preferred Roommate Gender" },
         { value: "male", label: "Male" },
         { value: "female", label: "Female" },
       ],
@@ -111,7 +121,6 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
       function: handleInputChange,
     },
   ]
-
 
   const createRequestFn = async (data: any) => {
     try {
@@ -121,38 +130,40 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
           message: "Request Successful",
           status: "success",
           isActive: true,
-          duration:2000
+          duration: 2000,
         })
+        router.push("/requests")
       } else {
         setToastValues({
           message: "Request failed, try agin",
           status: "danger",
           isActive: true,
-          duration:2000
+          duration: 2000,
         })
+        resetInputValues()
       }
-  } catch(err) {
-    console.log(err)
+    } catch (err) {
+      console.log(err)
       setToastValues({
         message: "An error occured",
         status: "danger",
         isActive: true,
-        duration:2000
+        duration: 2000,
       })
-  }
+      resetInputValues()
     }
-  
+  }
 
-const createRequestMutation = useMutation({
-  mutationFn: createRequestFn,
-})
+  const createRequestMutation = useMutation({
+    mutationFn: createRequestFn,
+  })
 
-const handleRequestMutation = (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault()
-  createRequestMutation.mutate({val:{...inputValues, requestType,listing: listingId}}) 
-}
+  const handleRequestMutation = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    createRequestMutation.mutate({ val: { ...inputValues, requestType, listing: listingId } })
+  }
 
- if (isLoading) return null
+  if (isLoading) return null
 
   return (
     <>
@@ -175,11 +186,12 @@ const handleRequestMutation = (e: React.FormEvent<HTMLFormElement>) => {
             {requestType === "roommate" ? "Create a Roomate Request" : "Create a Co-Rent Request"}
           </h2>
 
-          <form 
-          onSubmit={handleRequestMutation}
-          className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
+          <form
+            onSubmit={handleRequestMutation}
+            className="w-full grid grid-cols-1 md:grid-cols-2 gap-4"
+          >
             {/* inputs */}
-          
+
             {inputConfigs.map((input: any) => (
               <div
                 key={input.name}
@@ -237,7 +249,6 @@ const handleRequestMutation = (e: React.FormEvent<HTMLFormElement>) => {
                 )}
               </div>
             ))}
-        
 
             {/* selects */}
 

@@ -3,6 +3,7 @@ import { connectToDB } from "@utils/database"
 import Listing from "@models/listing"
 import Comment from "@models/comment"
 import Appointment from "@models/appointment"
+import Request from "@models/request"
 import { auth } from "@auth"
 import { revalidatePath } from "next/cache"
 import { deleteImage, deleteMultipleImages } from "./deleteImage"
@@ -121,6 +122,7 @@ export const deleteListing = async (id) => {
       return { message: `You can't delete a rented listing`, status: "warning" }
     } 
     await Listing.deleteOne({ _id: id })
+    await Request.deleteMany({ listing: id })
     await Comment.deleteMany({ listing: id })
     await Appointment.deleteMany({listingID:id})
     await deleteImage(listing.mainImage)

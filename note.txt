@@ -1,14 +1,10 @@
 ## Important
-circlurlar agent border gray / black in card
 
-conditionals for rommate request in card and card options components
 2. Make cookie expire in 5min but resend in 60secs
 5. Add Video to singlecard section.
 
 To Do In request
 
-Fix Pictures in card(check unilag)
-Delete Request If THe Listing it belongs to is deleted
 
 To Do In Agent
 Accept or decline pending request

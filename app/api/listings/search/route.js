@@ -6,7 +6,7 @@ export const GET = async (req) => {
   const { searchParams } = new URL(req.url)
   const page = parseInt(searchParams.get("page") || "1")
   const limit = parseInt(searchParams.get("limit") || "10")
-  const search = searchParams.get("search") || ""
+  const search = searchParams.get("search" || "").trim()
   const location = searchParams.get("location") || ""
   const school = searchParams.get("school") || ""
   const agentName = searchParams.get("agentName") || ""
@@ -14,9 +14,10 @@ export const GET = async (req) => {
 
   try {
     await connectToDB()
-    // Base aggregation pipeline
 
-    const basePipeline = [
+    // === Stage groups ===
+    let textStages = []
+    const postTextStages = [
       {
         $lookup: {
           from: "users",
@@ -28,27 +29,23 @@ export const GET = async (req) => {
       { $unwind: "$agent" },
     ]
 
-    // Hybrid search logic
+    // === Hybrid search logic ===
     if (search) {
       if (search.length >= 4 && search.includes(" ")) {
-        // Full-text search for multi-word / long queries
-        basePipeline.push({
-          $match: { $text: { $search: search } },
-        })
-        basePipeline.push({
-          $addFields: { score: { $meta: "textScore" } },
-        })
-        basePipeline.push({ $sort: { score: -1, createdAt: -1 } })
+        textStages = [
+          { $match: { $text: { $search: search } } },
+          { $addFields: { score: { $meta: "textScore" } } },
+          { $sort: { score: -1, createdAt: -1 } },
+        ]
       } else {
         // Regex for short / partial search
-        regexConditions.push(
+        const regexConditions = [
           { school: { $regex: search, $options: "i" } },
           { location: { $regex: search, $options: "i" } },
-          { "agent.username": { $regex: search, $options: "i" } }
-        )
-
-        basePipeline.push({ $match: { $or: regexConditions } })
-        basePipeline.push({ $sort: { createdAt: -1 } })
+          { "agent.username": { $regex: search, $options: "i" } },
+        ]
+        postTextStages.push({ $match: { $or: regexConditions } })
+        postTextStages.push({ $sort: { createdAt: -1 } })
       }
     } else {
       // Default filtering by individual fields if no main search
@@ -59,26 +56,34 @@ export const GET = async (req) => {
         matchConditions.push({ "agent.username": { $regex: agentName, $options: "i" } })
 
       if (matchConditions.length > 0) {
-        basePipeline.push({ $match: { $or: matchConditions } })
+        postTextStages.push({ $match: { $or: matchConditions } })
       }
-      basePipeline.push({ $sort: { createdAt: -1 } })
+      postTextStages.push({ $sort: { createdAt: -1 } })
     }
 
-    // Total matched documents for pagination
+    // === Combine stages in correct order ===
+    const basePipeline = [...textStages, ...postTextStages]
+
+    // === Count total documents ===
     const countPipeline = [...basePipeline, { $count: "total" }]
     const countResult = await Listing.aggregate(countPipeline)
     const totalDocs = countResult[0]?.total || 0
 
-    // Pagination
-    basePipeline.push({ $skip: skip })
-    basePipeline.push({ $limit: limit })
+    // === Pagination ===
+    const paginatedPipeline = [
+      ...basePipeline,
+      { $skip: skip },
+      { $limit: limit },
+    ]
 
-    const posts = await Listing.aggregate(basePipeline)
+    const posts = await Listing.aggregate(paginatedPipeline)
 
-    // Additional stats
+    // === Additional stats ===
     const totalListings = await Listing.countDocuments()
     const rentedListings = await Listing.countDocuments({ status: "rented" })
-    const reportedListings = await Listing.countDocuments({ reportedBy: { $not: { $size: 0 } } })
+    const reportedListings = await Listing.countDocuments({
+      reportedBy: { $not: { $size: 0 } },
+    })
 
     const numOfPages = Math.ceil(totalDocs / limit)
     const cursor = Math.min(page, numOfPages)

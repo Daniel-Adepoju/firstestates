@@ -35,6 +35,7 @@ useEffect(() => {
   location: debounced.value,
   school: debounced.value,
   agentName: debounced.value,
+  search: debounced.value,
   enabled: search.value.trim() !== ""
 }
 )

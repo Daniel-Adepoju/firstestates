@@ -54,10 +54,6 @@ export const GET = async (req) => {
     const matchStage =
       matchConditions.length > 0 ? { $match: { $and: matchConditions } } : { $match: {} }
 
-    const totalRequests = await Request.countDocuments(matchStage.$match)
-    const numOfPages = Math.ceil(totalRequests / limit)
-    if (cursor > numOfPages) cursor = numOfPages
-
     const decayFactor = 1.3
 
     const viewsPipeline = [
@@ -104,7 +100,7 @@ export const GET = async (req) => {
       },
     ]
 
-    const requests = await Request.aggregate([
+    const requestsPipeline = [
       ...viewsPipeline,
       ...populatePipeline,
       matchStage,
@@ -134,9 +130,17 @@ export const GET = async (req) => {
           "listing.toilets": 1,
         },
       },
-    ])
+    ]
 
-    return NextResponse.json({ requests, totalRequests, page: cursor, numOfPages }, { status: 200 })
+    const countPipeline = [...viewsPipeline, ...populatePipeline, matchStage, { $count: "total" }]
+    const countResult = await Request.aggregate(countPipeline)
+    const totalRequests = countResult[0]?.total || 0
+    const numOfPages = Math.ceil(totalRequests / limit)
+    cursor = Math.min(page, numOfPages)
+    // if (cursor >= numOfPages) cursor = numOfPages
+
+    const requests = await Request.aggregate(requestsPipeline)
+    return NextResponse.json({ requests, totalRequests, cursor, page, numOfPages }, { status: 200 })
   } catch (err) {
     console.error(err)
     return NextResponse.json({ error: err.message }, { status: 500 })
@@ -147,9 +151,9 @@ export const POST = async (req) => {
   try {
     const session = await auth()
     await connectToDB()
-    const {val} = await req.json()
-   
-  const newRequest = new Request({
+    const { val } = await req.json()
+
+    const newRequest = new Request({
       ...val,
       requester: session?.user.id,
     })
@@ -168,13 +172,13 @@ export const PATCH = async (req) => {
 }
 
 export const DELETE = async (req) => {
-    try {
-      await connectToDB()
-      const {id} = await req.json()
-      await Request.findByIdAndDelete(id)
-      return NextResponse.json({ message: "Request deleted" }, { status: 200 })
-    } catch (err) {
-      console.error(err)
-      return NextResponse.json({ error: err.message }, { status: 500 })
-    }
+  try {
+    await connectToDB()
+    const { id } = await req.json()
+    await Request.findByIdAndDelete(id)
+    return NextResponse.json({ message: "Request deleted" }, { status: 200 })
+  } catch (err) {
+    console.error(err)
+    return NextResponse.json({ error: err.message }, { status: 500 })
+  }
 }
