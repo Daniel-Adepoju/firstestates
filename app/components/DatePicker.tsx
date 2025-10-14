@@ -32,7 +32,7 @@ export function DatePicker({
           className={`${className} data-[empty=true]:text-muted-foreground justify-start text-left font-normal `}
         >
           <CalendarIcon />
-          {!placeholder ? (date && format(date, "PPP") ) : <span>{placeholder}</span>}
+          {(!placeholder && date) ? (date && format(date, "PPP") ) : <span>{placeholder}</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0 z-900">

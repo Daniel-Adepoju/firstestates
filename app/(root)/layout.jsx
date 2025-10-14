@@ -12,6 +12,7 @@ import { connectToDB } from "@utils/database"
 import UserModel from "@models/user"
 import { DarkModeProvider } from "@lib/DarkModeProvider"
 import Main from "@components/Main"
+import Toast from "@utils/Toast"
 
 export default async function RootLayout({ children }) {
   const session = await auth()
@@ -36,10 +37,12 @@ export default async function RootLayout({ children }) {
             <Backdrop>
               <Nav />
               <Notification>
+                <Toast>
                 <Main>
                   {children}
                   <Footer />
                 </Main>
+                </Toast>
               </Notification>
             </Backdrop>
           </User>

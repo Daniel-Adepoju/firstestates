@@ -9,13 +9,17 @@ import { Slider } from "./ui/slider"
 import { Calendar } from "./ui/calendar"
 import { DatePicker } from "./DatePicker"
 import { formatNumber } from "@utils/formatNumber"
+import { useMutation } from "@tanstack/react-query"
+import { axiosdata } from "@utils/axiosUrl"
+import { useToast } from "@utils/Toast"
 
 type InputConfig = {
-  elementType: "input" | "textarea" | "Calendar"
-  name: string
+  elementType?: "input" | "textarea" | "Calendar"
+  name?: string
   className?: string
   type?: string
   placeholder?: string
+  requestType?: "co-rent" | "roommate"
   function?: (e: any) => void
 }
 
@@ -28,11 +32,10 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
     description: "",
     budget: "",
     moveInDate: "",
-    expirationDate: new Date(),
-    preferredGender: new Date(),
+    expirationDate: '',
+    preferredGender: '',
   })
-
-  if (isLoading) return null
+  const { setToastValues } = useToast()
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -57,7 +60,7 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
       function: handleInputChange,
     },
     //  budget
-    {
+    requestType === 'co-rent' && {
       elementType: "Slider",
       label: "Your Budget",
       name: "budget",
@@ -90,7 +93,7 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
       name: "expirationDate",
       type: "date",
       placeholder: "Select when this request should expire",
-      className: "w-full  border rounded-md py-5.5",
+      className: "w-full  border  rounded-md py-5.5",
       function: handleInputChange,
     },
   ].filter(Boolean)
@@ -100,15 +103,56 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
       label: "Preferred Gender",
       name: "preferredGender",
       options: [
-        { value: "", label: "No preference" },
+        {value:'', label:'Pick Preferred Roommate Gender'},
         { value: "male", label: "Male" },
         { value: "female", label: "Female" },
-        { value: "nonbinary", label: "Non-binary" },
       ],
       className: "dark:bg-gray-600 w-full border rounded-sm p-2 py-2.5",
       function: handleInputChange,
     },
   ]
+
+
+  const createRequestFn = async (data: any) => {
+    try {
+      const res = await axiosdata.value.post(`/api/requests`, data)
+      if (res.status >= 200 && res.status < 300) {
+        setToastValues({
+          message: "Request Successful",
+          status: "success",
+          isActive: true,
+          duration:2000
+        })
+      } else {
+        setToastValues({
+          message: "Request failed, try agin",
+          status: "danger",
+          isActive: true,
+          duration:2000
+        })
+      }
+  } catch(err) {
+    console.log(err)
+      setToastValues({
+        message: "An error occured",
+        status: "danger",
+        isActive: true,
+        duration:2000
+      })
+  }
+    }
+  
+
+const createRequestMutation = useMutation({
+  mutationFn: createRequestFn,
+})
+
+const handleRequestMutation = (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault()
+  createRequestMutation.mutate({val:{...inputValues, requestType,listing: listingId}}) 
+}
+
+ if (isLoading) return null
 
   return (
     <>
@@ -131,9 +175,11 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
             {requestType === "roommate" ? "Create a Roomate Request" : "Create a Co-Rent Request"}
           </h2>
 
-          <form className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
+          <form 
+          onSubmit={handleRequestMutation}
+          className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* inputs */}
-            {/* <div className=" w-full flex flex-col gap-4"> */}
+          
             {inputConfigs.map((input: any) => (
               <div
                 key={input.name}
@@ -173,11 +219,10 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
                     </div>
                   </>
                 )}
-              
+
                 {input.elementType === "Calendar" && (
-                 
-                <DatePicker 
-                   // @ts-ignore
+                  <DatePicker
+                    // @ts-ignore
                     date={inputValues[input.name]}
                     setDate={(date: Date) => {
                       setInputValues({
@@ -192,7 +237,7 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
                 )}
               </div>
             ))}
-            {/* </div> */}
+        
 
             {/* selects */}
 
@@ -230,7 +275,7 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
               text={`Submit ${requestType === "roommate" ? "Roomate Request" : "Co-Rent Request"}`}
               className="self-end  md:col-span-2 justify-self-center place-self-center clickable darkblueBtn directional w-70 p-6 mx-auto"
             >
-              {/* {isUpdating && <WhiteLoader />} */}
+              {createRequestMutation.isPending && <WhiteLoader />}
             </Button>
           </form>
         </div>

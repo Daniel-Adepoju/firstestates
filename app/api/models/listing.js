@@ -84,6 +84,22 @@ const ListingSchema = new Schema({
   },
 }, {timestamps: true});
 
+ListingSchema.index(
+  {
+    school: "text",
+    location: "text",
+    "agent.username": "text",
+  },
+  {
+    weights: {
+      school: 5,
+      location: 3,
+      "agent.username": 1,
+    },
+    name: "TextIndex_School_Location_Agent",
+  }
+)
+
 const Listing = models?.Listing || model('Listing', ListingSchema);
 
 export default Listing;

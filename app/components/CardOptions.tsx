@@ -85,7 +85,7 @@ const CardOptions = () => {
           text: `${backdrop.selectedData?.status === 'rented' ? 'View Roomate Request' : 'View Co-Rent Requests'}`,
           link: backdrop.selectedData?.status === 'rented'
            ? 
-           `${process.env.NEXT_PUBLIC_BASE_URL!}/listings/roomate-request?listing=${backdrop.selectedData?._id}` 
+           `${process.env.NEXT_PUBLIC_BASE_URL!}/listings/roommate-request?listing=${backdrop.selectedData?._id}` 
           : `${process.env.NEXT_PUBLIC_BASE_URL!}/listings/co-rent-request?listing=${backdrop.selectedData?._id}`,
           className: "text-blue-500 block",
           icon: <UserPlus className="w-4 h-4 inline mb-1 mr-2" />,
@@ -101,7 +101,7 @@ const CardOptions = () => {
           text: `${backdrop.selectedData?.status === 'rented' ? 'Make a Roommate Request' : 'Make a Co-Rent Requests'}`,
           link: backdrop.selectedData?.status === 'rented'
            ? 
-           `${process.env.NEXT_PUBLIC_BASE_URL!}/listings/roomate-request/add?listing=${backdrop.selectedData?._id}` 
+           `${process.env.NEXT_PUBLIC_BASE_URL!}/listings/roommate-request/add?listing=${backdrop.selectedData?._id}` 
           : `${process.env.NEXT_PUBLIC_BASE_URL!}/listings/co-rent-request/add?listing=${backdrop.selectedData?._id}`,
           className: "text-blue-500 block",
           icon: <UserPlus className="w-4 h-4 inline mb-1 mr-2" />,

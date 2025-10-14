@@ -16,7 +16,7 @@ const RequestSchema = new Schema(
     },
     requestType: {
       type: String,
-      enum: ["rooomate", "co-rent"],
+      enum: ["roommate", "co-rent"],
       required: [true, "Request type is required"],
     },
     budget: {
@@ -33,6 +33,19 @@ const RequestSchema = new Schema(
       enum: ["pending", "accepted"],
       default: "pending",
     },
+    moveInDate: {
+      type: Date,
+      required: false,
+    },
+    expirationDate: {
+      type: Date,
+      required: false,
+    },
+    preferredGender: {
+      type: String,
+      enum: ["male", "female"],
+      required: false,
+    },
     views: {
       type: Number,
       default: 0,
@@ -40,6 +53,8 @@ const RequestSchema = new Schema(
   },
   { timestamps: true }
 )
+
+RequestSchema.index({ expirationDate: 1 }, { expireAfterSeconds: 0 },{name:"expirationDate_for_rooommate__and_co-rent_requests"})
 
 const Request = models?.Request || model("Request", RequestSchema)
 export default Request

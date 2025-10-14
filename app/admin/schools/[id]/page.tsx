@@ -7,7 +7,7 @@ import { useState, useEffect } from "react"
 import { useParams } from "next/navigation"
 import Button from "@lib/Button"
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query"
-import Toast from "@components/Toast"
+import { useToast } from "@utils/Toast"
 
 const SchoolView = () => {
   const queryClient = useQueryClient()
@@ -16,12 +16,7 @@ const SchoolView = () => {
   const [showForm, setShowForm] = useState(false)
   const [areaValue, setAreaValue] = useState("")
   const [selectedAreaIndex, setSelectedAreaIndex] = useState<number | null>(null)
-  const [notification, setNotification] = useState({
-    isActive: false,
-    message: "",
-    status: "success",
-  })
-
+ const {setToastValues} = useToast()
   const fetchData = async () => {
     try {
       const res = await axiosdata.value.get(`/api/schools/${schoolId}`)
@@ -40,10 +35,11 @@ const SchoolView = () => {
   const addArea = async (val: any) => {
     try {
       const response = await axiosdata.value.patch(`/api/schools/${schoolId}`, val)
-      setNotification({
+  setToastValues({
         isActive: true,
         message: "School area added successfully",
         status: "success",
+        duration: 2000,
       })
       return response.data
     } catch (err) {
@@ -53,12 +49,13 @@ const SchoolView = () => {
   const removeArea = async (val: any) => {
     try {
       const response = await axiosdata.value.patch(`/api/schools/${schoolId}?deleteArea=true`, val)
-      setNotification({
+      setToastValues({
         isActive: true,
         message: "School area removed successfully",
         status: "success",
+        duration: 2000,
       })
-       setSelectedAreaIndex(null)
+      setSelectedAreaIndex(null)
       return response.data
     } catch (err) {
       throw new Error("Error removing area")
@@ -87,12 +84,7 @@ const SchoolView = () => {
 
   return (
     <div className="w-full flex flex-col">
-        <Toast
-        isActive={notification.isActive}
-        setIsActive={setNotification}
-        message={notification.message}
-        status={notification.status}
-        />
+    
       {/* school */}
       <div className="flex flex-col items-center gap-2 mt-8">
         {isLoading ? (
@@ -169,11 +161,12 @@ const SchoolView = () => {
                   <Loader2 className="animate-spin mr-2 text-red-700" />
                 ) : (
                   <Trash
-                  onClick={() => {
-                     removeAreaMutation.mutate({ areaValue: area })
-                     setSelectedAreaIndex(i)}
-                  }
-                  className="clickable ml-2 cursor-pointer text-red-700" />
+                    onClick={() => {
+                      removeAreaMutation.mutate({ areaValue: area })
+                      setSelectedAreaIndex(i)
+                    }}
+                    className="clickable ml-2 cursor-pointer text-red-700"
+                  />
                 )}
               </div>
             ))}

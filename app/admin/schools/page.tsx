@@ -10,13 +10,14 @@ import Button from "@lib/Button"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { axiosdata } from "@utils/axiosUrl"
 import { useNextPage } from "@lib/useIntersection"
-import Toast from "@components/Toast"
+import { useToast } from "@utils/Toast"
 
 const Schools = () => {
   const queryClient = useQueryClient()
   const [search, setSearch] = useState("")
   const [debounced, setDebounced] = useState("")
   const [showForm, setShowForm] = useState(false)
+  const {setToastValues} = useToast()
   const [formValues, setFormValues] = useState({
     fullname: "",
     shortname: "",
@@ -27,11 +28,6 @@ const Schools = () => {
     search: debounced,
   })
   const ref = useNextPage({ isLoading, hasNextPage, fetchNextPage })
-const [notification, setNotification] = useState({
-  isActive: false,
-  message: "",
-  status: "success",
-})
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -52,10 +48,11 @@ const [notification, setNotification] = useState({
   const addSchool = async (val: any) => {
     try {
       const response = await axiosdata.value.post("/api/schools", val)
-      setNotification({
+      setToastValues({
         isActive: true,
         message: "School added successfully",
         status: "success",
+        duration: 2000,
       })
       return response.data
     } catch (err) {
@@ -85,12 +82,6 @@ const [notification, setNotification] = useState({
 
   return (
     <div className="w-full flex flex-col pb-3">
-           <Toast
-        isActive={notification.isActive}
-        setIsActive={setNotification}
-        message={notification.message}
-        status={notification.status}
-        />
       <h2 className="otherHead mx-auto text-2xl font-bold mb-6">List of Available Schools</h2>
       <Searchbar
         search={search}

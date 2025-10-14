@@ -8,6 +8,7 @@ import Notification from '@lib/Notification'
 import {auth} from '@auth'
 import Header from "@components/admin/Header";
 import Nav from '@components/Nav';
+import Toast from '@components/Toast'
 
 export const metadata = {
   title: "Firstestate | Admin",
@@ -27,6 +28,7 @@ export default async function AdminLayout({children}){
          <Provider>
       <User>
         <Notification>
+          <Toast>
    <div className= 'admin-container'>
  <Sidebar session={session}/>
  <div className="admin-content-container nobar null">
@@ -35,6 +37,7 @@ export default async function AdminLayout({children}){
    {children}
  </div>
  </div>
+ </Toast>
   </Notification>
       </User>
     </Provider>

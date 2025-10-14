@@ -31,15 +31,11 @@ import { useUser } from "@utils/user"
 import { ReportListingModal } from "@components/Modals"
 import { axiosdata } from "@utils/axiosUrl"
 import { useMutation } from "@tanstack/react-query"
-import Toast from "@components/Toast"
+import { useToast } from "@utils/Toast"
 import { previousDay } from "date-fns"
 
 const SingleListing = ({ listingId }: { listingId: string }) => {
-  const [notification, setNotification] = useState({
-    isActive: false,
-    message: "",
-    status: "",
-  })
+   const {setToastValues} = useToast()
   const { session } = useUser()
   const [isSwiperLoaded, setIsSwiperLoaded] = useState(false)
   const { darkMode } = useDarkMode()
@@ -79,7 +75,7 @@ const SingleListing = ({ listingId }: { listingId: string }) => {
   const addToWishList = async (val: { listingId: string | null }) => {
     try {
       const res = await axiosdata.value.post("/api/listings/wishlists", val)
-      setNotification({
+      setToastValues({
         isActive: true,
         message: res?.data.message,
         status: res.status === 201 ? "success" : "danger",
@@ -87,7 +83,7 @@ const SingleListing = ({ listingId }: { listingId: string }) => {
 
       return res
     } catch (err: any) {
-      setNotification({
+      setToastValues({
         isActive: true,
         message: err?.response?.data.message,
         status: "danger",
@@ -130,12 +126,6 @@ const SingleListing = ({ listingId }: { listingId: string }) => {
   }
   return (
     <>
-      <Toast
-        isActive={notification.isActive}
-        setIsActive={setNotification}
-        message={notification.message}
-        status={notification.status}
-      />
       <div className="singleCardCon">
         <div className="singleCardSection">
           <div className="single_card">
@@ -249,9 +239,10 @@ const SingleListing = ({ listingId }: { listingId: string }) => {
 
             {/*admin options  */}
             {session?.user.role === "admin" ? (
-              <div 
-              id="adminOptions"
-              className="flex flex-col items-center w-full text-gray-500 dark:text-white text-sm">
+              <div
+                id="adminOptions"
+                className="flex flex-col items-center w-full text-gray-500 dark:text-white text-sm"
+              >
                 You have admin priviledges, you can delete this listing
                 <div
                   onClick={() => {

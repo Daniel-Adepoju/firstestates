@@ -247,7 +247,6 @@ const ListingForm = () => {
   }
   return (
     <>
-      {/* <Nav/> */}
       <div className="form_container listing">
         <div className="title_heading">
           <h2>Create a new listing</h2>

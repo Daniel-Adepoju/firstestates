@@ -147,14 +147,11 @@ export const POST = async (req) => {
   try {
     const session = await auth()
     await connectToDB()
-    const { requester, listing, requestType, budget, description } = await req.json()
-
-    const newRequest = new Request({
-      requester: session?.user.id || requester,
-      listing,
-      requestType,
-      budget,
-      description,
+    const {val} = await req.json()
+   
+  const newRequest = new Request({
+      ...val,
+      requester: session?.user.id,
     })
 
     await newRequest.save()
@@ -164,4 +161,20 @@ export const POST = async (req) => {
     console.error(err)
     return NextResponse.json({ error: err.message }, { status: 500 })
   }
+}
+
+export const PATCH = async (req) => {
+  await connectToDB()
+}
+
+export const DELETE = async (req) => {
+    try {
+      await connectToDB()
+      const {id} = await req.json()
+      await Request.findByIdAndDelete(id)
+      return NextResponse.json({ message: "Request deleted" }, { status: 200 })
+    } catch (err) {
+      console.error(err)
+      return NextResponse.json({ error: err.message }, { status: 500 })
+    }
 }
