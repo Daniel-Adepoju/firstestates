@@ -67,7 +67,7 @@ const SchoolFocus = () => {
               refValue={index === items?.requests?.length - 1 ? pendingNextPageRef : null}
               key={request._id}
               request={request}
-              
+              isAgent={true}
             />
           ))
         )
@@ -115,7 +115,7 @@ const SchoolFocus = () => {
 
       {/* pending requests header */}
       <div className="flex items-center w-[98%] mt-4.5 pb-2">
-        <h2 className="headersFont w-120 px-4 text-lg">Pending Requests</h2>
+        <h2 className="headersFont w-120 px-4 text-lg dark:text-white">Pending Requests</h2>
         {!pendingLoading && <ScrollController scrollRef={scrollRef} />}
       </div>
 
@@ -139,7 +139,7 @@ const SchoolFocus = () => {
 
       {/* accepted requests header */}
       <div className="flex items-center w-[98%] pb-2">
-        <h2 className="headersFont w-120 px-4 text-lg">Accepted Requests</h2>
+        <h2 className="headersFont w-120 px-4 text-lg dark:text-white">Accepted Requests</h2>
         {!acceptedLoading && <ScrollController scrollRef={scrollRef2} />}
       </div>
 

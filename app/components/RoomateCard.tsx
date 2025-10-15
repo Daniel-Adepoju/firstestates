@@ -1,17 +1,27 @@
 import { CldImage } from "next-cloudinary"
-import { AlertTriangle, ArrowLeft, ArrowRight, Bookmark, MapPin, MessageCircle } from "lucide-react"
+import {
+  AlertTriangle,
+  ArrowLeft,
+  ArrowRight,
+  Bookmark,
+  Check,
+  MapPin,
+  MessageCircle,
+  X,
+} from "lucide-react"
 import { useState } from "react"
 import Button from "@lib/Button"
 import { truncateAddress } from "@utils/truncateAddress"
 import Link from "next/link"
 import { useNextPage } from "@lib/useIntersection"
-
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 interface RoomateCardProps {
   request: Request
   rentedRequest?: boolean
   refValue?: ReturnType<typeof useNextPage> | null
   firstItem?: boolean
   lastItem?: boolean
+  isAgent?: boolean
 }
 const RoomateCard = ({
   request,
@@ -19,16 +29,48 @@ const RoomateCard = ({
   refValue,
   firstItem,
   lastItem,
+  isAgent = false,
 }: RoomateCardProps) => {
   const [showListing, setShowListing] = useState(false)
   return (
     <div
-
       ref={refValue}
-      className={`w-90 snap-center border-4 border-red-700 ${firstItem ? "ml-10" : ""} ${
-        lastItem ? "mr-10" : ""
-      }`}
+      className={`w-90 snap-center ${firstItem ? "ml-10" : ""} ${lastItem ? "mr-10" : ""}`}
     >
+      {isAgent && (
+        <div className="flex items-center justify-start gap-4 pl-1">
+         {/* Accept */}
+          <Popover>
+            <PopoverTrigger>
+              <Button
+                className="clickable flex items-center justify-center bg-darkblue dark:bg-coffee rounded-full w-10 h-10 mb-1  mt-[-7px] shadow-sm"
+              >
+                <Check color="white" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="flex flex-col items-center gap-2 shadow-sm bg-gray-100 dark:bg-gray-700">
+             <div className="text-black dark:text-white">Accept this request</div>
+              <div className="clickable text-white font-bold bg-darkblue dark:bg-coffee rounded-2xl cursor-pointer w-24 h-8 flex items-center justify-center">Proceed</div>
+            </PopoverContent>
+          </Popover>
+
+{/* Decline */}
+          <Popover>
+            <PopoverTrigger>
+              <Button
+                className="clickable flex items-center justify-center bg-red-700 dark:bg-red-800 rounded-full w-10 h-10 mb-1  mt-[-7px] shadow-sm"
+              >
+                <X color="white" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="flex flex-col items-center gap-2 shadow-sm bg-gray-100 dark:bg-gray-700">
+             <div className="text-black dark:text-white">Decline this request</div>
+              <div className="clickable text-white font-bold bg-red-700 dark:bg-red-800 rounded-2xl cursor-pointer w-24 h-8 flex items-center justify-center">Proceed</div>
+            </PopoverContent>
+          </Popover>
+        </div>
+      )}
+
       {!showListing ? (
         <div
           key={request._id}
