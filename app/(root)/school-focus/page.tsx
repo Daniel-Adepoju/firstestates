@@ -48,9 +48,7 @@ const SchoolFocus = () => {
     isLoading: coRentLoading,
     hasNextPage: coRentHasNextPage,
     fetchNextPage: coRentFetchNextPage,
-    
   })
-
 
   //  roommate fetch
   const {
@@ -77,29 +75,29 @@ const SchoolFocus = () => {
   const coRentMap =
     coRentRequests?.pages[0]?.requests?.length > 0
       ? coRentRequests?.pages.flatMap((items) =>
-          items?.requests?.flatMap((request: Request,index:number) => (
+          items?.requests?.flatMap((request: Request, index: number) => (
             <RoomateCard
-              refValue={ index === items?.requests?.length - 1 ? coRentNextPageRef : null}
+              refValue={index === items?.requests?.length - 1 ? coRentNextPageRef : null}
               key={request._id}
               request={request}
+              // firstItem={index === 0}
+              // lastItem={index === items?.requests?.length - 1}
             />
           ))
         )
       : "No co-rent requests found"
 
-      // roommate map
+  // roommate map
   const roommateMap =
     roommateRequests?.pages[0]?.requests?.length > 0
       ? roommateRequests?.pages.flatMap((items) =>
-          items?.requests?.flatMap((request: Request,index:number) => (
+          items?.requests?.flatMap((request: Request, index: number) => (
             <RoomateCard
-              refValue={
-                items?.requests?.length - 1 === index
-                  ? roommateNextPageRef
-                  : null
-              }
+              refValue={items?.requests?.length - 1 === index ? roommateNextPageRef : null}
               key={request._id}
               request={request}
+              //   firstItem={index === 0}
+              // lastItem={index === items?.requests?.length - 1}
             />
           ))
         )
@@ -126,7 +124,7 @@ const SchoolFocus = () => {
   }
 
   return (
-    <div className="w-full mt-20 mb-10">
+    <div className="w-full mt-20 mb-10 px-1.5">
       {school && (
         <h1 className="text-3xl font-bold text-center mb-1 headersFont capitalize">
           School Focus - {school}
@@ -150,10 +148,15 @@ const SchoolFocus = () => {
           coRentRequests?.pages[0]?.requests?.length > 0 || coRentLoading
             ? "h-90"
             : "h-20 whitespace-nowrap mx-auto w-100 flex items-center justify-center text-sm"
-        } gap-6 p-2  snap-x snap-mandatory overflow-x-scroll nobar null`}
+        } gap-6 p-2 snap-x snap-mandatory overflow-x-scroll nobar null`}
       >
         {!coRentLoading ? coRentMap : loadingMap(9, true)}
-     {coRentIsFetchingNextPage && <MoreVertical size={50} className=" h-8 w-8 my-auto  text-gray-500 dark:text-gray-100 animate-pulse" />}
+        {coRentIsFetchingNextPage && (
+          <MoreVertical
+            size={50}
+            className=" h-8 w-8 my-auto  text-gray-500 dark:text-gray-100 animate-pulse"
+          />
+        )}
       </section>
 
       {/* roommate requests header */}
@@ -172,7 +175,12 @@ const SchoolFocus = () => {
         } gap-6 p-2  snap-x snap-mandatory overflow-x-scroll nobar null`}
       >
         {!roommateLoading ? roommateMap : loadingMap(9, true)}
-       {roommateIsFetchingNextPage && <MoreVertical size={50} className="h-8 w-8 my-auto  text-gray-500 dark:text-gray-100 animate-pulse" />}
+        {roommateIsFetchingNextPage && (
+          <MoreVertical
+            size={50}
+            className="h-8 w-8 my-auto  text-gray-500 dark:text-gray-100 animate-pulse"
+          />
+        )}
       </section>
 
       {/*listings in school*/}

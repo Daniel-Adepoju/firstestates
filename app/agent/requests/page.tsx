@@ -67,6 +67,7 @@ const SchoolFocus = () => {
               refValue={index === items?.requests?.length - 1 ? pendingNextPageRef : null}
               key={request._id}
               request={request}
+              
             />
           ))
         )
