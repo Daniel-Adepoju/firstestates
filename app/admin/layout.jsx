@@ -8,7 +8,7 @@ import Notification from '@lib/Notification'
 import {auth} from '@auth'
 import Header from "@components/admin/Header";
 import Nav from '@components/Nav';
-import Toast from '@components/Toast'
+import Toast from '@utils/Toast'
 
 export const metadata = {
   title: "Firstestate | Admin",

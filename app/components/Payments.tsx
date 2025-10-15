@@ -17,9 +17,10 @@ interface PaymentProps {
     data: any[];
     isLoading: boolean;
     admin?:boolean;
+    type?:string;
 }
 
-const Payments = ({data,isLoading=true,admin}: PaymentProps) => {
+const Payments = ({data,isLoading=true,admin,type='made-by-you'}: PaymentProps) => {
 
 const {darkMode} = useDarkMode()
 const mappedData = data?.map((item:any) => {
@@ -33,7 +34,7 @@ const mappedData = data?.map((item:any) => {
 if(isLoading) {
     return (
        <div className="w-full h-56 p-2 pt-4 pb-10 rounded-2xl shadow otherCard">
-      <h2 className="text-xl font-semibold subheading">Payments - Last 6 Months</h2>
+      <h2 className="text-xl font-semibold subheading">{type === 'made-by-you' ? 'Payments - Last 6 Months' : 'Payments Made By You - Last 6 Months'}</h2>
       <div className='
       border-2 border-dashed border-gray-400 h-30
       mt-4 flex justify-center items-center gap-1 font-semibold text-gray-700 dark:text-white'>

@@ -19,6 +19,7 @@ interface Config {
   status?: string
   requestType?: string
   requester?: string
+  agent?:string
 }
 
 // interface ListingParams {
@@ -369,17 +370,19 @@ export const useGetRequests = ({
   school='',
   requester='',
   enabled = false,
+  agent='',
+  status=''
 }: Config) => {
   const getRequests = async (page: string) => {
     const res = await axiosdata.value.get(
-      `/api/requests?page=${page}&limit=${limit}&requestType=${requestType}&school=${school}&currentUser=${requester}`
+      `/api/requests?page=${page}&limit=${limit}&status=${status}&requestType=${requestType}&school=${school}&currentUser=${requester}&agent=${agent}`
     )
     return res.data
   }
 
  const { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["requests", school,requestType,requester],
+      queryKey: ["requests", school,requestType,requester,status],
       initialPageParam: 1,
       getNextPageParam: (prevData: any) => {
         return prevData?.cursor && prevData?.cursor !== prevData.numOfPages

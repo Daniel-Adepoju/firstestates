@@ -13,12 +13,9 @@ interface RoomateCardProps {
 }
 const RoomateCard = ({ request, rentedRequest,refValue}: RoomateCardProps) => {
   const [showListing, setShowListing] = useState(false)
-
-// console.log(refValue)
   return  (
 <div ref={refValue}>
-  jj
-
+  {!showListing ? (
     <div
       className={`snap-center w-90 h-50 rounded-sm p-2 mx-auto ${
         rentedRequest ? "bg-blue-600/90 dark:bg-amber-400/70" : "bg-darkblue dark:bg-coffee"
@@ -78,7 +75,55 @@ const RoomateCard = ({ request, rentedRequest,refValue}: RoomateCardProps) => {
         </div>
       </div>
     </div>
-  
+  ) : (
+    <div
+      className={`snap-center w-90 h-80 rounded-sm p-2 mx-auto ${
+        rentedRequest ? "bg-blue-800/90 dark:bg-amber-400/70" : "bg-darkblue dark:bg-coffee"
+      }`}
+    >
+      <div className="flex flex-col w-full">
+        <Button
+          className="clickable directional border-20 border-red-700 text-white  h-32 mb-2  mt-[-7px] shadow-md"
+          text="Show Applicant"
+          functions={() => {
+            setShowListing(false)
+          }}
+        ></Button>
+      {request?.listing.mainImage && (
+         <CldImage
+          src={request?.listing.mainImage}
+          alt="ee"
+          width={150}
+          height={150}
+          gravity="center"
+          className="rounded-lg mx-auto w-full h-40 aspect-square object-fill object-center"
+        />
+  )}
+      </div>
+      {/* options row */}
+      <div className="w-full h-25 flex flex-col items-center  gap-1.5 mt-1.5 py-2 rounded-sm bg-white dark:bg-gray-700 border-1 border-black/30 dark:border-black">
+        <div className="text-lg font-bold self-start ml-8">
+          {request?.listing.location}
+        </div>
+        <p className="text-sm font-head flex items-center gap-1">
+          <MapPin
+            size={15}
+            className=" dark:text-white"
+          />
+          {truncateAddress(request?.listing.address, 38)}
+        </p>
+        <Link
+        href={`/listings/single_listing?id=${request?.listing._id}`}
+        className="flex items-center gap-1 font-bold cursor-pointer">
+          <ArrowRight
+            size={20}
+            className="dark:text-white"
+          />
+          <span>View Listing</span>
+        </Link>
+      </div>
+    </div>)
+    }
 </div>
   
   )

@@ -132,7 +132,8 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
           isActive: true,
           duration: 2000,
         })
-        router.push("/requests")
+        resetInputValues()
+        router.back()
       } else {
         setToastValues({
           message: "Request failed, try agin",

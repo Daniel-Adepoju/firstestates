@@ -9,6 +9,7 @@ To Do In request
 To Do In Agent
 Accept or decline pending request
 Show all accepted requests
+(send email to requester, do torrentboy)
 
 
 Add field for premium agent

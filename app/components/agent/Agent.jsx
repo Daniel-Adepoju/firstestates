@@ -64,7 +64,7 @@ const Agent = ({ agent }) => {
 
             {userId !== agent?._id ||
               (userId === agent.id && (
-                <div className="md:w-100 dark:bg-black/10 bg-gray-100/70 pt-2 pb-2.5 px-4  px-4 rounded-lg mt-6 font-bold flex flex-row gap-2 items-center">
+                <div className="md:w-100 dark:bg-black/10 bg-gray-100/70 pt-2 pb-2.5 px-4 rounded-lg mt-6 font-bold flex flex-row gap-2 items-center">
                   <MessageCircle
                     size={34}
                     color={darkMode ? "#A88F6E" : "#0874c7"}

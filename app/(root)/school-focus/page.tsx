@@ -38,7 +38,7 @@ const SchoolFocus = () => {
     fetchNextPage: coRentFetchNextPage,
     isFetchingNextPage: coRentIsFetchingNextPage,
   } = useGetRequests({
-    limit: 2,
+    limit: 12,
     school: school || "",
     requestType: "co-rent",
     requester: session?.user.id,
@@ -50,7 +50,7 @@ const SchoolFocus = () => {
     fetchNextPage: coRentFetchNextPage,
     
   })
-  console.log(coRentRequests)
+
 
   //  roommate fetch
   const {
@@ -60,7 +60,7 @@ const SchoolFocus = () => {
     fetchNextPage: roommateFetchNextPage,
     isFetchingNextPage: roommateIsFetchingNextPage,
   } = useGetRequests({
-    limit: 4,
+    limit: 12,
     school: school || "",
     requestType: "roommate",
     requester: session?.user.id,
@@ -132,10 +132,6 @@ const SchoolFocus = () => {
           School Focus - {school}
         </h1>
       )}
-     <div
-     onClick={() => coRentFetchNextPage()}
-     className="text-3xl"
-     >Next</div>
       <p className="text-center text-sm p-2 text-gray-700 dark:text-gray-200">
         {`Welcome to School Focus${displayName}. Here you can find listings and roommate requests near your school of choice.`}
       </p>
@@ -176,7 +172,7 @@ const SchoolFocus = () => {
         } gap-6 p-2  snap-x snap-mandatory overflow-x-scroll nobar null`}
       >
         {!roommateLoading ? roommateMap : loadingMap(9, true)}
-       {roommateIsFetchingNextPage && <MoreVertical className="h-8 w-8 my-auto  text-gray-500 dark:text-gray-100 animate-pulse" />}
+       {roommateIsFetchingNextPage && <MoreVertical size={50} className="h-8 w-8 my-auto  text-gray-500 dark:text-gray-100 animate-pulse" />}
       </section>
 
       {/*listings in school*/}

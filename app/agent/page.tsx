@@ -98,7 +98,9 @@ const {data:paymentData,isLoading:paymentLoading} = useGetAgentPayments({userId,
    {/* payment stats */}
         <Payments
           data={paymentData}
-          isLoading={paymentLoading} />
+          isLoading={paymentLoading}
+          type={'made-by-you'}
+          />
 
 {/* listing stats */}
         <div className="adminDashboard_content grid grid-cols-1 md:grid-cols-2 items-center justify-center gap-4 dark:text-white self-center">

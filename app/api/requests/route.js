@@ -5,21 +5,33 @@ import { auth } from "@auth"
 import mongoose from "mongoose"
 
 export const GET = async (req) => {
+
   const { searchParams } = new URL(req.url)
   const page = Number(searchParams.get("page")) || 1
   const limit = Number(searchParams.get("limit")) || 10
-  const school = searchParams.get("school")
+  const school = searchParams.get("school") || ""
   const status = searchParams.get("status") || ""
   const currentUser = searchParams.get("currentUser") || ""
   const requestType = searchParams.get("requestType") || ""
+  const agentId = searchParams.get("agent") || ""
   const skipNum = (page - 1) * limit
   let cursor = page
 
+
+  // validity of ids
   let currentUserId
 
   if (mongoose.Types.ObjectId.isValid(currentUser)) {
     currentUserId = new mongoose.Types.ObjectId(currentUser)
   }
+  let agentObjectId
+
+  if (mongoose.Types.ObjectId.isValid(agentId)) {
+    agentObjectId = new mongoose.Types.ObjectId(agentId)
+  }
+  console.log({agentId,agentObjectId})
+
+  // initialize match conditions
 
   const matchConditions = []
 
@@ -47,6 +59,11 @@ export const GET = async (req) => {
     matchConditions.push({ "requester._id": { $ne: currentUserId } })
   }
 
+  // Filter by agentId
+  if (agentObjectId) {
+    matchConditions.push({ "listing.agent":  agentObjectId })
+  }
+
   try {
     const session = await auth()
     await connectToDB()
@@ -55,6 +72,8 @@ export const GET = async (req) => {
       matchConditions.length > 0 ? { $match: { $and: matchConditions } } : { $match: {} }
 
     const decayFactor = 1.3
+
+    // base pipelines
 
     const viewsPipeline = [
       {
@@ -132,15 +151,29 @@ export const GET = async (req) => {
       },
     ]
 
+    // counting docs
     const countPipeline = [...viewsPipeline, ...populatePipeline, matchStage, { $count: "total" }]
     const countResult = await Request.aggregate(countPipeline)
     const totalRequests = countResult[0]?.total || 0
     const numOfPages = Math.ceil(totalRequests / limit)
     cursor = Math.min(page, numOfPages)
-    // if (cursor >= numOfPages) cursor = numOfPages
 
+    
+    const pendingRequestsPipeline = await Request.aggregate([
+      ...populatePipeline,
+     
+      { $match: { status: "pending", "listing.agent":  mongoose.Types.ObjectId.createFromHexString(session?.user.id) } },
+      { $count: "total" },
+    ])
+    
+    const pendingRequestsLength = pendingRequestsPipeline[0]?.total || 0
+    console.log(pendingRequestsLength,session?.user.id)
+    // final
     const requests = await Request.aggregate(requestsPipeline)
-    return NextResponse.json({ requests, totalRequests, cursor, page, numOfPages }, { status: 200 })
+    return NextResponse.json(
+      { requests, totalRequests, cursor, numOfPages, pendingRequestsLength },
+      { status: 200 }
+    )
   } catch (err) {
     console.error(err)
     return NextResponse.json({ error: err.message }, { status: 500 })
@@ -169,6 +202,9 @@ export const POST = async (req) => {
 
 export const PATCH = async (req) => {
   await connectToDB()
+  const { id, status } = await req.json()
+  await Request.findByIdAndUpdate(id, { status }, { new: true, runValidators: true })
+  return NextResponse.json({ message: "Request updated" }, { status: 200 })
 }
 
 export const DELETE = async (req) => {
