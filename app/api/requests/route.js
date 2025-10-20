@@ -67,11 +67,6 @@ export const GET = async (req) => {
   try {
     const session = await auth()
     await connectToDB()
-    await sendEmail({
-      to: "torrentboy149@gmail.com",
-      subject: "Request Status Update",
-      message: `Your request status has been declined`,
-    })
     const matchStage =
       matchConditions.length > 0 ? { $match: { $and: matchConditions } } : { $match: {} }
 
@@ -224,13 +219,12 @@ export const DELETE = async (req) => {
     await connectToDB()
     const { id } = await req.json()
     const singleRequest = await Request.findById(id).populate("requester")
-   console.log(singleRequest.requester.email)
     await sendEmail({
-      to: "torrentboy149@gmail.com",
+      to: singleRequest.requester.email,
       subject: "Request Status Update",
       message: `Your ${singleRequest.requestType} request status has been declined`,
     })
-    // await singleRequest.deleteOne()
+    await singleRequest.deleteOne()
     return NextResponse.json({ message: "Request deleted" }, { status: 200 })
   } catch (err) {
     console.error(err)

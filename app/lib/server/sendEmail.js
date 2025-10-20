@@ -26,33 +26,67 @@ export const sendEmail = async ({ to, subject, message }) => {
     to: Array.isArray(to) ? to.join(",") : to,
     subject,
     html: `
-<html lang="en">
-  <body style="margin:0; padding:0; font-family:Arial, sans-serif; background-color:#f4f4f4;">
-    <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f4f4; padding: 40px 0;">
+    <html lang="en">
+  <body style="margin:0; padding:0; font-family:'Segoe UI', Arial, sans-serif; background-color:#f4f4f4;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f4f4; padding:40px 0;">
       <tr>
         <td align="center">
-          <table width="400" cellpadding="0" cellspacing="0" style="background-color:#ffffff; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.05); overflow:hidden;">
+          <table width="420" cellpadding="0" cellspacing="0" style="background-color:#ffffff; border-radius:12px; box-shadow:0 4px 14px rgba(0,0,0,0.08); overflow:hidden;">
+
+            <!-- Header -->
             <tr>
-              <td style="background-color: rgb(8, 116, 199); padding: 20px; text-align:center; color:white;">
-                <h1 style="margin:0; font-size:24px;">${subject}</h1>
+              <td style="background-color:rgb(8,116,199); padding:24px; text-align:center; color:#fff;">
+                <h1 style="margin:0; font-size:22px; font-weight:700; letter-spacing:0.3px;">
+                  ${subject}
+                </h1>
               </td>
             </tr>
+
+            <!-- Content -->
             <tr>
-              <td style="padding:30px; color:#333;">
-                <div style="margin-top: -50px; white-space:pre-wrap;">${message}</div>
-                <div style="margin: 30px 0; text-align:center;">
-                  <a href=${process.env.BASE_URL} style="background-color: rgb(8, 116, 199); color:white; padding:12px 24px; text-decoration:none; border-radius:6px; font-weight:bold;">
+              <td style="padding:36px 28px; color:#333;">
+                
+                <!-- Brand Section -->
+                <div style="display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:28px;">
+                  <div style="width:46px; height:46px; border-radius:10px; background-color:rgba(8,116,199,0.1); display:flex; align-items:center; justify-content:center;">
+                    <span style="font-size:22px; font-weight:bold; color:rgb(8,116,199);">FE</span>
+                  </div>
+                  <div>
+                    <h2 style="margin:0; font-size:24px; font-weight:800; color:rgb(8,116,199); letter-spacing:0.5px;">First Estates</h2>
+                  </div>
+                </div>
+
+                <!-- Message -->
+                <div style="margin-bottom:24px; font-size:15px; line-height:1.6; white-space:pre-wrap; text-align:left;">
+                  ${message}
+                </div>
+
+                <!-- Button -->
+                <div style="text-align:center; margin:32px 0;">
+                  <a href="${process.env.BASE_URL}" 
+                    style="display:inline-block; background-color:rgb(8,116,199); color:white; padding:14px 32px; 
+                    text-decoration:none; border-radius:8px; font-weight:600; font-size:15px; letter-spacing:0.3px; 
+                    transition:all 0.25s ease-in-out; transform:scale(1);"
+                    onmouseover="this.style.transform='scale(0.96)';"
+                    onmouseout="this.style.transform='scale(1)';">
                     Go to Homepage
                   </a>
                 </div>
-                <p style="font-size:14px; color:#666;">
-                  If you have any questions, reply to this email or visit our <a href=${process.env.BASE_URL}/help style="color:#4f46e5; text-decoration:none;">Help Center</a>.
+
+                <!-- Help Info -->
+                <p style="font-size:14px; color:#666; text-align:center; margin:0;">
+                  If you have any questions, reply to this email or visit our 
+                  <a href="${process.env.BASE_URL}/help" style="color:rgb(8,116,199); text-decoration:none; font-weight:500;">
+                    Help Center
+                  </a>.
                 </p>
               </td>
             </tr>
+
+            <!-- Footer -->
             <tr>
-              <td style="background-color:#f9fafb; padding:20px; text-align:center; font-size:12px; color:#999;">
-                &copy; ${new Date().getFullYear()} First Estates. All rights reserved.
+              <td style="background-color:#f9fafb; padding:18px; text-align:center; font-size:12px; color:#999;">
+                &copy; ${new Date().getFullYear()} <strong>First Estates</strong>. All rights reserved.
               </td>
             </tr>
           </table>
