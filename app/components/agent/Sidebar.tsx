@@ -67,10 +67,14 @@ const Sidebar = ({ session }: Session) => {
     )
     return () => unsubscribe()
   }, [session])
-  const { data: requests, isLoading: requestsLoading } = useGetRequests({ page: "1", limit: 1, enabled: true, agent: session?.user.id })
+  const { data: requests, isLoading: requestsLoading } = useGetRequests({
+    page: "1",
+    limit: 1,
+    enabled: true,
+    agent: session?.user.id,
+  })
   const { data, isLoading } = useGetNotifications({ page: "1", limit: 1 })
 
-  console.log(requests,'faa')
   return (
     <div className={`sidebar agentbar ${isCollapse && "reduceBar"}`}>
       <ul>
@@ -109,15 +113,15 @@ const Sidebar = ({ session }: Session) => {
                     </div>
                   )}
                   {/* unique to requests */}
-                  {item.name === "Manage Requests" && (
-                    <div className="absolute flex items-center flex-center w-6 h-6 top-[-16.5%] left-[0%] bg-white  text-white rounded-full px-2 py-1 text-xs font-bold smallNum">
-                      {requests?.pages[0]?.pendingRequestsLength > 0 && !requestsLoading
-                        ? requests?.pages[0]?.pendingRequestsLength > 99
+                  {item.name === "Manage Requests" &&
+                    (requests?.pages[0]?.pendingRequestsLength > 0 &&
+                    !requestsLoading) && (
+                      <div className="absolute flex items-center flex-center w-6 h-6 top-[-16.5%] left-[0%] bg-white  text-white rounded-full px-2 py-1 text-xs font-bold smallNum">
+                        {requests?.pages[0]?.pendingRequestsLength > 99
                           ? "99+"
-                          : requests?.pages[0]?.pendingRequestsLength
-                        : "0"}
-                    </div>
-                  )}
+                          : requests?.pages[0]?.pendingRequestsLength}
+                      </div>
+                    )}
                   {/* icons config */}
                   {item.icon ? (
                     <Image
@@ -126,9 +130,9 @@ const Sidebar = ({ session }: Session) => {
                       width={30}
                       height={30}
                     />
-                  ) : (
-                    item.iconLuicide ? <item.iconLuicide /> : null
-                  )}
+                  ) : item.iconLuicide ? (
+                    <item.iconLuicide />
+                  ) : null}
                   <li>{item.name}</li>
                 </a>
               </div>

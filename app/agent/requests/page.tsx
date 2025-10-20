@@ -49,7 +49,7 @@ const SchoolFocus = () => {
     limit: 12,
     status: "accepted",
     agent: session?.user.id,
-    enabled:!!session?.user.id,
+    enabled: !!session?.user.id,
   })
 
   const acceptedNextPageRef = useNextPage({
@@ -109,9 +109,9 @@ const SchoolFocus = () => {
 
   return (
     <div className="w-full mb-10">
-   <p className="text-center text-md p-2 font-semibold text-gray-700 dark:text-gray-200">
-  Manage all client roommate and co-rent requests in one place.
-</p>
+      <p className="text-center text-md p-2 font-semibold text-gray-700 dark:text-gray-200">
+        Manage all client roommate and co-rent requests in one place.
+      </p>
 
       {/* pending requests header */}
       <div className="flex items-center w-[98%] mt-4.5 pb-2">
@@ -122,7 +122,7 @@ const SchoolFocus = () => {
       {/* pending requests container */}
       <section
         ref={scrollRef}
-        className={`grid grid-flow-col auto-cols-min ${
+        className={`dark:text-white grid grid-flow-col auto-cols-min ${
           pendingRequests?.pages[0]?.requests?.length > 0 || pendingLoading
             ? "h-90"
             : "h-20 whitespace-nowrap mx-auto w-100 flex items-center justify-center text-sm"
@@ -146,7 +146,7 @@ const SchoolFocus = () => {
       {/* accepted requests container */}
       <section
         ref={scrollRef2}
-        className={`grid grid-flow-col auto-cols-min ${
+        className={`dark:text-white grid grid-flow-col auto-cols-min ${
           acceptedRequests?.pages[0]?.requests?.length > 0 || acceptedLoading
             ? "h-90"
             : "h-20 whitespace-nowrap mx-auto w-100 flex items-center justify-center text-sm"

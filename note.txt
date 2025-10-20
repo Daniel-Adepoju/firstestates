@@ -7,13 +7,12 @@ To Do In request
 
 
 To Do In Agent
-Accept or decline pending request
+
 Show all accepted requests
-(send email to requester, do torrentboy)
 
 
 Add field for premium agent
-Single Card for agent premium agent has the ability to mange listings by adding people it is rented too etc
+Single Card for agent premium agent has the ability to manage listings by adding people it is rented to etc
 
 To Do In nav
 Add More Options(Cookies,faqs, etc)

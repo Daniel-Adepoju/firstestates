@@ -42,7 +42,7 @@ const [loading,setLoading] = useState(false)
   }
 
   return (
-    <div className={`${topMargin} h-screen w-full mx-auto bg-white dark:bg-gray-700/40 shadow rounded-lg`}>
+    <div className={`${topMargin} h-[calc(100vh-100px)] md:h-[calc(100vh-20px)] w-full mx-auto bg-white dark:bg-gray-700/40 shadow rounded-lg`}>
      
      <div className='ml-2 py-2 mb-2 flex flex-row items-center gap-2 border-2 border-transparent border-b-gray-500/20'>
       {session?.user.profilePic ?  <CldImage
