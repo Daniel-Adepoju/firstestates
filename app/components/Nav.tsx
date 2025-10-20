@@ -25,11 +25,12 @@ import {
   Headset,
 } from "lucide-react"
 import { HouseSearchIcon } from "./custom-ui/Icons"
-import { useRouter } from "next/navigation"
+import { useRouter,usePathname } from "next/navigation"
 import CardOptions from "./CardOptions"
 const Nav = () => {
   const { session } = useUser()
   const router = useRouter()
+  const pathname = usePathname()
   const [navbarFixed, setnavbarFixed] = useState<boolean>(false)
   const scrollThreshold = 500
   const { backdrop, setBackdrop } = useBackdrop()
@@ -171,6 +172,8 @@ const Nav = () => {
     },
   ].filter((item) => item.condition)
 
+
+  if(pathname.includes('/chat')) return null
   return (
     <header
       id="nav"

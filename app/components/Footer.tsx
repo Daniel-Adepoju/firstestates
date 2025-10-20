@@ -3,8 +3,12 @@ import Link from "next/link"
 import Image from "next/image"
 import { footerItems } from "@lib/constants"
 import { ChevronRight } from "lucide-react"
+import { usePathname } from "next/navigation"
 const Footer = () => {
   const year = new Date().getFullYear()
+  const pathname = usePathname()
+
+  if (pathname.includes("/chat")) return null
 
 
   return (

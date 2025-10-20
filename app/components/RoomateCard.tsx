@@ -15,6 +15,10 @@ import { truncateAddress } from "@utils/truncateAddress"
 import Link from "next/link"
 import { useNextPage } from "@lib/useIntersection"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
+import { useQueryClient, useMutation } from "@tanstack/react-query"
+import { axiosdata } from "@utils/axiosUrl"
+import { useToast } from "@utils/Toast"
+
 interface RoomateCardProps {
   request: Request
   rentedRequest?: boolean
@@ -32,40 +36,113 @@ const RoomateCard = ({
   isAgent = false,
 }: RoomateCardProps) => {
   const [showListing, setShowListing] = useState(false)
+  const queryClient = useQueryClient()
+   const {setToastValues} = useToast()
+  const [isOpen,setIsOpen] = useState(false)
+  const [isDeleteOpen,setIsDeleteOpen] = useState(false)
+  
+  //  accepting requests
+  const handleAccept = async (val:any) => {
+    try {
+    const res = await axiosdata.value.patch(`/api/requests`, val)
+      if (res.status === 200) {
+        setToastValues({
+          isActive: true,
+          message: "Request accepted successfully",
+          status: "success",
+          duration: 2000,
+        })
+      } else {
+        setToastValues({
+          isActive: true,
+          message: "Request acceptance failed",
+          status: "danger",
+          duration: 2000,
+        })
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  const acceptMutation = useMutation({
+    mutationFn: handleAccept,
+    onSuccess: () => {
+      setIsOpen(false)
+      queryClient.invalidateQueries({ queryKey: ["requests"] })
+    },
+  })
+
+  // deleting requests
+  const handleDelete = async (val:any) => {
+    try {
+     const res = await axiosdata.value.delete(`/api/requests`, {data: {id: val.id}})
+      if (res.status === 200) {
+        setToastValues({
+          isActive: true,
+          message: "Request deleted successfully",
+          status: "success",
+          duration: 2000,
+        })
+      } else {
+        setToastValues({
+          isActive: true,
+          message: "Request deletion failed",
+          status: "danger",
+          duration: 2000,
+        })
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  const deleteMutation = useMutation({
+    mutationFn: handleDelete,
+    onSuccess: () => {
+      setIsDeleteOpen(false)
+      queryClient.invalidateQueries({ queryKey: ["requests"] })
+    },
+  })
+
   return (
     <div
       ref={refValue}
-      className={`w-90 snap-center ${firstItem ? "ml-10" : ""} ${lastItem ? "mr-10" : ""}`}
+      className={`w-90 snap-center ${firstItem ? "ml-10" : ""} ${lastItem ? "mr-10" : ""} `}
     >
       {isAgent && (
         <div className="flex items-center justify-start gap-4 pl-1">
-         {/* Accept */}
-          <Popover>
+          {/* Accept */}
+          <Popover open={isOpen} onOpenChange={setIsOpen}>
             <PopoverTrigger>
-              <Button
-                className="clickable flex items-center justify-center bg-darkblue dark:bg-coffee rounded-full w-10 h-10 mb-1  mt-[-7px] shadow-sm"
-              >
+              <div className="clickable flex items-center justify-center bg-darkblue dark:bg-coffee rounded-full w-10 h-10 mb-1  mt-[-7px] shadow-sm">
                 <Check color="white" />
-              </Button>
+              </div>
             </PopoverTrigger>
-            <PopoverContent className="flex flex-col items-center gap-2 shadow-sm bg-gray-100 dark:bg-gray-700">
-             <div className="text-black dark:text-white">Accept this request</div>
-              <div className="clickable text-white font-bold bg-darkblue dark:bg-coffee rounded-2xl cursor-pointer w-24 h-8 flex items-center justify-center">Proceed</div>
+            <PopoverContent 
+            
+            className="flex flex-col items-center gap-2 shadow-sm bg-gray-100 dark:bg-gray-700">
+              <div className="text-black dark:text-white">Accept this request</div>
+              <div 
+               onClick={()=>acceptMutation.mutate({id: request?._id,status:'accepted'})}
+              className="clickable text-white font-bold bg-darkblue dark:bg-coffee rounded-2xl cursor-pointer w-24 h-8 flex items-center justify-center">
+                {acceptMutation.isPending ? "Accepting" : "Accept"}
+              </div>
             </PopoverContent>
           </Popover>
 
-{/* Decline */}
-          <Popover>
+          {/* Decline */}
+          <Popover open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
             <PopoverTrigger>
-              <Button
-                className="clickable flex items-center justify-center bg-red-700 dark:bg-red-800 rounded-full w-10 h-10 mb-1  mt-[-7px] shadow-sm"
-              >
+              <div className="clickable flex items-center justify-center bg-red-700 dark:bg-red-800 rounded-full w-10 h-10 mb-1  mt-[-7px] shadow-sm">
                 <X color="white" />
-              </Button>
+              </div>
             </PopoverTrigger>
             <PopoverContent className="flex flex-col items-center gap-2 shadow-sm bg-gray-100 dark:bg-gray-700">
-             <div className="text-black dark:text-white">Decline this request</div>
-              <div className="clickable text-white font-bold bg-red-700 dark:bg-red-800 rounded-2xl cursor-pointer w-24 h-8 flex items-center justify-center">Proceed</div>
+              <div className="text-black dark:text-white">Decline this request</div>
+              <div
+               onClick={()=>deleteMutation.mutate({id: request?._id})}
+              className="clickable text-white font-bold bg-red-700 dark:bg-red-800 rounded-2xl cursor-pointer w-24 h-8 flex items-center justify-center">
+                {deleteMutation.isPending ? "Deleting" : "Delete"}
+              </div>
             </PopoverContent>
           </Popover>
         </div>
@@ -137,7 +214,7 @@ const RoomateCard = ({
       ) : (
         <div
           key={request?.listing?._id}
-          className={`w-90 h-80 rounded-sm p-2 mx-auto ${
+          className={`w-90 h-80 rounded-sm p-2 mx-auto hover:shadow-md transition-shadow duration-300 ${
             rentedRequest ? "bg-blue-800/90 dark:bg-amber-400/70" : "bg-darkblue dark:bg-coffee"
           }`}
         >

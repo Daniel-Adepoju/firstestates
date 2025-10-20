@@ -147,45 +147,44 @@ export const WishlistButton = ({
 }) => {
   const queryClient = useQueryClient()
   const pathname = usePathname()
-  const [notification, setNotification] = useState({
-    isActive: false,
-    message: "",
-    status: "",
-  })
+    const { setToastValues } = useToast()
 
   const addToWishList = async (listingId: string) => {
     let res
 
     try {
       if (isInWishList) {
-        console.log("true")
         res = await axiosdata.value.delete(`/api/listings/wishlists`, { data: { listingId } })
-        return setNotification({
+        return setToastValues({
           isActive: true,
           message: res?.data.message,
           status: res.status === 201 || res.status === 200 ? "success" : "danger",
+          duration: 2000,
         })
       } else {
         res = await axiosdata.value.post("/api/listings/wishlists", { listingId })
-        setNotification({
+        setToastValues({
           isActive: true,
           message: res?.data.message,
           status: res.status === 201 ? "success" : "danger",
+          duration: 2000,
         })
       }
     } catch (err: any) {
       console.log(err.response.data.message)
       if (err.response.data.message.startsWith("Log")) {
-        return setNotification({
+        return setToastValues({
           isActive: true,
           message: err.response.data.message,
           status: "warning",
+          duration: 2000,
         })
       }
-      setNotification({
+      setToastValues({
         isActive: true,
         message: "Failed to add to wishlist",
         status: "danger",
+        duration: 2000,
       })
     }
   }

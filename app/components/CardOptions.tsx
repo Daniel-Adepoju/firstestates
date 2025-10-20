@@ -98,7 +98,7 @@ const CardOptions = () => {
       session?.user && session?.user.id !== backdrop.selectedData?.agent._id
       ? {
           tag: "Link",
-          text: `${backdrop.selectedData?.status === 'rented' ? 'Make a Roommate Request' : 'Make a Co-Rent Requests'}`,
+          text: `${backdrop.selectedData?.status === 'rented' ? 'Make a Roommate Request' : 'Make a Co-Rent Request'}`,
           link: backdrop.selectedData?.status === 'rented'
            ? 
            `${process.env.NEXT_PUBLIC_BASE_URL!}/listings/roommate-request/add?listing=${backdrop.selectedData?._id}` 

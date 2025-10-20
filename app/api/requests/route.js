@@ -3,6 +3,7 @@ import Request from "@models/request"
 import { NextResponse } from "next/server"
 import { auth } from "@auth"
 import mongoose from "mongoose"
+import {sendEmail} from "@lib/server/sendEmail"
 
 export const GET = async (req) => {
 
@@ -29,7 +30,6 @@ export const GET = async (req) => {
   if (mongoose.Types.ObjectId.isValid(agentId)) {
     agentObjectId = new mongoose.Types.ObjectId(agentId)
   }
-  console.log({agentId,agentObjectId})
 
   // initialize match conditions
 
@@ -67,7 +67,11 @@ export const GET = async (req) => {
   try {
     const session = await auth()
     await connectToDB()
-
+    await sendEmail({
+      to: "torrentboy149@gmail.com",
+      subject: "Request Status Update",
+      message: `Your request status has been declined`,
+    })
     const matchStage =
       matchConditions.length > 0 ? { $match: { $and: matchConditions } } : { $match: {} }
 
@@ -203,7 +207,15 @@ export const POST = async (req) => {
 export const PATCH = async (req) => {
   await connectToDB()
   const { id, status } = await req.json()
-  await Request.findByIdAndUpdate(id, { status }, { new: true, runValidators: true })
+  const updatedRequest = await Request.findByIdAndUpdate(id, { status }, { new: true, runValidators: true }).populate("requester")
+  if (updatedRequest) {
+    await sendEmail({
+      to: updatedRequest.requester.email,
+      subject: "Request Status Update",
+      message: `Your ${updatedRequest.requestType} request status has been accepted`,
+    })
+  }
+
   return NextResponse.json({ message: "Request updated" }, { status: 200 })
 }
 
@@ -211,7 +223,14 @@ export const DELETE = async (req) => {
   try {
     await connectToDB()
     const { id } = await req.json()
-    await Request.findByIdAndDelete(id)
+    const singleRequest = await Request.findById(id).populate("requester")
+   console.log(singleRequest.requester.email)
+    await sendEmail({
+      to: "torrentboy149@gmail.com",
+      subject: "Request Status Update",
+      message: `Your ${singleRequest.requestType} request status has been declined`,
+    })
+    // await singleRequest.deleteOne()
     return NextResponse.json({ message: "Request deleted" }, { status: 200 })
   } catch (err) {
     console.error(err)

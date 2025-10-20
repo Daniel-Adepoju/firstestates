@@ -1,7 +1,9 @@
 
+
 import nodemailer from "nodemailer"
 
 export const sendEmail = async ({ to, subject, message }) => {
+ try {
   const transporter = nodemailer.createTransport({
     service: "zoho",
     host: "smtp.zoho.com",
@@ -11,6 +13,8 @@ export const sendEmail = async ({ to, subject, message }) => {
       user: process.env.ZOHO_EMAIL,
       pass: process.env.ZOHO_APP_PASSWORD,
     },
+    connectionTimeout: 10000,
+    socketTimeout: 10000,
     tls: {
       rejectUnauthorized: false,
       minVersion: "TLSv1.2",
@@ -61,4 +65,7 @@ export const sendEmail = async ({ to, subject, message }) => {
   }
 
   return transporter.sendMail(mailOptions)
+} catch(err) {
+  console.log(err,'sendEmail error')
+}
 }
