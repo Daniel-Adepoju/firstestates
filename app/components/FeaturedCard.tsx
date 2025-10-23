@@ -1,5 +1,6 @@
 "use client"
-import React, { useState } from "react"
+import Image from "next/image"
+import { useState } from "react"
 import { CldImage } from "next-cloudinary"
 import { truncateAddress } from "@utils/truncateAddress"
 import Link from "next/link"
@@ -59,11 +60,11 @@ const FeaturedCard = ({ edit, listing, isAgentCard }: CardProps) => {
               />
               <span>{truncateAddress(address, 30)}</span>
             </div>
-         
-               <div 
-                className=" headersFont mx-auto px-3 py-2 mt-2
+            <div
+              className=" headersFont mx-auto px-3 py-2 mt-2
                 bg-gray-50 dark:bg-gray-800/10 text-sm font-medium
-                 text-gray-700 dark:text-gray-200 shadow-sm  rounded-md">
+                 text-gray-700 dark:text-gray-200 shadow-sm  rounded-md"
+            >
               {listing?.school}
             </div>
             {/* agent */}
@@ -83,11 +84,31 @@ const FeaturedCard = ({ edit, listing, isAgentCard }: CardProps) => {
                       width={30}
                       height={30}
                       alt="agent pic"
-                      crop={'auto'}
+                      crop={"auto"}
                       className="my-1 rounded-full"
                       src={listing.agent.profilePic}
                     />
-                    {listing.agent.username}
+                    <div className="flex items-center gap-1">
+                      <span className="quickLink">{listing.agent.username}</span>
+                      {listing?.agent?.isTierOne && (
+                        <Image
+                          src={"/icons/gold-badge.svg"}
+                          alt="badge"
+                          width={18}
+                          height={18}
+                          className="rounded-full"
+                        />
+                      )}
+                      {listing?.agent?.isTierTwo && (
+                        <Image
+                          src={"/icons/silver-badge.svg"}
+                          alt="badge"
+                          width={18}
+                          height={18}
+                          className="rounded-full"
+                        />
+                      )}
+                    </div>
                   </Link>
                 </div>
               </div>

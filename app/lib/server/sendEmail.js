@@ -65,7 +65,7 @@ export const sendEmail = async ({ to, subject, message }) => {
                 </table>
 
                 <!-- Message -->
-                <div style="margin-bottom:24px; font-size:15px; line-height:1.6; white-space:pre-wrap; text-align:left;">
+                <div style="margin-bottom:24px; font-size:13px; line-height:1.6; white-space:pre-wrap; text-align:left;">
                   ${message}
                 </div>
 

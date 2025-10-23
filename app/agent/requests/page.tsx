@@ -138,7 +138,7 @@ const SchoolFocus = () => {
       </section>
 
       {/* accepted requests header */}
-      <div className="flex items-center w-[98%] pb-2">
+      <div className="mt-6 flex items-center w-[98%] pb-2">
         <h2 className="headersFont w-120 px-4 text-lg dark:text-white">Accepted Requests</h2>
         {!acceptedLoading && <ScrollController scrollRef={scrollRef2} />}
       </div>

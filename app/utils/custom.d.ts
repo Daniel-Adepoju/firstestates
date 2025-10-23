@@ -2,6 +2,8 @@ interface Agent {
   _id: string;
   profilePic: string;
   username: string;
+  isTierOne?: boolean;
+  isTierTwo?:boolean;
 }
 
 type Listing = {
@@ -44,4 +46,5 @@ interface Request {
   views?: number;
   createdAt?: Date;
   updatedAt?: Date;
+  preferredGender?: "male" | "female";
 }

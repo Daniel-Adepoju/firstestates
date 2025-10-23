@@ -39,6 +39,14 @@ const UserSchema = new Schema({
         enum:['client','agent','admin'],
         default:'client'
     },
+    isTierTwo: {
+        type:Boolean,
+        default:false
+    },
+    isTierOne: {
+        type:Boolean,
+        default:false
+    },
     lastActivityDate : {
         type:String,
         default:new Date().toLocaleDateString("en-GB")

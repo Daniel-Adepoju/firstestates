@@ -32,6 +32,8 @@ try {
       'agent.username': 1,
       'agent.email': 1,
         'agent.profilePic':1,
+        'agent.isTierOne':1,
+        'agent.isTierTwo':1,
       }
     }
       ])

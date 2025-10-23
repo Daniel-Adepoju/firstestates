@@ -1,5 +1,5 @@
 "use client"
-
+import Image from "next/image"
 import { CldImage } from "next-cloudinary"
 import { Skeleton } from "@components/ui/skeleton"
 import { MapPin, Phone, MessageCircle } from "lucide-react"
@@ -47,7 +47,27 @@ const Agent = ({ agent }) => {
                 </Link>
               </div>
               <div className="text-center md:text-left">
+                <div className="flex items-center">
                 <h1 className="text-2xl font-semibold">{agent.username}</h1>
+                {agent.isTierOne && (
+                  <Image
+                  src={'/icons/gold-badge.svg'}
+                   alt='badge'
+                  width={25}
+                  height={25}
+                  className="rounded-full"
+                  />
+                )}
+                {agent.isTierTwo && (
+                    <Image
+                  src={'/icons/silver-badge.svg'}
+                   alt='badge'
+                  width={30}
+                  height={30}
+                  className="rounded-full"
+                  />
+                )}
+                </div>
                 <p className="text-sm text-gray-400">{agent.email}</p>
               </div>
             </div>

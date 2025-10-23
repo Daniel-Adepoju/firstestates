@@ -6,7 +6,9 @@ import {
   Bookmark,
   Check,
   MapPin,
+  Mars,
   MessageCircle,
+  Venus,
   X,
 } from "lucide-react"
 import { useState } from "react"
@@ -37,14 +39,14 @@ const RoomateCard = ({
 }: RoomateCardProps) => {
   const [showListing, setShowListing] = useState(false)
   const queryClient = useQueryClient()
-   const {setToastValues} = useToast()
-  const [isOpen,setIsOpen] = useState(false)
-  const [isDeleteOpen,setIsDeleteOpen] = useState(false)
-  
+  const { setToastValues } = useToast()
+  const [isOpen, setIsOpen] = useState(false)
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false)
+
   //  accepting requests
-  const handleAccept = async (val:any) => {
+  const handleAccept = async (val: any) => {
     try {
-    const res = await axiosdata.value.patch(`/api/requests`, val)
+      const res = await axiosdata.value.patch(`/api/requests`, val)
       if (res.status === 200) {
         setToastValues({
           isActive: true,
@@ -73,9 +75,9 @@ const RoomateCard = ({
   })
 
   // deleting requests
-  const handleDelete = async (val:any) => {
+  const handleDelete = async (val: any) => {
     try {
-     const res = await axiosdata.value.delete(`/api/requests`, {data: {id: val.id}})
+      const res = await axiosdata.value.delete(`/api/requests`, { data: { id: val.id } })
       if (res.status === 200) {
         setToastValues({
           isActive: true,
@@ -111,26 +113,31 @@ const RoomateCard = ({
       {isAgent && (
         <div className="flex items-center justify-start gap-4 pl-1">
           {/* Accept */}
-          <Popover open={isOpen} onOpenChange={setIsOpen}>
+          <Popover
+            open={isOpen}
+            onOpenChange={setIsOpen}
+          >
             <PopoverTrigger>
               <div className="clickable flex items-center justify-center bg-darkblue dark:bg-coffee rounded-full w-10 h-10 mb-1  mt-[-7px] shadow-sm">
                 <Check color="white" />
               </div>
             </PopoverTrigger>
-            <PopoverContent 
-            
-            className="flex flex-col items-center gap-2 shadow-sm bg-gray-100 dark:bg-gray-700">
+            <PopoverContent className="flex flex-col items-center gap-2 shadow-sm bg-gray-100 dark:bg-gray-700">
               <div className="text-black dark:text-white">Accept this request</div>
-              <div 
-               onClick={()=>acceptMutation.mutate({id: request?._id,status:'accepted'})}
-              className="clickable text-white font-bold bg-darkblue dark:bg-coffee rounded-2xl cursor-pointer w-24 h-8 flex items-center justify-center">
+              <div
+                onClick={() => acceptMutation.mutate({ id: request?._id, status: "accepted" })}
+                className="clickable text-white font-bold bg-darkblue dark:bg-coffee rounded-2xl cursor-pointer w-24 h-8 flex items-center justify-center"
+              >
                 {acceptMutation.isPending ? "Accepting" : "Accept"}
               </div>
             </PopoverContent>
           </Popover>
 
           {/* Decline */}
-          <Popover open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
+          <Popover
+            open={isDeleteOpen}
+            onOpenChange={setIsDeleteOpen}
+          >
             <PopoverTrigger>
               <div className="clickable flex items-center justify-center bg-red-700 dark:bg-red-800 rounded-full w-10 h-10 mb-1  mt-[-7px] shadow-sm">
                 <X color="white" />
@@ -139,8 +146,9 @@ const RoomateCard = ({
             <PopoverContent className="flex flex-col items-center gap-2 shadow-sm bg-gray-100 dark:bg-gray-700">
               <div className="text-black dark:text-white">Decline this request</div>
               <div
-               onClick={()=>deleteMutation.mutate({id: request?._id})}
-              className="clickable text-white font-bold bg-red-700 dark:bg-red-800 rounded-2xl cursor-pointer w-24 h-8 flex items-center justify-center">
+                onClick={() => deleteMutation.mutate({ id: request?._id })}
+                className="clickable text-white font-bold bg-red-700 dark:bg-red-800 rounded-2xl cursor-pointer w-24 h-8 flex items-center justify-center"
+              >
                 {deleteMutation.isPending ? "Deleting" : "Delete"}
               </div>
             </PopoverContent>
@@ -174,7 +182,7 @@ const RoomateCard = ({
               {request?.requester?.username}
             </div>
 
-            {/* options row */}
+            {/* options row for request */}
             <div className="w-full flex flex-row justify-around mt-2">
               <Link href={`chat?recipientId=${request?.requester?._id}`}>
                 <div className="flex items-center gap-1 text-white font-bold">
@@ -205,7 +213,34 @@ const RoomateCard = ({
 
             {/* description box */}
             <div className="w-full h-35 bg-white dark:bg-gray-700  shadow-md rounded-md mt-2.5 p-2 overflow-y-scroll nobar null border-1 border-black/30 dark:border-black">
-              <p className="text-sm text-gray-700 dark:text-white font-head whitespace-pre-wrap">
+              {/* preferred gender */}
+              {request?.preferredGender === "male" ? (
+                <div className="flex items-center gap-1 font-head">
+                  <Mars className="text-green-400" />
+                  <span className="text-sm text-gray-700 dark:text-white">
+                    Looking for a male roommate
+                  </span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-1 font-head">
+                  <Venus className="text-pink-400" />
+                  <span className="text-sm text-gray-700 dark:text-white">
+                    Looking for a female roommate
+                  </span>
+                </div>
+              )}
+              {/* budget */}
+              {request?.budget && (
+                <div className="flex items-center gap-1 font-head">
+                  <span className="text-sm text-gray-700 dark:text-white">
+                    Budget: <span>&#8358;</span> {request?.budget.toLocaleString()} /
+                    <span> &#8358;</span> {request?.listing?.price.toLocaleString()} (
+                    {((request?.budget / request?.listing?.price) * 100).toFixed(1)}%)
+                  </span>
+                </div>
+              )}
+              {/* main description */}
+              <p className="mt-2 text-sm text-gray-700 dark:text-white  whitespace-pre-wrap">
                 {request?.description}
               </p>
             </div>

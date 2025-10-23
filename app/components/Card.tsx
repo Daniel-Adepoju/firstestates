@@ -1,4 +1,5 @@
 "use client"
+import Image from "next/image"
 import React, { useRef, useState } from "react"
 import { CldImage } from "next-cloudinary"
 import { truncateAddress } from "@utils/truncateAddress"
@@ -148,26 +149,48 @@ const Card = ({ edit, listing, isAgentCard, isInWishList ,blankSlate=false}: Car
                 {/* unique to client */}
                 {/* agent */}
                 {!isAgentCard && (
-                  <div className="agent font-list font-bold">
+                  <div className="flex flex-col items-center justify-center self-center font-list font-bold">
                     <div
                       className="w-full text-sm flex flex-col
         items-center justify-start gap-1
          break-words"
                     >
-                      {/* <div className="z-1000 text-md font-bold text-gray-600 dark:text-white">Listed By</div> */}
                       <Link
                         onClick={(e) => e.stopPropagation()}
                         href={`/agent-view/${listing?.agent?._id}`}
-                        className="block break-all text-start  agentCardName"
+                        className="block break-all text-start"
                       >
                         <CldImage
-                          width={20}
-                          height={20}
+                          width={30}
+                          height={30}
+                          crop={'auto'}
+                          gravity="center"
                           alt="agent pic"
-                          className="my-1"
+                          className="my-1 rounded-full object-cover"
                           src={listing?.agent?.profilePic}
                         />
-                        {listing?.agent?.username}
+                        <div className="flex items-center gap-1">
+                      <span className="quickLink">{listing?.agent?.username}</span>
+                             {listing?.agent?.isTierOne && (
+                                        <Image
+                                        src={'/icons/gold-badge.svg'}
+                                        alt='badge'
+                                        width={18}
+                                        height={18}
+                                        className="rounded-full"
+                                        />
+                                      )}
+                                      {listing?.agent?.isTierTwo && (
+                                          <Image
+                                        src={'/icons/silver-badge.svg'}
+                                        alt='badge'
+                                        width={18}
+                                        height={18}
+                                        className="rounded-full"
+                                        />
+                                      )}
+                        </div>
+                     
                       </Link>
                     </div>
                   </div>

@@ -131,6 +131,7 @@ export const GET = async (req) => {
           status: 1,
           requestType: 1,
           budget: 1,
+          preferredGender: 1,
           description: 1,
           requestType: 1,
           views: 1,
@@ -207,7 +208,7 @@ export const PATCH = async (req) => {
     await sendEmail({
       to: updatedRequest.requester.email,
       subject: "Request Status Update",
-      message: `Your ${updatedRequest.requestType} request status has been accepted`,
+      message: `Your ${updatedRequest.requestType} request has been accepted`,
     })
   }
 
@@ -222,7 +223,7 @@ export const DELETE = async (req) => {
     await sendEmail({
       to: singleRequest.requester.email,
       subject: "Request Status Update",
-      message: `Your ${singleRequest.requestType} request status has been declined`,
+      message: `Your ${singleRequest.requestType} request has been declined`,
     })
     await singleRequest.deleteOne()
     return NextResponse.json({ message: "Request deleted" }, { status: 200 })
