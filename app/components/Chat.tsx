@@ -100,12 +100,12 @@ if (loading) {
   }
 
   return (
-    <div className='nobar flex gap-1 w-full h-screen '>
+    <div className='nobar flex gap-1 w-full h-screen'>
         <div className='hidden md:block flex-1 w-[30%]'>
           <Inbox topMargin='0'/>
-        </div>
+        </div> 
 
-    <div className="flex-1 flex flex-col  w-full  border rounded-xl  p-4 mx-auto dark:bg-gray-700/40">
+     <div className="flex-1 flex flex-col  w-full  border rounded-xl  p-4 mx-auto dark:bg-gray-700/40">
       <div className="nobar null w-[98%] flex-1 flex flex-col overflow-y-auto space-y-2 mb-4">
       {Object.entries(groupedMessages).map(([date, msgs]) => (
   <div key={date}>
@@ -148,7 +148,7 @@ if (loading) {
       {sending ? <Loader2 size={22} className='animate-spin'/> : <SendHorizonal size={22}/>}
         </div>
       </div>
-    </div>
+    </div> 
     </div>
   );
 }
