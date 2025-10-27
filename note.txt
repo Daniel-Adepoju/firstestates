@@ -5,10 +5,10 @@
 
 To Do In request
 
+dynamic requests count in card,
+view all co rent and rent requests for cards
 
 To Do In Agent
-
-Show all accepted requests
 
 
 Add field for premium agent
@@ -17,5 +17,3 @@ Single Card for agent premium agent has the ability to manage listings by adding
 To Do In nav
 Add More Options(Cookies,faqs, etc)
 
-To Do in card
-Add to options (View Roomate Request or View Co-rent request, add to searchParams the type of requests to display in page)

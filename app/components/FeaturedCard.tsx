@@ -2,7 +2,7 @@
 import Image from "next/image"
 import { useState } from "react"
 import { CldImage } from "next-cloudinary"
-import { truncateAddress } from "@utils/truncateAddress"
+import { truncateText } from "@utils/truncateText"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useDarkMode } from "@lib/DarkModeProvider"
@@ -58,7 +58,7 @@ const FeaturedCard = ({ edit, listing, isAgentCard }: CardProps) => {
                 size={24}
                 color={darkMode ? "#A88F6E" : "#0874c7"}
               />
-              <span>{truncateAddress(address, 30)}</span>
+              <span>{truncateText(address, 30)}</span>
             </div>
             <div
               className=" headersFont mx-auto px-3 py-2 mt-2

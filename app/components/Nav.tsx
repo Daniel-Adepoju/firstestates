@@ -26,7 +26,7 @@ import {
 } from "lucide-react"
 import { HouseSearchIcon } from "./custom-ui/Icons"
 import { useRouter,usePathname } from "next/navigation"
-import CardOptions from "./CardOptions"
+
 const Nav = () => {
   const { session } = useUser()
   const router = useRouter()
@@ -265,7 +265,7 @@ const Nav = () => {
           {/* more content */}
 
           {/* display options */}
-          <CardOptions />
+
         </div>
       </div>
     </header>

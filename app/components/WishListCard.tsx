@@ -4,7 +4,7 @@ import { CldImage } from "next-cloudinary"
 import { Trash, Loader2, Heart } from "lucide-react"
 import Link from "next/link"
 import { formatNumber } from "@utils/formatNumber"
-import { truncateAddress } from "@utils/truncateAddress"
+import { truncateText } from "@utils/truncateText"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { axiosdata } from "@utils/axiosUrl"
 import { useToast } from "@utils/Toast"
@@ -71,7 +71,7 @@ const WishListCard = ({ listing, wishlistId, refValue }: WishListProps) => {
             className="
         address text-sm"
           >
-            {truncateAddress(listing.address)}
+            {truncateText(listing.address)}
           </div>
 
           {/* school */}
@@ -147,7 +147,7 @@ export const WishlistButton = ({
 }) => {
   const queryClient = useQueryClient()
   const pathname = usePathname()
-    const { setToastValues } = useToast()
+  const { setToastValues } = useToast()
 
   const addToWishList = async (listingId: string) => {
     let res

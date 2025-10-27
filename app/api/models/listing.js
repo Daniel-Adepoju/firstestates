@@ -7,6 +7,7 @@ const ListingSchema = new Schema({
     ref: User.modelName,
     required: [true, 'Agent is required'],
   },
+ 
   school: {
     type: String,
     required: [true, 'School is required'],
@@ -93,8 +94,8 @@ ListingSchema.index(
   {
     weights: {
       school: 5,
-      location: 3,
-      "agent.username": 1,
+      location: 4,
+      "agent.username": 3,
     },
     name: "TextIndex_School_Location_Agent",
   }

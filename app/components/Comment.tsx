@@ -97,6 +97,7 @@ export const WriteComment = ({ listingId }: commentCardProps) => {
           className="
         absolute bottom-0 left-5
         p-6
+        mb-2
         px-5
         backdrop-blur-xs
         w-[90%] h-10 md:w-[70%] md:left-35 lg:left-50
@@ -105,30 +106,30 @@ export const WriteComment = ({ listingId }: commentCardProps) => {
           <CldImage
             src={session?.user.profilePic}
             alt="user icon"
-            width={30}
-            height={30}
+            width={32}
+            height={32}
             crop={"auto"}
-            className=" rounded-full border-1 border-white"
+            className=" rounded-full"
           />
           <input
-            className="flex-1 w-80 p-2 rounded-lg outline-2 outline-gray-600"
+            className="flex-1 w-80 px-2 py-2.5  rounded-lg outline-2 outline-gray-600 dark:outline-gray-300 dark:placeholder-gray-300"
             type="text"
             value={content}
             required
             minLength={10}
             onChange={(e) => setContent(e.target.value)}
-            placeholder="Share your thoughts..."
+            placeholder="Write a comment..."
           />
           <button>
             {sending ? (
               <Loader2
-                size={25}
+                size={28}
                 className="animate-spin"
                 color={darkMode ? "#A88F6E" : "#0874c7"}
               />
             ) : (
               <SendHorizonal
-                size={25}
+                size={28}
                 className="cursor-pointer mediumScale"
                 color={darkMode ? "#A88F6E" : "#0874c7"}
               />

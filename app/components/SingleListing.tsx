@@ -10,7 +10,7 @@ import { CldImage } from "next-cloudinary"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Skeleton } from "@components/ui/skeleton"
-import { useGetSingleListing } from "@lib/customApi"
+import { useGetSingleListing, useGetComments, useGetInhabitants } from "@lib/customApi"
 import { useDarkMode } from "@lib/DarkModeProvider"
 import {
   MapPin,
@@ -23,25 +23,33 @@ import {
   Flag,
   ScanSearch,
   HeartPlus,
+  MoreHorizontal,
+  PlusCircle,
 } from "lucide-react"
 import { Comment, WriteComment, CommentProps } from "@components/Comment"
-import { useGetComments } from "@lib/customApi"
 import { useNextPage } from "@lib/useIntersection"
 import { useUser } from "@utils/user"
 import { ReportListingModal } from "@components/Modals"
 import { axiosdata } from "@utils/axiosUrl"
 import { useMutation } from "@tanstack/react-query"
 import { useToast } from "@utils/Toast"
-import { previousDay } from "date-fns"
+import { truncateText } from "@utils/truncateText"
+import AddInhibitant, {DeleteInhabitant} from "./agent/AddInhibitant"
+import { useBackdrop } from "@lib/Backdrop"
 
 const SingleListing = ({ listingId }: { listingId: string }) => {
-   const {setToastValues} = useToast()
+  const { setToastValues } = useToast()
   const { session } = useUser()
   const [isSwiperLoaded, setIsSwiperLoaded] = useState(false)
   const { darkMode } = useDarkMode()
   const router = useRouter()
   const reportModalRef = useRef<HTMLDialogElement>(null)
+  const { backdrop,setBackdrop } = useBackdrop()
+
+  // fetches
+  // listing
   const { data, isLoading, isError } = useGetSingleListing(listingId)
+  // comment
   const {
     data: commentsData,
     isLoading: commentLoading,
@@ -49,6 +57,13 @@ const SingleListing = ({ listingId }: { listingId: string }) => {
     fetchNextPage,
     isFetchingNextPage,
   } = useGetComments({ listingId: listingId ?? "", page: "1", limit: 10 })
+// inhabitants
+  const { data: inhabitantsData, isLoading: inhabitantsLoading } = useGetInhabitants({
+    listingId: listingId ?? "",
+    page: "1",
+    limit: 15,
+  })
+
   const ref = useNextPage({ commentLoading, hasNextPage, fetchNextPage })
 
   const handlePhoneClick = () => {
@@ -100,6 +115,31 @@ const SingleListing = ({ listingId }: { listingId: string }) => {
     wishListMutation.mutate({ listingId })
   }
 
+  // inhabitants
+
+const mappedInhabitants = inhabitantsData?.pages.flatMap((items: any) =>
+  items?.inhabitants.map((inhabitant: any) => (
+    <div
+      className="flex flex-col items-center gap-1 mt-3 py-2.5 relative"
+      key={inhabitant._id}
+    >
+      <DeleteInhabitant 
+      inhabitantId={inhabitant?._id}
+      className="absolute -top-1 -right-2"
+      />
+      <CldImage
+        src={inhabitant?.user.profilePic}
+        width={30}
+        height={30}
+        alt="inhabitant pic"
+        crop={"auto"}
+        className="rounded-full"
+      />
+      <div className="text-xs">{truncateText(inhabitant?.user.username, 12)}</div>
+    </div>
+  ))
+) ?? []
+
   if (isLoading) {
     return (
       <div className="gap-[30px] flex flex-col  items-center w-full min-h-screen">
@@ -126,6 +166,7 @@ const SingleListing = ({ listingId }: { listingId: string }) => {
   }
   return (
     <>
+   {backdrop.isOptionsOpen && <AddInhibitant isActive={backdrop.isOptionsOpen} listingId={listingId}/>}
       <div className="singleCardCon">
         <div className="singleCardSection">
           <div className="single_card">
@@ -243,19 +284,19 @@ const SingleListing = ({ listingId }: { listingId: string }) => {
                 id="adminOptions"
                 className="flex flex-col items-center w-full text-gray-500 dark:text-white text-sm"
               >
-                You have admin priviledges, you can delete this listing
+                You have admin priviledges, you can view reports and delete this listing
                 <div
                   onClick={() => {
                     router.push(`/admin/listings/${data?.post._id}`)
                   }}
-                  className="smallScale text-md font-extrabold rounded-md p-2 px-10
+                  className="mt-2 smallScale text-md font-extrabold rounded-md p-2 px-10
            bg-gray-500/10 report cursor-pointer flex flex-row items-center gap-2"
                 >
                   <ScanSearch
                     size={24}
                     color="green"
                   />
-                  <span>Investigate Listing</span>
+                  <span className="text-gray-600 dark:text-gray-200">Investigate Listing</span>
                 </div>
               </div>
             ) : // agent options
@@ -269,7 +310,7 @@ const SingleListing = ({ listingId }: { listingId: string }) => {
                 <div
                   onClick={handleReport}
                   id="clientReport"
-                  className="w-60 smallScale rounded-md p-2 px-4
+                  className="mt-2 w-60 smallScale rounded-md p-2 px-4
                bg-gray-500/10  cursor-pointer flex items-center justify-center gap-2"
                 >
                   <Flag
@@ -296,57 +337,94 @@ const SingleListing = ({ listingId }: { listingId: string }) => {
               <div>Log in to report listing </div>
             )}
           </div>
-
-          {/* agents details */}
-          <div className="single_card agent_details">
-            <div className="txt heading">Agent&apos;s Details</div>
-            <div className="details">
-              <div className="subheading">Office Address</div>
-              <div className="address">
-                <MapPin
-                  size={30}
-                  color={darkMode ? "#A88F6E" : "#0874c7"}
+          {session?.user?.id === data?.post.agent._id &&
+          !session?.user.isTierOne ||
+          !session?.user.isTierTwo ? (
+            // current inhabitants
+            <div className="w-full flex flex-col items-center pb-2">
+              <h2 className="heading">Current Residents</h2>
+              <div className="w-full flex flex-col items-center gap-2 px-3">
+                {/* inhabitants */}
+                {/* inhabitants Loading */}
+                {inhabitantsLoading ? (
+                  <MoreHorizontal
+                    size={20}
+                    className="dark:text-white text-gray-600 animate-pulse"
+                  />
+                ) : inhabitantsData?.pages[0].inhabitants.length > 0 ? (
+                 <div className="w-[98%] scrollable-2 scrollable-color overflow-x-auto grid grid-flow-col auto-cols-[30px] gap-7">
+                   {mappedInhabitants}
+                 </div>
+                 
+                ) : (
+                  <div className="py-2 text-sm dark:text-gray-200 text-gray-600 mx-auto text-center">
+                    No Resident
+                  </div>
+                )}
+                {/* add inhabitants */}
+              <div className="mx-auto flex flex-col items-center gap-1 ">
+                   <PlusCircle
+                  size={40}
+                  onClick={() => setBackdrop({isOptionsOpen: !backdrop.isOptionsOpen})}
+                  className="dark:text-white text-gray-600 smallScale cursor-pointer"
                 />
-                <span>{data?.post.agent.address}</span>
+                <span className="text-sm dark:text-gray-200 text-gray-600">Add Resident</span>
               </div>
-              <div className="subheading">Contacts</div>
-              <div className="contact_items dark:text-white text-gray-600">
-                <div
-                  className="hover:scale-95 transition-transform duration-200"
-                  onClick={handlePhoneClick}
-                >
-                  <Phone
-                    size={35}
+             
+              </div>
+            </div>
+          ) : (
+            // agents details
+            <div className="single_card agent_details">
+              <div className="txt heading">Agent&apos;s Details</div>
+              <div className="details">
+                <div className="subheading">Office Address</div>
+                <div className="address">
+                  <MapPin
+                    size={30}
                     color={darkMode ? "#A88F6E" : "#0874c7"}
                   />
+                  <span>{data?.post.agent.address}</span>
                 </div>
-                <span> {data?.post.agent.phone}</span>
-              </div>
-              {session?.user.id !== data?.post.agent._id && (
-                <div className="contact_items w-full dark:text-white text-gray-600">
+                <div className="subheading">Contacts</div>
+                <div className="contact_items dark:text-white text-gray-600">
                   <div
                     className="hover:scale-95 transition-transform duration-200"
-                    onClick={handleChatClick}
+                    onClick={handlePhoneClick}
                   >
-                    <MessageCircle
+                    <Phone
                       size={35}
                       color={darkMode ? "#A88F6E" : "#0874c7"}
                     />
                   </div>
-                  {session ? (
-                    <Link
-                      href={`/chat?recipientId=${data?.post.agent._id}`}
-                      className="cursor-pointer"
-                    >
-                      Chat With Agent
-                    </Link>
-                  ) : (
-                    <span className="w-full">Log In To Chat With Agent</span>
-                  )}
+                  <span> {data?.post.agent.phone}</span>
                 </div>
-              )}
+                {session?.user.id !== data?.post.agent._id && (
+                  <div className="contact_items w-full dark:text-white text-gray-600">
+                    <div
+                      className="hover:scale-95 transition-transform duration-200"
+                      onClick={handleChatClick}
+                    >
+                      <MessageCircle
+                        size={35}
+                        color={darkMode ? "#A88F6E" : "#0874c7"}
+                      />
+                    </div>
+                    {session ? (
+                      <Link
+                        href={`/chat?recipientId=${data?.post.agent._id}`}
+                        className="cursor-pointer"
+                      >
+                        Chat With Agent
+                      </Link>
+                    ) : (
+                      <span className="w-full">Log In To Chat With Agent</span>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         {/* report to delete */}

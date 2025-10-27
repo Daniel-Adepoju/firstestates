@@ -13,7 +13,7 @@ import {
 } from "lucide-react"
 import { useState } from "react"
 import Button from "@lib/Button"
-import { truncateAddress } from "@utils/truncateAddress"
+import { truncateText } from "@utils/truncateText"
 import Link from "next/link"
 import { useNextPage } from "@lib/useIntersection"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
@@ -280,7 +280,7 @@ const RoomateCard = ({
                 size={15}
                 className=" dark:text-white"
               />
-              {truncateAddress(request?.listing.address, 38)}
+              {truncateText(request?.listing.address, 38)}
             </p>
             <Link
               href={`/listings/single_listing?id=${request?.listing._id}`}

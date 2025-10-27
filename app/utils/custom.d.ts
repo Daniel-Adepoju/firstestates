@@ -26,6 +26,7 @@ type Listing = {
   weeklyViews?: number;
   totalViews?: number;
   isFeatured?:boolean;
+  inhabitans?:any;
 }
 
 type School = {

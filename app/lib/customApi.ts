@@ -395,3 +395,28 @@ export const useGetRequests = ({
 
     return { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage }
 }
+
+export const useGetInhabitants = ({
+  listingId,
+  agent='',
+  limit = 10,
+}: Config) => {
+  const getInhabitants = async (page: string) => {
+    const res = await axiosdata.value.get(
+      `/api/listings/inhabitants?listingId=${listingId}&limit=${limit}&page=${page}`
+    )
+    return res.data
+  }
+  const {data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage} = useInfiniteQuery({
+      queryKey: ["inhabitants", listingId,agent],
+      initialPageParam: 1,
+      getNextPageParam: (prevData: any) => {
+        return prevData?.cursor && prevData?.cursor !== prevData.numOfPages
+          ? prevData.cursor + 1
+          : undefined
+      },
+      queryFn: ({ pageParam = 1 }) => getInhabitants(String(pageParam)),
+  })
+
+  return {data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage}
+}

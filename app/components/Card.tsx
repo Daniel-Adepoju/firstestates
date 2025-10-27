@@ -2,7 +2,7 @@
 import Image from "next/image"
 import React, { useRef, useState } from "react"
 import { CldImage } from "next-cloudinary"
-import { truncateAddress } from "@utils/truncateAddress"
+import { truncateText } from "@utils/truncateText"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { DeleteModal } from "./Modals"
@@ -25,15 +25,16 @@ import { formatNumber } from "@utils/formatNumber"
 import { FeaturedBtn } from "./Featured"
 import { WishlistButton } from "./WishListCard"
 import { useBackdrop } from "@lib/Backdrop"
+import CardOptions from "./CardOptions"
 
 export interface CardProps {
   edit?: boolean
   isAgentCard?: boolean
   listing: Listing
   isInWishList?: boolean
-  blankSlate?:boolean
+  blankSlate?: boolean
 }
-const Card = ({ edit, listing, isAgentCard, isInWishList ,blankSlate=false}: CardProps) => {
+const Card = ({ edit, listing, isAgentCard, isInWishList, blankSlate = false }: CardProps) => {
   const [address] = useState(listing?.address || "Nigeria")
   const router = useRouter()
   const deleteRef = useRef<HTMLDialogElement>(null)
@@ -49,6 +50,9 @@ const Card = ({ edit, listing, isAgentCard, isInWishList ,blankSlate=false}: Car
   }
 
   const visitCard = () => {
+    if (isAgentCard) {
+      return router.push(`/listings/single_listing?id=${listing?._id}&agent=${listing?.agent?._id}`)
+    }
     router.push(`/listings/single_listing?id=${listing?._id}`)
   }
 
@@ -57,7 +61,7 @@ const Card = ({ edit, listing, isAgentCard, isInWishList ,blankSlate=false}: Car
       <div className="cardContainer">
         <div
           onClick={visitCard}
-          className={`card font-card ${blankSlate && 'blankSlate'}`}
+          className={`card font-card ${blankSlate && "blankSlate"}`}
         >
           {/* image */}
           <div className="houseImg">
@@ -84,7 +88,7 @@ const Card = ({ edit, listing, isAgentCard, isInWishList ,blankSlate=false}: Car
             )}
 
             {/*actions  */}
-            {(!blankSlate && !isAgentCard) ? (
+            {!blankSlate && !isAgentCard ? (
               <div className="flex flex-col items-center justify-center gap-1 absolute top-2 right-3 z-10">
                 <WishlistButton
                   isInWishList={isInWishList || false}
@@ -103,7 +107,9 @@ const Card = ({ edit, listing, isAgentCard, isInWishList ,blankSlate=false}: Car
                   />
                 </div>
               </div>
-            ) : ''}
+            ) : (
+              ""
+            )}
           </div>
 
           <div className="body">
@@ -116,7 +122,7 @@ const Card = ({ edit, listing, isAgentCard, isInWishList ,blankSlate=false}: Car
                 size={24}
                 color={darkMode ? "#A88F6E" : "#0874c7"}
               />
-              <span>{truncateAddress(address, 30)}</span>
+              <span>{truncateText(address, 30)}</span>
             </div>
 
             {!edit && (
@@ -163,34 +169,33 @@ const Card = ({ edit, listing, isAgentCard, isInWishList ,blankSlate=false}: Car
                         <CldImage
                           width={30}
                           height={30}
-                          crop={'auto'}
+                          crop={"auto"}
                           gravity="center"
                           alt="agent pic"
                           className="my-1 rounded-full object-cover"
                           src={listing?.agent?.profilePic}
                         />
                         <div className="flex items-center gap-1">
-                      <span className="quickLink">{listing?.agent?.username}</span>
-                             {listing?.agent?.isTierOne && (
-                                        <Image
-                                        src={'/icons/gold-badge.svg'}
-                                        alt='badge'
-                                        width={18}
-                                        height={18}
-                                        className="rounded-full"
-                                        />
-                                      )}
-                                      {listing?.agent?.isTierTwo && (
-                                          <Image
-                                        src={'/icons/silver-badge.svg'}
-                                        alt='badge'
-                                        width={18}
-                                        height={18}
-                                        className="rounded-full"
-                                        />
-                                      )}
+                          <span className="quickLink">{listing?.agent?.username}</span>
+                          {listing?.agent?.isTierOne && (
+                            <Image
+                              src={"/icons/gold-badge.svg"}
+                              alt="badge"
+                              width={18}
+                              height={18}
+                              className="rounded-full"
+                            />
+                          )}
+                          {listing?.agent?.isTierTwo && (
+                            <Image
+                              src={"/icons/silver-badge.svg"}
+                              alt="badge"
+                              width={18}
+                              height={18}
+                              className="rounded-full"
+                            />
+                          )}
                         </div>
-                     
                       </Link>
                     </div>
                   </div>
@@ -201,22 +206,16 @@ const Card = ({ edit, listing, isAgentCard, isInWishList ,blankSlate=false}: Car
                 {/* views */}
                 {isAgentCard && (
                   <div className="w-full flex flex-col pl-3 font-semibold">
-                    <div className="flex flex-row gap-3 items-center text-sm">
-                      <Eye
-                        size={30}
-                        className="text-gray-700 dark:text-white"
-                      />
+                    <div className="text-gray-500 dark:text-gray-300 flex flex-row gap-3 items-center text-sm">
+                      <Eye size={30} />
                       Past Week Views
                       <span className="views smallNum text-gray-700 dark:text-white">
                         {weeklyViews}
                       </span>
                     </div>
 
-                    <div className="flex flex-row gap-3 items-center text-sm">
-                      <Eye
-                        size={30}
-                        className="text-gray-700 dark:text-white"
-                      />
+                    <div className="text-gray-500  dark:text-gray-300 flex flex-row gap-3 items-center text-sm">
+                      <Eye size={30} />
                       Total Views
                       <span className="views smallNum">{totalViews}</span>
                     </div>
@@ -227,7 +226,7 @@ const Card = ({ edit, listing, isAgentCard, isInWishList ,blankSlate=false}: Car
           </div>
 
           {/*more content --> listing availability status,school and price*/}
-          {(!edit) && (
+          {!edit && (
             <div className="capitalize absolute top-0 left-[1px] flex flex-col items-center justify-start justify-content-start gap-1 px-2 z-2">
               {/* school*/}
               <div
@@ -260,11 +259,13 @@ const Card = ({ edit, listing, isAgentCard, isInWishList ,blankSlate=false}: Car
                 </div>
               )}
 
-{/* co-rent and roomie requests */}
+              {/* co-rent and roomie requests */}
               {showMore && (
                 <div
                   className={`animation-slide-in-top-fast headersFont w-full self-start inline-flex items-center justify-center gap-1 px-3.5 py-2 rounded-md
-                  ${listing?.status === "rented" ? 'bg-[#f29829]' : 'bg-green-700'} text-sm font-medium
+                  ${
+                    listing?.status === "rented" ? "bg-[#f29829]" : "bg-green-700"
+                  } text-sm font-medium
                    shadow-sm`}
                 >
                   {listing?.status === "rented" ? (
@@ -272,7 +273,6 @@ const Card = ({ edit, listing, isAgentCard, isInWishList ,blankSlate=false}: Car
                   ) : (
                     <span className="text-sm text-white ">3 Co-Rent Requests</span>
                   )}
-                  
                 </div>
               )}
 
@@ -284,12 +284,12 @@ const Card = ({ edit, listing, isAgentCard, isInWishList ,blankSlate=false}: Car
                 }}
                 className="clickable bg-white dark:bg-gray-700 rounded-full self-start ml-2 p-1 h-6.5 w-6.5 flex items-center justify-center"
               >
-                
-                  <ChevronDown
-                    size={20}
-                    className={`transition-transform ${showMore && 'rotate-180'} duration-500 text-gray-700 dark:text-white`}
-                  />
-
+                <ChevronDown
+                  size={20}
+                  className={`transition-transform ${
+                    showMore && "rotate-180"
+                  } duration-500 text-gray-700 dark:text-white`}
+                />
               </div>
             </div>
           )}
@@ -344,6 +344,7 @@ const Card = ({ edit, listing, isAgentCard, isInWishList ,blankSlate=false}: Car
             />
           </div>
         )}
+          <CardOptions />
       </div>
     </>
   )

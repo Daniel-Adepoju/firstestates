@@ -69,6 +69,7 @@ body {
   font-family: fn.font("list");
   @include mx.flex(column, flex-start, flex-start);
 }
+
 main {
   @extend body;
   position: relative;
@@ -183,6 +184,7 @@ main {
     }
   }
 }
+
 .activeNav {
   .toggle_nav {
     position: relative;
@@ -211,6 +213,7 @@ main {
     }
   }
 }
+
 .toggle_nav {
   gap: 5px;
   cursor: pointer;

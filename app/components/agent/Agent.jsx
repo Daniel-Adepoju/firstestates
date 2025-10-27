@@ -47,7 +47,7 @@ const Agent = ({ agent }) => {
                 </Link>
               </div>
               <div className="text-center md:text-left">
-                <div className="flex items-center">
+                <div className="flex items-center gap-1">
                 <h1 className="text-2xl font-semibold">{agent.username}</h1>
                 {agent.isTierOne && (
                   <Image
@@ -58,12 +58,12 @@ const Agent = ({ agent }) => {
                   className="rounded-full"
                   />
                 )}
-                {agent.isTierTwo && (
+                {!agent.isTierTwo && (
                     <Image
                   src={'/icons/silver-badge.svg'}
                    alt='badge'
-                  width={30}
-                  height={30}
+                  width={25}
+                  height={25}
                   className="rounded-full"
                   />
                 )}

@@ -133,7 +133,7 @@ const CardOptions = () => {
         flex flex-col gap-2
         rounded-tl-xl rounded-tr-xl 
         fixed bottom-0 left-0 md:left-[5.5%] lg:bottom-0 lg:left-[20%]
-        p-4 pb-6 text-md font-bold `}
+        p-4 pb-6 text-md font-bold z-220`}
     >
       {clientCardOptions.map((option: any, index) => (
         <div
