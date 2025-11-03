@@ -338,8 +338,8 @@ const mappedInhabitants = inhabitantsData?.pages.flatMap((items: any) =>
             )}
           </div>
           {session?.user?.id === data?.post.agent._id &&
-          !session?.user.isTierOne ||
-          !session?.user.isTierTwo ? (
+          (session?.user.isTierOne ||
+          session?.user.isTierTwo) ? (
             // current inhabitants
             <div className="w-full flex flex-col items-center pb-2">
               <h2 className="heading">Current Residents</h2>
@@ -375,6 +375,7 @@ const mappedInhabitants = inhabitantsData?.pages.flatMap((items: any) =>
             </div>
           ) : (
             // agents details
+            session?.user?.id !== data?.post.agent._id && (
             <div className="single_card agent_details">
               <div className="txt heading">Agent&apos;s Details</div>
               <div className="details">
@@ -423,7 +424,7 @@ const mappedInhabitants = inhabitantsData?.pages.flatMap((items: any) =>
                   </div>
                 )}
               </div>
-            </div>
+            </div> )
           )}
         </div>
 

@@ -92,10 +92,10 @@ const Sidebar = ({ session }: Session) => {
                 key={index}
                 className={`relative items 
          ${isActive && "active"}
-         ${isListings && item.name === "Listings" && "active"}
+     
          `}
               >
-                <a href={item.link === "/agent/listings" ? "/agent#listings" : item.link}>
+                <a href={item.link}>
                   {/* unique to notification messages */}
                   {item.name === "Messages" &&
                     !isLoading &&
@@ -114,8 +114,8 @@ const Sidebar = ({ session }: Session) => {
                   )}
                   {/* unique to requests */}
                   {item.name === "Manage Requests" &&
-                    (requests?.pages[0]?.pendingRequestsLength > 0 &&
-                    !requestsLoading) && (
+                    requests?.pages[0]?.pendingRequestsLength > 0 &&
+                    !requestsLoading && (
                       <div className="absolute flex items-center flex-center w-6 h-6 top-[-16.5%] left-[0%] bg-white  text-white rounded-full px-2 py-1 text-xs font-bold smallNum">
                         {requests?.pages[0]?.pendingRequestsLength > 99
                           ? "99+"

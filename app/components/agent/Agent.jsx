@@ -58,7 +58,7 @@ const Agent = ({ agent }) => {
                   className="rounded-full"
                   />
                 )}
-                {!agent.isTierTwo && (
+                {agent.isTierTwo && (
                     <Image
                   src={'/icons/silver-badge.svg'}
                    alt='badge'

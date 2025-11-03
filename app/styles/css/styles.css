@@ -47,7 +47,7 @@ html:is(.dark) .card_list {
   background-color: rgba(37, 37, 37, 0.146);
 }
 html:is(.dark) .card {
-  background-color: rgb(41, 42, 42);
+  background-color: #292a2a;
 }
 html:is(.dark) .card:hover::after {
   background-color: white;
@@ -699,7 +699,7 @@ a:has(.clickable) {
 .blackboard {
   z-index: 100000;
   isolation: isolate;
-  background-color: rgb(41, 42, 42);
+  background-color: #292a2a;
   color: white;
   padding: 10px;
   width: 100%;
@@ -924,6 +924,22 @@ a:has(.clickable) {
 
 .animation-slide-in-top-slow {
   animation: slide-in-top 1s linear;
+}
+
+@keyframes glassShine {
+  0% {
+    filter: brightness(1) drop-shadow(0 0 2px rgba(0, 0, 0, 0.021));
+  }
+  50% {
+    filter: brightness(1.3) drop-shadow(0 0 0.4px currentColor);
+  }
+  100% {
+    filter: brightness(1) drop-shadow(0 0 2px rgba(0, 0, 0, 0.084));
+  }
+}
+.animate-glass {
+  animation: glassShine 2.5s ease-in-out infinite;
+  transition: all 0.3s ease;
 }
 
 .loader {
@@ -1422,7 +1438,7 @@ a:has(.clickable) {
   transition: all "ease-in" ease-in;
 }
 .sidebar.agentbar {
-  background-color: rgb(41, 42, 42);
+  background-color: #292a2a;
 }
 .sidebar.reduceBar {
   width: 60px;

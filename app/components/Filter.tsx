@@ -87,7 +87,7 @@ const Filter = ({
       {active.value && (
         <form
           onSubmit={handleSubmit}
-          className="dark:bg-gray-600 bg-white mx-auto w-[88%] p-4 rounded-xl shadow space-y-4"
+          className="dark:bg-darkGray bg-white mx-auto w-[88%] p-4 rounded-xl shadow space-y-4"
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Status */}
@@ -103,7 +103,7 @@ const Filter = ({
                 name="status"
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
-                className="dark:bg-gray-600 w-full border rounded-sm p-2 py-2.5"
+                className="dark:bg-darkGray w-full border rounded-sm p-2 py-2.5"
               >
                 <option value="">All</option>
                 <option value="Available">Available</option>
@@ -124,7 +124,7 @@ const Filter = ({
                 name="school"
                 value={school}
                 onChange={(e) => setSchool(e.target.value)}
-                className="dark:bg-gray-600 w-full border rounded-sm p-2 py-2.5"
+                className="dark:bg-darkGray w-full border rounded-sm p-2 py-2.5"
               >
                 <option value="">All Schools</option>
                 {schools.map((school:School) => (
@@ -151,7 +151,7 @@ const Filter = ({
                 name="area"
                 value={area}
                 onChange={(e) => setArea(e.target.value)}
-                className="dark:bg-gray-600 w-full border rounded-sm p-2 py-2.5"
+                className="dark:bg-darkGray w-full border rounded-sm p-2 py-2.5"
               >
                 <option value="">All Areas</option>
                 {areas.map((area) => (
@@ -235,7 +235,7 @@ const Filter = ({
                   value={bedsState}
                   placeholder="0"
                   onChange={(e) => setBedsState(e.target.value)}
-                  className="w-16 p-1 border rounded text-center dark:bg-gray-600"
+                  className="w-16 p-1 border rounded text-center dark:bg-darkGray"
                 />
               </div>
               <div className="flex flex-col items-center">
@@ -253,7 +253,7 @@ const Filter = ({
                   value={bathsState}
                   placeholder="0"
                   onChange={(e) => setBathsState(e.target.value)}
-                  className="w-16 p-1 border rounded text-center dark:bg-gray-600"
+                  className="w-16 p-1 border rounded text-center dark:bg-darkGray"
                 />
               </div>
               <div className="flex flex-col items-center">
@@ -271,7 +271,7 @@ const Filter = ({
                   value={toiletsState}
                   placeholder="0"
                   onChange={(e) => setToiletsState(e.target.value)}
-                  className="w-16 p-1 border rounded text-center dark:bg-gray-600"
+                  className="w-16 p-1 border rounded text-center dark:bg-darkGray"
                 />
               </div>
             </div>

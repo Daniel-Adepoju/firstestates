@@ -197,7 +197,7 @@ export const DeleteInhabitant = ({
     if (res.status === 200) {
       setToastValues({
         isActive: true,
-        message: "Resident deleted successfully",
+        message: "Resident removed successfully",
         status: "success",
         duration: 2000,
       })

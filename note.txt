@@ -1,19 +1,27 @@
 ## Important
 
-2. Make cookie expire in 5min but resend in 60secs
-5. Add Video to singlecard section.
+Manage resident in dashboard(add search and delete)
+Update user in database and session and link to paystack subscription.
 
-To Do In request
+## To Do In request
 
 dynamic requests count in card,
 view all co rent and rent requests for cards
 
-To Do In Agent
 
 
+
+## To Do In Agent
+
+Add payment plans
 Add field for premium agent
-Single Card for agent premium agent has the ability to manage listings by adding people it is rented to etc
 
-To Do In nav
+
+
+## To Do In nav
 Add More Options(Cookies,faqs, etc)
 
+##Later
+
+2. Make cookie expire in 5min but resend in 60secs
+5. Add Video to singlecard section.
