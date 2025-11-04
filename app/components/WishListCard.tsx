@@ -217,7 +217,7 @@ export const WishlistButton = ({
               className={
                 !isInWishList
                   ? "fill-gray-500/40 text-white"
-                  : "fill-darkblue dark:fill-coffee text-white"
+                  : "fill-red-700 dark:fill-red-700 text-white"
               }
             />
           ) : (

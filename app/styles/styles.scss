@@ -307,7 +307,7 @@ footer.hide {
   right: 2.5%;
   isolation: isolate;
   animation: blink 500ms alternate infinite;
-  background-color: var(--darkblueSecondary);
+  background-color: fn.color("darkblue");
   @include mx.center();
   @media (max-width: 767.9px) {
     top: auto;
@@ -454,7 +454,7 @@ footer.hide {
         position: absolute;
         width: 100%;
         height: 2px;
-        background-color: fn.color("darkblue");
+        background-color: skyblue;
         border-radius: 20px;
         bottom: -50%;
         left: 0%;
@@ -472,15 +472,7 @@ footer.hide {
         @include mx.flex(row, center);
       }
     }
-    .school {
-      margin-inline: auto;
-      text-transform: capitalize;
-      font-size: 15px;
-      font-weight: bold;
-      color: rgb(59, 56, 56);
-      padding: 2px 18px;
-      background-color: rgba(222, 222, 222, 0.518);
-    }
+ 
     .agent {
       margin-top: 4px;
       margin-inline: auto;

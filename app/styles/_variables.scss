@@ -26,13 +26,13 @@ $fonts: (
 
 
 $color: ( 
-     'coffee': #A88F6E,
-     'darkModePrimary':#393E46 ,
+     'coffee': #032679,
+     'darkModePrimary':#1b1a20fa ,
      'darkModeSecondary':#31363F,
      'dark':#2f2d2d,
       'black': #292a2a,
       'blue': #0881a3,
-     'darkblue': #0874c7,
+     'darkblue': #032679,
      'adminBlue':#154d86,
      'white': #fffdfb,
      'deepWhite':rgb(245, 245, 245),
@@ -43,3 +43,7 @@ $color: (
      'lightBlack': #374151 ,
      'ghost': rgba(240, 239, 238, 0.292),
 );
+
+// 'coffee': #A88F6E,
+// 'darkblue': #0874c7,
+//     'darkModePrimary':#393E46 ,

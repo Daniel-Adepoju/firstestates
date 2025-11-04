@@ -120,7 +120,7 @@ const Card = ({ edit, listing, isAgentCard, isInWishList, blankSlate = false }: 
             <div className="address">
               <MapPin
                 size={24}
-                color={darkMode ? "#A88F6E" : "#0874c7"}
+                className="text-goldPrimary dark:text-bluePrimary"
               />
               <span>{truncateText(address, 30)}</span>
             </div>
@@ -132,21 +132,21 @@ const Card = ({ edit, listing, isAgentCard, isInWishList, blankSlate = false }: 
                   <div>
                     <Bed
                       size={30}
-                      color={darkMode ? "#A88F6E" : "#0874c7"}
+                      className="text-goldPrimary dark:text-bluePrimary"
                     />
                     <span className="text-gray-700 dark:text-white">{listing?.bedrooms}</span>
                   </div>
                   <div>
                     <Bath
                       size={30}
-                      color={darkMode ? "#A88F6E" : "#0874c7"}
+                      className="text-goldPrimary dark:text-bluePrimary"
                     />
                     <span className="text-gray-700 dark:text-white">{listing?.bathrooms}</span>
                   </div>
                   <div>
                     <Toilet
                       size={30}
-                      color={darkMode ? "#A88F6E" : "#0874c7"}
+                      className="text-goldPrimary dark:text-bluePrimary"
                     />
                     <span className="text-gray-700 dark:text-white">{listing?.toilets}</span>
                   </div>
@@ -344,7 +344,7 @@ const Card = ({ edit, listing, isAgentCard, isInWishList, blankSlate = false }: 
             />
           </div>
         )}
-          <CardOptions />
+        <CardOptions />
       </div>
     </>
   )

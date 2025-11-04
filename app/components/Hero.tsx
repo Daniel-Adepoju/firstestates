@@ -55,9 +55,10 @@ return  (
               </>
             ) : (
               <>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-100 leading-tight">
-                  Find Your Perfect <span className="text-blue-200 dark:text-[#8B7356]">Student Home</span>
-                </h1>
+                <div className="flex flex-col  text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+                  <span className="text-goldPrimary dark:text-blue-200">Find Your Perfect</span>
+                   <span className="text-blue-200 dark:text-goldPrimary">Student Home</span>
+                </div>
 
                 <p className="dark:text-white text-lg md:text-xl text-gray-100 max-w-lg mx-auto lg:mx-0">
                   Affordable, safe, and verified apartments near your campus.

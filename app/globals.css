@@ -47,9 +47,11 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --color-coffee: #a88f6e;
+  --color-coffee: #032679;
   --color-darkGray: #31363f;
-  --color-darkblue: #0874c7;
+  --color-darkblue: #032679;
+  --color-bluePrimary: #0881a3;
+  --color-goldPrimary: 	#f29829;
 }
 
 @theme fonts {
@@ -62,7 +64,6 @@
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
-  --darkblueSecondary: #0874c7;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -97,7 +98,6 @@
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
-  --darkblueSecondary: #a88f6e;
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);

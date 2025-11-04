@@ -32,12 +32,12 @@ const Pagination = ({ currentPage, totalPages,hashParams}:PaginationProps) => {
 
   return (
     <div className="pagination flex justify-between items-center p-4 px-8 bg-white shadow-md rounded-xl 
-    w-xs md:w-md lg:w-lg mx-auto
+    w-xs md:w-md lg:w-lg mx-auto mb-2
    
     ">
       <button
         onClick={() => navigateToPage(Math.max(1, currentPage - 1))}
-        className="dark:text-coffee text-[rgb(8,116,199)] font-semibold disabled:opacity-30"
+        className="text-foreground font-semibold disabled:opacity-30"
         disabled={currentPage === 1}
       >
         Prev
@@ -50,8 +50,8 @@ const Pagination = ({ currentPage, totalPages,hashParams}:PaginationProps) => {
             onClick={() => navigateToPage(num)}
             className={`px-3 py-1 rounded-md shadow-sm ${
               num === currentPage
-                ? 'dark:bg-coffee bg-[rgb(8,116,199)] text-white'
-                : 'dark:text-white text-[rgb(8,116,199)]'
+                ? 'bg-darkblue text-white'
+                : 'text-foreground'
             }`}
           >
             {num}
@@ -61,7 +61,7 @@ const Pagination = ({ currentPage, totalPages,hashParams}:PaginationProps) => {
 
       <button
         onClick={() => navigateToPage(Math.min(totalPages, currentPage + 1))}
-        className="dark:text-coffee text-[rgb(8,116,199)] font-semibold disabled:opacity-30"
+        className="text-foreground font-semibold disabled:opacity-30"
         disabled={currentPage === totalPages}
       >
         Next

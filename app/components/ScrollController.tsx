@@ -39,7 +39,7 @@ const ScrollController = ({ scrollRef }: ScrollControllerProps) => {
         {showLeft && (
           <div
             onClick={() => scroll("left")}
-            className="mediumScale cursor-pointer dark:bg-gray-800/50 shadow-md p-2 rounded-full"
+            className="mediumScale cursor-pointer dark:bg-darkGray shadow-md p-2 rounded-full"
           >
             <ArrowLeft
               size={30}
@@ -51,7 +51,7 @@ const ScrollController = ({ scrollRef }: ScrollControllerProps) => {
         {showRight && (
           <div
             onClick={() => scroll("right")}
-            className="mediumScale cursor-pointer dark:bg-gray-800/60 shadow-md p-2 rounded-full"
+            className="mediumScale cursor-pointer dark:bg-darkGray shadow-md p-2 rounded-full"
           >
             <ArrowRight
               size={30}

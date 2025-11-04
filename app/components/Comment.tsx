@@ -125,13 +125,13 @@ export const WriteComment = ({ listingId }: commentCardProps) => {
               <Loader2
                 size={28}
                 className="animate-spin"
-                color={darkMode ? "#A88F6E" : "#0874c7"}
+                className="text-goldPrimary dark:text-bluePrimary"
               />
             ) : (
               <SendHorizonal
                 size={28}
                 className="cursor-pointer mediumScale"
-                color={darkMode ? "#A88F6E" : "#0874c7"}
+                className="text-goldPrimary dark:text-bluePrimary"
               />
             )}
           </button>

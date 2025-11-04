@@ -34,7 +34,7 @@ import { axiosdata } from "@utils/axiosUrl"
 import { useMutation } from "@tanstack/react-query"
 import { useToast } from "@utils/Toast"
 import { truncateText } from "@utils/truncateText"
-import AddInhibitant, {DeleteInhabitant} from "./agent/AddInhibitant"
+import AddInhibitant, { DeleteInhabitant } from "./agent/AddInhibitant"
 import { useBackdrop } from "@lib/Backdrop"
 
 const SingleListing = ({ listingId }: { listingId: string }) => {
@@ -44,7 +44,7 @@ const SingleListing = ({ listingId }: { listingId: string }) => {
   const { darkMode } = useDarkMode()
   const router = useRouter()
   const reportModalRef = useRef<HTMLDialogElement>(null)
-  const { backdrop,setBackdrop } = useBackdrop()
+  const { backdrop, setBackdrop } = useBackdrop()
 
   // fetches
   // listing
@@ -57,7 +57,7 @@ const SingleListing = ({ listingId }: { listingId: string }) => {
     fetchNextPage,
     isFetchingNextPage,
   } = useGetComments({ listingId: listingId ?? "", page: "1", limit: 10 })
-// inhabitants
+  // inhabitants
   const { data: inhabitantsData, isLoading: inhabitantsLoading } = useGetInhabitants({
     listingId: listingId ?? "",
     page: "1",
@@ -117,28 +117,29 @@ const SingleListing = ({ listingId }: { listingId: string }) => {
 
   // inhabitants
 
-const mappedInhabitants = inhabitantsData?.pages.flatMap((items: any) =>
-  items?.inhabitants.map((inhabitant: any) => (
-    <div
-      className="flex flex-col items-center gap-1 mt-3 py-2.5 relative"
-      key={inhabitant._id}
-    >
-      <DeleteInhabitant 
-      inhabitantId={inhabitant?._id}
-      className="absolute -top-1 -right-2"
-      />
-      <CldImage
-        src={inhabitant?.user.profilePic}
-        width={30}
-        height={30}
-        alt="inhabitant pic"
-        crop={"auto"}
-        className="rounded-full"
-      />
-      <div className="text-xs">{truncateText(inhabitant?.user.username, 12)}</div>
-    </div>
-  ))
-) ?? []
+  const mappedInhabitants =
+    inhabitantsData?.pages.flatMap((items: any) =>
+      items?.inhabitants.map((inhabitant: any) => (
+        <div
+          className="flex flex-col items-center gap-1 mt-3 py-2.5 relative"
+          key={inhabitant._id}
+        >
+          <DeleteInhabitant
+            inhabitantId={inhabitant?._id}
+            className="absolute -top-1 -right-2"
+          />
+          <CldImage
+            src={inhabitant?.user.profilePic}
+            width={30}
+            height={30}
+            alt="inhabitant pic"
+            crop={"auto"}
+            className="rounded-full"
+          />
+          <div className="text-xs">{truncateText(inhabitant?.user.username, 12)}</div>
+        </div>
+      ))
+    ) ?? []
 
   if (isLoading) {
     return (
@@ -166,7 +167,12 @@ const mappedInhabitants = inhabitantsData?.pages.flatMap((items: any) =>
   }
   return (
     <>
-   {backdrop.isOptionsOpen && <AddInhibitant isActive={backdrop.isOptionsOpen} listingId={listingId}/>}
+      {backdrop.isOptionsOpen && (
+        <AddInhibitant
+          isActive={backdrop.isOptionsOpen}
+          listingId={listingId}
+        />
+      )}
       <div className="singleCardCon">
         <div className="singleCardSection">
           <div className="single_card">
@@ -207,7 +213,7 @@ const mappedInhabitants = inhabitantsData?.pages.flatMap((items: any) =>
               <div className="address">
                 <MapPin
                   size={30}
-                  color={darkMode ? "#A88F6E" : "#0874c7"}
+                  className="text-goldPrimary dark:text-bluePrimary"
                 />
                 <span>{data?.post.address}</span>
               </div>
@@ -218,21 +224,21 @@ const mappedInhabitants = inhabitantsData?.pages.flatMap((items: any) =>
                 <div>
                   <Bed
                     size={30}
-                    color={darkMode ? "#A88F6E" : "#0874c7"}
+                    className="text-goldPrimary dark:text-bluePrimary"
                   />
                   <span>{data?.post.bedrooms} bedrooms</span>
                 </div>
                 <div>
                   <Bath
                     size={30}
-                    color={darkMode ? "#A88F6E" : "#0874c7"}
+                    className="text-goldPrimary dark:text-bluePrimary"
                   />
                   <span>{data?.post.bathrooms} bathrooms</span>
                 </div>
                 <div>
                   <Toilet
                     size={30}
-                    color={darkMode ? "#A88F6E" : "#0874c7"}
+                    className="text-goldPrimary dark:text-bluePrimary"
                   />
                   <span>{data?.post.toilets} toilets</span>
                 </div>
@@ -338,8 +344,7 @@ const mappedInhabitants = inhabitantsData?.pages.flatMap((items: any) =>
             )}
           </div>
           {session?.user?.id === data?.post.agent._id &&
-          (session?.user.isTierOne ||
-          session?.user.isTierTwo) ? (
+          (session?.user.isTierOne || session?.user.isTierTwo) ? (
             // current inhabitants
             <div className="w-full flex flex-col items-center pb-2">
               <h2 className="heading">Current Residents</h2>
@@ -352,79 +357,78 @@ const mappedInhabitants = inhabitantsData?.pages.flatMap((items: any) =>
                     className="dark:text-white text-gray-600 animate-pulse"
                   />
                 ) : inhabitantsData?.pages[0].inhabitants.length > 0 ? (
-                 <div className="w-[98%] scrollable-2 scrollable-color overflow-x-auto grid grid-flow-col auto-cols-[30px] gap-7">
-                   {mappedInhabitants}
-                 </div>
-                 
+                  <div className="w-[98%] scrollable-2 scrollable-color overflow-x-auto grid grid-flow-col auto-cols-[30px] gap-7">
+                    {mappedInhabitants}
+                  </div>
                 ) : (
                   <div className="py-2 text-sm dark:text-gray-200 text-gray-600 mx-auto text-center">
                     No Resident
                   </div>
                 )}
                 {/* add inhabitants */}
-              <div className="mx-auto flex flex-col items-center gap-1 ">
-                   <PlusCircle
-                  size={40}
-                  onClick={() => setBackdrop({isOptionsOpen: !backdrop.isOptionsOpen})}
-                  className="dark:text-white text-gray-600 smallScale cursor-pointer"
-                />
-                <span className="text-sm dark:text-gray-200 text-gray-600">Add Resident</span>
-              </div>
-             
+                <div className="mx-auto flex flex-col items-center gap-1 ">
+                  <PlusCircle
+                    size={40}
+                    onClick={() => setBackdrop({ isOptionsOpen: !backdrop.isOptionsOpen })}
+                    className="dark:text-white text-gray-600 smallScale cursor-pointer"
+                  />
+                  <span className="text-sm dark:text-gray-200 text-gray-600">Add Resident</span>
+                </div>
               </div>
             </div>
           ) : (
             // agents details
             session?.user?.id !== data?.post.agent._id && (
-            <div className="single_card agent_details">
-              <div className="txt heading">Agent&apos;s Details</div>
-              <div className="details">
-                <div className="subheading">Office Address</div>
-                <div className="address">
-                  <MapPin
-                    size={30}
-                    color={darkMode ? "#A88F6E" : "#0874c7"}
-                  />
-                  <span>{data?.post.agent.address}</span>
-                </div>
-                <div className="subheading">Contacts</div>
-                <div className="contact_items dark:text-white text-gray-600">
-                  <div
-                    className="hover:scale-95 transition-transform duration-200"
-                    onClick={handlePhoneClick}
-                  >
-                    <Phone
-                      size={35}
-                      color={darkMode ? "#A88F6E" : "#0874c7"}
+              <div className="single_card agent_details">
+                <div className="txt heading">Agent&apos;s Details</div>
+                <div className="details">
+                  <div className="subheading">Office Address</div>
+                  <div className="address">
+                    <MapPin
+                      size={30}
+                      className="text-goldPrimary dark:text-bluePrimary"
                     />
+                    <span>{data?.post.agent.address}</span>
                   </div>
-                  <span> {data?.post.agent.phone}</span>
-                </div>
-                {session?.user.id !== data?.post.agent._id && (
-                  <div className="contact_items w-full dark:text-white text-gray-600">
+                  <div className="subheading">Contacts</div>
+                  <div className="contact_items dark:text-white text-gray-600">
                     <div
                       className="hover:scale-95 transition-transform duration-200"
-                      onClick={handleChatClick}
+                      onClick={handlePhoneClick}
                     >
-                      <MessageCircle
+                      <Phone
                         size={35}
-                        color={darkMode ? "#A88F6E" : "#0874c7"}
+                        className="text-goldPrimary dark:text-bluePrimary"
                       />
                     </div>
-                    {session ? (
-                      <Link
-                        href={`/chat?recipientId=${data?.post.agent._id}`}
-                        className="cursor-pointer"
-                      >
-                        Chat With Agent
-                      </Link>
-                    ) : (
-                      <span className="w-full">Log In To Chat With Agent</span>
-                    )}
+                    <span> {data?.post.agent.phone}</span>
                   </div>
-                )}
+                  {session?.user.id !== data?.post.agent._id && (
+                    <div className="contact_items w-full dark:text-white text-gray-600">
+                      <div
+                        className="hover:scale-95 transition-transform duration-200"
+                        onClick={handleChatClick}
+                      >
+                        <MessageCircle
+                          size={35}
+                          className="text-goldPrimary dark:text-bluePrimary"
+                        />
+                      </div>
+                      {session ? (
+                        <Link
+                          href={`/chat?recipientId=${data?.post.agent._id}`}
+                          className="cursor-pointer"
+                        >
+                          Chat With Agent
+                        </Link>
+                      ) : (
+                        <span className="w-full">Log In To Chat With Agent</span>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
-            </div> )
+            )
           )}
         </div>
 
@@ -481,7 +485,7 @@ const mappedInhabitants = inhabitantsData?.pages.flatMap((items: any) =>
                         <Loader2
                           size={20}
                           className="animate-spin absolute bottom-12 left-[50%}"
-                          color={darkMode ? "#A88F6E" : "#0874c7"}
+                          className="text-goldPrimary dark:text-bluePrimary"
                         />
                       )}
                     </div>

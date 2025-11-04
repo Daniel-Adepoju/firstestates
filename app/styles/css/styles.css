@@ -8,7 +8,7 @@ html:is(.dark) .loader {
   color: white;
 }
 html:is(.dark) body, html:is(.dark) main {
-  background-color: #393E46;
+  background-color: rgba(27, 26, 32, 0.9803921569);
   color: white;
 }
 html:is(.dark) .nav, html:is(.dark) .footer {
@@ -18,11 +18,8 @@ html:is(.dark) .nav, html:is(.dark) .footer, html:is(.dark) .nav_items {
   background-color: #31363F;
   color: white;
 }
-html:is(.dark) .nav .goUp, html:is(.dark) .footer .goUp, html:is(.dark) .nav_items .goUp {
-  background-color: black;
-}
 html:is(.dark) .footer {
-  background-color: #A88F6E;
+  background-color: #032679;
 }
 html:is(.dark) .logo {
   color: #fffdfb;
@@ -31,14 +28,14 @@ html:is(.dark) .nav_items .link_line, html:is(.dark) .nav_items span {
   color: white;
 }
 html:is(.dark) .nav_items .link_line::after, html:is(.dark) .nav_items span::after {
-  background-color: #A88F6E;
+  background-color: #032679;
 }
 html:is(.dark) .activeNav .toggle_nav .toggle_items:nth-child(2) {
   border: 4px dashed white;
   animation: rollBorderWhite 5s ease-in-out infinite;
 }
 html:is(.dark) .toggle_items {
-  background-color: #A88F6E;
+  background-color: #032679;
 }
 html:is(.dark) .subheading, html:is(.dark) .heading, html:is(.dark) .title_heading {
   color: white;
@@ -55,9 +52,6 @@ html:is(.dark) .card:hover::after {
 html:is(.dark) .card .body {
   background-color: #31363F;
 }
-html:is(.dark) .card .body .address:after {
-  background-color: #A88F6E;
-}
 html:is(.dark) .card .school {
   color: white;
   background-color: rgba(33, 36, 46, 0.546);
@@ -69,13 +63,13 @@ html:is(.dark) .single_card, html:is(.dark) .user-card {
   background-color: #31363F;
 }
 html:is(.dark) .single_card .header .house .arrow:active {
-  background-color: #A88F6E;
+  background-color: #032679;
 }
 html:is(.dark) .featured_container .card .tag.price {
   background-color: rgba(27, 27, 27, 0.936);
 }
 html:is(.dark) .typeOfAccount {
-  background-color: #A88F6E;
+  background-color: #032679;
 }
 html:is(.dark) .form label {
   opacity: 90%;
@@ -118,25 +112,22 @@ html:is(.dark) .agentProfile .agentName, html:is(.dark) .listingHistory .agentNa
   color: white;
 }
 html:is(.dark) .currency, html:is(.dark) .smallNum {
-  color: #A88F6E;
+  color: #032679;
 }
 html:is(.dark) .txt:after {
-  background-color: #A88F6E;
-}
-html:is(.dark) .quickLink {
-  color: rgb(211, 184, 47);
+  background-color: #032679;
 }
 html:is(.dark) .featured .swiper-pagination-bullet {
   background-color: rgb(255, 255, 255) !important;
 }
 html:is(.dark) .swiper-pagination-bullet {
-  background-color: #A88F6E !important;
+  background-color: #032679 !important;
 }
 html:is(.dark) .singleCardCon {
   background-color: #31363F;
 }
 html:is(.dark) .agentCardName {
-  color: #A88F6E;
+  color: #032679;
 }
 html:is(.dark) .otherCard {
   background-color: #31363F;
@@ -145,16 +136,16 @@ html:is(.dark) .otherHead {
   color: white;
 }
 html:is(.dark) .hero {
-  background-color: #A88F6E;
+  background-color: #032679;
 }
 html:is(.dark) .hero div, html:is(.dark) .hero h1 {
   color: white;
 }
 html:is(.dark) .featured {
-  background-color: #A88F6E;
+  background-color: #032679;
 }
 html:is(.dark) .darkblueBtn {
-  background-color: #A88F6E;
+  background-color: #032679;
 }
 
 .verify .inputContainer input {
@@ -267,7 +258,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 .bigNum {
   font-family: "Figtree", sans-serif;
   font-size: 25px;
-  color: #0874c7;
+  color: #032679;
 }
 .currency, .smallNum,
 .bigNum {
@@ -297,7 +288,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 
 .swiper-pagination-bullet {
   transition: 300ms ease-in-out;
-  background-color: #0874c7 !important;
+  background-color: #032679 !important;
   top: 20% !important;
   opacity: 70% !important;
 }
@@ -414,7 +405,7 @@ a:has(.clickable) {
 
 .darkblueBtn {
   gap: 10px;
-  background-color: #0874c7;
+  background-color: #032679;
   color: #fffdfb;
   border-radius: 8px;
   cursor: pointer;
@@ -479,7 +470,7 @@ a:has(.clickable) {
   justify-content: center;
 }
 .agent span {
-  color: #0874c7;
+  color: #032679;
 }
 .agent img {
   width: 30px;
@@ -525,7 +516,7 @@ a:has(.clickable) {
   padding: 12px 10px;
   border-radius: 4px;
   border: 0;
-  outline: 1px solid #0874c7;
+  outline: 1px solid #032679;
 }
 .form input,
 .form select,
@@ -577,7 +568,7 @@ a:has(.clickable) {
   outline: 0;
 }
 .bottom a {
-  color: #0874c7;
+  color: #032679;
 }
 .bottom .clickable {
   width: 300px !important;
@@ -593,7 +584,7 @@ a:has(.clickable) {
 
 .typeOfAccount {
   min-width: 100%;
-  background-color: #0874c7;
+  background-color: #032679;
   color: #fffdfb;
   font-family: "Quicksand", sans-serif;
   padding: 16px;
@@ -731,7 +722,7 @@ a:has(.clickable) {
 }
 
 .quickLink {
-  color: #0874c7;
+  color: rgb(30, 104, 201);
 }
 
 .listingInfoTooltip:hover::after {
@@ -752,7 +743,7 @@ a:has(.clickable) {
 }
 
 .hero {
-  background-color: #0874c7;
+  background-color: #032679;
   padding-block: 0;
 }
 
@@ -948,7 +939,7 @@ a:has(.clickable) {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  color: #0874c7;
+  color: #032679;
   box-shadow: calc(1 * var(--d)) calc(0 * var(--d)) 0 0, calc(0.707 * var(--d)) calc(0.707 * var(--d)) 0 1px, calc(0 * var(--d)) calc(1 * var(--d)) 0 2px, calc(-0.707 * var(--d)) calc(0.707 * var(--d)) 0 3px, calc(-1 * var(--d)) calc(0 * var(--d)) 0 4px, calc(-0.707 * var(--d)) calc(-0.707 * var(--d)) 0 5px, calc(0 * var(--d)) calc(-1 * var(--d)) 0 6px;
   animation: l27 1s infinite steps(8);
 }
@@ -1106,7 +1097,7 @@ a:has(.clickable) {
   box-shadow: 0.1px 0.1px 1.2px 1.2px rgba(116, 116, 116, 0.269);
 }
 .agentDashboardContainer .agentProfile .agentName {
-  color: #0874c7;
+  color: #032679;
   font-size: 30px;
   font-weight: 600;
 }
@@ -1719,7 +1710,7 @@ main {
   opacity: 1%;
   position: absolute;
   width: 100%;
-  background-color: #0874c7;
+  background-color: #032679;
   height: 2px;
   margin-top: 4px;
   top: 100%;
@@ -1796,7 +1787,7 @@ main {
   border-radius: 50%;
   background-color: transparent;
   opacity: 30%;
-  border: 4px dashed #0874c7;
+  border: 4px dashed #032679;
   animation: rollBorder 5s ease-in-out infinite;
 }
 .activeNav .toggle_nav .toggle_items:nth-child(2) {
@@ -1817,7 +1808,7 @@ main {
   width: 45px;
   height: 4.3px;
   border-radius: 100px;
-  background-color: #0874c7;
+  background-color: #032679;
   transform-origin: center;
 }
 .toggle_nav .toggle_items {
@@ -1840,7 +1831,7 @@ main {
   position: relative;
   margin-top: auto;
   color: white;
-  background-color: #0874c7;
+  background-color: #032679;
   padding-bottom: 80px;
   z-index: 101;
 }
@@ -1915,7 +1906,7 @@ footer.hide {
   right: 2.5%;
   isolation: isolate;
   animation: blink 500ms alternate infinite;
-  background-color: var(--darkblueSecondary);
+  background-color: #032679;
 }
 .goUp {
   display: flex;
@@ -2025,7 +2016,7 @@ footer.hide {
   transition: transform 200ms ease-in;
 }
 .card:hover::after {
-  background-color: #0874c7;
+  background-color: #032679;
   width: 100%;
   height: 0;
   animation: wobbleEffect 0.6s linear;
@@ -2104,7 +2095,7 @@ footer.hide {
   position: absolute;
   width: 100%;
   height: 2px;
-  background-color: #0874c7;
+  background-color: skyblue;
   border-radius: 20px;
   bottom: -50%;
   left: 0%;
@@ -2129,15 +2120,6 @@ footer.hide {
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-}
-.card .body .school {
-  margin-inline: auto;
-  text-transform: capitalize;
-  font-size: 15px;
-  font-weight: bold;
-  color: rgb(59, 56, 56);
-  padding: 2px 18px;
-  background-color: rgba(222, 222, 222, 0.518);
 }
 .card .body .agent {
   margin-top: 4px;
@@ -2173,7 +2155,7 @@ footer.hide {
 }
 
 .agentCardName {
-  color: #0874c7;
+  color: #032679;
   width: 40px;
   overflow-wrap: break-word;
 }
@@ -2211,7 +2193,7 @@ footer.hide {
 }
 
 .featured {
-  background-color: #0874c7;
+  background-color: #032679;
 }
 
 .featured_container .agentCardName {
@@ -2387,7 +2369,7 @@ footer.hide {
 }
 .single_card .header .house .arrow:active {
   transform: scale(0.9);
-  background-color: #0874c7;
+  background-color: #032679;
 }
 .single_card .header .house .arrow img {
   border-radius: 50%;
@@ -2610,7 +2592,7 @@ footer.hide {
   color: rgb(197, 12, 12);
 }
 .not_found a {
-  color: #0874c7;
+  color: #032679;
   font-size: 18px;
 }
 
@@ -2831,9 +2813,9 @@ footer.hide {
 }
 .verify .otp-input:focus {
   outline: none;
-  border: 2px solid #0874c7;
+  border: 2px solid #032679;
   background-color: #fffdfb;
-  color: #0874c7;
+  color: #032679;
 }
 .verify .otp-input:focus {
   transition: all 300ms ease-out;

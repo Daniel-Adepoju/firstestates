@@ -20,9 +20,6 @@ html:is(.dark) {
   .nav,.nav_items {
     background-color:color('darkModeSecondary');
     color: white;
-    .goUp {
-      background-color: black;
-    }
   }
   .footer {
     background-color: color('coffee');
@@ -76,11 +73,6 @@ html:is(.dark) {
   } 
     .body {
        background-color: color('darkModeSecondary');
-       .address {
-        &:after {
-          background-color: color('coffee');
-        }
-       }
     }
   .school {
     
@@ -188,9 +180,6 @@ html:is(.dark) {
   }
 }
  
-.quickLink {
-  color: rgb(211, 184, 47);
-}
 
 .featured {
   .swiper-pagination-bullet {

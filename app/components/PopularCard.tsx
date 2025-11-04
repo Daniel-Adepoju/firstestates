@@ -48,7 +48,9 @@ const PopularCard = ({ listing, type, refValue }: PopCardProps) => {
         )}
       </div>
 
-      <div className="text-lg text-gray-700 dark:text-white font-bold capitalize">{listing?.school}</div>
+      <div className="text-lg text-gray-700 dark:text-white font-bold capitalize">
+        {listing?.school}
+      </div>
       <div className="dark:bg-gray-700 bg-slate-100 rounded-sm text-sm mb-2 font-small capitalize">
         {listing?.location}
       </div>
@@ -57,7 +59,7 @@ const PopularCard = ({ listing, type, refValue }: PopCardProps) => {
         <div className="flex flex-col items-center">
           <Bed
             size={24}
-            color={darkMode ? "#A88F6E" : "#0874c7"}
+            className="text-goldPrimary dark:text-bluePrimary"
           />
           <span className="text-center dark:text-white text-gray-700">{listing?.bedrooms}</span>
         </div>
@@ -65,7 +67,7 @@ const PopularCard = ({ listing, type, refValue }: PopCardProps) => {
         <div className="flex flex-col items-center">
           <Bath
             size={24}
-            color={darkMode ? "#A88F6E" : "#0874c7"}
+            className="text-goldPrimary dark:text-bluePrimary"
           />
           <span className="text-center dark:text-white text-gray-700">{listing?.bathrooms}</span>
         </div>
@@ -73,7 +75,7 @@ const PopularCard = ({ listing, type, refValue }: PopCardProps) => {
         <div className="flex flex-col items-center">
           <Toilet
             size={24}
-            color={darkMode ? "#A88F6E" : "#0874c7"}
+            className="text-goldPrimary dark:text-bluePrimary"
           />
           <span className="text-center dark:text-white text-gray-700">{listing?.toilets}</span>
         </div>
