@@ -81,3 +81,20 @@ export const GET = async (req) => {
     return NextResponse.json({ message: "Failed to fetch inhabitants" }, { status: 500 })
   }
 }
+
+export const POST = async (req) => {
+  try {
+    const session = await auth()
+    await connectToDB()
+    const { val } = await req.json()
+ console.log(val, 'dd')
+    const inhabitant = new Inhabitant({...val, agent: session?.user?.id})
+    // const inhabitant = new Inhabitant({...val})
+    await inhabitant.save()
+
+    return NextResponse.json({ inhabitant }, { status: 201 })
+  } catch (err) {
+    console.log(err)
+    return NextResponse.json({ message: "Failed to update inhabitant" }, { status: 500 })
+  }
+}

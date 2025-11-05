@@ -10,13 +10,10 @@ import { Skeleton } from "@components/ui/skeleton"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { axiosdata } from "@utils/axiosUrl"
 import { useToast } from "@utils/Toast"
-import axios from "axios"
 
 const AddResident = ({
-  isActive = false,
   listingId,
 }: {
-  isActive?: boolean
   listingId?: string
 }) => {
   const queryClient = useQueryClient()
@@ -70,6 +67,7 @@ const AddResident = ({
     mutationFn: addResident,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["inhabitants"] })
+       setBackdrop({ isOptionsOpen: false })
     },
   })
 
@@ -105,7 +103,10 @@ const AddResident = ({
       {/* add user */}
       {!addResidentMutation.isPending ? (
         <PlusCircleIcon
-          onClick={() => handleAddResident(user._id)}
+          onClick={() => {
+             handleAddResident(user._id)
+            }
+          }
           className="ml-auto smallScale cursor-pointer"
         />
       ) : (
@@ -118,7 +119,7 @@ const AddResident = ({
     <div
       className="mt-30 w-[90%] lg:w-[60%] min-h-[50vh]
     flex flex-col
-     p-3 shadow-md rounded-md bg-white dark:bg-gray-700 fixed left-[5%] lg:left-[20%] z-220"
+     p-3 shadow-md rounded-md bg-white dark:bg-gray-700 fixed -top-[3%] left-[5%] lg:left-[20%] z-220"
     >
       {/* header */}
       <div className="flex justify-between items-center">
