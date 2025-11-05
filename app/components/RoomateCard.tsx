@@ -23,7 +23,6 @@ import { useToast } from "@utils/Toast"
 
 interface RoomateCardProps {
   request: Request
-  rentedRequest?: boolean
   refValue?: ReturnType<typeof useNextPage> | null
   firstItem?: boolean
   lastItem?: boolean
@@ -31,7 +30,7 @@ interface RoomateCardProps {
 }
 const RoomateCard = ({
   request,
-  rentedRequest,
+  
   refValue,
   firstItem,
   lastItem,
@@ -118,15 +117,15 @@ const RoomateCard = ({
             onOpenChange={setIsOpen}
           >
             <PopoverTrigger>
-              <div className="clickable flex items-center justify-center bg-darkblue dark:bg-coffee rounded-full w-10 h-10 mb-1  mt-[-7px] shadow-sm">
+              <div className={`clickable flex items-center justify-center bg-${request?.requestType === "roommate" ? "goldPrimary" : "green-600"} rounded-full w-10 h-10 mb-1  mt-[-7px] shadow-sm`}>
                 <Check color="white" />
               </div>
             </PopoverTrigger>
-            <PopoverContent className="flex flex-col items-center gap-2 shadow-sm bg-gray-100 dark:bg-gray-700">
+            <PopoverContent className="z-800 flex flex-col items-center gap-2 shadow-sm bg-gray-100 dark:bg-gray-700">
               <div className="text-black dark:text-white">Accept this request</div>
               <div
                 onClick={() => acceptMutation.mutate({ id: request?._id, status: "accepted" })}
-                className="clickable text-white font-bold bg-darkblue dark:bg-coffee rounded-2xl cursor-pointer w-24 h-8 flex items-center justify-center"
+                className={`clickable text-white font-bold ${request?.requestType === "roommate" ? "bg-goldPrimary" : "bg-green-600"} rounded-2xl cursor-pointer w-24 h-8 flex items-center justify-center`}
               >
                 {acceptMutation.isPending ? "Accepting" : "Accept"}
               </div>
@@ -160,7 +159,7 @@ const RoomateCard = ({
         <div
           key={request._id}
           className={`w-full h-50 rounded-sm p-2 mx-auto ${
-            rentedRequest ? "bg-blue-600/90 dark:bg-amber-400/70" : "bg-darkblue dark:bg-coffee"
+            request?.requestType === "roommate" ? "bg-goldPrimary" : "bg-green-600"
           }`}
         >
           <div className="flex flex-col">
@@ -250,7 +249,7 @@ const RoomateCard = ({
         <div
           key={request?.listing?._id}
           className={`w-90 h-80 rounded-sm p-2 mx-auto hover:shadow-md transition-shadow duration-300 ${
-            rentedRequest ? "bg-blue-800/90 dark:bg-amber-400/70" : "bg-darkblue dark:bg-coffee"
+             request?.requestType === "roommate" ? "bg-goldPrimary" : "bg-green-600"
           }`}
         >
           <div className="flex flex-col w-full">

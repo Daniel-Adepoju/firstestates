@@ -182,7 +182,7 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
 
         {/* requests container */}
 
-        <div className=" border-1 border-gray-500/30 dark:border-black flex flex-col md:mr-auto gap-4 p-4 w-[98%] md:w-[58%] lg:w-[60%] rounded-md bg-white dark:bg-gray-800/10 shadow-md">
+        <div className=" border-1 border-gray-500/30 dark:border-gray-600 flex flex-col md:mr-auto gap-4 p-4 w-[98%] md:w-[58%] lg:w-[60%] rounded-md bg-white dark:bg-gray-800/10 shadow-md">
           <h2 className="headersFont mb-4 px-4 text-lg">
             {requestType === "roommate" ? "Create a Roomate Request" : "Create a Co-Rent Request"}
           </h2>

@@ -124,7 +124,7 @@ const SchoolFocus = () => {
         ref={scrollRef}
         className={`dark:text-white grid grid-flow-col auto-cols-min ${
           pendingRequests?.pages[0]?.requests?.length > 0 || pendingLoading
-            ? "h-90"
+            ? "h-100"
             : "h-20 whitespace-nowrap mx-auto w-100 flex items-center justify-center text-sm"
         } gap-6 p-2 snap-x snap-mandatory overflow-x-scroll nobar null`}
       >

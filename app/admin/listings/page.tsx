@@ -22,7 +22,7 @@ const AdminListings = () => {
    const [page, setPage] = params.get('page') || '1'
     const router = useRouter()
 
-    const { data, isLoading} = useSearchListings({page, limit: 10, school: debounced, location: debounced, agentName: debounced, enabled: true})
+    const { data, isLoading} = useSearchListings({page, limit: 10, search: debounced, agentName: debounced, enabled: true})
    
     const { data: popularData, isLoading: loadingPopular } = useGetPopularListings()
 

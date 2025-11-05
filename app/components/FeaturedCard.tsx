@@ -56,7 +56,7 @@ const FeaturedCard = ({ edit, listing, isAgentCard }: CardProps) => {
             <div className="address">
               <MapPin
                 size={24}
-                className="text-goldPrimary dark:text-bluePrimary"
+                className="text-goldPrimary"
               />
               <span>{truncateText(address, 30)}</span>
             </div>

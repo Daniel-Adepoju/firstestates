@@ -8,7 +8,7 @@ html:is(.dark) .loader {
   color: white;
 }
 html:is(.dark) body, html:is(.dark) main {
-  background-color: rgba(27, 26, 32, 0.9803921569);
+  background-color: #1E1E1E;
   color: white;
 }
 html:is(.dark) .nav, html:is(.dark) .footer {
@@ -34,9 +34,6 @@ html:is(.dark) .activeNav .toggle_nav .toggle_items:nth-child(2) {
   border: 4px dashed white;
   animation: rollBorderWhite 5s ease-in-out infinite;
 }
-html:is(.dark) .toggle_items {
-  background-color: #032679;
-}
 html:is(.dark) .subheading, html:is(.dark) .heading, html:is(.dark) .title_heading {
   color: white;
 }
@@ -59,8 +56,12 @@ html:is(.dark) .card .school {
 html:is(.dark) .popularCard, html:is(.dark) .pagination {
   background-color: #31363F;
 }
-html:is(.dark) .single_card, html:is(.dark) .user-card {
+html:is(.dark) .user-card {
   background-color: #31363F;
+}
+html:is(.dark) .single_card {
+  box-shadow: 1px 2px 2px 1px rgba(10, 10, 10, 0.831);
+  background-color: rgba(30, 30, 30, 0.8392156863);
 }
 html:is(.dark) .single_card .header .house .arrow:active {
   background-color: #032679;
@@ -112,19 +113,13 @@ html:is(.dark) .agentProfile .agentName, html:is(.dark) .listingHistory .agentNa
   color: white;
 }
 html:is(.dark) .currency, html:is(.dark) .smallNum {
-  color: #032679;
-}
-html:is(.dark) .txt:after {
-  background-color: #032679;
+  color: #f29829;
 }
 html:is(.dark) .featured .swiper-pagination-bullet {
   background-color: rgb(255, 255, 255) !important;
 }
-html:is(.dark) .swiper-pagination-bullet {
-  background-color: #032679 !important;
-}
 html:is(.dark) .singleCardCon {
-  background-color: #31363F;
+  background-color: rgba(30, 30, 30, 0.8392156863);
 }
 html:is(.dark) .agentCardName {
   color: #032679;
@@ -146,6 +141,9 @@ html:is(.dark) .featured {
 }
 html:is(.dark) .darkblueBtn {
   background-color: #032679;
+}
+html:is(.dark) .quickLink {
+  color: rgb(57, 136, 239);
 }
 
 .verify .inputContainer input {
@@ -258,7 +256,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 .bigNum {
   font-family: "Figtree", sans-serif;
   font-size: 25px;
-  color: #032679;
+  color: #f29829;
 }
 .currency, .smallNum,
 .bigNum {
@@ -288,7 +286,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 
 .swiper-pagination-bullet {
   transition: 300ms ease-in-out;
-  background-color: #032679 !important;
+  background-color: white !important;
   top: 20% !important;
   opacity: 70% !important;
 }
@@ -747,17 +745,6 @@ a:has(.clickable) {
   padding-block: 0;
 }
 
-.featured {
-  background-color: white;
-}
-.featured {
-  box-shadow: 0.8px 0.8px 1.2px 1.2px rgba(116, 116, 116, 0.269);
-}
-
-.showPriority {
-  z-index: 1000000;
-}
-
 @keyframes blink {
   0% {
     transform: scale(1);
@@ -929,6 +916,11 @@ a:has(.clickable) {
   }
 }
 .animate-glass {
+  animation: glassShine 2.5s ease-in-out infinite;
+  transition: all 0.3s ease;
+}
+
+.hover-glass:hover {
   animation: glassShine 2.5s ease-in-out infinite;
   transition: all 0.3s ease;
 }
@@ -1412,7 +1404,7 @@ a:has(.clickable) {
 
 .sidebar {
   width: 220px;
-  background-color: #154d86;
+  background-color: var(--color-darkblue);
   min-height: 100vh;
   position: sticky;
   top: 0;
@@ -1703,25 +1695,6 @@ main {
   text-decoration: none;
   font-size: 16px;
 }
-.nav .nav_items .link_line::after, .footer .nav_items .link_line::after,
-.nav .nav_items span::after,
-.footer .nav_items span::after {
-  content: "";
-  opacity: 1%;
-  position: absolute;
-  width: 100%;
-  background-color: #032679;
-  height: 2px;
-  margin-top: 4px;
-  top: 100%;
-  left: 0;
-  border-radius: 20px;
-}
-.nav .nav_items .link_line::after, .footer .nav_items .link_line::after,
-.nav .nav_items span::after,
-.footer .nav_items span::after {
-  transition: all 400ms ease-in;
-}
 @media (max-width: 767.9px) {
   .nav .nav_items, .footer .nav_items {
     z-index: 103;
@@ -1732,8 +1705,8 @@ main {
     right: 0;
     height: 76px;
     width: 100%;
-    box-shadow: 2px 4px 10px rgba(20, 19, 19, 0.176);
-    border-radius: 20px 20px 0 0;
+    border-top: 2px solid var(--color-navBorderColor);
+    border-radius: 2px 2px 0 0;
     padding-top: auto;
     padding-bottom: 0;
     gap: 40px;
@@ -1780,14 +1753,14 @@ main {
 }
 .activeNav .toggle_nav .toggle_items:nth-child(2) {
   position: absolute;
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   padding: 20px;
-  right: 0;
+  right: -2.5px;
   border-radius: 50%;
   background-color: transparent;
   opacity: 30%;
-  border: 4px dashed #032679;
+  border: 4px dashed #f29829;
   animation: rollBorder 5s ease-in-out infinite;
 }
 .activeNav .toggle_nav .toggle_items:nth-child(2) {
@@ -1805,10 +1778,9 @@ main {
   justify-content: center;
 }
 .toggle_nav .toggle_items {
-  width: 45px;
-  height: 4.3px;
+  width: 40px;
+  height: 3.3px;
   border-radius: 100px;
-  background-color: #032679;
   transform-origin: center;
 }
 .toggle_nav .toggle_items {
@@ -2095,7 +2067,7 @@ footer.hide {
   position: absolute;
   width: 100%;
   height: 2px;
-  background-color: skyblue;
+  background-color: #f29829;
   border-radius: 20px;
   bottom: -50%;
   left: 0%;
@@ -2331,7 +2303,7 @@ footer.hide {
 }
 
 .single_card {
-  box-shadow: 1px 2px 2px 1px rgba(169, 169, 169, 0.073);
+  box-shadow: 1px 2px 2px 1px rgba(69, 12, 12, 0.073);
   font-family: "Quicksand", sans-serif;
   gap: 10px;
   margin-inline: auto;
@@ -2509,7 +2481,7 @@ footer.hide {
   border-radius: 20px;
   width: 98%;
   height: 1px;
-  background-color: #0881a3;
+  background-color: #f29829;
 }
 .agent_details .contact_items {
   gap: 10px;

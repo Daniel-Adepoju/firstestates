@@ -50,7 +50,7 @@ const Pagination = ({ currentPage, totalPages,hashParams}:PaginationProps) => {
             onClick={() => navigateToPage(num)}
             className={`px-3 py-1 rounded-md shadow-sm ${
               num === currentPage
-                ? 'bg-darkblue text-white'
+                ? 'bg-goldPrimary text-white'
                 : 'text-foreground'
             }`}
           >

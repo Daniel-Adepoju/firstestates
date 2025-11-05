@@ -104,21 +104,19 @@ export const useGetListings = ({
 export const useSearchListings = ({
   page,
   limit,
-  location,
-  school,
   agentName = "",
   search,
   enabled = true,
 }: Config) => {
   const getListings = async (page: string) => {
     const res = await axiosdata.value.get(
-      `/api/listings/search?limit=${limit}&page=${page}&location=${location}&search=${search}&agentName=${agentName}`
+      `/api/listings/search?limit=${limit}&page=${page}&search=${search}&agentName=${agentName}`
     )
     return res.data
   }
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: !enabled ? [] : ["searchListings", { page, limit, location, school }],
+    queryKey: !enabled ? [] : ["searchListings", { page, limit, search, agentName }],
     queryFn: () => getListings(page ?? "1"),
     enabled: enabled,
   })

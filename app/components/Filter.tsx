@@ -183,8 +183,7 @@ const Filter = ({
                   step={1}
                   onValueChange={([val]) => setMinPriceState(val)}
                   className="
-            [&_[role=slider]]:bg-[#0874c7]
-            [&_[role=slider]]:dark:bg-[#A88F6E]
+            [&_[role=slider]]:bg-goldPrimary
             [&>span:first-child]:bg-white
             [&_[role=slider]]:border-gray-200
             [&_[data-state=active]]:ring-gray-200"
@@ -208,8 +207,7 @@ const Filter = ({
                   inverted={true}
                   onValueChange={([val]) => setMaxPriceState(val)}
                   className="
-            [&_[role=slider]]:bg-[#0874c7]
-            [&_[role=slider]]:dark:bg-[#A88F6E]
+            [&_[role=slider]]:bg-goldPrimary
             [&>span:first-child]:bg-white
             [&_[role=slider]]:border-gray-200
             [&_[data-state=active]]:ring-gray-200"

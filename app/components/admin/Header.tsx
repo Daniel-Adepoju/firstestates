@@ -14,9 +14,9 @@ const Header = ({session}: Session) => {
       <div>
     <h2 className='subheading'>{session?.user.username}</h2> 
    {pathname.includes('/agent') ? 
-   <p>You can view and edit all your listings here</p>
+   <p className="text-sm">Manage all of your <strong>listings</strong> and <strong>residents</strong> here</p>
    :
-    <p>Monitor all of your users and agent listings here </p>}   
+    <p className="text-sm">Monitor all of <strong>First Estates</strong> users and agents here </p>}   
     </div> 
     {/* <p>Search</p> */}
     </div>

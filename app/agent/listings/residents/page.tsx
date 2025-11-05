@@ -4,6 +4,7 @@ import { useUser } from "@utils/user"
 import { Trash, Loader2 } from "lucide-react"
 import { useGetInhabitants } from "@lib/customApi"
 import { CldImage } from "next-cloudinary"
+import { DeleteResident } from "@components/agent/ResidentFunctions"
 
 const ManageResidents = () => {
   const { session } = useUser()
@@ -44,7 +45,7 @@ const ManageResidents = () => {
           items.inhabitants.map((resident: any) => (
             <div
               key={resident._id}
-              className="flex flex-col border-2 bg-muted/10 dark:bg-black/20 rounded-2xl p-2 hover:shadow-md transition-all"
+              className="flex flex-col border-2  dark:border-gray-500/70 bg-muted/10 dark:bg-black/20 rounded-2xl p-2 hover:shadow-md dark:hover:shadow-gray-700 transition-all"
             >
               <div className="flex items-center gap-4">
                 {/* Profile Pic */}
@@ -86,7 +87,11 @@ const ManageResidents = () => {
                   </span>
                 </span>
 
-                <Trash className="text-red-600 cursor-pointer" />
+             <DeleteResident 
+             trash={true}
+             inhabitantId={resident._id}
+             className="bg-white dark:bg-black"
+             />
               </div>
             </div>
           ))

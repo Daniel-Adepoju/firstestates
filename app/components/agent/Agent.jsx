@@ -77,7 +77,7 @@ const Agent = ({ agent }) => {
             <div className="md:w-100 dark:bg-black/10 bg-gray-100/70 pt-2 pb-2.5 px-4 rounded-lg mt-6 font-bold flex flex-row items-center gap-2">
               <Phone
                 size={34}
-                className="text-goldPrimary dark:text-bluePrimary"
+                className="text-goldPrimary"
               />
               <span>{agent.phone}</span>
             </div>
@@ -87,7 +87,7 @@ const Agent = ({ agent }) => {
                 <div className="md:w-100 dark:bg-black/10 bg-gray-100/70 pt-2 pb-2.5 px-4 rounded-lg mt-6 font-bold flex flex-row gap-2 items-center">
                   <MessageCircle
                     size={34}
-                    className="text-goldPrimary dark:text-bluePrimary"
+                    className="text-goldPrimary"
                   />
                   <Link href={`/chat?recipientId=${agent._id}`}>Chat With Agent</Link>
                 </div>
@@ -100,7 +100,7 @@ const Agent = ({ agent }) => {
         <div className="mt-2 flex flex-row gap-2 items-center">
           <MapPin
             size={40}
-            className="text-goldPrimary dark:text-bluePrimary"
+            className="text-goldPrimary"
           />
           <span className="break-all text-sm text-ellipsis opacity-70">{agent.address}</span>
         </div>

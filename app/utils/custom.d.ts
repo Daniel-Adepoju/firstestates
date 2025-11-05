@@ -40,7 +40,7 @@ interface Request {
   _id?: Types.ObjectId;
   requester: Types.ObjectId | IUser;
   listing: Types.ObjectId | IListing;
-  requestType: "roomate" | "co-rent";
+  requestType: "roommate" | "co-rent";
   budget?: number;
   description: string;
   status?: "pending" | "accepted";

@@ -59,7 +59,7 @@ const PopularCard = ({ listing, type, refValue }: PopCardProps) => {
         <div className="flex flex-col items-center">
           <Bed
             size={24}
-            className="text-goldPrimary dark:text-bluePrimary"
+            className="text-goldPrimary"
           />
           <span className="text-center dark:text-white text-gray-700">{listing?.bedrooms}</span>
         </div>
@@ -67,7 +67,7 @@ const PopularCard = ({ listing, type, refValue }: PopCardProps) => {
         <div className="flex flex-col items-center">
           <Bath
             size={24}
-            className="text-goldPrimary dark:text-bluePrimary"
+            className="text-goldPrimary"
           />
           <span className="text-center dark:text-white text-gray-700">{listing?.bathrooms}</span>
         </div>
@@ -75,7 +75,7 @@ const PopularCard = ({ listing, type, refValue }: PopCardProps) => {
         <div className="flex flex-col items-center">
           <Toilet
             size={24}
-            className="text-goldPrimary dark:text-bluePrimary"
+            className="text-goldPrimary"
           />
           <span className="text-center dark:text-white text-gray-700">{listing?.toilets}</span>
         </div>

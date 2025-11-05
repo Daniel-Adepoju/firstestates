@@ -23,7 +23,7 @@
 .sidebar {
 
   width: 220px;
-  background-color: fn.color("adminBlue");
+  background-color: var(--color-darkblue);
   min-height: 100vh;
   position: sticky;
   top: 0;

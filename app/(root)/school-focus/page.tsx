@@ -43,6 +43,7 @@ const SchoolFocus = () => {
     requestType: "co-rent",
     requester: session?.user.id,
     enabled: !!school,
+    // status:"accepted",
   })
   const coRentNextPageRef = useNextPage({
     isLoading: coRentLoading,
@@ -63,6 +64,7 @@ const SchoolFocus = () => {
     requestType: "roommate",
     requester: session?.user.id,
     enabled: !!school,
+    // status: "accepted",
   })
 
   const roommateNextPageRef = useNextPage({
@@ -131,7 +133,7 @@ const SchoolFocus = () => {
         </h1>
       )}
       <p className="text-center text-sm p-2 text-gray-700 dark:text-gray-200">
-        {`Welcome to School Focus${displayName}. Here you can find listings and roommate requests near your school of choice.`}
+        Welcome to School Focus <strong>{displayName}</strong>. Here you can find <strong>listings</strong> and <strong>roommate requests</strong> near your school of choice.
       </p>
 
       {/* co-rent requests header */}

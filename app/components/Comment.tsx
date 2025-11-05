@@ -124,12 +124,12 @@ export const WriteComment = ({ listingId }: commentCardProps) => {
             {sending ? (
               <Loader2
                 size={28}
-                className="text-goldPrimary dark:text-bluePrimary animate-spin"
+                className="text-goldPrimary animate-spin"
               />
             ) : (
               <SendHorizonal
                 size={28}
-                className="text-goldPrimary dark:text-bluePrimary cursor-pointer mediumScale"
+                className="text-goldPrimary cursor-pointer mediumScale"
               />
             )}
           </button>

@@ -120,8 +120,9 @@ const Card = ({ edit, listing, isAgentCard, isInWishList, blankSlate = false }: 
             <div className="address">
               <MapPin
                 size={24}
-                className="text-goldPrimary dark:text-bluePrimary"
+                className="text-goldPrimary"
               />
+              {/* text-goldPrimary dark:text-bluePrimary <<- text-goldPrimary */}
               <span>{truncateText(address, 30)}</span>
             </div>
 
@@ -132,21 +133,21 @@ const Card = ({ edit, listing, isAgentCard, isInWishList, blankSlate = false }: 
                   <div>
                     <Bed
                       size={30}
-                      className="text-goldPrimary dark:text-bluePrimary"
+                      className="text-goldPrimary"
                     />
                     <span className="text-gray-700 dark:text-white">{listing?.bedrooms}</span>
                   </div>
                   <div>
                     <Bath
                       size={30}
-                      className="text-goldPrimary dark:text-bluePrimary"
+                      className="text-goldPrimary"
                     />
                     <span className="text-gray-700 dark:text-white">{listing?.bathrooms}</span>
                   </div>
                   <div>
                     <Toilet
                       size={30}
-                      className="text-goldPrimary dark:text-bluePrimary"
+                      className="text-goldPrimary"
                     />
                     <span className="text-gray-700 dark:text-white">{listing?.toilets}</span>
                   </div>
@@ -206,16 +207,16 @@ const Card = ({ edit, listing, isAgentCard, isInWishList, blankSlate = false }: 
                 {/* views */}
                 {isAgentCard && (
                   <div className="w-full flex flex-col pl-3 font-semibold">
-                    <div className="text-gray-500 dark:text-gray-300 flex flex-row gap-3 items-center text-sm">
-                      <Eye size={30} />
+                    <div className="text-gray-500 dark:text-gray-400 flex flex-row gap-3 items-center text-sm">
+                      <Eye size={25} />
                       Past Week Views
                       <span className="views smallNum text-gray-700 dark:text-white">
                         {weeklyViews}
                       </span>
                     </div>
 
-                    <div className="text-gray-500  dark:text-gray-300 flex flex-row gap-3 items-center text-sm">
-                      <Eye size={30} />
+                    <div className="text-gray-500  dark:text-gray-400 flex flex-row gap-3 items-center text-sm">
+                      <Eye size={25} />
                       Total Views
                       <span className="views smallNum">{totalViews}</span>
                     </div>

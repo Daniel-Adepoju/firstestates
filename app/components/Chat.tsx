@@ -139,11 +139,11 @@ if (loading) {
           onChange={(e) => setText(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
           placeholder="Type your message..."
-          className="flex-1 border rounded-lg px-4 py-2 focus:outline-none resize-none"
+          className="flex-1 border dark:border-gray-400 rounded-lg px-4 py-2 focus:outline-none resize-none"
         />
         <div
           onClick={handleSendMessage}
-          className="w-10 h-10 flex items-center justify-center clickable bg-darkblue dark:bg-coffee text-white  rounded-full hover:bg-blue-600"
+          className="w-10 h-10 flex items-center justify-center clickable bg-goldPrimary text-white  rounded-full hover:bg-goldPrimary/90 cursor-pointer"
         >
       {sending ? <Loader2 size={22} className='animate-spin'/> : <SendHorizonal size={22}/>}
         </div>

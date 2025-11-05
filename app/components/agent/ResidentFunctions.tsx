@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { useBackdrop } from "@lib/Backdrop"
 import Searchbar from "@components/Searchbar"
-import { Loader2, PlusCircleIcon, UserSearch, X } from "lucide-react"
+import { Loader2, PlusCircleIcon, Trash, UserSearch, X } from "lucide-react"
 import Button from "@lib/Button"
 import { WhiteLoader } from "@utils/loaders"
 import { useGetUsers } from "@lib/customApi"
@@ -12,7 +12,7 @@ import { axiosdata } from "@utils/axiosUrl"
 import { useToast } from "@utils/Toast"
 import axios from "axios"
 
-const AddInhibitant = ({
+const AddResident = ({
   isActive = false,
   listingId,
 }: {
@@ -180,14 +180,16 @@ const AddInhibitant = ({
   )
 }
 
-export default AddInhibitant
+export default AddResident
 
-export const DeleteInhabitant = ({
+export const DeleteResident = ({
   inhabitantId,
   className,
+  trash,
 }: {
   inhabitantId: string
   className?: string
+  trash?: boolean
 }) => {
   const { setToastValues } = useToast()
   const queryClient = useQueryClient()
@@ -211,7 +213,7 @@ export const DeleteInhabitant = ({
     }
   }
 
-  const deleteInhabitantMutation = useMutation({
+  const DeleteResidentMutation = useMutation({
     mutationFn: deleteFn,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["inhabitants"] })
@@ -220,16 +222,22 @@ export const DeleteInhabitant = ({
 
   return (
     <div className={`${className} bg-red-700 rounded-full p-0.5 cursor-pointer`}>
-      {!deleteInhabitantMutation.isPending ? (
-        <X
-          onClick={() => deleteInhabitantMutation.mutate()}
-          size={16}
-          color="white"
-        />
+      {!DeleteResidentMutation.isPending ? (
+        !trash ? (
+          <X
+            onClick={() => DeleteResidentMutation.mutate()}
+            size={16}
+            color="white"
+          />
+        ) : (
+          <Trash 
+          onClick={() => DeleteResidentMutation.mutate()}
+          className="text-red-600 cursor-pointer" />
+        )
       ) : (
         <Loader2
           size={16}
-          color="white"
+          color={trash ? 'red' : 'white'}
           className="animate-spin"
         />
       )}

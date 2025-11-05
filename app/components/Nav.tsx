@@ -25,7 +25,7 @@ import {
   Headset,
 } from "lucide-react"
 import { HouseSearchIcon } from "./custom-ui/Icons"
-import { useRouter,usePathname } from "next/navigation"
+import { useRouter, usePathname } from "next/navigation"
 
 const Nav = () => {
   const { session } = useUser()
@@ -94,21 +94,29 @@ const Nav = () => {
       icon: (
         <LayoutDashboard
           size={20}
-          color="white"
+          className="text-gray-700 dark:text-white"
         />
       ),
       onClick: handleNavItemClick,
-      className: "md:bg-darkblue md:dark:bg-coffee md:text-white md:px-4 md:py-2 md:rounded-md",
+      className:
+        "md:bg-darkblue  md:dark:bg-goldPrimary  md:text-white md:px-4 md:py-2 md:rounded-md hover-glassd",
     },
 
     // School focus for clients
     {
       condition: session?.user?.role === "client" && session?.user?.school,
-      link: session?.user?.school ? `/school-focus?school=${encodeURIComponent(session?.user?.school.toLowerCase())}` : "/",
+      link: session?.user?.school
+        ? `/school-focus?school=${encodeURIComponent(session?.user?.school.toLowerCase())}`
+        : "/",
       text: "School Focus",
-      icon: <MapPinHouse className="w-5 h-5 text-white" />,
+      icon: (
+        <MapPinHouse
+          className="w-5 h-5 text-gray-700 dark:text-white"
+        />
+      ),
       onClick: handleNavItemClick,
-      className: "md:bg-darkblue md:dark:bg-coffee md:text-white md:px-4 md:py-2 md:rounded-md",
+      className:
+        "md:bg-darkblue md:dark:bg-goldPrimary  md:text-white md:px-4 md:py-2 md:rounded-md hover-glass",
     },
 
     // Chats
@@ -119,7 +127,7 @@ const Nav = () => {
       icon: (
         <MessageSquare
           size={20}
-          color="white"
+          className="text-gray-700 dark:text-white"
         />
       ),
       badge: unreadMessages,
@@ -134,7 +142,7 @@ const Nav = () => {
       icon: (
         <Heart
           size={20}
-          color="white"
+          className="text-gray-700 dark:text-white"
         />
       ),
       onClick: handleNavItemClick,
@@ -148,11 +156,12 @@ const Nav = () => {
       icon: (
         <LogIn
           size={20}
-          color="white"
+          className="text-gray-700 dark:text-white"
         />
       ),
       onClick: handleNavItemClick,
-      className: "md:bg-darkblue md:dark:bg-coffee md:text-white md:px-4 md:py-2 md:rounded-md",
+      className:
+        "md:bg-darkblue  md:dark:bg-goldPrimary  md:text-white md:px-4 md:py-2 md:rounded-md hover-glass",
     },
 
     // Sign Up (only signed out)
@@ -163,17 +172,17 @@ const Nav = () => {
       icon: (
         <UserPlus
           size={20}
-          color="white"
+          className="text-gray-700 dark:text-white"
         />
       ),
       onClick: handleNavItemClick,
       className:
-        "md:border-2 md:border-darkblue md:dark:border-coffee md:text-darkblue md:dark:text-coffee md:px-4 md:py-2 md:rounded-md",
+        "md:border-2 md:border-darkblue md:dark:border-goldPrimary md:text-darkblue md:dark:text-coffee md:px-4 md:py-2 md:rounded-md hover-glass",
     },
   ].filter((item) => item.condition)
 
+  if (pathname.includes("/chat")) return null
 
-  if(pathname.includes('/chat')) return null
   return (
     <header
       id="nav"
@@ -212,16 +221,16 @@ const Nav = () => {
           }}
           className="flex flex-row items-center gap-2  pt-1 cursor-pointer"
         >
-          <div className="dark:bg-coffee bg-darkblue p-2 rounded-full ">
+          <div className="bg-darkblue dark:bg-goldPrimary p-2 rounded-full hover-glass">
             {darkMode ? (
               <Sun
                 size={20}
-                color="white"
+                className="text-white"
               />
             ) : (
               <Moon
                 size={20}
-                color="white"
+                className="text-white"
               />
             )}
           </div>
@@ -237,7 +246,7 @@ const Nav = () => {
               className={`flex flex-col md:flex-row items-center gap-0 md:gap-2 cursor-pointer`}
             >
               {/* icon */}
-              <div className="dark:bg-coffee bg-darkblue p-2 rounded-full">{item.icon}</div>
+              <div className="p-2 rounded-full">{item.icon}</div>
               {/* text */}
               <div className={`link_line ${item.className || ""}`}>{item.text}</div>
               {/* Optional unread badge */}
@@ -256,16 +265,15 @@ const Nav = () => {
               onClick={showNav}
               className={`toggle_nav`}
             >
-              <div className="toggle_items"></div>
-              <div className="toggle_items"></div>
-              <div className="toggle_items"></div>
+              <div className="toggle_items bg-gray-700 dark:bg-white"></div>
+              <div className="toggle_items bg-gray-700 dark:bg-white"></div>
+              <div className="toggle_items bg-gray-700 dark:bg-white"></div>
             </div>
           </div>
 
           {/* more content */}
 
           {/* display options */}
-
         </div>
       </div>
     </header>

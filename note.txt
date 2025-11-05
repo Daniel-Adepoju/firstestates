@@ -3,6 +3,11 @@
 Manage resident in dashboard(add search and delete)
 Update user in database and session and link to paystack subscription.
 
+
+## Listings
+1. Make listing valid for days 40,70+able to be featured,90+automatic featured
+
+
 ## To Do In request
 
 dynamic requests count in card,

@@ -188,3 +188,9 @@
   animation: glassShine 2.5s ease-in-out infinite;
   transition: all 0.3s ease;
 }
+.hover-glass {
+  &:hover {
+  animation: glassShine 2.5s ease-in-out infinite;
+  transition: all 0.3s ease;
+}
+}

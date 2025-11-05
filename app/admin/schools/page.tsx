@@ -181,7 +181,7 @@ const Schools = () => {
                   key={school._id}
                   ref={index === items.schools.length - 1 ? ref : null}
                   href={`/admin/schools/${school._id}`}
-                  className="w-full md:w-150 lg:w-200 flex p-2 shadow-md rounded-md hover:shadow-lg transition"
+                  className="w-full md:w-150 lg:w-200 flex p-2 dark:bg-darkGray shadow-sm dark:shadow-black rounded-md hover:shadow-lg transition"
                 >
                   <div className="schoolLogo">
                     <Image

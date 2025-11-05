@@ -99,7 +99,7 @@ input[type="number"] {
 .bigNum {
   font-family: fn.font("headers");
   font-size: 25px;
-  color: fn.color("darkblue");
+  color: fn.color("wheat");
   @include mx.center();
 }
 .description {
@@ -122,7 +122,7 @@ input[type="number"] {
 
 .swiper-pagination-bullet {
   transition: 300ms ease-in-out;
-  background-color: color("darkblue") !important;
+  background-color: white !important;
   top: 20% !important;
   opacity: 70% !important;
 }
@@ -536,15 +536,12 @@ a:has(.clickable) {
   background-color: fn.color("darkblue");
   padding-block: 0;
 }
-.featured {
-  background-color: white;
-  @include mx.shadow(0.8px);
-}
+
 
 //  'blue': #0874c7,
 //      'darkblue': #0874c7,
 //      'adminBlue':#154d86,
 
-.showPriority {
-  z-index: 1000000;
-}
+// .showPriority {
+//   z-index: 1000000;
+// }

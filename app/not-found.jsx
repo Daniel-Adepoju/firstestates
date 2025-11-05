@@ -16,7 +16,9 @@ const page = () => {
       This could be because it has been deleted or archived.
       Please check the URL and try again.</div>
     <div>
-      <Link href="/">Go back to Homepage</Link>
+      <Link 
+      className='quickLink'
+      href="/">Go back to Homepage</Link>
     </div>
     </div>
   )

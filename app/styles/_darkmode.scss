@@ -49,9 +49,6 @@ html:is(.dark) {
       }
      }
     }
-  .toggle_items {
-        background-color: color('coffee');
-      }
     .subheading, .heading, .title_heading {
     color: white;
   }
@@ -89,10 +86,12 @@ html:is(.dark) {
 }
 
 
-.single_card, .user-card {
+.user-card {
   background-color: color('darkModeSecondary');
 }
 .single_card {
+   box-shadow: 1px 2px 2px 1px rgba(10, 10, 10, 0.831);
+    background-color: color('darkModeTertiary');
     .header {
     .house {
       .arrow {
@@ -172,13 +171,9 @@ html:is(.dark) {
     }
 
 .currency, .smallNum {
-  color: color('coffee'); 
+  color: color('wheat'); 
 } 
-.txt {
-  &:after {
-    background-color: color('coffee');
-  }
-}
+
  
 
 .featured {
@@ -186,11 +181,9 @@ html:is(.dark) {
   background-color: rgb(255, 255, 255) !important;
 }
 }
-.swiper-pagination-bullet {
-  background-color: color("coffee") !important;
-}
+
 .singleCardCon {
-  background-color: color('darkModeSecondary');
+  background-color: color('darkModeTertiary');
 }
 .agentCardName {
   color: color('coffee');
@@ -219,6 +212,11 @@ html:is(.dark) {
 // buttons
  .darkblueBtn {
   background-color: color('coffee'); 
+ }
+
+
+ .quickLink {
+  color: rgb(57, 136, 239);
  }
 }
 
