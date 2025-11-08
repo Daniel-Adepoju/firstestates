@@ -107,7 +107,7 @@ const router = useRouter()
         disabled={!appointmentType && !clientName}
       functions={() => handleCreateAppointment()}
       text="Create Appointment"
-      className="clickable directional darkblueBtn w-60 mx-auto"
+      className="clickable directional darkblueBtn w-60 mx-auto py-6"
       >
       {appointmentMutation.isPending && <Loader2 color="white" size={30} className="animate-spin"/>}
       </Button>

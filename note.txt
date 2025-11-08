@@ -1,12 +1,14 @@
 ## Important
 
-Manage resident in dashboard(add search and infinite scroll, and link to listings in pic and link)
-also single listing view remain in agent dashboard
+
 Update user in database and session and link to paystack subscription.
 
+1. 1000
+2. 2500
+3. 4000
 
 ## Listings
-1. Make listing valid for 35 days, featurable in 60days, adn automatic featured in 80 days(which can only be done by tiered agent)
+1. Make listing valid for 32 days, featurable in 60days, and automatic featured in 81 days(which can only be done by tiered agent)
 
 1.Listing
 2.Silver Listing

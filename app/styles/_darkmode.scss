@@ -126,8 +126,11 @@ html:is(.dark) {
     color: white;
   }
   input, select, textarea {
-    outline-color: white;
+    outline-color: rgba(174, 174, 174, 0.842);
     color: white;
+    &:focus {
+      outline-color: color("wheat");
+    }
   }
  
   .general_details,

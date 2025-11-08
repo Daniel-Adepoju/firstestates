@@ -25,12 +25,14 @@ const AppointmentCard = ({ firstCard, data }: AppointmentCardProps) => {
         isActive: true,
         message: "Appointment Deleted",
         status: "success",
+        duration: 2000,
       })
     } catch (err) {
       setToastValues({
         isActive: true,
         message: "Failed to delete appointment, try again",
         status: "danger",
+        duration: 2000,
       })
     }
   }
@@ -50,12 +52,12 @@ const AppointmentCard = ({ firstCard, data }: AppointmentCardProps) => {
     <>
       <div
         className={`${firstCard === 0 && "mt-5"} appointment_item dark:text-white
-    grid grid-cols-4 items-center  p-2 self-start w-full gap-2 shadow-sm text-center break-words
+    grid grid-cols-4 items-center  p-2 self-start w-full gap-2 shadow-sm dark:shadow-gray-700 text-center break-words
     `}
       >
         <div>
           <Link
-            href={`/listings/single_listing?id=${data.listingID._id}`}
+            href={`/agent/listings/single_listing?id=${data.listingID._id}`}
             target="_blank"
             className="mx-auto block"
           >
@@ -85,16 +87,18 @@ const AppointmentCard = ({ firstCard, data }: AppointmentCardProps) => {
 
         <div
           onClick={handleDeleteAppointment}
-          className="bg-red-700/80 dark:bg-red-700 text-white 
-   col-span-3 md:col-span-2 lg:col-span-1 flex items-center justify-between gap-1
+          className="bg-red-700/80 dark:bg-red-700 text-white w-50
+   col-span-2 md:col-span-1 lg:col-span-1 flex items-center
     p-2 rounded-md cursor-pointer clickable
   "
         >
-          <span className="font-bold">Remove Appointment</span>
+          <span className="font-bold text-xs ">Remove Appointment</span>
           {!deleteAppointmentMutation.isPending ? (
-            <Trash className="text-white" />
+            <Trash size={18} className="text-white ml-auto" />
           ) : (
-            <Loader2 className="text-white animate-spin" />
+            <Loader2 
+              size={18}
+            className="text-white ml-auto animate-spin" />
           )}
         </div>
       </div>

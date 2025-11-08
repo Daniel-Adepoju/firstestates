@@ -77,8 +77,11 @@ html:is(.dark) .form label {
   color: white;
 }
 html:is(.dark) .form input, html:is(.dark) .form select, html:is(.dark) .form textarea {
-  outline-color: white;
+  outline-color: rgba(174, 174, 174, 0.842);
   color: white;
+}
+html:is(.dark) .form input:focus, html:is(.dark) .form select:focus, html:is(.dark) .form textarea:focus {
+  outline-color: #f29829;
 }
 html:is(.dark) .form .general_details,
 html:is(.dark) .form .agent_details, html:is(.dark) .form .bottom {
@@ -2249,7 +2252,6 @@ footer.hide {
   gap: 20px;
   position: relative;
   width: 100%;
-  margin-top: 70px;
   margin-bottom: 30px;
 }
 .singleCardCon {
@@ -2260,7 +2262,6 @@ footer.hide {
 }
 @media (min-width: 900px) {
   .singleCardCon {
-    margin-top: 100px;
     gap: 3px;
     min-height: 100%;
   }

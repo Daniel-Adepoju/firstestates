@@ -51,7 +51,7 @@ const Card = ({ edit, listing, isAgentCard, isInWishList, blankSlate = false }: 
 
   const visitCard = () => {
     if (isAgentCard) {
-      return router.push(`/listings/single_listing?id=${listing?._id}&agent=${listing?.agent?._id}`)
+      return router.push(`/agent/listings/single_listing?id=${listing?._id}`)
     }
     router.push(`/listings/single_listing?id=${listing?._id}`)
   }

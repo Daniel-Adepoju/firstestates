@@ -54,10 +54,10 @@ export async function generateMetadata({ searchParams }: Props) {
     }
 
     return {
-      title: `Listing at ${data?.post.location}`,
+      title: `Your listing at ${data?.post.location}`,
       description: data?.post.description,
       openGraph: {
-        title: `Listing at ${data?.post.location}`,
+        title: `Your listing at ${data?.post.location}`,
         description: data?.post.description,
         url: `${process.env.BASE_URL}/listings/single_listing?id=${listingId}`,
         siteName: "First Estates",

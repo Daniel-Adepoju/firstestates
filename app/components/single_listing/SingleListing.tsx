@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef } from "react"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { useMutation } from "@tanstack/react-query"
 import { useToast } from "@utils/Toast"
 import { useBackdrop } from "@lib/Backdrop"
@@ -20,6 +20,8 @@ import CommentsSection from "./CommentsSection"
 
 const SingleListing = ({ listingId }: { listingId: string }) => {
   const router = useRouter()
+  const pathName = usePathname()
+  const isAgentView = pathName.includes("/agent/listings/")
   const { setToastValues } = useToast()
   const { session } = useUser()
   const { backdrop, setBackdrop } = useBackdrop()
@@ -54,7 +56,7 @@ const SingleListing = ({ listingId }: { listingId: string }) => {
 
   if (isLoading)
     return (
-      <div className="gap-[30px] flex flex-col items-center w-full min-h-screen">
+      <div className={`py-2 gap-[30px] flex flex-col items-center w-full min-h-screen ${isAgentView ? "mt-[0px]" : "mt-18"}`}>
         <Skeleton className="bg-gray-500/20 w-full h-[300px] rounded-4xl" />
         <Skeleton className="bg-gray-500/20 w-[90%] h-[100px] rounded-xl" />
         <Skeleton className=" bg-gray-500/20 w-[80%] h-[190px] rounded-xl" />
@@ -72,7 +74,7 @@ const SingleListing = ({ listingId }: { listingId: string }) => {
 
   return (
     <>
-      <div className="singleCardCon">
+      <div className={`text-foreground ${isAgentView ? "singleCardCon -mt-10 lg:mt-[4px]" : "singleCardCon mt-16 lg:mt-20"}`}>
         {/*  first singleCardSection */}
         <div className="singleCardSection">
           <div className="single_card">
@@ -99,7 +101,7 @@ const SingleListing = ({ listingId }: { listingId: string }) => {
             />
 
             {/* Inhabitants OR Agent details */}
-            {session?.user?.id === listing?.agent?._id && (!session?.user.isTierOne || session?.user.isTierTwo) ? (
+            {session?.user?.id === listing?.agent?._id && (session?.user.isTierOne || session?.user.isTierTwo) ? (
               <InhabitantsSection
                 session={session}
                 listingId={listingId}
@@ -122,12 +124,12 @@ const SingleListing = ({ listingId }: { listingId: string }) => {
       </div>
 
   
-      <div className="singleCardCon2">
+      <div className="singleCardCon2 text-foreground">
 
        <div className="singleCardSection">
         <div className="single_card">
            <div className="heading mt-3 mx-auto self-center">Description</div>
-              <div className="description mx-auto whitespace-prewrap self-center">{listing.description}</div>
+              <div className="text-foreground text-justify description mx-auto whitespace-prewrap self-center">{listing.description}</div>
         </div>
          
        </div>

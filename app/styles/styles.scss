@@ -603,22 +603,17 @@ footer.hide {
   gap: 20px;
   position: relative;
   width: 100%;
-  margin-top: 70px;
   margin-bottom: 30px;
   @include mx.flex(column, stretch, flex-start);
   @media (min-width: 900px) {
-    margin-top: 100px;
+    // margin-top: 100px;
     gap: 3px;
     min-height: 100%;
     @include mx.flex(row, stretch, flex-start);
     .singleCardSection {
       flex: 1 1 0%;
-      // aspect-ratio:1;
       min-height: 0;
       min-width: 0;
-      // overflow: hidden;
-      // background-color: red;
-      // border:2px solid white;
     }
   }
 }
