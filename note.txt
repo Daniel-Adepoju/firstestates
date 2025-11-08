@@ -5,10 +5,10 @@ Update user in database and session and link to paystack subscription.
 
 1. 1000
 2. 2500
-3. 4000
+3. 5000
 
 ## Listings
-1. Make listing valid for 32 days, featurable in 60days, and automatic featured in 81 days(which can only be done by tiered agent)
+1. Make listing valid for 30 days, featurable in 50days, and automatic featured in 75 days(which can only be done by tiered agent)
 
 1.Listing
 2.Silver Listing

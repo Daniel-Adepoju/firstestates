@@ -41,7 +41,7 @@ html:is(.dark) .card_list {
   background-color: rgba(37, 37, 37, 0.146);
 }
 html:is(.dark) .card {
-  background-color: #292a2a;
+  background-color: black;
 }
 html:is(.dark) .card:hover::after {
   background-color: white;
@@ -928,6 +928,45 @@ a:has(.clickable) {
   transition: all 0.3s ease;
 }
 
+.gloss {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  --gloss-color: rgba(107, 114, 128, 0.2);
+}
+.gloss::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -75%;
+  width: 50%;
+  height: 200%;
+  background: linear-gradient(120deg, rgba(0, 0, 0, 0) 0%, var(--gloss-color) 50%, rgba(0, 0, 0, 0) 100%);
+  transform: rotate(25deg);
+  opacity: 0;
+  pointer-events: none;
+}
+.gloss:hover::after {
+  animation: gloss-swipe 1s ease-in-out forwards;
+}
+
+.dark .gloss {
+  --gloss-color: rgba(107, 114, 128, 0.3);
+}
+
+@keyframes gloss-swipe {
+  0% {
+    left: -75%;
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    left: 125%;
+    opacity: 0;
+  }
+}
 .loader {
   --d:22px;
   margin-inline: auto;
