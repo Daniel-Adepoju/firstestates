@@ -10,7 +10,7 @@ import { WhiteLoader } from "@utils/loaders"
 import { updateUser, updateProfilePic } from "@lib/server/auth"
 import { useNotification } from "@lib/Notification"
 import { useRouter, useSearchParams } from "next/navigation"
-import { CloudinaryResult } from "@components/agent/ListingForm"
+import { CloudinaryResult } from "@components/agent/create_listing/ListingForm"
 import { getSession } from "next-auth/react"
 
 const Fields = () => {
@@ -101,7 +101,7 @@ const Fields = () => {
                   width={40}
                   height={40}
                   alt="edit"
-                  className="clickable cursor-pointer rounded-full absolute bottom-0 right-0 bg-white p-2"
+                  className="clickable cursor-pointer rounded-full absolute bottom-0 right-0 bg-white p-3"
                   onClick={() => open()}
                 />
               )}
@@ -122,7 +122,7 @@ const Fields = () => {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
-                className="w-full border rounded p-2 dark:bg-gray-600 dark:text-white"
+                className="w-full border rounded p-3 dark:bg-darkGray dark:text-white"
               />
             </div>
 
@@ -135,10 +135,10 @@ const Fields = () => {
                   value={school}
                   onChange={(e) => setSchool(e.target.value)}
                   required
-                  className="w-full border rounded p-3 dark:bg-gray-600 dark:text-white"
+                  className="w-full border rounded p-3 dark:bg-darkGray dark:text-white"
                 >
                   <option value="">Select a school</option>
-                  {schools.map((school:School) => (
+                  {schools.map((school: School) => (
                     <option
                       key={school._id}
                       value={school?.shortname}
@@ -162,7 +162,7 @@ const Fields = () => {
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     required
-                    className="w-full border rounded p-2 dark:bg-gray-600 dark:text-white"
+                    className="w-full border rounded p-3 dark:bg-darkGray dark:text-white"
                   />
                 </div>
                 <div className="form_item">
@@ -173,7 +173,7 @@ const Fields = () => {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     required
-                    className="w-full border rounded p-2 dark:bg-gray-600 dark:text-white"
+                    className="w-full border rounded p-3 dark:bg-darkGray dark:text-white"
                   />
                 </div>
 
@@ -186,7 +186,7 @@ const Fields = () => {
                     value={whatsapp}
                     onChange={(e) => setWhatsapp(e.target.value)}
                     required
-                    className="w-full border rounded p-2 dark:bg-gray-600 dark:text-white"
+                    className="w-full border rounded p-3 dark:bg-darkGray dark:text-white"
                   />
                 </div>
               </>
@@ -197,7 +197,7 @@ const Fields = () => {
               <Button
                 type="submit"
                 text="Finish Setup"
-                className="clickable darkblueBtn directional w-full"
+                className="clickable bg-goldPrimary directional rounded-lg w-full p-6"
               >
                 {" "}
                 {isUpdating && <WhiteLoader />}

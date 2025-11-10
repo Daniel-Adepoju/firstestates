@@ -65,8 +65,8 @@ const Verify = () => {
 
     otpValues[id].value = value
     compiledOtp.value = Object.values(otpValues)
-    .map(input => input.value)
-    .join("")
+      .map((input) => input.value)
+      .join("")
   }
   const writeOtpKeyBoard = (e) => {
     const { id, value } = e.target
@@ -82,18 +82,17 @@ const Verify = () => {
     const previousInput = e.target.previousElementSibling
 
     e.target.value = ""
-     otpValues[id].value = ""
+    otpValues[id].value = ""
 
     if (previousInput) {
       if (value === "" || e.key === "Delete") {
-      setTimeout(() => previousInput.focus(), 10);
+        setTimeout(() => previousInput.focus(), 10)
       }
-      
     }
 
     compiledOtp.value = Object.values(otpValues)
-    .map(input => input.value)
-    .join("");
+      .map((input) => input.value)
+      .join("")
   }
 
   //Verify
@@ -164,12 +163,19 @@ const Verify = () => {
           Resend OTP
         </span>
       )}
-      <form onSubmit={handleVerify}>
-        <div className="inputContainer">
+      <form
+        onSubmit={handleVerify}
+        className="mx-auto flex flex-col gap-4 items-center"
+      >
+        <div className="flex gap-3 items-center justify-center mb-4 inputContainer">
           <input
             type="text"
             inputMode="numeric"
-            className="otp-input"
+            className="otp-input bg-gray-400  dark:bg-gray-500 text-white
+            focus:bg-background focus:text-goldPrimary
+            border-none outline-2
+            focus:outline-gray-700 dark:focus:outline-white 
+            "
             maxLength="1"
             onChange={writeOtp}
             onKeyDown={(e) => writeOtpKeyBoard(e)}
@@ -178,9 +184,13 @@ const Verify = () => {
             required
           />
           <input
+            className="otp-input bg-gray-400  dark:bg-gray-500 text-white
+            focus:bg-background focus:text-goldPrimary
+            border-none outline-2
+            focus:outline-gray-700 dark:focus:outline-white 
+            "
             type="text"
             inputMode="numeric"
-            className="otp-input"
             maxLength="1"
             onChange={writeOtp}
             onKeyDown={(e) => writeOtpKeyBoard(e)}
@@ -191,7 +201,11 @@ const Verify = () => {
           <input
             type="text"
             inputMode="numeric"
-            className="otp-input"
+            className="otp-input bg-gray-400  dark:bg-gray-500 text-white
+            focus:bg-background focus:text-goldPrimary
+            border-none outline-2
+            focus:outline-gray-700 dark:focus:outline-white 
+            "
             maxLength="1"
             onChange={writeOtp}
             onKeyDown={(e) => writeOtpKeyBoard(e)}
@@ -202,7 +216,11 @@ const Verify = () => {
           <input
             type="text"
             inputMode="numeric"
-            className="otp-input"
+            className="otp-input bg-gray-400  dark:bg-gray-500 text-white
+            focus:bg-background focus:text-goldPrimary
+            border-none outline-2
+            focus:outline-gray-700 dark:focus:outline-white 
+            "
             maxLength="1"
             onChange={writeOtp}
             onKeyDown={(e) => writeOtpKeyBoard(e)}
@@ -213,7 +231,11 @@ const Verify = () => {
           <input
             type="text"
             inputMode="numeric"
-            className="otp-input"
+            className="otp-input bg-gray-400  dark:bg-gray-500 text-white
+            focus:bg-background focus:text-goldPrimary
+            border-none outline-2
+            focus:outline-gray-700 dark:focus:outline-white 
+            "
             maxLength="1"
             onChange={writeOtp}
             onKeyDown={(e) => writeOtpKeyBoard(e)}
@@ -222,7 +244,10 @@ const Verify = () => {
             required
           />
         </div>
-<span className="text-xs px-4 text-center">If you haven't received the OTP in your inbox, please wait for the timer to expire before resending. Also, be sure to check your spam or junk folder.</span>
+        <span className="text-xs px-4 text-center">
+          If you haven't received the OTP in your inbox, please wait for the timer to expire before
+          resending. Also, be sure to check your spam or junk folder.
+        </span>
 
         <Button
           type="submit"

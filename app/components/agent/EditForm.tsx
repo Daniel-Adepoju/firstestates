@@ -150,7 +150,7 @@ const EditForm = () => {
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value)}
-              className="w-full border rounded p-2 dark:bg-gray-600 dark:text-white"
+              className="w-full border rounded p-2 dark:bg-darkGray dark:text-white"
             >
               <option value="available">Available</option>
               <option value="rented">Rented</option>
@@ -245,7 +245,7 @@ const EditForm = () => {
             <select
               value={school}
               onChange={(e) => setSchool(e.target.value)}
-              className="w-full border rounded p-2 dark:bg-gray-600 dark:text-white"
+              className="w-full border rounded p-2 dark:bg-darkGray dark:text-white"
             >
               <option value="">Select a school</option>
               {schools.map((school: any) => (
@@ -265,7 +265,7 @@ const EditForm = () => {
             <select
               value={area}
               onChange={(e) => setArea(e.target.value)}
-              className="w-full border rounded p-2 dark:bg-gray-600 dark:text-white"
+              className="w-full border rounded p-2 dark:bg-darkGray dark:text-white"
             >
               <option value="">Select a location</option>
               {areas.map((area) => (

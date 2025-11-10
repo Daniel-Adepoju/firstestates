@@ -1,7 +1,14 @@
-import ListingForm from '@components/agent/ListingForm'
+'use client'
+
+import ListingForm from '@components/agent/create_listing/ListingForm'
+import { useSearchParams } from 'next/navigation'
+
 const Add = () => {
+  const searchParams = useSearchParams()
+  const listingTier = searchParams.get('type')
+
   return (
-    <ListingForm/>
+    <ListingForm listingTier={listingTier} />
   )
 }
 

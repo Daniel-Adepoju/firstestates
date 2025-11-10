@@ -145,9 +145,7 @@ html:is(.dark) {
 .editSide {
     background-color: color('darkModeSecondary');
     color: white;
-
-    outline: 4px solid rgba(20, 20, 20, 0.447); 
-       @include shadow(0.5px);
+    outline: 4px solid rgb(0, 0, 0); 
 }
 
 
@@ -221,12 +219,4 @@ html:is(.dark) {
  .quickLink {
   color: rgb(57, 136, 239);
  }
-}
-
-.verify {
-  .inputContainer {
-  input {
-  color: rgb(255, 255, 255);
-}
-}
 }

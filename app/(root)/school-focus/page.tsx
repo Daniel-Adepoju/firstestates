@@ -112,7 +112,7 @@ const SchoolFocus = () => {
           key={i}
           className="relative inline-block h-60 w-85 rounded-md bg-gray-500/20 mb-6"
         >
-          <Skeleton className="absolute z-1 bg-gray-300 dark:bg-gray-600 w-70 h-40 left-7.5 bottom-[-40px] !animate-none" />
+          <Skeleton className="absolute z-1 bg-gray-300 dark:bg-darkGray w-70 h-40 left-7.5 bottom-[-40px] !animate-none" />
         </Skeleton>
       ))
     } else {
@@ -133,7 +133,8 @@ const SchoolFocus = () => {
         </h1>
       )}
       <p className="text-center text-sm p-2 text-gray-700 dark:text-gray-200">
-        Welcome to School Focus <strong>{displayName}</strong>. Here you can find <strong>listings</strong> and <strong>roommate requests</strong> near your school of choice.
+        Welcome to School Focus <strong>{displayName}</strong>. Here you can find{" "}
+        <strong>listings</strong> and <strong>roommate requests</strong> near your school of choice.
       </p>
 
       {/* co-rent requests header */}

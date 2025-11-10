@@ -116,7 +116,7 @@ const Nav = () => {
       ),
       onClick: handleNavItemClick,
       className:
-        "md:bg-darkblue md:dark:bg-goldPrimary  md:text-white md:px-4 md:py-2 md:rounded-md hover-glass",
+        "md:bg-darkblue md:dark:bg-goldPrimary  md:text-white md:px-4 md:py-2 md:rounded-md md:hover-glass",
     },
 
     // Chats
@@ -132,6 +132,7 @@ const Nav = () => {
       ),
       badge: unreadMessages,
       onClick: handleNavItemClick,
+      className: "relative",
     },
 
     // Wishlist
@@ -161,7 +162,7 @@ const Nav = () => {
       ),
       onClick: handleNavItemClick,
       className:
-        "md:bg-darkblue  md:dark:bg-goldPrimary  md:text-white md:px-4 md:py-2 md:rounded-md hover-glass",
+        "md:bg-darkblue  md:dark:bg-goldPrimary  md:text-white md:px-4 md:py-2 md:rounded-md md:hover-glass",
     },
 
     // Sign Up (only signed out)
@@ -177,7 +178,7 @@ const Nav = () => {
       ),
       onClick: handleNavItemClick,
       className:
-        "md:border-2 md:border-darkblue md:dark:border-goldPrimary md:text-darkblue md:dark:text-coffee md:px-4 md:py-2 md:rounded-md hover-glass",
+        "md:border-2 md:border-darkblue md:dark:border-goldPrimary md:text-darkblue md:dark:text-coffee md:px-4 md:py-2 md:rounded-md md:hover-glass",
     },
   ].filter((item) => item.condition)
 
@@ -243,15 +244,15 @@ const Nav = () => {
               key={index}
               href={item.link}
               onClick={item.onClick}
-              className={`flex flex-col md:flex-row items-center gap-0 md:gap-2 cursor-pointer`}
+              className={`relative flex flex-col md:flex-row items-center gap-0 md:gap-2 cursor-pointer`}
             >
               {/* icon */}
               <div className="p-2 rounded-full">{item.icon}</div>
               {/* text */}
-              <div className={`link_line ${item.className || ""}`}>{item.text}</div>
+              <div className={` link_line ${item.className || ""}`}>{item.text}</div>
               {/* Optional unread badge */}
               {item.text === "Chats" && unreadMessages && parseInt(unreadMessages) > 0 && (
-                <div className="flex items-center justify-center absolute w-6 h-6 top-[-16.5%] left-[0%] bg-red-800 text-white rounded-full px-2 py-1 text-xs font-bold">
+                <div className="flex items-center justify-center absolute w-6 h-6 top-[-16.5%] left-[0%] bg-darkblue  dark:bg-goldPrimary text-white rounded-full px-2 py-1 text-xs font-bold">
                   {unreadMessages}
                 </div>
               )}

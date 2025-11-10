@@ -83,7 +83,7 @@ const AgentListings = () => {
         {/* Add Listing */}
         {showAdd ? (
           <Link
-            href={"/agent/listings/add"}
+            href={"/agent/listings/add/types"}
             className="flex items-center justify-center gap-3 dark:text-white dark:bg-[#31363F] border-[1.38px] border-gray-300 dark:border-gray-500 p-3 rounded-2xl w-64 shadow-xs mediumScale"
           >
             <PlusCircle

@@ -1,8 +1,8 @@
 "use client"
 
-import React from "react"
+import Link from "next/link"
 
-const ListingTypes = () => {
+const ListingTiers = () => {
   const listings = [
     {
       type: "Standard",
@@ -12,6 +12,7 @@ const ListingTypes = () => {
         "Basic listing visibility",
         "Add up to 3 images",
       ],
+      link: "/agent/listings/add?type=standard",
     },
     {
       type: "Gold",
@@ -22,26 +23,30 @@ const ListingTypes = () => {
         "Greater visibility than standard listing",
         "Add up to 5 images",
       ],
+      link: "/agent/listings/add?type=gold",
     },
     {
       type: "First",
       price: "₦5000/75 days",
-      border: "border-[#b647ff]", // Platinum color
+      border: "border-[#b647ff]",
       benefits: [
         "Enhanced listing visibility",
         "Priority display in search results",
         "Add up to 10 images",
         "Automatic featured listing",
       ],
+      link: "/agent/listings/add?type=first",
+      bonusClass:"md:col-span-2 md:mx-auto lg:col-span-1 lg:mx-0",
     },
   ]
 
   return (
-    <div className="grid md:grid-cols-3 gap-6 p-6 ">
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 ">
       {listings.map((listing) => (
-        <div
+        <Link
+          href={listing.link}
           key={listing.type}
-          className={`gloss  dark:bg-gray-700/50 text-gray-700 dark:text-gray-100  border-2 ${listing.border} rounded-2xl p-6 shadow-md smallScale transition cursor-pointer`}
+          className={` ${listing.bonusClass && listing.bonusClass} gloss  dark:bg-gray-700/50 text-gray-700 dark:text-gray-100  border-2 ${listing.border} rounded-2xl p-6 shadow-md smallScale transition cursor-pointer`}
         >
           <h2 className="text-2xl font-bold mb-2">{listing.type}</h2>
           <p className={`text-xl font-semibold mb-4  ${listing.type === "First" && "text-[#b647ff]"} ${listing.type === "Gold" && "text-goldPrimary"} ${listing.type === "Standard" && "text-sky-500"}`}>
@@ -54,10 +59,10 @@ const ListingTypes = () => {
               </li>
             ))}
           </ul>
-        </div>
+        </Link>
       ))}
     </div>
   )
 }
 
-export default ListingTypes
+export default ListingTiers

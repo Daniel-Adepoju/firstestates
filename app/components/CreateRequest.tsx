@@ -117,7 +117,7 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
         { value: "male", label: "Male" },
         { value: "female", label: "Female" },
       ],
-      className: "dark:bg-gray-600 w-full border rounded-sm p-2 py-2.5",
+      className: "dark:bg-darkGray w-full border rounded-sm p-2 py-2.5",
       function: handleInputChange,
     },
   ]

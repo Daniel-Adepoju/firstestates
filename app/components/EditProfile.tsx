@@ -10,7 +10,7 @@ import { WhiteLoader } from "@utils/loaders"
 import { updateUser, updateProfilePic } from "@lib/server/auth"
 import { useNotification } from "@lib/Notification"
 import { useRouter } from "next/navigation"
-import { CloudinaryResult } from "./agent/ListingForm"
+import { CloudinaryResult } from "./agent/create_listing/ListingForm"
 import { getSession } from "next-auth/react"
 import { MoreHorizontal } from "lucide-react"
 const EditProfile = () => {
@@ -140,7 +140,7 @@ const EditProfile = () => {
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full border rounded p-2 dark:bg-gray-600 dark:text-white"
+                className="w-full border rounded p-2 dark:bg-darkGray dark:text-white"
               />
             </div>
 
@@ -152,7 +152,7 @@ const EditProfile = () => {
                   id="school"
                   value={school}
                   onChange={(e) => setSchool(e.target.value)}
-                  className="w-full border rounded p-3 dark:bg-gray-600 dark:text-white"
+                  className="w-full border rounded p-3 dark:bg-darkGray dark:text-white"
                 >
                   <option value="">Select a school</option>
                   {schools.map((school: School) => (
@@ -179,7 +179,7 @@ const EditProfile = () => {
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     required
-                    className="w-full border rounded p-2 dark:bg-gray-600 dark:text-white"
+                    className="w-full border rounded p-2 dark:bg-darkGray dark:text-white"
                   />
                 </div>
                 <div className="form_item">
@@ -189,7 +189,7 @@ const EditProfile = () => {
                     type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="w-full border rounded p-2 dark:bg-gray-600 dark:text-white"
+                    className="w-full border rounded p-2 dark:bg-darkGray dark:text-white"
                   />
                 </div>
 
@@ -201,7 +201,7 @@ const EditProfile = () => {
                     type="tel"
                     value={whatsapp}
                     onChange={(e) => setWhatsapp(e.target.value)}
-                    className="w-full border rounded p-2 dark:bg-gray-600 dark:text-white"
+                    className="w-full border rounded p-2 dark:bg-darkGray dark:text-white"
                   />
                 </div>
               </>
@@ -212,7 +212,7 @@ const EditProfile = () => {
               <Button
                 type="submit"
                 text="Update Profile"
-                className="clickable darkblueBtn directional w-full"
+                className="clickable bg-darkblue text-white font-bold dark:bg-goldPrimary directional rounded-lg w-full p-6"
               >
                 {" "}
                 {isUpdating && <WhiteLoader />}

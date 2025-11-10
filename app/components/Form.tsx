@@ -6,12 +6,13 @@ import { signal } from "@preact/signals-react"
 import Button from "@lib/Button"
 import { useUser } from "@utils/user"
 import { WhiteLoader, Loader, DotsLoader } from "@utils/loaders"
-import { useNotification } from "@lib/Notification"
+import { useToast } from "@utils/Toast"
 import { useState } from "react"
 import { sendOTP, signInWithCredentials, signInWithGoogle } from "@lib/server/auth"
 import { useSchools } from "@lib/useSchools"
 import Image from "next/image"
 import { HelpCircle, EyeOff, Eye, ChevronRight, ChevronLeft } from "lucide-react"
+import { set } from "mongoose"
 
 export const userDeets = {
   email: signal(""),
@@ -23,7 +24,7 @@ export const userDeets = {
 
 const Form = () => {
   useSignals()
-  const notification = useNotification()
+  const { setToastValues } = useToast()
   // const {status } = useUser()
   const pathName = usePathname()
   const router = useRouter()
@@ -44,13 +45,43 @@ const Form = () => {
   // Send OTP
   const handleSendOTP = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    // Validations
+    if (pathName === "/signup/agent") {
+      //  check steps for agent
+      if (step < 3) {
+        setToastValues({
+          isActive: true,
+          message: "Complete all steps before proceeding",
+          status: "danger",
+          duration: 3000,
+        })
+        return
+      }
+
+      const allFilled = Object.values(userDeets).every((sig) => sig.value.trim() !== "")
+      if (!allFilled) {
+        setToastValues({
+          isActive: true,
+          message: "Please fill in all fields",
+          status: "danger",
+          duration: 3000,
+        })
+        return
+      }
+
+      return
+    }
+
+    //  start sending OTP
     setSending(true)
     try {
       const res = await sendOTP({ email: userDeets.email.value })
-      notification.setIsActive(true)
-      notification.setMessage(res.message)
-      notification.setType(res.status)
-      notification.setDuration(2000)
+      setToastValues({
+        isActive: true,
+        message: res.message,
+        status: res.status,
+        duration: 2000,
+      })
       if (res.status === "success" && pathName === "/signup/agent") {
         router.push(
           `/signup/verify?role=agent&username=${userDeets.username.value}&email=${userDeets.email.value}&password=${userDeets.password.value}&phone=${userDeets.phone.value}&address=${userDeets.address.value}`
@@ -63,9 +94,12 @@ const Form = () => {
       setSending(false)
     } catch (err) {
       setSending(false)
-      notification.setIsActive(true)
-      notification.setType("danger")
-      notification.setDuration(2000)
+      setToastValues({
+        isActive: true,
+        message: "An error occured, please try again",
+        status: "danger",
+        duration: 2000,
+      })
     }
   }
 
@@ -81,24 +115,33 @@ const Form = () => {
     try {
       const res = await signInWithCredentials(userDeets.email.value, userDeets.password.value)
       if (res.status === "success") {
-        notification.setIsActive(true)
-        notification.setMessage(res.message)
-        notification.setType(res.status)
+        setToastValues({
+          isActive: true,
+          message: res.message,
+          status: res.status,
+          duration: 2000,
+        })
         setLoggingIn(true)
         router.push("/")
       } else {
-        notification.setIsActive(true)
-        notification.setMessage(res.message)
-        notification.setType(res.status)
+        setToastValues({
+          isActive: true,
+          message: res.message,
+          status: res.status,
+          duration: 2000,
+        })
       }
       setSending(false)
       console.log(res.other)
     } catch (err) {
       console.log(err)
       setSending(false)
-      notification.setIsActive(true)
-      notification.setMessage("An error occured,please try again")
-      notification.setType("danger")
+      setToastValues({
+        isActive: true,
+        message: "An error occured, please try again",
+        status: "danger",
+        duration: 2000,
+      })
     }
   }
 
@@ -262,7 +305,7 @@ const Form = () => {
                   <select
                     value={school}
                     onChange={(e) => setSchool(e.target.value)}
-                    className={`w-full border rounded p-6 py-7  dark:bg-gray-600 ${
+                    className={`w-full border rounded p-6 py-7  dark:bg-darkGray ${
                       !school && "text-gray-400"
                     }`}
                   >
@@ -277,8 +320,8 @@ const Form = () => {
                     ))}
                   </select>
                   <div className="mx-auto self-center text-center text-sm mt-2 text-gray-500 dark:text-gray-300">
-        If you’re not a student, you don’t need to select a school.
-                </div>
+                    If you’re not a student, you don’t need to select a school.
+                  </div>
                 </div>
               )}
             </div>
@@ -373,7 +416,7 @@ const Form = () => {
                   functions={() => {
                     handleSignInWithGoogle()
                   }}
-                  className="directional clickable mb-2 rounded-md mx-auto bg-gray-200 dark:bg-gray-700 w-80 h-10"
+                  className="directional clickable mb-2 rounded-md mx-auto bg-gray-200 dark:bg-gray-700 w-80 h-10 p-6"
                 >
                   <Image
                     width={25}

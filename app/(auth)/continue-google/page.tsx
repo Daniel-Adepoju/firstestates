@@ -18,10 +18,10 @@ const ContinueGoogle = () => {
       Successfully Signed In
       </h1>
      {session.user.role ==='client' ?
-      <Link href='/' className="text-center w-70 px-3 py-3 dark:bg-coffee bg-darkblue text-white rounded-lg text-lg font-semibold hover:opacity-80 transition">
+      <Link href='/' className="text-center w-70 px-3 py-3 bg-goldPrimary text-white rounded-lg text-lg font-semibold hover:opacity-80 transition">
           Proceed To HomePage
         </Link> :
-         <Link href='/agent' className="text-center w-70 px-3 py-3 dark:bg-coffee bg-darkblue text-white rounded-lg text-lg font-semibold hover:opacity-80 transition">
+         <Link href='/agent' className="text-center w-70 px-3 py-3 bg-goldPrimary text-white rounded-lg text-lg font-semibold hover:opacity-80 transition">
           Proceed To Dashboard
          </Link>
  }
@@ -44,7 +44,7 @@ const ContinueGoogle = () => {
       <Link href='/continue-google/fields?role=agent' className="text-center w-70 px-3 py-3 bg-green-700 text-white rounded-lg text-lg font-semibold hover:bg-green-800 transition">
           I'm an Agent
       </Link>
-      <Link href='/continue-google/fields?role=client' className="text-center w-70 px-3 py-3 dark:bg-coffee bg-darkblue text-white rounded-lg text-lg font-semibold hover:opacity-80 transition">
+      <Link href='/continue-google/fields?role=client' className="text-center w-70 px-3 py-3 dark:bg-goldPrimary bg-goldPrimary text-white rounded-lg text-lg font-semibold hover:opacity-80 transition">
           I'm a Client
         </Link>
       </div>

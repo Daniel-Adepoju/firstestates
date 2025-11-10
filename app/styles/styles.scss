@@ -958,7 +958,6 @@ footer.hide {
     }
     .darkblueBtn {
       width: 210px;
-      padding: 8px;
       @include mx.center();
     }
     @media (min-width: 1200px) {
@@ -985,10 +984,7 @@ footer.hide {
     text-decoration: underline;
   }
 
-  form {
-    @extend .verify;
-    margin-top: 0;
-  }
+
   button {
     width: 200px;
   }
@@ -999,29 +995,17 @@ footer.hide {
     margin-inline: auto;
     text-align: center;
   }
-  .inputContainer {
-    gap: 10px;
-    width: 100%;
-    @include mx.flex(row, center, center);
-  }
+ 
   .otp-input {
     width: 60px;
     height: 60px;
     text-align: center;
     font-size: 20px;
     border-radius: 5px;
-    border: none;
-    outline: 1.5px solid rgba(0, 0, 0, 0.792);
-    background-color: rgba(101, 100, 100, 0.151);
-    color: rgba(54, 54, 54, 0.692);
     font-family: fn.font("headers");
     @include mx.transition(300ms, ease-out);
   }
   .otp-input:focus {
-    outline: none;
-    border: 2px solid fn.color("darkblue");
-    background-color: fn.color("white");
-    color: fn.color("darkblue");
     @include mx.transition(300ms, ease-out);
   }
   input[type="number"]::-webkit-outer-spin-button,

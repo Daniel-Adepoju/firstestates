@@ -6,6 +6,7 @@ import Provider from '@utils/sessionProvider'
 import ReactQueryProvider from '@utils/ReactQueryProvider';
 import Notification from '@lib/Notification'
 import {Suspense} from 'react'
+import Toast from "@utils/Toast";
 import Nav from "@components/Nav";
 export const metadata = {
   title: "FirstEstates",
@@ -20,10 +21,12 @@ export default function RootLayout({children}) {
           <Provider>
           <User>
          <Notification>
-          {/* <Nav /> */}
+          <Toast>
+          <Nav />
           {/* <main> */}
          {children}
           {/* </main> */}
+            </Toast>
             </Notification>
           {/* <Footer />    */}
           </User>

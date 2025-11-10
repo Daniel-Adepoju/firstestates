@@ -167,8 +167,6 @@ input[type="number"] {
 
 //Buttons
 button {
-  border: none;
-  outline: none;
   cursor: pointer;
 }
 a:has(.clickable) {
@@ -436,7 +434,7 @@ a:has(.clickable) {
   border-radius: 6px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.199);
   overflow: hidden;
-  font-family: fn.font("card");
+  font-family: fn.font("headers");
   // margin-top: 100px;
   margin-inline: auto;
   width: 90%;

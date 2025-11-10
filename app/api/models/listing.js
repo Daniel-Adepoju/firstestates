@@ -70,6 +70,11 @@ const ListingSchema = new Schema({
     enum: ['available', 'rented'],
     default: 'available',
   },
+  listingTier: {
+type: String,
+enum: ['standard','gold', 'first'],
+default: 'standard',
+  },
   totalViews: {
     type:Number,
     default: 0

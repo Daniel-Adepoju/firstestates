@@ -11,11 +11,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { axiosdata } from "@utils/axiosUrl"
 import { useToast } from "@utils/Toast"
 
-const AddResident = ({
-  listingId,
-}: {
-  listingId?: string
-}) => {
+const AddResident = ({ listingId }: { listingId?: string }) => {
   const queryClient = useQueryClient()
   const { setBackdrop } = useBackdrop()
   const [search, setSearch] = useState("")
@@ -67,7 +63,7 @@ const AddResident = ({
     mutationFn: addResident,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["inhabitants"] })
-       setBackdrop({ isOptionsOpen: false })
+      setBackdrop({ isOptionsOpen: false })
     },
   })
 
@@ -84,7 +80,7 @@ const AddResident = ({
   const mappedUsers = usersdata?.users.map((user: any) => (
     <div
       key={user._id}
-      className="w-full flex items-center gap-3 px-3 py-2 rounded-md bg-gray-100 dark:bg-gray-600"
+      className="w-full flex items-center gap-3 px-3 py-2 rounded-md bg-gray-100 dark:bg-darkGray"
     >
       <CldImage
         src={user?.profilePic}
@@ -104,9 +100,8 @@ const AddResident = ({
       {!addResidentMutation.isPending ? (
         <PlusCircleIcon
           onClick={() => {
-             handleAddResident(user._id)
-            }
-          }
+            handleAddResident(user._id)
+          }}
           className="ml-auto smallScale cursor-pointer"
         />
       ) : (
@@ -152,7 +147,7 @@ const AddResident = ({
                 {Array.from({ length: 3 }).map((_, index) => (
                   <Skeleton
                     key={index}
-                    className="w-full h-14 px-3 py-2 rounded-md bg-gray-100 dark:bg-gray-600"
+                    className="w-full h-14 px-3 py-2 rounded-md bg-gray-100 dark:bg-darkGray"
                   />
                 ))}
               </div>
@@ -231,14 +226,15 @@ export const DeleteResident = ({
             color="white"
           />
         ) : (
-          <Trash 
-          onClick={() => DeleteResidentMutation.mutate()}
-          className="text-red-600 cursor-pointer" />
+          <Trash
+            onClick={() => DeleteResidentMutation.mutate()}
+            className="text-red-600 cursor-pointer"
+          />
         )
       ) : (
         <Loader2
           size={16}
-          color={trash ? 'red' : 'white'}
+          color={trash ? "red" : "white"}
           className="animate-spin"
         />
       )}
