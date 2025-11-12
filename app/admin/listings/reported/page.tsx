@@ -46,7 +46,7 @@ const Reported = () => {
      <div 
      key={reported?._id}
       ref={index === items.reported.length - 1 ? ref : null}
-     className="flex items-center w-full max-w-200 h-25 rounded-md shadow-sm dark:bg-gray-800/50">
+     className="flex items-center w-full max-w-200 h-25 rounded-md shadow-sm dark:bg-gray-700/50 dark:outline-black dark:outline-2 p-4">
      <Link href={`/admin/listings/${reported?._id}`}>
       <CldImage 
       src={reported?.mainImage}

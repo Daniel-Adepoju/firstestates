@@ -2,14 +2,15 @@
 
 smile id/dojah ->> finish agent auth
 
-Update user in database and session and link to paystack subscription.
+##
+1.Paystack ensure payment according to tiers
+2.Check for as much error as possible in agent listing
 
-1. 1000
-2. 2500
-3. 5000
 
 ## Listings
-1. Make listing valid for 30 days, featurable in 50days, and automatic featured in 75 days(which can only be done by tiered agent)
+
+
+
 ## To Do In request
 
 dynamic requests count in card,

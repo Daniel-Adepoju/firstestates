@@ -30,7 +30,7 @@ export default function ListingAmenities({ listingDeets, handleInputChange }: an
               type="number"
               placeholder="0"
               value={listingDeets[f.key].value || ""}
-              onChange={handleInputChange}
+              onChange={(e) => listingDeets[f.key].value = e.target.value}
               className="border rounded p-2 dark:text-white dark:bg-darkGray"
             />
           </div>

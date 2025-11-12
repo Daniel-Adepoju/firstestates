@@ -125,6 +125,7 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
         bathrooms: listingDeets.bathrooms.value,
         bedrooms: listingDeets.bedrooms.value,
         toilets: listingDeets.toilets.value,
+        listingTier,
         isFeatured: listingTier === "first",
       })
       if (res.status === "success") {
@@ -211,7 +212,7 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
           <ListingSubmit
             email={session?.user?.email || ""}
             incomplete={incomplete}
-            creating={creating}
+            creating={creating.value}
             amount={amount}
             handlemutate={() => createListingMutation.mutate()}
           />

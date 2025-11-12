@@ -52,10 +52,11 @@ const WishListCard = ({ listing, wishlistId, refValue }: WishListProps) => {
     <>
       <div
         ref={refValue}
-        className="w-full max-w-220 flex items-center md:justify-between gap-4 pr-3 shadow-sm rounded-md dark:bg-gray-800/50"
+        className="w-full md:max-w-220 flex items-center justify-between gap-4 pr-3 shadow-sm rounded-md dark:bg-gray-700/50 dark:outline-black dark:outline-2"
       >
+        <Link href={`/listings/single_listing?id=${listing._id}`}>   
         <CldImage
-          width={90}
+          width={110}
           height={90}
           alt="post_img"
           src={listing.mainImage}
@@ -63,15 +64,22 @@ const WishListCard = ({ listing, wishlistId, refValue }: WishListProps) => {
             type: "auto",
             source: true,
           }}
-          className="rounded-md"
-        />
+          gravity="center"
+          className="rounded-md object-fill ml-1"
+        /> 
+        </Link>
         <div className="flex flex-col items-center">
           {/* address */}
           <div
             className="
-        address text-sm"
+        address text-sm  font-semibold"
           >
-            {truncateText(listing.address)}
+            <span className="md:hidden">
+              {truncateText(listing.address, 16)}
+              </span>
+              <span className="hidden md:block">
+              {truncateText(listing.address, 26)}
+              </span>
           </div>
 
           {/* school */}
@@ -95,7 +103,7 @@ const WishListCard = ({ listing, wishlistId, refValue }: WishListProps) => {
             />
             <Link
               href={`/chat?recipientId=${listing.agent._id}`}
-              className="font-bold text-xs md:text-sm text-darkblue dark:text-coffee underline "
+              className="font-bold text-xs md:text-sm quickLink underline "
             >
               Chat With Agent{" "}
             </Link>
