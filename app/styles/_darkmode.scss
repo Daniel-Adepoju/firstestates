@@ -1,222 +1,217 @@
-@use 'functions' as *;
-@use 'mixin' as *;
+@use "functions" as *;
+@use "mixin" as *;
 
 html:is(.dark) {
-
-   
   .loader {
     color: white;
   }
   body {
-    background-color: color('darkModePrimary');
-    color:white;
+    background-color: color("darkModePrimary");
+    color: white;
   }
 
   // nav
 
   .nav {
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.317);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.317);
   }
-  .nav,.nav_items {
-    background-color:color('darkModeSecondary');
+  .nav,
+  .nav_items {
+    background-color: color("darkModeSecondary");
     color: white;
   }
   .footer {
-    background-color: color('coffee');
+    background-color: color("coffee");
   }
   .logo {
-    color: color('white');
+    color: color("white");
     &::after,
     &::before {
-    background-color: color('wwite');
+      background-color: color("wwite");
     }
   }
-  
+
   .nav_items {
-      .link_line,span {
+    .link_line,
+    span {
       color: white;
-       &::after {
+      &::after {
         background-color: color("coffee");
-       }
-     }
+      }
     }
-    
-     .activeNav {
-      .toggle_nav{
-       .toggle_items:nth-child(2) {
+  }
+
+  .activeNav {
+    .toggle_nav {
+      .toggle_items:nth-child(2) {
         border: 4px dashed white;
         animation: rollBorderWhite 5s ease-in-out infinite;
       }
-     }
     }
-    .subheading, .heading, .title_heading {
+  }
+  .subheading,
+  .heading,
+  .title_heading {
     color: white;
   }
 
-// card
+  // card
   .card_list {
-  background-color: rgba(37, 37, 37, 0.146);
-}
- .card {
-  
-     background-color: black;
-  
-  
-      &:hover {
-    &::after {
-    //   background:color('wheat');
-    background-color: white;
-    }
-  } 
-    .body {
-       background-color: color('darkModeSecondary');
-    }
-  .school {
-    
-    color: white;
-    background-color: rgba(33, 36, 46, 0.546);
-    }
-  
-  
-}
-
-
-.popularCard, .pagination {
-  background-color: color('darkModeSecondary');
-}
-
-
-.user-card {
-  background-color: color('darkModeSecondary');
-}
-.single_card {
-   box-shadow: 1px 2px 2px 1px rgba(10, 10, 10, 0.831);
-    background-color: color('darkModeTertiary');
-    .header {
-    .house {
-      .arrow {
-  &:active {
-    background-color: color('coffee');
+    background-color: rgba(37, 37, 37, 0.146);
   }
-}
-    }
-  }
-}
-.featured_container {
   .card {
-    .tag.price {
-      background-color: rgba(27, 27, 27, 0.936);
+    background-color: black;
+
+    &:hover {
+      &::after {
+        //   background:color('wheat');
+        background-color: white;
+      }
+    }
+    .body {
+      background-color: color("darkModeSecondary");
+    }
+    .school {
+      color: white;
+      background-color: rgba(33, 36, 46, 0.546);
     }
   }
-}
- 
 
-    // forms  
-     .typeOfAccount {
-    background-color: color('coffee');
-   }
-    .form_container {
-  //  background-color: transparent;
-
-    }
-.form {
-
-  label {
-    opacity: 90%;
-    color: white;
+  .popularCard,
+  .pagination {
+    background-color: color("darkModeSecondary");
   }
-  input, select, textarea {
-    outline-color: rgba(174, 174, 174, 0.842);
-    color: white;
-    &:focus {
-      outline-color: color("wheat");
+
+  .user-card {
+    background-color: color("darkModeSecondary");
+  }
+  .single_card {
+    box-shadow: 1px 2px 2px 1px rgba(10, 10, 10, 0.831);
+    background-color: color("darkModeTertiary");
+    .header {
+      .house {
+        .arrow {
+          &:active {
+            background-color: color("coffee");
+          }
+        }
+      }
     }
   }
- 
-  .general_details,
-  .agent_details, .bottom {
-    background-color: inherit;
-    color: white;
-  } 
+  .featured_container {
+    .card {
+      .tag.price {
+        background-color: rgba(27, 27, 27, 0.936);
+      }
+    }
   }
-.board {
-    color: white;
-}
-.editSide {
-    background-color: color('darkModeSecondary');
-    color: white;
-    outline: 4px solid rgb(0, 0, 0); 
-}
 
+  // forms
+  .typeOfAccount {
+    background-color: color("coffee");
+  }
+  .form_container {
+    //  background-color: transparent;
+  }
+  .form {
+    label {
+      opacity: 90%;
+      color: white;
+    }
+    input,
+    select,
+    textarea {
+      outline-color: rgba(174, 174, 174, 0.842);
+      color: white;
+      &:focus {
+        outline-color: color("wheat");
+      }
+    }
 
-// dashboard
+    .general_details,
+    .agent_details,
+    .bottom {
+      background-color: inherit;
+      color: white;
+    }
+  }
+  .board {
+    color: white;
+  }
+  .editSide {
+    background-color: color("darkModeSecondary");
+    color: white;
+    outline: 4px solid rgb(0, 0, 0);
+  }
+
+  // dashboard
 
   .adminDashboard_content {
-  .content_item {
-  background-color: color('darkModeSecondary');
-  @include shadow(0.1px,0.5px, rgba(219, 219, 219, 0.897));
-}
-.barchart {
-  @include shadow(0,0);
-}
+    .content_item {
+      background-color: color("darkModeSecondary");
+      @include shadow(0.1px, 0.5px, rgba(219, 219, 219, 0.897));
+    }
+    .barchart {
+      @include shadow(0, 0);
+    }
   }
 
-
-.agentProfile,.listingHistory, .availableLists
-   { 
-     background-color: color('darkModeSecondary');
-     color: white;
-     .agentName {
-        color:white;
-     }
+  .agentProfile,
+  .listingHistory {
+    background-color: color("darkModeSecondary");
+    color: white;
+    .agentName {
+      color: white;
     }
-
-.currency, .smallNum {
-  color: color('wheat'); 
-} 
-
- 
-
-.featured {
-  .swiper-pagination-bullet {
-  background-color: rgb(255, 255, 255) !important;
-}
-}
-
-.singleCardCon {
-  background-color: color('darkModeTertiary');
-}
-.agentCardName {
-  color: color('coffee');
-}
-
-
-// homepage
-
-.otherCard {
-  background-color: color('darkModeSecondary');
-}
-.otherHead {
-  color: white;
-}
-.hero {
-  background-color: color('coffee');
-  div,h1 {
+  }
+  .availableLists {
+    background-color: rgba(49, 49, 49, 0.614);
     color: white;
   }
-}
-.featured {
-  background-color: color('coffee');
-}
 
+  .currency,
+  .smallNum {
+    color: color("wheat");
+  }
 
-// buttons
- .darkblueBtn {
-  background-color: color('coffee'); 
- }
+  .featured {
+    .swiper-pagination-bullet {
+      background-color: rgb(255, 255, 255) !important;
+    }
+  }
 
+  .singleCardCon {
+    background-color: color("darkModeTertiary");
+  }
+  .agentCardName {
+    color: color("coffee");
+  }
 
- .quickLink {
-  color: rgb(57, 136, 239);
- }
+  // homepage
+
+  .otherCard {
+    background-color: color("darkModeSecondary");
+  }
+  .otherHead {
+    color: white;
+  }
+  .hero {
+    background-color: color("coffee");
+    div,
+    h1 {
+      color: white;
+    }
+  }
+  .featured {
+    background-color: color("coffee");
+  }
+
+  // buttons
+  .darkblueBtn {
+    background-color: color("coffee");
+  }
+
+  .quickLink {
+    color: rgb(57, 136, 239);
+  }
 }

@@ -41,6 +41,14 @@ export const getDate = (sub = 0) => {
   return new Date(now.getTime() + minutes * 60 * 1000);
 }
 
+export const daysLeft = (date) => {
+  const now = dayjs()
+  const end = dayjs(date)
+  const diff = end.diff(now, "day")
+  return diff > 0 ? diff : 0
+}
+
+
 
   // For Chat Section
 

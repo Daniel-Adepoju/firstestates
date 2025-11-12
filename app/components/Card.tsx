@@ -26,6 +26,7 @@ import { FeaturedBtn } from "./Featured"
 import { WishlistButton } from "./WishListCard"
 import { useBackdrop } from "@lib/Backdrop"
 import CardOptions from "./CardOptions"
+import { daysLeft } from "@utils/date"
 
 export interface CardProps {
   edit?: boolean
@@ -87,7 +88,7 @@ const Card = ({ edit, listing, isAgentCard, isInWishList, blankSlate = false }: 
               />
             )}
 
-            {/*actions  */}
+            {/*actions ->> client */}
             {!blankSlate && !isAgentCard ? (
               <div className="flex flex-col items-center justify-center gap-1 absolute top-2 right-3 z-10">
                 <WishlistButton
@@ -105,6 +106,28 @@ const Card = ({ edit, listing, isAgentCard, isInWishList, blankSlate = false }: 
                     size={30}
                     className="text-gray-700 dark:text-white"
                   />
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+
+            {/* actions ->> agent */}
+            {!blankSlate && isAgentCard ? (
+              <div className="flex flex-col items-end justify-end gap-1 absolute top-2 right-3 z-10">
+                <div className="outline-2 outline-black/10 capitalize font-head bg-white dark:bg-gray-700 px-2 py-1 rounded-md text-sm font-semibold text-gray-700 dark:text-gray-200 shadow-sm mb-1">
+                  <span
+                    className={`
+                      ${listing?.listingTier === "standard" && "text-sky-500"}
+                      ${listing?.listingTier === "gold" && "text-goldPrimary"} ${
+                      listing?.listingTier === "first" && "text-[#b647ff]"
+                    }`}
+                  >
+                    {listing?.listingTier}
+                    </span>
+                </div>
+                <div className="outline-2 outline-black/10 font-list bg-white dark:bg-gray-700 px-2 py-1 rounded-md text-sm font-semibold text-gray-700 dark:text-gray-200 shadow-sm">
+                  Valid for {daysLeft(listing?.validUntil)} days
                 </div>
               </div>
             ) : (
@@ -311,12 +334,13 @@ const Card = ({ edit, listing, isAgentCard, isInWishList, blankSlate = false }: 
                 color="green"
               />
             </div>
-
-            <FeaturedBtn
-              listingId={listing?._id}
-              isFeatured={listing?.isFeatured}
-              createdDate={listing.createdAt}
-            />
+            {listing?.listingTier === "gold" && (
+              <FeaturedBtn
+                listingId={listing?._id}
+                isFeatured={listing?.isFeatured}
+                createdDate={listing.createdAt}
+              />
+            )}
 
             <div
               className="dark:bg-black/20 bg-white/80 w-10 h-10 

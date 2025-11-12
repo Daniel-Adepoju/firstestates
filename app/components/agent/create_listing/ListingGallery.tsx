@@ -9,42 +9,44 @@ import { useSignal } from "@preact/signals-react"
 export default function ListingGallery({ listingDeets, listingTier }: any) {
   const deletingGallery = useSignal(false)
   const selectedGalleryImageId = useSignal<number | null>(null)
-  const maxImages =
-    listingTier === "standard" ? 3 : listingTier === "gold" ? 5 : listingTier === "first" ? 8 : 3
 
-  const handleUpload = (result: any) => {
+  const maxImages =
+    listingTier === "standard" ? 3 :
+    listingTier === "gold" ? 5 :
+    listingTier === "first" ? 8 : 3
+
+  const handleCloudinaryUpload = (result: any, key: string) => {
     const id = result.info.public_id
-    if (listingDeets.gallery.value.length < maxImages) {
-      listingDeets.gallery.value = [...listingDeets.gallery.value, id]
+    if (listingDeets[key].value.length < maxImages) {
+      listingDeets[key].value = [...listingDeets[key].value, id]
     }
   }
 
-  const handleDeleteSingle = async (idx: number) => {
-    selectedGalleryImageId.value = idx
+  const handleDeleteFromGallery = async (e: any) => {
+    const imgId = e.target.dataset.id
+    const index = Number(e.target.id)
+    selectedGalleryImageId.value = index
     deletingGallery.value = true
     try {
-      const imgId = listingDeets.gallery.value[idx]
       const res = await deleteMultipleImages([imgId])
       if (res.status === "success") {
-        listingDeets.gallery.value = listingDeets.gallery.value.filter(
-          (_: any, i: number) => i !== idx
-        )
+        listingDeets.gallery.value = listingDeets.gallery.value.filter((_: any, i: number) => i !== index)
       }
     } catch (err) {
-      console.log(err)
+      console.error(err)
     } finally {
       deletingGallery.value = false
       selectedGalleryImageId.value = null
     }
   }
 
-  const handleDeleteAll = async () => {
+  const handleDeleteGallery = async () => {
     deletingGallery.value = true
     try {
       await deleteMultipleImages(listingDeets.gallery.value)
       listingDeets.gallery.value = []
     } catch (err) {
-      console.log(err)
+      console.error(err)
     } finally {
       deletingGallery.value = false
     }
@@ -53,74 +55,68 @@ export default function ListingGallery({ listingDeets, listingTier }: any) {
   return (
     <div className="form_group gallery">
       <CldUploadWidget
+        options={{
+          sources: ["local", "camera", "google_drive"],
+          maxFiles: maxImages,
+          multiple: true,
+        }}
         uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
-        options={{ multiple: true, maxFiles: maxImages }}
-        onSuccess={handleUpload}
+        onSuccess={(result) => handleCloudinaryUpload(result, "gallery")}
       >
         {({ open }) =>
-          listingDeets.gallery.value.length < maxImages && (
+          listingDeets?.gallery.value.length < maxImages && (
             <Button
               text="Upload To Gallery"
               className="clickable text-white bg-darkblue hover:scale-99 dark:outline-gray-700 outline-2 outline-black transition-all duration-300 gloss font-bold py-3.5 px-8.5 rounded-md"
               functions={() => open()}
-            />
+            ></Button>
           )
         }
       </CldUploadWidget>
 
-      <div className="galleryImagesContainer flex flex-wrap gap-3 mt-4">
-        {listingDeets.gallery.value.map((img: string, idx: number) => (
-          <div
-            key={idx}
-            className="galleryImages relative w-[100px] h-[100px]"
-          >
-            <CldImage
-              src={img}
-              alt={`Gallery ${idx}`}
-              width={100}
-              height={100}
-              crop="fill"
-              className="rounded-xl"
-            />
-            <div
-              className="absolute top-1 right-1 cursor-pointer z-10"
-              onClick={() => handleDeleteSingle(idx)}
-            >
-              <Image
-                src="/icons/cancel.svg"
-                alt="Delete"
-                width={20}
-                height={20}
-              />
-            </div>
-            {selectedGalleryImageId.value === idx && deletingGallery.value && (
-              <div className="absolute inset-0 flex items-center justify-center bg-black/30 rounded-xl">
-                <DeleteLoader />
+      <div className="galleryImagesContainer">
+        {listingDeets.gallery.value.map((imgSrc: string, index: number) => {
+          return (
+            <div key={index} className="galleryImages">
+              <div className="clickable">
+                <Image
+                  id={index.toString()}
+                  data-id={imgSrc}
+                  onClick={handleDeleteFromGallery}
+                  src="/icons/cancel.svg"
+                  alt={`Delete${index}`}
+                  width={20}
+                  height={20}
+                />
               </div>
-            )}
-          </div>
-        ))}
+              <CldImage
+                src={imgSrc}
+                alt="Gallery Image"
+                width={100}
+                height={100}
+                crop={"fill"}
+              />
+              {index === selectedGalleryImageId.value || deletingGallery.value === true ? (
+                <DeleteLoader />
+              ) : (
+                ""
+              )}
+            </div>
+          )
+        })}
       </div>
 
-      {listingDeets.gallery.value.length > 1 && (
-        <div className="mt-3">
-          <Button
-            text="Delete All"
-            className="directional clickable darkblueBtn"
-            functions={handleDeleteAll}
-          />
-        </div>
-      )}
-
-      {deletingGallery.value && selectedGalleryImageId.value === null && (
-        <div className="mt-2 flex justify-center">
-          <DeleteLoader />
-        </div>
-      )}
-
-      <p className="mx-auto text-center dark:text-white mt-2">
+      <p className="mx-auto text-center dark:text-white">
         A Maximum Of {maxImages} Images Can Be Uploaded To The Gallery
       </p>
+
+      {listingDeets.gallery.value.length > 1 && (
+        <Button
+          className="clickable text-white bg-darkblue hover:scale-99 dark:outline-gray-700 outline-2 outline-black transition-all duration-300 gloss font-bold py-3.5 px-8.5 rounded-md"
+          functions={() => handleDeleteGallery()}
+          text="Delete All"
+        />
+      )}
     </div>
   )
 }

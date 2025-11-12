@@ -27,6 +27,8 @@ type Listing = {
   totalViews?: number;
   isFeatured?:boolean;
   inhabitans?:any;
+  listingTier?: "standard" | "gold" | "first";
+  validUntil?: Date;
 }
 
 type School = {

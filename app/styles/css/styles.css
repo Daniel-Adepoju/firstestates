@@ -14,7 +14,8 @@ html:is(.dark) body, html:is(.dark) main {
 html:is(.dark) .nav, html:is(.dark) .footer {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.317);
 }
-html:is(.dark) .nav, html:is(.dark) .footer, html:is(.dark) .nav_items {
+html:is(.dark) .nav, html:is(.dark) .footer,
+html:is(.dark) .nav_items {
   background-color: #31363F;
   color: white;
 }
@@ -24,17 +25,21 @@ html:is(.dark) .footer {
 html:is(.dark) .logo {
   color: #fffdfb;
 }
-html:is(.dark) .nav_items .link_line, html:is(.dark) .nav_items span {
+html:is(.dark) .nav_items .link_line,
+html:is(.dark) .nav_items span {
   color: white;
 }
-html:is(.dark) .nav_items .link_line::after, html:is(.dark) .nav_items span::after {
+html:is(.dark) .nav_items .link_line::after,
+html:is(.dark) .nav_items span::after {
   background-color: #032679;
 }
 html:is(.dark) .activeNav .toggle_nav .toggle_items:nth-child(2) {
   border: 4px dashed white;
   animation: rollBorderWhite 5s ease-in-out infinite;
 }
-html:is(.dark) .subheading, html:is(.dark) .heading, html:is(.dark) .title_heading {
+html:is(.dark) .subheading,
+html:is(.dark) .heading,
+html:is(.dark) .title_heading {
   color: white;
 }
 html:is(.dark) .card_list {
@@ -53,7 +58,8 @@ html:is(.dark) .card .school {
   color: white;
   background-color: rgba(33, 36, 46, 0.546);
 }
-html:is(.dark) .popularCard, html:is(.dark) .pagination {
+html:is(.dark) .popularCard,
+html:is(.dark) .pagination {
   background-color: #31363F;
 }
 html:is(.dark) .user-card {
@@ -76,15 +82,20 @@ html:is(.dark) .form label {
   opacity: 90%;
   color: white;
 }
-html:is(.dark) .form input, html:is(.dark) .form select, html:is(.dark) .form textarea {
+html:is(.dark) .form input,
+html:is(.dark) .form select,
+html:is(.dark) .form textarea {
   outline-color: rgba(174, 174, 174, 0.842);
   color: white;
 }
-html:is(.dark) .form input:focus, html:is(.dark) .form select:focus, html:is(.dark) .form textarea:focus {
+html:is(.dark) .form input:focus,
+html:is(.dark) .form select:focus,
+html:is(.dark) .form textarea:focus {
   outline-color: #f29829;
 }
 html:is(.dark) .form .general_details,
-html:is(.dark) .form .agent_details, html:is(.dark) .form .bottom {
+html:is(.dark) .form .agent_details,
+html:is(.dark) .form .bottom {
   background-color: inherit;
   color: white;
 }
@@ -105,14 +116,21 @@ html:is(.dark) .adminDashboard_content .content_item {
 html:is(.dark) .adminDashboard_content .barchart {
   box-shadow: 0 0 0 0 rgba(116, 116, 116, 0.269);
 }
-html:is(.dark) .agentProfile, html:is(.dark) .listingHistory, html:is(.dark) .availableLists {
+html:is(.dark) .agentProfile,
+html:is(.dark) .listingHistory {
   background-color: #31363F;
   color: white;
 }
-html:is(.dark) .agentProfile .agentName, html:is(.dark) .listingHistory .agentName, html:is(.dark) .availableLists .agentName {
+html:is(.dark) .agentProfile .agentName,
+html:is(.dark) .listingHistory .agentName {
   color: white;
 }
-html:is(.dark) .currency, html:is(.dark) .smallNum {
+html:is(.dark) .availableLists {
+  background-color: rgba(49, 49, 49, 0.614);
+  color: white;
+}
+html:is(.dark) .currency,
+html:is(.dark) .smallNum {
   color: #f29829;
 }
 html:is(.dark) .featured .swiper-pagination-bullet {
@@ -133,7 +151,8 @@ html:is(.dark) .otherHead {
 html:is(.dark) .hero {
   background-color: #032679;
 }
-html:is(.dark) .hero div, html:is(.dark) .hero h1 {
+html:is(.dark) .hero div,
+html:is(.dark) .hero h1 {
   color: white;
 }
 html:is(.dark) .featured {

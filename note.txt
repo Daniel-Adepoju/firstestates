@@ -3,7 +3,7 @@
 smile id/dojah ->> finish agent auth
 
 ##
-1.Paystack ensure payment according to tiers
+1. In edit listing put tabs change status, edit details, renew validity('')
 2.Check for as much error as possible in agent listing
 
 

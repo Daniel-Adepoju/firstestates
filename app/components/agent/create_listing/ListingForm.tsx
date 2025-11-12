@@ -114,6 +114,22 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
   const handleCreateListing = async () => {
     creating.value = true
     try {
+
+      // handle valid until date based on listing tier
+        const now = new Date()
+    let validUntil = new Date()
+
+    if (listingTier === "standard") {
+      validUntil.setDate(now.getDate() + 31)
+    } else if (listingTier === "gold") {
+      validUntil.setDate(now.getDate() + 51)
+    } else if (listingTier === "first") {
+      validUntil.setDate(now.getDate() + 76)
+    } else {
+      validUntil.setDate(now.getDate() + 30)
+    }
+
+    // create listing
       const res = await createListing({
         description: listingDeets.description.value,
         price: listingDeets.price.value,
@@ -127,6 +143,7 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
         toilets: listingDeets.toilets.value,
         listingTier,
         isFeatured: listingTier === "first",
+        validUntil,
       })
       if (res.status === "success") {
         setToastValues({
@@ -138,6 +155,14 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
         creating.value = false
         resetFormFields()
         router.push("/agent/listings")
+      } else {
+        creating.value = false
+        setToastValues({
+          isActive: true,
+          message: res.message || "An error occurred",
+          status: "danger",
+          duration: 4000,
+        })
       }
     } catch (err: any) {
       creating.value = false
@@ -212,9 +237,9 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
           <ListingSubmit
             email={session?.user?.email || ""}
             incomplete={incomplete}
-            creating={creating.value}
+            creating={creating}
             amount={amount}
-            handlemutate={() => createListingMutation.mutate()}
+            handleMutate={() => createListingMutation.mutate()}
           />
         </form>
       </div>

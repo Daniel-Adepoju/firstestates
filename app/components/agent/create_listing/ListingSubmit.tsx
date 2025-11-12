@@ -6,6 +6,7 @@ import { MoreHorizontal } from "lucide-react"
 const PaystackBtn = dynamic(() => import("@components/PayStackButton"), { ssr: false })
 
 export default function ListingSubmit({ email, incomplete, creating, amount, handleMutate }: any) {
+
   return (
     <div className="form_group col-span-2 mx-auto">
       {email ? (
@@ -19,7 +20,7 @@ export default function ListingSubmit({ email, incomplete, creating, amount, han
             email={email || ""}
             amount={amount}
             creating={creating}
-            successFunction={handleMutate}
+            successFunction={() => handleMutate()}
           />
         )
       ) : (
