@@ -4,8 +4,8 @@ export const DeleteLoader = () => {
   return <span className="deleteLoader"></span>
 }
 
-export const WhiteLoader = () => {
-  return <span className="whiteLoader"></span>
+export const WhiteLoader = ({className}: {className?:string}) => {
+  return <span className={`${className && className} whiteLoader`}></span>
 }
 
 export const DotsLoader = (className: {className?:string}) => {

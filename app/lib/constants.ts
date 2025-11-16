@@ -114,3 +114,40 @@ export let dummyListing = {
   totalViews: 385,
   isFeatured: true,
 }
+
+ export const listingTierItems = [
+    {
+      type: "Standard",
+      price: "₦1000/month",
+      border: "border-sky-500",
+      benefits: [
+        "Basic listing visibility",
+        "Add up to 3 images",
+      ],
+      link: "/agent/listings/add?type=standard",
+    },
+    {
+      type: "Gold",
+      price: "₦2500/50 days",
+      border: "border-goldPrimary", // assuming `gold-primary` maps to yellow-500
+      benefits: [
+        "Ability to feature listings",
+        "Greater visibility than standard listing",
+        "Add up to 5 images",
+      ],
+      link: "/agent/listings/add?type=gold",
+    },
+    {
+      type: "First",
+      price: "₦5000/75 days",
+      border: "border-[#b647ff]",
+      benefits: [
+        "Enhanced listing visibility",
+        "Priority display in search results",
+        "Add up to 10 images",
+        "Automatic featured listing",
+      ],
+      link: "/agent/listings/add?type=first",
+      bonusClass:"md:col-span-2 md:mx-auto lg:col-span-1 lg:mx-0",
+    },
+  ]
