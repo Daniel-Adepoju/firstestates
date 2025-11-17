@@ -10,7 +10,6 @@ import { WhiteLoader } from "@utils/loaders"
 import { updateUser, updateProfilePic } from "@lib/server/auth"
 import { useNotification } from "@lib/Notification"
 import { useRouter } from "next/navigation"
-import { CloudinaryResult } from "./agent/create_listing/ListingForm"
 import { getSession } from "next-auth/react"
 import { MoreHorizontal } from "lucide-react"
 const EditProfile = () => {
@@ -67,7 +66,7 @@ const EditProfile = () => {
   }
 
   const updatePic = async (result: CloudinaryUploadWidgetResults) => {
-    const resultInfo = result.info as CloudinaryResult
+    const resultInfo = result.info as any
     setUpdatingProfilePic(true)
     await update({
       ...session?.user,

@@ -10,7 +10,6 @@ import { WhiteLoader } from "@utils/loaders"
 import { updateUser, updateProfilePic } from "@lib/server/auth"
 import { useNotification } from "@lib/Notification"
 import { useRouter, useSearchParams } from "next/navigation"
-import { CloudinaryResult } from "@components/agent/create_listing/ListingForm"
 import { getSession } from "next-auth/react"
 
 const Fields = () => {
@@ -64,7 +63,7 @@ const Fields = () => {
   }
 
   const updatePic = async (result: CloudinaryUploadWidgetResults) => {
-    const resultInfo = result.info as CloudinaryResult
+    const resultInfo = result.info as any
     await update({
       ...session?.user,
       profilePic: resultInfo.public_id,
