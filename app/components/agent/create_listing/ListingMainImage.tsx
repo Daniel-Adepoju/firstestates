@@ -36,7 +36,7 @@ export default function ListingMainImage({ listingDeets }: any) {
           !listingDeets.mainImage.value && (
             <Button
               text="Upload Main Image"
-              className="clickable text-white bg-darkblue hover:scale-99 dark:outline-gray-700 outline-2 outline-black transition-all duration-300 gloss font-bold py-3.5 px-8.5 rounded-md"
+              className="clickable text-white bg-darkblue hover:scale-99 dark:outline-black outline-2 outline-black transition-all duration-300 gloss font-bold py-3.5 px-8.5 rounded-md"
               functions={() => open()}
             ></Button>
           )

@@ -67,7 +67,7 @@ export default function ListingGallery({ listingDeets, listingTier }: any) {
           listingDeets?.gallery.value.length < maxImages && (
             <Button
               text="Upload To Gallery"
-              className="clickable text-white bg-darkblue hover:scale-99 dark:outline-gray-700 outline-2 outline-black transition-all duration-300 gloss font-bold py-3.5 px-8.5 rounded-md"
+              className="clickable text-white bg-darkblue hover:scale-99 outline-2 outline-black transition-all duration-300 gloss font-bold py-3.5 px-8.5 rounded-md"
               functions={() => open()}
             ></Button>
           )
