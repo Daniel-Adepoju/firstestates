@@ -190,8 +190,7 @@ export const FeaturedModal = ({ ref, email, listingId, userId }: FeaturedProps) 
             <PaystackBtn
               text="Proceed"
               email={email}
-              amount={500}
-              creating={creating}
+              amount={900}
               successFunction={() => makeFeaturedMutation.mutate()}
             />
           )}

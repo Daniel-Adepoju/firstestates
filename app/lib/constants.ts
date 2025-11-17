@@ -125,6 +125,7 @@ export let dummyListing = {
         "Add up to 3 images",
       ],
       link: "/agent/listings/add?type=standard",
+      rank:1,
     },
     {
       type: "Gold",
@@ -136,6 +137,7 @@ export let dummyListing = {
         "Add up to 5 images",
       ],
       link: "/agent/listings/add?type=gold",
+      rank:2,
     },
     {
       type: "First",
@@ -149,5 +151,6 @@ export let dummyListing = {
       ],
       link: "/agent/listings/add?type=first",
       bonusClass:"md:col-span-2 md:mx-auto lg:col-span-1 lg:mx-0",
+      rank:3,
     },
   ]

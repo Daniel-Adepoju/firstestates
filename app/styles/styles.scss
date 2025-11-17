@@ -66,7 +66,7 @@ body {
   width: 100%;
   min-height: 100vh;
   overflow-x: hidden;
-  font-family: fn.font("list");
+  font-family: fn.font("primary");
   @include mx.flex(column, flex-start, flex-start);
 }
 
@@ -95,7 +95,6 @@ main {
 
 .nav {
   position: absolute;
-  font-family: fn.font(list);
   background-color: fn.color("white");
   z-index: 103;
   width: 100%;
@@ -343,6 +342,7 @@ footer.hide {
   border-radius: 5px 5px 10px 10px;
   padding-top: 6px;
   padding-bottom: 10px;
+  font-family: fn.font("list");
   @include mx.flex(column, center, flex-start);
   @include mx.transition(300ms, ease-out,transform);
   &.blankSlate {
@@ -432,8 +432,6 @@ footer.hide {
     .address {
       position: relative;
       margin-top: -6px;
-      opacity: 60%;
-      font-size: 15px;
       width: 100%;
       &:after {
         content: "";

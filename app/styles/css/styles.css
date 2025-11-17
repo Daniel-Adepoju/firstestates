@@ -1,9 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Quicksand:wght@300..700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300..900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Sulphur+Point:wght@300;400;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Cascadia+Code:ital,wght@0,200..700;1,200..700&family=Tangerine:wght@800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Tourney:ital,wght@0,100..900;1,100..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400..900;1,300..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@400..700&display=swap");
 html:is(.dark) .loader {
   color: white;
 }
@@ -509,7 +509,6 @@ a:has(.clickable) {
   gap: 10px;
   border-radius: 14px;
   padding: 4px 20px;
-  font-family: "Quicksand", sans-serif;
 }
 .form {
   display: flex;
@@ -1689,7 +1688,6 @@ main {
 
 .nav, .footer {
   position: absolute;
-  font-family: "Quicksand", sans-serif;
   background-color: #fffdfb;
   z-index: 103;
   width: 100%;
@@ -1992,6 +1990,7 @@ footer.hide {
   border-radius: 5px 5px 10px 10px;
   padding-top: 6px;
   padding-bottom: 10px;
+  font-family: "Quicksand", sans-serif;
 }
 .card {
   display: flex;
@@ -2109,8 +2108,6 @@ footer.hide {
 .card .body .address {
   position: relative;
   margin-top: -6px;
-  opacity: 60%;
-  font-size: 15px;
   width: 100%;
 }
 .card .body .address:after {

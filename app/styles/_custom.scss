@@ -317,7 +317,6 @@ a:has(.clickable) {
   gap: 10px;
   border-radius: 14px;
   padding: 4px 20px;
-  font-family: fn.font("list");
   @include mx.flex(column, center, center);
   label {
     opacity: 50%;

@@ -16,6 +16,7 @@ import ListingGallery from "./ListingGallery"
 import ListingAmenities from "./ListingAmenities"
 import ListingLocation from "./ListingLocation"
 import ListingSubmit from "./ListingSubmit"
+import LoadingBoard from "@components/LoadingBoard"
 import { Info } from "lucide-react"
 
 // global signals
@@ -152,7 +153,6 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
           status: res.status,
           duration: 2000,
         })
-        creating.value = false
         resetFormFields()
         router.push("/agent/listings")
       } else {
@@ -175,6 +175,9 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["listings"] }),
   })
 
+   if (creating.value === true) {
+    return <LoadingBoard text="Creating" />
+  }
   return (
     <>
       <div className="form_container listing">

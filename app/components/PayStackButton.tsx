@@ -6,24 +6,32 @@ import { WhiteLoader } from "@utils/loaders"
 import { Signal } from "@preact/signals-react"
 import { makePayment } from "@lib/server/makePayment"
 import Paystack from "@paystack/inline-js"
+import { useSignals, useSignal } from "@preact/signals-react/runtime"
 
 interface PaystackBtnProps {
   text: string
   email: string
   amount: number
   metadata?: any
-  creating: Signal<boolean>
+  creating?: Signal<boolean>
   successFunction: () => void
+  className?: string
+  otherFunc?: () => void
 }
 
 const PaystackBtn = ({
-  creating,
   email,
   amount,
   metadata,
   text,
+  className,
+  otherFunc,
   successFunction,
 }: PaystackBtnProps) => {
+  
+  useSignals()
+  const creating = useSignal(false)
+
   const publicKey = process.env.NEXT_PUBLIC_PAYSTACK_KEY || ""
   const popup = new Paystack()
 
@@ -48,7 +56,7 @@ const PaystackBtn = ({
           const res = await axiosdata.value.get(`/api/transaction?ref=${response.reference}`)
           const data = res.data
           creating.value = true
-          
+
           if (data.status && data.data.status === "success") {
             await makePayment({
               userId: email,
@@ -79,8 +87,12 @@ const PaystackBtn = ({
   return (
     <Button
       text={text}
-      className="self-center clickable text-white bg-darkblue hover:scale-99 dark:outline-gray-700 outline-2 outline-black transition-all duration-300 gloss font-bold py-3.5 px-8.5 rounded-md"
+      className={`${
+        className ||
+        "self-center clickable text-white bg-darkblue hover:scale-99 dark:outline-gray-700 outline-2 outline-black transition-all duration-300 gloss font-bold py-3.5 px-8.5 rounded-md"
+      }`}
       functions={() => {
+        otherFunc && otherFunc()
         creating.value = true
         handlePaystack()
       }}

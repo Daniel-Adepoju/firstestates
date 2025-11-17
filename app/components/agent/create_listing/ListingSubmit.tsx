@@ -19,7 +19,6 @@ export default function ListingSubmit({ email, incomplete, creating, amount, han
             text={creating.value ? "Creating Listing..." : "Create Listing"}
             email={email || ""}
             amount={amount}
-            creating={creating}
             successFunction={() => handleMutate()}
           />
         )
