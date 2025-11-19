@@ -26,7 +26,7 @@ import { FeaturedBtn } from "./Featured"
 import { WishlistButton } from "./WishListCard"
 import { useBackdrop } from "@lib/Backdrop"
 import CardOptions from "./CardOptions"
-import { daysLeft } from "@utils/date"
+import { daysLeft, createdAt } from "@utils/date"
 
 export interface CardProps {
   edit?: boolean
@@ -128,6 +128,7 @@ const Card = ({ edit, listing, isAgentCard, isInWishList, blankSlate = false }: 
                 </div>
                 <div className="outline-2 outline-black/10 font-list bg-white dark:bg-gray-700 px-2 py-1 rounded-md text-sm font-semibold text-gray-700 dark:text-gray-200 shadow-sm">
                   Valid for {daysLeft(listing?.validUntil)} days
+                  {/* <p>Created at {createdAt(listing?.createdAt)}</p> */}
                 </div>
               </div>
             ) : (

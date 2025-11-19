@@ -35,7 +35,7 @@ export const GET = async (req) => {
         textStages = [
           { $match: { $text: { $search: search } } },
           { $addFields: { score: { $meta: "textScore" } } },
-          { $sort: { score: -1, createdAt: -1 } },
+          { $sort: { listingTierWeight: 1, score: -1, createdAt: -1 } },
         ]
       } else {
         // Regex for short / partial search
@@ -45,7 +45,7 @@ export const GET = async (req) => {
           { "agent.username": { $regex: search, $options: "i" } },
         ]
         postTextStages.push({ $match: { $or: regexConditions } })
-        postTextStages.push({ $sort: { createdAt: -1 } })
+        postTextStages.push({ $sort: {listingTierWeight:1, createdAt: -1 } })
       }
     } else {
       // Default filtering by individual fields if no main search
@@ -58,7 +58,7 @@ export const GET = async (req) => {
       if (matchConditions.length > 0) {
         postTextStages.push({ $match: { $or: matchConditions } })
       }
-      postTextStages.push({ $sort: { createdAt: -1 } })
+      postTextStages.push({ $sort: { listingTierWeight: 1, createdAt: -1 } })
     }
 
     // === Combine stages in correct order ===

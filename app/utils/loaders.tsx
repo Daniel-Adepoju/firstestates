@@ -8,12 +8,12 @@ export const WhiteLoader = ({className}: {className?:string}) => {
   return <span className={`${className && className} whiteLoader`}></span>
 }
 
-export const DotsLoader = (className: {className?:string}) => {
+export const DotsLoader = ({className}: {className?:string}) => {
   return (
-    <div className={`dots-loader `}>
-      <span></span>
-      <span></span>
-      <span></span>
+    <div className={`dots-loader`}>
+      <span className={`${className && className}`}></span>
+      <span className={`${className && className}`}></span>
+      <span className={`${className && className}`}></span>
     </div>
   )
 }

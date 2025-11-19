@@ -58,6 +58,11 @@ const EditForm = () => {
     gold: 2,
     first: 3,
   }
+  const weights: any = {
+    standard: 3,
+    gold: 2,
+    first: 1,
+  }
 
   const [currentTab, setCurrentTab] = useState("Details")
 
@@ -133,25 +138,26 @@ const EditForm = () => {
           userId
         )
       } else {
-            const now = new Date()
-    let validUntil = new Date()
-   let remainingDays = daysLeft(data?.post.validUntil)
+        const now = new Date()
+        let validUntil = new Date()
+        let remainingDays = daysLeft(data?.post.validUntil)
 
-    if (listingTier === "standard") {
-      validUntil.setDate(now.getDate() + 31 + Number(remainingDays))
-    } else if (listingTier === "gold") {
-      validUntil.setDate(now.getDate() + 51 + Number(remainingDays))
-    } else if (listingTier === "first") {
-      validUntil.setDate(now.getDate() + 76 + Number(remainingDays))
-    } else {
-      validUntil.setDate(now.getDate() + 30 + Number(remainingDays))
-    }
+        if (listingTier === "standard") {
+          validUntil.setDate(now.getDate() + 31 + Number(remainingDays))
+        } else if (listingTier === "gold") {
+          validUntil.setDate(now.getDate() + 51 + Number(remainingDays))
+        } else if (listingTier === "first") {
+          validUntil.setDate(now.getDate() + 76 + Number(remainingDays))
+        } else {
+          validUntil.setDate(now.getDate() + 30 + Number(remainingDays))
+        }
         res = await editListing(
           {
             id: listingId,
             listingTier,
-            isFeatured: listingTier === 'first' || data?.post.isFeatured,
+            isFeatured: listingTier === "first" || data?.post.isFeatured,
             validUntil,
+            listingTierWeight: weights[listingTier],
           },
           userId
         )
@@ -186,7 +192,7 @@ const EditForm = () => {
     return <WhiteLoader className="mt-40" />
   }
 
-  if(creating.value === true) {
+  if (creating.value === true) {
     return <LoadingBoard text="Editing" />
   }
 
@@ -218,7 +224,7 @@ const EditForm = () => {
         </div>
 
         <form
-          onSubmit={(e) => mutation.mutate({e})}
+          onSubmit={(e) => mutation.mutate({ e })}
           className="form listing"
         >
           {/* Details */}
@@ -241,7 +247,7 @@ const EditForm = () => {
               email={email}
               // amount={amount}
               editRanks={editRanks}
-              handleUpgrade={(listingTier:string) => mutation.mutate({listingTier})}
+              handleUpgrade={(listingTier: string) => mutation.mutate({ listingTier })}
             />
           )}
           {currentTab !== "Tier" && (
@@ -254,7 +260,6 @@ const EditForm = () => {
             </Button>
           )}
 
-        
           {/* <div className="col-span-2 dark:text-white text-xs text-center my-3 mx-2 mx-auto w-[98%]"> Don’t be in a haste to click the edit button; make sure you’ve updated everything that’s important to you </div> */}
         </form>
       </div>

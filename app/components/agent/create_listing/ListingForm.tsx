@@ -59,6 +59,9 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
       ? 5000
       : 1000
 
+  const listingTierWeight =
+    listingTier === "standard" ? 1 : listingTier === "gold" ? 2 : listingTier === "first" ? 3 : 3
+
   useEffect(() => {
     if (
       listingDeets.description.value &&
@@ -115,22 +118,21 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
   const handleCreateListing = async () => {
     creating.value = true
     try {
-
       // handle valid until date based on listing tier
-        const now = new Date()
-    let validUntil = new Date()
+      const now = new Date()
+      let validUntil = new Date()
 
-    if (listingTier === "standard") {
-      validUntil.setDate(now.getDate() + 31)
-    } else if (listingTier === "gold") {
-      validUntil.setDate(now.getDate() + 51)
-    } else if (listingTier === "first") {
-      validUntil.setDate(now.getDate() + 76)
-    } else {
-      validUntil.setDate(now.getDate() + 30)
-    }
+      if (listingTier === "standard") {
+        validUntil.setDate(now.getDate() + 31)
+      } else if (listingTier === "gold") {
+        validUntil.setDate(now.getDate() + 51)
+      } else if (listingTier === "first") {
+        validUntil.setDate(now.getDate() + 76)
+      } else {
+        validUntil.setDate(now.getDate() + 30)
+      }
 
-    // create listing
+      // create listing
       const res = await createListing({
         description: listingDeets.description.value,
         price: listingDeets.price.value,
@@ -143,6 +145,7 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
         bedrooms: listingDeets.bedrooms.value,
         toilets: listingDeets.toilets.value,
         listingTier,
+        listingTierWeight,
         isFeatured: listingTier === "first",
         validUntil,
       })
@@ -175,7 +178,7 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["listings"] }),
   })
 
-   if (creating.value === true) {
+  if (creating.value) {
     return <LoadingBoard text="Creating" />
   }
   return (
@@ -221,9 +224,10 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
 
           <ListingMainImage listingDeets={listingDeets} />
 
-          <ListingGallery 
-          listingTier={listingTier}
-          listingDeets={listingDeets} />
+          <ListingGallery
+            listingTier={listingTier}
+            listingDeets={listingDeets}
+          />
 
           <ListingAmenities listingDeets={listingDeets} />
 

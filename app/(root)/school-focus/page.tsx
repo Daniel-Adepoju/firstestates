@@ -27,7 +27,7 @@ const SchoolFocus = () => {
     data: listings,
     isLoading,
     isError,
-  } = useGetListings({ limit: 2, page: page, school: school || "" })
+  } = useGetListings({ limit: 12, page: page, school: school || "" })
 
   // co rent fetch
 

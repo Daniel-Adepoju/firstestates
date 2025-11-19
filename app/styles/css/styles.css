@@ -1047,7 +1047,6 @@ a:has(.clickable) {
 .dots-loader span {
   width: 8px;
   height: 8px;
-  background-color: rgba(180, 185, 194, 0.5882352941);
   border-radius: 50%;
   display: inline-block;
   animation: bounce 0.6s infinite ease-in-out alternate;

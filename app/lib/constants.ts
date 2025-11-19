@@ -146,7 +146,7 @@ export let dummyListing = {
       benefits: [
         "Enhanced listing visibility",
         "Priority display in search results",
-        "Add up to 10 images",
+        "Add up to 8 images",
         "Automatic featured listing",
       ],
       link: "/agent/listings/add?type=first",

@@ -1,5 +1,5 @@
-import { Schema, model, models } from "mongoose";
-import User from "./user";
+import { Schema, model, models } from "mongoose"
+import User from "./user"
 
 const ListingSchema = new Schema(
   {
@@ -76,6 +76,10 @@ const ListingSchema = new Schema(
       enum: ["standard", "gold", "first"],
       default: "standard",
     },
+    listingTierWeight: {
+      type: Number,
+      default: 3,
+    },
     validUntil: {
       type: Date,
       required: [true, "Valid until date is required"],
@@ -95,7 +99,14 @@ const ListingSchema = new Schema(
     },
   },
   { timestamps: true }
-);
+)
+
+// set priority based on tier
+ListingSchema.pre("save", function (next) {
+  const weightMap = { first: 1, gold: 2, standard: 3 }
+  this.listingTierWeight = weightMap[this.listingTier] || 3
+  next()
+})
 
 // Text index for search
 ListingSchema.index(
@@ -112,11 +123,11 @@ ListingSchema.index(
     },
     name: "TextIndex_School_Location_Agent",
   }
-);
+)
 
 // Delete listings 1 day (86400s) after validUntil
-ListingSchema.index({ validUntil: 1 }, { expireAfterSeconds: 86400 });
+ListingSchema.index({ validUntil: 1 }, { expireAfterSeconds: 86400 })
 
-const Listing = models?.Listing || model("Listing", ListingSchema);
+const Listing = models?.Listing || model("Listing", ListingSchema)
 
-export default Listing;
+export default Listing
