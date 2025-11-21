@@ -27,6 +27,49 @@ export const GET = async (req) => {
         },
       },
       { $unwind: "$agent" },
+
+    //  join requests count
+      {
+        $lookup: {
+          from: "requests",
+          let: { id: "$_id" },
+          pipeline: [
+            {
+              $match: {
+                $expr: { $eq: ["$listing", "$$id"] },
+                status: "accepted",
+              },
+            },
+            {
+              $group: {
+                _id: null,
+                roommate: {
+                  $sum: {
+                    $cond: [{ $eq: ["$requestType", "roommate"] }, 1, 0],
+                  },
+                },
+                coRent: {
+                  $sum: {
+                    $cond: [{ $eq: ["$requestType", "co-rent"] }, 1, 0],
+                  },
+                },
+              },
+            },
+          ],
+          as: "requestCounts",
+        },
+      },
+      {
+        $addFields: {
+          requestCounts: {
+            $ifNull: [
+              { $arrayElemAt: ["$requestCounts", 0] },
+              { roommate: 0, coRent: 0 },
+            ],
+          },
+        },
+      },
+      // ----------------------------
     ]
 
     // === Hybrid search logic ===
@@ -38,27 +81,35 @@ export const GET = async (req) => {
           { $sort: { listingTierWeight: 1, score: -1, createdAt: -1 } },
         ]
       } else {
-        // Regex for short / partial search
         const regexConditions = [
           { school: { $regex: search, $options: "i" } },
           { location: { $regex: search, $options: "i" } },
           { "agent.username": { $regex: search, $options: "i" } },
         ]
+
         postTextStages.push({ $match: { $or: regexConditions } })
-        postTextStages.push({ $sort: {listingTierWeight:1, createdAt: -1 } })
+        postTextStages.push({
+          $sort: { listingTierWeight: 1, createdAt: -1 },
+        })
       }
     } else {
-      // Default filtering by individual fields if no main search
       const matchConditions = []
-      if (school) matchConditions.push({ school: { $regex: school, $options: "i" } })
-      if (location) matchConditions.push({ location: { $regex: location, $options: "i" } })
+      if (school)
+        matchConditions.push({ school: { $regex: school, $options: "i" } })
+      if (location)
+        matchConditions.push({ location: { $regex: location, $options: "i" } })
       if (agentName)
-        matchConditions.push({ "agent.username": { $regex: agentName, $options: "i" } })
+        matchConditions.push({
+          "agent.username": { $regex: agentName, $options: "i" },
+        })
 
       if (matchConditions.length > 0) {
         postTextStages.push({ $match: { $or: matchConditions } })
       }
-      postTextStages.push({ $sort: { listingTierWeight: 1, createdAt: -1 } })
+
+      postTextStages.push({
+        $sort: { listingTierWeight: 1, createdAt: -1 },
+      })
     }
 
     // === Combine stages in correct order ===

@@ -294,9 +294,9 @@ const Card = ({ edit, listing, isAgentCard, isInWishList, blankSlate = false }: 
                    shadow-sm`}
                 >
                   {listing?.status === "rented" ? (
-                    <span className="text-sm text-white ">1 Roommate Request</span>
+                    <span className="text-sm text-white ">{listing?.requestCounts.roommate} Roommate Request</span>
                   ) : (
-                    <span className="text-sm text-white ">3 Co-Rent Requests</span>
+                    <span className="text-sm text-white ">{listing?.requestCounts.coRent} Co-Rent Requests</span>
                   )}
                 </div>
               )}

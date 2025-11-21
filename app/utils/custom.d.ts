@@ -29,6 +29,7 @@ type Listing = {
   inhabitans?:any;
   listingTier?: "standard" | "gold" | "first";
   validUntil?: Date;
+  requestCounts?:any
 }
 
 type School = {

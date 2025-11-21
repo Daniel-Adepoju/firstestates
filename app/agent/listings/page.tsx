@@ -35,7 +35,7 @@ const AgentListings = () => {
 
   const sortOptions: any = [
     { label: "Date", key: "date", options: ["newest", "oldest"] },
-    { label: "Views", key: "views", options: ["all","highest", "lowest"] },
+    { label: "Views", key: "views", options: ["all", "highest", "lowest"] },
     { label: "Status", key: "status", options: ["all", "available", "rented"] },
   ]
 
@@ -44,8 +44,8 @@ const AgentListings = () => {
     date: "newest",
     views: "all",
   })
-  
-  const [confirmSortValues,setConfirmSortValues] = useState({
+
+  const [confirmSortValues, setConfirmSortValues] = useState({
     status: sortValues.status,
     date: sortValues.date,
     views: sortValues.views,

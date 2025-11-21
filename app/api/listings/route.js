@@ -44,17 +44,6 @@ export const GET = async (req) => {
         $addFields: {
           priorityScore: {
             $subtract: [
-              { $literal: 0 }, // placeholder to simplify
-              { $literal: 0 },
-            ],
-          },
-        },
-      },
-      {
-        // cleaner tier boost + age penalty
-        $addFields: {
-          priorityScore: {
-            $subtract: [
               {
                 $switch: {
                   branches: Object.entries(TIER_BOOSTS).map(([tier, boost]) => ({
@@ -79,6 +68,62 @@ export const GET = async (req) => {
                 ],
               },
             ],
+          },
+        },
+      },
+      // Lookup requests grouped by type
+      {
+        $lookup: {
+          from: "requests",
+          let: { listingId: "$_id" },
+          pipeline: [
+            {
+              $match: {
+                $expr: { $eq: ["$listing", "$$listingId"] },
+                status: "accepted",
+                requestType: { $in: ["co-rent", "roommate"] },
+              },
+            },
+            {
+              $group: {
+                _id: "$requestType",
+                count: { $sum: 1 },
+              },
+            },
+          ],
+          as: "requests",
+        },
+      },
+      // Transform array into object with correct keys
+      {
+        $addFields: {
+          requestCounts: {
+            roommate: {
+              $ifNull: [
+                { $arrayElemAt: [
+                  { $map: {
+                      input: { $filter: { input: "$requests", as: "r", cond: { $eq: ["$$r._id", "roommate"] } } },
+                      as: "r",
+                      in: "$$r.count"
+                    } },
+                  0
+                ] },
+                0
+              ]
+            },
+            coRent: {
+              $ifNull: [
+                { $arrayElemAt: [
+                  { $map: {
+                      input: { $filter: { input: "$requests", as: "r", cond: { $eq: ["$$r._id", "co-rent"] } } },
+                      as: "r",
+                      in: "$$r.count"
+                    } },
+                  0
+                ] },
+                0
+              ]
+            },
           },
         },
       },

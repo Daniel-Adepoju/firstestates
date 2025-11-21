@@ -1,5 +1,6 @@
 import { connectToDB } from "@utils/database"
 import Listing from "@models/listing"
+import Request from "@models/request"
 import { NextResponse } from "next/server"
 
 export const GET = async (req) => {
@@ -12,27 +13,30 @@ export const GET = async (req) => {
   const skipNum = (page - 1) * limit
 
   const status = searchParams.get("status") || "all"
-  const date = searchParams.get("date") || "oldest"
+  const date = searchParams.get("date") || "newest"
   const views = searchParams.get("views") || ""
 
   let cursor = page
 
-  // build sort object
+  // -------------------------------
+  // SORTING
+  // -------------------------------
   const sortOptions = {}
 
   if (views === "highest") sortOptions.totalViews = -1
   else if (views === "lowest") sortOptions.totalViews = 1
+
   sortOptions.createdAt = date === "oldest" ? 1 : -1
 
-  // build query filter
+  // -------------------------------
+  // FILTERS
+  // -------------------------------
   const filter = { agent: agentId }
 
-  // only add status if it's not "all"
-  if (status && status !== "all") {
+  if (status !== "all") {
     filter.status = status.toLowerCase()
   }
 
-  // build search options
   const searchOptions = []
   if (location) searchOptions.push({ location: { $regex: location, $options: "i" } })
   if (school) searchOptions.push({ school: { $regex: school, $options: "i" } })
@@ -44,22 +48,75 @@ export const GET = async (req) => {
   try {
     await connectToDB()
 
+    // Counts
     const totalDocs = await Listing.countDocuments({ agent: agentId })
     const filterLength = await Listing.countDocuments(filter)
-    const currentRentings = await Listing.countDocuments({ agent: agentId, status: "rented" })
+    const currentRentings = await Listing.countDocuments({
+      agent: agentId,
+      status: "rented",
+    })
 
     const numOfPages = Math.ceil(filterLength / limit)
     if (cursor > numOfPages) cursor = numOfPages
 
-    let listingQuery = Listing.find(filter)
+    // Fetch listings
+    let listings = await Listing.find(filter)
       .populate(["agent"])
       .skip(skipNum)
       .limit(limit)
       .sort(sortOptions)
-    const listings = await listingQuery
+      .lean()
+
+    const listingIds = listings.map((l) => l._id)
+
+    const requests = await Request.aggregate([
+      {
+        $match: {
+          listing: { $in: listingIds },
+          status: "accepted",
+        },
+      },
+      {
+        $group: {
+          _id: "$listing",
+          roommate: {
+            $sum: {
+              $cond: [{ $eq: ["$requestType", "roommate"] }, 1, 0],
+            },
+          },
+          coRent: {
+            $sum: {
+              $cond: [{ $eq: ["$requestType", "co-rent"] }, 1, 0],
+            },
+          },
+        },
+      },
+    ])
+
+    const requestMap = {}
+    requests.forEach((r) => {
+      requestMap[r._id.toString()] = {
+        roommate: r.roommate,
+        coRent: r.coRent,
+      }
+    })
+
+    listings = listings.map((listing) => ({
+      ...listing,
+      requestCounts: requestMap[listing._id.toString()] || {
+        roommate: 0,
+        coRent: 0,
+      },
+    }))
 
     return NextResponse.json(
-      { listings, currentListings: totalDocs, currentRentings, cursor, numOfPages },
+      {
+        listings,
+        currentListings: totalDocs,
+        currentRentings,
+        cursor,
+        numOfPages,
+      },
       { status: 200 }
     )
   } catch (err) {
