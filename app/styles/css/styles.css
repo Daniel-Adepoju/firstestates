@@ -1122,10 +1122,6 @@ a:has(.clickable) {
   margin: 8px;
   padding: 12px;
 }
-.agentDashboardContainer .listingHistory,
-.agentDashboardContainer .availableLists {
-  box-shadow: 1px 1px 1.2px 1.2px rgba(116, 116, 116, 0.269);
-}
 .agentDashboardContainer .agentProfile {
   border-radius: 20px;
   padding-inline: 20px;
@@ -1219,7 +1215,6 @@ a:has(.clickable) {
 .agentDashboardContainer .availableLists .header {
   width: 100%;
   padding-bottom: 10px;
-  border-bottom: 2px solid rgba(78, 78, 78, 0.42);
 }
 .agentDashboardContainer .availableLists .header {
   display: flex;

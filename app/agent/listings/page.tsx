@@ -3,7 +3,6 @@
 import Card from "@components/Card"
 import { useEffect, useState } from "react"
 import { Skeleton } from "@components/ui/skeleton"
-import Link from "next/link"
 import { CardProps } from "@components/Card"
 import { useGetAgentListings } from "@lib/customApi"
 import { useSearchParams, useRouter } from "next/navigation"
@@ -11,12 +10,15 @@ import Pagination from "@components/Pagination"
 import Searchbar from "@components/Searchbar"
 import { useSignals, useSignal } from "@preact/signals-react/runtime"
 import { useChangeHash } from "@lib/useIntersection"
-import { HousePlus, MoreHorizontal, PlusCircle } from "lucide-react"
 import { formatNumber } from "@utils/formatNumber"
 import { useUser } from "@utils/user"
+import ListingStats from "@/components/agent/listings/ListingStats"
+import ListingActions from "@components/agent/listings/ListingActions"
+import SortFilters from "@components/agent/listings/SortFilters"
 
 const AgentListings = () => {
   useSignals()
+
   const { session } = useUser()
   const agentId = session?.user.id
   const params = useSearchParams()
@@ -24,110 +26,113 @@ const AgentListings = () => {
   const limit = 10
   const page = params.get("page") || "1"
   const [selected, setSelected] = useState("edit")
-  const [search, setSearch] = useState<string>("")
+  const [search, setSearch] = useState("")
   const [showAdd, setShowAdd] = useState(false)
   const debounced = useSignal("")
   const searchParams = new URLSearchParams(params.toString())
+  const [isSortOpen, setIsSortOpen] = useState(false)
+  const [selectedSortOpen, setSelectedSortOpen] = useState([0])
+
+  const sortOptions: any = [
+    { label: "Date", key: "date", options: ["newest", "oldest"] },
+    { label: "Views", key: "views", options: ["all","highest", "lowest"] },
+    { label: "Status", key: "status", options: ["all", "available", "rented"] },
+  ]
+
+  const [sortValues, setSortValues] = useState<any>({
+    status: "all",
+    date: "newest",
+    views: "all",
+  })
+  
+  const [confirmSortValues,setConfirmSortValues] = useState({
+    status: sortValues.status,
+    date: sortValues.date,
+    views: sortValues.views,
+  })
 
   useEffect(() => setShowAdd(true), [])
 
-    useEffect(() => {
-      const timeoutId = setTimeout(() => {
-        searchParams.set("page", "1")
-        if (search) router.push(`?${searchParams.toString()}#listings`)
-        debounced.value = search ?? ""
-      }, 560)
-      return () => clearTimeout(timeoutId)
-    }, [search])
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      searchParams.set("page", "1")
+      if (search) router.push(`?${searchParams.toString()}#listings`)
+      debounced.value = search ?? ""
+    }, 560)
+    return () => clearTimeout(timeoutId)
+  }, [search])
 
-    const { data, isLoading } = useGetAgentListings({
-      id: agentId,
-      enabled: !!agentId,
-      page,
-      limit,
-      school: debounced.value,
-      location: debounced.value,
-    })
+  const { data, isLoading } = useGetAgentListings({
+    id: agentId,
+    enabled: !!agentId,
+    page,
+    limit,
+    school: debounced.value,
+    location: debounced.value,
+    date: confirmSortValues.date,
+    views: confirmSortValues.views,
+    status: confirmSortValues.status,
+  })
 
-    const mapCards = data?.listings?.map((item: CardProps["listing"]) => (
-      <Card
-        key={item._id}
-        listing={item}
-        isAgentCard
-        edit={selected === "edit"}
-      />
-    ))
+  const mapCards = data?.listings?.map((item: CardProps["listing"]) => (
+    <Card
+      key={item._id}
+      listing={item}
+      isAgentCard
+      edit={selected === "edit"}
+    />
+  ))
 
   const hashRef = useChangeHash()
 
+  const openSelectOption = (index: number) => {
+    setSelectedSortOpen((prev) =>
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+    )
+  }
+
   return (
     <>
-      {/* Listing Stats */}
-      <div className="adminDashboard_content grid grid-cols-1 md:grid-cols-2 gap-4 dark:text-white self-center">
-        <div className="content_item banner full">
-          <h3>Renting</h3>
-          <div className="text">
-            <span>{formatNumber(data?.currentRentings ?? "0")}</span>
-          </div>
-        </div>
-        <div className="content_item banner full">
-          <h3>Current Listings</h3>
-          <div className="text">
-            <span>{formatNumber(data?.currentListings ?? "0")}</span>
-          </div>
-        </div>
-      </div>
+      <ListingStats
+        data={data}
+        formatNumber={formatNumber}
+      />
 
-      {/* Listing and residency actions */}
-      <div className="w-full flex flex-col md:flex-row gap-4 lg:gap-18 items-center justify-center my-3 pb-4 text-foreground">
-        {/* Add Listing */}
-        {showAdd ? (
-          <Link
-            href={"/agent/listings/add/types"}
-            className="flex items-center justify-center gap-3 dark:text-white dark:bg-[#31363F] border-[1.38px] border-gray-300 dark:border-gray-500 p-3 rounded-2xl w-64 shadow-xs mediumScale"
-          >
-            <PlusCircle
-              size={40}
-              className="text-[#f29829] rounded-full animate-glass"
-            />
-            <span className="font-head text-gray-600 dark:text-gray-200">Add New Listing</span>
-          </Link>
-        ) : (
-          <MoreHorizontal
-            size={36}
-            className="animate-pulse text-gray-500 dark:text-white"
-          />
-        )}
+      {/* ADD LISTING + MANAGE RESIDENTS */}
+      <ListingActions
+        showAdd={showAdd}
+        session={session}
+      />
 
-        {/* Manage Residency */}
-       {(!session?.user.tierOne || session?.user.tierTwo)  && (
-        <Link
-          href="/agent/listings/residents"
-          className="flex items-center justify-center gap-3 dark:text-white dark:bg-[#31363F] border-[1.38px] border-gray-300 dark:border-gray-500 p-3 rounded-2xl w-64 shadow-xs mediumScale"
-        >
-          <HousePlus
-            size={40}
-            className="text-[#f29829]  rounded-full animate-glass"
-          />
-          <span className="font-head text-gray-600 dark:text-gray-200">Manage Residents</span>
-        </Link>
-       )}
-      </div>
-
-      {/* Listings */}
       <div className="w-full flex flex-col items-center gap-4">
+        {/* SEARCH */}
         <Searchbar
           search={search}
           setSearch={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
-          className="dark:text-white mt-[-19px] gap-1 w-full flex flex-row justify-center items-center md:justify-end md:w-[60%] "
+          className="dark:text-white mt-[-19px] gap-1 w-full flex flex-row justify-center items-center md:justify-end md:w-[60%]"
           placeholder={"Search for your listings"}
         />
+
+        {/* SORT COMPONENT */}
+        <SortFilters
+          sortOptions={sortOptions}
+          sortValues={sortValues}
+          setSortValues={setSortValues}
+          isSortOpen={isSortOpen}
+          setIsSortOpen={setIsSortOpen}
+          setConfirmSortValues={setConfirmSortValues}
+          confirmSortValues={confirmSortValues}
+          selectedSortOpen={selectedSortOpen}
+          openSelectOption={openSelectOption}
+        />
+
+        {/* LISTINGS */}
         <div
           ref={hashRef}
           id="listings"
-          className="availableLists"
+          className="availableLists shadow-md dark:shadow-black/80 shadow-gray-200"
         >
-          <div className="header">
+          <div className="header border-b-2 border-gray-500/20 dark:border-gray-500/50">
             <div
               onClick={() => setSelected("view")}
               className={`${selected === "view" && "active"} subheading`}
@@ -157,7 +162,7 @@ const AgentListings = () => {
         </div>
       </div>
 
-      {/* Pagination */}
+      {/* PAGINATION */}
       <Pagination
         currentPage={Number(data?.cursor)}
         totalPages={Number(data?.numOfPages)}

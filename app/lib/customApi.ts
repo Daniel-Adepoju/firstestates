@@ -20,6 +20,8 @@ interface Config {
   requestType?: string
   requester?: string
   agent?:string
+  date?:any
+  views?:string
 }
 
 // interface ListingParams {
@@ -225,17 +227,20 @@ export const useGetAgentListings = ({
   limit,
   location,
   school,
+  status,
+  date='',
+  views='',
   enabled = false,
 }: Config) => {
   const getListings = async (page: string) => {
     const res = await axiosdata.value.get(
-      `/api/agent/listings?id=${id}&limit=${limit}&page=${page}&school=${school}&location=${location}`
+      `/api/agent/listings?id=${id}&limit=${limit}&page=${page}&school=${school}&location=${location}&status=${status}&date=${date}&views=${views}`
     )
     return res.data
   }
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["agentListings", page, location, school],
+    queryKey: ["agentListings", page, location, school,date,views,status],
     queryFn: () => getListings(page ?? "1"),
     enabled,
   })

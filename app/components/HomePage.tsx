@@ -58,11 +58,11 @@ const HomePage = () => {
           <span className="font-semibold text-gray-500 dark:text-gray-300 pl-2">
             Filter Listings
           </span>
-          {active.value ? (
-            <ChevronUpCircle className="w-6 h-6 text-gray-500 dark:text-gray-300 ml-auto" />
-          ) : (
-            <ChevronDownCircle className="w-6 h-6 text-gray-500 dark:text-gray-300 ml-auto" />
-          )}
+
+          <ChevronDownCircle
+            className={`w-6 h-6 text-gray-500 dark:text-gray-300 
+              ml-auto ${active.value ? "rotate-180" : "rotate-0"} transition-all duration-250`}
+          />
         </div>
       </div>
 

@@ -3,6 +3,13 @@
 smile id/dojah ->> finish agent auth
 
 ##
+cross check listing form loading
+
+## To Do In request
+
+dynamic requests count in card,
+view all co rent and rent requests for cards
+
 
 2.Check for as much error as possible in agent listing
 
@@ -11,10 +18,7 @@ smile id/dojah ->> finish agent auth
 
 
 
-## To Do In request
 
-dynamic requests count in card,
-view all co rent and rent requests for cards
 
 
 
