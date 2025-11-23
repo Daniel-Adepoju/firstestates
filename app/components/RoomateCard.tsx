@@ -228,7 +228,13 @@ const RoomateCard = ({
                   </span>
                 </div>
               )}
-              {/* budget */}
+             
+              {/* main description */}
+              <p className="mt-2 mb-2 text-sm text-gray-700 dark:text-white  whitespace-pre-wrap">
+                {request?.description}
+              </p>
+
+               {/* budget */}
               {request?.budget && (
                 <div className="flex items-center gap-1 font-head">
                   <span className="text-sm text-gray-700 dark:text-white">
@@ -238,14 +244,12 @@ const RoomateCard = ({
                   </span>
                 </div>
               )}
-              {/* main description */}
-              <p className="mt-2 text-sm text-gray-700 dark:text-white  whitespace-pre-wrap">
-                {request?.description}
-              </p>
             </div>
           </div>
         </div>
-      ) : (
+      ) :
+      // listing
+      (
         <div
           key={request?.listing?._id}
           className={`w-90 h-80 rounded-sm p-2 mx-auto hover:shadow-md transition-shadow duration-300 ${
@@ -254,7 +258,7 @@ const RoomateCard = ({
         >
           <div className="flex flex-col w-full">
             <Button
-              className="clickable directional border-20 border-red-700 text-white  h-32 mb-2  mt-[-7px] shadow-md"
+              className="clickable directional text-white  h-32 mb-2  mt-[-7px] shadow-md"
               text="Show Applicant"
               functions={() => {
                 setShowListing(false)

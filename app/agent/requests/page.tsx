@@ -60,7 +60,7 @@ const SchoolFocus = () => {
 
   // pending map
   const pendingMap =
-    pendingRequests?.pages[0]?.requests?.length > 0
+  !!session?.user.id && pendingRequests?.pages[0]?.requests?.length > 0
       ? pendingRequests?.pages.flatMap((items) =>
           items?.requests?.flatMap((request: Request, index: number) => (
             <RoomateCard
@@ -75,7 +75,7 @@ const SchoolFocus = () => {
 
   // accepted map
   const acceptedMap =
-    acceptedRequests?.pages[0]?.requests?.length > 0
+   !!session?.user.id && acceptedRequests?.pages[0]?.requests?.length > 0
       ? acceptedRequests?.pages.flatMap((items) =>
           items?.requests?.flatMap((request: Request, index: number) => (
             <RoomateCard
@@ -108,6 +108,7 @@ const SchoolFocus = () => {
   }
 
   return (
+    session?.user.id && (
     <div className="w-full mb-10">
       <p className="text-center text-md p-2 font-semibold text-gray-700 dark:text-gray-200">
         Manage all client roommate and co-rent requests in one place.
@@ -161,6 +162,7 @@ const SchoolFocus = () => {
         )}
       </section>
     </div>
+    )
   )
 }
 

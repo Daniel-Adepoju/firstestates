@@ -166,6 +166,18 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
 
   if (isLoading) return null
 
+if (requestType === "roommate" && !listing?.post?.isUserResident) {
+  return (
+    <div className="w-full p-8 text-center text-gray-600 dark:text-gray-300 my-30">
+     <h2 className="text-xl font-bold font-head text-red-600">Unable To Make Roommate Request</h2>
+     <br />
+      You are not a resident of this listing.
+      <br />
+      If you have already rented this listing, please contact your agent and ask them to add you as a resident.
+    </div>
+  )
+} else {
+
   return (
     <>
       <h1 className="text-3xl font-bold text-center mx-auto mt-25 headersFont capitalize">
@@ -294,6 +306,7 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
       </div>
     </>
   )
+}
 }
 
 export default CreateRequest

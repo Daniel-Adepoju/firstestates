@@ -101,7 +101,8 @@ const SingleListing = ({ listingId }: { listingId: string }) => {
             />
 
             {/* Inhabitants OR Agent details */}
-            {session?.user?.id === listing?.agent?._id && (session?.user.isTierOne || session?.user.isTierTwo) ? (
+            {/*  (session?.user.isTierOne || session?.user.isTierTwo) */}
+            {session?.user?.id === listing?.agent?._id  ? (
               <InhabitantsSection
                 session={session}
                 listingId={listingId}

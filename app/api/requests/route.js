@@ -1,5 +1,6 @@
 import { connectToDB } from "@utils/database"
 import Request from "@models/request"
+import Inhabitant from "@models/inhabitant"
 import { NextResponse } from "next/server"
 import { auth } from "@auth"
 import mongoose from "mongoose"
@@ -185,6 +186,21 @@ export const POST = async (req) => {
     const session = await auth()
     await connectToDB()
     const { val } = await req.json()
+
+  
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    }
+
+     if (val.requestType === "roommate") {
+      const isInhabitant = await Inhabitant.findOne({
+        user: session.user.id,
+        listing: val.listing,
+      })
+      if (!isInhabitant) {
+        return NextResponse.json({ error: "You are not a resident of this listing" }, { status: 400 })
+      }
+    }
 
     const newRequest = new Request({
       ...val,

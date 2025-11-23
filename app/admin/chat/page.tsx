@@ -1,9 +1,7 @@
-import Chat from "@components/Chat"
+import Chat from "@components/chats/Chat"
 
 const AdminClientChat = () => {
-  return (
-   <Chat />
-  )
+  return <Chat />
 }
 
 export default AdminClientChat

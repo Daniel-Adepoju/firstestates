@@ -8,15 +8,13 @@ cross check listing form loading
 
 ## To Do In request
 
-dynamic requests count in card,
 view all co rent and rent requests for cards
 
+## Chats
 
-2.Check for as much error as possible in agent listing
-
-
-## Listings
-
+1. Fix UI
+2.Infinite scroll
+3. Stay at last read on open
 
 
 

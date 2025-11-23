@@ -1,6 +1,8 @@
 import { connectToDB } from "@utils/database"
 import Listing from "@models/listing"
 import Request from "@models/request"
+import Inhabitant from "@models/inhabitant"
+import { auth } from "@auth"
 import Notification from "@api/models/notification"
 import { NextResponse } from "next/server"
 import { incrementView } from "@lib/server/incrementView"
@@ -12,6 +14,17 @@ export const GET = async (req, { params }) => {
 
   try {
     await connectToDB()
+
+    // check if user is a resident
+const session = await auth()
+let isUserResident = false
+
+if (session?.user?.id) {
+  isUserResident = await Inhabitant.exists({
+    user: session.user.id,
+    listing: listingId,
+  })
+}
 
     // fetch listing
     const post = await Listing.findById(listingId).populate(["agent"])
@@ -72,6 +85,7 @@ export const GET = async (req, { params }) => {
     const finalPost = {
       ...post.toObject(),
       requestCounts,
+      isUserResident,
     }
 
     return NextResponse.json({ post: finalPost, reports }, { status: 200 })

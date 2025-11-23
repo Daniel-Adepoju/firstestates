@@ -8,7 +8,7 @@ html:is(.dark) .loader {
   color: white;
 }
 html:is(.dark) body, html:is(.dark) main {
-  background-color: #1E1E1E;
+  background-color: #1a1a1a;
   color: white;
 }
 html:is(.dark) .nav, html:is(.dark) .footer {
