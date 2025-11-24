@@ -58,15 +58,16 @@ const Card = ({ edit, listing, isAgentCard, isInWishList, blankSlate = false }: 
     router.push(`/listings/single_listing?id=${listing?._id}`)
   }
 
-    const { ref, animationClass } = useAnimation({
-  animation: "animation-slide"
-})
+  const { ref, animationClass } = useAnimation({
+    animation: "animation-slide",
+  })
 
   return (
     <>
       <div
-      ref={ref as React.RefObject<HTMLDivElement>}
-      className={`cardContainer ${animationClass}`}>
+        ref={ref as React.RefObject<HTMLDivElement>}
+        className={`${animationClass} cardContainer`}
+      >
         <div
           onClick={visitCard}
           className={`card font-card ${blankSlate && "blankSlate"}`}
@@ -131,7 +132,7 @@ const Card = ({ edit, listing, isAgentCard, isInWishList, blankSlate = false }: 
                     }`}
                   >
                     {listing?.listingTier}
-                    </span>
+                  </span>
                 </div>
                 <div className="outline-2 outline-black/10 font-list bg-white dark:bg-gray-700 px-2 py-1 rounded-md text-sm font-semibold text-gray-700 dark:text-gray-200 shadow-sm">
                   Valid for {daysLeft(listing?.validUntil)} days
@@ -301,9 +302,13 @@ const Card = ({ edit, listing, isAgentCard, isInWishList, blankSlate = false }: 
                    shadow-sm`}
                 >
                   {listing?.status === "rented" ? (
-                    <span className="text-sm text-white ">{listing?.requestCounts.roommate} Roommate Request</span>
+                    <span className="text-sm text-white ">
+                      {listing?.requestCounts.roommate} Roommate Request
+                    </span>
                   ) : (
-                    <span className="text-sm text-white ">{listing?.requestCounts.coRent} Co-Rent Requests</span>
+                    <span className="text-sm text-white ">
+                      {listing?.requestCounts.coRent} Co-Rent Requests
+                    </span>
                   )}
                 </div>
               )}
@@ -377,8 +382,8 @@ const Card = ({ edit, listing, isAgentCard, isInWishList, blankSlate = false }: 
             />
           </div>
         )}
-        <CardOptions />
       </div>
+      <CardOptions />
     </>
   )
 }

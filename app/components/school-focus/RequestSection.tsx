@@ -21,7 +21,7 @@ export const RequestSection = ({
       hasContent || isLoading
         ? "h-90"
         : "h-20 whitespace-nowrap mx-auto w-full flex items-center justify-center text-sm"
-    } gap-6 px-2 pt-3 pb-0 snap-x snap-mandatory overflow-x-scroll nobar null outline-2 outline-gray-100 dark:outline-slate-700 rounded-lg`}
+    } gap-6 px-2 pt-3 pb-0 snap-x snap-mandatory overflow-x-scroll nobar null outline-2 outline-gray-100 dark:outline-black rounded-lg`}
   >
     {!isLoading ? renderContent() : renderLoading()}
 

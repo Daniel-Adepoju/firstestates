@@ -149,9 +149,7 @@ const SchoolFocus = () => {
       <h2 className="headersFont mt-4 px-4 text-lg capitalize mx-auto text-center">Listings</h2>
 
       <div
-        className={`w-[97%] mb-6 mx-auto rounded-md shadow-md
- flex flex-wrap items-center 
-       justify-center`}
+        className={`card_list`}
       >
         {listingsLoading ? (
           renderSkeletons(6)

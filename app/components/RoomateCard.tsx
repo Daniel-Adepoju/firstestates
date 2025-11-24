@@ -224,7 +224,7 @@ const RoomateCard = ({
             </div>
 
             {/* description box */}
-            <div className="w-full h-35 bg-white dark:bg-gray-700  shadow-md rounded-md mt-2.5 p-2 overflow-y-scroll nobar null border-1 border-black/30 dark:border-black">
+            <div className="w-full h-35 bg-white dark:bg-gray-700  shadow-md dark:shadow-black rounded-md mt-2.5 p-2 overflow-y-scroll nobar null border-1 border-black/30 dark:border-black">
               {/* preferred gender */}
               {request?.preferredGender === "male" ? (
                 <div className="flex items-center gap-1 font-head">
