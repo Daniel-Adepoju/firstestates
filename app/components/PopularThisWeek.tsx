@@ -1,43 +1,47 @@
 "use client"
 import { useRef } from "react"
 import { useGetPopularListings } from "@lib/customApi"
-import {Skeleton} from "./ui/skeleton"
-import PopularCard from "./PopularCard"
+import { Skeleton } from "./ui/skeleton"
+import PopularCard from "./listing/PopularCard"
 import ScrollController from "./ScrollController"
 import { ChevronRightCircle } from "lucide-react"
 
 export default function PopularThisWeek() {
   const { data, isLoading } = useGetPopularListings()
-   const scrollRef = useRef<HTMLDivElement>(null)
+  const scrollRef = useRef<HTMLDivElement>(null)
   return (
     <>
       <h2 className="subheading flex items-center gap-1 ml-4 mb-[-40px] py-1 text-xl font-semibold relative">
         Popular This Week
-        <ChevronRightCircle className="relative w-6 h-6"/>
+        <ChevronRightCircle className="relative w-6 h-6" />
       </h2>
-    <ScrollController scrollRef={scrollRef} />
-    
+      <ScrollController scrollRef={scrollRef} />
+
       <div
         ref={scrollRef}
         className="popularList px-4 grid w-full grid-flow-col py-2
           overflow-x-scroll content-center gap-4 snap-x snap-mandatory"
       >
         {isLoading ? (
-        <>
-         {Array.from({length:12}).map((_,i) => (
-           <Skeleton key={`skeleton-${i}`} className="animate-none bg-gray-500/20 w-40 h-40 mt-10" />
-         ))}
-         </>)
-     
-        : (
-        <>
-        {data?.popularListings.map((listing: Listing) => (
-       <PopularCard listing={listing} key={listing._id} />
-        ))}
-        </>
-      )}
+          <>
+            {Array.from({ length: 12 }).map((_, i) => (
+              <Skeleton
+                key={`skeleton-${i}`}
+                className="animate-none bg-gray-500/20 w-40 h-40 mt-10"
+              />
+            ))}
+          </>
+        ) : (
+          <>
+            {data?.popularListings.map((listing: Listing) => (
+              <PopularCard
+                listing={listing}
+                key={listing._id}
+              />
+            ))}
+          </>
+        )}
       </div>
-
     </>
   )
 }

@@ -4,9 +4,9 @@ import { useSignals, useSignal } from "@preact/signals-react/runtime"
 import { useSearchParams, useRouter } from "next/navigation"
 import Searchbar from "@/components/Searchbar"
 import Filter from "@/components/Filter"
-import CardList from "@/components/CardList"
+import CardList from "@components/listing/CardList"
 import PopularThisWeek from "@/components/PopularThisWeek"
-import Featured from "@/components/Featured"
+import Featured from "@components/listing/Featured"
 import {
   ArrowLeftFromLine,
   ChevronDownCircle,

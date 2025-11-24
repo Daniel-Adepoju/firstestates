@@ -3,7 +3,7 @@
 import { useSearchParams } from "next/navigation"
 import { useUser } from "@utils/user"
 import RoomateCard from "@components/RoomateCard"
-import Card from "@components/Card"
+import Card from "@components/listing/Card"
 import { useGetListings, useGetRequests } from "@lib/customApi"
 import Pagination from "@components/Pagination"
 import ScrollController from "@components/ScrollController"

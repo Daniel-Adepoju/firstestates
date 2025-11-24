@@ -2,13 +2,13 @@ import { useRef, useEffect } from "react"
 import { ArrowBigLeft, ArrowBigRight, ChevronRightCircle, Star } from "lucide-react"
 import FeaturedCard from "./FeaturedCard"
 import { useGetFeaturedListings } from "@lib/customApi"
-import { Skeleton } from "./ui/skeleton"
+import { Skeleton } from "../ui/skeleton"
 import { CardProps } from "./Card"
-import { FeaturedModal } from "./Modals"
+import { FeaturedModal } from "../Modals"
 import { useUser } from "@utils/user"
 import { getDate, createdAt } from "@utils/date"
 import { Swiper, SwiperSlide } from "swiper/react"
-import { Pagination, Autoplay, A11y, EffectCoverflow} from "swiper/modules"
+import { Pagination, Autoplay, A11y, EffectCoverflow } from "swiper/modules"
 import SwpierControls from "@utils/SwpierControls"
 
 export const FeaturedBtn = ({
@@ -109,16 +109,15 @@ const Featured = () => {
                 pagination={{
                   clickable: true,
                   type: "bullets",
-                  dynamicBullets:true,
-                  dynamicMainBullets:1,
-
+                  dynamicBullets: true,
+                  dynamicMainBullets: 1,
                 }}
                 observer={true}
                 observeParents={true}
                 onResize={(swiper) => {
-                   swiper.slideTo(0)
+                  swiper.slideTo(0)
                   swiper.update()
-                  }}
+                }}
                 slidesPerView={1}
                 slidesPerGroup={1}
                 slidesPerGroupSkip={1}

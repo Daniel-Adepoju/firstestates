@@ -2,7 +2,7 @@
 import { useState } from "react"
 import { useParams } from "next/navigation"
 import { useGetSingleListing } from "@lib/customApi"
-import Card from "@components/Card"
+import Card from "@components/listing/Card"
 import { Skeleton } from "@components/ui/skeleton"
 import { Link as LinkIcon, MoreHorizontal } from "lucide-react"
 import Link from "next/link"
@@ -20,13 +20,13 @@ const AdminSingleListing = () => {
 
   const removeSingleReport = async (reportId: string) => {
     await clearSingleNotification(reportId, true, listing?.post._id)
-    if(listing.reports.length === 1) {
-      await editListing({id,reportedBy: [] }, null, true)
+    if (listing.reports.length === 1) {
+      await editListing({ id, reportedBy: [] }, null, true)
     }
   }
 
   const removeAllReports = async () => {
-    await editListing({id,reportedBy: [] }, null, true)
+    await editListing({ id, reportedBy: [] }, null, true)
     await clearAllNotifications({ isReport: true, listingId: listing?.post._id })
   }
 
@@ -41,7 +41,7 @@ const AdminSingleListing = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["listing", { listingId: listing?.post._id }] })
       queryClient.invalidateQueries({ queryKey: ["reports"] })
-    }
+    },
   })
 
   const handleRemoveSingleReport = (reportId: string) => {
@@ -61,13 +61,14 @@ const AdminSingleListing = () => {
       <div className="text-foreground mb-[-90px] lg:mb-[-45px] ">
         <span>This listing is </span>
         <span
-        className={`${listing?.post.status === 'available' ? 'bg-green-800' : 'bg-amber-600'}
+          className={`${listing?.post.status === "available" ? "bg-green-800" : "bg-amber-600"}
         py-1 px-2 rounded-sm text-white
 
         `}
-
-        >{listing?.post.status}</span>
-          </div>
+        >
+          {listing?.post.status}
+        </span>
+      </div>
       <div className="flex flex-col lg:flex-row items-center justify-between mb-4 ">
         <div className="adminListingCard p-20">
           {isLoading ? (
@@ -101,12 +102,11 @@ const AdminSingleListing = () => {
             <MoreHorizontal className="w-6 h-6 text-gray-500 animate-pulse" />
           )}
 
-         {listing?.reports.length > 0 
-         ? ( <>
-            <h2 className="text-xl font-bold otherHead my-6">Reports on this listing</h2>
-            <div className="nobar null overflow-y-auto max-h-[400px] w-full">
-       
-               {listing.reports.map((report: any, i: any) => (
+          {listing?.reports.length > 0 ? (
+            <>
+              <h2 className="text-xl font-bold otherHead my-6">Reports on this listing</h2>
+              <div className="nobar null overflow-y-auto max-h-[400px] w-full">
+                {listing.reports.map((report: any, i: any) => (
                   <div
                     key={i}
                     className="break-all mx-auto w-[300px] md:w-[450px] lg:w-120 text-white bg-[#7E191B] p-4 rounded-lg mb-2 border-1 border-black"
@@ -137,39 +137,37 @@ const AdminSingleListing = () => {
                     </div>
                   </div>
                 ))}
-             
-            
-            </div>
-            <div className="flex flex-col items-center justify-center mt-2 gap-2">
-              <h6 className="text-xs break-words w-90 lg:w-110 font-bold">
-                After reviewing all reports and confirming they are false or spam, you may clear
-                them here.
-              </h6>
-              <div
-                onClick={handleRemoveAllReports}
-                className="clickable flex justify-center bg-darkblue dark:bg-coffee hover:opacity-80 transition-all duration-500
-      w-60 shadow-2xs text-white text-sm rounded-md p-2.5  mx-auto cursor-pointer smallScale font-bold"
-              >
-                {allReportsMutation.isPending ? (
-                  <>
-                    <span> Clearing </span>
-                    <MoreHorizontal className="animate-pulse" />
-                  </>
-                ) : (
-                  "Clear All Reports"
-                )}
               </div>
-            </div>
-          </> )
-          : <div> 
-            
-            { isLoading ? (
+              <div className="flex flex-col items-center justify-center mt-2 gap-2">
+                <h6 className="text-xs break-words w-90 lg:w-110 font-bold">
+                  After reviewing all reports and confirming they are false or spam, you may clear
+                  them here.
+                </h6>
+                <div
+                  onClick={handleRemoveAllReports}
+                  className="clickable flex justify-center bg-darkblue dark:bg-coffee hover:opacity-80 transition-all duration-500
+      w-60 shadow-2xs text-white text-sm rounded-md p-2.5  mx-auto cursor-pointer smallScale font-bold"
+                >
+                  {allReportsMutation.isPending ? (
+                    <>
+                      <span> Clearing </span>
+                      <MoreHorizontal className="animate-pulse" />
+                    </>
+                  ) : (
+                    "Clear All Reports"
+                  )}
+                </div>
+              </div>
+            </>
+          ) : (
+            <div>
+              {isLoading ? (
                 <MoreHorizontal className="w-6 h-6 text-gray-500 animate-pulse mx-auto" />
               ) : (
-                    <p> No reports on this listing </p> 
-                  )}
-              </div>
-            }
+                <p> No reports on this listing </p>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </>

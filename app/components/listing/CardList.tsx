@@ -3,8 +3,8 @@
 import { useSignal, useSignals } from "@preact/signals-react/runtime"
 import { CardProps } from "./Card"
 import Card from "./Card"
-import Pagination from "./Pagination"
-import { Skeleton } from "./ui/skeleton"
+import Pagination from "../Pagination"
+import { Skeleton } from "../ui/skeleton"
 import Image from "next/image"
 import { useQuery } from "@tanstack/react-query"
 import { axiosdata } from "@utils/axiosUrl"
@@ -76,9 +76,7 @@ const CardList = ({ limit = 6, filters, page }: CardListProps) => {
   return (
     <>
       {isLoading ? (
-        <div className="mx-auto my-4 flex flex-wrap gap-10 justify-center">
-          {loadingCards}
-        </div>
+        <div className="mx-auto my-4 flex flex-wrap gap-10 justify-center">{loadingCards}</div>
       ) : data?.posts?.length ? (
         <>
           <div className="card_list">{mapCards}</div>

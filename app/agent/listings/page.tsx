@@ -1,9 +1,9 @@
 "use client"
 
-import Card from "@components/Card"
+import Card from "@components/listing/Card"
 import { useEffect, useState } from "react"
 import { Skeleton } from "@components/ui/skeleton"
-import { CardProps } from "@components/Card"
+import { CardProps } from "@components/listing/Card"
 import { useGetAgentListings } from "@lib/customApi"
 import { useSearchParams, useRouter } from "next/navigation"
 import Pagination from "@components/Pagination"

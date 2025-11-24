@@ -2,7 +2,7 @@
 import Searchbar from "@components/Searchbar"
 import { useSignal, useSignals } from "@preact/signals-react/runtime"
 import { DotsLoader } from "@utils/loaders"
-import Card, { CardProps } from "@components/Card"
+import Card, { CardProps } from "@components/listing/Card"
 import { useSearchListings } from "@lib/customApi"
 import { useEffect } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
@@ -61,7 +61,7 @@ const Search = () => {
       {isLoading ? (
         <div className="my-20  mx-auto flex items-center gap-1">
           {/* <span className="text-gray-700 dark:text-gray-400">Searching</span> */}
-          <DotsLoader className="bg-gray-700 dark:bg-gray-500"/>
+          <DotsLoader className="bg-gray-700 dark:bg-gray-500" />
         </div>
       ) : (
         <>

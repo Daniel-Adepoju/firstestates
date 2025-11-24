@@ -2,7 +2,7 @@
 
 import { Loader2 } from "lucide-react"
 import { Skeleton } from "@components/ui/skeleton"
-import { Comment, WriteComment, CommentProps } from "@components/Comment"
+import { Comment, WriteComment, CommentProps } from "@components/single_listing/Comment"
 import { useNextPage } from "@lib/useIntersection"
 
 interface CommentsSectionProps {
