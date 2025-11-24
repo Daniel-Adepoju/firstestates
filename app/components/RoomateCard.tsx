@@ -30,7 +30,7 @@ interface RoomateCardProps {
 }
 const RoomateCard = ({
   request,
-  
+
   refValue,
   firstItem,
   lastItem,
@@ -117,7 +117,11 @@ const RoomateCard = ({
             onOpenChange={setIsOpen}
           >
             <PopoverTrigger>
-              <div className={`clickable flex items-center justify-center bg-${request?.requestType === "roommate" ? "goldPrimary" : "green-600"} rounded-full w-10 h-10 mb-1  mt-[-7px] shadow-sm`}>
+              <div
+                className={`clickable flex items-center justify-center bg-${
+                  request?.requestType === "roommate" ? "goldPrimary" : "green-600"
+                } rounded-full w-10 h-10 mb-1  mt-[-7px] shadow-sm`}
+              >
                 <Check color="white" />
               </div>
             </PopoverTrigger>
@@ -125,7 +129,9 @@ const RoomateCard = ({
               <div className="text-black dark:text-white">Accept this request</div>
               <div
                 onClick={() => acceptMutation.mutate({ id: request?._id, status: "accepted" })}
-                className={`clickable text-white font-bold ${request?.requestType === "roommate" ? "bg-goldPrimary" : "bg-green-600"} rounded-2xl cursor-pointer w-24 h-8 flex items-center justify-center`}
+                className={`clickable text-white font-bold ${
+                  request?.requestType === "roommate" ? "bg-goldPrimary" : "bg-green-600"
+                } rounded-2xl cursor-pointer w-24 h-8 flex items-center justify-center`}
               >
                 {acceptMutation.isPending ? "Accepting" : "Accept"}
               </div>
@@ -158,9 +164,9 @@ const RoomateCard = ({
       {!showListing ? (
         <div
           key={request._id}
-          className={`w-full h-50 rounded-sm p-2 mx-auto ${
-            request?.requestType === "roommate" ? "bg-goldPrimary" : "bg-green-600"
-          }`}
+          className={`w-full h-60 rounded-sm p-2 mx-auto
+            ${request?.requestType === "roommate" ? "bg-goldPrimary" : "bg-greenPrimary"}
+            `}
         >
           <div className="flex flex-col">
             <Button
@@ -177,12 +183,19 @@ const RoomateCard = ({
                 className="rounded-full w-12 h-12 mx-auto mb-1 outline-2 outline-gray-200"
               />
             )}
-            <div className="text-white text-sm font-card mx-auto">
+
+            {/* requester name */}
+            <div className="text-white text-sm font-card mx-auto py-0.5">
               {request?.requester?.username}
             </div>
-
+            {/* request type  */}
+            {isAgent && (
+              <div className="text-white text-sm font-bold font-head mx-auto py-1  px-6 rounded-lg border-2 border-gray-700/20 bg-black/10">
+                {request?.requestType === "roommate" ? "Roommate Request" : "Co-rent Request"}
+              </div>
+            )}
             {/* options row for request */}
-            <div className="w-full flex flex-row justify-around mt-2">
+            <div className="w-full flex flex-row justify-around mt-2 ">
               <Link href={`chat?recipientId=${request?.requester?._id}`}>
                 <div className="flex items-center gap-1 text-white font-bold">
                   <MessageCircle
@@ -228,13 +241,13 @@ const RoomateCard = ({
                   </span>
                 </div>
               )}
-             
+
               {/* main description */}
               <p className="mt-2 mb-2 text-sm text-gray-700 dark:text-white  whitespace-pre-wrap">
                 {request?.description}
               </p>
 
-               {/* budget */}
+              {/* budget */}
               {request?.budget && (
                 <div className="flex items-center gap-1 font-head">
                   <span className="text-sm text-gray-700 dark:text-white">
@@ -247,13 +260,12 @@ const RoomateCard = ({
             </div>
           </div>
         </div>
-      ) :
-      // listing
-      (
+      ) : (
+        // listing
         <div
           key={request?.listing?._id}
           className={`w-90 h-80 rounded-sm p-2 mx-auto hover:shadow-md transition-shadow duration-300 ${
-             request?.requestType === "roommate" ? "bg-goldPrimary" : "bg-green-600"
+            request?.requestType === "roommate" ? "bg-goldPrimary" : "bg-green-600"
           }`}
         >
           <div className="flex flex-col w-full">

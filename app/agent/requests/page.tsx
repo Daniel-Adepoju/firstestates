@@ -60,7 +60,7 @@ const SchoolFocus = () => {
 
   // pending map
   const pendingMap =
-  !!session?.user.id && pendingRequests?.pages[0]?.requests?.length > 0
+    !!session?.user.id && pendingRequests?.pages[0]?.requests?.length > 0
       ? pendingRequests?.pages.flatMap((items) =>
           items?.requests?.flatMap((request: Request, index: number) => (
             <RoomateCard
@@ -75,7 +75,7 @@ const SchoolFocus = () => {
 
   // accepted map
   const acceptedMap =
-   !!session?.user.id && acceptedRequests?.pages[0]?.requests?.length > 0
+    !!session?.user.id && acceptedRequests?.pages[0]?.requests?.length > 0
       ? acceptedRequests?.pages.flatMap((items) =>
           items?.requests?.flatMap((request: Request, index: number) => (
             <RoomateCard
@@ -109,59 +109,65 @@ const SchoolFocus = () => {
 
   return (
     session?.user.id && (
-    <div className="w-full mb-10">
-      <p className="text-center text-md p-2 font-semibold text-gray-700 dark:text-gray-200">
-        Manage all client roommate and co-rent requests in one place.
-      </p>
+      <div className="w-full mb-10">
+        <div className="flex flex-col">
+          <p className="text-center text-md p-2 font-semibold text-gray-700 dark:text-gray-200">
+            Manage all client roommate and co-rent requests in one place.
+          </p>
+          {/* <p className="text-center text-md p-2 font-semibold text-gray-700 dark:text-gray-200">
+            Pending requests are requests are in <span className="w-6 h-6 bg-greenPrimary"></span>
+            and roommate requests are in <div className="w-3 h-3 p-2.5 bg-goldPrimary rounded-full"></div>
+          </p> */}
+        </div>
 
-      {/* pending requests header */}
-      <div className="flex items-center w-[98%] mt-4.5 pb-2">
-        <h2 className="headersFont w-120 px-4 text-lg dark:text-white">Pending Requests</h2>
-        {!pendingLoading && <ScrollController scrollRef={scrollRef} />}
+        {/* pending requests header */}
+        <div className="flex items-center w-[98%] mt-4.5 pb-2">
+          <h2 className="headersFont w-120 px-4 text-lg dark:text-white">Pending Requests</h2>
+          {!pendingLoading && <ScrollController scrollRef={scrollRef} />}
+        </div>
+
+        {/* pending requests container */}
+        <section
+          ref={scrollRef}
+          className={`dark:text-white grid grid-flow-col auto-cols-min ${
+            pendingRequests?.pages[0]?.requests?.length > 0 || pendingLoading
+              ? "h-100"
+              : "h-20 whitespace-nowrap mx-auto w-100 flex items-center justify-center text-sm"
+          } gap-6 p-2 snap-x snap-mandatory overflow-x-scroll nobar null`}
+        >
+          {!pendingLoading ? pendingMap : loadingMap(9, true)}
+          {pendingIsFetchingNextPage && (
+            <MoreVertical
+              size={50}
+              className="h-8 w-8 my-auto text-gray-500 dark:text-gray-100 animate-pulse"
+            />
+          )}
+        </section>
+
+        {/* accepted requests header */}
+        <div className="mt-6 flex items-center w-[98%] pb-2">
+          <h2 className="headersFont w-120 px-4 text-lg dark:text-white">Accepted Requests</h2>
+          {!acceptedLoading && <ScrollController scrollRef={scrollRef2} />}
+        </div>
+
+        {/* accepted requests container */}
+        <section
+          ref={scrollRef2}
+          className={`dark:text-white grid grid-flow-col auto-cols-min ${
+            acceptedRequests?.pages[0]?.requests?.length > 0 || acceptedLoading
+              ? "h-90"
+              : "h-20 whitespace-nowrap mx-auto w-100 flex items-center justify-center text-sm"
+          } gap-6 p-2 snap-x snap-mandatory overflow-x-scroll nobar null`}
+        >
+          {!acceptedLoading ? acceptedMap : loadingMap(9, true)}
+          {acceptedIsFetchingNextPage && (
+            <MoreVertical
+              size={50}
+              className="h-8 w-8 my-auto text-gray-500 dark:text-gray-100 animate-pulse"
+            />
+          )}
+        </section>
       </div>
-
-      {/* pending requests container */}
-      <section
-        ref={scrollRef}
-        className={`dark:text-white grid grid-flow-col auto-cols-min ${
-          pendingRequests?.pages[0]?.requests?.length > 0 || pendingLoading
-            ? "h-100"
-            : "h-20 whitespace-nowrap mx-auto w-100 flex items-center justify-center text-sm"
-        } gap-6 p-2 snap-x snap-mandatory overflow-x-scroll nobar null`}
-      >
-        {!pendingLoading ? pendingMap : loadingMap(9, true)}
-        {pendingIsFetchingNextPage && (
-          <MoreVertical
-            size={50}
-            className="h-8 w-8 my-auto text-gray-500 dark:text-gray-100 animate-pulse"
-          />
-        )}
-      </section>
-
-      {/* accepted requests header */}
-      <div className="mt-6 flex items-center w-[98%] pb-2">
-        <h2 className="headersFont w-120 px-4 text-lg dark:text-white">Accepted Requests</h2>
-        {!acceptedLoading && <ScrollController scrollRef={scrollRef2} />}
-      </div>
-
-      {/* accepted requests container */}
-      <section
-        ref={scrollRef2}
-        className={`dark:text-white grid grid-flow-col auto-cols-min ${
-          acceptedRequests?.pages[0]?.requests?.length > 0 || acceptedLoading
-            ? "h-90"
-            : "h-20 whitespace-nowrap mx-auto w-100 flex items-center justify-center text-sm"
-        } gap-6 p-2 snap-x snap-mandatory overflow-x-scroll nobar null`}
-      >
-        {!acceptedLoading ? acceptedMap : loadingMap(9, true)}
-        {acceptedIsFetchingNextPage && (
-          <MoreVertical
-            size={50}
-            className="h-8 w-8 my-auto text-gray-500 dark:text-gray-100 animate-pulse"
-          />
-        )}
-      </section>
-    </div>
     )
   )
 }

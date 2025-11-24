@@ -53,6 +53,7 @@
   --color-darkblue: #032679;
   --color-bluePrimary: #0881a3;
   --color-goldPrimary: 	#f29829;
+  --color-greenPrimary:  oklch(62.7% 0.194 149.214);
 }
 
 @theme fonts {

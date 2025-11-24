@@ -1,8 +1,8 @@
-import React from 'react'
+import ListingRequests from "@components/SingleListingsRequest"
 
 const Roommate = () => {
   return (
-    <div>Roommate</div>
+<ListingRequests requestType="roommate" />
   )
 }
 

@@ -374,18 +374,19 @@ export const useGetRequests = ({
   requester='',
   enabled = false,
   agent='',
-  status=''
+  status='',
+  listingId=''
 }: Config) => {
   const getRequests = async (page: string) => {
     const res = await axiosdata.value.get(
-      `/api/requests?page=${page}&limit=${limit}&status=${status}&requestType=${requestType}&school=${school}&currentUser=${requester}&agent=${agent}`
+      `/api/requests?page=${page}&limit=${limit}&status=${status}&requestType=${requestType}&school=${school}&currentUser=${requester}&agent=${agent}&listing=${listingId}`
     )
     return res.data
   }
 
  const { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["requests", school,requestType,requester,status],
+      queryKey: ["requests", school,requestType,requester,status,listingId],
       initialPageParam: 1,
       getNextPageParam: (prevData: any) => {
         return prevData?.cursor && prevData?.cursor !== prevData.numOfPages

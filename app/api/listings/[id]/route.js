@@ -16,15 +16,25 @@ export const GET = async (req, { params }) => {
     await connectToDB()
 
     // check if user is a resident
-const session = await auth()
-let isUserResident = false
+    const session = await auth()
+    let isUserResident = false
+    let hasUserMadeRequest = false
 
-if (session?.user?.id) {
-  isUserResident = await Inhabitant.exists({
-    user: session.user.id,
-    listing: listingId,
-  })
-}
+    // check if user is an inhabitant
+    if (session?.user?.id) {
+      isUserResident = await Inhabitant.exists({
+        user: session.user.id,
+        listing: listingId,
+      })
+    }
+
+    // check if user has made a request
+    if (session?.user?.id) {
+      hasUserMadeRequest = await Request.exists({
+        requester: session.user.id,
+        listing: listingId,
+      })
+    }
 
     // fetch listing
     const post = await Listing.findById(listingId).populate(["agent"])
@@ -33,13 +43,9 @@ if (session?.user?.id) {
     // increment views only for non-agents
     await incrementView(listingId)
     if (!agent) {
-      await Listing.updateOne(
-        { _id: listingId },
-        { $inc: { totalViews: 1 } }
-      )
+      await Listing.updateOne({ _id: listingId }, { $inc: { totalViews: 1 } })
     }
 
- 
     const reqAgg = await Request.aggregate([
       {
         $match: {
@@ -86,6 +92,7 @@ if (session?.user?.id) {
       ...post.toObject(),
       requestCounts,
       isUserResident,
+      hasUserMadeRequest,
     }
 
     return NextResponse.json({ post: finalPost, reports }, { status: 200 })

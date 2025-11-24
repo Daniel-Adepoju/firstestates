@@ -5,7 +5,7 @@ import { CldImage } from "next-cloudinary"
 import { truncateText } from "@utils/truncateText"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { DeleteModal } from "./Modals"
+import { DeleteModal } from "../Modals"
 import { useDarkMode } from "@lib/DarkModeProvider"
 import {
   Toilet,
@@ -23,10 +23,11 @@ import {
 } from "lucide-react"
 import { formatNumber } from "@utils/formatNumber"
 import { FeaturedBtn } from "./Featured"
-import { WishlistButton } from "./WishListCard"
+import { WishlistButton } from "../WishListCard"
 import { useBackdrop } from "@lib/Backdrop"
 import CardOptions from "./CardOptions"
 import { daysLeft, createdAt } from "@utils/date"
+import { useAnimation } from "@lib/useAnimation"
 
 export interface CardProps {
   edit?: boolean
@@ -57,9 +58,15 @@ const Card = ({ edit, listing, isAgentCard, isInWishList, blankSlate = false }: 
     router.push(`/listings/single_listing?id=${listing?._id}`)
   }
 
+    const { ref, animationClass } = useAnimation({
+  animation: "animation-slide"
+})
+
   return (
     <>
-      <div className="cardContainer">
+      <div
+      ref={ref as React.RefObject<HTMLDivElement>}
+      className={`cardContainer ${animationClass}`}>
         <div
           onClick={visitCard}
           className={`card font-card ${blankSlate && "blankSlate"}`}

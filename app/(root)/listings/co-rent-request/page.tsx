@@ -1,9 +1,7 @@
-import React from 'react'
+import ListingRequests from "@components/SingleListingsRequest"
 
 const CoRent = () => {
-  return (
-    <div>CoRent</div>
-  )
+  return <ListingRequests requestType="co-rent" />
 }
 
 export default CoRent

@@ -1,184 +1,185 @@
 import { connectToDB } from "@utils/database"
 import Request from "@models/request"
-import Inhabitant from "@models/inhabitant"
 import { NextResponse } from "next/server"
 import { auth } from "@auth"
 import mongoose from "mongoose"
-import {sendEmail} from "@lib/server/sendEmail"
+import { sendEmail } from "@lib/server/sendEmail"
 
 export const GET = async (req) => {
-
   const { searchParams } = new URL(req.url)
-  const page = Number(searchParams.get("page")) || 1
-  const limit = Number(searchParams.get("limit")) || 10
-  const school = searchParams.get("school") || ""
-  const status = searchParams.get("status") || ""
-  const currentUser = searchParams.get("currentUser") || ""
-  const requestType = searchParams.get("requestType") || ""
-  const agentId = searchParams.get("agent") || ""
+
+  const page = Number(searchParams.get("page") || 1)
+  const limit = Number(searchParams.get("limit") || 10)
+
+  const filters = {
+    school: searchParams.get("school") || "",
+    status: searchParams.get("status") || "",
+    currentUser: searchParams.get("currentUser") || "",
+    requestType: searchParams.get("requestType") || "",
+    agent: searchParams.get("agent") || "",
+    listing: searchParams.get("listing") || "",
+  }
+
   const skipNum = (page - 1) * limit
   let cursor = page
 
+  await connectToDB()
+  const session = await auth()
 
-  // validity of ids
-  let currentUserId
+  // func for converting to mongodb object
 
-  if (mongoose.Types.ObjectId.isValid(currentUser)) {
-    currentUserId = new mongoose.Types.ObjectId(currentUser)
-  }
-  let agentObjectId
+  const toId = (id) =>
+    mongoose.Types.ObjectId.isValid(id) ? new mongoose.Types.ObjectId(id) : null
 
-  if (mongoose.Types.ObjectId.isValid(agentId)) {
-    agentObjectId = new mongoose.Types.ObjectId(agentId)
-  }
+  const currentUserId = toId(filters.currentUser)
+  const agentObjectId = toId(filters.agent)
+  const listingObjectId = toId(filters.listing)
 
-  // initialize match conditions
+  // MATCH CONDITIONS BUILDER
 
-  const matchConditions = []
+  const match = {}
 
-  // Filter by status
-  if (status === "pending") {
-    matchConditions.push({ status: "pending" })
-  } else if (status === "accepted") {
-    matchConditions.push({ status: "accepted" })
+  // status
+  if (["pending", "accepted"].includes(filters.status)) {
+    match.status = filters.status
   }
 
-  // Filter by requestType
-  if (requestType === "roommate") {
-    matchConditions.push({ requestType: "roommate" })
-  } else if (requestType === "co-rent") {
-    matchConditions.push({ requestType: "co-rent" })
+  // requestType
+  if (["roommate", "co-rent"].includes(filters.requestType)) {
+    match.requestType = filters.requestType
   }
 
-  // Filter by school in listing
-  if (school) {
-    matchConditions.push({ "listing.school": { $regex: school, $options: "i" } })
+  // school
+  if (filters.school) {
+    match["listing.school"] = { $regex: filters.school, $options: "i" }
   }
 
-  // Filter by currentUserId
+  // exclude currentUser request
   if (currentUserId) {
-    matchConditions.push({ "requester._id": { $ne: currentUserId } })
+    match["requester._id"] = { $ne: currentUserId }
   }
 
-  // Filter by agentId
+  // filter by agent
   if (agentObjectId) {
-    matchConditions.push({ "listing.agent":  agentObjectId })
+    match["listing.agent"] = agentObjectId
   }
 
-  try {
-    const session = await auth()
-    await connectToDB()
-    const matchStage =
-      matchConditions.length > 0 ? { $match: { $and: matchConditions } } : { $match: {} }
-
-    const decayFactor = 1.3
-
-    // base pipelines
-
-    const viewsPipeline = [
-      {
-        $addFields: {
-          viewsDecay: {
-            $subtract: [
-              "$views",
-              {
-                $pow: [
-                  { $divide: [{ $subtract: [new Date(), "$createdAt"] }, 1000 * 60 * 60 * 24] },
-                  decayFactor,
-                ],
-              },
-            ],
-          },
-        },
-      },
-    ]
-
-    const populatePipeline = [
-      {
-        $lookup: {
-          from: "listings",
-          localField: "listing",
-          foreignField: "_id",
-          as: "listing",
-        },
-      },
-      { $unwind: "$listing" },
-      {
-        $lookup: {
-          from: "users",
-          localField: "requester",
-          foreignField: "_id",
-          as: "requester",
-        },
-      },
-      {
-        $unwind: {
-          path: "$requester",
-          preserveNullAndEmptyArrays: true,
-        },
-      },
-    ]
-
-    const requestsPipeline = [
-      ...viewsPipeline,
-      ...populatePipeline,
-      matchStage,
-      { $sort: { viewsDecay: -1 } },
-      { $skip: skipNum },
-      { $limit: limit },
-
-      {
-        $project: {
-          status: 1,
-          requestType: 1,
-          budget: 1,
-          preferredGender: 1,
-          description: 1,
-          requestType: 1,
-          views: 1,
-          "requester.profilePic": 1,
-          "requester._id": 1,
-          "requester.username": 1,
-          "listing._id": 1,
-          "listing.mainImage": 1,
-          "listing.price": 1,
-          "listing.address": 1,
-          "listing.location": 1,
-          "listing.school": 1,
-          "listing.bedrooms": 1,
-          "listing.bathrooms": 1,
-          "listing.toilets": 1,
-        },
-      },
-    ]
-
-    // counting docs
-    const countPipeline = [...viewsPipeline, ...populatePipeline, matchStage, { $count: "total" }]
-    const countResult = await Request.aggregate(countPipeline)
-    const totalRequests = countResult[0]?.total || 0
-    const numOfPages = Math.ceil(totalRequests / limit)
-    cursor = Math.min(page, numOfPages)
-
-    
-    const pendingRequestsPipeline = await Request.aggregate([
-      ...populatePipeline,
-     
-      { $match: { status: "pending", "listing.agent":  mongoose.Types.ObjectId.createFromHexString(session?.user.id) } },
-      { $count: "total" },
-    ])
-    
-    const pendingRequestsLength = pendingRequestsPipeline[0]?.total || 0
-    console.log(pendingRequestsLength,session?.user.id)
-    // final
-    const requests = await Request.aggregate(requestsPipeline)
-    return NextResponse.json(
-      { requests, totalRequests, cursor, numOfPages, pendingRequestsLength },
-      { status: 200 }
-    )
-  } catch (err) {
-    console.error(err)
-    return NextResponse.json({ error: err.message }, { status: 500 })
+  // listingId
+  if (listingObjectId) {
+    match["listing._id"] = listingObjectId
   }
+
+  const matchStage = { $match: match }
+
+  //  PIPELINE SHARED PARTS
+
+  const viewsPipeline = [
+    {
+      $addFields: {
+        viewsDecay: {
+          $subtract: [
+            "$views",
+            {
+              $pow: [
+                {
+                  $divide: [{ $subtract: [new Date(), "$createdAt"] }, 1000 * 60 * 60 * 24],
+                },
+                1.3,
+              ],
+            },
+          ],
+        },
+      },
+    },
+  ]
+
+  const populatePipeline = [
+    {
+      $lookup: {
+        from: "listings",
+        localField: "listing",
+        foreignField: "_id",
+        as: "listing",
+      },
+    },
+    { $unwind: "$listing" },
+    {
+      $lookup: {
+        from: "users",
+        localField: "requester",
+        foreignField: "_id",
+        as: "requester",
+      },
+    },
+    {
+      $unwind: {
+        path: "$requester",
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+  ]
+
+  // MAIN REQUESTS PIPELINE
+
+  const requestsPipeline = [
+    ...viewsPipeline,
+    ...populatePipeline,
+    matchStage,
+    { $sort: { viewsDecay: -1 } },
+    { $skip: skipNum },
+    { $limit: limit },
+    {
+      $project: {
+        status: 1,
+        requestType: 1,
+        budget: 1,
+        preferredGender: 1,
+        description: 1,
+        views: 1,
+        "requester.profilePic": 1,
+        "requester._id": 1,
+        "requester.username": 1,
+        "listing._id": 1,
+        "listing.mainImage": 1,
+        "listing.price": 1,
+        "listing.address": 1,
+        "listing.location": 1,
+        "listing.school": 1,
+        "listing.bedrooms": 1,
+        "listing.bathrooms": 1,
+        "listing.toilets": 1,
+      },
+    },
+  ]
+
+  // COUNT PIPELINE
+  const countPipeline = [...viewsPipeline, ...populatePipeline, matchStage, { $count: "total" }]
+
+  const countResult = await Request.aggregate(countPipeline)
+  const totalRequests = countResult[0]?.total || 0
+  const numOfPages = Math.ceil(totalRequests / limit)
+  cursor = Math.min(page, numOfPages)
+
+  // Pending requests for agent
+  const pendingRequests = await Request.aggregate([
+    ...populatePipeline,
+    {
+      $match: {
+        status: "pending",
+        "listing.agent": toId(session?.user.id),
+      },
+    },
+    { $count: "total" },
+  ])
+
+  const pendingRequestsLength = pendingRequests[0]?.total || 0
+
+  const requests = await Request.aggregate(requestsPipeline)
+
+  return NextResponse.json(
+    { requests, totalRequests, cursor, numOfPages, pendingRequestsLength },
+    { status: 200 }
+  )
 }
 
 export const POST = async (req) => {
@@ -186,21 +187,6 @@ export const POST = async (req) => {
     const session = await auth()
     await connectToDB()
     const { val } = await req.json()
-
-  
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-     if (val.requestType === "roommate") {
-      const isInhabitant = await Inhabitant.findOne({
-        user: session.user.id,
-        listing: val.listing,
-      })
-      if (!isInhabitant) {
-        return NextResponse.json({ error: "You are not a resident of this listing" }, { status: 400 })
-      }
-    }
 
     const newRequest = new Request({
       ...val,
@@ -219,7 +205,11 @@ export const POST = async (req) => {
 export const PATCH = async (req) => {
   await connectToDB()
   const { id, status } = await req.json()
-  const updatedRequest = await Request.findByIdAndUpdate(id, { status }, { new: true, runValidators: true }).populate("requester")
+  const updatedRequest = await Request.findByIdAndUpdate(
+    id,
+    { status },
+    { new: true, runValidators: true }
+  ).populate("requester")
   if (updatedRequest) {
     await sendEmail({
       to: updatedRequest.requester.email,

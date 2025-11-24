@@ -5,13 +5,14 @@ import { useSearchParams } from "next/navigation"
 import { useGetSingleListing } from "@lib/customApi"
 import { useRouter } from "next/navigation"
 import { WhiteLoader } from "@utils/loaders"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Slider } from "./ui/slider"
 import { DatePicker } from "./DatePicker"
 import { formatNumber } from "@utils/formatNumber"
 import { useMutation } from "@tanstack/react-query"
 import { axiosdata } from "@utils/axiosUrl"
 import { useToast } from "@utils/Toast"
+import { MoreHorizontal } from "lucide-react"
 
 type InputConfig = {
   elementType?: "input" | "textarea" | "Calendar"
@@ -24,20 +25,34 @@ type InputConfig = {
 }
 
 const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" }) => {
+  const titleMap: Record<"co-rent" | "roommate", string> = {
+    roommate: "Roommate Request",
+    "co-rent": "Co-Rent Request",
+  }
   const searchParams = useSearchParams()
   const router = useRouter()
   const { setToastValues } = useToast()
   const listingId = searchParams.get("listing")
   const { data: listing, isLoading } = useGetSingleListing(listingId as string)
-  const [isDatePlaceHolder, setIsDatePlaceHolder] = useState(true)
   const [inputValues, setInputValues] = useState({
     description: "",
-    budget: "",
+    budget: listing?.post?.price ? listing.post.price * 0.5 : 0,
     moveInDate: "",
     expirationDate: "",
     preferredGender: "",
   })
 
+  // Update budget once listing loads
+  useEffect(() => {
+    if (listing?.post?.price) {
+      setInputValues((prev) => ({
+        ...prev,
+        budget: listing.post.price * 0.5,
+      }))
+    }
+  }, [listing?.post?.price])
+
+  // input change func
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setInputValues({
@@ -45,15 +60,19 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
       [name]: value,
     })
   }
+
+  // input reset func
   const resetInputValues = () => {
     setInputValues({
       description: "",
-      budget: "",
+      budget: listing?.post?.price ? listing.post.price * 0.5 : 0,
       moveInDate: "",
       expirationDate: "",
       preferredGender: "",
     })
   }
+
+  // input objects
 
   const inputConfigs = [
     // desc
@@ -122,6 +141,23 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
   ]
 
   const createRequestFn = async (data: any) => {
+    // ensure all values are filled
+    if (
+      !inputValues.description ||
+      !inputValues.budget ||
+      !inputValues.moveInDate ||
+      !inputValues.expirationDate ||
+      !inputValues.preferredGender
+    ) {
+      setToastValues({
+        message: "Please fill in all fields",
+        status: "danger",
+        isActive: true,
+        duration: 2500,
+      })
+      return
+    }
+    // create request
     try {
       const res = await axiosdata.value.post(`/api/requests`, data)
       if (res.status >= 200 && res.status < 300) {
@@ -163,8 +199,15 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
     createRequestMutation.mutate({ val: { ...inputValues, requestType, listing: listingId } })
   }
 
-  if (isLoading) return null
+  if (isLoading)
+    return (
+      <MoreHorizontal
+        size={50}
+        className="mt-48 mb-10 mx-auto animate-pulse text-gray-600 dark:text-gray-200"
+      />
+    )
 
+  // confirm residency to make roommate request
   if (requestType === "roommate" && !listing?.post?.isUserResident) {
     return (
       <div className="w-full p-8 text-center text-gray-600 dark:text-gray-300 my-30">
@@ -178,169 +221,201 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
         as a resident.
       </div>
     )
-  } else {
+  }
+  // prevent co-rent request if user is a resident
+  if (requestType === "co-rent" && listing?.post?.isUserResident) {
     return (
-      <>
-        <h1 className="text-3xl font-bold text-center mx-auto mt-25 headersFont capitalize">
-          {requestType === "roommate" ? "Make Roomate Request" : "Make a Co-Rent Request"}
-        </h1>
-
-        <div className=" mx-auto w-[96%] flex flex-col-reverse md:flex-row-reverse lg:flex-row items-center justify-center pb-10 pt-4 mt-6 gap-4 md:gap-3">
-          <div className="flex flex-col items-center justify-center w-[50%] md:w-[31%] lg:w-[35%] md:pr-20 lg:pr-14 p-4">
-            <Card
-              listing={listing?.post}
-              blankSlate={true}
-            />
-          </div>
-
-          {/* requests container */}
-
-          <div className=" border-1 border-gray-500/30 dark:border-gray-600 flex flex-col md:mr-auto gap-4 p-4 w-[98%] md:w-[58%] lg:w-[60%] rounded-md bg-white dark:bg-gray-800/10 shadow-md">
-            <h2 className="headersFont px-4 text-lg">
-              {requestType === "roommate" ? "Create a Roomate Request" : "Create a Co-Rent Request"}
-            </h2>
-
-            <details className="px-4 text-[14px]">
-  <summary className="cursor-pointer font-bold text-foreground underline underline-offset-1.5 transition-all duration-300 hover:text-gray-500">
-    Learn more about request types
-  </summary>
-
-<div className="mt-2 text-gray-700 dark:text-gray-300 space-y-4">
-  <p>
-    <strong>Roommate Request: </strong>
-    You must already be a resident of this listing. This request is intended to help you find a compatible roommate to share your current space.
-  </p>
-
-  <div>
-    <p>
-      <strong>Co-Rent Request: </strong>
-      This option is for users who want to partner with others to rent a property together. You do not need to be an existing resident of the listing.
-    </p>
-
-    <p className="mt-2">
-      <strong>Note:</strong>
-    </p>
-
-    <ul className="list-disc ml-6 space-y-1">
-      <li>Your minimum budget is automatically set to 50% of the listing price, and your maximum is set to 60%.</li>
-      <li>Be honest with your budget. Misrepresentation or attempts to deceive others will result in a ban from FirstEstates.</li>
-    </ul>
-  </div>
-</div>
-</details>
-
-
-{/* form */}
-            <form
-              onSubmit={handleRequestMutation}
-              className="w-full grid grid-cols-1 md:grid-cols-2 gap-4"
-            >
-              {/* inputs */}
-
-              {inputConfigs.map((input: any) => (
-                <div
-                  key={input.name}
-                  className={`flex flex-col gap-1 ${input.type === "textarea" && "md:col-span-2"}`}
-                >
-                  <label
-                    htmlFor={input.name}
-                    className="font-semibold col-span-9"
-                  >
-                    {input.label}
-                  </label>
-                  {(input.elementType === "input" || input.elementType === "textarea") && (
-                    <input.elementType
-                      onChange={input.function}
-                      id={input.name}
-                      name={input.name}
-                      type={input.type}
-                      placeholder={input.placeholder}
-                      className={`${input.className} ${
-                        input.elementType !== "textarea" && "p-2 py-2.5"
-                      }`}
-                    />
-                  )}
-
-                  {input.elementType === "Slider" && (
-                    <>
-                      <Slider
-                        min={input.min}
-                        max={input.max}
-                        name={input.name}
-                        className={input.className}
-                        onChange={input.function}
-                      />
-                      <div>
-                        &#8358;{Number(inputValues["budget"]).toLocaleString()}/&#8358;
-                        {formatNumber(listing?.post.price)}
-                      </div>
-                    </>
-                  )}
-
-                  {input.elementType === "Calendar" && (
-                    <DatePicker
-                      // @ts-ignore
-                      date={inputValues[input.name]}
-                      setDate={(date: Date) => {
-                        setInputValues({
-                          ...inputValues,
-                          [input.name]: date.toLocaleDateString("en-CA").split("T")[0],
-                        })
-                        setIsDatePlaceHolder(false)
-                      }}
-                      placeholder={isDatePlaceHolder ? input.placeholder : ""}
-                      className={input.className}
-                    />
-                  )}
-                </div>
-              ))}
-
-              {/* selects */}
-
-              {selectConfig.map((select: any) => (
-                <div
-                  key={select.name}
-                  className="flex flex-col gap-1"
-                >
-                  <label
-                    htmlFor={select.name}
-                    className="font-semibold"
-                  >
-                    {select.label}
-                  </label>
-                  <select
-                    id={select.name}
-                    name={select.name}
-                    className={select.className}
-                    onChange={select.function}
-                  >
-                    {select.options.map((option: any) => (
-                      <option
-                        key={option.value}
-                        value={option.value}
-                      >
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              ))}
-
-              <Button
-                type="submit"
-                text={`Submit ${
-                  requestType === "roommate" ? "Roomate Request" : "Co-Rent Request"
-                }`}
-                className="self-end  md:col-span-2 justify-self-center place-self-center clickable darkblueBtn directional w-70 p-6 mx-auto"
-              >
-                {createRequestMutation.isPending && <WhiteLoader />}
-              </Button>
-            </form>
-          </div>
-        </div>
-      </>
+      <div className="w-full p-8 text-center text-gray-600 dark:text-gray-300 my-30">
+        <h2 className="text-xl font-bold font-head text-red-600">Unable To Make Co-Rent Request</h2>
+        <br />
+        You are already a resident of this listing.
+        <br />
+        If you have already rented this listing, please contact your agent and ask them to add you
+        as a resident.
+      </div>
     )
   }
+  // prevent co-rent and roommate request if user has made one before
+  if (
+    requestType === "roommate" ||
+    (requestType === "co-rent" && listing?.post?.hasUserMadeRequest)
+  ) {
+    return (
+      <div className="w-full p-8 text-center text-gray-600 dark:text-gray-300 my-30">
+        <h2 className="text-xl font-bold font-head text-red-600">Unable To Make Co-Rent Request</h2>
+        <br />
+        You've previously made a co-rent request on this listing.
+        <br />
+      </div>
+    )
+  }
+
+  return (
+    <>
+      <h1 className="text-3xl font-bold text-center mx-auto mt-25 headersFont capitalize">
+        Make a {titleMap[requestType]}
+      </h1>
+
+      <div className=" mx-auto w-[96%] flex flex-col-reverse md:flex-row-reverse lg:flex-row items-center justify-center pb-10 pt-4 mt-6 gap-4 md:gap-3">
+        <div className="flex flex-col items-center justify-center w-[50%] md:w-[31%] lg:w-[35%] md:pr-20 lg:pr-14 p-4">
+          <Card
+            listing={listing?.post}
+            blankSlate={true}
+          />
+        </div>
+
+        {/* requests container */}
+
+        <div className=" border-1 border-gray-500/30 dark:border-gray-600 flex flex-col md:mr-auto gap-4 p-4 w-[98%] md:w-[58%] lg:w-[60%] rounded-md bg-white dark:bg-gray-800/10 shadow-md">
+          <h2 className="headersFont px-4 text-lg">Create a {titleMap[requestType]}</h2>
+
+          <details className="px-4 text-[14px]">
+            <summary className="cursor-pointer font-bold text-foreground underline underline-offset-1.5 transition-all duration-300 hover:text-gray-500">
+              Learn more about request types
+            </summary>
+
+            <div className="mt-2 text-gray-700 dark:text-gray-300 space-y-4">
+              <p>
+                <strong>Roommate Request: </strong>
+                You must already be a resident of this listing. This request is intended to help you
+                find a compatible roommate to share your current space.
+              </p>
+
+              <div>
+                <p>
+                  <strong>Co-Rent Request: </strong>
+                  This option is for users who want to partner with others to rent a property
+                  together. You do not need to be an existing resident of the listing.
+                </p>
+
+                <p className="mt-2">
+                  <strong>Note:</strong>
+                </p>
+
+                <ul className="list-disc ml-6 space-y-1">
+                  <li>
+                    Your minimum budget is automatically set to 50% of the listing price, and your
+                    maximum is set to 60%.
+                  </li>
+                  <li>
+                    Be honest with your budget. Misrepresentation or attempts to deceive others will
+                    result in a ban from FirstEstates.
+                  </li>
+                  <li>
+                    Use "expiration date" to set the date you want your request to be deleted.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </details>
+
+          {/* form */}
+          <form
+            onSubmit={handleRequestMutation}
+            className="w-full grid grid-cols-1 md:grid-cols-2 gap-4"
+          >
+            {/* inputs */}
+
+            {inputConfigs.map((input: any) => (
+              <div
+                key={input.name}
+                className={`flex flex-col gap-1 ${input.type === "textarea" && "md:col-span-2"}`}
+              >
+                <label
+                  htmlFor={input.name}
+                  className="font-semibold col-span-9"
+                >
+                  {input.label}
+                </label>
+                {(input.elementType === "input" || input.elementType === "textarea") && (
+                  <input.elementType
+                    onChange={input.function}
+                    id={input.name}
+                    name={input.name}
+                    type={input.type}
+                    placeholder={input.placeholder}
+                    className={`${input.className} ${
+                      input.elementType !== "textarea" && "p-2 py-2.5"
+                    }`}
+                  />
+                )}
+
+                {input.elementType === "Slider" && (
+                  <>
+                    <Slider
+                      min={input.min}
+                      max={input.max}
+                      name={input.name}
+                      className={input.className}
+                      onChange={input.function}
+                    />
+                    <div>
+                      &#8358;{Number(inputValues["budget"]).toLocaleString()}/&#8358;
+                      {formatNumber(listing?.post.price)}
+                    </div>
+                  </>
+                )}
+
+                {input.elementType === "Calendar" && (
+                  <DatePicker
+                    // @ts-ignore
+                    date={inputValues[input.name]}
+                    setDate={(date: Date) => {
+                      setInputValues({
+                        ...inputValues,
+                        [input.name]: date.toLocaleDateString("en-CA").split("T")[0],
+                      })
+                    }}
+                    placeholder={input.placeholder}
+                    className={input.className}
+                  />
+                )}
+              </div>
+            ))}
+
+            {/* selects */}
+
+            {selectConfig.map((select: any) => (
+              <div
+                key={select.name}
+                className="flex flex-col gap-1"
+              >
+                <label
+                  htmlFor={select.name}
+                  className="font-semibold"
+                >
+                  {select.label}
+                </label>
+                <select
+                  id={select.name}
+                  name={select.name}
+                  className={select.className}
+                  onChange={select.function}
+                >
+                  {select.options.map((option: any) => (
+                    <option
+                      key={option.value}
+                      value={option.value}
+                    >
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            ))}
+
+            <Button
+              type="submit"
+              text={`Submit ${titleMap[requestType]}`}
+              className="self-end  md:col-span-2 justify-self-center place-self-center clickable darkblueBtn directional w-70 p-6 mx-auto"
+            >
+              {createRequestMutation.isPending && <WhiteLoader />}
+            </Button>
+          </form>
+        </div>
+      </div>
+    </>
+  )
 }
 
 export default CreateRequest

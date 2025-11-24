@@ -246,3 +246,19 @@
 }
 
 
+.animation-slide {
+  animation: slideDownFade 0.3s ease-out forwards;
+}
+
+
+
+@keyframes slideDownFade {
+  0% {
+    transform: translateY(-20px);
+    opacity: 97;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 100;
+  }
+}

@@ -32,11 +32,11 @@ export function DatePicker({
           className={`${className} data-[empty=true]:text-muted-foreground justify-start text-left font-normal `}
         >
           <CalendarIcon />
-          {(!placeholder && date) ? (date && format(date, "PPP") ) : <span>{placeholder}</span>}
+          {date ? (date && format(date, "PPP") ) : <span>{placeholder}</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0 z-900">
-        <Calendar mode="single" selected={date} onSelect={setDate} />
+        <Calendar required mode="single" selected={date} onSelect={setDate} />
       </PopoverContent>
     </Popover>
   )
