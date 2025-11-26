@@ -28,7 +28,7 @@ export const RequestSection = ({
     {isFetchingMore && (
       <MoreVertical
         size={50}
-        className="h-8 w-8 my-auto text-gray-500 dark:text-gray-100 animate-pulse"
+        className="h-8 w-8 my-auto text-gray-600 dark:text-gray-100 animate-pulse"
       />
     )}
   </section>

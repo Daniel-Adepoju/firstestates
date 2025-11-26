@@ -1,17 +1,24 @@
 "use client"
 
-import { useUser } from "@utils/user"
 import { CldImage } from "next-cloudinary"
 import { useGetAgentsInSchoolFocus } from "@lib/customApi"
 import ScrollController from "@components/ScrollController"
 import { useRef } from "react"
 import { Skeleton } from "@components/ui/skeleton"
+import { useNextPage } from "@lib/useIntersection"
+import { MoreVertical} from "lucide-react"
+
 const AgentSection = ({ school }: { school: string }) => {
   const scrollRef = useRef<HTMLDivElement>(null)
-  const { data: agents, isLoading } = useGetAgentsInSchoolFocus({
+  const { data: agents, isLoading,hasNextPage,fetchNextPage,isFetchingNextPage} = useGetAgentsInSchoolFocus({
     school,
-    limit: 10,
+    limit: 12,
   })
+   const agentRef = useNextPage({
+      isLoading,
+      hasNextPage,
+      fetchNextPage
+    })
   
 console.log(agents)
 
@@ -24,8 +31,9 @@ console.log(agents)
       )
     }
     return agents?.pages?.flatMap((item) => {
-      return item?.agents.flatMap((agent: Listing["agent"]) => (
+      return item?.agents.flatMap((agent: Listing["agent"],index:number) => (
         <div
+          ref={item?.agents.length - 1 === index ? agentRef : null}
           key={agent._id}
           className="flex flex-col items-center justify-center snap-center"
         >
@@ -43,7 +51,7 @@ console.log(agents)
               width={45}
               height={45}
               crop="auto"
-              gravity='center'
+            //   gravity='center'
               className="h-full w-full rounded-full object-cover"
             />
           </div>
@@ -69,10 +77,12 @@ console.log(agents)
 
   return (
     <>
-      <div className="text-center text-lg font-head font-medium mt-3 mb-1">
-        Trusted agents with listings near your school
+    <div className="flex">
+      <div className="headersFont px-4 w-120 capitalize text-lg font-medium mt-3 mb-1">
+       explore  agents
       </div>
       {!isLoading && <ScrollController scrollRef={scrollRef} />}
+      </div>
       <section
         ref={scrollRef}
         className={`${
@@ -81,6 +91,7 @@ console.log(agents)
         }   outline-2 outline-gray-100 dark:outline-black rounded-lg`}
       >
         {!isLoading && renderAgents()}
+        {isFetchingNextPage && <MoreVertical className="self-center justify-self-text-gray-600 dark:text-gray-100  animate-pulse"/>}
         {isLoading && renderLoading()}
       </section>
     </>
