@@ -1,4 +1,4 @@
-import Inbox from "@components/Inbox";
+import Inbox from "@components/chats/Inbox";
 
 export default function ChatInbox() {
   return (

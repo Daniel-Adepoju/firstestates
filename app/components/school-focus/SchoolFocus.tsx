@@ -108,15 +108,17 @@ const SchoolFocus = () => {
         </h1>
       )}
 
-      <p className="text-center text-sm p-2 text-gray-700 dark:text-gray-200">
-        Welcome to School Focus <strong>{displayName}</strong>. Here you can find{" "}
-        <strong>listings</strong> and <strong>roommate requests</strong> near your selected school.
-      </p>
+      <div className="text-center text-sm p-2 pb-0 text-gray-700 dark:text-gray-200">
+        Welcome to School Focus <strong>{displayName}</strong>.
+      </div>
+      <div className="text-center text-sm p-2 py-0 text-gray-700 dark:text-gray-200">
+        Here you can find <strong>listings</strong>, <strong>agents</strong>, and{" "}
+        <strong>roommate requests</strong> near your selected school.
+      </div>
 
       {/* AGENTS */}
 
-<AgentSection school={school} />
-
+      <AgentSection school={school} />
 
       {/* CO-RENT REQUESTS */}
       <SectionHeader
