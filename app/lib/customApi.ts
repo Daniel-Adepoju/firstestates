@@ -299,6 +299,34 @@ export const useGetAgentPayments = ({
   return { data, isLoading, isError }
 }
 
+
+export const useGetAgentsInSchoolFocus = ({
+  school,
+  limit = 10,
+}: Config) => {
+  const getAgents = async (page: string) => {
+    const res = await axiosdata.value.get(
+      `/api/listings/agents?school=${school}&limit=${limit}&page=${page}`
+    )
+    return res.data
+  }
+
+  const { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage } =
+    useInfiniteQuery({
+      queryKey: ["agents", school],
+      initialPageParam: 1,
+      getNextPageParam: (prevData: any) => {
+        return prevData?.cursor && prevData?.cursor !== prevData.numOfPages
+          ? prevData.cursor + 1
+          : undefined
+      },
+      queryFn: ({ pageParam = 1 }) => getAgents(String(pageParam)),
+    })
+
+  return { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage }
+}
+
+
 // Miscellaneous
 export const useGetNotifications = ({ limit }: Config) => {
   const getNotifications = async (page: string) => {
@@ -400,6 +428,7 @@ export const useGetRequests = ({
     return { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage }
 }
 
+// Residents
 export const useGetInhabitants = ({
   listingId,
   agent='',

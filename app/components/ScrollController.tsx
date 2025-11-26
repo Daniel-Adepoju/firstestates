@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react"
-import { ArrowLeft, ArrowRight } from "lucide-react"
+import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react"
 
 type ScrollControllerProps = {
   scrollRef: React.RefObject<HTMLDivElement | null>
@@ -39,11 +39,14 @@ const ScrollController = ({ scrollRef }: ScrollControllerProps) => {
         {showLeft && (
           <div
             onClick={() => scroll("left")}
-            className="mediumScale cursor-pointer dark:bg-darkGray shadow-md p-2 rounded-full"
+            className="w-10 h-10 flex items-center justify-center
+             cursor-pointer dark:bg-darkGray shadow-md dark:shadow-black
+              p-2 rounded-full  smallScaleUp"
           >
-            <ArrowLeft
-              size={30}
-              color={"#f29829"}
+            <ChevronLeft
+              size={25}
+              strokeWidth={3}
+              className="text-goldPrimary"
             />
           </div>
         )}
@@ -51,11 +54,14 @@ const ScrollController = ({ scrollRef }: ScrollControllerProps) => {
         {showRight && (
           <div
             onClick={() => scroll("right")}
-            className="mediumScale cursor-pointer dark:bg-darkGray shadow-md p-2 rounded-full"
+            className="w-10 h-10 flex items-center justify-center
+            cursor-pointer dark:bg-darkGray shadow-md dark:shadow-black 
+            p-2 rounded-full smallScaleUp"
           >
-            <ArrowRight
-              size={30}
-              color={"#f29829"}
+            <ChevronRight
+                size={25}
+              strokeWidth={3}
+              className="text-goldPrimary"
             />
           </div>
         )}

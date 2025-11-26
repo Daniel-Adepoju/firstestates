@@ -1,7 +1,7 @@
 'use client'
 import { useGetUser } from "@lib/customApi"
 import { CldImage } from "next-cloudinary"
-import { Skeleton } from "./ui/skeleton";
+import { Skeleton } from "../ui/skeleton";
 import { useEffect, useState } from "react";
 import {getUnreadChatsInConversation} from '@/lib/server/chats'
 import { Models } from "appwrite";

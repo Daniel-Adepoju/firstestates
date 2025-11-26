@@ -6,8 +6,8 @@ import { getUserConversations} from '@/lib/server/chats'
 import type { Models } from 'appwrite'
 import { CldImage } from 'next-cloudinary'
 import { MoreHorizontal } from 'lucide-react'
-import ConversationRow from '@components/ConversationRow'
-import { Skeleton } from './ui/skeleton'
+import ConversationRow from './ConversationRow'
+import { Skeleton } from '../ui/skeleton'
 
 type InboxProps = {
   topMargin?: string

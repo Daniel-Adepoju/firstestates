@@ -7,7 +7,7 @@ import type { Models } from 'appwrite';
 import { useSearchParams } from 'next/navigation';
 import { MoreHorizontal } from 'lucide-react';
 import Link from 'next/link';
-import Inbox from '@components/Inbox';
+import Inbox from './Inbox';
 import ChatBubble from './ChatBubble';
 import { Loader2,SendHorizonal} from 'lucide-react';
 import { groupMessagesByDate } from '@utils/date';

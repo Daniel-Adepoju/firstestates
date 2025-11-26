@@ -13,8 +13,8 @@ cross check listing form loading
 1. Fix UI
 2.Infinite scroll
 3. Stay at last read on open
-
-
+4.Clear Chats
+5.Faux delete
 
 
 
@@ -34,3 +34,7 @@ Add More Options(Cookies,faqs, etc)
 
 2. Make cookie expire in 5min but resend in 60secs
 5. Add Video to singlecard section.
+
+
+demo dp
+"jjgh0eq89nhujbihswcx"

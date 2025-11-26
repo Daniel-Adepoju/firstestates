@@ -12,6 +12,7 @@ import { Skeleton } from "@components/ui/skeleton"
 import { RequestSection } from "./RequestSection"
 import { SectionHeader } from "./SectionHeader"
 import { useAnimation } from "@lib/useAnimation"
+import AgentSection from "./AgentSection"
 
 const SchoolFocus = () => {
   const searchParams = useSearchParams()
@@ -58,7 +59,7 @@ const SchoolFocus = () => {
     fetchNextPage: roommate.fetchNextPage,
   })
 
-  // --- HELPERS ---
+  // renders
 
   const renderRequestCards = (requestData: any, nextRef: ReturnType<typeof useNextPage>) => {
     const pages = requestData?.data?.pages
@@ -112,6 +113,11 @@ const SchoolFocus = () => {
         <strong>listings</strong> and <strong>roommate requests</strong> near your selected school.
       </p>
 
+      {/* AGENTS */}
+
+<AgentSection school={school} />
+
+
       {/* CO-RENT REQUESTS */}
       <SectionHeader
         title="Co-Rent Requests"
@@ -148,9 +154,7 @@ const SchoolFocus = () => {
       {/* LISTINGS */}
       <h2 className="headersFont mt-4 px-4 text-lg capitalize mx-auto text-center">Listings</h2>
 
-      <div
-        className={`card_list`}
-      >
+      <div className={`card_list`}>
         {listingsLoading ? (
           renderSkeletons(6)
         ) : listings?.posts?.length > 0 ? (

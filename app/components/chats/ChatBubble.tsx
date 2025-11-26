@@ -1,6 +1,6 @@
 import {useRef, useState} from 'react'
 import { Trash2,FlagTriangleRight,Check,CheckCheck} from 'lucide-react'
-import { ReportModal } from './Modals';
+import { ReportModal } from '../Modals';
 import { deleteMessage } from '@lib/server/chats';
 
   interface Msg {
