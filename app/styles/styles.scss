@@ -317,7 +317,8 @@ footer.hide {
 
 .card_list {
   margin-top: 8px;
-  background-color: fn.color("ghost");
+  // background-color: fn.color("ghost");
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.183);
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(310px, max-content));
   align-items: center;
@@ -329,6 +330,7 @@ footer.hide {
   width: 98%;
   border-radius: 20px;
   margin-inline: auto;
+  margin-bottom: 8px;
   padding-inline: 2px;
 }
 .card {

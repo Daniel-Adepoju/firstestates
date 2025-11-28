@@ -7,7 +7,7 @@ import { useDarkMode } from "@lib/DarkModeProvider"
 import Link from "next/link"
 import { useUser } from "@utils/user"
 
-const Agent = ({ agent }) => {
+const Agent = ({ agent, isYou }: any) => {
   const { darkMode } = useDarkMode()
   const { session } = useUser()
   const userId = session?.user?.id
@@ -74,7 +74,24 @@ const Agent = ({ agent }) => {
           </div>
 
           <div className="agentProfileInfo">
-            <div className="md:w-100 dark:bg-black/10 bg-gray-100/70 pt-2 pb-2.5 px-4 rounded-lg mt-6 font-bold flex flex-row items-center gap-2">
+            {!isYou && (
+              <Link
+                href={`/chat?recipientId=${agent._id}`}
+                className="md:w-100 dark:bg-black/10 bg-gray-100/70 pt-2 pb-2.5 px-4 rounded-lg mt-6 font-bold flex flex-row items-center gap-2 cursor-pointer smallScale"
+              >
+                <MessageCircle
+                  size={34}
+                  className="text-goldPrimary"
+                />
+                <span>Chat With Agent</span>
+              </Link>
+            )}
+            <div
+              onClick={() => {
+                if (!isYou) return window.open(`tel:${agent?.phone}`)
+              }}
+              className="md:w-100 dark:bg-black/10 bg-gray-100/70 pt-2 pb-2.5 px-4 rounded-lg mt-6 font-bold flex flex-row items-center gap-2"
+            >
               <Phone
                 size={34}
                 className="text-goldPrimary"

@@ -41,7 +41,6 @@ const Card = ({ edit, listing, isAgentCard, isInWishList, blankSlate = false }: 
   const router = useRouter()
   const deleteRef = useRef<HTMLDialogElement>(null)
   const [deleting, setDeleting] = useState(false)
-  const { darkMode } = useDarkMode()
   const [weeklyViews] = useState(formatNumber(listing?.weeklyViews ?? 0) || 0)
   const [totalViews] = useState(formatNumber(listing?.totalViews ?? 0) || 0)
   const [showMore, setShowMore] = useState(false)
@@ -58,15 +57,16 @@ const Card = ({ edit, listing, isAgentCard, isInWishList, blankSlate = false }: 
     router.push(`/listings/single_listing?id=${listing?._id}`)
   }
 
-  const { ref, animationClass } = useAnimation({
-    animation: "animation-slide",
-  })
+const { ref, className: animateClass } = useAnimation({
+  threshold: 0.1,
+  rootMargin: "0px 0px -80px 0px",
+});
 
   return (
     <>
       <div
         ref={ref as React.RefObject<HTMLDivElement>}
-        className={`${animationClass} cardContainer`}
+        className={`${animateClass} cardContainer`}
       >
         <div
           onClick={visitCard}

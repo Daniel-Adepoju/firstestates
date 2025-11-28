@@ -63,7 +63,7 @@ const FeaturedCard = ({ edit, listing, isAgentCard }: CardProps) => {
             <div
               className=" headersFont mx-auto px-3 py-2 mt-2
                 bg-gray-50 dark:bg-gray-800/10 text-sm font-medium
-                 text-gray-700 dark:text-gray-200 shadow-sm  rounded-md"
+                 text-gray-700 dark:text-gray-200 shadow-sm dark:shadow-black  rounded-md"
             >
               {listing?.school}
             </div>

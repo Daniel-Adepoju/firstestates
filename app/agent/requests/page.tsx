@@ -11,7 +11,7 @@ import { MoreVertical } from "lucide-react"
 import { Skeleton } from "@components/ui/skeleton"
 import { useNextPage } from "@lib/useIntersection"
 
-const SchoolFocus = () => {
+const RequestsInAgent = () => {
   const searchParams = useSearchParams()
 
   const { session } = useUser()
@@ -172,4 +172,4 @@ const SchoolFocus = () => {
   )
 }
 
-export default SchoolFocus
+export default RequestsInAgent

@@ -190,18 +190,16 @@
 }
 .hover-glass {
   &:hover {
-  animation: glassShine 2.5s ease-in-out infinite;
-  transition: all 0.3s ease;
+    animation: glassShine 2.5s ease-in-out infinite;
+    transition: all 0.3s ease;
+  }
 }
-}
-
 
 .gloss {
   position: relative;
   overflow: hidden;
   isolation: isolate;
 
-  
   --gloss-color: rgba(107, 114, 128, 0.2);
 
   &::after {
@@ -245,8 +243,6 @@
   }
 }
 
-
-
 .status-ring {
   position: absolute;
   inset: 0;
@@ -254,7 +250,7 @@
   padding: 3px;
   // plat option
   // background: conic-gradient(
-  //   rgba(138, 43, 226, 0.7), 
+  //   rgba(138, 43, 226, 0.7),
   //   rgba(138, 43, 226, 0.1),
   //   rgba(138, 43, 226, 0.7)
   // );
@@ -265,10 +261,10 @@
   //   #ffffff2c
   // );
   // green option
-    background: conic-gradient(
-    rgba(49, 226, 43, 0.7), 
+  background: conic-gradient(
+    rgba(49, 226, 43, 0.589),
     rgba(43, 226, 113, 0.1),
-    rgba(40, 203, 132, 0.7)
+    rgba(40, 203, 132, 0.548)
   );
   animation: ring-spin 2.8s linear infinite;
   mask: radial-gradient(farthest-side, transparent 65%, black 66%);
@@ -281,49 +277,36 @@
   }
 }
 
-.ghostly-ring {
-  position: absolute;
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-
-  /* Ghostly conic gradient */
-  background: conic-gradient(
-    rgba(255, 255, 255, 0.1),
-    rgba(255, 255, 255, 0.05),
-    rgba(255, 255, 255, 0.1)
-  );
-
-  /* Glossy highlight effect */
-  box-shadow: 0 0 30px rgba(255, 255, 255, 0.2) inset;
-
-  /* Optional: rotate for shimmer animation */
-  animation: rotate-ring 4s linear infinite;
+.animation-slide {
+  animation: softDrop 300ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+  animation-delay: calc(var(--stagger, 0) * 80ms);
+  opacity: 0;
+  // transform: translateY(-32px);
 }
 
-@keyframes rotate-ring {
+@keyframes softDrop {
   0% {
-    transform: rotate(0deg);
+    opacity: 0.5;
+    transform: translateY(-35px) scale(0.96);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(4px) scale(1.01);
   }
   100% {
-    transform: rotate(360deg);
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
-
-.animation-slide {
-  animation: slideDownFade 0.3s ease-out forwards;
-}
-
-
-
-@keyframes slideDownFade {
+/* Smooth upward entrance */
+@keyframes softRise {
   0% {
-    transform: translateY(-20px);
-    opacity: 97;
+    transform: translateY(26px);
+    opacity: 0;
   }
   100% {
     transform: translateY(0);
-    opacity: 100;
+    opacity: 1;
   }
 }

@@ -17,14 +17,13 @@ export const RequestSection = ({
 }) => (
   <section
     ref={scrollRef}
-    className={`grid grid-flow-col auto-cols-min  ${
+    className={`grid grid-flow-col auto-cols-min dark:bg-darkGray  ${
       hasContent || isLoading
         ? "h-90"
         : "h-20 whitespace-nowrap mx-auto w-full flex items-center justify-center text-sm"
-    } gap-6 px-2 pt-3 pb-0 snap-x snap-mandatory overflow-x-scroll nobar null outline-2 outline-gray-100 dark:outline-black rounded-lg`}
+    } gap-6 px-2 pt-5 pb-0 snap-x snap-mandatory overflow-x-scroll nobar null outline-2 outline-gray-100 dark:outline-black/20 rounded-lg`}
   >
     {!isLoading ? renderContent() : renderLoading()}
-
     {isFetchingMore && (
       <MoreVertical
         size={50}

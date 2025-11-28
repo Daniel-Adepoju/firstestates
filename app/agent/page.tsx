@@ -26,7 +26,7 @@ const AgentOnboarding = () => {
   return (
     <div className="w-full flex flex-col items-center gap-4">
       {/* Agent Profile */}
-      <Agent agent={session?.user} />
+      <Agent agent={session?.user} isYou={true}/>
 
       {/* Payments */}
       <Payments

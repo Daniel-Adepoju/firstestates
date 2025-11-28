@@ -68,7 +68,7 @@ const AgentViewPage = () => {
   return (
     <>
       <div className="agentProfile w-[80%] mx-auto mb-6 mt-20 p-6 rounded-lg shadow-md">
-        <Agent agent={agent} />
+        <Agent agent={agent} isYou={isYou}/>
 
         {/* report user */}
         {!isLoading && !isYou && (
@@ -98,6 +98,7 @@ const AgentViewPage = () => {
           </div>
         )}
       </div>
+      
       {listings?.pages[0]?.listings.length > 0 && (
         <>
           <div className="subheading flex items-center gap-1 ml-4 my-2 overflow-clip [word-spacing:3px]">

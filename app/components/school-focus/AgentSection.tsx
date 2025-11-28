@@ -7,6 +7,7 @@ import { useRef } from "react"
 import { Skeleton } from "@components/ui/skeleton"
 import { useNextPage } from "@lib/useIntersection"
 import { MoreVertical} from "lucide-react"
+import Link from 'next/link'
 
 const AgentSection = ({ school }: { school: string }) => {
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -19,20 +20,19 @@ const AgentSection = ({ school }: { school: string }) => {
       hasNextPage,
       fetchNextPage
     })
-  
-console.log(agents)
 
   const renderAgents = () => {
     if (!agents?.pages[0].agents.length) {
       return (
-        <div className="w-120 py-4 mx-auto text-center text-sm font-medium flex items-center justify-center">
+        <div className="w-full col-span-full py-4 mx-auto text-center text-sm font-medium flex items-center justify-center">
           No agents found
         </div>
       )
     }
     return agents?.pages?.flatMap((item) => {
       return item?.agents.flatMap((agent: Listing["agent"],index:number) => (
-        <div
+        <Link
+        href={`/agent-view/${agent._id}`}
           ref={item?.agents.length - 1 === index ? agentRef : null}
           key={agent._id}
           className="flex flex-col items-center justify-center snap-center"
@@ -59,7 +59,7 @@ console.log(agents)
           <div className="mt-1 text-center text-xs font-medium truncate max-w-[4rem]">
             {agent?.username}
           </div>
-        </div>
+        </Link>
       ))
     })
   }
@@ -86,9 +86,11 @@ console.log(agents)
       <section
         ref={scrollRef}
         className={`${
-          (isLoading || agents?.pages[0].agents.length) &&
+          (isLoading || agents?.pages[0].agents.length) ?
           "grid grid-flow-col auto-cols-min whitespace-nowrap mx-auto w-[99.5%] text-sm gap-4 mt-2 px-3 py-4 snap-x snap-mandatory overflow-x-scroll nobar null"
-        }   outline-2 outline-gray-100 dark:outline-black rounded-lg`}
+       :
+      "w-full"
+      }   outline-2 outline-gray-100 dark:outline-black/20 rounded-lg dark:bg-darkGray`}
       >
         {!isLoading && renderAgents()}
         {isFetchingNextPage && <MoreVertical className="self-center justify-self-text-gray-600 dark:text-gray-100  animate-pulse"/>}

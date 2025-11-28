@@ -57,10 +57,11 @@ html:is(.dark) {
 
   // card
   .card_list {
-    background-color: rgba(37, 37, 37, 0.146);
+    background-color: var(--color-darkGray);
+      box-shadow: 0 4px 20px oklch(96.696% 0.00298 264.792 / 0.023)
   }
   .card {
-    background-color: black;
+    background-color: #1e1e1e;
 
     &:hover {
       &::after {

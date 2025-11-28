@@ -21,8 +21,12 @@ const ScrollController = ({ scrollRef }: ScrollControllerProps) => {
     if (!el) return
       checkScroll()
     el.addEventListener("scroll", checkScroll)
-    return () => el.removeEventListener("scroll", checkScroll)
-  }, [scrollRef.current])
+    window.addEventListener("resize", checkScroll)
+    return () => {
+      el.removeEventListener("scroll", checkScroll)
+     window.removeEventListener("resize", checkScroll)
+    }
+    }, [scrollRef])
 
   const scroll = (direction: "left" | "right") => {
     const el = scrollRef.current

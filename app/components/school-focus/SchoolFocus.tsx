@@ -38,7 +38,7 @@ const SchoolFocus = () => {
   const buildRequestQuery = (type: "co-rent" | "roommate") => ({
     limit: 12,
     school,
-    requester: session?.user.id,
+    // requester: session?.user.id,
     requestType: type,
     // status: "accepted",
     enabled: !!school,
@@ -88,14 +88,14 @@ const SchoolFocus = () => {
       isRequest ? (
         <Skeleton
           key={i}
-          className="relative inline-block h-60 w-85 rounded-md bg-gray-500/20 mb-6"
+          className="relative inline-block h-60 w-85 rounded-md bg-gray-500/20 dark:bg-gray-500/40 mt-6"
         >
-          <Skeleton className="absolute z-1 bg-gray-300 dark:bg-darkGray w-70 h-40 left-7.5 bottom-[-40px] !animate-none" />
+          <Skeleton className="absolute z-1 bg-gray-300 dark:bg-gray-500 w-70 h-40 left-7.5 bottom-[-40px] !animate-none" />
         </Skeleton>
       ) : (
         <Skeleton
           key={i}
-          className="inline-block h-75 w-65 rounded-md bg-gray-500/20 mb-6"
+          className="inline-block h-75 w-65 rounded-md bg-gray-500/20 mb-6 first:mt-6 last:mb-6" 
         />
       )
     )
