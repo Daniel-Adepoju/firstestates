@@ -182,7 +182,9 @@ const Nav = () => {
     },
   ].filter((item) => item.condition)
 
-  if (pathname.includes("/chat")) return null
+  if (pathname.includes("/chat")) {
+    return null 
+  }
 
   return (
     <header

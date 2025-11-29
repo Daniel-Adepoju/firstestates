@@ -8,8 +8,7 @@ const Footer = () => {
   const year = new Date().getFullYear()
   const pathname = usePathname()
 
-  if (pathname.includes("/chat")) return null
-
+ if (pathname !== "/") return null
 
   return (
     <footer className={`footer`}>

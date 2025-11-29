@@ -9,6 +9,7 @@ import { MoreHorizontal } from 'lucide-react';
 import Link from 'next/link';
 import Inbox from './Inbox';
 import ChatBubble from './ChatBubble';
+import ChatLoading from './ChatLoading'
 import { Loader2,SendHorizonal} from 'lucide-react';
 import { groupMessagesByDate } from '@utils/date';
 
@@ -20,7 +21,7 @@ export default function Chat() {
   const recipientId = useSearchParams().get('recipientId')
   const [conversationId, setConversationId] = useState<string | null>(null)
   const [text, setText] = useState('');
-  const [loading,setLoading] = useState(false)
+  const [loading,setLoading] = useState(true)
   const bottomRef = useRef<HTMLDivElement | null>(null);
   const [sending,setSending] = useState(false)
   const [showId,setShowId] = useState('')
@@ -84,10 +85,10 @@ await sendMessage(text, userId, recipientId!, conversationId)
   }, [conversationId])
   
 
-if (loading) {
- return  <MoreHorizontal color='grey' size={40} className='mt-50 mx-auto animate-pulse'/>
+if (!loading) {
+ return <ChatLoading />
  }
-  if(!userId && !recipientId || !session) {
+  if(!userId && (!recipientId || !session || !loading)) {
     return (<div className='loginFirst text-xl'>
     <span>To use our chat feature</span>
     <Link href='/login' className='cursor-pointer mx-1 p-1 px-4  rounded-md text-white dark:bg-coffee bg-darkblue'>Log in</Link>
@@ -100,17 +101,17 @@ if (loading) {
   }
 
   return (
-    <div className='nobar flex gap-1 w-full h-screen'>
+    <div className='flex gap-1 w-full h-screen md:h-152 overflow-hidden'>
         <div className='hidden md:block flex-1 w-[30%]'>
           <Inbox topMargin='0'/>
         </div> 
 
-     <div className="flex-1 flex flex-col  w-full  border rounded-xl  p-4 mx-auto dark:bg-gray-700/40">
+     <div className="h-[97.5%] flex-1 flex flex-col  w-full  border rounded-xl  p-4 mx-auto dark:bg-gray-700/40 nobar null">
       <div className="nobar null w-[98%] flex-1 flex flex-col overflow-y-auto space-y-2 mb-4">
       {Object.entries(groupedMessages).map(([date, msgs]) => (
   <div key={date}>
     <h4 className="text-center dark:text-gray-300 text-gray-500 text-sm my-4">{date}</h4>
-   <div className='flex flex-col gap-4 mb-2'>
+   <div className='flex flex-col gap-4 mb-2 nobar null'>
     {msgs.map((msg:any) => (
     <ChatBubble key={msg.$id} msg={msg} userId={userId} showId={showId} setShowId={setShowId} recipientId={recipientId} />
 

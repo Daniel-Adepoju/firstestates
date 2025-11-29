@@ -62,7 +62,7 @@ const reportRef = useRef<HTMLDialogElement>(null)
             )} 
           </div>
         
-        <div className='self-end'>
+        <div className='self-end text-sm font-medium'>
         {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}
         </div>
         <div className='flex flex-col items-end'>

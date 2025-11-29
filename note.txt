@@ -4,13 +4,8 @@ smile id/dojah ->> finish agent auth
 
 ##
 cross check listing form loading
-
-
 unlogged in shouldnt enter school focus
 
-no agent found in school focus not centered in phone
-
-experiment darkening dark mode further in phone
 
 
 ## Chats
