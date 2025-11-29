@@ -47,7 +47,7 @@ html:is(.dark) .card_list {
   box-shadow: 0 4px 20px oklch(96.696% 0.00298 264.792deg / 0.023);
 }
 html:is(.dark) .card {
-  background-color: #1e1e1e;
+  background-color: #121212;
 }
 html:is(.dark) .card:hover::after {
   background-color: white;

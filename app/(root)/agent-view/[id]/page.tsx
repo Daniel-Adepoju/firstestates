@@ -11,7 +11,7 @@ import { useGetAgentListingsInfinite } from "@lib/customApi"
 import { useNextPage } from "@lib/useIntersection"
 import PopularCard from "@components/listing/PopularCard"
 import { Skeleton } from "@components/ui/skeleton"
-import { Loader2, ArrowRightCircle } from "lucide-react"
+import { Loader2, ArrowRightCircle, ChevronDown } from "lucide-react"
 
 const AgentViewPage = () => {
   const { id } = useParams()
@@ -19,6 +19,7 @@ const AgentViewPage = () => {
   const [reporting, setReporting] = useState(false)
   const notification = useNotification()
   const { session } = useUser()
+  const [isActive, setIsActive] = useState(false)
   const isYou = session?.user.id === id
   const { data: agent } = useGetUser({ id: id?.toString(), enabled: !!id, page: "1", limit: 1 })
   const {
@@ -67,69 +68,89 @@ const AgentViewPage = () => {
 
   return (
     <>
-      <div className="agentProfile w-[80%] mx-auto mb-6 mt-20 p-6 rounded-lg shadow-md">
-        <Agent agent={agent} isYou={isYou}/>
+      <div className="agentProfile w-[90%] md:w-[80%] mx-auto mb-6 mt-20 p-6 rounded-lg shadow-md dark:shadow-md-black/60">
+        <Agent
+          agent={agent}
+          isYou={isYou}
+        />
 
         {/* report user */}
         {!isLoading && !isYou && (
           <div className="reportUser mt-4">
-            <h2 className="subheading font-semibold mb-2">Report Agent</h2>
-            <p>If you have any issues with this agent, please report them.</p>
-            <form
-              onSubmit={handleReport}
-              className="mt-4"
+            <div
+              className="flex items-center gap-3 cursor-pointer"
+              onClick={() => setIsActive(!isActive)}
             >
-              <textarea
-                required
-                className="w-full resize-none p-2 border rounded"
-                rows={6}
-                placeholder="Describe the issue..."
-                value={reportText}
-                onChange={(e) => setReportText(e.target.value)}
-              ></textarea>
-              <button
-                type="submit"
-                disabled={reporting}
-                className="mt-2 px-4 py-2 bg-red-800 text-white rounded hover:opacity-90"
-              >
-                {reporting ? "Sending..." : "Send Report"}
-              </button>
-            </form>
+              <h2 className="subheading font-semibold mb-2">Report Agent</h2>
+              <ChevronDown
+              strokeWidth={3}
+                className={`w-5 h-5 transition-transform duration-300 ${
+                  isActive ? "rotate-180" : ""
+                }`}
+              />
+            </div>
+
+            {isActive && (
+              <>
+                <p>If you have any issues with this agent, please report them.</p>
+                <form
+                  onSubmit={handleReport}
+                  className="mt-4"
+                >
+                  <textarea
+                    required
+                    className="w-full resize-none p-2 outline-[1px] dark:outline-black border-none rounded-sm"
+                    rows={6}
+                    placeholder="Describe the issue..."
+                    value={reportText}
+                    onChange={(e) => setReportText(e.target.value)}
+                  ></textarea>
+                  <button
+                    type="submit"
+                    disabled={reporting}
+                    className="mt-2 px-4 py-2 bg-red-800 text-white outline-1.5 dark:outline-gray-500 rounded-sm hover:opacity-90"
+                  >
+                    {reporting ? "Sending..." : "Send Report"}
+                  </button>
+                </form>
+              </>
+            )}
           </div>
         )}
       </div>
-      
+
       {listings?.pages[0]?.listings.length > 0 && (
-        <>
+        <div className="w-full">
           <div className="subheading flex items-center gap-1 ml-4 my-2 overflow-clip [word-spacing:3px]">
-            {isYou ? "Your Listings" : `Listings From ${agent?.username}`}
+            {isYou ? "Your Listings" : `Listings From ${agent?.username || ""}`}
             <ArrowRightCircle className="w-5 h-5" />
           </div>
-          {isLoading ? (
-            <div className="mx-auto p-4 flex flex-wrap items-center  ">
-              {Array.from({ length: 10 }).map((_, i) => (
-                <Skeleton
-                  key={i}
-                  className="w-40 h-40 bg-gray-500 animate-none"
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="py-4 popularList  w-full flex flex-wrap justify-evenly items-center gap-8">
-              {listings?.pages.flatMap((item) => {
-                return item.listings.flatMap((listingItem: Listing, index: number) => {
-                  return (
-                    <PopularCard
-                      key={listingItem._id}
-                      listing={listingItem}
-                      refValue={index === item.listings.length - 1 ? useNextpageRef : null}
-                    />
-                  )
-                })
-              })}
-            </div>
-          )}
-        </>
+          <div
+            className="w-[88%] md:w-[96%] mx-auto  flex flex-wrap justify-center items-center gap-6 my-6 p-4 dark:bg-darkGray rounded-lg
+ custom-shadow
+          "
+          >
+            {isLoading
+              ? Array.from({ length: 10 }).map((_, i) => (
+                  <Skeleton
+                    key={i}
+                    className="w-40 h-40 py-4 bg-gray-500/20 dark:bg-gray-500/40"
+                  />
+                ))
+              : listings?.pages.flatMap((item) => {
+                  return item.listings.flatMap((listingItem: Listing, index: number) => {
+                    return (
+                      <PopularCard
+                        key={listingItem._id}
+                        listing={listingItem}
+                        isAnimation={true}
+                        refValue={index === item.listings.length - 1 ? useNextpageRef : null}
+                      />
+                    )
+                  })
+                })}
+          </div>
+        </div>
       )}
       {isFetchingNextPage && hasNextPage && (
         <Loader2 className="animate-spin mx-auto text-gray-500 dark:text-white my-4" />

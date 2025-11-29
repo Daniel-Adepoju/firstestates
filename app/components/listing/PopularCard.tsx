@@ -1,19 +1,32 @@
 import Link from "next/link"
 import { CldImage } from "next-cloudinary"
 import { Bed, Bath, Toilet } from "lucide-react"
-import { useDarkMode } from "@lib/DarkModeProvider"
 import { CardProps } from "./Card"
+import { useAnimation } from "@lib/useAnimation"
 
 interface PopCardProps {
   listing: CardProps["listing"]
   type?: string
   refValue?: any
+  isAnimation?:boolean
 }
 
-const PopularCard = ({ listing, type, refValue }: PopCardProps) => {
-  const { darkMode } = useDarkMode()
+const PopularCard = ({ listing, type, refValue,isAnimation=false }: PopCardProps) => {
+
+  const { ref, className: animateClass } = useAnimation({
+  threshold: 0.1,
+  rootMargin: "0px 0px -80px 0px",
+})
 
   return (
+    
+        <div
+          ref={isAnimation ? ref as React.RefObject<HTMLDivElement> : null}
+          className={`${isAnimation && animateClass} 
+        `}
+        >
+   
+  
     <Link
       ref={refValue || null}
       href={
@@ -21,7 +34,7 @@ const PopularCard = ({ listing, type, refValue }: PopCardProps) => {
           ? `/agent/appointments/${listing?._id}`
           : `/listings/single_listing?id=${listing?._id}`
       }
-      className="popularCard snap-center flex flex-col border w-[200px] min-h-50 p-2 rounded-xl shadow-md bg-white"
+      className="popularCard snap-center flex flex-col border w-[200px] min-h-50 p-2 rounded-xl shadow-md dark:shadow-black bg-white"
     >
       <div className="w-[100%] h-30 relative">
         {listing?.mainImage?.startsWith("http") ? (
@@ -81,6 +94,8 @@ const PopularCard = ({ listing, type, refValue }: PopCardProps) => {
         </div>
       </div>
     </Link>
+
+         </div>
   )
 }
 

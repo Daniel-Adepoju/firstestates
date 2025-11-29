@@ -116,7 +116,7 @@ const Agent = ({ agent, isYou }: any) => {
       <div className="agentProfile section_two">
         <div className="mt-2 flex flex-row gap-2 items-center">
           <MapPin
-            size={40}
+            size={34}
             className="text-goldPrimary"
           />
           <span className="break-all text-sm text-ellipsis opacity-70">{agent.address}</span>

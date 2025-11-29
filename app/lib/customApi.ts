@@ -265,7 +265,7 @@ export const useGetAgentListingsInfinite = ({
 
   const { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["agentListings", page, location, school],
+      queryKey: ["agentListings", page, location, school,id],
       initialPageParam: 1,
       getNextPageParam: (prevData: any) => {
         return prevData?.cursor && prevData?.cursor !== prevData.numOfPages
