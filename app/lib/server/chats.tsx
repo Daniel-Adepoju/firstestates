@@ -40,7 +40,7 @@ export const getMessages = async (conversationId: string) => {
     Query.orderAsc("createdAt"),
   ])
   //  get converssation date
-  console.log(res.documents, "pol")
+  // console.log(res.documents, "pol")
 
   // delete old conversation with no messages
 
@@ -134,10 +134,12 @@ export async function getUnreadChatsInConversation(conversationId: string, userI
     Query.equal("conversationId", conversationId),
     Query.equal("receiverId", userId),
     Query.notEqual("userId", userId),
-    Query.limit(100),
+    // Query.limit(100),
   ])
 
   const unreadMessages = res.documents.filter((msg) => !msg.readBy?.includes(userId))
 
   return unreadMessages.length.toString()
 }
+
+

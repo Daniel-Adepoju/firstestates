@@ -23,14 +23,16 @@ export default function ConversationRow({ convo, currentUserId, onClick }: Conve
   const { data: user, isLoading } = useGetUser({ id: otherId, enabled: !!otherId, page: "1", limit: 1 })
  const [newLastMessage,setNewLastMessage] = useState('')
 
+
+  const getUnread = async () => {
+  const res = await getUnreadChatsInConversation(convo.$id,currentUserId)
+  setUnreadMessages(res)
+}
+
  useEffect(() => {
   if(!currentUserId) return
-  const getUnread = async () => {
-    console.log({currentUserId,convoId:convo.$id})
-  const res = await getUnreadChatsInConversation(convo.$id,currentUserId)
-  setUnreadMessages(res)  
-}
-  getUnread()
+ getUnread()
+
     const unsubscribe = client.subscribe(
         `databases.${process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID}.collections.${process.env.NEXT_PUBLIC_APPWRITE_CONVERSATIONS_ID}.documents`,
         (res) => {
@@ -39,28 +41,26 @@ export default function ConversationRow({ convo, currentUserId, onClick }: Conve
 
                if (res.events.some((e) => e.includes('create'))) {
          setNewLastMessage(newMsg.lastMessage)
-           setUnreadMessages(prev => prev === '0' ? '1' : (parseInt(prev) + 1).toString())
       }
            
             if (res.events.some((e) => e.includes('update'))) {
           setNewLastMessage(newMsg.lastMessage)
-          setUnreadMessages(unreadMessages)
         }
       
             if (res.events.some((e) => e.includes('delete'))) {
           setNewLastMessage('Message Deleted')
-          setUnreadMessages(prev => prev === '0' ? '0' : (parseInt(prev) - 1).toString())
+
         }
-          
+          getUnread()
         }
       )
-    
+     
       return () => unsubscribe();
  },[currentUserId])
 
   return (
     <div
-      className="relative p-3 bg-black/5 dark:bg-black/10 rounded-sm
+      className="relative p-3 bg-black/5 dark:bg-black/10 rounded-md
       border-1 border-transparent border-t-gray-500/30 cursor-pointer
        hover:bg-gray-400/20 dark:hover:bg-gray-500/20"
       onClick={() => otherId && onClick(otherId)}
@@ -91,7 +91,7 @@ export default function ConversationRow({ convo, currentUserId, onClick }: Conve
       <h6 className='text-xs dark:text-gray-300 text-gray-500 '>New</h6>
       <div className="
        w-6 h-6 flex itemms-center justify-center
-      text-md font-bold text-white dark:bg-coffee bg-darkblue rounded-full">
+      text-md font-bold text-white dark:bg-goldPrimary bg-darkblue rounded-full">
         {parseInt(unreadMessages) > 9 ? '9+' : unreadMessages}
         </div>
         </div>)}

@@ -2,6 +2,6 @@ import Inbox from "@components/chats/Inbox";
 
 export default function ChatInbox() {
   return (
-      <Inbox topMargin="mt-15"/>
+      <Inbox topMargin="mt-1"/>
   )
 }

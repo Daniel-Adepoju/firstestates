@@ -19,7 +19,7 @@ export default function Inbox({ topMargin, height }: InboxProps) {
   const userId = session?.user.id
   const [conversations, setConversations] = useState<Models.Document[]>([])
   const router = useRouter()
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     if (!userId) return
@@ -42,7 +42,7 @@ export default function Inbox({ topMargin, height }: InboxProps) {
       <MoreHorizontal
         size={40}
         color="grey"
-        className="animate-pulse"
+        className="animate-pulse mx-auto mt-40"
       />
     )
   }
