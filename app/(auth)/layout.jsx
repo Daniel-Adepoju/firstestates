@@ -22,7 +22,7 @@ export default function RootLayout({children}) {
           <User>
          <Notification>
           <Toast>
-          <Nav />
+          {/* <Nav /> */}
           {/* <main> */}
          {children}
           {/* </main> */}

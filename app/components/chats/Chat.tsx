@@ -137,26 +137,27 @@ export default function Chat() {
 
   useEffect(() => {
     if (!conversationId || !userId) return
+    // if (!unreadCountRef.current) return
 
     const run = async () => {
       // Wait for unreadCount to load
       const count = await fetchUnreadCount()
       unreadCountRef.current = count
-      requestAnimationFrame(() => {
-        if (count && count > 0 && firstUnreadId) {
+      setTimeout(() => {
+        if (unreadCountRef.current! > 0 && firstUnreadId) {
           // scroll to last read message
           // setUnreadCount(count)
           lastReadRef.current?.scrollIntoView({ behavior: "auto", block: "center" })
-        } else if (count === 0) {
+        } else if (unreadCountRef.current === 0) {
           // No unread → scroll to bottom
           // setUnreadCount(0)
           messagesEndRef.current?.scrollIntoView({ behavior: "auto" })
         }
-      })
+      },500)
     }
 
     run()
-  }, [conversationId, userId, unreadCount, unreadCountRef.current])
+  }, [conversationId, userId, unreadCount, unreadCountRef.current,loading])
 
   //Real-time listener for new messages
 

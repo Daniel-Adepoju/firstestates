@@ -18,7 +18,7 @@ const FeaturedCard = ({ edit, listing, isAgentCard }: CardProps) => {
   const visitCard = () => {
     router.push(`/listings/single_listing?id=${listing?._id}`)
   }
-console.log('featured')
+
   return (
     <>
       <div className="w-full">
