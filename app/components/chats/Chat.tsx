@@ -34,15 +34,13 @@ export default function Chat() {
   const [loading, setLoading] = useState(true)
   const [sending, setSending] = useState(false)
   const [showId, setShowId] = useState("")
-
   const unreadObserver = useRef<IntersectionObserver | null>(null)
-  const unreadRef = useRef<HTMLDivElement | null>(null)
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
   const flatMessages = Object.values(groupedMessages).flat()
-  const [userScrolled, setUserScrolled] = useState(false)
-
+  const unreadCountRef = useRef<number | null>(null)
   const lastUnreadId = [...flatMessages].reverse().find((m) => !m.readBy.includes(userId))?.$id
   const firstUnreadId = flatMessages.find((m) => !m.readBy.includes(userId))?.$id
+
   const lastReadMessageId = (() => {
     if (!firstUnreadId) return null
 
@@ -57,16 +55,20 @@ export default function Chat() {
 
   // Fetch unread count for current conversation
   const fetchUnreadCount = async () => {
-    if (!conversationId || !userId) return
+    if (!conversationId || !userId) return null
     setUnreadLoading(true)
+
     try {
       const countStr = await getUnreadChatsInConversation(conversationId, userId)
-      setUnreadCount(parseInt(countStr) || 0)
-      setUnreadLoading(false)
-      return parseInt(countStr)
+      const count = parseInt(countStr) || 0
+      setUnreadCount(count)
+      unreadCountRef.current = count
+      return count
     } catch (err) {
-      setUnreadLoading(false)
       console.error("Failed to fetch unread count", err)
+      return null
+    } finally {
+      setUnreadLoading(false)
     }
   }
 
@@ -76,6 +78,7 @@ export default function Chat() {
     await sendMessage(text, userId, recipientId!, conversationId)
     setText("")
     setSending(false)
+    await fetchUnreadCount()
   }
 
   // Load conversation + messages
@@ -101,18 +104,6 @@ export default function Chat() {
     setupConversation()
   }, [userId, recipientId])
 
-  // user scroll
-
-  //   useEffect(() => {
-  //   const el = containerRef.current
-  //   if (!el) return
-
-  //   const handler = () => setUserScrolled(true)
-
-  //   el.addEventListener("scroll", handler)
-  //   return () => el.removeEventListener("scroll", handler)
-  // }, [])
-
   // Mark messages as read + update unread count
   useEffect(() => {
     if (unreadCount === undefined || unreadCount === null) return
@@ -128,9 +119,9 @@ export default function Chat() {
         if (!entry.isIntersecting) return
         // if (!userScrolled) return
         // mark all unread as read
-        await fetchUnreadCount()
-        await updateReadStatus(userId, conversationId)
 
+        await updateReadStatus(userId, conversationId)
+        await fetchUnreadCount()
         observer.disconnect()
       },
       { threshold: 1.0 }
@@ -142,25 +133,30 @@ export default function Chat() {
     return () => observer.disconnect()
   }, [lastUnreadId, conversationId])
 
+  // Scroll to bottom when no unread messages
 
-
-  // Scroll to bottom when no unread messages, or when user sends a message
   useEffect(() => {
-    if (unreadLoading || loading) return
-    if (!loading && unreadLoading) return
-    if (!unreadLoading && loading) return
-    if (unreadCount === undefined || unreadCount === null) return
+    if (!conversationId || !userId) return
 
-    setTimeout(() => {
-      if (firstUnreadId) {
-        // scroll to the last read message
-        lastReadRef.current?.scrollIntoView({ behavior: "auto", block: "center" })
-      } else {
-        // no unread → scroll to bottom
-        messagesEndRef.current?.scrollIntoView({ behavior: "auto" })
-      }
-    }, 200)
-  }, [sending, unreadCount, unreadLoading, loading])
+    const run = async () => {
+      // Wait for unreadCount to load
+      const count = await fetchUnreadCount()
+      unreadCountRef.current = count
+      requestAnimationFrame(() => {
+        if (count && count > 0 && firstUnreadId) {
+          // scroll to last read message
+          // setUnreadCount(count)
+          lastReadRef.current?.scrollIntoView({ behavior: "auto", block: "center" })
+        } else if (count === 0) {
+          // No unread → scroll to bottom
+          // setUnreadCount(0)
+          messagesEndRef.current?.scrollIntoView({ behavior: "auto" })
+        }
+      })
+    }
+
+    run()
+  }, [conversationId, userId, unreadCount, unreadCountRef.current])
 
   //Real-time listener for new messages
 
@@ -242,8 +238,8 @@ export default function Chat() {
                     {/* Unread Messages Banner */}
                     {/* msg.$id === '692c973800094bd9bb18' */}
                     {/* msg.$id === firstUnreadId && (unreadCount as number) > 0 */}
-                    {msg.$id === firstUnreadId && (unreadCount as number) > 0 && (
-                      <div className="w-[100%] mt-8 mb-6 flex-1 flex flex-col !mx-auto !items-center !justify-center !justify-self-center !place-self-center gap-2 py-3 text-sm text-gray-500 dark:text-gray-300">
+                    {msg.$id === firstUnreadId && (unreadCountRef?.current as number) > 0 && (
+                      <div className="w-[100%] mt-6 mb-6 flex-1 flex flex-col !mx-auto !items-center !justify-center !justify-self-center !place-self-center gap-2 py-3 text-sm text-gray-500 dark:text-gray-300">
                         <span>
                           You have {unreadCount} unread {unreadCount === 1 ? "message" : "messages"}
                         </span>
@@ -258,27 +254,15 @@ export default function Chat() {
                     )}
                     {/* chat bubble */}
                     {/* read chats */}
-                    {(firstUnreadId !== msg.$id || (unreadCount as number) === 0) && (
-                      <ChatBubble
-                        id={msg.$id}
-                        msg={msg}
-                        userId={userId}
-                        showId={showId}
-                        setShowId={setShowId}
-                        recipientId={recipientId}
-                      />
-                    )}
-                    {/* unread chats */}
-                    {firstUnreadId === msg.$id && (unreadCount as number) > 0 && (
-                      <ChatBubble
-                        id={msg.$id}
-                        msg={msg}
-                        userId={userId}
-                        showId={showId}
-                        setShowId={setShowId}
-                        recipientId={recipientId}
-                      />
-                    )}
+
+                    <ChatBubble
+                      id={msg.$id}
+                      msg={msg}
+                      userId={userId}
+                      showId={showId}
+                      setShowId={setShowId}
+                      recipientId={recipientId}
+                    />
                   </div>
                 ))}
               </div>
