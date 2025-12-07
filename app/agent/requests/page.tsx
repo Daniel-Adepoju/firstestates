@@ -116,7 +116,7 @@ const RequestsInAgent = () => {
           </p>
           {/* <p className="text-center text-md p-2 font-semibold text-gray-700 dark:text-gray-200">
             Pending requests are requests are in <span className="w-6 h-6 bg-greenPrimary"></span>
-            and roommate requests are in <div className="w-3 h-3 p-2.5 bg-goldPrimary rounded-full"></div>
+            and roommate requests are in <div className="w-3 h-3 p-2.5 gold-gradient rounded-full"></div>
           </p> */}
         </div>
 

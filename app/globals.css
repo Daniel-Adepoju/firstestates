@@ -48,6 +48,7 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-navBorderColor: #e5e7eb;
+  --color-background-gradient: var(--background-gradient);
   --color-coffee: #032679;
   --color-darkGray: #31363f;
   --color-darkblue: #032679;
@@ -65,6 +66,12 @@
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
+  --background-gradient: radial-gradient(
+      circle at 50% 0%,
+      rgba(0, 0, 0, 0.06),
+      rgba(0, 0, 0, 0) 70%
+    ),
+    linear-gradient(#ffffff, #ffffff);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -98,7 +105,13 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: #1c1c1c;
+  --background-gradient: radial-gradient(
+      circle at 50% 0%,
+      rgba(255, 255, 255, 0.06),
+      rgba(255, 255, 255, 0) 70%
+    ),
+    linear-gradient(#1c1c1c, #1c1c1c);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
@@ -132,12 +145,46 @@
   --color-navBorderColor: #4b5563;
 }
 
+body {
+  color: var(--color-foreground);
+  background-image: var(--color-background-gradient);
+}
+
+/* gradient utilities */
+@utility darkblue-gradient {
+  /* glossy */
+  background: linear-gradient(135deg, #0440c8, #032679);
+}
+
+@utility gold-gradient {
+  background: linear-gradient(135deg, #f7b657, #f29829);
+}
+
+ @utility darkblue-gradient-text {
+ background: linear-gradient(to right, #0440c8, #032679);
+color: transparent;
+background-clip: text;
+}
+@utility blue-gradient-text {
+background: linear-gradient(
+  to right,
+  #1aa6cc,
+ oklch(88.2% 0.059 254.128),
+);
+color: transparent;
+background-clip: text;
+}
+
+@utility gold-gradient-text {
+background: linear-gradient(to right, #f7b657, #f29829);
+color: transparent;
+background-clip: text;
+}
+
+/* layers */
 @layer base {
   * {
     @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
   }
 
   :root {

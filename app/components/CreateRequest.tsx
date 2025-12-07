@@ -97,7 +97,7 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
       max: listing?.post?.price ? listing.post.price * 0.6 : 0,
       placeholder: "Enter your budget",
       className: `w-full  border rounded-md
-                  [&_[role=slider]]:bg-goldPrimary
+                  [&_[role=slider]]:gold-gradient
             [&>span:first-child]:bg-white
             [&_[role=slider]]:border-gray-200
             [&_[data-state=active]]:ring-gray-200"

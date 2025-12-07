@@ -16,7 +16,7 @@ const SchoolView = () => {
   const [showForm, setShowForm] = useState(false)
   const [areaValue, setAreaValue] = useState("")
   const [selectedAreaIndex, setSelectedAreaIndex] = useState<number | null>(null)
- const {setToastValues} = useToast()
+  const { setToastValues } = useToast()
   const fetchData = async () => {
     try {
       const res = await axiosdata.value.get(`/api/schools/${schoolId}`)
@@ -35,7 +35,7 @@ const SchoolView = () => {
   const addArea = async (val: any) => {
     try {
       const response = await axiosdata.value.patch(`/api/schools/${schoolId}`, val)
-  setToastValues({
+      setToastValues({
         isActive: true,
         message: "School area added successfully",
         status: "success",
@@ -84,7 +84,6 @@ const SchoolView = () => {
 
   return (
     <div className="w-full flex flex-col">
-    
       {/* school */}
       <div className="flex flex-col items-center gap-2 mt-8">
         {isLoading ? (
@@ -105,7 +104,7 @@ const SchoolView = () => {
       {/* school area */}
       <div
         onClick={() => setShowForm(!showForm)}
-        className="clickable  flex self-center-safe md:self-end mt-8 mr-8 cursor-pointer bg-darkblue dark:bg-coffee text-white px-4 py-2 rounded-md smallScale"
+        className="clickable  flex self-center-safe md:self-end mt-8 mr-8 cursor-pointer darkblue-gradient dark:bg-coffee text-white px-4 py-2 rounded-md smallScale"
       >
         <span className="font-bold">Add School Area</span>
         {showForm ? <X className="ml-2" /> : <Plus className="ml-2" />}

@@ -9,7 +9,7 @@ export default function ListingActions({ showAdd, session }:any) {
       {showAdd ? (
         <Link
           href={"/agent/listings/add/types"}
-          className="flex items-center justify-center gap-3 dark:text-white dark:bg-[#31363F] border-[1.38px] border-gray-300 dark:border-gray-500 p-3 rounded-2xl w-64 shadow-xs mediumScale"
+          className="flex items-center justify-center gap-3 dark:text-white bg-white dark:bg-[#31363F] border-[1.38px] border-gray-300 dark:border-gray-500 p-3 rounded-2xl w-64 shadow-xs mediumScale"
         >
           <PlusCircle
             size={40}
@@ -27,7 +27,7 @@ export default function ListingActions({ showAdd, session }:any) {
       {(!session?.user.tierOne || session?.user.tierTwo) && (
         <Link
           href="/agent/listings/residents"
-          className="flex items-center justify-center gap-3 dark:text-white dark:bg-[#31363F] border-[1.38px] border-gray-300 dark:border-gray-500 p-3 rounded-2xl w-64 shadow-xs mediumScale"
+          className="flex items-center justify-center gap-3 dark:text-white bg-white dark:bg-[#31363F] border-[1.38px] border-gray-300 dark:border-gray-500 p-3 rounded-2xl w-64 shadow-xs mediumScale"
         >
           <HousePlus
             size={40}

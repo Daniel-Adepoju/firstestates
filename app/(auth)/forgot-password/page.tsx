@@ -84,7 +84,7 @@ const ForgotPassword = () => {
         <button
           onClick={handleSubmit}
           type="submit"
-          className="clickable w-60 block mx-auto bg-darkblue dark:bg-coffee
+          className="clickable w-60 block mx-auto darkblue-gradient dark:bg-coffee
           hover:opacity-90 text-white 
           py-2 rounded-md transition-colors"
         >

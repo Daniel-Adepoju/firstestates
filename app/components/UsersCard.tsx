@@ -140,7 +140,7 @@ const banAccount = async (val:SendEmailParams) => {
   return (
        <div
             key={user._id}
-            className="dark:bg-darkGray relative shadow-sm  dark:shadow-black rounded-lg p-4 flex items-center gap-4"
+            className="bg-white dark:bg-darkGray relative shadow-sm  dark:shadow-black rounded-lg p-4 flex items-center gap-4"
           >
           {user?.banStatus &&  <div className="w-20 absolute right-5 top-4">
               <BannedSticker />

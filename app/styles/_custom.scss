@@ -240,7 +240,7 @@ a:has(.clickable) {
 
 .darkblueBtn {
   gap: 10px;
-  background-color: fn.color("darkblue");
+  background:linear-gradient(135deg, #0440c8, #032679);;
   color: fn.color("white");
   border-radius: 8px;
   cursor: pointer;

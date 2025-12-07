@@ -99,7 +99,7 @@ const Nav = () => {
       ),
       onClick: handleNavItemClick,
       className:
-        "md:bg-darkblue  md:dark:bg-goldPrimary  md:text-white md:px-4 md:py-2 md:rounded-md hover-glassd",
+        "md:darkblue-gradient  md:dark:gold-gradient  md:text-white md:px-4 md:py-2 md:rounded-md hover-glassd",
     },
 
     // School focus for clients
@@ -109,14 +109,10 @@ const Nav = () => {
         ? `/school-focus?school=${encodeURIComponent(session?.user?.school.toLowerCase())}`
         : "/",
       text: "School Focus",
-      icon: (
-        <MapPinHouse
-          className="w-5 h-5 text-gray-700 dark:text-white"
-        />
-      ),
+      icon: <MapPinHouse className="w-5 h-5 text-gray-700 dark:text-white" />,
       onClick: handleNavItemClick,
       className:
-        "md:bg-darkblue md:dark:bg-goldPrimary  md:text-white md:px-4 md:py-2 md:rounded-md md:hover-glass",
+        "md:darkblue-gradient md:dark:gold-gradient  md:text-white md:px-4 md:py-2 md:rounded-md md:hover-glass",
     },
 
     // Chats
@@ -162,7 +158,7 @@ const Nav = () => {
       ),
       onClick: handleNavItemClick,
       className:
-        "md:bg-darkblue  md:dark:bg-goldPrimary  md:text-white md:px-4 md:py-2 md:rounded-md md:hover-glass",
+        "md:darkblue-gradient  md:dark:gold-gradient  md:text-white md:px-4 md:py-2 md:rounded-md md:hover-glass",
     },
 
     // Sign Up (only signed out)
@@ -183,7 +179,7 @@ const Nav = () => {
   ].filter((item) => item.condition)
 
   if (pathname.includes("/chat") || pathname.includes("/inbox")) {
-    return null 
+    return null
   }
 
   return (
@@ -224,7 +220,7 @@ const Nav = () => {
           }}
           className="flex flex-row items-center gap-2  pt-1 cursor-pointer"
         >
-          <div className="bg-darkblue dark:bg-goldPrimary p-2 rounded-full hover-glass">
+          <div className="darkblue-gradient dark:gold-gradient p-2 rounded-full hover-glass">
             {darkMode ? (
               <Sun
                 size={20}
@@ -254,7 +250,7 @@ const Nav = () => {
               <div className={` link_line ${item.className || ""}`}>{item.text}</div>
               {/* Optional unread badge */}
               {item.text === "Chats" && unreadMessages && parseInt(unreadMessages) > 0 && (
-                <div className="flex items-center justify-center absolute w-6 h-6 top-[-16.5%] left-[0%] bg-darkblue  dark:bg-goldPrimary text-white rounded-full px-2 py-1 text-xs font-bold">
+                <div className="flex items-center justify-center absolute w-6 h-6 top-[-16.5%] left-[0%] darkblue-gradient  dark:gold-gradient text-white rounded-full px-2 py-1 text-xs font-bold">
                   {unreadMessages}
                 </div>
               )}

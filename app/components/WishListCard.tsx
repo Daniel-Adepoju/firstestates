@@ -52,7 +52,7 @@ const WishListCard = ({ listing, wishlistId, refValue }: WishListProps) => {
     <>
       <div
         ref={refValue}
-        className="w-full md:max-w-220 flex items-center justify-between gap-4 pr-3 shadow-sm rounded-md dark:bg-gray-700/50 dark:outline-black dark:outline-2"
+        className="w-full md:max-w-220 flex items-center justify-between gap-4 pr-3 shadow-sm rounded-md bg-white dark:bg-gray-700/50 dark:outline-black dark:outline-2"
       >
         <Link href={`/listings/single_listing?id=${listing._id}`}>   
         <CldImage

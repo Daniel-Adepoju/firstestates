@@ -205,7 +205,7 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
           </p>{" "}
         </div>
         {/* info btn */}
-        <div className="text-white dark:text-black listingInfoTooltip relative tooltip-above flex flex-row rounded-full mt-3 cursor-pointer items-center justify-center w-8 mx-auto bg-goldPrimary">
+        <div className="text-white dark:text-black listingInfoTooltip relative tooltip-above flex flex-row rounded-full mt-3 cursor-pointer items-center justify-center w-8 mx-auto gold-gradient">
           <Info
             onClick={() => infoRef?.current?.showModal()}
             size={30}

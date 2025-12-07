@@ -130,7 +130,7 @@ const RoomateCard = ({
               <div
                 onClick={() => acceptMutation.mutate({ id: request?._id, status: "accepted" })}
                 className={`clickable text-white font-bold ${
-                  request?.requestType === "roommate" ? "bg-goldPrimary" : "bg-green-600"
+                  request?.requestType === "roommate" ? "gold-gradient" : "bg-green-600"
                 } rounded-2xl cursor-pointer w-24 h-8 flex items-center justify-center`}
               >
                 {acceptMutation.isPending ? "Accepting" : "Accept"}
@@ -165,7 +165,7 @@ const RoomateCard = ({
         <div
           key={request._id}
           className={`w-full h-60 rounded-sm p-2 mx-auto
-            ${request?.requestType === "roommate" ? "bg-goldPrimary" : "bg-greenPrimary"}
+            ${request?.requestType === "roommate" ? "gold-gradient" : "bg-greenPrimary"}
             `}
         >
           <div className="flex flex-col">
@@ -265,7 +265,7 @@ const RoomateCard = ({
         <div
           key={request?.listing?._id}
           className={`w-90 h-80 rounded-sm p-2 mx-auto hover:shadow-md transition-shadow duration-300 ${
-            request?.requestType === "roommate" ? "bg-goldPrimary" : "bg-green-600"
+            request?.requestType === "roommate" ? "gold-gradient" : "bg-green-600"
           }`}
         >
           <div className="flex flex-col w-full">

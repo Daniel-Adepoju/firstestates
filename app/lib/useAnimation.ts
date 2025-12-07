@@ -28,7 +28,7 @@ export function useAnimation({
   return {
     ref,
     className: isVisible
-      ? "animate-in fade-in slide-in-from-top-8 duration-800 ease-out"
+      ? "animate-in fade-in slide-in-from-top-8 duration-400 ease-out"
       : "opacity-0",
     style: isVisible
       ? { "--stagger-delay": "90ms" } as React.CSSProperties

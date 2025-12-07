@@ -23,7 +23,7 @@ const Agent = ({ agent, isYou }: any) => {
   }
   return (
     <>
-      <div className="agentProfile">
+      <div className="agentProfile dark:text-white">
         <div className=" flex flex-col lg:flex-row lg:items-center">
           <div className="w-full flex flex-col md:flex-row items-center md:items-start justify-between gap-6">
             <div className="flex flex-col md:flex-row items-center gap-4">

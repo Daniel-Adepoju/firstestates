@@ -10,9 +10,7 @@ unlogged in shouldnt enter school focus
 
 ## Chats
 
-1. Fix UI
 2.Infinite scroll
-3. Stay at last read on open
 4.Clear Chats
 5.Faux delete
 

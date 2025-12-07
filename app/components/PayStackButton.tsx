@@ -28,7 +28,6 @@ const PaystackBtn = ({
   otherFunc,
   successFunction,
 }: PaystackBtnProps) => {
-  
   useSignals()
   const creating = useSignal(false)
 
@@ -89,7 +88,7 @@ const PaystackBtn = ({
       text={text}
       className={`${
         className ||
-        "self-center clickable my-4 flex items-center gap-1 text-white bg-darkblue hover:scale-99 dark:outline-gray-700 outline-2 outline-black transition-all duration-300 gloss font-bold py-3.5 px-8.5 rounded-md"
+        "self-center clickable my-4 flex items-center gap-1 text-white darkblue-gradient hover:scale-99 dark:outline-gray-700 outline-2 outline-black transition-all duration-300 gloss font-bold py-3.5 px-8.5 rounded-md"
       }`}
       functions={() => {
         otherFunc && otherFunc()

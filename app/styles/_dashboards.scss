@@ -6,11 +6,11 @@
 
 .agentDashboardContainer {
   color: black;
-  width: 100%; 
+  width: 100%;
   // margin-top: 70px;
   margin-bottom: 16px;
-  gap: 20px; 
-   @include mx.flex(column);
+  gap: 20px;
+  @include mx.flex(column);
   @media (max-width: 769px) {
     .card,
     .editSide {
@@ -19,13 +19,12 @@
   }
   &.aic {
     .lists {
-     
       gap: 15px;
       width: 97%;
       background-color: white;
       border-radius: 8px;
       @include mx.space(0, 20px);
-       @include mx.flex(column, flex-start);
+      @include mx.flex(column, flex-start);
       @include mx.shadow();
       a {
         color: fn.color("blue");
@@ -38,16 +37,16 @@
   .availableLists {
     background-color: fn.color("white");
     width: 97%;
-        border-radius: 8px;
+    border-radius: 8px;
     @include mx.space(8px, 12px);
   }
 
   .agentProfile {
-   
+    background-color: white;
     border-radius: 20px;
     padding-inline: 20px;
     width: 97%;
-     @include mx.space(1px, 8px);
+    @include mx.space(1px, 8px);
     @include mx.shadow(0.1px);
     .agentName {
       color: fn.color("darkblue");
@@ -56,31 +55,30 @@
     }
     .address {
       width: 100%;
-    
+
       gap: 6px;
-        @include mx.flex(row, center, flex-start);
+      @include mx.flex(row, center, flex-start);
       span:nth-child(2) {
         @include mx.center();
       }
       span:nth-child(3) {
-      
         white-space: pre-wrap;
         word-break: break-all;
-          @include mx.center();
+        @include mx.center();
       }
     }
   }
   .listingHistory {
+    background-color: white;
     width: 99%;
     @media (min-width: 700px) {
-
-      gap: 20px; 
-           @include mx.flex(row, center, flex-start);
+      gap: 20px;
+      @include mx.flex(row, center, flex-start);
     }
     @include mx.flex(column, center, flex-start);
     .item {
       // @include mx.center();
-    
+
       gap: 10px;
       width: 100%;
       @include mx.flex(row, flex-start, space-between);
@@ -96,18 +94,16 @@
     }
   }
   .availableLists {
-   
     flex-wrap: wrap;
-     @include mx.flex(row, center, center);
+    @include mx.flex(row, center, center);
     .header {
       width: 100%;
       padding-bottom: 10px;
-       @include mx.flex(row, center, space-evenly);
+      @include mx.flex(row, center, space-evenly);
       .subheading {
         cursor: pointer;
         position: relative;
         &::after {
-          
           content: "";
           position: absolute;
           width: 135px;
@@ -121,9 +117,8 @@
         }
         &.active {
           &::after {
-     
-            opacity: 100%; 
-                  @include mx.transition(300ms, ease-in);
+            opacity: 100%;
+            @include mx.transition(300ms, ease-in);
           }
         }
       }
@@ -137,7 +132,6 @@
 }
 
 .editSide {
- 
   width: 90%;
   margin-top: -25px;
 
@@ -145,26 +139,25 @@
   background-color: rgb(255, 255, 255);
   padding: 4px 6px;
   border-radius: 0 0px 20px 20px;
-    @include mx.flex(row, center, center);
-  @include mx.shadow(1px, 1px); 
+  @include mx.flex(row, center, center);
+  @include mx.shadow(1px, 1px);
   @include mx.transition(300ms, ease-out);
   @media (max-width: 768px) {
     margin-top: -44px;
   }
   img:hover {
-  
     border: 1px solid transparent;
     filter: grayscale(100%);
-    cursor: pointer; 
-     @include mx.transition(300ms);
+    cursor: pointer;
+    @include mx.transition(300ms);
   }
 }
 
 .addListing {
   padding: 26px 0;
   border-radius: 18px;
-  width: 100%; 
-   gap: 10px;
+  width: 100%;
+  gap: 10px;
   @include mx.center();
 
   .clickable {
@@ -173,9 +166,8 @@
 }
 
 .adminDashboard {
- 
   width: 100%;
-   @include mx.flex(column, center, flex-start);
+  @include mx.flex(column, center, flex-start);
 }
 
 .adminDashboard_content {
@@ -199,9 +191,8 @@
   }
 
   .banner {
-   
     gap: 6px;
- @include mx.flex(column, center, center);
+    @include mx.flex(column, center, center);
     .text {
       position: relative;
       padding: 10px;
@@ -209,19 +200,18 @@
       font-family: fn.font("number");
       color: fn.color("wheat");
       font-size: 16px;
-     
+
       width: 80px;
       height: 80px;
       border-radius: 50%;
-      background-color: white;
-     @include mx.center();
+
+      @include mx.center();
       span {
         position: relative;
-        display: inline-block;
+        display: block;
         width: 100%;
         border-radius: 50%;
         text-align: center;
-        background-color: white;
       }
       &::before {
         content: "";
@@ -233,11 +223,14 @@
         left: 0%;
         border-radius: 50%;
         padding: 20px;
-        background: radial-gradient(circle, rgb(255, 255, 255) 40%, #f2f3f3 100%);
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.934) 40%, #f2f3f3f5 100%);
         border: 9px solid fn.color("wheat");
         border-top-color: fn.color("lightWheat");
-        // border-top-color:transparent ;
         animation: spin 8s linear infinite;
+ 
+      }
+          html.dark &::before {
+        background: radial-gradient(circle, rgba(0, 0, 0, 0.484) 40%, #00000042 100%);
       }
     }
     &.danger {
@@ -259,11 +252,10 @@
     }
   }
   .barchart {
-    
     width: 100%;
     grid-column: 1/-1;
     background-color: rgb(255, 255, 255);
-     @include mx.shadow(0, 0);
+    @include mx.shadow(0, 0);
     @media (min-width: 1000px) {
       display: none;
     }

@@ -1,6 +1,6 @@
 import { client } from "@lib/server/appwrite"
 
-import { Databases, ID, Query } from "appwrite"
+import { Databases, ID, Query , Models} from "appwrite"
 
 const DATABASE_ID = process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!
 const MESSAGES_ID = process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID!
@@ -31,25 +31,67 @@ export const sendMessage = async (
   })
 }
 
-export const getMessages = async (conversationId: string) => {
+// export const getMessages = async (conversationId: string) => {
+//   if (!conversationId) return []
+
+//   // get conversation
+//   const res = await database.listDocuments(DATABASE_ID, MESSAGES_ID, [
+//     Query.equal("conversationId", conversationId),
+//     Query.orderDesc("createdAt"),
+//     Query.limit(5),
+//   ])
+
+//   const lastDoc = res.documents[res.documents.length - 1]
+
+//   // fetch older messges
+
+// const older = await database.listDocuments(
+//   DATABASE_ID,
+//   MESSAGES_ID,
+//   [
+//     Query.equal("conversationId", conversationId),
+//     Query.orderDesc("createdAt"),
+//     Query.limit(5),
+//     Query.cursorAfter(lastDoc.$id), // ← This is the key
+//   ]
+// );
+//   // combine older messages with newer messages
+//   const combined = [...older.documents, ...res.documents]
+//   // sort combined messages by createdAt
+//  const ordered = combined.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+
+
+
+
+//   return ordered
+// }
+
+// lib/server/chats.ts
+export const getMessages = async (
+  conversationId: string,
+  limit = 5,
+  cursor?: string // document ID to paginate after (for older messages)
+): Promise<Models.Document[]> => {
   if (!conversationId) return []
 
-  // get conversation
-  const res = await database.listDocuments(DATABASE_ID, MESSAGES_ID, [
+  const queries = [
     Query.equal("conversationId", conversationId),
-    Query.orderAsc("createdAt"),
-  ])
-  //  get converssation date
-  // console.log(res.documents, "pol")
+    Query.orderDesc("createdAt"), // newest first
+    Query.limit(limit),
+  ]
 
-  // delete old conversation with no messages
+  if (cursor) {
+    queries.push(Query.cursorAfter(cursor))
+  }
 
-  //    const convo = await database.getDocument(DATABASE_ID, CONVERSATIONS_ID, conversationId)
-  //     const isOld = Date.now() - new Date(convo.createdAt).getTime() > 30 * 1000;
-  //     if (isOld && conversationId && res.documents.length < 1) {
-  //  await database.deleteDocument(DATABASE_ID, CONVERSATIONS_ID, conversationId)
-  //     }
-  return res.documents
+  const res = await database.listDocuments(
+    DATABASE_ID,
+    MESSAGES_ID,
+    queries
+  )
+
+  // Return messages in chronological order (oldest → newest)
+  return res.documents.reverse()
 }
 
 export const deleteMessage = async (chatId: string) => {
@@ -143,3 +185,20 @@ export async function getUnreadChatsInConversation(conversationId: string, userI
 }
 
 
+
+
+
+
+// comments
+
+
+  //  get converssation date
+  // console.log(res.documents, "pol")
+
+  // delete old conversation with no messages
+
+  //    const convo = await database.getDocument(DATABASE_ID, CONVERSATIONS_ID, conversationId)
+  //     const isOld = Date.now() - new Date(convo.createdAt).getTime() > 30 * 1000;
+  //     if (isOld && conversationId && res.documents.length < 1) {
+  //  await database.deleteDocument(DATABASE_ID, CONVERSATIONS_ID, conversationId)
+  //     }

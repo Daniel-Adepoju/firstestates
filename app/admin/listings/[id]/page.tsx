@@ -145,7 +145,7 @@ const AdminSingleListing = () => {
                 </h6>
                 <div
                   onClick={handleRemoveAllReports}
-                  className="clickable flex justify-center bg-darkblue dark:bg-coffee hover:opacity-80 transition-all duration-500
+                  className="clickable flex justify-center darkblue-gradient dark:bg-coffee hover:opacity-80 transition-all duration-500
       w-60 shadow-2xs text-white text-sm rounded-md p-2.5  mx-auto cursor-pointer smallScale font-bold"
                 >
                   {allReportsMutation.isPending ? (

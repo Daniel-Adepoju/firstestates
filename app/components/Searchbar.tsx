@@ -25,7 +25,7 @@ const Searchbar = ({ search, placeholder, goToSearch, setSearch, className }: Se
         />
       </div>
       <input
-        className="w-[80%] dark:bg-darkGray
+        className="w-[80%] bg-white dark:bg-darkGray
      py-3 pr-2 pl-4
   outline-1 outline-gray-400 dark:outline-gray-400
   focus:outline-2

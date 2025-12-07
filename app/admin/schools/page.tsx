@@ -17,7 +17,7 @@ const Schools = () => {
   const [search, setSearch] = useState("")
   const [debounced, setDebounced] = useState("")
   const [showForm, setShowForm] = useState(false)
-  const {setToastValues} = useToast()
+  const { setToastValues } = useToast()
   const [formValues, setFormValues] = useState({
     fullname: "",
     shortname: "",
@@ -91,7 +91,7 @@ const Schools = () => {
       />
       <div
         onClick={() => setShowForm(!showForm)}
-        className="clickable  flex self-end mr-8 cursor-pointer bg-darkblue dark:bg-coffee text-white px-4 py-2 rounded-md smallScale"
+        className="clickable  flex self-end mr-8 cursor-pointer darkblue-gradient dark:bg-coffee text-white px-4 py-2 rounded-md smallScale"
       >
         <span className="font-bold">Add School</span>
 
@@ -181,7 +181,7 @@ const Schools = () => {
                   key={school._id}
                   ref={index === items.schools.length - 1 ? ref : null}
                   href={`/admin/schools/${school._id}`}
-                  className="w-full md:w-150 lg:w-200 flex p-2 dark:bg-darkGray shadow-sm dark:shadow-black rounded-md hover:shadow-lg transition"
+                  className="w-full md:w-150 lg:w-200 flex p-2 bg-white dark:bg-darkGray shadow-sm dark:shadow-black rounded-md hover:shadow-lg transition"
                 >
                   <div className="schoolLogo">
                     <Image

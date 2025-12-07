@@ -1,6 +1,6 @@
-'use client'
+"use client"
 
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from "next/navigation"
 
 interface PaginationProps {
   currentPage: number
@@ -8,14 +8,14 @@ interface PaginationProps {
   hashParams?: string
 }
 
-const Pagination = ({ currentPage, totalPages,hashParams}:PaginationProps) => {
+const Pagination = ({ currentPage, totalPages, hashParams }: PaginationProps) => {
   const router = useRouter()
   const params = useSearchParams()
 
   const navigateToPage = (page: number) => {
     const searchParams = new URLSearchParams(params.toString())
-    searchParams.set('page', page.toString())
-    router.push(`?${searchParams.toString()}${hashParams ? hashParams : ''}`)
+    searchParams.set("page", page.toString())
+    router.push(`?${searchParams.toString()}${hashParams ? hashParams : ""}`)
   }
 
   const getPageNumbers = () => {
@@ -31,10 +31,12 @@ const Pagination = ({ currentPage, totalPages,hashParams}:PaginationProps) => {
   }
 
   return (
-    <div className="pagination flex justify-between items-center p-4 px-8 bg-white shadow-md rounded-xl 
+    <div
+      className="pagination flex justify-between items-center p-4 px-8 bg-white shadow-md rounded-xl 
     w-xs md:w-md lg:w-lg mx-auto mb-2
    
-    ">
+    "
+    >
       <button
         onClick={() => navigateToPage(Math.max(1, currentPage - 1))}
         className="text-foreground font-semibold disabled:opacity-30"
@@ -49,9 +51,7 @@ const Pagination = ({ currentPage, totalPages,hashParams}:PaginationProps) => {
             key={num}
             onClick={() => navigateToPage(num)}
             className={`px-3 py-1 rounded-md shadow-sm ${
-              num === currentPage
-                ? 'bg-goldPrimary text-white'
-                : 'text-foreground'
+              num === currentPage ? "gold-gradient text-white" : "text-foreground"
             }`}
           >
             {num}

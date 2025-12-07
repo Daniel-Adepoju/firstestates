@@ -18,7 +18,7 @@ export default function SortFilters({
       {/* Sort header */}
       <div
         onClick={() => setIsSortOpen(!isSortOpen)}
-        className="flex justify-between items-center text-gray-500 dark:text-gray-300 cursor-pointer dark:bg-darkGray  w-100 border order-gray-300 dark:border-gray-500 p-3 rounded-lg font-semibold"
+        className="flex justify-between items-center text-gray-500 dark:text-gray-300 cursor-pointer bg-white dark:bg-darkGray  w-100 border border-gray-300 dark:border-gray-500 p-3 rounded-lg font-semibold"
       >
         Sort
         <ChevronDownCircle
@@ -77,7 +77,7 @@ export default function SortFilters({
                       <span
                         className="
                       h-4 w-4 rounded-full border border-gray-400 
-                      peer-checked:border-purple-500 peer-checked:bg-goldPrimary
+                      peer-checked:border-purple-500 peer-checked:gold-gradient
                       transition-all duration-200
                     "
                       ></span>
@@ -94,7 +94,7 @@ export default function SortFilters({
               setIsSortOpen(false)
               setConfirmSortValues(sortValues)
             }}
-            className="px-4 py-2.5 bg-darkblue text-white rounded-xl w-55
+            className="px-4 py-2.5 darkblue-gradient text-white rounded-xl w-55
              mx-auto col-span-full dark:outline-1 dark:outline-black smallScale"
           >
             Apply

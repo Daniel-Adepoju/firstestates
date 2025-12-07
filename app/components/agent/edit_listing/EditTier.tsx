@@ -80,7 +80,7 @@ const EditTier = ({ data, editRanks, handleUpgrade, email }: any) => {
                     : 1000
                 }
                 successFunction={() => handleUpgrade(listing.type.toLowerCase())}
-                className="w-full mt-auto py-3 bg-darkblue text-white outline-1.5 dark:outline-black/40 rounded-lg font-bold hover:scale-99 transition"
+                className="w-full mt-auto py-3 darkblue-gradient text-white outline-1.5 dark:outline-black/40 rounded-lg font-bold hover:scale-99 transition"
                 text={
                   currentRank === newRank
                     ? `Renew ${listing.type} listing`

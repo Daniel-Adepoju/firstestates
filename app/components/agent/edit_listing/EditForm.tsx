@@ -213,7 +213,7 @@ const EditForm = () => {
               }}
               className={`${
                 currentTab === item.name
-                  ? "outline-2 outline-goldPrimary bg-darkblue text-white font-bold"
+                  ? "outline-2 outline-goldPrimary darkblue-gradient text-white font-bold"
                   : "hover:bg-gray-200 dark:hover:bg-darkGray"
               }
             text-foreground font-head font-medium  px-4 py-2 rounded-md transition-all duration-300 focus:outline-goldPrimary`}
@@ -254,7 +254,7 @@ const EditForm = () => {
             <Button
               type="submit"
               text="Edit Listing"
-              className="clickable text-white bg-darkblue hover:scale-99 dark:outline-500/20 outline-2 outline-black mx-auto col-span-2 block w-60 my-2 transition-all duration-300 gloss font-bold py-3.5 px-8.5 rounded-md"
+              className="clickable text-white darkblue-gradient hover:scale-99 dark:outline-500/20 outline-2 outline-black mx-auto col-span-2 block w-60 my-2 transition-all duration-300 gloss font-bold py-3.5 px-8.5 rounded-md"
             >
               {creating.value && <WhiteLoader />}
             </Button>

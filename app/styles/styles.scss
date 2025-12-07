@@ -293,7 +293,7 @@ footer.hide {
   right: 2.5%;
   isolation: isolate;
   animation: blink 500ms alternate infinite;
-  background-color: fn.color("darkblue");
+  background: linear-gradient(to bottom, #0440c8, #1141b0);
   @include mx.center();
   @media (max-width: 767.9px) {
     top: auto;
@@ -317,7 +317,7 @@ footer.hide {
 
 .card_list {
   margin-top: 8px;
-  // background-color: fn.color("ghost");
+  background-color: white;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.183);
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(310px, max-content));
@@ -329,6 +329,7 @@ footer.hide {
   justify-items: center;
   width: 98%;
   border-radius: 20px;
+  justify-self: center;
   margin-inline: auto;
   margin-bottom: 8px;
   padding-inline: 2px;
@@ -521,10 +522,6 @@ footer.hide {
 }
 
 // featured content
-
-.featured {
-  background-color: fn.color("darkblue");
-}
 
 .featured_container {
   .agentCardName {

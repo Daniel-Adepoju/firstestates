@@ -7,10 +7,6 @@
 html:is(.dark) .loader {
   color: white;
 }
-html:is(.dark) body, html:is(.dark) main {
-  background-color: #1c1c1c;
-  color: white;
-}
 html:is(.dark) .nav, html:is(.dark) .footer {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.317);
 }
@@ -44,7 +40,7 @@ html:is(.dark) .title_heading {
 }
 html:is(.dark) .card_list {
   background-color: var(--color-darkGray);
-  box-shadow: 0 4px 20px oklch(96.696% 0.00298 264.792deg / 0.023);
+  box-shadow: 0 4px 20px oklch(0% 0 0deg / 0.655);
 }
 html:is(.dark) .card {
   background-color: #121212;
@@ -120,7 +116,6 @@ html:is(.dark) .adminDashboard_content .barchart {
 html:is(.dark) .agentProfile,
 html:is(.dark) .listingHistory {
   background-color: #31363F;
-  color: white;
 }
 html:is(.dark) .agentProfile .agentName,
 html:is(.dark) .listingHistory .agentName {
@@ -155,12 +150,6 @@ html:is(.dark) .hero {
 html:is(.dark) .hero div,
 html:is(.dark) .hero h1 {
   color: white;
-}
-html:is(.dark) .featured {
-  background-color: #032679;
-}
-html:is(.dark) .darkblueBtn {
-  background-color: #032679;
 }
 html:is(.dark) .quickLink {
   color: rgb(57, 136, 239);
@@ -417,7 +406,7 @@ a:has(.clickable) {
 
 .darkblueBtn {
   gap: 10px;
-  background-color: #032679;
+  background: linear-gradient(135deg, #0440c8, #032679);
   color: #fffdfb;
   border-radius: 8px;
   cursor: pointer;
@@ -1185,6 +1174,7 @@ a:has(.clickable) {
   padding: 12px;
 }
 .agentDashboardContainer .agentProfile {
+  background-color: white;
   border-radius: 20px;
   padding-inline: 20px;
   width: 97%;
@@ -1228,6 +1218,7 @@ a:has(.clickable) {
   justify-content: center;
 }
 .agentDashboardContainer .listingHistory {
+  background-color: white;
   width: 99%;
 }
 @media (min-width: 700px) {
@@ -1413,7 +1404,6 @@ a:has(.clickable) {
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background-color: white;
 }
 .adminDashboard_content .banner .text {
   display: flex;
@@ -1423,11 +1413,10 @@ a:has(.clickable) {
 }
 .adminDashboard_content .banner .text span {
   position: relative;
-  display: inline-block;
+  display: block;
   width: 100%;
   border-radius: 50%;
   text-align: center;
-  background-color: white;
 }
 .adminDashboard_content .banner .text::before {
   content: "";
@@ -1439,10 +1428,13 @@ a:has(.clickable) {
   left: 0%;
   border-radius: 50%;
   padding: 20px;
-  background: radial-gradient(circle, rgb(255, 255, 255) 40%, #f2f3f3 100%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.934) 40%, rgba(242, 243, 243, 0.9607843137) 100%);
   border: 9px solid #f29829;
   border-top-color: #fde9df;
   animation: spin 8s linear infinite;
+}
+html.dark .adminDashboard_content .banner .text::before {
+  background: radial-gradient(circle, rgba(0, 0, 0, 0.484) 40%, rgba(0, 0, 0, 0.2588235294) 100%);
 }
 .adminDashboard_content .banner.danger .text {
   color: #e01414;
@@ -1984,7 +1976,7 @@ footer.hide {
   right: 2.5%;
   isolation: isolate;
   animation: blink 500ms alternate infinite;
-  background-color: #032679;
+  background: linear-gradient(to bottom, #0440c8, #1141b0);
 }
 .goUp {
   display: flex;
@@ -2019,6 +2011,7 @@ footer.hide {
 
 .card_list {
   margin-top: 8px;
+  background-color: white;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.183);
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(310px, max-content));
@@ -2031,6 +2024,7 @@ footer.hide {
   justify-items: center;
   width: 98%;
   border-radius: 20px;
+  justify-self: center;
   margin-inline: auto;
   margin-bottom: 8px;
   padding-inline: 2px;
@@ -2268,10 +2262,6 @@ footer.hide {
 }
 .popularCard:hover .h-30::after {
   transition: all 300ms ease-in;
-}
-
-.featured {
-  background-color: #032679;
 }
 
 .featured_container .agentCardName {

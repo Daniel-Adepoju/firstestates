@@ -127,7 +127,8 @@ const AgentListings = () => {
         />
 
         {/* LISTINGS */}
-        <div
+        
+        {/* <div
           ref={hashRef}
           id="listings"
           className="availableLists shadow-md dark:shadow-black/80 shadow-gray-200"
@@ -159,7 +160,9 @@ const AgentListings = () => {
           ) : (
             mapCards
           )}
-        </div>
+        </div> */}
+
+
       </div>
 
       {/* PAGINATION */}

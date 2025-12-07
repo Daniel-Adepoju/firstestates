@@ -127,7 +127,7 @@ const Filter = ({
                 className="dark:bg-darkGray w-full border rounded-sm p-2 py-2.5"
               >
                 <option value="">All Schools</option>
-                {schools.map((school:School) => (
+                {schools.map((school: School) => (
                   <option
                     key={school._id}
                     value={school?.shortname}
@@ -183,7 +183,7 @@ const Filter = ({
                   step={1}
                   onValueChange={([val]) => setMinPriceState(val)}
                   className="
-            [&_[role=slider]]:bg-goldPrimary
+            [&_[role=slider]]:gold-gradient
             [&>span:first-child]:bg-white
             [&_[role=slider]]:border-gray-200
             [&_[data-state=active]]:ring-gray-200"
@@ -207,7 +207,7 @@ const Filter = ({
                   inverted={true}
                   onValueChange={([val]) => setMaxPriceState(val)}
                   className="
-            [&_[role=slider]]:bg-goldPrimary
+            [&_[role=slider]]:gold-gradient
             [&>span:first-child]:bg-white
             [&_[role=slider]]:border-gray-200
             [&_[data-state=active]]:ring-gray-200"

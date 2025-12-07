@@ -167,7 +167,7 @@ const Form = () => {
   //    <div className="otherHead  mt-5 text-2xl font-bold">
   //    You're already logged in
   //     </div>
-  //     <Link href='/' className="smallScale cursor-pointer dark:bg-black/20 bg-darkblue text-white py-3 px-4 rounded-md"> Go Back To Homepage</Link>
+  //     <Link href='/' className="smallScale cursor-pointer dark:bg-black/20 darkblue-gradient text-white py-3 px-4 rounded-md"> Go Back To Homepage</Link>
   //     </div>
   //   )
   // }

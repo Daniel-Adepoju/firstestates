@@ -36,7 +36,7 @@ export default function ListingMainImage({ listingDeets }: any) {
           !listingDeets.mainImage.value && (
             <Button
               text="Upload Main Image"
-              className="clickable text-white bg-darkblue hover:scale-99 dark:outline-black outline-2 outline-black transition-all duration-300 gloss font-bold py-3.5 px-8.5 rounded-md"
+              className="clickable text-white darkblue-gradient hover:scale-99 dark:outline-black outline-2 outline-black transition-all duration-300 gloss font-bold py-3.5 px-8.5 rounded-md"
               functions={() => open()}
             ></Button>
           )
@@ -46,7 +46,10 @@ export default function ListingMainImage({ listingDeets }: any) {
       <div className="mainImage">
         {listingDeets.mainImage.value && (
           <>
-            <div className="clickable" onClick={handleDeleteImage}>
+            <div
+              className="clickable"
+              onClick={handleDeleteImage}
+            >
               <Image
                 src="/icons/cancel.svg"
                 alt="Delete"

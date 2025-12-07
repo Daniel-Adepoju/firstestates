@@ -7,7 +7,7 @@ import Link from "next/link"
 const Reset = () => {
   const params = useSearchParams()
   const isId = params.get("reset_id")
-  const isEmail = params.get('email')
+  const isEmail = params.get("email")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
@@ -31,7 +31,7 @@ const Reset = () => {
     try {
       const res = await resetPassword({
         email: isEmail,
-        password
+        password,
       })
       setSuccess("Password reset successfully. You can now log in.")
       setError("")
@@ -53,15 +53,19 @@ const Reset = () => {
       </div>
     )
   }
-  if(success) {
+  if (success) {
     return (
-    <div className="w-full mt-40 mx-auto flex flex-col items-center gap-4">
-    <span className="md:text-xl text-sm font-bold  text-green-600">{success}</span>
-    <Link href='/login'
-    className="text-center py-2 px-4 rounded-md 
-    w-50 bg-darkblue dark:bg-coffee hover:opacity-90 transition-all duration-300">
-        Login Now</Link>
-    </div> )
+      <div className="w-full mt-40 mx-auto flex flex-col items-center gap-4">
+        <span className="md:text-xl text-sm font-bold  text-green-600">{success}</span>
+        <Link
+          href="/login"
+          className="text-center py-2 px-4 rounded-md 
+    w-50 darkblue-gradient dark:bg-coffee hover:opacity-90 transition-all duration-300"
+        >
+          Login Now
+        </Link>
+      </div>
+    )
   }
   return (
     <div className="mt-14 w-[80%] md:w-100 mx-auto text-center px-4">
@@ -83,7 +87,7 @@ const Reset = () => {
           </label>
           <input
             id="password"
-          className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none "
+            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none "
             type={showPassword ? "text" : "password"}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -124,7 +128,7 @@ const Reset = () => {
         {error && <p className="text-sm text-red-600">{error}</p>}
         <button
           type="submit"
-          className="w-full directional bg-darkblue dark:bg-coffee text-white py-2 rounded hover:opacity-90 transition"
+          className="w-full directional darkblue-gradient dark:bg-coffee text-white py-2 rounded hover:opacity-90 transition"
         >
           Reset Password
         </button>
