@@ -277,12 +277,12 @@ useEffect(() => {
   }
 
   return (
-    <div className="flex gap-1 w-full h-screen md:h-152 xl:h-screen overflow-hidden">
+    <div className="flex gap-1 w-full h-screen  xl:h-screen overflow-hidden">
       <div className="hidden md:block flex-1 w-[30%]">
         <Inbox topMargin="0" />
       </div>
 
-      <div className="md:h-[97.5%] flex-1 flex flex-col w-full border rounded-xl p-4 mx-auto bg-white dark:bg-gray-700/40 nobar null">
+      <div className=" flex-1 flex flex-col w-full border rounded-xl p-4 mx-auto bg-white dark:bg-black/20 nobar null">
      <div
           ref={containerRef}
           className="nobar null w-[98%] flex-1 flex flex-col overflow-y-auto space-y-2 mb-4"
@@ -310,7 +310,7 @@ useEffect(() => {
          <div className="h-1" ref={messagesEndRef} />
 
 </div>
-        {/* <Guidelines /> */}
+        <Guidelines />
 
         <ChatInput
           text={text}

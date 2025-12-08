@@ -49,7 +49,7 @@ export default function Inbox({ topMargin, height }: InboxProps) {
 
   return (
     <div
-      className={`${topMargin} h-screen md:h-[97.5%] overflow-hidden w-full mx-auto nobar null bg-white dark:bg-gray-700/40 shadow rounded-lg`}
+      className={`${topMargin} h-screen  overflow-hidden w-full mx-auto nobar null bg-white dark:bg-black/20 shadow rounded-lg`}
     >
       <div className="ml-2 py-2 mb-2 flex flex-row items-center gap-2 border-2 border-transparent border-b-gray-500/20 dark:border-b-gray-900/70">
         {session?.user.profilePic ? (

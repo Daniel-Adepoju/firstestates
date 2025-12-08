@@ -6,7 +6,7 @@ export default function Guidelines() {
       </summary>
 
       <div className="mt-2 text-xs text-gray-600 dark:text-gray-300">
-        <span>
+        <span className="font-head">
           To avoid getting banned or permanently removed from First Estates, please use the chat
           feature responsibly.
         </span>
