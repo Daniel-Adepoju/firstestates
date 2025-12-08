@@ -5,7 +5,7 @@ import { deleteMessage } from "@lib/server/chats"
 
 interface Msg {
   $id: string
-  userId: string
+  senderId: string
   text: string
   createdAt: string | number | Date
   readBy: string[]
@@ -49,7 +49,7 @@ const ChatBubble = ({ msg, userId, showId, setShowId, recipientId, id }: ChatBub
                 text-white w-50 md:w-100 min-h-fit break-words whitespace-pre-wrap p-2 rounded-lg max-w-xs
  after:absolute after:content-['']  after:cursor-pointer after:w-6 after:h-3 after:bg-inherit shadow-md after:top-[97%] after:left-0 after:rounded-bl-4xl
           ${
-            msg.userId === userId
+            msg.senderId === userId
               ? "rounded-br-none bg-goldPrimary self-end md:after:left-[93%] after:left-[88%] after:rounded-bl-none after:rounded-br-4xl"
               : "rounded-bl-none bg-gray-600 self-start"
           }`}
@@ -80,7 +80,7 @@ const ChatBubble = ({ msg, userId, showId, setShowId, recipientId, id }: ChatBub
           {showOptions && showId === msg.$id && (
             <div className="flex flex-col items-end">
               <div className="flex flex-row items-center justify-center gap-2">
-                {msg.userId === userId ? (
+                {msg.senderId === userId ? (
                   <div
                     onClick={handleDelete}
                     className="clickable flex gap-1 items-center bg-black/10 p-1 px-2 rounded cursor-pointer text-sm text-white"
@@ -93,7 +93,8 @@ const ChatBubble = ({ msg, userId, showId, setShowId, recipientId, id }: ChatBub
                     onClick={handleReport}
                     className="clickable flex gap-1 items-center bg-black/10 p-1 px-2 rounded cursor-pointer text-sm text-white"
                   >
-                    <FlagTriangleRight color="#FACC15" />
+                    
+                    <FlagTriangleRight className="text-red-600" />
                     Report
                   </div>
                 )}
@@ -106,7 +107,7 @@ const ChatBubble = ({ msg, userId, showId, setShowId, recipientId, id }: ChatBub
         ref={reportRef}
         userId={userId}
         chatContent={msg.text}
-        reportedUser={msg.userId}
+        reportedUser={msg.senderId}
       />
     </>
   )

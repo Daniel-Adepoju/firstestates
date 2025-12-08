@@ -38,8 +38,7 @@ const Sidebar = ({ session }: Session) => {
       `databases.${process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID}.collections.${process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID}.documents`,
       (res) => {
         const newMsg = res.payload as Models.Document
-        if (newMsg?.userId === session?.user.id) return
-        console.log({ newMsgId: newMsg.userId }, { userId: session?.user.id })
+        if (newMsg?.senderId === session?.user.id) return
         if (res.events.some((e) => e.includes("create"))) {
           setUnreadMessages((prev) => (prev === "0" ? "1" : (parseInt(prev) + 1).toString()))
         }

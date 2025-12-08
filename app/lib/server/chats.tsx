@@ -10,7 +10,7 @@ const database = new Databases(client)
 
 export const sendMessage = async (
   text: string,
-  userId: string,
+  senderId: string,
   receiverId: string,
   conversationId: string
 ) => {
@@ -18,11 +18,11 @@ export const sendMessage = async (
   //   Create Message
   await database.createDocument(DATABASE_ID, MESSAGES_ID, ID.unique(), {
     conversationId,
-    userId,
+    senderId,
     receiverId,
     text,
     createdAt,
-    readBy: [userId],
+    readBy: [senderId],
   })
   //  Update Conversation
   await database.updateDocument(DATABASE_ID, CONVERSATIONS_ID, conversationId, {
@@ -108,9 +108,9 @@ export const deleteMessage = async (chatId: string) => {
   }
 }
 
-export async function getUserConversations(userId: string) {
+export async function getUserConversations(senderId: string) {
   const res = await database.listDocuments(DATABASE_ID, CONVERSATIONS_ID, [
-    Query.contains("userIds", [userId]),
+    Query.contains("userIds", [senderId]),
     Query.orderDesc("updatedAt"),
   ])
 
@@ -138,11 +138,11 @@ export async function getOrCreateConversation(userAId: string, userBId: string) 
   return conversation
 }
 
-export async function updateReadStatus(userId: string, conversationId: string) {
+export async function updateReadStatus(senderId: string, conversationId: string) {
   const res = await database.listDocuments(DATABASE_ID, MESSAGES_ID, [
     Query.equal("conversationId", conversationId),
-    Query.equal("receiverId", userId),
-    Query.notEqual("userId", userId),
+    Query.equal("receiverId", senderId),
+    Query.notEqual("senderId", senderId),
     Query.limit(100),
   ])
 
@@ -150,36 +150,36 @@ export async function updateReadStatus(userId: string, conversationId: string) {
 
   const updatePromises = []
   for (let message of messages) {
-    if (message.readBy.includes(userId)) continue
+    if (message.readBy.includes(senderId)) continue
     updatePromises.push(
       database.updateDocument(DATABASE_ID, MESSAGES_ID, message.$id, {
-        readBy: [...message.readBy, userId],
+        readBy: [...message.readBy, senderId],
       })
     )
   }
   await Promise.all(updatePromises)
 }
 
-export async function getUnreadChats(userId: string) {
+export async function getUnreadChats(senderId: string) {
   const res = await database.listDocuments(DATABASE_ID, MESSAGES_ID, [
-    Query.equal("receiverId", userId),
-    Query.notEqual("userId", userId),
+    Query.equal("receiverId", senderId),
+    Query.notEqual("senderId", senderId),
     Query.limit(100),
   ])
 
-  const unreadMessages = res.documents.filter((msg) => !msg.readBy?.includes(userId))
+  const unreadMessages = res.documents.filter((msg) => !msg.readBy?.includes(senderId))
 
   return unreadMessages.length.toString()
 }
-export async function getUnreadChatsInConversation(conversationId: string, userId: string) {
+export async function getUnreadChatsInConversation(conversationId: string, senderId: string) {
   const res = await database.listDocuments(DATABASE_ID, MESSAGES_ID, [
     Query.equal("conversationId", conversationId),
-    Query.equal("receiverId", userId),
-    Query.notEqual("userId", userId),
+    Query.equal("receiverId", senderId),
+    Query.notEqual("senderId", senderId),
     // Query.limit(100),
   ])
 
-  const unreadMessages = res.documents.filter((msg) => !msg.readBy?.includes(userId))
+  const unreadMessages = res.documents.filter((msg) => !msg.readBy?.includes(senderId))
 
   return unreadMessages.length.toString()
 }
