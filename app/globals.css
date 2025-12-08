@@ -160,26 +160,25 @@ body {
   background: linear-gradient(135deg, #f7b657, #f29829);
 }
 
- @utility darkblue-gradient-text {
- background: linear-gradient(to right, #0440c8, #032679);
-color: transparent;
-background-clip: text;
-}
-@utility blue-gradient-text {
-background: linear-gradient(
-  to right,
-  #1aa6cc,
- oklch(88.2% 0.059 254.128),
-);
-color: transparent;
-background-clip: text;
+@utility darkblue-gradient-text {
+  background: linear-gradient(to right, #0440c8, #032679);
+  color: transparent;
+  background-clip: text;
 }
 
-@utility gold-gradient-text {
-background: linear-gradient(to right, #f7b657, #f29829);
-color: transparent;
-background-clip: text;
+@utility blue-gradient-text {
+  background: linear-gradient(to right, #1aa6cc, oklch(88.2% 0.059 254.128));
+  color: transparent;
+  background-clip: text;
 }
+
+
+@utility gold-gradient-text {
+  background: linear-gradient(to right, #f7b657, #f29829);
+  color: transparent;
+  background-clip: text;
+}
+
 
 /* layers */
 @layer base {
