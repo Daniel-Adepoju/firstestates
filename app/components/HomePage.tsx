@@ -99,7 +99,7 @@ const HomePage = () => {
       {/* Section header */}
       <div className="subheading ml-4 p-1 w-full">
         <div>
-          Showing Recent Listings from {school.value ? "" : "all "}
+          Recent Listings from {school.value ? "" : "all "}
           <span className="capitalize inline-flex items-center gap-1">
             {school.value || "schools"}
             <ChevronRightCircle className="w-6 h-6" />
