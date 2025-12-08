@@ -67,9 +67,10 @@ const ListingHeader = ({ listing }: Props) => {
         </div>
       </div>
 
-      <div className="darkblueBtn py-3 px-12" onClick={() => openInGoogleMap(listing?.address)}>
-        <Image width={30} height={30} alt="mapBtn" src={"/icons/map.svg"} />
-        <span>Open In Map</span>
+      <div className="darkblueBtn flex items-center justify-center py-3 px-12" onClick={() => openInGoogleMap(listing?.address)}>
+        <Image width={25} height={25} 
+        alt="mapBtn" src={"/icons/map.svg"} />
+        <span className="-ml-1 font-medium text-sm">Open In Map</span>
       </div>
     </>
   )

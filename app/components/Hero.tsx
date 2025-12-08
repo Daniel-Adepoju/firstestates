@@ -13,15 +13,15 @@ const HeroSection = () => {
       </div>
 
       <div className="container mx-auto px-6 lg:px-12 py-24 pb-4 z-10">
-        <div className="writeName font-bold text-white text-3xl">Firstestates</div>
+        <div className="writeName font-bold text-white text-3xl">First Estates</div>
         <div className="flex flex-col lg:flex-row items-center gap-12">
-          <div className="lg:w-1/2 space-y-6 text-center lg:text-left">
+          <div className="space-y-6 text-center lg:text-left">
             {role === "agent" ? (
               <>
-                <h1 className=" flex flex-col  text-4xl md:text-5xl lg:text-6xl font-bold text-gray-100 leading-tight">
+                <div className="w-full flex flex-col  text-4xl md:text-5xl lg:text-6xl font-bold text-gray-100 leading-tight">
                   <span className="gold-gradient-text">List Properties</span>
                   <span className="blue-gradient-text">Confidently</span>
-                </h1>
+                </div>
 
                 <p className="dark:text-white text-lg md:text-xl text-gray-100 max-w-lg mx-auto lg:mx-0">
                   Easily reach students and renters actively searching for apartments.
@@ -76,9 +76,9 @@ const HeroSection = () => {
               </>
             ) : (
               <>
-                <div className="flex flex-col  text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-                  <span className="gold-gradient-text">Find Your Perfect</span>
-                  <span className="blue-gradient-text">Student Home</span>
+                <div className="w-full flex flex-col  text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+                  <span className="w-full gold-gradient-text">Find Your Perfect</span>
+                  <span className="w-full blue-gradient-text">Student Home</span>
                 </div>
 
                 <p className="dark:text-white text-lg md:text-xl text-gray-100 max-w-lg mx-auto lg:mx-0">
