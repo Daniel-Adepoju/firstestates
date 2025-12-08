@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -11,7 +15,7 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "incremental": true,
     "plugins": [
       {
@@ -20,16 +24,49 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@*": ["app/*"],
-      "@auth": ["auth"],
-      "@lib": ["app/lib/*"],
-      "@components/*": ["app/components/*"],
-      "@utils/*": ["app/utils/*"],
-      "@styles": ["app/styles/css/styles.css"],
-      "@models/*": ["app/api/models/*"],
-      "@hooks/*": ["app/hooks/*"],
+      "@*": [
+        "app/*"
+      ],
+      "@auth": [
+        "auth"
+      ],
+      "@lib": [
+        "app/lib/*"
+      ],
+      "@components/*": [
+        "app/components/*"
+      ],
+      "@utils/*": [
+        "app/utils/*"
+      ],
+      "@styles": [
+        "app/styles/css/styles.css"
+      ],
+      "@models/*": [
+        "app/api/models/*"
+      ],
+      "@hooks/*": [
+        "app/hooks/*"
+      ]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/(root)/layout.jsx", "app/(auth)/layout.jsx", "app/agent/layout.jsx", "auth.js", "app/(root)/page.jsx", "app/utils/date.js", "app/lib/server/getPost.jsx", "app/api/listings/search/route.js", "app/lib/server/sendEmail.js"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "app/(root)/layout.jsx",
+    "app/(auth)/layout.jsx",
+    "app/agent/layout.jsx",
+    "auth.js",
+    "app/(root)/page.jsx",
+    "app/utils/date.js",
+    "app/lib/server/getPost.jsx",
+    "app/api/listings/search/route.js",
+    "app/lib/server/sendEmail.js",
+    ".next/dev/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

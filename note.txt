@@ -8,9 +8,15 @@ unlogged in shouldnt enter school focus
 
 
 
-## Chats
 
-2.Infinite scroll
+
+## Requests and nav
+
+1.Add miscellaeneus nav Options
+2.Bookmarks[array in schema] and chat requester
+
+
+## Chats
 4.Clear Chats
 5.Faux delete
 
