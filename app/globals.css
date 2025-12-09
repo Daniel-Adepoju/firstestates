@@ -151,15 +151,34 @@ body {
 }
 
 /* gradient utilities */
+
 @utility darkblue-gradient {
-  /* glossy */
-  background: linear-gradient(135deg, #0440c8, #032679);
+  background: linear-gradient(to left, #0440c8, #032679);
 }
 
 @utility gold-gradient {
-  background: linear-gradient(135deg, #f7b657, #f29829);
+  background: linear-gradient(to left, #f7b657, #f29829);
 }
 
+@utility gray-gradient {
+  background: linear-gradient(to left, var(--gray-start), var(--gray-end));
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --gray-start: #e5e7eb;
+    --gray-end: #d1d5db;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --gray-start: #4b5563;
+    --gray-end: #374151;
+  }
+}
+
+/* gradient text utilities */
 @utility darkblue-gradient-text {
   background: linear-gradient(to right, #0440c8, #032679);
   color: transparent;
@@ -172,13 +191,11 @@ body {
   background-clip: text;
 }
 
-
 @utility gold-gradient-text {
   background: linear-gradient(to right, #f7b657, #f29829);
   color: transparent;
   background-clip: text;
 }
-
 
 /* layers */
 @layer base {

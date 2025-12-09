@@ -1,5 +1,4 @@
 "use client"
-
 import { useSignals, useSignal } from "@preact/signals-react/runtime"
 import { useSearchParams, useRouter } from "next/navigation"
 import Searchbar from "@/components/Searchbar"
@@ -10,10 +9,8 @@ import Featured from "@components/listing/Featured"
 import {
   ArrowLeftFromLine,
   ChevronDownCircle,
-  ChevronUpCircle,
   ChevronRightCircle,
 } from "lucide-react"
-import { Skeleton } from "@/components/ui/skeleton"
 import Link from "next/link"
 
 const HomePage = () => {

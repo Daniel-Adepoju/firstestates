@@ -167,7 +167,7 @@ const AddResident = ({ listingId }: { listingId?: string }) => {
       </div>
 
       {/* <Button
-        className="w-60 mt-auto  mb-4 flex gap-2 mx-auto darkblueBtn directional clickable py-6"
+        className="w-60 mt-auto  mb-4 flex gap-2 mx-auto darkblueBtn directional font-medium text-sm clickable py-6"
       >
         Add Resident
         <WhiteLoader />

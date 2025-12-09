@@ -133,7 +133,7 @@ const SchoolView = () => {
           <Button
             text="Add Area"
             type="submit"
-            className="clickable darkblueBtn directional w-60 mt-4"
+            className="clickable darkblueBtn directional font-medium text-sm w-60 mt-4"
           >
             {addAreaMutation.isPending && <Loader2 className="animate-spin mr-2" />}
           </Button>

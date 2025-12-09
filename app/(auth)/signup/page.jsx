@@ -32,7 +32,7 @@ const SignUp = () => {
                 link={true}
                 href="/signup/agent"
                 text="Agent"
-                className={"directional clickable darkblueBtn"}
+                className={"directional font-medium text-sm clickable darkblueBtn"}
               />
             </Link>
           </div>
@@ -43,7 +43,7 @@ const SignUp = () => {
                 link={true}
                 href={"/signup/client"}
                 text="Client"
-                className={"directional clickable  blueBtn"}
+                className={"directional font-medium text-sm clickable  blueBtn"}
               />
             </Link>
           </div>
@@ -54,7 +54,7 @@ const SignUp = () => {
           functions={() => {
             handleSignInWithGoogle()
           }}
-          className="directional clickable py-6.5 mb-12 rounded-md mx-auto bg-gray-200 dark:bg-gray-700 w-80 h-10"
+          className="text-white directional font-medium text-sm clickable py-6.5 mb-12 rounded-md mx-auto gray-gradient w-80 h-10"
         >
           <Image
             width={25}

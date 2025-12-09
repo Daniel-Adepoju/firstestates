@@ -211,7 +211,7 @@ const EditProfile = () => {
               <Button
                 type="submit"
                 text="Update Profile"
-                className="clickable darkblue-gradient text-white font-bold dark:gold-gradient directional rounded-lg w-full p-6"
+                className="clickable darkblue-gradient text-white font-bold dark:gold-gradient directional font-medium text-sm rounded-lg w-full p-6"
               >
                 {" "}
                 {isUpdating && <WhiteLoader />}

@@ -196,7 +196,7 @@ const Fields = () => {
               <Button
                 type="submit"
                 text="Finish Setup"
-                className="clickable gold-gradient directional rounded-lg w-full p-6"
+                className="clickable gold-gradient directional font-medium text-sm rounded-lg w-full p-6"
               >
                 {" "}
                 {isUpdating && <WhiteLoader />}

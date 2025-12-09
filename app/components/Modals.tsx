@@ -267,7 +267,7 @@ export const ReportModal = ({ ref, userId, reportedUser, chatContent }: ReportMo
           <Button
             text="Proceed"
             functions={() => handleReport()}
-            className="darkblueBtn directional clickable"
+            className="darkblueBtn directional font-medium text-sm clickable"
           >
             {creating.value && (
               <Loader2
@@ -369,7 +369,7 @@ export const ReportListingModal = ({
           <Button
             text="Proceed"
             functions={() => handleReport()}
-            className="darkblueBtn directional clickable"
+            className="darkblueBtn directional font-medium text-sm clickable"
             disabled={makeReportMutation.isPending}
           >
             {makeReportMutation.isPending && (

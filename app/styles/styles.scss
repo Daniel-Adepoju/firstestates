@@ -77,17 +77,17 @@ main {
 
 .backdrop {
   // @media (max-width: 800px) {
-    position: fixed;
-    min-width: 100%;
-    min-height: 100vh;
-    z-index: -100;
-    background-color: rgba(255, 255, 255, 0);
-     @include mx.transition(300ms, ease-out, background-color);
-    &.active {
-      background-color: rgba(20, 20, 20, 0.258);
-      z-index: 96;
-      @include mx.transition(300ms, ease-in);
-    }
+  position: fixed;
+  min-width: 100%;
+  min-height: 100vh;
+  z-index: -100;
+  background-color: rgba(255, 255, 255, 0);
+  @include mx.transition(300ms, ease-out, background-color);
+  &.active {
+    background-color: rgba(20, 20, 20, 0.258);
+    z-index: 96;
+    @include mx.transition(300ms, ease-in);
+  }
   // }
 }
 
@@ -227,14 +227,15 @@ main {
 // footer
 
 .footer {
-  @extend .nav;
 
-  border-top: 1px solid grey;
+  width: 100%;
+  min-height: 60px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+
   position: relative;
   margin-top: auto;
   color: white;
-  background-color: fn.color("darkblue");
-  padding-bottom: 80px;
+ background: linear-gradient(to bottom, #0440c8, #032679);
   z-index: 101;
   @include mx.flex(column, center, flex-start);
   .logo {
@@ -265,10 +266,8 @@ main {
     @include mx.flex(column, flex-start, flex-start);
     @include mx.space(0);
     .footer_items {
-      @include mx.flex(row, center, center);
       a {
         text-decoration: none;
-        color: fn.color("white");
       }
     }
   }
@@ -312,7 +311,6 @@ footer.hide {
   }
 }
 
-
 // card
 
 .card_list {
@@ -347,9 +345,9 @@ footer.hide {
   padding-bottom: 10px;
   font-family: fn.font("list");
   @include mx.flex(column, center, flex-start);
-  @include mx.transition(300ms, ease-out,transform);
+  @include mx.transition(300ms, ease-out, transform);
   &.blankSlate {
-    margin:0px ;
+    margin: 0px;
     padding-bottom: 9px;
   }
   a {
@@ -403,7 +401,7 @@ footer.hide {
   .houseImg {
     position: relative;
 
- width: 306.5px;
+    width: 306.5px;
     padding-top: 66.25%;
     margin-top: -14px;
     margin-inline: auto;
@@ -460,7 +458,7 @@ footer.hide {
         @include mx.flex(row, center);
       }
     }
- 
+
     .agent {
       margin-top: 4px;
       margin-inline: auto;
@@ -485,7 +483,6 @@ footer.hide {
       position: relative;
     }
   }
-
 }
 .agentCardName {
   color: fn.color("darkblue");
@@ -562,7 +559,7 @@ footer.hide {
         -webkit-text-stroke: black;
         -webkit-text-stroke-width: 0px;
         stroke-width: 222px;
-        padding-block:20px;
+        padding-block: 20px;
         top: -2.1%;
         left: 20%;
         width: 200px;
@@ -623,7 +620,7 @@ footer.hide {
   width: 100%;
   margin-top: 20px;
   @include mx.flex(column, center, flex-start);
-  .directional {
+  .directional font-medium text-sm {
     width: 220px;
     margin-block: 10px;
   }
@@ -948,7 +945,7 @@ footer.hide {
     .form_group {
       width: 100%;
     }
-    .directional {
+    .directional font-medium text-sm {
       width: 300px;
       margin-top: 20px;
       margin-inline: auto;
@@ -981,7 +978,6 @@ footer.hide {
     text-decoration: underline;
   }
 
-
   button {
     width: 200px;
   }
@@ -992,7 +988,7 @@ footer.hide {
     margin-inline: auto;
     text-align: center;
   }
- 
+
   .otp-input {
     width: 60px;
     height: 60px;

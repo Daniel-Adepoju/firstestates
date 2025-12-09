@@ -170,7 +170,7 @@ const RoomateCard = ({
         >
           <div className="flex flex-col">
             <Button
-              className="clickable directional  text-white  h-32 mb-2  mt-[-7px] shadow-md"
+              className="clickable directional font-medium text-sm  text-white  h-32 mb-2  mt-[-7px] shadow-md"
               text="Show Listing"
               functions={() => setShowListing(true)}
             ></Button>
@@ -270,7 +270,7 @@ const RoomateCard = ({
         >
           <div className="flex flex-col w-full">
             <Button
-              className="clickable directional text-white  h-32 mb-2  mt-[-7px] shadow-md"
+              className="clickable directional font-medium text-sm text-white  h-32 mb-2  mt-[-7px] shadow-md"
               text="Show Applicant"
               functions={() => {
                 setShowListing(false)

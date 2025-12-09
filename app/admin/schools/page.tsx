@@ -152,7 +152,7 @@ const Schools = () => {
           />
 
           <Button
-            className="darkblueBtn clickable directional w-50 p-2  mx-auto my-4"
+            className="darkblueBtn clickable directional font-medium text-sm w-50 p-2  mx-auto my-4"
             type="submit"
             text="Add School"
             disabled={addSchoolMutation.isPending}

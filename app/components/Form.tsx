@@ -404,7 +404,7 @@ const Form = () => {
               <Button
                 type="submit"
                 disabled={sending}
-                className="clickable directional darkblueBtn p-6"
+                className="clickable directional font-medium text-sm font-medium text-sm darkblueBtn p-6"
               >
                 {pathName === "/login" ? "Login" : "Create account"}
                 {sending && <WhiteLoader />}
@@ -416,7 +416,7 @@ const Form = () => {
                   functions={() => {
                     handleSignInWithGoogle()
                   }}
-                  className="directional clickable mb-2 rounded-md mx-auto bg-gray-200 dark:bg-gray-700 w-80 h-10 p-6"
+                  className="text-white directional font-medium text-sm font-medium text-sm clickable mb-2 rounded-md mx-auto gray-gradient w-80 h-10 p-6"
                 >
                   <Image
                     width={25}

@@ -128,7 +128,7 @@ const Reset = () => {
         {error && <p className="text-sm text-red-600">{error}</p>}
         <button
           type="submit"
-          className="w-full directional darkblue-gradient dark:bg-coffee text-white py-2 rounded hover:opacity-90 transition"
+          className="w-full directional font-medium text-sm darkblue-gradient dark:bg-coffee text-white py-2 rounded hover:opacity-90 transition"
         >
           Reset Password
         </button>

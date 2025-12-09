@@ -407,7 +407,7 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
             <Button
               type="submit"
               text={`Submit ${titleMap[requestType]}`}
-              className="self-end  md:col-span-2 justify-self-center place-self-center clickable darkblueBtn directional w-70 p-6 mx-auto"
+              className="self-end  md:col-span-2 justify-self-center place-self-center clickable darkblueBtn directional font-medium text-sm w-70 p-6 mx-auto"
             >
               {createRequestMutation.isPending && <WhiteLoader />}
             </Button>

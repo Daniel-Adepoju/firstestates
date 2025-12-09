@@ -252,7 +252,7 @@ const Verify = () => {
         <Button
           type="submit"
           text="verify"
-          className="clickable directional  darkblueBtn"
+          className="clickable directional font-medium text-sm  darkblueBtn"
         >
           {verifying && <WhiteLoader />}
         </Button>
