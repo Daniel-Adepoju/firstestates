@@ -62,7 +62,7 @@ const Footer = () => {
           {footerItems.map((item, i) => (
             <div
               key={i}
-              className="text-sm flex items-center gap-0.5"
+              className="text-[14px] flex items-center gap-0.5"
             >
               <ChevronRight
                 size={15}
@@ -79,7 +79,7 @@ const Footer = () => {
           ))}
         </div>
       </div>
-      <div className="copyright font-medium bg-black/10 w-full p-2 rounded-md">&copy; {year}</div>
+      <div className="copyright text-xs font-semibold bg-black/10 w-full p-2 pb-3 rounded-md">&copy; {year}</div>
     </footer>
   )
 }

@@ -7,7 +7,7 @@ const HeroSection = () => {
   const role = session?.user?.role
 
   return (
-    <section className="darkblue-gradient w-full dark:text-white rounded-b-4xl mx-auto mb-3 relative min-h-[30vh] flex items-center overflow-hidden">
+    <section className="darkblue-gradient-vertical w-full dark:text-white rounded-b-4xl mx-auto mb-3 relative min-h-[30vh] flex items-center overflow-hidden">
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-0 left-0 w-full h-full bg-[url('/pattern-grid.svg')] bg-repeat"></div>
       </div>

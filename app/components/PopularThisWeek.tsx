@@ -27,7 +27,7 @@ export default function PopularThisWeek() {
             {Array.from({ length: 12 }).map((_, i) => (
               <Skeleton
                 key={`skeleton-${i}`}
-                className="animate-none bg-gray-500/20 w-40 h-40 mt-10"
+                className=" bg-gray-500/20 w-40 h-40 mt-10"
               />
             ))}
           </>

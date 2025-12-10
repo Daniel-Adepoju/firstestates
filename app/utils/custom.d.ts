@@ -52,4 +52,5 @@ interface Request {
   createdAt?: Date;
   updatedAt?: Date;
   preferredGender?: "male" | "female";
+  isBookmarked?: boolean;
 }

@@ -85,15 +85,6 @@ html:is(.dark) {
   .single_card {
     box-shadow: 1px 2px 2px 1px rgba(10, 10, 10, 0.831);
     background-color: color("darkModeTertiary");
-    .header {
-      .house {
-        .arrow {
-          &:active {
-            background-color: color("coffee");
-          }
-        }
-      }
-    }
   }
   .featured_container {
     .card {

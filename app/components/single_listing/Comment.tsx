@@ -88,26 +88,24 @@ export const WriteComment = ({ listingId }: commentCardProps) => {
 
   return (
     <>
-      {session?.user ? (
+      {!session?.user ? (
         <form
           onSubmit={(e) => {
             e.preventDefault()
             sendCommentMutation.mutate()
           }}
           className="
-        absolute bottom-0 left-5
-        p-6
-        mb-2
-        px-5
+      
+        pb-16 md:pb-0
         backdrop-blur-xs
-        w-[90%] h-10 md:w-[70%] md:left-35 lg:left-50
+        w-[90%] md:w-[70%] mx-auto
         flex flex-row justify-center items-center gap-2"
         >
           <CldImage
             src={session?.user.profilePic}
             alt="user icon"
-            width={32}
-            height={32}
+            width={35}
+            height={35}
             crop={"auto"}
             className=" rounded-full"
           />
@@ -135,14 +133,17 @@ export const WriteComment = ({ listingId }: commentCardProps) => {
           </button>
         </form>
       ) : (
-        <div className="mx-auto text-center">
+        <div
+          className="mx-auto text-center     
+        pb-16 md:pb-0"
+        >
           <Link
             href="/login"
-            className="quickLink "
+            className="quickLink text-sm"
           >
             Sign in
           </Link>{" "}
-          to comment
+          to leave a comment
         </div>
       )}
     </>

@@ -90,7 +90,7 @@ const AgentSection = ({ school }: { school: string }) => {
           "grid grid-flow-col auto-cols-min whitespace-nowrap mx-auto w-[99.5%] text-sm gap-4 mt-2 px-3 py-4 snap-x snap-mandatory overflow-x-scroll nobar null"
        :
       "w-full"
-      }   outline-2 outline-gray-300 dark:outline-black/20 rounded-lg bg-white dark:bg-darkGray`}
+      }   outline-2 outline-gray-200/90 dark:outline-black/20 rounded-lg bg-white dark:bg-darkGray`}
       >
         {!isLoading && renderAgents()}
         {isFetchingNextPage && <MoreVertical className="self-center justify-self-text-gray-600 dark:text-gray-100  animate-pulse"/>}

@@ -108,6 +108,7 @@ const ChatBubble = ({ msg, userId, showId, setShowId, recipientId, id }: ChatBub
         userId={userId}
         chatContent={msg.text}
         reportedUser={msg.senderId}
+        action="chat"
       />
     </>
   )

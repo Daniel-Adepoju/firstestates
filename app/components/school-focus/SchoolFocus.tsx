@@ -27,7 +27,7 @@ const SchoolFocus = () => {
   const coRentScrollRef = useRef<HTMLDivElement>(null)
   const roommateScrollRef = useRef<HTMLDivElement>(null)
 
-  // --- FETCHING ---
+// fetch routine
 
   const { data: listings, isLoading: listingsLoading } = useGetListings({
     limit: 12,
@@ -38,9 +38,9 @@ const SchoolFocus = () => {
   const buildRequestQuery = (type: "co-rent" | "roommate") => ({
     limit: 12,
     school,
-    // requester: session?.user.id,
+    requester: session?.user.id,
     requestType: type,
-    // status: "accepted",
+    status: "accepted",
     enabled: !!school,
   })
 
@@ -167,7 +167,7 @@ const SchoolFocus = () => {
             />
           ))
         ) : (
-          <p className="pb-2">
+          <p className="py-4">
             There are no listings near <span className="capitalize font-bold">{school}</span>
           </p>
         )}

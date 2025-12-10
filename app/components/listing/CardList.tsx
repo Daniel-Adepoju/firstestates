@@ -64,7 +64,7 @@ const CardList = ({ limit = 12, filters, page }: CardListProps) => {
 
   const loadingCards = Array.from({ length: 6 }).map((_, i) => (
     <Skeleton
-      className="animate-none bg-gray-500/20 w-70 h-80 first:mt-6 last:mb-6"
+      className="bg-gray-500/20 w-70 h-80 first:mt-6 last:mb-6"
       key={i}
     />
   ))

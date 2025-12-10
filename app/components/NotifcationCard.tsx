@@ -136,9 +136,9 @@ const NotifcationCard = ({ notification, refValue, page }: NotificationCardProps
           )}
 
           <div>
-            <div>{notification.message}</div>
+            <div className="whitespace-pre-wrap">{notification.message}</div>
             {notification?.chatContent && (
-              <div>Content of reported chat: {notification.chatContent}</div>
+              <div className="whitespace-pre-wrap">Content of reported chat: {notification.chatContent}</div>
             )}
           </div>
         </div>

@@ -50,6 +50,11 @@ const RequestSchema = new Schema(
       type: Number,
       default: 0,
     },
+    bookmarkedBy: {
+      type: [Schema.Types.ObjectId],
+      ref: User.modelName,
+      default: [],
+    },
   },
   { timestamps: true }
 )

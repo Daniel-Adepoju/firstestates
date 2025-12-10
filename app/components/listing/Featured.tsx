@@ -73,7 +73,7 @@ const Featured = () => {
           {[...Array(6)].map((_, i) => (
             <Skeleton
               key={i}
-              className="w-90 h-60 animate-none bg-gray-500/20 rounded-xl shadow-md"
+              className="w-90 h-60 bg-gray-500/20 rounded-xl shadow-md"
             />
           ))}
         </div>
@@ -91,7 +91,7 @@ const Featured = () => {
           </h1>
 
           {!isLoading && (
-            <div className="featured darkblue-gradient w-[92%] md:w-[95%] lg:w-[98%] min-h-[20vh] mx-auto my-2 rounded-xl">
+            <div className="featured darkblue-gradient-vertical w-[92%] md:w-[95%] lg:w-[98%] min-h-[20vh] mx-auto my-2 rounded-xl">
               <Swiper
                 modules={[Pagination, Autoplay, A11y, EffectCoverflow]}
                 effect="coverflow"

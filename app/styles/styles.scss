@@ -565,9 +565,9 @@ footer.hide {
         width: 200px;
         border-radius: 10px;
         color: fn.color("wheat");
-        font-family: fn.font("price2");
+        font-family: fn.font("price");
         font-weight: bold;
-        font-size: 30px;
+        font-size: 26px;
         font-optical-sizing: auto;
         background-color: rgb(255, 255, 255);
       }
@@ -653,8 +653,8 @@ footer.hide {
       .arrow {
         cursor: pointer;
         border-radius: 50%;
-        width: 60px;
-        height: 60px;
+        width: 40px;
+        height: 40px;
         background-color: rgba(177, 186, 186, 0.568);
         z-index: 2;
         position: absolute;
@@ -662,7 +662,8 @@ footer.hide {
         @include mx.transition(300ms, ease-out);
         &:active {
           transform: scale(0.9);
-          background-color: fn.color("darkblue");
+  background: linear-gradient(to left, #f7b657, #f29829);
+          @include mx.transition(300ms, ease-in, transform);
         }
         img {
           border-radius: 50%;

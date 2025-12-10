@@ -11,7 +11,7 @@ import {
   Venus,
   X,
 } from "lucide-react"
-import { useState } from "react"
+import { useRef, useState } from "react"
 import Button from "@lib/Button"
 import { truncateText } from "@utils/truncateText"
 import Link from "next/link"
@@ -20,6 +20,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import { useQueryClient, useMutation } from "@tanstack/react-query"
 import { axiosdata } from "@utils/axiosUrl"
 import { useToast } from "@utils/Toast"
+import {ReportModal} from "@components/Modals"
+import { useUser } from "@utils/user"
 
 interface RoomateCardProps {
   request: Request
@@ -30,7 +32,6 @@ interface RoomateCardProps {
 }
 const RoomateCard = ({
   request,
-
   refValue,
   firstItem,
   lastItem,
@@ -41,6 +42,41 @@ const RoomateCard = ({
   const { setToastValues } = useToast()
   const [isOpen, setIsOpen] = useState(false)
   const [isDeleteOpen, setIsDeleteOpen] = useState(false)
+  const reportRef = useRef<any>(null)
+  const {session} = useUser()
+  const userId = session?.user.id || ""
+
+  // bookmark requests
+  const handleBookmark = async (val: any) => {
+    try {
+      const res = await axiosdata.value.patch(`/api/requests`, val)
+      if (res.status === 200) {
+        setToastValues({
+          isActive: true,
+          message: res?.data.message,
+          status: "success",
+          duration: 2000,
+        })
+      } else {
+        setToastValues({
+          isActive: true,
+          message: "Request bookmarking failed",
+          status: "danger",
+          duration: 2000,
+        })
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const bookmarkMutation = useMutation({
+    mutationFn: handleBookmark,
+    onSuccess: () => {
+      setIsOpen(false)
+      queryClient.invalidateQueries({ queryKey: ["requests"] })
+    },
+  })
 
   //  accepting requests
   const handleAccept = async (val: any) => {
@@ -128,7 +164,13 @@ const RoomateCard = ({
             <PopoverContent className="z-800 flex flex-col items-center gap-2 shadow-sm bg-gray-100 dark:bg-gray-700">
               <div className="text-black dark:text-white">Accept this request</div>
               <div
-                onClick={() => acceptMutation.mutate({ id: request?._id, status: "accepted" })}
+                onClick={() =>
+                  acceptMutation.mutate({
+                    id: request?._id,
+                    status: "accepted",
+                    action: "acceptRequest",
+                  })
+                }
                 className={`clickable text-white font-bold ${
                   request?.requestType === "roommate" ? "gold-gradient" : "bg-green-600"
                 } rounded-2xl cursor-pointer w-24 h-8 flex items-center justify-center`}
@@ -165,9 +207,19 @@ const RoomateCard = ({
         <div
           key={request._id}
           className={`w-full h-60 rounded-sm p-2 mx-auto
-            ${request?.requestType === "roommate" ? "gold-gradient" : "bg-greenPrimary"}
+            ${
+              request?.requestType === "roommate"
+                ? "gold-gradient-vertical"
+                : "green-gradient-vertical"
+            }
             `}
         >
+          <ReportModal
+            ref={reportRef}
+            userId={userId}
+            reportedUser={request?.requester?._id}
+            action={request?.requestType === "roommate" ? "roommate request" : "co-rent request"}
+          />
           <div className="flex flex-col">
             <Button
               className="clickable directional font-medium text-sm  text-white  h-32 mb-2  mt-[-7px] shadow-md"
@@ -185,7 +237,9 @@ const RoomateCard = ({
             )}
 
             {/* requester name */}
-            <div className="text-white text-sm font-card mx-auto py-0.5">
+            <div 
+       
+            className="text-white text-sm font-card mx-auto py-0.5">
               {request?.requester?.username}
             </div>
             {/* request type  */}
@@ -194,7 +248,9 @@ const RoomateCard = ({
                 {request?.requestType === "roommate" ? "Roommate Request" : "Co-rent Request"}
               </div>
             )}
+
             {/* options row for request */}
+
             <div className="w-full flex flex-row justify-around mt-2 ">
               <Link href={`chat?recipientId=${request?.requester?._id}`}>
                 <div className="flex items-center gap-1 text-white font-bold">
@@ -205,16 +261,28 @@ const RoomateCard = ({
                   <span>Chat</span>
                 </div>
               </Link>
-
-              <div className="flex items-center gap-1 text-white font-bold">
-                <Bookmark
-                  size={30}
-                  color="white"
-                />
-                <span>Bookmark</span>
-              </div>
-
-              <div className="flex items-center gap-1 text-white font-bold">
+              {!isAgent && (
+                <div
+                  onClick={() => {
+                    bookmarkMutation.mutate({
+                      requestId: request?._id,
+                      userId: request?.requester?._id,
+                      action: "bookmarkRequest",
+                    })
+                  }}
+                  className="flex items-center gap-1 text-white font-bold cursor-pointer"
+                >
+                  <Bookmark
+                    size={30}
+                    color="white"
+                    fill={request?.isBookmarked ? "white" : "none"}
+                  />
+                  <span>Bookmark</span>
+                </div>
+              )}
+              <div
+                   onClick={() => reportRef.current.showModal()}
+              className="flex items-center gap-1 text-white font-bold cursor-pointer">
                 <AlertTriangle
                   size={30}
                   color="white"
@@ -230,14 +298,16 @@ const RoomateCard = ({
                 <div className="flex items-center gap-1 font-head">
                   <Mars className="text-green-400" />
                   <span className="text-sm text-gray-700 dark:text-white">
-                    Looking for a male roommate
+                    Looking for a male{" "}
+                    {request?.requestType === "roommate" ? "roommate" : "co-renter"}
                   </span>
                 </div>
               ) : (
                 <div className="flex items-center gap-1 font-head">
                   <Venus className="text-pink-400" />
                   <span className="text-sm text-gray-700 dark:text-white">
-                    Looking for a female roommate
+                    Looking for a female{" "}
+                    {request?.requestType === "roommate" ? "roommate" : "co-renter"}
                   </span>
                 </div>
               )}
@@ -265,7 +335,9 @@ const RoomateCard = ({
         <div
           key={request?.listing?._id}
           className={`w-90 h-80 rounded-sm p-2 mx-auto hover:shadow-md transition-shadow duration-300 ${
-            request?.requestType === "roommate" ? "gold-gradient" : "bg-green-600"
+            request?.requestType === "roommate"
+              ? "gold-gradient-vertical"
+              : "green-gradient-vertical"
           }`}
         >
           <div className="flex flex-col w-full">

@@ -27,8 +27,9 @@ export const GET = async (req) => {
   const session = await auth()
 
   // func for converting to mongodb object
-
-  const toId = (id) =>
+//  await Request.updateMany({},{$set: {bookmarkedBy: ['691e0b9027bef81e688fc3fe']}})
+  
+const toId = (id) =>
     mongoose.Types.ObjectId.isValid(id) ? new mongoose.Types.ObjectId(id) : null
 
   const currentUserId = toId(filters.currentUser)
@@ -68,6 +69,8 @@ export const GET = async (req) => {
   if (listingObjectId) {
     match["listing._id"] = listingObjectId
   }
+
+  // check for bookmarked requests
 
   const matchStage = { $match: match }
 
@@ -120,11 +123,19 @@ export const GET = async (req) => {
   ]
 
   // MAIN REQUESTS PIPELINE
-
+console.log({currentUserId})
   const requestsPipeline = [
     ...viewsPipeline,
+     {
+      $addFields: {
+        isBookmarked: {
+          $in: [toId(session?.user.id), "$bookmarkedBy"],
+        },
+      },
+    },
     ...populatePipeline,
     matchStage,
+  
     { $sort: { viewsDecay: -1 } },
     { $skip: skipNum },
     { $limit: limit },
@@ -136,6 +147,8 @@ export const GET = async (req) => {
         preferredGender: 1,
         description: 1,
         views: 1,
+        isBookmarked: 1,
+        bookmarkedBy: 1,
         "requester.profilePic": 1,
         "requester._id": 1,
         "requester.username": 1,
@@ -204,21 +217,60 @@ export const POST = async (req) => {
 
 export const PATCH = async (req) => {
   await connectToDB()
-  const { id, status } = await req.json()
-  const updatedRequest = await Request.findByIdAndUpdate(
-    id,
-    { status },
-    { new: true, runValidators: true }
-  ).populate("requester")
-  if (updatedRequest) {
-    await sendEmail({
-      to: updatedRequest.requester.email,
-      subject: "Request Status Update",
-      message: `Your ${updatedRequest.requestType} request has been accepted`,
-    })
+
+  const body = await req.json()
+  const { action } = body
+
+  // accept request
+  if (action === "acceptRequest") {
+    const { id, status } = body
+
+    const updatedRequest = await Request.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true, runValidators: true }
+    ).populate("requester")
+
+    if (updatedRequest) {
+      await sendEmail({
+        to: updatedRequest.requester.email,
+        subject: "Request Status Update",
+        message: `Your ${updatedRequest.requestType} request has been accepted`,
+      })
+    }
+
+    return NextResponse.json({ message: "Request updated" }, { status: 200 })
   }
 
-  return NextResponse.json({ message: "Request updated" }, { status: 200 })
+
+  // bookmark request
+  if (action === "bookmarkRequest") {
+    const { requestId, userId } = body
+
+    const request = await Request.findById(requestId)
+    if (!request) {
+      return NextResponse.json({ error: "Request not found" }, { status: 404 })
+    }
+
+    const alreadyBookmarked = request.bookmarkedBy.includes(userId)
+
+    if (alreadyBookmarked) {
+      // REMOVE bookmark
+      await Request.updateOne({ _id: requestId }, { $pull: { bookmarkedBy: userId } })
+    } else {
+      // ADD bookmark
+      await Request.updateOne({ _id: requestId }, { $push: { bookmarkedBy: userId } })
+    }
+
+    return NextResponse.json(
+      {
+        message: alreadyBookmarked ? "Bookmark removed" : "Request bookmarked",
+      },
+      { status: 200 }
+    )
+  }
+
+  return NextResponse.json({ error: "Invalid action" }, { status: 400 })
 }
 
 export const DELETE = async (req) => {

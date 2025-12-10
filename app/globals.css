@@ -156,8 +156,18 @@ body {
   background: linear-gradient(to left, #0440c8, #032679);
 }
 
+@utility darkblue-gradient-vertical {
+    background: linear-gradient(to bottom, #0440c8, #032679);
+}
+
 @utility gold-gradient {
   background: linear-gradient(to left, #f7b657, #f29829);
+}
+@utility gold-gradient-vertical {
+  background: linear-gradient(to bottom, #f7b657, #f29829);
+}
+@utility green-gradient-vertical {
+  background: linear-gradient(to bottom, oklch(62.7% 0.194 149.214), oklch(42.7% 0.194 149.214));
 }
 
 @utility gray-gradient {

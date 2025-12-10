@@ -8,6 +8,7 @@ import { LogOut, Trash, AlertCircle, Loader2, X } from "lucide-react"
 import dynamic from "next/dynamic"
 import { useSignals, useSignal } from "@preact/signals-react/runtime"
 import Button from "@lib/Button"
+import useClickOutside from "@utils/useClickOutside"
 const PaystackBtn = dynamic(() => import("./PayStackButton"), { ssr: false })
 
 interface DeleteModalProps {
@@ -35,9 +36,11 @@ interface ReportModalProps {
   chatContent?: string
   reportedListing?: string
   thumbnail?: string
+  action?: string
 }
 
 export const DeleteModal = ({ ref, listingId, setDeleting }: DeleteModalProps) => {
+  useClickOutside(ref)
   const notification = useNotification()
   const queryClient = useQueryClient()
 
@@ -101,6 +104,7 @@ export const DeleteModal = ({ ref, listingId, setDeleting }: DeleteModalProps) =
 }
 
 export const LogOutModal = ({ ref, logOut }: ModalProps) => {
+  useClickOutside(ref)
   return (
     <dialog
       ref={ref}
@@ -139,6 +143,7 @@ export const LogOutModal = ({ ref, logOut }: ModalProps) => {
 
 export const FeaturedModal = ({ ref, email, listingId, userId }: FeaturedProps) => {
   useSignals()
+  useClickOutside(ref)
   const creating = useSignal(false)
   const notification = useNotification()
   const queryClient = useQueryClient()
@@ -206,18 +211,25 @@ export const FeaturedModal = ({ ref, email, listingId, userId }: FeaturedProps) 
   )
 }
 
-export const ReportModal = ({ ref, userId, reportedUser, chatContent }: ReportModalProps) => {
+export const ReportModal = ({
+  ref,
+  userId,
+  reportedUser,
+  chatContent,
+  action,
+}: ReportModalProps) => {
   useSignals()
+  useClickOutside(ref)
   const creating = useSignal(false)
   const notification = useNotification()
   const queryClient = useQueryClient()
-
+  const actionText = action ? action.charAt(0).toUpperCase() + action.slice(1) : "chat"
   const makeReport = async (val: any) => {
     creating.value = true
     try {
       await sendNotification(val)
       notification.setIsActive(true)
-      notification.setMessage("Chat Reported")
+      notification.setMessage(`${actionText} Reported`)
       notification.setType("success")
     } catch (err) {
       console.log(err)
@@ -236,15 +248,16 @@ export const ReportModal = ({ ref, userId, reportedUser, chatContent }: ReportMo
       sentBy: userId,
       reportedUser,
       recipientRole: "admin",
-      chatContent,
-      message: "A chat was reported",
+      ...(chatContent && { chatContent }),
+      message: `${actionText} was reported`,
       mode: "broadcast-admin",
-      type: "report_chat",
+      type: `report_${action}`,
     })
   }
-
+  console.log(ref.current)
   return (
     <dialog
+      // onC
       ref={ref}
       className="dark:bg-gray-700 dark:text-white bg-white mt-40 rounded-xl p-6 w-[90%] max-w-md mx-auto shadow-xl text-center border border-white"
     >
@@ -253,10 +266,10 @@ export const ReportModal = ({ ref, userId, reportedUser, chatContent }: ReportMo
           size={50}
           color="gold"
         />
-        <h2 className="text-xl font-semibold">Report Listing</h2>
+        <h2 className="text-xl font-semibold">Report {actionText}</h2>
       </div>
       <p className="text-sm leading-relaxed mb-6">
-        Do you wish to <strong>report this chat</strong>?
+        Do you wish to <strong>report this {action}</strong>?
         <br />
         <span className="text-shadow-red-600 font-medium">
           Note: This action cannot be reversed.
@@ -296,6 +309,7 @@ export const ReportListingModal = ({
   thumbnail,
 }: ReportModalProps) => {
   useSignals()
+  useClickOutside(ref)
   const creating = useSignal(false)
   const message = useSignal("")
   const notification = useNotification()
@@ -392,6 +406,7 @@ export const ReportListingModal = ({
 }
 
 export const InfoModal = ({ ref }: ModalProps) => {
+  useClickOutside(ref)
   return (
     <dialog
       ref={ref}

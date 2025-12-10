@@ -12,7 +12,7 @@ import { useRef } from "react"
 
 const ListingRequests = ({requestType}:any) => {
   const searchParams = useSearchParams()
-  const listingId = searchParams.get("listing") // roommate or co-rent
+  const listingId = searchParams.get("listing")
   const { session } = useUser()
 
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -27,7 +27,7 @@ const ListingRequests = ({requestType}:any) => {
     limit: 12,
     listingId: listingId || "",
     requestType: requestType || "",
-    requester: session?.user.id,
+    // requester: session?.user.id,
     status:"accepted",
     enabled: !!listingId && !!requestType,
   })
