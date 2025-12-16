@@ -2,7 +2,7 @@
 import Link from "next/link"
 import { client } from "@lib/server/appwrite"
 import { Models } from "appwrite"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useUser } from "@utils/user"
 import { CldImage } from "next-cloudinary"
 import { useBackdrop } from "@lib/Backdrop"
@@ -24,8 +24,9 @@ import {
   Headphones,
   Headset,
 } from "lucide-react"
-import { HouseSearchIcon } from "./custom-ui/Icons"
+import { LogOutModal } from "./Modals"
 import { useRouter, usePathname } from "next/navigation"
+import NavToggleOptions from "@components/NavToggleOptions"
 
 const Nav = () => {
   const { session } = useUser()
@@ -36,6 +37,7 @@ const Nav = () => {
   const { backdrop, setBackdrop } = useBackdrop()
   const { darkMode, toggleDarkMode } = useDarkMode()
   const [unreadMessages, setUnreadMessages] = useState<string>("0")
+  const logOutRef = useRef<any>(null)
 
   const handleNavItemClick = () => {
     setBackdrop({ isNavOpen: false })
@@ -158,7 +160,7 @@ const Nav = () => {
       ),
       onClick: handleNavItemClick,
       className:
-        "md:darkblue-gradient  md:dark:gold-gradient  md:text-white md:px-4 md:py-2 md:rounded-md md:hover-glass",
+        " text-xs md:text-sm font-medium md:darkblue-gradient  md:dark:gold-gradient  md:text-white md:px-4 md:py-2 md:rounded-md md-gloss",
     },
 
     // Sign Up (only signed out)
@@ -174,7 +176,7 @@ const Nav = () => {
       ),
       onClick: handleNavItemClick,
       className:
-        "md:border-2 md:border-darkblue md:dark:border-goldPrimary md:text-darkblue md:dark:text-coffee md:px-4 md:py-2 md:rounded-md md:hover-glass",
+        "text-xs md:text-sm font-medium md:border-2 md:border-darkblue md:dark:border-goldPrimary md:text-darkblue md:dark:text-white md:px-4 md:py-2 md:rounded-md md-gloss",
     },
   ].filter((item) => item.condition)
 
@@ -185,7 +187,7 @@ const Nav = () => {
   return (
     <header
       id="nav"
-      className={`nav ${navbarFixed && "fixedNav"} ${backdrop.isNavOpen && "activeNav"}`}
+      className={`nav relative ${navbarFixed && "fixedNav"} ${backdrop.isNavOpen && "activeNav"}`}
     >
       <Link href="/">
         <div className="logo">LOGO</div>
@@ -236,7 +238,8 @@ const Nav = () => {
         </div>
 
         {/*nav items  */}
-        <div className={`nav_items md:pr-3 md:pt-1`}>
+        <div className={`nav_items relative  md:pr-3 md:pt-1`}>
+          {backdrop.isNavOpen && <NavToggleOptions toggleFunc={showNav} logOutRef={logOutRef} />}
           {navItems.map((item, index) => (
             <Link
               key={index}
@@ -258,8 +261,8 @@ const Nav = () => {
           ))}
 
           {/* more */}
-          {/* more btn */}
-          <div className="flex flex-col md:flex-row items-center gap-1 md:gap-2 cursor-pointer">
+          {/* toggle more btn */}
+          <div className="relative flex flex-col md:flex-row items-center gap-1 md:gap-2 cursor-pointer">
             <div
               onClick={showNav}
               className={`toggle_nav`}
@@ -275,6 +278,9 @@ const Nav = () => {
           {/* display options */}
         </div>
       </div>
+
+      {/* modals and miscellaneous */}
+      <LogOutModal ref={logOutRef} />
     </header>
   )
 }

@@ -136,8 +136,6 @@ main {
     span {
       position: relative;
       text-decoration: none;
-      font-size: 16px;
-      color: fn.color("lightDark");
     }
     // mobile footer nav
     @media (max-width: 767.9px) {
@@ -150,19 +148,10 @@ main {
       height: 76px;
       width: 100%;
       border-top: 2px solid var(--color-navBorderColor);
-      // box-shadow: 2px 4px 10px rgba(20, 19, 19, 0.176);
       border-radius: 2px 2px 0 0;
       padding-top: auto;
       padding-bottom: 0;
       gap: 40px;
-      .link_line,
-      span {
-        font-size: 12px;
-      }
-      img {
-        margin-top: 20px;
-        padding-left: -20px;
-      }
       @include mx.flex(row, center, center);
       @supports (-moz-appearance: none) {
         bottom: auto;
@@ -177,20 +166,20 @@ main {
     position: relative;
     .toggle_items:nth-child(1) {
       transform: rotate(-45deg);
-      translate: 0 5px;
+      translate: -5px 1.5px;
       @include mx.transition(300ms, ease-out);
     }
     .toggle_items:nth-child(3) {
       transform: rotate(45deg);
-      translate: 0 -5px;
+      translate: -5px -1.5px;
       @include mx.transition(300ms, ease-out);
     }
     .toggle_items:nth-child(2) {
       position: absolute;
-      width: 45px;
-      height: 45px;
+      width: 42px;
+      height: 42px;
       padding: 20px;
-      right: -2.5px;
+      right: -3.2px;
       border-radius: 50%;
       background-color: transparent;
       opacity: 30%;
@@ -206,8 +195,8 @@ main {
   cursor: pointer;
   @include mx.flex(column, center, center);
   .toggle_items {
-    width: 40px;
-    height: 3.3px;
+    width: 35px;
+    height: 4px;
     border-radius: 100px;
     transform-origin: center;
     @include mx.transition(300ms, ease-out, translate);

@@ -7,7 +7,7 @@ const LogoutSuccess = () => {
   const { darkMode } = useDarkMode()
 
   return (
-    <div className={`mx-auto min-h-screen flex items-center justify-center `}>
+    <div className={`mx-auto min-h-screen w-[90%] flex items-center justify-center `}>
       <div
         className={`max-w-lg w-full p-6 rounded-lg shadow-md dark:bg-gray-700/50 dark:text-white  bg-white text-gray-900`}
       >

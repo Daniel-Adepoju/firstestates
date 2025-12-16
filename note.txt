@@ -11,9 +11,8 @@ unlogged in shouldnt enter school focus
 
 
 ## Requests and nav
-
-1.Add miscellaeneus nav Options
-2.Bookmarks[array in schema] and chat requester
+1. Fix nav's x
+2..Add miscellaeneus nav Options[bookmarked request for instance]
 
 
 ## Chats

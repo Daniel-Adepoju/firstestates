@@ -1,5 +1,6 @@
 "use client"
 import Image from "next/image"
+import { logOut } from "@lib/server/auth"
 import { deleteListing, markAsFeatured, reportListing } from "@lib/server/listing"
 import { useNotification } from "@lib/Notification"
 import { sendNotification } from "@lib/server/notificationFunctions"
@@ -103,8 +104,11 @@ export const DeleteModal = ({ ref, listingId, setDeleting }: DeleteModalProps) =
   )
 }
 
-export const LogOutModal = ({ ref, logOut }: ModalProps) => {
+export const LogOutModal = ({ ref }: ModalProps) => {
   useClickOutside(ref)
+  const handleLogout = async () => {
+    await logOut()
+  }
   return (
     <dialog
       ref={ref}
@@ -113,28 +117,27 @@ export const LogOutModal = ({ ref, logOut }: ModalProps) => {
       <div className="flex justify-center mb-4">
         <LogOut
           size={64}
-          color="darkred"
+          className=""
         />
       </div>
 
       <p className="text-lg font-medium mb-6">Are you sure you want to log out?</p>
 
-      <div className="flex justify-between px-8">
-        <Image
-          src="/icons/cancel.svg"
-          alt="Cancel"
-          width={40}
-          height={40}
-          className="cursor-pointer smallScale"
+      <div className="flex justify-evenly px-8">
+        <X
+          size={30}
+          strokeWidth={3}
+          className=" text-white cursor-pointer bg-green-700 p-2 rounded-full"
           onClick={() => ref?.current?.close()}
         />
-        <Image
-          src="/icons/confirm.svg"
-          alt="Confirm"
-          width={40}
-          height={40}
-          className="cursor-pointer smallScale"
-          onClick={() => logOut && logOut()}
+        <LogOut
+          size={30}
+          strokeWidth={3}
+          className="text-white cursor-pointer  bg-red-700 p-2 rounded-full"
+          onClick={() => {
+            handleLogout()
+            ref?.current?.close()
+          }}
         />
       </div>
     </dialog>

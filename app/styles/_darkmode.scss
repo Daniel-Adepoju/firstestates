@@ -27,16 +27,6 @@ html:is(.dark) {
     }
   }
 
-  .nav_items {
-    .link_line,
-    span {
-      color: white;
-      &::after {
-        background-color: color("coffee");
-      }
-    }
-  }
-
   .activeNav {
     .toggle_nav {
       .toggle_items:nth-child(2) {

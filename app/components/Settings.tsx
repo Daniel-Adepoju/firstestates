@@ -2,7 +2,6 @@
 import { useRouter } from "next/navigation"
 import { Sun, Moon, LogOut, User } from "lucide-react"
 import { useDarkMode } from "@lib/DarkModeProvider"
-import { logOut } from "@lib/server/auth"
 import { useRef } from "react"
 import { LogOutModal } from "./Modals"
 
@@ -22,9 +21,7 @@ export default function Settings({ editProfile }: SettingProps) {
     router.push(editProfile)
   }
 
-  const handleLogout = async () => {
-    await logOut()
-  }
+
 
   return (
     <div className="w-full bg-white dark:bg-gray-700 rounded-2xl shadow-md p-4 space-y-3">
@@ -55,9 +52,6 @@ export default function Settings({ editProfile }: SettingProps) {
 
       <LogOutModal
         ref={logOutRef}
-        logOut={handleLogout}
-        //  setDeleting={setDeleting}
-        //  listingId={listing?._id ?? ""}
       />
     </div>
   )

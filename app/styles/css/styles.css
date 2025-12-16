@@ -23,14 +23,6 @@ html:is(.dark) .footer {
 html:is(.dark) .logo {
   color: #fffdfb;
 }
-html:is(.dark) .nav_items .link_line,
-html:is(.dark) .nav_items span {
-  color: white;
-}
-html:is(.dark) .nav_items .link_line::after,
-html:is(.dark) .nav_items span::after {
-  background-color: #032679;
-}
 html:is(.dark) .activeNav .toggle_nav .toggle_items:nth-child(2) {
   border: 4px dashed white;
   animation: rollBorderWhite 5s ease-in-out infinite;
@@ -972,7 +964,31 @@ a:has(.clickable) {
   animation: gloss-swipe 1s ease-in-out forwards;
 }
 
-.dark .gloss {
+@media (min-width: 768px) {
+  .md-gloss {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    --gloss-color: rgba(107, 114, 128, 0.2);
+  }
+  .md-gloss::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -75%;
+    width: 50%;
+    height: 200%;
+    background: linear-gradient(120deg, rgba(0, 0, 0, 0) 0%, var(--gloss-color) 50%, rgba(0, 0, 0, 0) 100%);
+    transform: rotate(25deg);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .md-gloss:hover::after {
+    animation: gloss-swipe 1s ease-in-out forwards;
+  }
+}
+
+.dark .gloss, .md-gloss {
   --gloss-color: rgba(107, 114, 128, 0.3);
 }
 
@@ -1797,7 +1813,6 @@ main {
 .nav .nav_items span {
   position: relative;
   text-decoration: none;
-  font-size: 16px;
 }
 @media (max-width: 767.9px) {
   .nav .nav_items {
@@ -1814,14 +1829,6 @@ main {
     padding-top: auto;
     padding-bottom: 0;
     gap: 40px;
-  }
-  .nav .nav_items .link_line,
-  .nav .nav_items span {
-    font-size: 12px;
-  }
-  .nav .nav_items img {
-    margin-top: 20px;
-    padding-left: -20px;
   }
   .nav .nav_items {
     display: flex;
@@ -1842,24 +1849,24 @@ main {
 }
 .activeNav .toggle_nav .toggle_items:nth-child(1) {
   transform: rotate(-45deg);
-  translate: 0 5px;
+  translate: -5px 1.5px;
 }
 .activeNav .toggle_nav .toggle_items:nth-child(1) {
   transition: all 300ms ease-out;
 }
 .activeNav .toggle_nav .toggle_items:nth-child(3) {
   transform: rotate(45deg);
-  translate: 0 -5px;
+  translate: -5px -1.5px;
 }
 .activeNav .toggle_nav .toggle_items:nth-child(3) {
   transition: all 300ms ease-out;
 }
 .activeNav .toggle_nav .toggle_items:nth-child(2) {
   position: absolute;
-  width: 45px;
-  height: 45px;
+  width: 42px;
+  height: 42px;
   padding: 20px;
-  right: -2.5px;
+  right: -3.2px;
   border-radius: 50%;
   background-color: transparent;
   opacity: 30%;
@@ -1881,8 +1888,8 @@ main {
   justify-content: center;
 }
 .toggle_nav .toggle_items {
-  width: 40px;
-  height: 3.3px;
+  width: 35px;
+  height: 4px;
   border-radius: 100px;
   transform-origin: center;
 }
