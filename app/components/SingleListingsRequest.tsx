@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation"
 import { useUser } from "@utils/user"
-import RoomateCard from "@components/RoomateCard"
+import RoommateCard from "@components/RoommateCard"
 import ScrollController from "@components/ScrollController"
 import { useGetRequests } from "@lib/customApi"
 import { Skeleton } from "@components/ui/skeleton"
@@ -10,25 +10,19 @@ import { MoreVertical } from "lucide-react"
 import { useNextPage } from "@lib/useIntersection"
 import { useRef } from "react"
 
-const ListingRequests = ({requestType}:any) => {
+const ListingRequests = ({ requestType }: any) => {
   const searchParams = useSearchParams()
   const listingId = searchParams.get("listing")
   const { session } = useUser()
 
   const scrollRef = useRef<HTMLDivElement>(null)
 
-  const {
-    data,
-    isLoading,
-    hasNextPage,
-    fetchNextPage,
-    isFetchingNextPage,
-  } = useGetRequests({
+  const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } = useGetRequests({
     limit: 12,
     listingId: listingId || "",
     requestType: requestType || "",
     // requester: session?.user.id,
-    status:"accepted",
+    status: "accepted",
     enabled: !!listingId && !!requestType,
   })
 
@@ -43,12 +37,10 @@ const ListingRequests = ({requestType}:any) => {
     data?.pages[0]?.requests?.length > 0
       ? data?.pages.flatMap((page) =>
           page.requests.map((request: Request, index: number) => (
-            <RoomateCard
+            <RoommateCard
               key={request._id}
               request={request}
-              refValue={
-                index === page.requests.length - 1 ? nextPageRef : null
-              }
+              refValue={index === page.requests.length - 1 ? nextPageRef : null}
             />
           ))
         )

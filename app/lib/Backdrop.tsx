@@ -14,7 +14,7 @@ const Backdrop = ({children}: {children: React.ReactNode}) => {
  const [backdrop, setBackdrop] = useState({isOptionsOpen:false,isNavOpen:false,selectedData:null})
 
   useEffect(() => {
-  if (backdrop.isOptionsOpen) {
+  if (backdrop.isOptionsOpen || backdrop.isNavOpen) {
     document.body.style.overflow = 'hidden';
   } else {
     document.body.style.overflow = '';

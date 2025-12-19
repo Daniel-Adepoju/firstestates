@@ -109,7 +109,7 @@
           width: 135px;
           height: 3px;
           border-radius: 10px;
-          background-color: fn.color("wheat");
+          background-color: fn.color("goldPrimary");
           bottom: -4px;
           left: 0;
           opacity: 0;
@@ -198,7 +198,7 @@
       padding: 10px;
       font-weight: bold;
       font-family: fn.font("number");
-      color: fn.color("wheat");
+      color: fn.color("goldPrimary");
       font-size: 16px;
 
       width: 80px;
@@ -224,12 +224,11 @@
         border-radius: 50%;
         padding: 20px;
         background: radial-gradient(circle, rgba(255, 255, 255, 0.934) 40%, #f2f3f3f5 100%);
-        border: 9px solid fn.color("wheat");
-        border-top-color: fn.color("lightWheat");
+        border: 9px solid fn.color("goldPrimary");
+        border-top-color: fn.color("lightgold");
         animation: spin 8s linear infinite;
- 
       }
-          html.dark &::before {
+      html.dark &::before {
         background: radial-gradient(circle, rgba(0, 0, 0, 0.484) 40%, #00000042 100%);
       }
     }

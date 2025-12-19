@@ -41,6 +41,8 @@ const NavToggleOptions = ({
           icon: Info,
           condition: true,
         },
+     
+    
       ],
     },
     {
@@ -74,11 +76,12 @@ const NavToggleOptions = ({
         backdrop-blur
         shadow-xl
         border border-gray-200/40 dark:border-white/10
-        p-4
+        p-4 px-2 pl-3
         flex flex-col gap-4
         animate-in slide-in-from-top-4
       "
     >
+    <div className="flex flex-col gap-4 overflow-y-auto nobar">
       {navSections.map(
         (section, i) =>
           section.items.some((item) => item.condition) && (
@@ -136,8 +139,8 @@ const NavToggleOptions = ({
             </div>
           )
       )}
-
-      <div className="mt-4 pt-4 border-t border-gray-200/50 dark:border-white/10 text-center">
+</div>
+      <div className="pt-4 border-t border-gray-200/50 dark:border-white/10 text-center">
         <div className="font-bold text-lg tracking-wide">Logo</div>
         <p className="text-xs text-gray-400">Digital Real Estate Platform</p>
       </div>

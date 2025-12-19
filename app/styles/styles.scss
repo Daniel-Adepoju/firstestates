@@ -45,12 +45,12 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background: fn.color("lightWheat");
+    background: fn.color("goldPrimary");
     border-radius: 30px;
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background: fn.color("wheat");
+    background: fn.color("goldPrimary");
   }
 
   &::-webkit-scrollbar-track {
@@ -183,7 +183,7 @@ main {
       border-radius: 50%;
       background-color: transparent;
       opacity: 30%;
-      border: 4px dashed fn.color("wheat");
+      border: 4px dashed fn.color("goldPrimary");
       animation: rollBorder 5s ease-in-out infinite;
       @include mx.transition(300ms);
     }
@@ -216,7 +216,6 @@ main {
 // footer
 
 .footer {
-
   width: 100%;
   min-height: 60px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -224,7 +223,7 @@ main {
   position: relative;
   margin-top: auto;
   color: white;
- background: linear-gradient(to bottom, #0440c8, #032679);
+  background: linear-gradient(to bottom, #0440c8, #032679);
   z-index: 101;
   @include mx.flex(column, center, flex-start);
   .logo {
@@ -429,7 +428,7 @@ footer.hide {
         position: absolute;
         width: 100%;
         height: 2px;
-        background-color: fn.color("wheat");
+        background-color: fn.color("goldPrimary");
         border-radius: 20px;
         bottom: -50%;
         left: 0%;
@@ -466,7 +465,7 @@ footer.hide {
     background-color: rgb(23, 146, 23);
     @include mx.center();
     &.rented {
-      background-color: fn.color("wheat");
+      background-color: fn.color("goldPrimary");
     }
     &.no_absolute {
       position: relative;
@@ -553,7 +552,7 @@ footer.hide {
         left: 20%;
         width: 200px;
         border-radius: 10px;
-        color: fn.color("wheat");
+        color: fn.color("goldPrimary");
         font-family: fn.font("price");
         font-weight: bold;
         font-size: 26px;
@@ -609,10 +608,7 @@ footer.hide {
   width: 100%;
   margin-top: 20px;
   @include mx.flex(column, center, flex-start);
-  .directional font-medium text-sm {
-    width: 220px;
-    margin-block: 10px;
-  }
+
   @media (min-width: 900px) {
     width: calc(50% - 20px);
     margin-top: auto;
@@ -651,7 +647,7 @@ footer.hide {
         @include mx.transition(300ms, ease-out);
         &:active {
           transform: scale(0.9);
-  background: linear-gradient(to left, #f7b657, #f29829);
+          background: linear-gradient(to left, #f7b657, #f29829);
           @include mx.transition(300ms, ease-in, transform);
         }
         img {
@@ -763,7 +759,7 @@ footer.hide {
       border-radius: 20px;
       width: 98%;
       height: 1px;
-      background-color: fn.color("wheat");
+      background-color: fn.color("goldPrimary");
     }
   }
   .contact_items {

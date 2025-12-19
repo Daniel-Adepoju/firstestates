@@ -3,7 +3,7 @@
 import { useRef } from "react"
 import { useSearchParams } from "next/navigation"
 import { useUser } from "@utils/user"
-import RoomateCard from "@components/RoomateCard"
+import RoommateCard from "@components/RoommateCard"
 import Card from "@components/listing/Card"
 import Pagination from "@components/Pagination"
 import { useGetListings, useGetRequests } from "@lib/customApi"
@@ -13,6 +13,7 @@ import { RequestSection } from "./RequestSection"
 import { SectionHeader } from "./SectionHeader"
 import { useAnimation } from "@lib/useAnimation"
 import AgentSection from "./AgentSection"
+import { FileX2 } from "lucide-react"
 
 const SchoolFocus = () => {
   const searchParams = useSearchParams()
@@ -27,7 +28,7 @@ const SchoolFocus = () => {
   const coRentScrollRef = useRef<HTMLDivElement>(null)
   const roommateScrollRef = useRef<HTMLDivElement>(null)
 
-// fetch routine
+  // fetch routine
 
   const { data: listings, isLoading: listingsLoading } = useGetListings({
     limit: 12,
@@ -66,14 +67,19 @@ const SchoolFocus = () => {
     const firstPage = pages?.[0]?.requests
 
     if (!firstPage?.length) {
-      return <p className="w-full mx-auto text-center text-sm font-medium">No requests found</p>
+      return (
+        <div className="w-full inline-flex items-center justify-center text-sm font-medium">
+          <FileX2 className="w-5 h-5 mr-2 text-amber-500" />
+          No requests found
+        </div>
+      )
     }
 
     return pages.flatMap((page: any) =>
       page.requests.map((req: Request, index: number) => {
         const isLast = index === page.requests.length - 1
         return (
-          <RoomateCard
+          <RoommateCard
             key={req._id}
             request={req}
             refValue={isLast ? nextRef : null}
@@ -95,7 +101,7 @@ const SchoolFocus = () => {
       ) : (
         <Skeleton
           key={i}
-          className="inline-block h-75 w-65 rounded-md bg-gray-500/20 mb-6 first:mt-6 last:mb-6" 
+          className="inline-block h-75 w-65 rounded-md bg-gray-500/20 mb-6 first:mt-6 last:mb-6"
         />
       )
     )
@@ -111,7 +117,7 @@ const SchoolFocus = () => {
       <div className="text-center text-sm p-2 pb-0 text-gray-700 dark:text-gray-200">
         Welcome to School Focus <strong>{displayName}</strong>.
       </div>
-      <div className="text-center text-sm p-2 py-0 text-gray-700 dark:text-gray-200">
+      <div className="text-center text-xs p-2 py-0 text-gray-700 dark:text-gray-200">
         Here you can find <strong>listings</strong>, <strong>agents</strong>, and{" "}
         <strong>roommate requests</strong> near your selected school.
       </div>
@@ -119,7 +125,7 @@ const SchoolFocus = () => {
       {/* AGENTS */}
 
       <AgentSection school={school} />
-
+     
       {/* CO-RENT REQUESTS */}
       <SectionHeader
         title="Co-Rent Requests"

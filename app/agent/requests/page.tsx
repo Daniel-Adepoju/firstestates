@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation"
 import { useUser } from "@utils/user"
-import RoomateCard from "@components/RoomateCard"
+import RoommateCard from "@components/RoommateCard"
 import { useGetRequests } from "@lib/customApi"
 import Pagination from "@components/Pagination"
 import ScrollController from "@components/ScrollController"
@@ -63,7 +63,7 @@ const RequestsInAgent = () => {
     !!session?.user.id && pendingRequests?.pages[0]?.requests?.length > 0
       ? pendingRequests?.pages.flatMap((items) =>
           items?.requests?.flatMap((request: Request, index: number) => (
-            <RoomateCard
+            <RoommateCard
               refValue={index === items?.requests?.length - 1 ? pendingNextPageRef : null}
               key={request._id}
               request={request}
@@ -78,7 +78,7 @@ const RequestsInAgent = () => {
     !!session?.user.id && acceptedRequests?.pages[0]?.requests?.length > 0
       ? acceptedRequests?.pages.flatMap((items) =>
           items?.requests?.flatMap((request: Request, index: number) => (
-            <RoomateCard
+            <RoommateCard
               refValue={items?.requests?.length - 1 === index ? acceptedNextPageRef : null}
               key={request._id}
               request={request}

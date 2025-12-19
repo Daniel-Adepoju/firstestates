@@ -88,7 +88,7 @@ export const WriteComment = ({ listingId }: commentCardProps) => {
 
   return (
     <>
-      {!session?.user ? (
+      {session?.user ? (
         <form
           onSubmit={(e) => {
             e.preventDefault()

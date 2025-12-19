@@ -98,7 +98,7 @@ input[type="number"] {
 .bigNum {
   font-family: fn.font("headers");
   font-size: 25px;
-  color: fn.color("wheat");
+  color: fn.color("goldPrimary");
   @include mx.center();
 }
 .description {
@@ -242,7 +242,7 @@ a:has(.clickable) {
   @include mx.transition("ease-in");
   &:hover {
     transform: scale(1.009);
-    @include mx.transition("ease-out");
+    @include mx.transition("ease-out", 300ms, transform);
   }
 }
 
@@ -251,12 +251,6 @@ a:has(.clickable) {
   background: linear-gradient(to left, #075771, #0881a3);
   color: fn.color("white");
   @include mx.flex(row, center, center);
-}
-
-.btnCover {
-  .darkblueBtn {
-    width: 100%;
-  }
 }
 
 .openMap {
@@ -367,7 +361,7 @@ a:has(.clickable) {
 
 .typeOfAccount {
   min-width: 100%;
-  background:linear-gradient(to left, #0440c8, #032679);
+  background: linear-gradient(to left, #0440c8, #032679);
   color: fn.color("white");
   font-family: fn.font("list");
   padding: 16px;

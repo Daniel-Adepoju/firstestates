@@ -18,6 +18,7 @@ export const GET = async (req) => {
     requestType: searchParams.get("requestType") || "",
     agent: searchParams.get("agent") || "",
     listing: searchParams.get("listing") || "",
+    isBookmarked: searchParams.get("isBookmarked") || "",
   }
 
   const skipNum = (page - 1) * limit
@@ -27,9 +28,9 @@ export const GET = async (req) => {
   const session = await auth()
 
   // func for converting to mongodb object
-//  await Request.updateMany({},{$set: {bookmarkedBy: ['691e0b9027bef81e688fc3fe']}})
-  
-const toId = (id) =>
+  //  await Request.updateMany({},{$set: {bookmarkedBy: ['691e0b9027bef81e688fc3fe']}})
+
+  const toId = (id) =>
     mongoose.Types.ObjectId.isValid(id) ? new mongoose.Types.ObjectId(id) : null
 
   const currentUserId = toId(filters.currentUser)
@@ -55,7 +56,8 @@ const toId = (id) =>
     match["listing.school"] = { $regex: filters.school, $options: "i" }
   }
 
-  // exclude currentUser request
+  // exclude currentUser's request
+
   if (currentUserId) {
     match["requester._id"] = { $ne: currentUserId }
   }
@@ -68,6 +70,10 @@ const toId = (id) =>
   // listingId
   if (listingObjectId) {
     match["listing._id"] = listingObjectId
+  }
+
+  if (filters.isBookmarked === "true") {
+    match.bookmarkedBy = { $in: [currentUserId] }
   }
 
   // check for bookmarked requests
@@ -123,10 +129,10 @@ const toId = (id) =>
   ]
 
   // MAIN REQUESTS PIPELINE
-console.log({currentUserId})
+  console.log({ currentUserId, bookmarkrd: filters.isBookmarked })
   const requestsPipeline = [
     ...viewsPipeline,
-     {
+    {
       $addFields: {
         isBookmarked: {
           $in: [toId(session?.user.id), "$bookmarkedBy"],
@@ -135,7 +141,7 @@ console.log({currentUserId})
     },
     ...populatePipeline,
     matchStage,
-  
+
     { $sort: { viewsDecay: -1 } },
     { $skip: skipNum },
     { $limit: limit },
@@ -241,7 +247,6 @@ export const PATCH = async (req) => {
 
     return NextResponse.json({ message: "Request updated" }, { status: 200 })
   }
-
 
   // bookmark request
   if (action === "bookmarkRequest") {

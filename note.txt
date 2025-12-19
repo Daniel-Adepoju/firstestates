@@ -11,8 +11,9 @@ unlogged in shouldnt enter school focus
 
 
 ## Requests and nav
-1. Fix nav's x
-2..Add miscellaeneus nav Options[bookmarked request for instance]
+1.Page to view bookmarked request
+confirm reports on request
+check look of grdients in agent components(add listing in particular)
 
 
 ## Chats

@@ -15,12 +15,12 @@ const ListingDetails = ({ listing }: Props) => {
         <span className="currency">&#8358;</span> {listing?.price?.toLocaleString()}/Year
       </div>
       <div>
-        <span className=" text-sm">
-          This listing is valid for <strong>{daysLeft(listing?.validUntil)}</strong> days
+        <span className=" text-xs text-gray-500 dark:text-gray-400">
+          This listing is will remain here for <strong>{daysLeft(listing?.validUntil)}</strong> days
         </span>
       </div>
 
-      <div className="capitalize text-lg text-gray-600 dark:text-gray-200 font-semibold">
+      <div className="font-head capitalize text-sm text-gray-600 dark:text-gray-200 font-semibold">
         {listing?.school}
       </div>
 

@@ -20,30 +20,30 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import { useQueryClient, useMutation } from "@tanstack/react-query"
 import { axiosdata } from "@utils/axiosUrl"
 import { useToast } from "@utils/Toast"
-import {ReportModal} from "@components/Modals"
+import { ReportModal } from "@components/Modals"
 import { useUser } from "@utils/user"
 
-interface RoomateCardProps {
+interface RoommateCardProps {
   request: Request
   refValue?: ReturnType<typeof useNextPage> | null
   firstItem?: boolean
   lastItem?: boolean
   isAgent?: boolean
 }
-const RoomateCard = ({
+const RoommateCard = ({
   request,
   refValue,
   firstItem,
   lastItem,
   isAgent = false,
-}: RoomateCardProps) => {
+}: RoommateCardProps) => {
   const [showListing, setShowListing] = useState(false)
   const queryClient = useQueryClient()
   const { setToastValues } = useToast()
   const [isOpen, setIsOpen] = useState(false)
   const [isDeleteOpen, setIsDeleteOpen] = useState(false)
   const reportRef = useRef<any>(null)
-  const {session} = useUser()
+  const { session } = useUser()
   const userId = session?.user.id || ""
 
   // bookmark requests
@@ -237,9 +237,7 @@ const RoomateCard = ({
             )}
 
             {/* requester name */}
-            <div 
-       
-            className="text-white text-sm font-card mx-auto py-0.5">
+            <div className="text-white text-sm font-card mx-auto py-0.5">
               {request?.requester?.username}
             </div>
             {/* request type  */}
@@ -281,8 +279,9 @@ const RoomateCard = ({
                 </div>
               )}
               <div
-                   onClick={() => reportRef.current.showModal()}
-              className="flex items-center gap-1 text-white font-bold cursor-pointer">
+                onClick={() => reportRef.current.showModal()}
+                className="flex items-center gap-1 text-white font-bold cursor-pointer"
+              >
                 <AlertTriangle
                   size={30}
                   color="white"
@@ -386,4 +385,4 @@ const RoomateCard = ({
   )
 }
 
-export default RoomateCard
+export default RoommateCard

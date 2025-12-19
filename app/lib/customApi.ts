@@ -22,6 +22,7 @@ interface Config {
   agent?:string
   date?:any
   views?:string
+  isBookmarked?:string
 }
 
 // interface ListingParams {
@@ -403,11 +404,12 @@ export const useGetRequests = ({
   enabled = false,
   agent='',
   status='',
-  listingId=''
+  listingId='',
+  isBookmarked='',
 }: Config) => {
   const getRequests = async (page: string) => {
     const res = await axiosdata.value.get(
-      `/api/requests?page=${page}&limit=${limit}&status=${status}&requestType=${requestType}&school=${school}&currentUser=${requester}&agent=${agent}&listing=${listingId}`
+      `/api/requests?page=${page}&limit=${limit}&status=${status}&requestType=${requestType}&school=${school}&currentUser=${requester}&agent=${agent}&listing=${listingId}&isBookmarked=${isBookmarked}`
     )
     return res.data
   }

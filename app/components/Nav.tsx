@@ -87,6 +87,19 @@ const Nav = () => {
   const showNav = () => {
     setBackdrop({ isNavOpen: !backdrop.isNavOpen })
   }
+  // falsify showNav on window size change 
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setBackdrop({ isNavOpen: false })
+      }
+    }
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
+  
+
   const navItems = [
     // Non-client dashboard
     {
@@ -101,7 +114,7 @@ const Nav = () => {
       ),
       onClick: handleNavItemClick,
       className:
-        "md:darkblue-gradient  md:dark:gold-gradient  md:text-white md:px-4 md:py-2 md:rounded-md hover-glassd",
+        "text-xs md:text-sm font-medium md:darkblue-gradient md:dark:gold-gradient  md:text-white md:px-4 md:py-2 md:rounded-md md:hover-glass",
     },
 
     // School focus for clients
@@ -114,7 +127,7 @@ const Nav = () => {
       icon: <MapPinHouse className="w-5 h-5 text-gray-700 dark:text-white" />,
       onClick: handleNavItemClick,
       className:
-        "md:darkblue-gradient md:dark:gold-gradient  md:text-white md:px-4 md:py-2 md:rounded-md md:hover-glass",
+        "text-xs md:text-sm font-medium md:darkblue-gradient md:dark:gold-gradient  md:text-white md:px-4 md:py-2 md:rounded-md md:hover-glass",
     },
 
     // Chats
@@ -130,7 +143,7 @@ const Nav = () => {
       ),
       badge: unreadMessages,
       onClick: handleNavItemClick,
-      className: "relative",
+      className: "relative text-xs md:text-sm font-medium",
     },
 
     // Wishlist
@@ -145,6 +158,7 @@ const Nav = () => {
         />
       ),
       onClick: handleNavItemClick,
+      className: "text-xs md:text-sm font-medium"
     },
 
     // Login (only signed out)

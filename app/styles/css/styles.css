@@ -14,7 +14,7 @@ html:is(.dark) .nav {
 }
 html:is(.dark) .nav,
 html:is(.dark) .nav_items {
-  background-color: #31363F;
+  background-color: #31363f;
   color: white;
 }
 html:is(.dark) .footer {
@@ -43,7 +43,7 @@ html:is(.dark) .card:hover::after {
   background-color: white;
 }
 html:is(.dark) .card .body {
-  background-color: #31363F;
+  background-color: #31363f;
 }
 html:is(.dark) .card .school {
   color: white;
@@ -51,10 +51,10 @@ html:is(.dark) .card .school {
 }
 html:is(.dark) .popularCard,
 html:is(.dark) .pagination {
-  background-color: #31363F;
+  background-color: #31363f;
 }
 html:is(.dark) .user-card {
-  background-color: #31363F;
+  background-color: #31363f;
 }
 html:is(.dark) .single_card {
   box-shadow: 1px 2px 2px 1px rgba(10, 10, 10, 0.831);
@@ -88,12 +88,12 @@ html:is(.dark) .board {
   color: white;
 }
 html:is(.dark) .editSide {
-  background-color: #31363F;
+  background-color: #31363f;
   color: white;
   outline: 4px solid rgb(0, 0, 0);
 }
 html:is(.dark) .adminDashboard_content .content_item {
-  background-color: #31363F;
+  background-color: #31363f;
 }
 html:is(.dark) .adminDashboard_content .content_item {
   box-shadow: 0.1px 0.1px 0.5px 0.5px rgba(219, 219, 219, 0.897);
@@ -103,7 +103,7 @@ html:is(.dark) .adminDashboard_content .barchart {
 }
 html:is(.dark) .agentProfile,
 html:is(.dark) .listingHistory {
-  background-color: #31363F;
+  background-color: #31363f;
 }
 html:is(.dark) .agentProfile .agentName,
 html:is(.dark) .listingHistory .agentName {
@@ -127,7 +127,7 @@ html:is(.dark) .agentCardName {
   color: #032679;
 }
 html:is(.dark) .otherCard {
-  background-color: #31363F;
+  background-color: #31363f;
 }
 html:is(.dark) .otherHead {
   color: white;
@@ -412,7 +412,7 @@ a:has(.clickable) {
   transform: scale(1.009);
 }
 .darkblueBtn:hover {
-  transition: all "ease-out" ease-in;
+  transition: transform "ease-out" 300ms;
 }
 
 .blueBtn {
@@ -425,10 +425,6 @@ a:has(.clickable) {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-}
-
-.btnCover .darkblueBtn {
-  width: 100%;
 }
 
 .openMap {
@@ -1710,7 +1706,7 @@ html.dark .adminDashboard_content .banner .text::before {
   height: 1px;
 }
 .nobar::-webkit-scrollbar-thumb {
-  background: #fde9df;
+  background: #f29829;
   border-radius: 30px;
 }
 .nobar::-webkit-scrollbar-thumb:hover {
@@ -2387,10 +2383,6 @@ footer.hide {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-}
-.singleCardSection .directional font-medium text-sm {
-  width: 220px;
-  margin-block: 10px;
 }
 @media (min-width: 900px) {
   .singleCardSection {

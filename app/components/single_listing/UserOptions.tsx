@@ -1,6 +1,6 @@
 "use client"
 
-import { Flag, ScanSearch, HeartPlus } from "lucide-react"
+import { Flag, ScanSearch, HeartPlus, TriangleAlert } from "lucide-react"
 
 const UserOptions = ({ session, listing, router, onReport, onWishlist }: any) => {
   if (session?.user?.role === "admin") {
@@ -37,7 +37,15 @@ const UserOptions = ({ session, listing, router, onReport, onWishlist }: any) =>
     )
   }
 
-  return <div>Log in to report listing </div>
+  return (
+    <div className="flex items-center">
+      <TriangleAlert size={20} className="text-red-700 mr-2 mt-1" />
+      <span className="text-sm">
+      Log in to report listing
+    </span> 
+    </div>
+   
+  )
 }
 
 export default UserOptions
