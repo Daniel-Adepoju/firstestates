@@ -10,6 +10,7 @@ import { auth } from "@auth"
 import { revalidatePath } from "next/cache"
 import { deleteImage, deleteMultipleImages } from "./deleteImage"
 import { sendNotification } from "./notificationFunctions"
+import { cleanupListing } from "./listingCleanup"
 
 export const createListing = async (val) => {
   const session = await auth()
@@ -109,7 +110,7 @@ export const deleteListing = async (id) => {
   try {
     await connectToDB()
 
-    const listing = await Listing.findOne({ _id: id })
+    const listing = await Listing.findById(id)
 
     if (!listing) {
       throw new Error("Listing not found")
@@ -118,22 +119,12 @@ export const deleteListing = async (id) => {
     if (listing.status === "rented") {
       return { message: `You can't delete a rented listing`, status: "warning" }
     }
-    await Listing.deleteOne({ _id: id })
-    await Request.deleteMany({ listing: id })
-    await Comment.deleteMany({ listing: id })
-    await Wishlist.deleteMany({ listing: id })
-    await Appointment.deleteMany({ listingID: id })
-    await Inhabitant.deleteMany({ listing: id })
-    await deleteImage(listing.mainImage)
-    await deleteMultipleImages(listing.gallery)
 
-    await sendNotification({
-      type: "Listing_Deleted",
-      recipientRole: "agent",
-      message: `You deleted a listing at ${listing.location}`,
-      userId: listing.agent._id,
-      listingId: id,
+    await cleanupListing(id, {
+      notify: true,
+      reason:'manual',
     })
+
 
     revalidatePath("/agent/listings")
     return { message: "Deleted Successfully", status: "success" }

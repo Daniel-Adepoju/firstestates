@@ -87,6 +87,7 @@ const NotifcationCard = ({ notification, refValue, page }: NotificationCardProps
           dark:bg-gray-700 
           text-gray-700 
           dark:text-gray-300
+          ${notification.type.includes("warning") && "bg-yellow-600 text-white"}
           ${notification.type.includes("report") && "text-white dark:bg-red-800 bg-red-800"}
           `}
         >

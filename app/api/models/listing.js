@@ -97,6 +97,10 @@ const ListingSchema = new Schema(
       ref: "User",
       default: [],
     },
+    expiringWarningSent: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 )
@@ -124,9 +128,6 @@ ListingSchema.index(
     name: "TextIndex_School_Location_Agent",
   }
 )
-
-// Delete listings 1 day (86400s) after validUntil
-ListingSchema.index({ validUntil: 1 }, { expireAfterSeconds: 86400 })
 
 const Listing = models?.Listing || model("Listing", ListingSchema)
 
