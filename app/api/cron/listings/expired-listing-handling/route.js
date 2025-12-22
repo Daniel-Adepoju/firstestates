@@ -5,7 +5,9 @@ import { sendNotification } from "@lib/server/notificationFunctions"
 import { NextResponse } from "next/server"
 
 export const GET = async (req) => {
+  await connectToDB()
 const ONE_DAY = 86400 * 1000
+const now = Date.now()
 
 const warnedListings = await Listing.find({
   validUntil: {
@@ -21,6 +23,7 @@ const expiredListings = await Listing.find({
   status: { $ne: "rented" },
 }).select("_id")
 
+// handle expired listings
   for (const listing of expiredListings) {
     await cleanupListing(listing._id, {
       notify: true,
@@ -28,6 +31,7 @@ const expiredListings = await Listing.find({
     })
   }
 
+  // handle expiring-soon warnings
   for (const listing of warnedListings) {
   await sendNotification({
       type: "Expiration_Warning",
