@@ -2,10 +2,6 @@
 import { connectToDB } from "@utils/database"
 import Listing from "@models/listing"
 import Comment from "@models/comment"
-import Appointment from "@models/appointment"
-import Request from "@models/request"
-import Wishlist from "@models/wishlist"
-import Inhabitant from "@models/inhabitant"
 import { auth } from "@auth"
 import { revalidatePath } from "next/cache"
 import { deleteImage, deleteMultipleImages } from "./deleteImage"
@@ -129,6 +125,7 @@ export const deleteListing = async (id) => {
     revalidatePath("/agent/listings")
     return { message: "Deleted Successfully", status: "success" }
   } catch (err) {
+    console.log(err)
     return { message: "Unable To Delete,Refresh And Try Again", status: "danger" }
   }
 }

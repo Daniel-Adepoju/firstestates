@@ -12,7 +12,6 @@ import { sendOTP, signInWithCredentials, signInWithGoogle } from "@lib/server/au
 import { useSchools } from "@lib/useSchools"
 import Image from "next/image"
 import { HelpCircle, EyeOff, Eye, ChevronRight, ChevronLeft } from "lucide-react"
-import { set } from "mongoose"
 
 export const userDeets = {
   email: signal(""),
@@ -20,13 +19,15 @@ export const userDeets = {
   username: signal(""),
   phone: signal(""),
   address: signal(""),
+  firstname: signal(""),
+  lastname: signal(""),
 }
 
 const Form = () => {
   useSignals()
   const { setToastValues } = useToast()
   // const {status } = useUser()
-  const pathName = usePathname()
+  const pathname = usePathname()
   const router = useRouter()
   const [sending, setSending] = useState(false)
   const [loggingIn, setLoggingIn] = useState(false)
@@ -45,10 +46,12 @@ const Form = () => {
   // Send OTP
   const handleSendOTP = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    // Validations
-    if (pathName === "/signup/agent") {
+
+    // Validations for agent
+    if (pathname === "/signup/agent") {
       //  check steps for agent
-      if (step < 3) {
+      // change to 3
+      if (step < 2) {
         setToastValues({
           isActive: true,
           message: "Complete all steps before proceeding",
@@ -57,8 +60,9 @@ const Form = () => {
         })
         return
       }
-
-      const allFilled = Object.values(userDeets).every((sig) => sig.value.trim() !== "")
+const allFilled = Object.entries(userDeets)
+  .filter(([key]) => !["firstname", "lastname"].includes(key))
+  .every(([, sig]) => sig.value.trim() !== "")
       if (!allFilled) {
         setToastValues({
           isActive: true,
@@ -68,39 +72,47 @@ const Form = () => {
         })
         return
       }
-
-      return
     }
 
+    // Validation for client
+    if (
+      pathname === "/signup/client" &&
+      userDeets.firstname.value.trim().length > 0 &&
+      userDeets.lastname.value.trim().length > 0
+    ) {
+      userDeets.username.value = `${userDeets.firstname.value}  ${userDeets.lastname.value}`
+    }
+     
     //  start sending OTP
-    setSending(true)
-    try {
-      const res = await sendOTP({ email: userDeets.email.value })
-      setToastValues({
-        isActive: true,
-        message: res.message,
-        status: res.status,
-        duration: 2000,
-      })
-      if (res.status === "success" && pathName === "/signup/agent") {
-        router.push(
-          `/signup/verify?role=agent&username=${userDeets.username.value}&email=${userDeets.email.value}&password=${userDeets.password.value}&phone=${userDeets.phone.value}&address=${userDeets.address.value}`
-        )
-      } else if (res.status === "success" && pathName === "/signup/client") {
-        router.push(
-          `/signup/verify?role=client&username=${userDeets.username.value}&email=${userDeets.email.value}&password=${userDeets.password.value}&school=${school}`
-        )
-      }
-      setSending(false)
-    } catch (err) {
-      setSending(false)
-      setToastValues({
-        isActive: true,
-        message: "An error occured, please try again",
-        status: "danger",
-        duration: 2000,
-      })
-    }
+
+    // setSending(true)
+    // try {
+    //   const res = await sendOTP({ email: userDeets.email.value })
+    //   setToastValues({
+    //     isActive: true,
+    //     message: res.message,
+    //     status: res.status,
+    //     duration: 2000,
+    //   })
+    //   if (res.status === "success" && pathname === "/signup/agent") {
+    //     router.push(
+    //       `/signup/verify?role=agent&username=${userDeets.username.value}&email=${userDeets.email.value}&password=${userDeets.password.value}&phone=${userDeets.phone.value}&address=${userDeets.address.value}`
+    //     )
+    //   } else if (res.status === "success" && pathname === "/signup/client") {
+    //     router.push(
+    //       `/signup/verify?role=client&username=${userDeets.username.value}&email=${userDeets.email.value}&password=${userDeets.password.value}&school=${school}`
+    //     )
+    //   }
+    //   setSending(false)
+    // } catch (err) {
+    //   setSending(false)
+    //   setToastValues({
+    //     isActive: true,
+    //     message: "An error occured, please try again",
+    //     status: "danger",
+    //     duration: 2000,
+    //   })
+    // }
   }
 
   // Use Google
@@ -156,8 +168,10 @@ const Form = () => {
     if (type === "prev" && step === 1) {
       setStep(1)
     }
-    if (type === "next" && step === 3) {
-      setStep(3)
+
+    // change to 3
+    if (type === "next" && step === 2) {
+      setStep(2)
     }
   }
 
@@ -185,10 +199,10 @@ const Form = () => {
   //   )
   // }
   return (
-    <>
-      {pathName.startsWith("/signup") ? (
+    <div className="w-full pb-8 min-h-screen">
+      {pathname.startsWith("/signup") ? (
         <div className="typeOfAccount">
-          {pathName === "/signup/agent"
+          {pathname === "/signup/agent"
             ? "Create a new agent account"
             : "Create a new client account"}
         </div>
@@ -196,14 +210,14 @@ const Form = () => {
         <div className="typeOfAccount">Log in to your account</div>
       )}
 
-      <div className="form_container flex lg:flex-row flex-col items-center  gap-4">
+      <div className="flex lg:flex-row flex-col items-center  gap-4">
         {/* side content */}
 
-        <div className="w-[40%] lg:flex  flex-col items-center justify-center gap-4 hidden">
+        <div className="w-[60%] lg:flex  flex-col items-center justify-center gap-4 hidden">
           <span className="text-4xl font-bold text-gray-400">LOGO</span>
           <span className="text-sm pl-3 w-[100%] text-center">
-            {pathName.startsWith("/signup") &&
-              (pathName === "/signup/agent" ? (
+            {pathname.startsWith("/signup") &&
+              (pathname === "/signup/agent" ? (
                 <>
                   Become an agent on <strong>First Estates</strong>, join today
                 </>
@@ -212,7 +226,7 @@ const Form = () => {
                   Find a perfect home with <strong>First Estates</strong>, sign up today
                 </>
               ))}
-            {pathName === "/login" && (
+            {pathname === "/login" && (
               <>
                 Log in to your account and start exploring <strong>First Estates</strong>
               </>
@@ -223,26 +237,50 @@ const Form = () => {
 
         {/* form */}
         <form
-          onSubmit={pathName === "/login" ? handleSignIn : handleSendOTP}
-          className="signUpAndLogin form w-[100%]"
+          onSubmit={pathname === "/login" ? handleSignIn : handleSendOTP}
+          className="signUpAndLogin  form  w-[100%] py-6"
         >
           {/* General Scheme */}
           {step === 1 && (
             <div className="general_details">
-              {pathName.startsWith("/signup") && (
-                <>
-                  <label htmlFor="username">Username</label>
-                  <input
-                    type="text"
-                    onChange={(e) => handleInput(e)}
-                    value={userDeets.username.value}
-                    id="username"
-                    name="username"
-                    className="red"
-                    required
-                  />
-                </>
-              )}
+              {pathname.startsWith("/signup") &&
+                (pathname === "/signup/client" ? (
+                  <>
+                    <label htmlFor="username">Firstname</label>
+                    <input
+                      type="text"
+                      onChange={(e) => handleInput(e)}
+                      value={userDeets.firstname.value}
+                      id="firstname"
+                      name="firstname"
+                      className="red"
+                      required
+                    />
+                    <label htmlFor="username">Lastname</label>
+                    <input
+                      type="text"
+                      onChange={(e) => handleInput(e)}
+                      value={userDeets.lastname.value}
+                      id="lastname"
+                      name="lastname"
+                      className="red"
+                      required
+                    />
+                  </>
+                ) : (
+                  <>
+                    <label htmlFor="username">Username</label>
+                    <input
+                      type="text"
+                      onChange={(e) => handleInput(e)}
+                      value={userDeets.username.value}
+                      id="username"
+                      name="username"
+                      className="red"
+                      required
+                    />
+                  </>
+                ))}
 
               <label htmlFor="email">Email</label>
               <input
@@ -267,7 +305,7 @@ const Form = () => {
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       if (
-                        pathName === "/signup/agent" &&
+                        pathname === "/signup/agent" &&
                         userDeets.email.value &&
                         userDeets.password.value &&
                         userDeets.username.value
@@ -299,15 +337,14 @@ const Form = () => {
               </div>
 
               {/* Unique To Students */}
-              {pathName === "/signup/client" && (
-                <div className="w-[100%] mx-auto">
+              {pathname === "/signup/client" && (
+                <>
+                <div className="flex flex-col gap-[8px] w-full self-start">
                   <label>School</label>
                   <select
                     value={school}
                     onChange={(e) => setSchool(e.target.value)}
-                    className={`w-full border rounded p-6 py-7  dark:bg-darkGray ${
-                      !school && "text-gray-400"
-                    }`}
+                    className={`w-full dark:bg-darkGray ${!school && "text-gray-400"}`}
                   >
                     <option value="">Select a school</option>
                     {schools.map((school: School) => (
@@ -319,16 +356,18 @@ const Form = () => {
                       </option>
                     ))}
                   </select>
+                
+                </div>
                   <div className="mx-auto self-center text-center text-sm mt-2 text-gray-500 dark:text-gray-300">
                     If you’re not a student, you don’t need to select a school.
                   </div>
-                </div>
+                </>
               )}
             </div>
           )}
 
           {/* Unique To Agents */}
-          {pathName === "/signup/agent" && (
+          {pathname === "/signup/agent" && (
             <>
               {step === 2 && (
                 <div className="agent_details w-[100%]">
@@ -353,7 +392,7 @@ const Form = () => {
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
                         if (
-                          pathName === "/signup/agent" &&
+                          pathname === "/signup/agent" &&
                           userDeets.email.value &&
                           userDeets.password.value &&
                           userDeets.username.value &&
@@ -371,11 +410,12 @@ const Form = () => {
 
               {step === 3 && <div className="agent_details w-[100%]">NIN and stuffs</div>}
 
-              {pathName === "/signup/agent" && (
+              {pathname === "/signup/agent" && (
                 <>
                   <div className="w-[100%] flex items-center justify-center  mt-4">
+                   {/* change to 3 */}
                     <div className="w-60 font-bold text-md font-list text-gray-500 dark:text-gray-200">
-                      Step {step}/3
+                      Step {step}/2
                     </div>
                     <div className="w-80 flex self-end items-center justify-end gap-4 mt-4">
                       <ChevronLeft
@@ -404,19 +444,19 @@ const Form = () => {
               <Button
                 type="submit"
                 disabled={sending}
-                className="clickable directional font-medium text-sm font-medium text-sm darkblueBtn p-6"
+                className="clickable directional font-medium text-sm darkblueBtn p-6"
               >
-                {pathName === "/login" ? "Login" : "Create account"}
+                {pathname === "/login" ? "Login" : "Create account"}
                 {sending && <WhiteLoader />}
               </Button>
-              {pathName === "/login" && (
+              {pathname === "/login" && (
                 <Button
                   text="Continue With Google"
                   reverse={true}
                   functions={() => {
                     handleSignInWithGoogle()
                   }}
-                  className="text-white directional font-medium text-sm font-medium text-sm clickable mb-2 rounded-md mx-auto gray-gradient w-80 h-10 p-6"
+                  className="text-white directional font-medium text-sm clickable mb-2 rounded-md mx-auto gray-gradient w-80 h-10 p-6"
                 >
                   <Image
                     width={25}
@@ -427,19 +467,19 @@ const Form = () => {
                 </Button>
               )}
             </div>
-            <div className="info">
-              {pathName === "/login" ? `Don't have an account?` : `Already have an account?`}
-              {pathName === "/login" ? (
+            <div className="info text-sm">
+              {pathname === "/login" ? `Don't have an account?` : `Already have an account?`}
+              {pathname === "/login" ? (
                 <Link
                   href="/signup"
-                  className="quickLink"
+                  className="quickLink text-sm"
                 >
                   Create One Here
                 </Link>
               ) : (
                 <Link
                   href="/login"
-                  className="quickLink"
+                  className="quickLink text-sm"
                 >
                   {" "}
                   Login Here{" "}
@@ -447,7 +487,7 @@ const Form = () => {
               )}
             </div>
             {/* Forgot Password */}
-            {pathName === "/login" && (
+            {pathname === "/login" && (
               <div className="mx-auto flex items-center justify-center gap-1">
                 <HelpCircle
                   size={15}
@@ -464,7 +504,7 @@ const Form = () => {
           </div>
         </form>
       </div>
-    </>
+    </div>
   )
 }
 

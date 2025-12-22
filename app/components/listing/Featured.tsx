@@ -36,14 +36,14 @@ export const FeaturedBtn = ({
         <>
           <div
             onClick={showModal}
-            className="dark:bg-black/20 bg-white/80 w-10 h-10 
+            className="dark:bg-darkGray/20 bg-white/80 w-10 h-10 
           flex flex-row items-center justify-center
-          rounded-full shadow-md
-          mediumScale cursor-pointer"
+          rounded-full shadow-md dark:shadow-black/30
+          gloss hover:scale-99 ease-out duration-100 transition-transform cursor-pointer"
           >
             <Star
               size={30}
-              color="#daa520"
+              className="text-yellow-500"
             />
           </div>
           <FeaturedModal

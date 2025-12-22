@@ -129,7 +129,7 @@ export const GET = async (req) => {
   ]
 
   // MAIN REQUESTS PIPELINE
-  console.log({ currentUserId, bookmarkrd: filters.isBookmarked })
+  // console.log({ currentUserId, bookmarkrd: filters.isBookmarked })
   const requestsPipeline = [
     ...viewsPipeline,
     {

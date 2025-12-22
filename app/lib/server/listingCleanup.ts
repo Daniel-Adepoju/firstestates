@@ -19,41 +19,42 @@ export async function cleanupListing(
   const listing = await Listing.findById(listingId)
   if (!listing) return
 
+  // Start a fresh session for this listing
   const session = await mongoose.startSession()
-  session.startTransaction()
-
   try {
-    await Promise.all([
-      Request.deleteMany({ listing: listingId }, { session }),
-      Comment.deleteMany({ listing: listingId }, { session }),
-      Wishlist.deleteMany({ listing: listingId }, { session }),
-      Appointment.deleteMany({ listingID: listingId }, { session }),
-      Inhabitant.deleteMany({ listing: listingId }, { session }),
-      Listing.deleteOne({ _id: listingId }, { session }),
-    ])
+    session.startTransaction()
 
+    // Sequential deletes to ensure transaction consistency
+    await Request.deleteMany({ listing: listingId }, { session })
+    await Comment.deleteMany({ listing: listingId }, { session })
+    await Wishlist.deleteMany({ listing: listingId }, { session })
+    await Appointment.deleteMany({ listingID: listingId }, { session })
+    await Inhabitant.deleteMany({ listing: listingId }, { session })
+    await Listing.deleteOne({ _id: listingId }, { session })
+
+    // Commit transaction
     await session.commitTransaction()
-    session.endSession()
-
-    // External side-effects AFTER DB commit
-    await deleteImage(listing.mainImage)
-    await deleteMultipleImages(listing.gallery)
-
-    if (options?.notify) {
-      await sendNotification({
-        type: "Listing_Deleted",
-        recipientRole: "agent",
-        message:
-          options.reason === "expired"
-            ? `Your listing at ${listing.location} has expired`
-            : `You deleted a listing at ${listing.location}`,
-        userId: listing.agent._id,
-        listingId,
-      })
-    }
   } catch (err) {
     await session.abortTransaction()
-    session.endSession()
     throw err
+  } finally {
+    session.endSession()
+  }
+
+  // External side-effects after transaction is safely committed
+  await deleteImage(listing.mainImage)
+  await deleteMultipleImages(listing.gallery)
+
+  if (options?.notify) {
+    await sendNotification({
+      type: "Listing_Deleted",
+      recipientRole: "agent",
+      message:
+        options.reason === "expired"
+          ? `Your listing at ${listing.location} has expired`
+          : `You deleted a listing at ${listing.location}`,
+      userId: listing.agent._id,
+      listingId,
+    })
   }
 }

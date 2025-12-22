@@ -9,9 +9,7 @@ unlogged in shouldnt enter school focus
 
 
 
-
-## Requests and nav
-1.Page to view bookmarked request
+check the new cleanup, delete first and edit a valid until then test cron job
 confirm reports on request
 check look of grdients in agent components(add listing in particular)
 

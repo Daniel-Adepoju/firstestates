@@ -43,18 +43,18 @@ export default function SortFilters({
             >
               <span
                 onClick={() => openSelectOption(index)}
-                className="font-medium cursor-pointer px-8 py-2 rounded-lg bg-gray-500/20 flex items-center gap-2"
+                className="font-medium cursor-pointer px-8 py-2 rounded-lg bg-gray-200 dark:bg-gray-500/20 flex items-center gap-2"
               >
                 {label}
                 <ChevronDownCircle
-                  className={`transition-transform duration-200 ${
+                  className={`text-gray-600 dark:text-gray-200 transition-transform duration-200 ${
                     selectedSortOpen.includes(Number(index)) ? "rotate-180" : "rotate-0"
                   }`}
                 />
               </span>
 
               {selectedSortOpen.includes(Number(index)) && (
-                <div className="flex flex-col justify-start items-center gap-4 bg-gray-500/20 p-4 rounded-lg w-[90%] md:w-full">
+                <div className="flex flex-col justify-start items-center gap-4 bg-gray-200 dark:bg-gray-500/20 p-4 rounded-lg w-[90%] md:w-full">
                   {options.map((option: any) => (
                     <label
                       key={option}
@@ -76,8 +76,8 @@ export default function SortFilters({
 
                       <span
                         className="
-                      h-4 w-4 rounded-full border border-gray-400 
-                      peer-checked:border-purple-500 peer-checked:gold-gradient
+                      h-3 w-3 rounded-full border border-gray-400 
+                       peer-checked:gold-gradient
                       transition-all duration-200
                     "
                       ></span>

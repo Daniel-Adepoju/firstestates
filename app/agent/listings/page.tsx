@@ -128,7 +128,7 @@ const AgentListings = () => {
 
         {/* LISTINGS */}
         
-        {/* <div
+       <div
           ref={hashRef}
           id="listings"
           className="availableLists shadow-md dark:shadow-black/80 shadow-gray-200"
@@ -153,14 +153,14 @@ const AgentListings = () => {
               {Array.from({ length: 8 }).map((_, i) => (
                 <Skeleton
                   key={i}
-                  className="w-70 h-70 bg-gray-500/20 animate-none"
+                  className="w-60 h-60 bg-gray-500/20"
                 />
               ))}
             </div>
           ) : (
             mapCards
           )}
-        </div> */}
+        </div>
 
 
       </div>

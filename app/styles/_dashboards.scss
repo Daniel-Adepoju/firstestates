@@ -35,7 +35,7 @@
 
   .listingHistory,
   .availableLists {
-    background-color: fn.color("white");
+    background-color: white;
     width: 97%;
     border-radius: 8px;
     @include mx.space(8px, 12px);
@@ -229,7 +229,7 @@
         animation: spin 8s linear infinite;
       }
       html.dark &::before {
-        background: radial-gradient(circle, rgba(0, 0, 0, 0.484) 40%, #00000042 100%);
+        background: radial-gradient(circle, rgba(0, 0, 0, 0.073) 40%, #0000001f 100%);
       }
     }
     &.danger {

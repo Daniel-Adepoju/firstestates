@@ -70,7 +70,7 @@ const { ref, className: animateClass } = useAnimation({
       >
         <div
           onClick={visitCard}
-          className={`card font-card ${blankSlate && "blankSlate"}`}
+          className={`card font-card ${blankSlate && "blankSlate"} transition-all duration-200 ease-in hover:transition-all hover:duration-200 hover:ease-out`}
         >
           {/* image */}
           <div className="houseImg">
@@ -238,9 +238,9 @@ const { ref, className: animateClass } = useAnimation({
 
                 {/* views */}
                 {isAgentCard && (
-                  <div className="w-full flex flex-col pl-3 font-semibold">
+                  <div className="w-full flex flex-col pt-1 gap-2 pl-3 font-semibold">
                     <div className="text-gray-500 dark:text-gray-400 flex flex-row gap-3 items-center text-sm">
-                      <Eye size={25} />
+                      <Eye size={20} />
                       Past Week Views
                       <span className="views smallNum text-gray-700 dark:text-white">
                         {weeklyViews}
@@ -248,7 +248,7 @@ const { ref, className: animateClass } = useAnimation({
                     </div>
 
                     <div className="text-gray-500  dark:text-gray-400 flex flex-row gap-3 items-center text-sm">
-                      <Eye size={25} />
+                      <Eye size={20} />
                       Total Views
                       <span className="views smallNum">{totalViews}</span>
                     </div>
@@ -334,17 +334,21 @@ const { ref, className: animateClass } = useAnimation({
 
         {/* edit buttons */}
         {edit && (
-          <div className="editSide">
+          <div className="editSid w-[82%] md:w-[88%] h-18
+            flex items-center justify-evenly
+             bg-white dark:bg-darkGray rounded-xl
+              mt-[-34px] md:mt-[-20px]  outline-2 outline-gray-100 dark:outline-black/20
+             ">
             <div
               onClick={() => router.push(`/agent/listings/edit?id=${listing?._id}`)}
-              className="dark:bg-black/20 bg-white/80 w-10 h-10 
-      flex flex-row items-center justify-center
-      rounded-full shadow-md
-      mediumScale cursor-pointer"
+   className="dark:bg-darkGray/20 bg-white/80 w-10 h-10 
+          flex flex-row items-center justify-center
+          rounded-full shadow-md dark:shadow-black/30
+          gloss hover:scale-99 ease-out duration-100 transition-transform cursor-pointer"
             >
               <EditIcon
                 size={30}
-                color="green"
+                className="text-green-800 dark:text-green-600"
               />
             </div>
             {listing?.listingTier === "gold" && (
@@ -356,10 +360,10 @@ const { ref, className: animateClass } = useAnimation({
             )}
 
             <div
-              className="dark:bg-black/20 bg-white/80 w-10 h-10 
-      flex flex-row items-center justify-center
-      rounded-full shadow-md
-      mediumScale cursor-pointer"
+   className="dark:bg-darkGray/20 bg-white/80 w-10 h-10 
+          flex flex-row items-center justify-center
+          rounded-full shadow-md dark:shadow-black/30
+          gloss hover:scale-99 ease-out duration-100 transition-transform cursor-pointer"
             >
               {deleting ? (
                 <LoaderPinwheel
@@ -371,7 +375,7 @@ const { ref, className: animateClass } = useAnimation({
                 <Trash2
                   onClick={openDialog}
                   size={30}
-                  color="darkred"
+                  className="text-red-800 dark:text-red-600"
                 />
               )}
             </div>

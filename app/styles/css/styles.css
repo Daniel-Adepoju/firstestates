@@ -37,10 +37,7 @@ html:is(.dark) .card_list {
   box-shadow: 0 4px 20px oklch(0% 0 0deg / 0.655);
 }
 html:is(.dark) .card {
-  background-color: #121212;
-}
-html:is(.dark) .card:hover::after {
-  background-color: white;
+  background-color: #2e2e2e;
 }
 html:is(.dark) .card .body {
   background-color: #31363f;
@@ -110,7 +107,8 @@ html:is(.dark) .listingHistory .agentName {
   color: white;
 }
 html:is(.dark) .availableLists {
-  background-color: rgba(49, 49, 49, 0.614);
+  background-color: var(--color-darkGray);
+  box-shadow: 0 4px 20px oklch(0% 0 0deg / 0.655);
   color: white;
 }
 html:is(.dark) .currency,
@@ -500,7 +498,7 @@ a:has(.clickable) {
   padding: 12px 10px;
   border-radius: 4px;
   border: 0;
-  outline: 1px solid #032679;
+  outline: 1px solid rgba(43, 43, 43, 0.858);
 }
 .form input,
 .form select,
@@ -510,6 +508,7 @@ a:has(.clickable) {
 .form input:focus,
 .form select:focus,
 .form textarea:focus {
+  outline-color: #032679;
   outline-width: 2px;
 }
 .form input:focus,
@@ -549,9 +548,6 @@ a:has(.clickable) {
   margin-top: 20px;
   border: 0;
   outline: 0;
-}
-.bottom a {
-  color: #032679;
 }
 .bottom .clickable {
   width: 300px !important;
@@ -1185,7 +1181,7 @@ a:has(.clickable) {
 }
 .agentDashboardContainer .listingHistory,
 .agentDashboardContainer .availableLists {
-  background-color: #fffdfb;
+  background-color: white;
   width: 97%;
   border-radius: 8px;
 }
@@ -1455,7 +1451,7 @@ a:has(.clickable) {
   animation: spin 8s linear infinite;
 }
 html.dark .adminDashboard_content .banner .text::before {
-  background: radial-gradient(circle, rgba(0, 0, 0, 0.484) 40%, rgba(0, 0, 0, 0.2588235294) 100%);
+  background: radial-gradient(circle, rgba(0, 0, 0, 0.073) 40%, rgba(0, 0, 0, 0.1215686275) 100%);
 }
 .adminDashboard_content .banner.danger .text {
   color: #e01414;
@@ -2040,7 +2036,7 @@ footer.hide {
   width: 310px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   cursor: pointer;
-  border-radius: 5px 5px 10px 10px;
+  border-radius: 5px 5px 16px 16px;
   padding-top: 6px;
   padding-bottom: 10px;
   font-family: "Quicksand", sans-serif;
@@ -2050,9 +2046,6 @@ footer.hide {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-}
-.card {
-  transition: transform 300ms ease-out;
 }
 .card.blankSlate {
   margin: 0px;
@@ -2088,11 +2081,8 @@ footer.hide {
 .card:hover {
   transform: scale(0.99);
 }
-.card:hover {
-  transition: transform 200ms ease-in;
-}
 .card:hover::after {
-  background-color: #032679;
+  background-color: rgba(146, 146, 146, 0.462745098);
   width: 100%;
   height: 0;
   animation: wobbleEffect 0.6s linear;
@@ -2613,12 +2603,15 @@ footer.hide {
   justify-content: center;
 }
 
+.signUpAndLogin {
+  padding-block: 10px;
+  margin-top: 22px;
+}
 .signUpAndLogin .general_details,
 .signUpAndLogin .agent_details {
   gap: 10px;
-  margin-inline: auto;
   width: 98%;
-  padding: 16px;
+  padding: 8px;
   border-radius: 10px;
 }
 .signUpAndLogin .general_details,
@@ -2637,7 +2630,7 @@ footer.hide {
 @media (min-width: 900px) {
   .signUpAndLogin .general_details,
   .signUpAndLogin .agent_details {
-    width: 70%;
+    width: 80%;
   }
 }
 

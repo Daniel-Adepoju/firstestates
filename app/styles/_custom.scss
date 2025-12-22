@@ -310,9 +310,10 @@ a:has(.clickable) {
     padding: 12px 10px;
     border-radius: 4px;
     border: 0;
-    outline: 1px solid fn.color("darkblue");
+    outline: 1px solid rgba(43, 43, 43, 0.858);
     @include mx.transition(140ms, ease-out);
     &:focus {
+      outline-color: fn.color("darkblue");
       outline-width: 2px;
       @include mx.transition(150ms);
     }
@@ -348,9 +349,7 @@ a:has(.clickable) {
       outline: 0;
     }
   }
-  a {
-    color: fn.color("darkblue");
-  }
+
   .clickable {
     width: 300px !important;
     margin-inline: auto;

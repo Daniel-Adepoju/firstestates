@@ -47,14 +47,9 @@ html:is(.dark) {
     box-shadow: 0 4px 20px oklch(0% 0 0 / 0.655);
   }
   .card {
-    background-color: #121212;
+    background-color: #2e2e2e;
 
-    &:hover {
-      &::after {
-        //   background:color('goldPrimary');
-        background-color: white;
-      }
-    }
+
     .body {
       background-color: color("darkModeSecondary");
     }
@@ -137,7 +132,8 @@ html:is(.dark) {
     }
   }
   .availableLists {
-    background-color: rgba(49, 49, 49, 0.614);
+    background-color: var(--color-darkGray);
+    box-shadow: 0 4px 20px oklch(0% 0 0 / 0.655);
     color: white;
   }
 

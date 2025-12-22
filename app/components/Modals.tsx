@@ -5,7 +5,7 @@ import { deleteListing, markAsFeatured, reportListing } from "@lib/server/listin
 import { useNotification } from "@lib/Notification"
 import { sendNotification } from "@lib/server/notificationFunctions"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { LogOut, Trash, AlertCircle, Loader2, X } from "lucide-react"
+import { LogOut, Trash, AlertCircle, Loader2, X, Check } from "lucide-react"
 import dynamic from "next/dynamic"
 import { useSignals, useSignal } from "@preact/signals-react/runtime"
 import Button from "@lib/Button"
@@ -76,27 +76,22 @@ export const DeleteModal = ({ ref, listingId, setDeleting }: DeleteModalProps) =
     >
       <Trash
         size={60}
-        color="darkred"
-        className="mx-auto mb-4"
+        className="mx-auto mb-4 text-red-800"
       />
 
       <p className="text-lg font-medium mb-6">Are you sure you want to delete?</p>
 
       <div className="flex justify-between px-8">
-        <Image
-          src="/icons/cancel.svg"
-          alt="Cancel"
-          width={40}
-          height={40}
-          className="cursor-pointer"
+        <X
+          width={35}
+          height={35}
+          className="cursor-pointer text-white bg-red-600 p-1 rounded-full"
           onClick={() => ref?.current?.close()}
         />
-        <Image
-          src="/icons/confirm.svg"
-          alt="Confirm"
-          width={40}
-          height={40}
-          className="cursor-pointer"
+        <Check
+          width={35}
+          height={35}
+          className="cursor-pointer text-white bg-green-500 p-1 rounded-full"
           onClick={() => mutation.mutate()}
         />
       </div>
@@ -150,6 +145,7 @@ export const FeaturedModal = ({ ref, email, listingId, userId }: FeaturedProps) 
   const creating = useSignal(false)
   const notification = useNotification()
   const queryClient = useQueryClient()
+ const featuredAmount = 1000
 
   const makeFeatured = async () => {
     try {
@@ -183,7 +179,7 @@ export const FeaturedModal = ({ ref, email, listingId, userId }: FeaturedProps) 
       <p className="text-sm leading-relaxed mb-6">
         Do you wish to <strong>boost the visibility</strong> of your listing?
         <br />
-        Proceeding will require a payment of <strong className="currency">₦500</strong>
+        Proceeding will require a payment of <strong className="currency">₦{featuredAmount}</strong>
         <span className="text-shadow-red-600 font-medium">
           Note: Only listings created within the last 30 days are eligible.
         </span>
@@ -191,21 +187,21 @@ export const FeaturedModal = ({ ref, email, listingId, userId }: FeaturedProps) 
 
       <div className="flex justify-center gap-4">
         <div
-          className="btnCover w-50 flex flex-row justify-center"
+          className="btnCover w-50 h-10 flex flex-row justify-center"
           onClick={() => ref.current?.close()}
         >
           {email && (
             <PaystackBtn
               text="Proceed"
               email={email}
-              amount={900}
+              amount={featuredAmount}
               successFunction={() => makeFeaturedMutation.mutate()}
             />
           )}
         </div>
         <button
           onClick={() => ref.current?.close()}
-          className="px-4 py-2 rounded-md bg-gray-300 text-black hover:bg-gray-400 dark:bg-darkGray dark:text-white dark:hover:bg-gray-800"
+          className="px-4 h-12 w-50 rounded-md bg-gray-300 text-black hover:bg-gray-400 dark:bg-darkGray dark:text-white dark:hover:bg-gray-800"
         >
           Cancel
         </button>
