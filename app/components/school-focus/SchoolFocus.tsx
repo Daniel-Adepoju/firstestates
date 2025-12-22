@@ -14,6 +14,7 @@ import { SectionHeader } from "./SectionHeader"
 import { useAnimation } from "@lib/useAnimation"
 import AgentSection from "./AgentSection"
 import { FileX2 } from "lucide-react"
+import Link from "next/link"
 
 const SchoolFocus = () => {
   const searchParams = useSearchParams()
@@ -105,6 +106,24 @@ const SchoolFocus = () => {
         />
       )
     )
+
+if (!listingsLoading && !session?.user) {
+  return (
+    <div className="mx-auto w-[90%] mt-50 mb-10 px-1.5 flex flex-col items-center justify-center text-center gap-4">
+      <h2 className="text-lg font-bold text-gray-800 dark:text-gray-100">
+        Create an account or log in to use School-Focus
+      </h2>   
+
+        <Link
+          href="/"
+          className="px-6 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-500/30 transition"
+        >
+          Back to homepage
+        </Link>
+      </div>
+  )
+}
+
 
   return (
     <div className="w-[98%] mt-20 mb-10 px-1.5">
