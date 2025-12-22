@@ -2,6 +2,7 @@ import { connectToDB } from "@utils/database"
 import Listing from "@models/listing"
 import {cleanupListing} from "@lib/server/listingCleanup"
 import { sendNotification } from "@lib/server/notificationFunctions"
+import { NextResponse } from "next/server"
 
 export const GET = async (req) => {
 const ONE_DAY = 86400 * 1000
