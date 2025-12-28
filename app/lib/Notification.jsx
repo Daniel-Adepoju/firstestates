@@ -8,7 +8,7 @@ const Notification = ({children}) => {
   const [progress, setProgress] = useState(100);
   const [isActive, setIsActive] = useState(false)
 const [message, setMessage] = useState('message')
-const [type,setType]  = useState('default') 
+const [type,setType]  = useState('success') 
 const [duration, setDuration] = useState(2000)
   useEffect(() => { 
     const start = Date.now();
@@ -37,7 +37,7 @@ const [duration, setDuration] = useState(2000)
     <>
     <NotificationContext.Provider value={{setMessage,setIsActive,setType,setDuration}}>
 <div onClick={closeNotification} className={`notification ${type} ${isActive && 'active'}`}>
-      <div className="notification__content">
+      <div className="notification__conten capitalize text-[14.4px] font-medium font-list">
         {message}
         </div>
       <div

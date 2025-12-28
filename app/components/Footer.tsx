@@ -16,16 +16,22 @@ const Footer = () => {
     //   link: "https://www.facebook.com/yourpage",
     //   icon: "/icons/facebook.svg",
     // },
-    { name: "TikTok", link: "https://www.tiktok.com/@yourprofile", icon: "/icons/tiktok.svg" },
+  
+    { name: "TikTok", link: "https://www.tiktok.com/@first_estates-l9d", icon: "/icons/tiktok.svg" },
     {
-      name: "Twitter",
-      link: "https://www.twitter.com/yourprofile",
+      name: "X",
+      link: "https://www.x.com/firstestates1",
       icon: "/icons/x.svg",
     },
     {
       name: "Instagram",
-      link: "https://www.instagram.com/yourprofile",
+      link: "https://www.instagram.com/firstestate_1?igsh=MWlnbHZlc2JoeWdldQ==",
       icon: "/icons/instagram.svg",
+    },
+       {
+      name: "Youtube",
+      link: "https://www.youtube.com/@firstestates-l9d",
+      icon: "/icons/youtube.svg",
     },
   ]
   return (
@@ -34,13 +40,16 @@ const Footer = () => {
       <div className="footer_items_container">
         {/* social media */}
         <div className="mx-auto w-full flex flex-col gap-1 items-center justify-center my-2">
-          <span className="font-hea font-bold text-xs self-center block">Follow Us</span>
+          <span className="font-list font-bold text-xs self-center block">Follow Us</span>
 
-          <div className="self-center flex items-center justify-center gap-2 ">
+          <div className="min-w-90 self-center flex items-center justify-around ">
             {socialLinks.map((social, i) => (
               <Link
                 key={i}
-                className="smallScale gloss rounded-full overflow-hidden"
+                className={`smallScale
+              
+                  ${social.name === 'Youtube' && 'mt-2.5'} 
+                  `}
                 href={social.link}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -48,9 +57,9 @@ const Footer = () => {
                 <Image
                   src={social.icon}
                   alt={social.name}
-                  width={40}
-                  height={40}
-                  className="rounded-full overflow-hidden"
+                  width={30}
+                  height={30}
+                  className={`${social.name === 'Youtube' || social.name === 'Facebook' && 'h-8 w-8'}`}
                 />
               </Link>
             ))}

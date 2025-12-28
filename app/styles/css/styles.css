@@ -637,7 +637,7 @@ a:has(.clickable) {
   background-color: darkred;
 }
 .notification:is(.warning) {
-  background-color: rgb(209, 163, 0);
+  background-color: rgb(230, 159, 6);
 }
 .notification:is(.active) {
   display: flex;

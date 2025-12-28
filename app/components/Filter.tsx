@@ -276,11 +276,11 @@ const Filter = ({
           </div>
 
           {/* Submit */}
-          <div className="flex justify-end">
+          <div className="flex justify-end ">
             <Button
               type="submit"
               text="Apply Filters"
-              className="darkblueBtn clickable directional font-medium text-sm p-2 w-50"
+              className="darkblueBtn clickable font-list directional font-medium text-sm p-2 w-50"
             ></Button>
           </div>
         </form>

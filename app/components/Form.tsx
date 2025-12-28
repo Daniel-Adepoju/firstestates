@@ -85,34 +85,34 @@ const allFilled = Object.entries(userDeets)
      
     //  start sending OTP
 
-    // setSending(true)
-    // try {
-    //   const res = await sendOTP({ email: userDeets.email.value })
-    //   setToastValues({
-    //     isActive: true,
-    //     message: res.message,
-    //     status: res.status,
-    //     duration: 2000,
-    //   })
-    //   if (res.status === "success" && pathname === "/signup/agent") {
-    //     router.push(
-    //       `/signup/verify?role=agent&username=${userDeets.username.value}&email=${userDeets.email.value}&password=${userDeets.password.value}&phone=${userDeets.phone.value}&address=${userDeets.address.value}`
-    //     )
-    //   } else if (res.status === "success" && pathname === "/signup/client") {
-    //     router.push(
-    //       `/signup/verify?role=client&username=${userDeets.username.value}&email=${userDeets.email.value}&password=${userDeets.password.value}&school=${school}`
-    //     )
-    //   }
-    //   setSending(false)
-    // } catch (err) {
-    //   setSending(false)
-    //   setToastValues({
-    //     isActive: true,
-    //     message: "An error occured, please try again",
-    //     status: "danger",
-    //     duration: 2000,
-    //   })
-    // }
+    setSending(true)
+    try {
+      const res = await sendOTP({ email: userDeets.email.value })
+      setToastValues({
+        isActive: true,
+        message: res.message,
+        status: res.status,
+        duration: 2000,
+      })
+      if (res.status === "success" && pathname === "/signup/agent") {
+        router.push(
+          `/signup/verify?role=agent&username=${userDeets.username.value}&email=${userDeets.email.value}&password=${userDeets.password.value}&phone=${userDeets.phone.value}&address=${userDeets.address.value}`
+        )
+      } else if (res.status === "success" && pathname === "/signup/client") {
+        router.push(
+          `/signup/verify?role=client&username=${userDeets.username.value}&email=${userDeets.email.value}&password=${userDeets.password.value}&school=${school}`
+        )
+      }
+      setSending(false)
+    } catch (err) {
+      setSending(false)
+      setToastValues({
+        isActive: true,
+        message: "An error occured, please try again",
+        status: "danger",
+        duration: 2000,
+      })
+    }
   }
 
   // Use Google
