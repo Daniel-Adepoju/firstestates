@@ -17,7 +17,7 @@ const Footer = () => {
     //   icon: "/icons/facebook.svg",
     // },
   
-    { name: "TikTok", link: "https://www.tiktok.com/@first_estates-l9d", icon: "/icons/tiktok.svg" },
+    { name: "TikTok", link: "https://www.tiktok.com/@first_estates", icon: "/icons/tiktok.svg" },
     {
       name: "X",
       link: "https://www.x.com/firstestates1",
