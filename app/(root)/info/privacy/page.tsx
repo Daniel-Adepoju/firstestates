@@ -67,7 +67,7 @@ const Privacy = () => {
             {policies.map((policy, index) => (
               <details
                 key={index}
-                className="w-90 sm:w-100 md:w-130 lg:w-170 bg-secondary rounded-xl p-6 shadow-md dark:shadow-black"
+                className="w-86 sm:w-90 md:w-130 lg:w-170 bg-secondary rounded-xl p-6 shadow-md dark:shadow-black"
               >
                 <summary className="font-semibold">{policy.title}</summary>
                 <p className="mt-2 text-sm text-gray-500 dark:text-gray-400 leading-relaxed">

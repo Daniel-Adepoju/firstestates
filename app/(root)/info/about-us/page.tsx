@@ -34,7 +34,7 @@ const AboutUs = () => {
 
         <article className="bg-secondary rounded-xl p-6 shadow-md dark:shadow-black">
           <p className="text-base leading-relaxed font-card font-medium">
-            First Estates is a platform that connects property owners with tenants.
+            First Estates is a platform for both clients and agents.
           </p>
           <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
             The First Estates student home platform provides a seamless way for property owners to
