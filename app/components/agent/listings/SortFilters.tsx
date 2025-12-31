@@ -18,7 +18,7 @@ export default function SortFilters({
       {/* Sort header */}
       <div
         onClick={() => setIsSortOpen(!isSortOpen)}
-        className="flex justify-between items-center text-gray-500 dark:text-gray-300 cursor-pointer bg-white dark:bg-darkGray  w-100 border border-gray-300 dark:border-gray-500 p-3 rounded-lg font-semibold"
+        className="flex justify-between items-center text-gray-500 dark:text-gray-300 cursor-pointer bg-white dark:bg-darkGray w-[90%]  md:w-100 border border-gray-300 dark:border-gray-500 p-3 rounded-lg font-semibold"
       >
         Sort
         <ChevronDownCircle

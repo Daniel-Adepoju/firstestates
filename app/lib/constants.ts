@@ -80,10 +80,10 @@ export const agentSidebarItems = [
 ]
 
 export const footerItems = [
-  { name: "Contact Us", link: "/contact" },
-  { name: "About", link: "/about" },
-  { name: "Terms and conditions", link: "/terms" },
-  { name: "Privacy Policy", link: "/privacy" },
+  { name: "Contact Us", link: "/info/contact-us" },
+  { name: "About", link: "/info/about-us" },
+  { name: "Terms and conditions", link: "/info/terms" },
+  { name: "Privacy Policy", link: "/info//privacy" },
 ]
 
 export let dummyListing = {

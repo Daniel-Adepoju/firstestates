@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Quicksand:wght@300..700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Sulphur+Point:wght@100...900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Alan+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mozilla+Text&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "swiper/css";
@@ -60,7 +61,7 @@
 @theme fonts {
   --font-head: "Outfit", sans-serif;
   --font-list: "Quicksand", sans-serif;
-  --font-card: "Sulphur Point", sans-serif;
+  --font-card: "Mozilla Text", sans-serif;
 }
 
 :root {
@@ -79,7 +80,7 @@
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(0.205 0 0);
   --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
+  --secondary: #ffffff;
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
@@ -119,7 +120,7 @@
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.922 0 0);
   --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
+  --secondary: #31363f;
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
   --muted-foreground: oklch(0.708 0 0);

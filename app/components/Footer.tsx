@@ -8,7 +8,10 @@ const Footer = () => {
   const year = new Date().getFullYear()
   const pathname = usePathname()
 
-  if (pathname !== "/") return null
+  if (pathname !== "/" && 
+    !pathname.includes("/info/")) {
+    return null
+  }
 
   const socialLinks = [
     // {

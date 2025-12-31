@@ -2,10 +2,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Cascadia+Code:ital,wght@0,200..700;1,200..700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Tourney:ital,wght@0,100..900;1,100..900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400..900;1,300..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@400..700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Tangerine:wght@400..700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Alan+Sans&family=Mozilla+Text&display=swap");
 html:is(.dark) .loader {
   color: white;
 }
@@ -168,7 +168,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 
 .timer {
   color: goldenrod;
-  font-family: "Figtree", sans-serif;
+  font-family: "Alan Sans", sans-serif;
 }
 
 .heading, .subheading, .title_heading {
@@ -177,7 +177,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
   margin-top: 10px;
   font-size: 22px;
   font-weight: bold;
-  font-family: "Figtree", sans-serif;
+  font-family: "Alan Sans", sans-serif;
 }
 
 .subheading, .title_heading {
@@ -185,7 +185,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
   font-size: 20px;
   color: #374151;
   font-weight: bold;
-  font-family: "Figtree", sans-serif;
+  font-family: "Alan Sans", sans-serif;
 }
 
 .otherHead {
@@ -245,7 +245,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 
 .currency, .smallNum,
 .bigNum {
-  font-family: "Figtree", sans-serif;
+  font-family: "Alan Sans", sans-serif;
   font-size: 25px;
   color: #f29829;
 }
@@ -328,7 +328,7 @@ a:has(.clickable) {
 .directional {
   gap: 10px;
   text-transform: capitalize;
-  font-family: "Sulphur Point", sans-serif;
+  font-family: "Mozilla Text", sans-serif;
   position: relative;
   height: 40px;
   overflow: hidden;
@@ -524,7 +524,7 @@ a:has(.clickable) {
 }
 
 .bottom {
-  font-family: "Sulphur Point", sans-serif;
+  font-family: "Mozilla Text", sans-serif;
   margin-inline: auto;
   margin-top: auto;
   padding: 10px 6px 6px;
@@ -625,7 +625,7 @@ a:has(.clickable) {
   border-radius: 6px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.199);
   overflow: hidden;
-  font-family: "Figtree", sans-serif;
+  font-family: "Alan Sans", sans-serif;
   margin-inline: auto;
   width: 90%;
   animation: fadeIn 300ms ease-out;
@@ -1295,11 +1295,13 @@ a:has(.clickable) {
 .agentDashboardContainer .availableLists .header .subheading {
   cursor: pointer;
   position: relative;
+  font-family: "Quicksand", sans-serif;
+  font-size: 16px;
 }
 .agentDashboardContainer .availableLists .header .subheading::after {
   content: "";
   position: absolute;
-  width: 135px;
+  width: 105px;
   height: 3px;
   border-radius: 10px;
   background-color: #f29829;
@@ -2572,7 +2574,7 @@ footer.hide {
   gap: 10px;
   width: 100%;
   margin-top: 10px;
-  font-family: "Figtree", sans-serif;
+  font-family: "Alan Sans", sans-serif;
   font-weight: bold;
 }
 .agent_details .contact_items {
@@ -2848,7 +2850,7 @@ footer.hide {
   text-align: center;
   font-size: 20px;
   border-radius: 5px;
-  font-family: "Figtree", sans-serif;
+  font-family: "Alan Sans", sans-serif;
 }
 .verify .otp-input {
   transition: all 300ms ease-out;

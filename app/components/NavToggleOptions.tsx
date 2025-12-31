@@ -32,8 +32,8 @@ const NavToggleOptions = ({
           name: "FAQs",
           link: "/info/faqs",
           icon: ShieldQuestion,
-        //   condition: true,
-        condition: false,
+          condition: true,
+        //  condition: false,
         },
           {
           name: "About Us",

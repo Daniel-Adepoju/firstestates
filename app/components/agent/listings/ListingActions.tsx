@@ -15,7 +15,7 @@ export default function ListingActions({ showAdd, session }:any) {
             size={40}
             className="text-[#f29829] rounded-full animate-glass"
           />
-          <span className="font-head font-medium text-sm text-gray-600 dark:text-gray-200">Add New Listing</span>
+          <span className="font-bold text-sm text-gray-600 dark:text-gray-200">Add New Listing</span>
         </Link>
       ) : (
         <MoreHorizontal
@@ -33,7 +33,7 @@ export default function ListingActions({ showAdd, session }:any) {
             size={40}
             className="text-[#f29829]  rounded-full animate-glass"
           />
-          <span className="font-head font-medium text-sm text-gray-600 dark:text-gray-200">Manage Residents</span>
+          <span className="font-bold text-sm text-gray-600 dark:text-gray-200">Manage Residents</span>
         </Link>
       )}
     </div>
