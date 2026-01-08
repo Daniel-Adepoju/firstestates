@@ -83,7 +83,7 @@ const SingleListingPage = async ({ searchParams }: Props) => {
     return <div>No listing ID provided</div>
   }
 
-  return <SingleListing listingId={listingId} />
+  return <SingleListing listingId={listingId} isAgent={true}/>
 }
 
 export default SingleListingPage

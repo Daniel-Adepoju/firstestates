@@ -2,8 +2,7 @@ interface Agent {
   _id: string;
   profilePic: string;
   username: string;
-  isTierOne?: boolean;
-  isTierTwo?:boolean;
+  isPremium?: boolean;
 }
 
 type Listing = {

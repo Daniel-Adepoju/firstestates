@@ -49,7 +49,7 @@ const Agent = ({ agent, isYou }: any) => {
               <div className="text-center md:text-left">
                 <div className="flex items-center gap-1">
                   <h1 className="text-2xl font-semibold">{agent.username}</h1>
-                  {agent.isTierOne && (
+                  {agent.isPremium && (
                     <Image
                       src={"/icons/gold-badge.svg"}
                       alt="badge"
@@ -58,15 +58,7 @@ const Agent = ({ agent, isYou }: any) => {
                       className="rounded-full"
                     />
                   )}
-                  {agent.isTierTwo && (
-                    <Image
-                      src={"/icons/silver-badge.svg"}
-                      alt="badge"
-                      width={25}
-                      height={25}
-                      className="rounded-full"
-                    />
-                  )}
+  
                 </div>
                 <p className="text-sm text-gray-400">{agent.email}</p>
               </div>

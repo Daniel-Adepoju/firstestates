@@ -10,9 +10,10 @@ import Searchbar from "@components/Searchbar"
 import { useEffect, useState } from "react"
 import { Skeleton } from "@components/ui/skeleton"
 import { useNextPage } from "@lib/useIntersection"
+
 const ManageResidents = () => {
   const { session } = useUser()
-  const isResult = session?.user?.tierOne || session?.user?.tierTwo
+  const isResult = session?.user?.isPremium
  const [search,setSearch] = useState("")
  const [debouncedSearch,setDebouncedSearch] = useState("")
   const { data, isLoading,hasNextPage,fetchNextPage,isFetchingNextPage } = useGetInhabitants({
@@ -30,13 +31,27 @@ const ManageResidents = () => {
     return () => clearTimeout(handler)
   }, [search])
 
-  //   if (!isResult) {
-  //     return (
-  //       <h2 className='text-amber-500 mt-30 font-bold text-lg text-center'>
-  //         Unauthorized
-  //       </h2>
-  //     )
-  //   }
+    if (!isResult) {
+      return (
+        <div className="w-full flex flex-col gap-2 items-center">
+           <h2 className='text-foreground mt-30 font-bold text-md text-center'>
+         Coming Soon ...
+
+          {/* This feature is only available for premium agents */}
+          
+       
+        </h2>
+        {/* <button
+            className="w-50 ml-4 px-4 py-3 font-bold text-sm gloss darkblue-gradient-vertical text-white rounded-xl hover:bg-goldSecondary transition"
+            onClick={() => {
+              window.location.href = "/agent/upgrade"
+            }}
+          >
+            Upgrade Now
+          </button> */}
+         </div>
+      )
+    }
 
   return (
 <div className="text-foreground w-full">

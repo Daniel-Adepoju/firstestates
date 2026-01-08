@@ -8,9 +8,10 @@ import { useNextPage } from "@lib/useIntersection"
 interface CommentsSectionProps {
   listingId: string
   commentsQuery: any
+  isAgent?:boolean
 }
 
-const CommentsSection = ({ listingId, commentsQuery }: CommentsSectionProps) => {
+const CommentsSection = ({ listingId, commentsQuery ,isAgent}: CommentsSectionProps) => {
   const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } = commentsQuery
   const ref = useNextPage({ commentLoading: isLoading, hasNextPage, fetchNextPage })
 const demoComment = {
@@ -89,7 +90,7 @@ const demoComment = {
             </> */}
         </div>
 
-        <WriteComment listingId={listingId} />
+        <WriteComment listingId={listingId} isAgent={isAgent} />
       </div>
     </div>
   )

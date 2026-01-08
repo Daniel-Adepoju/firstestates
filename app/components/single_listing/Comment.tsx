@@ -26,6 +26,7 @@ interface commentCardProps {
   comment?: CommentProps
   listingId?: string
   refValue?: ReturnType<typeof useNextPage> | null
+  isAgent?: boolean
 }
 
 export const Comment = ({ comment, refValue }: commentCardProps) => {
@@ -41,7 +42,7 @@ export const Comment = ({ comment, refValue }: commentCardProps) => {
             width={30}
             height={30}
             crop={"auto"}
-            gravity='center'
+            gravity="center"
             className="rounded-full"
           />
           <span className="username">{comment?.author.username}</span>
@@ -55,7 +56,7 @@ export const Comment = ({ comment, refValue }: commentCardProps) => {
   )
 }
 
-export const WriteComment = ({ listingId }: commentCardProps) => {
+export const WriteComment = ({ listingId, isAgent }: commentCardProps) => {
   const { session } = useUser()
   const { darkMode } = useDarkMode()
   const [content, setContent] = useState("")
@@ -94,12 +95,13 @@ export const WriteComment = ({ listingId }: commentCardProps) => {
             e.preventDefault()
             sendCommentMutation.mutate()
           }}
-          className="
+          className={`
       
-        pb-18.5 md:pb-4
+        ${isAgent ? "pb-2" : "pb-18.5 md:pb-4"}
         backdrop-blur-md bg-white/30 dark:bg-black/20
         w-[90%] md:w-[70%] mx-auto
-        flex flex-row justify-center items-center gap-2"
+        flex flex-row justify-center items-center gap-2
+           `}
         >
           <CldImage
             src={session?.user.profilePic}

@@ -210,7 +210,7 @@ const { ref, className: animateClass } = useAnimation({
                         />
                         <div className="flex items-center gap-1">
                           <span className="quickLink">{listing?.agent?.username}</span>
-                          {listing?.agent?.isTierOne && (
+                          {listing?.agent?.isPremium && (
                             <Image
                               src={"/icons/gold-badge.svg"}
                               alt="badge"
@@ -219,15 +219,7 @@ const { ref, className: animateClass } = useAnimation({
                               className="rounded-full"
                             />
                           )}
-                          {listing?.agent?.isTierTwo && (
-                            <Image
-                              src={"/icons/silver-badge.svg"}
-                              alt="badge"
-                              width={18}
-                              height={18}
-                              className="rounded-full"
-                            />
-                          )}
+                         
                         </div>
                       </Link>
                     </div>

@@ -39,11 +39,8 @@ const UserSchema = new Schema({
         enum:['client','agent','admin'],
         default:'client'
     },
-    isTierTwo: {
-        type:Boolean,
-        default:false
-    },
-    isTierOne: {
+
+    isPremium: {
         type:Boolean,
         default:false
     },

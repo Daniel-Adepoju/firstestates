@@ -18,7 +18,7 @@ import InhabitantsSection from "./InhabitantsSection"
 import AgentDetails from "./AgentDetails"
 import CommentsSection from "./CommentsSection"
 
-const SingleListing = ({ listingId }: { listingId: string }) => {
+const SingleListing = ({ listingId , isAgent}: { listingId: string, isAgent?:boolean }) => {
   const router = useRouter()
   const pathName = usePathname()
   const isAgentView = pathName.includes("/agent/listings/")
@@ -108,7 +108,6 @@ const SingleListing = ({ listingId }: { listingId: string }) => {
             />
 
             {/* Inhabitants OR Agent details */}
-            {/*  (session?.user.isTierOne || session?.user.isTierTwo) */}
             {session?.user?.id === listing?.agent?._id ? (
               <InhabitantsSection
                 session={session}
@@ -144,6 +143,7 @@ const SingleListing = ({ listingId }: { listingId: string }) => {
         <CommentsSection
           listingId={listingId}
           commentsQuery={commentsQuery}
+          isAgent={isAgent}
         />
       </div>
 
