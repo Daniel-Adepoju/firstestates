@@ -413,31 +413,32 @@ export const InfoModal = ({ ref }: ModalProps) => {
         bg-white rounded-xl p-6 w-[90%] max-w-md mx-auto shadow-xl
        text-center border border-white"
     >
-      <div className="flex flex-col gap-4 relative">
+      <div className="flex flex-col gap-4 relative text-sm">
         <h2 className="otherHead text-md font-bold">How To List</h2>
         <div>Fill in the form below to list your property.</div>
 
         <X
           onClick={() => ref.current && ref.current.close()}
-          size={40}
-          color="darkred"
+          size={35}
           className="
+          text-red-500
          absolute right-0 top-[-8px]
-         cursor-pointer dark:bg-gray-200 bg-gray-500/20 rounded-full p-1"
+         cursor-pointer dark:bg-black/30 bg-gray-500/20 rounded-full p-1"
         />
 
-        <div>
+        <ul className="px-2 tracking-wide text-justify list-disc  flex flex-col gap-2 justify-start items-start">
+        <li>
           You may select <strong>only one main image</strong>, which will be used as the cover photo
-          on the homepage.
-        </div>
-        <div>
-          Additionally, you can upload up to <strong>five supplementary images</strong> to provide
-          more views of your listing.
-        </div>
-        <div>
-          A fee of <strong>₦500</strong> is required to complete and publish your listing.
-        </div>
-      </div>
+          for your listing.
+        </li>
+        <li>
+         You can also select <strong>supplementary images</strong> determined by your listing tier.
+        </li>
+        <li>
+          A fee <strong>determined by your listing tier</strong> is required to complete and publish your listing.
+        </li>
+        </ul>
+    </div>
     </dialog>
   )
 }

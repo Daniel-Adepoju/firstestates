@@ -17,7 +17,6 @@ interface FilterProps {
   baths: Record<string, any>
   toilets: Record<string, any>
   active: Signal<boolean>
-  statusVal: Signal<string>
 }
 
 const Filter = ({
@@ -29,7 +28,6 @@ const Filter = ({
   beds,
   baths,
   toilets,
-  statusVal,
 }: FilterProps) => {
   useSignals()
   const params = useSearchParams()
@@ -43,7 +41,6 @@ const Filter = ({
   const [bedsState, setBedsState] = useState("")
   const [bathsState, setBathsState] = useState("")
   const [toiletsState, setToiletsState] = useState("")
-  const [status, setStatus] = useState("")
   const { session } = useUser()
   const { schools } = useSchools()
 
@@ -77,7 +74,6 @@ const Filter = ({
     beds.value = bedsState
     baths.value = bathsState
     toilets.value = toiletsState
-    statusVal.value = status
     searchParams.set("page", "1")
     router.push(`?${searchParams.toString()}#listing`)
   }
@@ -90,26 +86,6 @@ const Filter = ({
           className="dark:bg-darkGray bg-white mx-auto w-[88%] p-4 rounded-xl shadow space-y-4"
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Status */}
-            <div>
-              <label
-                htmlFor="status"
-                className="block text-sm font-medium"
-              >
-                Status
-              </label>
-              <select
-                id="status"
-                name="status"
-                value={status}
-                onChange={(e) => setStatus(e.target.value)}
-                className="dark:bg-darkGray w-full border rounded-sm p-2 py-2.5"
-              >
-                <option value="">All</option>
-                <option value="Available">Available</option>
-                <option value="Rented">Rented</option>
-              </select>
-            </div>
 
             {/* School Select */}
             <div>

@@ -1001,8 +1001,7 @@ a:has(.clickable) {
   position: absolute;
   inset: 0;
   border-radius: 9999px;
-  padding: 3px;
-  background: conic-gradient(rgba(49, 226, 43, 0.589), rgba(43, 226, 113, 0.1), rgba(40, 203, 132, 0.548));
+  background: conic-gradient(from 0deg, #f29829, #f78000, #f7b657);
   animation: ring-spin 2.8s linear infinite;
   mask: radial-gradient(farthest-side, transparent 65%, black 66%);
   -webkit-mask: radial-gradient(farthest-side, transparent 65%, black 66%);
@@ -1714,6 +1713,26 @@ html.dark .adminDashboard_content .banner .text::before {
   background: transparent;
 }
 
+.bar-custom::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+.bar-custom::-webkit-scrollbar-thumb {
+  border-radius: 30px;
+}
+.bar-custom::-webkit-scrollbar-track {
+  background: transparent;
+}
+.bar-custom.pink-bar::-webkit-scrollbar-thumb {
+  background: oklch(72% 0.28 340deg);
+}
+.bar-custom.green-bar::-webkit-scrollbar-thumb {
+  background: oklch(62.7% 0.194 149.214deg);
+}
+.bar-custom.gold-bar::-webkit-scrollbar-thumb {
+  background: #f29829;
+}
+
 body, main {
   -webkit-overflow-scrolling: touch;
   overflow-y: auto;
@@ -2339,7 +2358,7 @@ footer.hide {
   gap: 20px;
   position: relative;
   width: 100%;
-  margin-bottom: 30px;
+  margin-bottom: 28px;
 }
 .singleCardCon {
   display: flex;
@@ -2521,12 +2540,13 @@ footer.hide {
 }
 
 .singleCardCon2 {
-  gap: 30px;
+  gap: 14px;
   position: relative;
   width: 100%;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
+}
+.singleCardCon2.description {
+  margin-top: -12px;
+  padding-bottom: 2px;
 }
 .singleCardCon2 {
   display: flex;
@@ -2535,6 +2555,7 @@ footer.hide {
   justify-content: flex-start;
 }
 .singleCardCon2 .singleCardSection {
+  margin-top: 0px;
   width: 100%;
   overflow: hidden;
 }

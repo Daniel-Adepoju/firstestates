@@ -6,11 +6,7 @@ import Filter from "@/components/Filter"
 import CardList from "@components/listing/CardList"
 import PopularThisWeek from "@/components/PopularThisWeek"
 import Featured from "@components/listing/Featured"
-import {
-  ArrowLeftFromLine,
-  ChevronDownCircle,
-  ChevronRightCircle,
-} from "lucide-react"
+import { ArrowLeftFromLine, ChevronDownCircle, ChevronRightCircle } from "lucide-react"
 import Link from "next/link"
 
 const HomePage = () => {
@@ -27,7 +23,6 @@ const HomePage = () => {
   const beds = useSignal("")
   const baths = useSignal("")
   const toilets = useSignal("")
-  const statusVal = useSignal("")
   const active = useSignal(false)
   const search = useSignal("")
   const placeholder = useSignal("Search by school or location")
@@ -65,7 +60,6 @@ const HomePage = () => {
 
       {/* Filter dropdown */}
       <Filter
-        statusVal={statusVal}
         selectedSchool={school}
         selectedArea={location}
         minPrice={minPrice}
@@ -115,7 +109,6 @@ const HomePage = () => {
           beds: beds.value,
           baths: baths.value,
           toilets: toilets.value,
-          status: statusVal.value,
         }}
       />
     </main>

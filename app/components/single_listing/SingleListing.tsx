@@ -56,7 +56,11 @@ const SingleListing = ({ listingId }: { listingId: string }) => {
 
   if (isLoading)
     return (
-      <div className={`py-2 gap-[30px] flex flex-col items-center w-full min-h-screen ${isAgentView ? "mt-[0px]" : "mt-18"}`}>
+      <div
+        className={`py-2 gap-[30px] flex flex-col items-center w-full min-h-screen ${
+          isAgentView ? "mt-[0px]" : "mt-18"
+        }`}
+      >
         <Skeleton className="bg-gray-500/20 w-full h-[300px] rounded-4xl" />
         <Skeleton className="bg-gray-500/20 w-[90%] h-[100px] rounded-xl" />
         <Skeleton className=" bg-gray-500/20 w-[80%] h-[190px] rounded-xl" />
@@ -74,7 +78,11 @@ const SingleListing = ({ listingId }: { listingId: string }) => {
 
   return (
     <>
-      <div className={`text-foreground ${isAgentView ? "singleCardCon -mt-10 lg:mt-[4px]" : "singleCardCon mt-16 lg:mt-20"}`}>
+      <div
+        className={`text-foreground ${
+          isAgentView ? "singleCardCon -mt-10 lg:mt-[4px]" : "singleCardCon mt-16 lg:mt-20"
+        }`}
+      >
         {/*  first singleCardSection */}
         <div className="singleCardSection">
           <div className="single_card">
@@ -87,10 +95,9 @@ const SingleListing = ({ listingId }: { listingId: string }) => {
         {/* contains price, agent, user-options, inhabitants/agent details */}
         <div className="singleCardSection">
           <div className="single_card">
-
             {/* ListingDetails ->> price/school/agent preview */}
             <ListingDetails listing={listing} />
-          
+
             {/* User options */}
             <UserOptions
               session={session}
@@ -102,7 +109,7 @@ const SingleListing = ({ listingId }: { listingId: string }) => {
 
             {/* Inhabitants OR Agent details */}
             {/*  (session?.user.isTierOne || session?.user.isTierTwo) */}
-            {session?.user?.id === listing?.agent?._id  ? (
+            {session?.user?.id === listing?.agent?._id ? (
               <InhabitantsSection
                 session={session}
                 listingId={listingId}
@@ -124,19 +131,20 @@ const SingleListing = ({ listingId }: { listingId: string }) => {
         </div>
       </div>
 
-  
-      <div className="singleCardCon2 text-foreground">
-
-       <div className="singleCardSection">
-        <div className="single_card">
-           <div className="heading mt-3 mx-auto self-center">Description</div>
-              <div className="text-foreground text-justify description mx-auto whitespace-prewrap self-center">{listing.description}</div>
+      <div className="singleCardCon2 description bg-gray-500/20 text-foreground">
+        <div className="singleCardSection">
+          <div className="single_card">
+            <div className="heading mx-auto self-center">Description</div>
+            <div className="font-medium font-list w-[90%] md:w-[80%] lg:w-[70%] text-foreground text-sm tracking-wide text-justify description mx-auto whitespace-prewrap self-center">
+              {listing.description}
+            </div>
+          </div>
         </div>
-         
-       </div>
-            
-            
-        <CommentsSection listingId={listingId} commentsQuery={commentsQuery} />
+
+        <CommentsSection
+          listingId={listingId}
+          commentsQuery={commentsQuery}
+        />
       </div>
 
       <ReportListingModal

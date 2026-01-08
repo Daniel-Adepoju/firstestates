@@ -29,11 +29,10 @@ interface commentCardProps {
 }
 
 export const Comment = ({ comment, refValue }: commentCardProps) => {
-  const [noImage, setNoImage] = useState(false)
   const defaultImage = "firstestatesdefaultuserpicture"
   return (
     <div ref={refValue}>
-      <div className="w-full overflow-hidden outline-1 outline-gray-300 p-4 rounded-lg flex flex-col gap-2">
+      <div className="w-full overflow-hidden border-b-1 border-b-gray-300 dark:border-b-gray-600 p-4 rounded-md flex flex-col gap-2">
         <div className="w-full rounded-full flex flex-row items-center gap-2">
           <CldImage
             // onError={() => setNoImage(true)}
@@ -42,11 +41,12 @@ export const Comment = ({ comment, refValue }: commentCardProps) => {
             width={30}
             height={30}
             crop={"auto"}
-            className="rounded-full border-1 border-white"
+            gravity='center'
+            className="rounded-full"
           />
           <span className="username">{comment?.author.username}</span>
         </div>
-        <div className="whitespace-pre-wrap overflow-hidden break-words w-80 md:w-120 lg:w-150">
+        <div className="text-sm whitespace-pre-wrap overflow-hidden break-words w-80 md:w-120 lg:w-150">
           {comment?.content}
         </div>
         <div className="self-end text-sm text-gray-400">{parseDate(comment?.createdAt)}</div>
@@ -96,8 +96,8 @@ export const WriteComment = ({ listingId }: commentCardProps) => {
           }}
           className="
       
-        pb-16 md:pb-0
-        backdrop-blur-xs
+        pb-18.5 md:pb-4
+        backdrop-blur-md bg-white/30 dark:bg-black/20
         w-[90%] md:w-[70%] mx-auto
         flex flex-row justify-center items-center gap-2"
         >
@@ -110,7 +110,7 @@ export const WriteComment = ({ listingId }: commentCardProps) => {
             className=" rounded-full"
           />
           <input
-            className="flex-1 w-80 px-2 py-2.5  rounded-lg outline-2 outline-gray-600 dark:outline-gray-300 dark:placeholder-gray-300"
+            className="flex-1 w-80 px-2 py-2.5  rounded-lg outline-2 outline-gray-200 dark:outline-gray-600/80 focus:outline-goldPrimary ease-in-out duration-200 dark:placeholder-gray-300"
             type="text"
             value={content}
             required

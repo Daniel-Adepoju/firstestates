@@ -92,6 +92,7 @@ export const verifyOTP = async (val) => {
         email: val.email,
         role: val.role,
         password,
+        isNewUser: false,
         school: val.role === "client" ? (val.school || null) : undefined,
    ...(val.role === "agent" && val.phone && { phone: val.phone }),
   ...(val.role === "agent" && val.whatsapp && { whatsapp: val.whatsapp }),

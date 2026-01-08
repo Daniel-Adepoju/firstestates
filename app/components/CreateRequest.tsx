@@ -89,21 +89,21 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
       function: handleInputChange,
     },
     //  budget
-    requestType === "co-rent" && {
-      elementType: "Slider",
-      label: "Your Budget",
-      name: "budget",
-      min: listing?.post?.price ? listing.post.price * 0.5 : 0,
-      max: listing?.post?.price ? listing.post.price * 0.6 : 0,
-      placeholder: "Enter your budget",
-      className: `w-full  border rounded-md
-                  [&_[role=slider]]:gold-gradient
-            [&>span:first-child]:bg-white
-            [&_[role=slider]]:border-gray-200
-            [&_[data-state=active]]:ring-gray-200"
-      `,
-      function: handleInputChange,
-    },
+    // requestType === "co-rent" && {
+    //   elementType: "Slider",
+    //   label: "Your Budget",
+    //   name: "budget",
+    //   min: listing?.post?.price ? listing.post.price * 0.5 : 0,
+    //   max: listing?.post?.price ? listing.post.price * 0.6 : 0,
+    //   placeholder: "Enter your budget",
+    //   className: `w-full  border rounded-md
+    //               [&_[role=slider]]:gold-gradient
+    //         [&>span:first-child]:bg-white
+    //         [&_[role=slider]]:border-gray-200
+    //         [&_[data-state=active]]:ring-gray-200"
+    //   `,
+    //   function: handleInputChange,
+    // },
     //   move in date
     requestType === "co-rent" && {
       elementType: "Calendar",
@@ -256,7 +256,7 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
         Make a {titleMap[requestType]}
       </h1>
 
-      <div className=" mx-auto w-[96%] flex flex-col-reverse md:flex-row-reverse lg:flex-row items-center justify-center pb-10 pt-4 mt-6 gap-4 md:gap-3">
+      <div className=" mx-auto w-[96%] flex flex-col-reverse md:flex-row-reverse lg:flex-row items-center justify-center pb-16 md:pb-6 pt-4 mt-6 gap-4 md:gap-3">
         <div className="flex flex-col items-center justify-center w-[50%] md:w-[31%] lg:w-[35%] md:pr-20 lg:pr-14 p-4">
           <Card
             listing={listing?.post}
@@ -269,7 +269,9 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
         <div className=" border-1 border-gray-500/30 dark:border-gray-600 flex flex-col md:mr-auto gap-4 p-4 w-[98%] md:w-[58%] lg:w-[60%] rounded-md bg-white dark:bg-gray-800/10 shadow-md">
           <h2 className="headersFont px-4 text-lg">Create a {titleMap[requestType]}</h2>
 
-          <details className="px-4 text-[14px]">
+
+{/*  ======= LEARN ABOUT REQUEST TYPES ======== */}
+          {/* <details className="px-4 text-[14px]">
             <summary className="cursor-pointer font-bold text-foreground underline underline-offset-1.5 transition-all duration-300 hover:text-gray-500">
               Learn more about request types
             </summary>
@@ -294,20 +296,12 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
 
                 <ul className="list-disc ml-6 space-y-1">
                   <li>
-                    Your minimum budget is automatically set to 50% of the listing price, and your
-                    maximum is set to 60%.
-                  </li>
-                  <li>
-                    Be honest with your budget. Misrepresentation or attempts to deceive others will
-                    result in a ban from FirstEstates.
-                  </li>
-                  <li>
                     Use "expiration date" to set the date you want your request to be deleted.
                   </li>
                 </ul>
               </div>
             </div>
-          </details>
+          </details> */}
 
           {/* form */}
           <form

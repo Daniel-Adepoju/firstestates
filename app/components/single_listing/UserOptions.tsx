@@ -5,7 +5,7 @@ import { Flag, ScanSearch, HeartPlus, TriangleAlert } from "lucide-react"
 const UserOptions = ({ session, listing, router, onReport, onWishlist }: any) => {
   if (session?.user?.role === "admin") {
     return (
-      <div id="adminOptions" className="flex flex-col items-center w-full text-gray-500 dark:text-gray-400 text-sm">
+      <div id="adminOptions" className="flex flex-col items-center w-full text-gray-500 dark:text-gray-300 text-xs text-center font-medium">
         You have admin priviledges, you can view reports and delete this listing
         <div
           onClick={() => router.push(`/admin/listings/${listing._id}`)}

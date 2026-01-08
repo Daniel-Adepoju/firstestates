@@ -22,6 +22,7 @@ import { axiosdata } from "@utils/axiosUrl"
 import { useToast } from "@utils/Toast"
 import { ReportModal } from "@components/Modals"
 import { useUser } from "@utils/user"
+import { daysLeft } from "@utils/date"
 
 interface RoommateCardProps {
   request: Request
@@ -46,6 +47,7 @@ const RoommateCard = ({
   const { session } = useUser()
   const userId = session?.user.id || ""
 
+  console.log(request)
   // bookmark requests
   const handleBookmark = async (val: any) => {
     try {
@@ -186,7 +188,7 @@ const RoommateCard = ({
             onOpenChange={setIsDeleteOpen}
           >
             <PopoverTrigger>
-              <div className="clickable flex items-center justify-center bg-red-700 dark:bg-red-800 rounded-full w-10 h-10 mb-1  mt-[-7px] shadow-sm">
+              <div className="clickable flex items-center justify-center bg-red-600 dark:bg-red-700 rounded-full w-10 h-10 mb-1  mt-[-7px] shadow-sm">
                 <X color="white" />
               </div>
             </PopoverTrigger>
@@ -204,14 +206,12 @@ const RoommateCard = ({
       )}
 
       {!showListing ? (
+        // ============== REQUEST ==============
         <div
           key={request._id}
           className={`w-full h-60 rounded-sm p-2 mx-auto
-            ${
-              request?.requestType === "roommate"
-                ? "gold-gradient-vertical"
-                : "green-gradient-vertical"
-            }
+          
+              ${request?.preferredGender === "male" ? "green-gradient-vertical" : "pink-gradient-vertical" }
             `}
         >
           <ReportModal
@@ -250,6 +250,7 @@ const RoommateCard = ({
             {/* options row for request */}
 
             <div className="w-full flex flex-row justify-around mt-2 ">
+              {/* CHAT */}
               <Link href={`chat?recipientId=${request?.requester?._id}`}>
                 <div className="flex items-center gap-1 text-white font-bold">
                   <MessageCircle
@@ -259,6 +260,8 @@ const RoommateCard = ({
                   <span>Chat</span>
                 </div>
               </Link>
+
+              {/* BOOKMARK */}
               {!isAgent && (
                 <div
                   onClick={() => {
@@ -278,6 +281,8 @@ const RoommateCard = ({
                   <span>Bookmark</span>
                 </div>
               )}
+
+              {/* REPORT */}
               <div
                 onClick={() => reportRef.current.showModal()}
                 className="flex items-center gap-1 text-white font-bold cursor-pointer"
@@ -290,34 +295,44 @@ const RoommateCard = ({
               </div>
             </div>
 
-            {/* description box */}
-            <div className="w-full h-35 bg-white dark:bg-gray-700  shadow-md dark:shadow-black rounded-md mt-2.5 p-2 overflow-y-scroll nobar null border-1 border-black/30 dark:border-black">
+            {/* DESCRIPTION BOX */}
+            <div className={`w-full h-35 bg-white dark:bg-gray-700  shadow-md dark:shadow-black rounded-md mt-2.5 p-2 overflow-y-scroll bar-custom  border-1 border-black/30 dark:border-black
+              ${request?.preferredGender === "male" ? "green-bar" : "pink-bar"} 
+            `}>
               {/* preferred gender */}
-              {request?.preferredGender === "male" ? (
-                <div className="flex items-center gap-1 font-head">
+              <div className="flex items-center gap-1 font-card bg-gray-300/40 dark:bg-black/20 rounded-sm w-full px-1 py-0.5">
+                {request?.preferredGender === "male" ? (
                   <Mars className="text-green-400" />
-                  <span className="text-sm text-gray-700 dark:text-white">
-                    Looking for a male{" "}
-                    {request?.requestType === "roommate" ? "roommate" : "co-renter"}
-                  </span>
-                </div>
-              ) : (
-                <div className="flex items-center gap-1 font-head">
+                ) : (
                   <Venus className="text-pink-400" />
-                  <span className="text-sm text-gray-700 dark:text-white">
-                    Looking for a female{" "}
-                    {request?.requestType === "roommate" ? "roommate" : "co-renter"}
+                )}
+                <span className="text-sm text-gray-700 dark:text-white">
+                  Looking for a {request?.preferredGender === "male" ? "male" : "female"}{" "}
+                  {request?.requestType === "roommate" ? "roommate" : "co-renter"}
+                </span>
+              </div>
+
+              {/* preferred move-in date */}
+              {request?.moveInDate && (
+                <div className="pl-7 mt-1 flex items-center gap-1 font-medium font-card bg-gray-300/40  dark:bg-black/20 rounded-sm w-full px-1 py-0.5">
+                  <span className="text-xs text-gray-700 dark:text-white tracking-wide">
+                    Preferred Move-in Date: {new Date(request?.moveInDate).toLocaleDateString()} (in{" "}
+                    {daysLeft(request?.moveInDate)} days)
                   </span>
                 </div>
               )}
 
               {/* main description */}
-              <p className="mt-2 mb-2 text-sm text-gray-700 dark:text-white  whitespace-pre-wrap">
+              <p className="mt-2 mb-2 text-[12px] font-medium text-gray-700 dark:text-white  whitespace-pre-wrap">
                 {request?.description}
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, accusantium.
+                Explicabo obcaecati cupiditate delectus exercitationem, ad maiores id deleniti?
+                Culpa ad quisquam exercitationem veritatis neque obcaecati possimus sed voluptatum
+                aliquam.
               </p>
 
               {/* budget */}
-              {request?.budget && (
+              {/* {request?.budget && (
                 <div className="flex items-center gap-1 font-head">
                   <span className="text-sm text-gray-700 dark:text-white">
                     Budget: <span>&#8358;</span> {request?.budget.toLocaleString()} /
@@ -325,19 +340,17 @@ const RoommateCard = ({
                     {((request?.budget / request?.listing?.price) * 100).toFixed(1)}%)
                   </span>
                 </div>
-              )}
+              )} */}
             </div>
           </div>
         </div>
       ) : (
-        // listing
+        // ============= LISTING ==============
         <div
           key={request?.listing?._id}
-          className={`w-90 h-80 rounded-sm p-2 mx-auto hover:shadow-md transition-shadow duration-300 ${
-            request?.requestType === "roommate"
-              ? "gold-gradient-vertical"
-              : "green-gradient-vertical"
-          }`}
+          className={`w-90 h-80 rounded-sm p-2 mx-auto hover:shadow-md transition-shadow duration-300
+                          ${request?.preferredGender === "male" ? "green-gradient-vertical" : "pink-gradient-vertical" }
+            `}
         >
           <div className="flex flex-col w-full">
             <Button

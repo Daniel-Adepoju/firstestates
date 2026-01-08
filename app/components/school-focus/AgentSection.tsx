@@ -51,15 +51,15 @@ const AgentSection = ({ school }: { school: string }) => {
          cursor-pointer outline-3 outline-gray-300 dark:outline-gray-700 rounded-full p-1.5
       "
           >
-            <div className="status-ring"></div>
+            <div className="status-ring p-3 z-1"></div>
             <CldImage
               src={agent?.profilePic}
               alt="Profile"
               width={45}
               height={45}
               crop="auto"
-              //   gravity='center'
-              className="h-full w-full rounded-full object-cover"
+              gravity="center"
+              className="relative h-full w-full rounded-full object-fit z-40"
             />
           </div>
 

@@ -302,25 +302,15 @@
   position: absolute;
   inset: 0;
   border-radius: 9999px;
-  padding: 3px;
-  // plat option
-  // background: conic-gradient(
-  //   rgba(138, 43, 226, 0.7),
-  //   rgba(138, 43, 226, 0.1),
-  //   rgba(138, 43, 226, 0.7)
-  // );
-  // gray option
-  //    background: conic-gradient(
-  //   #0000001b,
-  //   rgba(255, 255, 255, 0.18),
-  //   #ffffff2c
-  // );
-  // green option
+
+ 
   background: conic-gradient(
-    rgba(49, 226, 43, 0.589),
-    rgba(43, 226, 113, 0.1),
-    rgba(40, 203, 132, 0.548)
-  );
+  from 0deg,
+  #f29829,
+  #f78000,
+  #f7b657
+);
+
   animation: ring-spin 2.8s linear infinite;
   mask: radial-gradient(farthest-side, transparent 65%, black 66%);
   -webkit-mask: radial-gradient(farthest-side, transparent 65%, black 66%);

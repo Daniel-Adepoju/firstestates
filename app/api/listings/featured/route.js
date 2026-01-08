@@ -8,7 +8,7 @@ try {
     await connectToDB()
 
     const featuredListings = await Listing.aggregate([
-      { $match: { isFeatured: true } },
+      { $match: { isFeatured: true, status: 'available' } },
       { $sample: { size: 12 } },
       {
     $lookup: {

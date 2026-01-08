@@ -57,6 +57,34 @@
     background: transparent;
   }
 }
+.bar-custom {
+  &::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 30px;
+  }
+
+   &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &.pink-bar::-webkit-scrollbar-thumb  {
+    background: oklch(72% 0.28 340);
+  } 
+
+  &.green-bar::-webkit-scrollbar-thumb  {
+    background: oklch(62.7% 0.194 149.214);
+  }
+
+  &.gold-bar::-webkit-scrollbar-thumb  {
+    background:fn.color("goldPrimary");
+  }
+
+ 
+}
 
 body {
   -webkit-overflow-scrolling: touch;
@@ -584,7 +612,7 @@ footer.hide {
   gap: 20px;
   position: relative;
   width: 100%;
-  margin-bottom: 30px;
+  margin-bottom: 28px;
   @include mx.flex(column, stretch, flex-start);
   @media (min-width: 900px) {
     // margin-top: 100px;
@@ -724,14 +752,16 @@ footer.hide {
 }
 
 .singleCardCon2 {
-  gap: 30px;
+  gap: 14px;
   position: relative;
   width: 100%;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
+  &.description {
+ margin-top: -12px;
+ padding-bottom: 2px;
+  }
   @include mx.flex(column, flex-start, flex-start);
   .singleCardSection {
+    margin-top: 0px;
     width: 100%;
     overflow: hidden;
     @include mx.flex(column, flex-start, flex-start);
@@ -786,8 +816,8 @@ footer.hide {
 }
 
 .signUpAndLogin {
- padding-block: 10px;
- margin-top: 22px;
+  padding-block: 10px;
+  margin-top: 22px;
   .general_details,
   .agent_details {
     gap: 10px;

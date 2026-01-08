@@ -15,7 +15,7 @@ const ListingDetails = ({ listing }: Props) => {
         <span className="currency">&#8358;</span> {listing?.price?.toLocaleString()}/Year
       </div>
       <div>
-        <span className=" text-xs text-gray-500 dark:text-gray-400">
+        <span className="font-medium text-xs text-gray-500 dark:text-gray-400">
           This listing is will remain here for <strong>{daysLeft(listing?.validUntil)}</strong> days
         </span>
       </div>

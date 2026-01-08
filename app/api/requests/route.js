@@ -155,6 +155,7 @@ export const GET = async (req) => {
         views: 1,
         isBookmarked: 1,
         bookmarkedBy: 1,
+        moveInDate: 1,
         "requester.profilePic": 1,
         "requester._id": 1,
         "requester.username": 1,

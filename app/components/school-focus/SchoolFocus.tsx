@@ -27,7 +27,7 @@ const SchoolFocus = () => {
 
   // refs
   const coRentScrollRef = useRef<HTMLDivElement>(null)
-  const roommateScrollRef = useRef<HTMLDivElement>(null)
+  // const roommateScrollRef = useRef<HTMLDivElement>(null)
 
   // fetch routine
 
@@ -40,14 +40,14 @@ const SchoolFocus = () => {
   const buildRequestQuery = (type: "co-rent" | "roommate") => ({
     limit: 12,
     school,
-    requester: session?.user.id,
+    // requester: session?.user.id,
     requestType: type,
-    status: "accepted",
+    // status: "accepted",
     enabled: !!school,
   })
 
   const coRent = useGetRequests(buildRequestQuery("co-rent"))
-  const roommate = useGetRequests(buildRequestQuery("roommate"))
+  // const roommate = useGetRequests(buildRequestQuery("roommate"))
 
   const coRentNextRef = useNextPage({
     isLoading: coRent.isLoading,
@@ -55,13 +55,13 @@ const SchoolFocus = () => {
     fetchNextPage: coRent.fetchNextPage,
   })
 
-  const roommateNextRef = useNextPage({
-    isLoading: roommate.isLoading,
-    hasNextPage: roommate.hasNextPage,
-    fetchNextPage: roommate.fetchNextPage,
-  })
+  // const roommateNextRef = useNextPage({
+  //   isLoading: roommate.isLoading,
+  //   hasNextPage: roommate.hasNextPage,
+  //   fetchNextPage: roommate.fetchNextPage,
+  // })
 
-  // renders
+  // ================ RENDERSS ==============
 
   const renderRequestCards = (requestData: any, nextRef: ReturnType<typeof useNextPage>) => {
     const pages = requestData?.data?.pages
@@ -162,8 +162,8 @@ if (!listingsLoading && !session?.user) {
         isFetchingMore={coRent.isFetchingNextPage}
       />
 
-      {/* ROOMMATE REQUESTS */}
-      <SectionHeader
+      {/* ============= ROOMMATE REQUESTS ============= */}
+      {/* <SectionHeader
         title="Roommate Requests"
         isLoading={roommate.isLoading}
         scrollRef={roommateScrollRef}
@@ -176,7 +176,7 @@ if (!listingsLoading && !session?.user) {
         renderContent={() => renderRequestCards(roommate, roommateNextRef)}
         renderLoading={() => renderSkeletons(9, true)}
         isFetchingMore={roommate.isFetchingNextPage}
-      />
+      /> */}
 
       {/* LISTINGS */}
       <h2 className="headersFont mt-4 px-4 text-lg capitalize mx-auto text-center">Listings</h2>

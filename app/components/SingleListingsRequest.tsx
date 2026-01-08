@@ -9,6 +9,7 @@ import { Skeleton } from "@components/ui/skeleton"
 import { MoreVertical } from "lucide-react"
 import { useNextPage } from "@lib/useIntersection"
 import { useRef } from "react"
+import Typewriter from "@components/Typewriter"
 
 const ListingRequests = ({ requestType }: any) => {
   const searchParams = useSearchParams()
@@ -21,7 +22,7 @@ const ListingRequests = ({ requestType }: any) => {
     limit: 12,
     listingId: listingId || "",
     requestType: requestType || "",
-    // requester: session?.user.id,
+    requester: session?.user.id,
     status: "accepted",
     enabled: !!listingId && !!requestType,
   })
@@ -61,6 +62,7 @@ const ListingRequests = ({ requestType }: any) => {
       <h2 className="w-100 headersFont text-xl mb-2 capitalize mx-auto text-center">
         {requestType === "roommate" ? "Roommate Requests" : "Co-Rent Requests"} on this listing
       </h2>
+      <Typewriter text="Note: Requests made by you will not be displayed here." />
 
       <div className="flex items-center w-full pb-2">
         {!isLoading && <ScrollController scrollRef={scrollRef} />}

@@ -51,6 +51,7 @@ interface Request {
   views?: number;
   createdAt?: Date;
   updatedAt?: Date;
+  moveInDate?:Date;
   preferredGender?: "male" | "female";
   isBookmarked?: boolean;
 }

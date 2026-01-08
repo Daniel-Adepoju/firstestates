@@ -32,6 +32,7 @@ const Search = () => {
     limit: limit.value,
     page: page,
     location: debounced.value,
+    status: 'available', // only search available listings
     school: debounced.value,
     agentName: debounced.value,
     search: debounced.value,

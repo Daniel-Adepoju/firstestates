@@ -78,6 +78,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       if (account?.provider !== "google") {
         return true
       }
+      // for google auth
       try {
         await connectToDB()
         const userExists = await User.findOne({ email: profile?.email })

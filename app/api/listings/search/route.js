@@ -10,6 +10,7 @@ export const GET = async (req) => {
   const location = searchParams.get("location") || ""
   const school = searchParams.get("school") || ""
   const agentName = searchParams.get("agentName") || ""
+  const status = searchParams.get("status") || ""
   const skip = (page - 1) * limit
 
   try {
@@ -28,7 +29,7 @@ export const GET = async (req) => {
       },
       { $unwind: "$agent" },
 
-    //  join requests count
+      //  join requests count
       {
         $lookup: {
           from: "requests",
@@ -62,10 +63,7 @@ export const GET = async (req) => {
       {
         $addFields: {
           requestCounts: {
-            $ifNull: [
-              { $arrayElemAt: ["$requestCounts", 0] },
-              { roommate: 0, coRent: 0 },
-            ],
+            $ifNull: [{ $arrayElemAt: ["$requestCounts", 0] }, { roommate: 0, coRent: 0 }],
           },
         },
       },
@@ -94,13 +92,15 @@ export const GET = async (req) => {
       }
     } else {
       const matchConditions = []
-      if (school)
-        matchConditions.push({ school: { $regex: school, $options: "i" } })
-      if (location)
-        matchConditions.push({ location: { $regex: location, $options: "i" } })
+      if (school) matchConditions.push({ school: { $regex: school, $options: "i" } })
+      if (location) matchConditions.push({ location: { $regex: location, $options: "i" } })
       if (agentName)
         matchConditions.push({
           "agent.username": { $regex: agentName, $options: "i" },
+        })
+      if (status)
+        matchConditions.push({
+          status: { $regex: status, $options: "i" },
         })
 
       if (matchConditions.length > 0) {
@@ -121,11 +121,7 @@ export const GET = async (req) => {
     const totalDocs = countResult[0]?.total || 0
 
     // === Pagination ===
-    const paginatedPipeline = [
-      ...basePipeline,
-      { $skip: skip },
-      { $limit: limit },
-    ]
+    const paginatedPipeline = [...basePipeline, { $skip: skip }, { $limit: limit }]
 
     const posts = await Listing.aggregate(paginatedPipeline)
 

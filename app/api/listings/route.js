@@ -100,29 +100,49 @@ export const GET = async (req) => {
           requestCounts: {
             roommate: {
               $ifNull: [
-                { $arrayElemAt: [
-                  { $map: {
-                      input: { $filter: { input: "$requests", as: "r", cond: { $eq: ["$$r._id", "roommate"] } } },
-                      as: "r",
-                      in: "$$r.count"
-                    } },
-                  0
-                ] },
-                0
-              ]
+                {
+                  $arrayElemAt: [
+                    {
+                      $map: {
+                        input: {
+                          $filter: {
+                            input: "$requests",
+                            as: "r",
+                            cond: { $eq: ["$$r._id", "roommate"] },
+                          },
+                        },
+                        as: "r",
+                        in: "$$r.count",
+                      },
+                    },
+                    0,
+                  ],
+                },
+                0,
+              ],
             },
             coRent: {
               $ifNull: [
-                { $arrayElemAt: [
-                  { $map: {
-                      input: { $filter: { input: "$requests", as: "r", cond: { $eq: ["$$r._id", "co-rent"] } } },
-                      as: "r",
-                      in: "$$r.count"
-                    } },
-                  0
-                ] },
-                0
-              ]
+                {
+                  $arrayElemAt: [
+                    {
+                      $map: {
+                        input: {
+                          $filter: {
+                            input: "$requests",
+                            as: "r",
+                            cond: { $eq: ["$$r._id", "co-rent"] },
+                          },
+                        },
+                        as: "r",
+                        in: "$$r.count",
+                      },
+                    },
+                    0,
+                  ],
+                },
+                0,
+              ],
             },
           },
         },

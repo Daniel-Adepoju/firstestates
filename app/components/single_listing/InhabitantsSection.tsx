@@ -12,12 +12,12 @@ const InhabitantsSection = ({
 }: any) => {
   const { data, isLoading } = inhabitantsQuery
 
-  // if (
-  //   session?.user?.id !== undefined &&
-  //   session?.user?.id === data?.pages?.[0]?.inhabitants?.[0]?.listing?.agent &&
-  //   (session?.user.isTierOne || session?.user.isTierTwo)
-  // )
-  console.log(backdrop.isOptionsOpen)
+  if (
+    session?.user?.id !== undefined &&
+    session?.user?.id === data?.pages?.[0]?.inhabitants?.[0]?.listing?.agent &&
+    session?.user.isPremium
+  ) {
+
   return (
     <div className="w-full flex flex-col items-center pb-2 relative">
       {backdrop.isOptionsOpen && <AddResident listingId={listingId} />}
@@ -66,8 +66,9 @@ const InhabitantsSection = ({
       </div>
     </div>
   )
+}
 
-  // return null
+  return null
 }
 
 export default InhabitantsSection

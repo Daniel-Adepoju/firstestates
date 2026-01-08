@@ -42,7 +42,7 @@ export const getDate = (sub = 0) => {
 }
 
 export const daysLeft = (date) => {
-  const now = dayjs()
+  const now = dayjs().tz("Africa/Lagos").format('YYYY-MM-DD')
   const end = dayjs(date)
   const diff = end.diff(now, "day")
   return diff > 0 ? diff : 0

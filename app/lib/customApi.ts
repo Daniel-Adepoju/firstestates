@@ -109,11 +109,12 @@ export const useSearchListings = ({
   limit,
   agentName = "",
   search,
+  status="",
   enabled = true,
 }: Config) => {
   const getListings = async (page: string) => {
     const res = await axiosdata.value.get(
-      `/api/listings/search?limit=${limit}&page=${page}&search=${search}&agentName=${agentName}`
+      `/api/listings/search?limit=${limit}&page=${page}&search=${search}&agentName=${agentName}&status=${status}`
     )
     return res.data
   }
