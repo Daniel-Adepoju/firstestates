@@ -79,7 +79,7 @@ const AppointmentCard = ({ firstCard, data }: AppointmentCardProps) => {
           className={`
       ${data.appointmentType === "final" && "bg-slate-600"}
        ${data.appointmentType === "initial" && "bg-green-600"}
-      ${data.appointmentType === "revisit" && "bg-sky-600"}
+      ${data.appointmentType == "revisit" && "bg-sky-600"}
      w-full lg:w-[50%]  mx-auto capitalize text-white p-1 rounded-md`}
         >
           <span className="text-white  rounded-sm">{data.appointmentType}</span>
@@ -87,12 +87,12 @@ const AppointmentCard = ({ firstCard, data }: AppointmentCardProps) => {
 
         <div
           onClick={handleDeleteAppointment}
-          className="bg-red-700/80 dark:bg-red-700 text-white w-50
-   col-span-2 md:col-span-1 lg:col-span-1 flex items-center
-    p-2 rounded-md cursor-pointer clickable
+          className="bg-red-700/80 dark:bg-red-700 text-white
+   col-span-4 md:col-span-4 lg:col-span-4 flex items-center gap-1
+    p-2 rounded-md cursor-pointer clickable w-fit mx-auto
   "
         >
-          <span className="font-bold text-xs ">Remove Appointment</span>
+          <span className="font-bold text-xs hidde md:inline-block ">Remove Appointment</span>
           {!deleteAppointmentMutation.isPending ? (
             <Trash size={18} className="text-white ml-auto" />
           ) : (

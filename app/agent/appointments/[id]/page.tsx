@@ -74,6 +74,67 @@ const SetAppointmentForListing = () => {
       />
       <div className="w-full flex flex-col gap-4">
         <div className="otherHead text-md font-bold self-center">Fill Viewing Details</div>
+        {/* ========= WHY DETAILS ==============*/}
+        <details>
+          <summary
+            className="cursor-pointer text-sm underline underline-offset-6
+        text-gray-600 dark:text-gray-300 mx-auto"
+          >
+            Why set an appointment?
+          </summary>
+          <div className="hyphens-auto w-[98%] mt-3 text-sm font-medium font-head text-gray-800 dark:text-gray-200 flex flex-col items-center  lg:flex-row break-words tracking-wide leading-6 px-2">
+            <p className="w-full text-justify">
+              Setting an appointment allows you to schedule property viewings with clients, ensuring
+              a structured and efficient process. It helps in managing your time effectively,
+              providing clients with a professional experience, and keeping track of upcoming
+              viewings.
+            </p>
+            <p className="w-full text-justify mt-2 lg:mt-0 lg:ml-4">
+              Additionally, appointments can enhance communication and reduce scheduling conflicts,
+              ultimately leading to better client satisfaction and increased chances of closing
+              deals.
+            </p>
+          </div>
+        </details>
+
+{/* ============== VISIT TYPES ==============*/}
+        <details>
+          <summary
+            className="cursor-pointer text-sm underline underline-offset-6
+        text-gray-600 dark:text-gray-300 mx-auto"
+          >
+            Visit Types Explained
+          </summary>
+          <div className="hyphens-auto w-[98%] mt-3 text-sm font-medium font-head text-gray-800 dark:text-gray-200 flex flex-col items-center  lg:flex-row break-words tracking-wide leading-6 px-2">
+            <p className="w-full text-justify">
+              <span className="font-bold bg-gray-700 text-background dark:bg-gray-50 px-2 p-1 rounded-sm">
+                Initial Visit:
+              </span>{" "}
+              This is the first meeting between the agent and the client. The purpose is to
+              understand the client's needs, preferences, and budget. The agent may also ask
+              questions about the property, its features, and any specific requirements the client
+              has.
+            </p>
+            <p className="w-full text-justify mt-2 lg:mt-0 lg:ml-4">
+              <span className="font-bold bg-gray-700 text-background dark:bg-gray-50 px-2 p-1 rounded-sm">
+                Revisit:
+              </span>{" "}
+              This is a follow-up meeting scheduled after the initial visit. The purpose is to
+              discuss any further questions, address any concerns, and provide updates on the
+              property. Revisits help in closing deals more effectively.
+            </p>
+            <p className="w-full text-justify mt-2 lg:mt-0 lg:ml-4">
+              <span className="font-bold bg-gray-700 text-background dark:bg-gray-50 px-2 p-1 rounded-sm">
+                Final Visit:
+              </span>{" "}
+              This is the concluding meeting where the client and the agent agree on the terms of
+              the deal. It is typically a short meeting to finalize the sale or rental agreement.
+            </p>
+          </div>
+        </details>
+
+
+        {/* ============== APPOINTMENT FORM ==============*/}
         <form className="flex-1 form appoint flex flex-col gap-3">
           <div className="w-full flex flex-col gap-3">
             <div className="w-full flex flex-col gap-2">

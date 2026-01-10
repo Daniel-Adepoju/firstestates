@@ -45,7 +45,7 @@ const HomePage = () => {
         {/* Filter toggle button */}
         <div
           onClick={() => (active.value = !active.value)}
-          className="dark:bg-darkGray flex items-center justify-center bg-white w-80 border border-gray-400 py-3 px-2 shadow-xs my-4 cursor-pointer rounded-md"
+          className="dark:bg-darkGray bg-white flex items-center justify-center  w-80   outline-2 outline-gray-100 dark:outline-gray-800 py-3.5 px-2 shadow-xs my-4 cursor-pointer rounded-md"
         >
           <span className="font-semibold text-gray-500 dark:text-gray-300 pl-2">
             Filter Listings

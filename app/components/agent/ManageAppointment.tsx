@@ -1,13 +1,13 @@
 import { parseDate, createdAt } from "@utils/date"
 
-const ManageAppointment = ({nextAppointment,lastAppointment}:{nextAppointment:Date,lastAppointment:Date}) => {
+const ManageAppointment = ({nextAppointment, numberOfAppointments, lastAppointment}:{nextAppointment:Date | null,numberOfAppointments:number, lastAppointment:Date | null}) => {
 
   return (
   <div className="w-full max-w-[90%] g-white dark:bg-darkGray rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">
   {/* Card Header */}
-  <div className="bg-gray-50 dark:bg-gray-700 px-4 py-3 border-b border-gray-100 dark:border-gray-600">
+  <div className="bg-gray-300 dark:bg-gray-600 px-4 py-3 border-b border-gray-100 dark:border-gray-600">
     <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-100 flex items-center gap-2">
-      <svg className="w-4 h-4 dark:text-goldPrimary text-darkblue" fill="currentColor" viewBox="0 0 20 20">
+      <svg className="w-4 h-4 text-gray-700 dark:text-gray-300" fill="currentColor" viewBox="0 0 20 20">
         <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
       </svg>
       Inspection Schedule
@@ -16,11 +16,12 @@ const ManageAppointment = ({nextAppointment,lastAppointment}:{nextAppointment:Da
 
   {/* Card Body */}
   <div className="p-4 space-y-4">
+
     {/* Next Viewing */}
     <div className="flex items-start">
       <div className="flex-shrink-0 pt-0.5">
         <div className="w-8 h-8 rounded-full bg-blue-50 dark:bg-black/20 flex items-center justify-center">
-          <svg className="w-4 h-4 dark:text-goldPrimary text-darkblue" fill="currentColor" viewBox="0 0 20 20">
+          <svg className="w-4 h-4 text-goldPrimary" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
           </svg>
         </div>
@@ -28,9 +29,9 @@ const ManageAppointment = ({nextAppointment,lastAppointment}:{nextAppointment:Da
       <div className="ml-3">
         <p className="text-sm text-gray-600 dark:text-gray-300">Next Inspection</p>
         <div className="mt-1 flex items-center">
-          <p className="text-sm font-medium text-gray-900 dark:text-white">{parseDate(nextAppointment)}</p>
+          <p className="text-xs font-medium text-gray-900 dark:text-white font-card capitalize">{nextAppointment ? parseDate(nextAppointment) : "No Upcoming inspection"}</p>
           <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-darkblue dark:text-goldPrimary dark:bg-blue-800/30">
-            {createdAt(parseDate(nextAppointment))}
+            {nextAppointment ? createdAt(parseDate(nextAppointment)) : "N/A"}
           </span>
         </div>
       </div>
@@ -48,9 +49,9 @@ const ManageAppointment = ({nextAppointment,lastAppointment}:{nextAppointment:Da
       <div className="ml-3">
         <p className="text-sm text-gray-600 dark:text-gray-300">Last Inspection</p>
         <div className="mt-1 flex items-center">
-          <p className="text-sm font-medium text-gray-900 dark:text-white">{parseDate(lastAppointment)}</p>
-          <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300">
-         {createdAt(parseDate(lastAppointment))}
+          <p className="text-xs font-medium text-gray-900 dark:text-white font-card capitalize">{lastAppointment ? parseDate(lastAppointment) : "No previous inspections"}</p>
+          <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800 dark:bg-red-500/60 dark:text-amber-300">
+         {lastAppointment ? createdAt(parseDate(lastAppointment)) : "N/A"}
           </span>
         </div>
       </div>
