@@ -48,6 +48,7 @@ const RoommateCard = ({
   const userId = session?.user.id || ""
 
   console.log(request)
+
   // bookmark requests
   const handleBookmark = async (val: any) => {
     try {
@@ -250,6 +251,7 @@ const RoommateCard = ({
             {/* options row for request */}
 
             <div className="w-full flex flex-row justify-around mt-2 ">
+             
               {/* CHAT */}
               <Link href={`chat?recipientId=${request?.requester?._id}`}>
                 <div className="flex items-center gap-1 text-white font-bold">
@@ -267,7 +269,7 @@ const RoommateCard = ({
                   onClick={() => {
                     bookmarkMutation.mutate({
                       requestId: request?._id,
-                      userId: request?.requester?._id,
+                      userId,
                       action: "bookmarkRequest",
                     })
                   }}
@@ -276,7 +278,7 @@ const RoommateCard = ({
                   <Bookmark
                     size={30}
                     color="white"
-                    fill={request?.isBookmarked ? "white" : "none"}
+                    fill={request?.isBookmarkedByUser ? "white" : "none"}
                   />
                   <span>Bookmark</span>
                 </div>
@@ -323,12 +325,8 @@ const RoommateCard = ({
               )}
 
               {/* main description */}
-              <p className="mt-2 mb-2 text-[12px] font-medium text-gray-700 dark:text-white  whitespace-pre-wrap">
+              <p className="hyphen-auto mt-2 mb-2 text-[12px] font-medium text-gray-700 dark:text-white  whitespace-pre-wrap">
                 {request?.description}
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, accusantium.
-                Explicabo obcaecati cupiditate delectus exercitationem, ad maiores id deleniti?
-                Culpa ad quisquam exercitationem veritatis neque obcaecati possimus sed voluptatum
-                aliquam.
               </p>
 
               {/* budget */}

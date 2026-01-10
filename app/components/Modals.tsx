@@ -253,7 +253,7 @@ export const ReportModal = ({
       type: `report_${action}`,
     })
   }
-  console.log(ref.current)
+  // console.log(ref.current)
   return (
     <dialog
       // onC

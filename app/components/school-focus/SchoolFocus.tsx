@@ -40,7 +40,7 @@ const SchoolFocus = () => {
   const buildRequestQuery = (type: "co-rent" | "roommate") => ({
     limit: 12,
     school,
-    // requester: session?.user.id,
+    requester: session?.user.id,
     requestType: type,
     // status: "accepted",
     enabled: !!school,

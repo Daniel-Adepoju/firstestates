@@ -52,5 +52,5 @@ interface Request {
   updatedAt?: Date;
   moveInDate?:Date;
   preferredGender?: "male" | "female";
-  isBookmarked?: boolean;
+  isBookmarkedByUser?: boolean;
 }

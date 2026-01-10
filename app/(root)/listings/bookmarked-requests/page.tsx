@@ -19,7 +19,7 @@ const BookmarkedRequests = () => {
     useGetRequests({
       limit: 12,
       isBookmarked: "true",
-      status: "accepted",
+      // status: "accepted",
       requester: userId,
       enabled: Boolean(userId),
     })

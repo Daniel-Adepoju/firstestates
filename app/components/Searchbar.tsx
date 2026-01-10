@@ -18,7 +18,7 @@ const Searchbar = ({ search, placeholder, goToSearch, setSearch, className }: Se
         "mt-[80px] gap-1 w-full flex flex-row justify-center items-center md:justify-end  md:w-[60%]"
       }
     >
-      <div className="dark:bg-darkGray bg-white outline-2 outline-gray-100 dark:outline-gray-800 rounded-md p-2 flex items-center gap-2">
+      <div className="dark:bg-darkGray bg-white outline-2 outline-slate-200 dark:outline-gray-800 rounded-md p-2 flex items-center gap-2">
         <Search
           size={32}
           className="text-goldPrimary"
@@ -27,7 +27,7 @@ const Searchbar = ({ search, placeholder, goToSearch, setSearch, className }: Se
       <input
         className="w-[80%] bg-white dark:bg-darkGray
      py-3.5 pr-2 pl-4
-  outline-2 outline-gray-100 dark:outline-gray-800
+  outline-2 outline-slate-200 dark:outline-gray-800
   focus:outline-3 focus:scale-99
      font-medium text-gray-700 dark:text-gray-200 
      placeholder-gray-400 dark:placeholder-gray-400

@@ -134,7 +134,7 @@ export const GET = async (req) => {
     ...viewsPipeline,
     {
       $addFields: {
-        isBookmarked: {
+        isBookmarkedByUser: {
           $in: [toId(session?.user.id), "$bookmarkedBy"],
         },
       },
@@ -153,7 +153,7 @@ export const GET = async (req) => {
         preferredGender: 1,
         description: 1,
         views: 1,
-        isBookmarked: 1,
+        isBookmarkedByUser: 1,
         bookmarkedBy: 1,
         moveInDate: 1,
         "requester.profilePic": 1,
