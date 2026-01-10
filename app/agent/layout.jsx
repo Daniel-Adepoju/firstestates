@@ -62,7 +62,7 @@ export default async function AdminLayout({ children }) {
         <ReactQueryProvider>
           <Provider>
             <User>
-              <Nav />
+              {/* <Nav /> */}
               <Notification>
                 <Toast>
                   <div className="admin-container nobar null">

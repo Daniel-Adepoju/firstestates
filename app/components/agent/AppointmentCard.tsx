@@ -63,12 +63,12 @@ const AppointmentCard = ({ firstCard, data }: AppointmentCardProps) => {
           >
             <CldImage
               src={data.listingID.mainImage}
-              width={100}
+              width={150}
               height={100}
-              crop={"fit"}
+              crop={"auto"}
               gravity="center"
               alt="house"
-              className="rounded-md mx-auto"
+              className="rounded-md mx-auto object-cover "
             />
           </Link>
         </div>
@@ -89,7 +89,7 @@ const AppointmentCard = ({ firstCard, data }: AppointmentCardProps) => {
           onClick={handleDeleteAppointment}
           className="bg-red-700/80 dark:bg-red-700 text-white
    col-span-4 md:col-span-4 lg:col-span-4 flex items-center gap-1
-    p-2 rounded-md cursor-pointer clickable w-fit mx-auto
+    p-2 rounded-md cursor-pointer clickable w-fit mx-auto gloss
   "
         >
           <span className="font-bold text-xs hidde md:inline-block ">Remove Appointment</span>

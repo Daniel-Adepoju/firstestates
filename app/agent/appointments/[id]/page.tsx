@@ -26,6 +26,8 @@ const SetAppointmentForListing = () => {
     setClientName("")
     if (res.status === 201) {
       router.back()
+    } else {
+      setWarning("Failed to create appointment, try again")
     }
   }
 
@@ -37,10 +39,14 @@ const SetAppointmentForListing = () => {
   })
 
   const handleCreateAppointment = () => {
-    if (!appointmentType) {
+    if (!clientName && !appointmentType) {
+      setWarning("Pick appointment type and provide client name")
+    } else if (!appointmentType) {
       setWarning("Pick appointment type")
-    } else if (!clientName) {
+    } else if (!clientName || clientName.trim().length === 0) {
       setWarning("Client name should not be empty")
+    } else if (!date) {
+      setWarning("Pick a date for the appointment")
     } else {
       setWarning("")
       appointmentMutation.mutate({
@@ -78,7 +84,7 @@ const SetAppointmentForListing = () => {
         <details>
           <summary
             className="cursor-pointer text-sm underline underline-offset-6
-        text-gray-600 dark:text-gray-300 mx-auto"
+        text-gray-500 dark:text-gray-400 font-bold"
           >
             Why set an appointment?
           </summary>
@@ -97,11 +103,11 @@ const SetAppointmentForListing = () => {
           </div>
         </details>
 
-{/* ============== VISIT TYPES ==============*/}
+        {/* ============== VISIT TYPES ==============*/}
         <details>
           <summary
             className="cursor-pointer text-sm underline underline-offset-6
-        text-gray-600 dark:text-gray-300 mx-auto"
+        text-gray-500 dark:text-gray-400 font-bold"
           >
             Visit Types Explained
           </summary>
@@ -133,7 +139,6 @@ const SetAppointmentForListing = () => {
           </div>
         </details>
 
-
         {/* ============== APPOINTMENT FORM ==============*/}
         <form className="flex-1 form appoint flex flex-col gap-3">
           <div className="w-full flex flex-col gap-3">
@@ -162,7 +167,7 @@ const SetAppointmentForListing = () => {
             </div>
           </div>
         </form>
-        {warning && <div className="mx-auto text-sm text-red-500">{warning}</div>}
+        <div className="mx-auto text-sm text-red-500 font-medium">{warning}</div>
         <Button
           disabled={!appointmentType && !clientName}
           functions={() => handleCreateAppointment()}

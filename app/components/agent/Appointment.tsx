@@ -95,21 +95,21 @@ const Appointment = () => {
           </div>
 
           <div className="w-full flex flex-col items-center gap-3">
-            <h2 className="otherHead text-md font-bold capitalize text-center">
+            <h2 className="otherHead text-md font-bold capitalize text-center mt-3">
               Schedule inspection
             </h2>
-         
+
             <Typewriter
               text=" Recent listings are displayed by default. You can search by school or location to
               schedule an appointment."
               waitTime={10000}
               className="mb-2 dark:text-gray-200 gap-1 w-[99%] flex flex-row justify-center items-center px-4 break-words"
-            /> 
+            />
             <Searchbar
               search={search}
               setSearch={(e) => setSearch(e.target.value)}
               placeholder="Search your listings"
-              className="dark:text-gray-200 gap-1 w-full flex flex-row justify-center items-center"
+              className="mt-0 pt-0 dark:text-gray-200 gap-1 w-full flex flex-row justify-center items-center"
             />
 
             {/* listings */}
@@ -143,14 +143,14 @@ const Appointment = () => {
         <div className="appointments w-full self-start">
           <h3 className="otherHead text-lg font-bold mx-auto text-center ">Pending Inspections</h3>
           <Typewriter
-          text="A reminder email will be sent to you before your appointment's due date"
-          className="text-sm text-center text-gray-600 dark:text-gray-300 font-semibold"
-          waitTime={20000}
+            text="A reminder email will be sent to you before your appointment's due date"
+            className="text-sm my-1.5 text-center text-gray-600 dark:text-gray-300 font-semibold"
+            waitTime={20000}
           />
           <Typewriter
-          text="Expired appointments are removed on a weekly schedule"
-          className="text-sm text-center font-light text-gray-600 dark:text-gray-300"
-           waitTime={22000}
+            text="Expired appointments are removed on a weekly schedule"
+            className="text-sm text-center font-light text-gray-600 dark:text-gray-300"
+            waitTime={22000}
           />
           <div className="mt-4 grid grid-cols-4 text-center border-gray-500/20">
             <div className="dark:text-white border-1 border-gray-500/40 ">Image</div>

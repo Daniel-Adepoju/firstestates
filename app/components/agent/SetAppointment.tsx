@@ -13,7 +13,7 @@ const SetAppointment = ({ date, setDate }: SetAppointmentProps) => {
 
 useEffect(() => {
     setMounted(true)
-    setDate(new Date())
+    // setDate(new Date())
   }, [])
 
     if(!mounted) return null
