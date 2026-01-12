@@ -489,7 +489,7 @@ a:has(.clickable) {
   justify-content: center;
 }
 .form label {
-  opacity: 50%;
+  opacity: 95%;
 }
 .form input,
 .form select,

@@ -301,7 +301,7 @@ a:has(.clickable) {
   padding: 4px 20px;
   @include mx.flex(column, center, center);
   label {
-    opacity: 50%;
+    opacity: 95%;
   }
   input,
   select,

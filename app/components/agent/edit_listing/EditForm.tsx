@@ -231,11 +231,11 @@ const EditForm = () => {
           {/* Status */}
           {currentTab === "Status" && (
 
-            <div className="form_group mx-auto col-span-1
-              self-center">
+            <div className="form_group mx-auto col-span-2">
+                <div className="w-full mx-auto lg:w-[70%] flex flex-col gap-2">
               <label>Set Status</label>
-              <details className="rounded-lg border border-amber-400 bg-goldPrimary/20 px-3 py-2">
-                <summary className="text-sm cursor-pointer font-semibold text-amber-700 dark:text-amber-400">
+              <details className="w-[92%] md:lg-[91%] lg:w-[90%] mx-auto rounded-lg border border-amber-400 bg-goldPrimary/20 px-3 py-2">
+                <summary className=" text-sm cursor-pointer font-semibold text-amber-700 dark:text-amber-400">
                  Changing Listing Status
                 </summary>
 
@@ -277,6 +277,7 @@ const EditForm = () => {
                 <option value="available">Available</option>
                 <option value="rented">Rented</option>
               </select>
+              </div>
             </div>
          
           )}
