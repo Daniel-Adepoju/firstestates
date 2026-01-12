@@ -49,7 +49,7 @@ const EditForm = () => {
   const userId = session?.user.id
   const tabItems = [
     // { name: "Gallery", href: "#" },
-    // { name: "Status", href: "#" },
+    { name: "Status", href: "#" },
     { name: "Details", href: "#" },
     { name: "Tier", href: "#" },
   ]
@@ -216,7 +216,7 @@ const EditForm = () => {
                   ? "outline-2 outline-goldPrimary darkblue-gradient text-white font-bold"
                   : "hover:bg-gray-200 dark:hover:bg-darkGray"
               }
-            text-foreground font-head font-medium  px-4 py-2 rounded-md transition-all duration-300 focus:outline-goldPrimary`}
+            text-foreground text-md  font-medium  px-4 py-2 rounded-md transition-all duration-300 focus:outline-goldPrimary`}
             >
               {item.name}
             </button>
@@ -227,19 +227,73 @@ const EditForm = () => {
           onSubmit={(e) => mutation.mutate({ e })}
           className="form listing"
         >
+
+          {/* Status */}
+          {currentTab === "Status" && (
+
+            <div className="form_group mx-auto col-span-1
+              self-center">
+              <label>Set Status</label>
+              <details className="rounded-lg border border-amber-400 bg-goldPrimary/20 px-3 py-2">
+                <summary className="text-sm cursor-pointer font-semibold text-amber-700 dark:text-amber-400">
+                 Changing Listing Status
+                </summary>
+
+                <ul className="hyphen-auto tracking-wide mt-3 list-disc pl-5 space-y-2 text-sm text-gray-800 dark:text-gray-200">
+                  <li>
+                    Once a listing is changed from <strong>Available</strong> to{" "}
+                    <strong>Rented</strong>, it will be
+                    <strong> immediately removed from search results</strong>.
+                  </li>
+                  <li>
+                    Potential tenants will <strong>no longer be able to view or access</strong> the
+                    listing.
+                  </li>
+                  <li>
+                    The listing will be <strong>marked as Rented</strong> on your dashboard.
+                  </li>
+                  <li>
+                    You will be able to manage residents on this listing via the{" "}
+                    <strong>Manage Residents</strong> button on your dashboard.
+                  </li>
+                  <li>
+                    <strong>Important:</strong> Attempting to game the system by switching a listing
+                    back to
+                    <strong> Available</strong> will not reset its validity period.
+                  </li>
+                  <li>
+                    If a listing has <strong>expired</strong> and you revert it to{" "}
+                    <strong>Available</strong>, it will be
+                    <strong> automatically removed</strong>.
+                  </li>
+                </ul>
+              </details>
+
+              <select
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+                className="border rounded p-2 dark:bg-darkGray dark:text-white"
+              >
+                <option value="available">Available</option>
+                <option value="rented">Rented</option>
+              </select>
+            </div>
+         
+          )}
+
+
           {/* Details */}
           {currentTab === "Details" && (
             <EditListingDetails
               listingDeets={listingDeets}
               descriptionLength={descriptionLength}
               handleInputChange={handleInputChange}
-              status={status}
-              setStatus={setStatus}
               areas={areas}
               area={area}
               setArea={setArea}
             />
           )}
+
           {/* Tier */}
           {currentTab === "Tier" && (
             <EditTier

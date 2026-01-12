@@ -1,17 +1,24 @@
 "use client"
 
+import Typewriter from "@components/Typewriter"
+
 const EditListingDetails = ({
   listingDeets,
   descriptionLength,
   handleInputChange,
-  status,
-  setStatus,
   areas,
   area,
   setArea,
 }) => {
   return (
     <>
+      {/* notes */}
+      {/* <Typewriter
+        text="Note: changing status from available to rented will yield the following effects: 1) the listing will no longer appear in search results 2) potential tenants will not be able to view the listing 3) the listing will be marked as rented on your dashboard."
+        className="m-0 p-0 mb-1 text-md text-gray-500 dark:text-gray-300"
+        waitTime={50000}
+      /> */}
+
       {/* Desc */}
       <div className="form_group relative">
         <label htmlFor="description">Description</label>
@@ -23,22 +30,9 @@ const EditListingDetails = ({
           placeholder="Enter a description, it cannot be more than 600 characters"
           className="pb-5 nobar placeholder-gray-500 resize-none h-60"
         />
-        <div className="otherHead backdrop-blur-sm text-sm font-head font-bold absolute bottom-0 right-[5%]">
+        <div className="otherHead backdrop-blur-sm text-xs font-list font-bold absolute bottom-0 right-[5%]">
           {descriptionLength}/600
         </div>
-      </div>
-
-      {/* Status */}
-      <div className="form_group">
-        <label>Set Status</label>
-        <select
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-          className="w-full border rounded p-2 dark:bg-darkGray dark:text-white"
-        >
-          <option value="available">Available</option>
-          <option value="rented">Rented</option>
-        </select>
       </div>
 
       {/* Price */}
@@ -117,7 +111,10 @@ const EditListingDetails = ({
         >
           <option value="">Select a location</option>
           {areas.map((loc) => (
-            <option key={loc} value={loc}>
+            <option
+              key={loc}
+              value={loc}
+            >
               {loc}
             </option>
           ))}

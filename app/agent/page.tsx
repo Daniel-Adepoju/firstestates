@@ -30,7 +30,7 @@ const AgentOnboarding = () => {
       {/* return to homepage */}
       <Link
         href="/"
-        className="flex items-center gap-1 pl-6 self-start text-sm gold-gradient-text font-medium font-head"
+        className="flex items-center gap-1 pl-2 md:pl-3 self-start text-sm gold-gradient-text font-medium font-head"
       >
         <ChevronLeft
           size={15}

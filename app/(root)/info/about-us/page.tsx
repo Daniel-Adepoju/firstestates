@@ -55,7 +55,7 @@ const AboutUs = () => {
       </section>
 
       {/* Team */}
-      <section className="space-y-6 w-full">
+      {/* <section className="space-y-6 w-full">
         <h2 className="subheading">Key People</h2>
 
         <div className="flex items-center justify-evenly gap-8 pb-6">
@@ -77,7 +77,7 @@ const AboutUs = () => {
             </article>
           ))}
         </div>
-      </section>
+      </section> */}
     </main>
     </>
    
