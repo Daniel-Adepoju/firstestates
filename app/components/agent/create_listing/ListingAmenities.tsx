@@ -11,7 +11,7 @@ export default function ListingAmenities({ listingDeets, handleInputChange }: an
 
   return (
     <div className="form_group amenities">
-      <label className="group_label font-semibold">Amenities</label>
+      {/* <label className="group_label font-semibold">Amenities</label> */}
       <div className="items flex flex-row gap-4">
         {fields.map((f) => (
           <div

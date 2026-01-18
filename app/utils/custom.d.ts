@@ -11,6 +11,8 @@ type Listing = {
   location: string;
   image?: string;
   price?: string;
+  priceUnit?: string
+  priceDuration?:string
   description?: string;
   bedrooms?: number;
   bathrooms?: number;
@@ -29,6 +31,8 @@ type Listing = {
   listingTier?: "standard" | "gold" | "first";
   validUntil?: Date;
   requestCounts?:any
+  tags?:string[]
+  listingType?:string
   
 }
 

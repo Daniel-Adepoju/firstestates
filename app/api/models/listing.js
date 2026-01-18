@@ -29,11 +29,26 @@ const ListingSchema = new Schema(
       type: String,
       required: [true, "Location is required"],
     },
+    listingType: {
+      type: String,
+      // required: [true, "Listing type is required"],
+    },
     price: {
       type: Number,
       required: [true, "Price is required"],
     },
-    amenities: {
+    priceUnit: {
+      type: String,
+      enum: ["perPerson", "perRoom", "entireUnit", "perBed"],
+      required: true,
+    },
+
+    priceDuration: {
+      type: String,
+      // enum: ["monthly", "semester", "session", "yearly"],
+      required: true,
+    },
+    tags: {
       type: [String],
     },
     description: {
@@ -102,7 +117,7 @@ const ListingSchema = new Schema(
       default: false,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 )
 
 // set priority based on tier
@@ -111,6 +126,22 @@ ListingSchema.pre("save", function (next) {
   this.listingTierWeight = weightMap[this.listingTier] || 3
   next()
 })
+
+// Validate Price
+// ListingSchema.pre("validate", function (next) {
+//   if (this.listingType === "Shared Room" && this.priceUnit !== "per_person") {
+//     return next(new Error("Shared room price must be per person"))
+//   }
+
+//   if (
+//     ["Apartment", "House"].includes(this.listingType) &&
+//     this.priceUnit !== "entire_unit"
+//   ) {
+//     return next(new Error("Apartment/House price must be entire unit"))
+//   }
+
+//   next()
+// })
 
 // Text index for search
 ListingSchema.index(
@@ -126,7 +157,7 @@ ListingSchema.index(
       "agent.username": 3,
     },
     name: "TextIndex_School_Location_Agent",
-  }
+  },
 )
 
 const Listing = models?.Listing || model("Listing", ListingSchema)

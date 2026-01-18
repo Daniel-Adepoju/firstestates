@@ -7,11 +7,11 @@ const AgentDetails = ({ agent, session, onPhone, onChat }: any) => {
   return (
     <div className="agent_details w-full">
       <div className="txt heading">Agent&apos;s Details</div>
-      <div className="details">
+      <div className="details mt-3">
         <div className="subheading">Office Address</div>
-        <div className="address">
-          <MapPin size={30} className="text-goldPrimary" />
-          <span>{agent?.address}</span>
+        <div className="flex items-center gap-1">
+          <MapPin size={25} className="text-goldPrimary" />
+          <span className="text-sm text-medium text-gray-600 dark:text-gray-300">{agent?.address} lorem ipsom</span>
         </div>
 
         <div className="subheading">Contacts</div>

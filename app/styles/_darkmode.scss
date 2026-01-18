@@ -89,13 +89,15 @@ html:is(.dark) {
     input,
     select,
     textarea {
-      outline-color: rgba(174, 174, 174, 0.842);
+      outline-color: #1e2939;
       color: white;
       &:focus {
         outline-color: color("goldPrimary");
       }
     }
-
+      .inputLogin {
+        outline-color:rgba(53, 53, 53, 0.861);
+      }
     .general_details,
     .agent_details,
     .bottom {

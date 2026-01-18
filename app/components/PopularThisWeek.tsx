@@ -11,12 +11,13 @@ export default function PopularThisWeek() {
   const scrollRef = useRef<HTMLDivElement>(null)
   return (
     <>
-      <h2 className="subheading flex items-center gap-1 ml-4 mb-[-40px] py-1 text-xl font-semibold relative">
-        Popular This Week
-        <ChevronRightCircle className="relative w-6 h-6" />
-      </h2>
-      <ScrollController scrollRef={scrollRef} />
-
+      <div className="flex items-center w-[98%]">
+        <div className="mx-auto w-[90%]  subheading flex items-center gap-1 ml-4 py-1 text-xl font-semibold relative">
+         <span>Popular This Week</span> 
+          <ChevronRightCircle className="relative w-6 h-6" />
+        </div>
+        <ScrollController scrollRef={scrollRef}  className='w-[30%]'/>
+      </div>
       <div
         ref={scrollRef}
         className="popularList px-4 grid w-full grid-flow-col py-2

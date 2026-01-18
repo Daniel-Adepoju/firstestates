@@ -8,7 +8,7 @@ const PaystackBtn = dynamic(() => import("@components/PayStackButton"), { ssr: f
 export default function ListingSubmit({ email, incomplete, creating, amount, handleMutate }: any) {
 
   return (
-    <div className="form_group col-span-2 mx-auto">
+    <div className="form_group col-span-2 mx-auto my-6">
       {email ? (
         incomplete ? (
           <div className="mx-auto font-semibold text-gray-700 dark:text-white text-center">

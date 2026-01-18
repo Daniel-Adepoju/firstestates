@@ -107,7 +107,7 @@ export const LogOutModal = ({ ref }: ModalProps) => {
   return (
     <dialog
       ref={ref}
-      className="dark:bg-gray-700 dark:text-white bg-white mt-40 rounded-xl p-6 w-100 mx-auto shadow-xl text-center border-1 border-white"
+      className="dark:bg-gray-700 dark:text-white bg-white mt-40 rounded-xl p-6 w-100 mx-auto shadow-xl text-center border-1 border-white dark:border-black"
     >
       <div className="flex justify-center mb-4">
         <LogOut
@@ -171,7 +171,7 @@ export const FeaturedModal = ({ ref, email, listingId, userId }: FeaturedProps) 
   return (
     <dialog
       ref={ref}
-      className="dark:bg-gray-700 dark:text-white bg-white mt-40 rounded-xl p-6 w-[90%] max-w-md mx-auto shadow-xl text-center border border-white"
+      className="dark:bg-gray-700 dark:text-white bg-white mt-40 rounded-xl p-6 w-[90%] max-w-md mx-auto shadow-xl text-center border border-white dark:border-black"
     >
       <div className="flex justify-center mb-4">
         <h2 className="text-xl font-semibold">Make Listing Featured</h2>
@@ -258,7 +258,7 @@ export const ReportModal = ({
     <dialog
       // onC
       ref={ref}
-      className="dark:bg-gray-700 dark:text-white bg-white mt-40 rounded-xl p-6 w-[90%] max-w-md mx-auto shadow-xl text-center border border-white"
+      className="dark:bg-gray-700 dark:text-white bg-white mt-40 rounded-xl p-6 w-[90%] max-w-md mx-auto shadow-xl text-center border border-white dark:border-black"
     >
       <div className="flex flex-col items-center justify-center mb-4">
         <AlertCircle
@@ -353,7 +353,7 @@ export const ReportListingModal = ({
   return (
     <dialog
       ref={ref}
-      className=" dark:bg-gray-700 dark:text-white bg-white mt-20 rounded-xl p-6 w-[90%] max-w-md mx-auto shadow-xl text-center border border-white"
+      className=" dark:bg-gray-700 dark:text-white bg-white mt-20 rounded-xl p-6 w-[90%] max-w-md mx-auto shadow-xl text-center border border-white dark:border-black"
     >
       <div className="flex flex-col items-center justify-center mb-4">
         <AlertCircle
@@ -411,7 +411,7 @@ export const InfoModal = ({ ref }: ModalProps) => {
       ref={ref}
       className="mt-30 dark:bg-gray-700 dark:text-white
         bg-white rounded-xl p-6 w-[90%] max-w-md mx-auto shadow-xl
-       text-center border border-white"
+       text-center border border-white dark:border-black"
     >
       <div className="flex flex-col gap-4 relative text-sm">
         <h2 className="otherHead text-md font-bold">How To List</h2>

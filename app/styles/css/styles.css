@@ -67,13 +67,16 @@ html:is(.dark) .form label {
 html:is(.dark) .form input,
 html:is(.dark) .form select,
 html:is(.dark) .form textarea {
-  outline-color: rgba(174, 174, 174, 0.842);
+  outline-color: #1e2939;
   color: white;
 }
 html:is(.dark) .form input:focus,
 html:is(.dark) .form select:focus,
 html:is(.dark) .form textarea:focus {
   outline-color: #f29829;
+}
+html:is(.dark) .form .inputLogin {
+  outline-color: rgba(53, 53, 53, 0.861);
 }
 html:is(.dark) .form .general_details,
 html:is(.dark) .form .agent_details,
@@ -495,10 +498,10 @@ a:has(.clickable) {
 .form select,
 .form textarea {
   width: 98%;
-  padding: 12px 10px;
+  padding: 14px 10px;
   border-radius: 4px;
   border: 0;
-  outline: 1px solid rgba(43, 43, 43, 0.858);
+  outline: 2px solid #e2e8f0;
 }
 .form input,
 .form select,
@@ -521,6 +524,13 @@ a:has(.clickable) {
 }
 .form textarea {
   padding-bottom: 24px;
+}
+.form .noborder {
+  min-width: 120px;
+  width: auto;
+  border: none;
+  outline: none;
+  padding-block: 0px;
 }
 
 .bottom {
@@ -2224,7 +2234,7 @@ footer.hide {
   position: absolute;
   top: -1%;
   left: 3%;
-  background-color: rgb(23, 146, 23);
+  background-color: #179217;
 }
 .card .tag {
   display: flex;
@@ -2237,6 +2247,7 @@ footer.hide {
 }
 .card .tag.no_absolute {
   position: relative;
+  margin: 0;
 }
 
 .agentCardName {

@@ -54,17 +54,19 @@ const ListingHeader = ({ listing }: Props) => {
 
         <div className="heading location">{listing?.location}</div>
 
-        <div className="address">
+        <div className="flex items-center gap-1">
           <MapPin
-            size={30}
+            size={25}
             className="text-goldPrimary"
           />
-          <span>{listing?.address}</span>
+          <span className="text-sm text-medium text-gray-600 dark:text-gray-300">
+            {listing?.address}
+          </span>
         </div>
       </div>
 
       <div className="body">
-        <div className="home_details">
+        <div className="home_details font-medium">
           <div>
             <Bed
               size={30}

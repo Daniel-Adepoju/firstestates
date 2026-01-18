@@ -18,7 +18,7 @@ import InhabitantsSection from "./InhabitantsSection"
 import AgentDetails from "./AgentDetails"
 import CommentsSection from "./CommentsSection"
 
-const SingleListing = ({ listingId , isAgent}: { listingId: string, isAgent?:boolean }) => {
+const SingleListing = ({ listingId, isAgent }: { listingId: string; isAgent?: boolean }) => {
   const router = useRouter()
   const pathName = usePathname()
   const isAgentView = pathName.includes("/agent/listings/")
@@ -130,7 +130,42 @@ const SingleListing = ({ listingId , isAgent}: { listingId: string, isAgent?:boo
         </div>
       </div>
 
-      <div className="singleCardCon2 description bg-gray-500/20 text-foreground">
+      <div className="singleCardCon2 description bg-gray-50 dark:bg-gray-700/30 text-foreground">
+        {/* Tags */}
+        <div className="singleCardSection">
+          <div className="single_card">
+            <div className="heading mx-auto self-center">Tags</div>
+            <div className="font-medium font-list w-[90%] md:w-[80%] lg:w-[70%] text-foreground text-sm tracking-wide text-justify description mx-auto whitespace-prewrap self-center">
+              <div className="flex items-center justify-start p-0 flex-wrap gap-2 mt-2 ml-3">
+                {listing?.tags &&
+                  listing?.tags.length > 0 &&
+                  listing?.tags?.map((tag: any) => (
+                    <span
+                      key={tag}
+                      className={`
+    px-8 py-2 rounded-lg text-xs font-semibold capitalize
+    ${
+      tag.includes("new") || tag.includes("free")
+        ? "bg-green-200 dark:bg-green-300 text-green-700 dark:text-green-800 border border-green-200"
+        : tag.includes("walk") || tag.includes("trek")
+          ? "bg-yellow-200 dark:bg-yellow-300 text-yellow-700 border border-yellow-200"
+          : tag.includes("female")
+            ? "bg-pink-200 dark:bg-pink-300 text-pink-700 dark:text-pink-800 border border-pink-200"
+            : tag.includes("male")
+              ? "bg-blue-200 dark:bg-blue-300 text-blue-700 dark:text-blue-800 border border-blue-200"
+              : "bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200"
+    }
+  `}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Description */}
         <div className="singleCardSection">
           <div className="single_card">
             <div className="heading mx-auto self-center">Description</div>

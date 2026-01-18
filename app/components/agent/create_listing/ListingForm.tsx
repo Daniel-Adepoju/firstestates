@@ -17,12 +17,16 @@ import ListingAmenities from "./ListingAmenities"
 import ListingLocation from "./ListingLocation"
 import ListingSubmit from "./ListingSubmit"
 import LoadingBoard from "@components/LoadingBoard"
-import { Info } from "lucide-react"
+import { Info, X } from "lucide-react"
+import TagsInput from "./TagsInput"
 
 // global signals
 export const listingDeets = {
   description: signal(""),
   price: signal(""),
+  priceUnit: signal(""),
+  priceDuration: signal(""),
+  listingType: signal(""),
   gallery: signal<string[]>([]),
   mainImage: signal<string | null>(null),
   amenities: signal<string[]>([]),
@@ -30,6 +34,7 @@ export const listingDeets = {
   bedrooms: signal(""),
   bathrooms: signal(""),
   toilets: signal(""),
+  tags: signal<string[]>([]),
 }
 
 export default function ListingForm({ listingTier }: { listingTier?: string }) {
@@ -54,18 +59,23 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
     listingTier === "standard"
       ? 1000
       : listingTier === "gold"
-      ? 2500
-      : listingTier === "first"
-      ? 5000
-      : 1000
+        ? 2500
+        : listingTier === "first"
+          ? 5000
+          : 1000
 
   const listingTierWeight =
     listingTier === "standard" ? 1 : listingTier === "gold" ? 2 : listingTier === "first" ? 3 : 3
+
+  // ============= Ensure filled fields =============
 
   useEffect(() => {
     if (
       listingDeets.description.value &&
       listingDeets.price.value &&
+      listingDeets.priceUnit.value &&
+      listingDeets.priceDuration.value &&
+      listingDeets.listingType.value &&
       listingDeets.address.value &&
       listingDeets.bedrooms.value &&
       listingDeets.bathrooms.value &&
@@ -82,6 +92,9 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
   }, [
     listingDeets.description.value,
     listingDeets.price.value,
+    listingDeets.priceUnit.value,
+    listingDeets.priceDuration.value,
+    listingDeets.listingType.value,
     listingDeets.address.value,
     listingDeets.bedrooms.value,
     listingDeets.bathrooms.value,
@@ -92,18 +105,25 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
     school,
   ])
 
+  //  ============= Reset Form Fields ==============
   const resetFormFields = () => {
     listingDeets.description.value = ""
     listingDeets.price.value = ""
+    listingDeets.priceUnit.value = ""
+    listingDeets.priceDuration.value = ""
     listingDeets.address.value = ""
     listingDeets.bedrooms.value = ""
     listingDeets.bathrooms.value = ""
     listingDeets.toilets.value = ""
     listingDeets.mainImage.value = null
     listingDeets.gallery.value = []
+    listingDeets.listingType.value = ""
+    listingDeets.tags.value = []
     setArea("")
     setSchool("")
   }
+
+  //  ============= Set Ares When School is selected ============
 
   useEffect(() => {
     if (!school) {
@@ -114,7 +134,7 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
     }
   }, [school])
 
-  // handle listing creation
+  // ========= Handle listing creation ==============
   const handleCreateListing = async () => {
     creating.value = true
     try {
@@ -136,6 +156,10 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
       const res = await createListing({
         description: listingDeets.description.value,
         price: listingDeets.price.value,
+        priceUnit: listingDeets.priceUnit.value,
+        priceDuration: listingDeets.priceDuration.value,
+        listingType: listingDeets.listingType.value,
+        tags: listingDeets.tags.value,
         location: area,
         school,
         gallery: listingDeets.gallery.value,
@@ -191,8 +215,8 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
             <span
               className={`${listingTier === "standard" && "text-sky-500"}
            ${listingTier === "gold" && "text-goldPrimary"} ${
-                listingTier === "first" && "text-[#b647ff]"
-              }`}
+             listingTier === "first" && "text-[#b647ff]"
+           }`}
             >
               {listingTier}
             </span>{" "}
@@ -239,6 +263,13 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
             area={area}
             setArea={setArea}
             areas={areas}
+          />
+
+          {/* Tags */}
+          
+          <TagsInput
+            tagsSignal={listingDeets.tags}
+            maxTags={6}
           />
 
           <ListingSubmit

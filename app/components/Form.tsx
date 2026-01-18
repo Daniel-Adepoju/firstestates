@@ -60,9 +60,9 @@ const Form = () => {
         })
         return
       }
-const allFilled = Object.entries(userDeets)
-  .filter(([key]) => !["firstname", "lastname"].includes(key))
-  .every(([, sig]) => sig.value.trim() !== "")
+      const allFilled = Object.entries(userDeets)
+        .filter(([key]) => !["firstname", "lastname"].includes(key))
+        .every(([, sig]) => sig.value.trim() !== "")
       if (!allFilled) {
         setToastValues({
           isActive: true,
@@ -82,7 +82,7 @@ const allFilled = Object.entries(userDeets)
     ) {
       userDeets.username.value = `${userDeets.firstname.value}  ${userDeets.lastname.value}`
     }
-     
+
     //  start sending OTP
 
     setSending(true)
@@ -96,11 +96,11 @@ const allFilled = Object.entries(userDeets)
       })
       if (res.status === "success" && pathname === "/signup/agent") {
         router.push(
-          `/signup/verify?role=agent&username=${userDeets.username.value}&email=${userDeets.email.value}&password=${userDeets.password.value}&phone=${userDeets.phone.value}&address=${userDeets.address.value}`
+          `/signup/verify?role=agent&username=${userDeets.username.value}&email=${userDeets.email.value}&password=${userDeets.password.value}&phone=${userDeets.phone.value}&address=${userDeets.address.value}`,
         )
       } else if (res.status === "success" && pathname === "/signup/client") {
         router.push(
-          `/signup/verify?role=client&username=${userDeets.username.value}&email=${userDeets.email.value}&password=${userDeets.password.value}&school=${school}`
+          `/signup/verify?role=client&username=${userDeets.username.value}&email=${userDeets.email.value}&password=${userDeets.password.value}&school=${school}`,
         )
       }
       setSending(false)
@@ -253,7 +253,7 @@ const allFilled = Object.entries(userDeets)
                       value={userDeets.firstname.value}
                       id="firstname"
                       name="firstname"
-                      className="red"
+                      className="red inputLogin"
                       required
                     />
                     <label htmlFor="username">Lastname</label>
@@ -263,7 +263,7 @@ const allFilled = Object.entries(userDeets)
                       value={userDeets.lastname.value}
                       id="lastname"
                       name="lastname"
-                      className="red"
+                      className="red inputLogin"
                       required
                     />
                   </>
@@ -276,7 +276,7 @@ const allFilled = Object.entries(userDeets)
                       value={userDeets.username.value}
                       id="username"
                       name="username"
-                      className="red"
+                      className="red inputLogin"
                       required
                     />
                   </>
@@ -289,7 +289,7 @@ const allFilled = Object.entries(userDeets)
                 type="email"
                 id="email"
                 name="email"
-                className="red"
+                className="red inputLogin"
                 required
               />
 
@@ -301,7 +301,7 @@ const allFilled = Object.entries(userDeets)
                   value={userDeets.password.value}
                   id="password"
                   name="password"
-                  className="red"
+                  className="red inputLogin"
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       if (
@@ -339,25 +339,24 @@ const allFilled = Object.entries(userDeets)
               {/* Unique To Students */}
               {pathname === "/signup/client" && (
                 <>
-                <div className="flex flex-col gap-[8px] w-full self-start">
-                  <label>School</label>
-                  <select
-                    value={school}
-                    onChange={(e) => setSchool(e.target.value)}
-                    className={`w-full dark:bg-darkGray ${!school && "text-gray-400"}`}
-                  >
-                    <option value="">Select a school</option>
-                    {schools.map((school: School) => (
-                      <option
-                        key={school._id}
-                        value={school?.shortname}
-                      >
-                        {school?.shortname} ({school?.fullname})
-                      </option>
-                    ))}
-                  </select>
-                
-                </div>
+                  <div className="flex flex-col gap-[8px] w-full self-start">
+                    <label>School</label>
+                    <select
+                      value={school}
+                      onChange={(e) => setSchool(e.target.value)}
+                      className={`w-full dark:bg-darkGray inputLogin ${!school && "text-gray-400"}`}
+                    >
+                      <option value="">Select a school</option>
+                      {schools.map((school: School) => (
+                        <option
+                          key={school._id}
+                          value={school?.shortname}
+                        >
+                          {school?.shortname} ({school?.fullname})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                   <div className="mx-auto self-center text-center text-sm mt-2 text-gray-500 dark:text-gray-300">
                     If you’re not a student, you don’t need to select a school.
                   </div>
@@ -378,7 +377,7 @@ const allFilled = Object.entries(userDeets)
                     name="phone"
                     onChange={(e) => handleInput(e)}
                     value={userDeets.phone.value}
-                    className="red"
+                    className="red inputLogin"
                     required
                   />
 
@@ -389,6 +388,7 @@ const allFilled = Object.entries(userDeets)
                     name="address"
                     onChange={(e) => handleInput(e)}
                     value={userDeets.address.value}
+                    className="inputLogin"
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
                         if (
@@ -413,7 +413,7 @@ const allFilled = Object.entries(userDeets)
               {pathname === "/signup/agent" && (
                 <>
                   <div className="w-[100%] flex items-center justify-center  mt-4">
-                   {/* change to 3 */}
+                    {/* change to 3 */}
                     <div className="w-60 font-bold text-md font-list text-gray-500 dark:text-gray-200">
                       Step {step}/2
                     </div>

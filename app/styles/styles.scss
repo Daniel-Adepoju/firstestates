@@ -489,13 +489,14 @@ footer.hide {
     position: absolute;
     top: -1%;
     left: 3%;
-    background-color: rgb(23, 146, 23);
+    background-color: #179217;
     @include mx.center();
     &.rented {
       background-color: fn.color("goldPrimary");
     }
     &.no_absolute {
       position: relative;
+      margin:0;
     }
   }
 }

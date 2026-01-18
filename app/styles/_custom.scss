@@ -307,10 +307,10 @@ a:has(.clickable) {
   select,
   textarea {
     width: 98%;
-    padding: 12px 10px;
+    padding: 14px 10px;
     border-radius: 4px;
     border: 0;
-    outline: 1px solid rgba(43, 43, 43, 0.858);
+    outline: 2px solid #e2e8f0;
     @include mx.transition(140ms, ease-out);
     &:focus {
       outline-color: fn.color("darkblue");
@@ -326,6 +326,13 @@ a:has(.clickable) {
   }
   textarea {
     padding-bottom: 24px;
+  }
+  .noborder {
+    min-width: 120px;
+    width:auto;
+    border: none;
+    outline: none;
+    padding-block: 0px;
   }
 }
 

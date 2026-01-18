@@ -5,6 +5,7 @@ import Button from "@lib/Button"
 import { DeleteLoader } from "@utils/loaders"
 import { deleteMultipleImages } from "@lib/server/deleteImage"
 import { useSignal } from "@preact/signals-react"
+import { X, Images  } from "lucide-react"
 
 export default function ListingGallery({ listingDeets, listingTier }: any) {
   const deletingGallery = useSignal(false)
@@ -67,9 +68,11 @@ export default function ListingGallery({ listingDeets, listingTier }: any) {
           listingDeets?.gallery.value.length < maxImages && (
             <Button
               text="Upload To Gallery"
-              className="clickable text-white darkblue-gradient hover:scale-99 outline-2 outline-black transition-all duration-300 gloss font-bold py-3.5 px-8.5 rounded-md"
+              className="flex flex-row-reverse items-center gap-1 clickable text-white darkblue-gradient hover:scale-99 outline-2 outline-black transition-all duration-300 gloss font-semibold py-3.5 px-8.5 rounded-md"
               functions={() => open()}
-            ></Button>
+            >
+              <Images size={16} color='white' strokeWidth={3}/>
+            </Button>
           )
         }
       </CldUploadWidget>
@@ -98,6 +101,7 @@ export default function ListingGallery({ listingDeets, listingTier }: any) {
                 width={100}
                 height={100}
                 crop={"fill"}
+                className='mb-1.5'
               />
               {index === selectedGalleryImageId.value || deletingGallery.value === true ? (
                 <DeleteLoader />
@@ -115,10 +119,12 @@ export default function ListingGallery({ listingDeets, listingTier }: any) {
 
       {listingDeets.gallery.value.length > 1 && (
         <Button
-          className="clickable text-white darkblue-gradient hover:scale-99 dark:outline-gray-700 outline-2 outline-black transition-all duration-300 gloss font-bold py-3.5 px-8.5 rounded-md"
+          className="flex items-center justify-center gap-1 clickable text-white darkblue-gradient hover:scale-99 outline-2 outline-black transition-all duration-300 gloss font-semibold py-3 px-8  rounded-md"
           functions={() => handleDeleteGallery()}
           text="Delete All"
-        />
+        >
+          <X size={14} color='white' strokeWidth={3}/>
+        </Button>
       )}
     </div>
   )

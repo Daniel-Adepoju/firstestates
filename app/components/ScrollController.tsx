@@ -3,9 +3,10 @@ import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react"
 
 type ScrollControllerProps = {
   scrollRef: React.RefObject<HTMLDivElement | null>
+  className?: string 
 }
 
-const ScrollController = ({ scrollRef }: ScrollControllerProps) => {
+const ScrollController = ({ scrollRef,className }: ScrollControllerProps) => {
   const [showLeft, setShowLeft] = useState(false)
   const [showRight, setShowRight] = useState(false)
 
@@ -38,7 +39,8 @@ const ScrollController = ({ scrollRef }: ScrollControllerProps) => {
   if (!showLeft && !showRight) return null
 
   return (
-    <div className="w-[98%] flex justify-end">
+    <div className={`w-fit flex justify-end
+ `}>
       <div className="flex flex-row gap-4">
         {showLeft && (
           <div

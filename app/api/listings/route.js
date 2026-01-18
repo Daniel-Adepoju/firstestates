@@ -153,7 +153,6 @@ export const GET = async (req) => {
     ])
 
     await Listing.populate(posts, { path: "agent" })
-
     return NextResponse.json({ posts, cursor, numOfPages }, { status: 200 })
   } catch (err) {
     console.log(err)

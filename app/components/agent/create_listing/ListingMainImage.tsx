@@ -5,6 +5,7 @@ import Button from "@lib/Button"
 import { deleteImage } from "@lib/server/deleteImage"
 import { DeleteLoader } from "@utils/loaders"
 import { useSignal } from "@preact/signals-react"
+import { ImagePlus } from "lucide-react"
 
 export default function ListingMainImage({ listingDeets }: any) {
   const deletingImage = useSignal(false)
@@ -36,9 +37,15 @@ export default function ListingMainImage({ listingDeets }: any) {
           !listingDeets.mainImage.value && (
             <Button
               text="Upload Main Image"
-              className="clickable text-white darkblue-gradient hover:scale-99 dark:outline-black outline-2 outline-black transition-all duration-300 gloss font-bold py-3.5 px-8.5 rounded-md"
+              className="flex flex-row-reverse items-center gap-1 clickable text-white darkblue-gradient hover:scale-99 dark:outline-black outline-2 outline-black transition-all duration-300 gloss font-semibold py-3.5 px-8.5 rounded-md"
               functions={() => open()}
-            ></Button>
+            >
+              <ImagePlus
+                size={16}
+                strokeWidth={3}
+                color="white"
+              />
+            </Button>
           )
         }
       </CldUploadWidget>

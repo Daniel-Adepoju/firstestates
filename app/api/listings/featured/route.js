@@ -28,6 +28,8 @@ try {
       mainImage: 1,
       location:1,
       school:1,
+      priceUnit:1,
+      listingType:1,
       'agent._id':1,
       'agent.username': 1,
       'agent.email': 1,
