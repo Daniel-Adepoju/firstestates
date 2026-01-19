@@ -2,16 +2,39 @@ import Image from "next/image"
 import Link from "next/link"
 import { CldImage } from "next-cloudinary"
 import { truncateText } from "@utils/truncateText"
-import { Toilet, Bed, Bath, MapPin, Eye } from "lucide-react"
+import { Toilet, Bed, Bath, MapPin, Eye, Tag, X } from "lucide-react"
+import { useState } from "react"
 
 const CardBody = ({ listing, edit, isAgentCard, address, weeklyViews, totalViews }: any) => {
+  const [isTagVisible, setIsTagVisible] = useState(false)
   return (
-    <div className="body">
+    <div className={`body pb-6`}>
+      {/* Property type */}
+
+      <div
+        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md 
+  bg-gray-50/70 dark:bg-gray-800/10 
+  text-[11px]  text-gray-700 dark:text-gray-200 
+  shadow-sm dark:shadow-black/80 backdrop-blur"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          className="fill-current"
+        >
+          <path d="M 12 2.0996094 L 1 12 L 4 12 L 4 21 L 10 21 L 10 15 L 14 15 L 14 21 L 20 21 L 20 12 L 23 12 Z" />
+        </svg>
+
+        <span className="leading-none font-semibold">{listing?.listingType}</span>
+      </div>
+
       {/* location */}
       <div className="heading location">{listing?.location}</div>
 
       {/* address */}
-      <div className="address flex flex-row items-center justify-start gap-2 text-sm font-medium text-gray-600 dark:text-gray-300">
+      <div className="address mt-0 flex flex-row items-center justify-start gap-1 text-sm font-medium text-gray-600 dark:text-gray-300">
         <MapPin
           size={24}
           className="text-goldPrimary"
@@ -23,7 +46,7 @@ const CardBody = ({ listing, edit, isAgentCard, address, weeklyViews, totalViews
       {!edit && (
         <>
           {/* amenities */}
-          <div className="home_details font-list foont-bold">
+          <div className="mb-2 home_details font-list foont-bold">
             <div>
               <Bed
                 size={30}
@@ -51,7 +74,7 @@ const CardBody = ({ listing, edit, isAgentCard, address, weeklyViews, totalViews
 
           {/* agent */}
           {!isAgentCard && (
-            <div className="flex flex-col items-center justify-center self-center font-list font-bold">
+            <div className=" flex flex-col items-center justify-center self-center font-list font-bold">
               <div className="w-full text-sm flex flex-col items-center justify-start gap-1 break-words">
                 <Link
                   onClick={(e) => e.stopPropagation()}
@@ -84,20 +107,51 @@ const CardBody = ({ listing, edit, isAgentCard, address, weeklyViews, totalViews
             </div>
           )}
 
-          {/* tags */}
-          {/* catch words new ->> free ->> */}
-          {!isAgentCard && (
-            <div className="flex items-center justify-start p-0 flex-wrap gap-2 mt-2 ml-3">
-              {/* property type */}
-              {listing?.listingType && (
-                <span
-                  className="px-4 py-1 rounded-lg text-xs font-semibold
-    text-white bg-sky-600"
-                >
-                  {listing?.listingType}
-                </span>
-              )}
+          {/* Set show tags */}
+          {!isAgentCard && listing?.tags && listing?.tags.length > 0 && (
+            <div
+              onClick={(e) => {
+                e.stopPropagation()
+                setIsTagVisible(!isTagVisible)
+              }}
+              className="
+    inline-flex items-center gap-2
+    px-2.5 py-1 rounded-full mt-1
+    text-xs font-medium
+    border border-gray-300 dark:border-black
+    text-gray-600 dark:text-gray-300
+    bg-white/80 dark:bg-gray-700/80
+    backdrop-blur
+    cursor-pointer select-none
+    hover:bg-gray-100 dark:hover:bg-gray-600/50
+    transition-all duration-200
+  "
+            >
+              <span className="flex items-center gap-1.5">
+                {isTagVisible ? (
+                  <>
+                    Hide Tags
+                    <X
+                      strokeWidth={3}
+                      className="w-3.5 h-3.5 opacity-70"
+                    />
+                  </>
+                ) : (
+                  <>
+                    <Tag
+                      strokeWidth={3}
+                      className="w-3.5 h-3.5 opacity-70"
+                    />
+                    Show Tags
+                  </>
+                )}
+              </span>
+            </div>
+          )}
 
+          {/* tags */}
+          {isTagVisible && !isAgentCard && (
+            <div className="flex items-center justify-start p-0 flex-wrap gap-2 mt-2 ml-3">
               {listing?.tags &&
                 listing?.tags.length > 0 &&
                 listing?.tags?.map((tag: any) => (

@@ -1,7 +1,7 @@
 "use client"
 import Button from "@lib/Button"
 import { useEffect, useState } from "react"
-import { useUser } from "@utils/user"
+import { SlidersHorizontal, ListFilter, Sliders } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Signal } from "@preact/signals-react"
 import { useSignals } from "@preact/signals-react/runtime"
@@ -41,28 +41,25 @@ const Filter = ({
   const [bedsState, setBedsState] = useState("")
   const [bathsState, setBathsState] = useState("")
   const [toiletsState, setToiletsState] = useState("")
-  const { session } = useUser()
   const { schools } = useSchools()
-
-  const schoolArea = schools
-    .filter((s: any) => s.shortname.toLocaleLowerCase() === school.toLocaleLowerCase())
-    .map((s: any) => s.schoolAreas)
-    .flat()
+  const isSchoolFocus = params.get("school") !== null
 
   useEffect(() => {
+    if (selectedSchool.value && selectedSchool.value !== school) {
+      setSchool(selectedSchool.value)
+    }
     if (!school) {
       setAreas([])
     }
-    if (school) {
-      setAreas(schoolArea)
-    }
-  }, [school])
 
-  // useEffect(() => {
-  //   if (session) {
-  //     setSchool(session?.user.school ?? "")
-  //   }
-  // }, [session])
+    const getSchoolArea =
+      (schools as any[]).find((s: any) => s.shortname.toLowerCase() === school.toLowerCase())
+        ?.schoolAreas ?? []
+
+    if (school) {
+      setAreas(getSchoolArea)
+    }
+  }, [school, schools])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -78,6 +75,8 @@ const Filter = ({
     router.push(`?${searchParams.toString()}#listing`)
   }
 
+  console.log({ isSchoolFocus })
+
   return (
     <>
       {active.value && (
@@ -85,34 +84,43 @@ const Filter = ({
           onSubmit={handleSubmit}
           className="dark:bg-darkGray bg-white mx-auto w-[88%] p-4 rounded-xl shadow space-y-4"
         >
+          {/*  Header */}
+          <header className="flex items-center gap-1 text-2xl capitalize font-extrabold text-center hyphen-auto tracking-wide">
+            <ListFilter
+              className="inline-block w-6 h-6
+             text-foreground"
+            />
+            {isSchoolFocus ? `Filter ${selectedSchool.value} Listings` : "Filter Listings"}
+          </header>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
             {/* School Select */}
-            <div>
-              <label
-                htmlFor="school"
-                className="block text-sm font-medium"
-              >
-                School
-              </label>
-              <select
-                id="school"
-                name="school"
-                value={school}
-                onChange={(e) => setSchool(e.target.value)}
-                className="dark:bg-darkGray w-full border rounded-sm p-2 py-2.5"
-              >
-                <option value="">All Schools</option>
-                {schools.map((school: School) => (
-                  <option
-                    key={school._id}
-                    value={school?.shortname}
-                  >
-                    {school?.shortname} ({school?.fullname})
-                  </option>
-                ))}
-              </select>
-            </div>
+            {!isSchoolFocus && (
+              <div>
+                <label
+                  htmlFor="school"
+                  className="block text-sm font-medium"
+                >
+                  School {school}
+                </label>
+                <select
+                  id="school"
+                  name="school"
+                  value={school}
+                  onChange={(e) => setSchool(e.target.value)}
+                  className="dark:bg-darkGray w-full focus:outline-2 outline-slate-200 dark:outline-gray-800 rounded-sm p-2 py-3"
+                >
+                  <option value="">All Schools</option>
+                  {schools.map((school: School) => (
+                    <option
+                      key={school._id}
+                      value={school?.shortname?.toLocaleLowerCase()}
+                    >
+                      {school?.shortname} ({school?.fullname})
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
 
             {/* Area Select */}
             <div>
@@ -127,7 +135,7 @@ const Filter = ({
                 name="area"
                 value={area}
                 onChange={(e) => setArea(e.target.value)}
-                className="dark:bg-darkGray w-full border rounded-sm p-2 py-2.5"
+                className="dark:bg-darkGray w-full focus:outline-2 outline-slate-200 dark:outline-gray-800 rounded-sm p-2 py-3"
               >
                 <option value="">All Areas</option>
                 {areas.map((area) => (
@@ -161,7 +169,7 @@ const Filter = ({
                   className="
             [&_[role=slider]]:gold-gradient
             [&>span:first-child]:bg-white
-            [&_[role=slider]]:border-gray-200
+            [&_[role=slider]]:outline-slate-200 dark:outline-gray-800-gray-200
             [&_[data-state=active]]:ring-gray-200"
                 />
                 <div className="ml-4">&#8358; {minPriceState.toLocaleString()}</div>
@@ -185,7 +193,7 @@ const Filter = ({
                   className="
             [&_[role=slider]]:gold-gradient
             [&>span:first-child]:bg-white
-            [&_[role=slider]]:border-gray-200
+            [&_[role=slider]]:outline-slate-200 dark:outline-gray-800-gray-200
             [&_[data-state=active]]:ring-gray-200"
                 />
                 <div className="ml-4">&#8358; {maxPriceState.toLocaleString()}</div>
@@ -209,7 +217,7 @@ const Filter = ({
                   value={bedsState}
                   placeholder="0"
                   onChange={(e) => setBedsState(e.target.value)}
-                  className="w-16 p-1 border rounded text-center dark:bg-darkGray"
+                  className="w-16 p-1 focus:outline-2 outline-slate-200 dark:outline-gray-800 rounded text-center dark:bg-darkGray"
                 />
               </div>
               <div className="flex flex-col items-center">
@@ -227,7 +235,7 @@ const Filter = ({
                   value={bathsState}
                   placeholder="0"
                   onChange={(e) => setBathsState(e.target.value)}
-                  className="w-16 p-1 border rounded text-center dark:bg-darkGray"
+                  className="w-16 p-1 focus:outline-2 outline-slate-200 dark:outline-gray-800 rounded text-center dark:bg-darkGray"
                 />
               </div>
               <div className="flex flex-col items-center">
@@ -245,7 +253,7 @@ const Filter = ({
                   value={toiletsState}
                   placeholder="0"
                   onChange={(e) => setToiletsState(e.target.value)}
-                  className="w-16 p-1 border rounded text-center dark:bg-darkGray"
+                  className="w-16 p-1 focus:outline-2 outline-slate-200 dark:outline-gray-800 rounded text-center dark:bg-darkGray"
                 />
               </div>
             </div>

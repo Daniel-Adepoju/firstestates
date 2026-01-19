@@ -65,13 +65,12 @@ input[type="number"] {
 }
 
 .address {
-  gap: 6px;
+  gap: 4px;
   padding-left: 6px;
   word-wrap: break-word;
   white-space: pre-wrap;
   position: relative;
   margin-top: 6px;
-  opacity: 60%;
   width: 100%;
   @include mx.flex(row, center, flex-start);
 }

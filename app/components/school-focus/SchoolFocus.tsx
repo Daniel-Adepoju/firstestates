@@ -13,12 +13,16 @@ import { RequestSection } from "./RequestSection"
 import { SectionHeader } from "./SectionHeader"
 import { useAnimation } from "@lib/useAnimation"
 import AgentSection from "./AgentSection"
-import { FileX2 } from "lucide-react"
+import { ChevronDownCircle, FileX2 } from "lucide-react"
 import Link from "next/link"
+import Filter from "@components/Filter"
+import { useSignal } from "@preact/signals-react"
+import { useSignals } from "@preact/signals-react/runtime"
 
 const SchoolFocus = () => {
+  useSignals()
   const searchParams = useSearchParams()
-  const school = searchParams.get("school") || ""
+  const schoolParam = searchParams.get("school") || ""
   const page = searchParams.get("page") || "1"
 
   const { session } = useUser()
@@ -29,21 +33,37 @@ const SchoolFocus = () => {
   const coRentScrollRef = useRef<HTMLDivElement>(null)
   // const roommateScrollRef = useRef<HTMLDivElement>(null)
 
-  // fetch routine
+  // ======= Filters ============
+  const location = useSignal("")
+  const school = useSignal(schoolParam)
+  const minPrice = useSignal("")
+  const maxPrice = useSignal("")
+  const beds = useSignal("")
+  const baths = useSignal("")
+  const toilets = useSignal("")
+  const active = useSignal(false)
+
+  // ============= Fetch routine ==================
 
   const { data: listings, isLoading: listingsLoading } = useGetListings({
     limit: 12,
     page,
-    school,
+    school: schoolParam,
+    location: location.value,
+    minPrice: minPrice.value,
+    maxPrice: maxPrice.value,
+    beds: beds.value,
+    baths: baths.value,
+    toilets: toilets.value,
   })
 
   const buildRequestQuery = (type: "co-rent" | "roommate") => ({
     limit: 12,
-    school,
+    school: schoolParam,
     requester: session?.user.id,
     requestType: type,
-    // status: "accepted",
-    enabled: !!school,
+    status: "accepted",
+    enabled: !!schoolParam,
   })
 
   const coRent = useGetRequests(buildRequestQuery("co-rent"))
@@ -86,7 +106,7 @@ const SchoolFocus = () => {
             refValue={isLast ? nextRef : null}
           />
         )
-      })
+      }),
     )
   }
 
@@ -104,15 +124,15 @@ const SchoolFocus = () => {
           key={i}
           className="inline-block h-75 w-65 rounded-md bg-gray-500/20 mb-6 first:mt-6 last:mb-6"
         />
-      )
+      ),
     )
 
-if (!listingsLoading && !session?.user) {
-  return (
-    <div className="mx-auto w-[90%] mt-50 mb-10 px-1.5 flex flex-col items-center justify-center text-center gap-4">
-      <h2 className="text-lg font-bold text-gray-800 dark:text-gray-100">
-        Create an account or log in to use School-Focus
-      </h2>   
+  if (!listingsLoading && !session?.user) {
+    return (
+      <div className="mx-auto w-[90%] mt-50 mb-10 px-1.5 flex flex-col items-center justify-center text-center gap-4">
+        <h2 className="text-lg font-bold text-gray-800 dark:text-gray-100">
+          Create an account or log in to use School-Focus
+        </h2>
 
         <Link
           href="/"
@@ -121,15 +141,14 @@ if (!listingsLoading && !session?.user) {
           Back to homepage
         </Link>
       </div>
-  )
-}
-
+    )
+  }
 
   return (
     <div className="w-[98%] mt-20 mb-10 px-1.5">
-      {school && (
+      {schoolParam && (
         <h1 className="text-3xl font-bold text-center mb-1 headersFont capitalize">
-          School Focus - {school}
+          School Focus - {schoolParam}
         </h1>
       )}
 
@@ -143,8 +162,8 @@ if (!listingsLoading && !session?.user) {
 
       {/* AGENTS */}
 
-      <AgentSection school={school} />
-     
+      <AgentSection school={schoolParam} />
+
       {/* CO-RENT REQUESTS */}
       <SectionHeader
         title="Co-Rent Requests"
@@ -181,6 +200,30 @@ if (!listingsLoading && !session?.user) {
       {/* LISTINGS */}
       <h2 className="headersFont mt-4 px-4 text-lg capitalize mx-auto text-center">Listings</h2>
 
+      {/* ======= Filter Toogle =========== */}
+      <div
+        onClick={() => (active.value = !active.value)}
+        className="mx-auto dark:bg-darkGray bg-white flex items-center justify-center  w-80  outline-2 outline-slate-200 dark:outline-gray-800 py-3.5 px-2 shadow-xs my-4 cursor-pointer rounded-md"
+      >
+        <span className="font-semibold text-gray-400 dark:text-gray-400 pl-2">Filter Listings</span>
+
+        <ChevronDownCircle
+          className={`w-6 h-6 text-gray-400 dark:text-gray-400 
+              ml-auto ${active.value ? "rotate-180" : "rotate-0"} transition-all duration-250`}
+        />
+      </div>
+      {/* ========== Filter Dropdown ============== */}
+      <Filter
+        active={active}
+        selectedSchool={school}
+        selectedArea={location}
+        minPrice={minPrice}
+        maxPrice={maxPrice}
+        beds={beds}
+        baths={baths}
+        toilets={toilets}
+      />
+
       <div className={`card_list`}>
         {listingsLoading ? (
           renderSkeletons(6)
@@ -193,7 +236,7 @@ if (!listingsLoading && !session?.user) {
           ))
         ) : (
           <p className="py-4">
-            There are no listings near <span className="capitalize font-bold">{school}</span>
+            There are no listings near <span className="capitalize font-bold">{schoolParam}</span>
           </p>
         )}
       </div>

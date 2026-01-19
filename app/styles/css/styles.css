@@ -209,13 +209,12 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 }
 
 .address {
-  gap: 6px;
+  gap: 4px;
   padding-left: 6px;
   word-wrap: break-word;
   white-space: pre-wrap;
   position: relative;
   margin-top: 6px;
-  opacity: 60%;
   width: 100%;
 }
 .address {
@@ -2160,8 +2159,7 @@ footer.hide {
   background-color: #feffff;
   padding-inline: 12px;
   padding-top: 10px;
-  padding-bottom: 26px;
-  gap: 8px;
+  gap: 2px;
   margin-top: 8px;
   border-radius: 20px;
   width: 96%;
@@ -2181,8 +2179,7 @@ footer.hide {
 }
 .card .body .address {
   position: relative;
-  margin-top: -6px;
-  width: 100%;
+  padding-left: 1px;
 }
 .card .body .address:after {
   content: "";
@@ -2454,8 +2451,8 @@ footer.hide {
   transition: all 300ms ease-out;
 }
 .single_card .header .house .arrow:active {
-  transform: scale(0.9);
-  background: linear-gradient(to left, #f7b657, #f29829);
+  transform: scale(0.98);
+  background: linear-gradient(to left, #727272, rgba(52, 52, 52, 0.1647058824));
 }
 .single_card .header .house .arrow:active {
   transition: transform 300ms ease-in;
@@ -2497,6 +2494,7 @@ footer.hide {
 }
 .single_card .header .location {
   padding-left: 6px;
+  margin-bottom: 2px;
   margin-top: 10px;
   font-size: 24px;
   font-weight: bold;
@@ -2511,7 +2509,6 @@ footer.hide {
   white-space: pre-wrap;
   position: relative;
   margin-top: 6px;
-  opacity: 60%;
 }
 .single_card .body {
   width: 100%;

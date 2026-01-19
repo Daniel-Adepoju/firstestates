@@ -47,7 +47,7 @@ const RoommateCard = ({
   const { session } = useUser()
   const userId = session?.user.id || ""
 
-  console.log(request)
+  // console.log(request)
 
   // bookmark requests
   const handleBookmark = async (val: any) => {

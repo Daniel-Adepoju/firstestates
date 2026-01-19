@@ -60,8 +60,24 @@ const FeaturedCard = ({ edit, listing, isAgentCard }: CardProps) => {
               />
               <span>{truncateText(address, 30)}</span>
             </div>
+            {/* listingType */}
+            <div className="mx-auto mt-2.5 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gray-50 dark:bg-gray-800/10 text-xs font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wide dark:shadow-black shadow-sm">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                x="0px"
+                y="0px"
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                className="fill-foreground"
+              >
+                <path d="M 12 2.0996094 L 1 12 L 4 12 L 4 21 L 10 21 L 10 15 L 14 15 L 14 21 L 20 21 L 20 12 L 23 12 L 12 2.0996094 z"></path>
+              </svg>
+              {listing?.listingType}
+            </div>
+            {/* school */}
             <div
-              className=" headersFont mx-auto px-3 py-2 mt-2
+              className=" headersFont mx-auto px-3 py-2 mt-1
                 bg-gray-50 dark:bg-gray-800/10 text-sm font-medium
                  text-gray-700 dark:text-gray-200 shadow-sm dark:shadow-black  rounded-md"
             >

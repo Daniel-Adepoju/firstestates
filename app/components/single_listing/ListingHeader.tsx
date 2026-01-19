@@ -44,7 +44,7 @@ const ListingHeader = ({ listing }: Props) => {
                   alt="gallery picture"
                   src={image || "firstestatesdefaultuserpicture"}
                   fill
-                  priority
+                  preload
                 />
               </SwiperSlide>
             ))}
@@ -101,7 +101,7 @@ const ListingHeader = ({ listing }: Props) => {
           alt="mapBtn"
           src={"/icons/map.svg"}
         />
-        <span className="-ml-1 font-medium text-sm">Open In Map</span>
+        <span className="-ml-1 font-semibold text-sm">Open In Map</span>
       </div>
     </>
   )

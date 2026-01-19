@@ -136,14 +136,14 @@ const SingleListing = ({ listingId, isAgent }: { listingId: string; isAgent?: bo
           <div className="single_card">
             <div className="heading mx-auto self-center">Tags</div>
             <div className="font-medium font-list w-[90%] md:w-[80%] lg:w-[70%] text-foreground text-sm tracking-wide text-justify description mx-auto whitespace-prewrap self-center">
-              <div className="flex items-center justify-start p-0 flex-wrap gap-2 mt-2 ml-3">
+              <div className="flex items-center justify-start p-0 flex-wrap gap-2 mt-2 ml-0">
                 {listing?.tags &&
                   listing?.tags.length > 0 &&
                   listing?.tags?.map((tag: any) => (
                     <span
                       key={tag}
                       className={`
-    px-8 py-2 rounded-lg text-xs font-semibold capitalize
+    px-6 py-2 rounded-lg text-xs font-semibold capitalize
     ${
       tag.includes("new") || tag.includes("free")
         ? "bg-green-200 dark:bg-green-300 text-green-700 dark:text-green-800 border border-green-200"

@@ -6,7 +6,7 @@ export const GET = async () => {
   try {
     await connectToDB()
     const popularListings = await Listing.find({ status: "available" })
-      .limit(10)
+      .limit(15)
       .sort({ weeklyViews: -1 })
     return NextResponse.json({ popularListings }, { status: 200 })
   } catch (err) {

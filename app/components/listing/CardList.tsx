@@ -37,7 +37,7 @@ const CardList = ({ limit = 12, filters, page }: CardListProps) => {
     beds: filters.beds,
     baths: filters.baths,
     toilets: filters.toilets,
-    status: 'available' // only fetch available listings,
+    status: "available", // only fetch available listings,
   })
 
   // check which listings are in wishlist
@@ -74,26 +74,28 @@ const CardList = ({ limit = 12, filters, page }: CardListProps) => {
 
   return (
     <>
-      {isLoading ? (
-        <div className="mx-auto my-4 flex flex-wrap gap-10 justify-center">{loadingCards}</div>
-      ) : data?.posts?.length ? (
-        <>
-          <div className="card_list">{mapCards}</div>
-          <Pagination
-            currentPage={Number(data?.cursor)}
-            totalPages={Number(data?.numOfPages)}
-          />
-        </>
-      ) : (
-        <div className="flex items-center error m-6 text-2xl">
-          <Image
-            src="/icons/noListings.svg"
-            width={100}
-            height={100}
-            alt="icon"
-          />
-          <div>No Listing Available</div>
-        </div>
+      <div className="card_list">
+        {isLoading ? (
+          loadingCards
+        ) : data?.posts?.length ? (
+          <>{mapCards}</>
+        ) : (
+          <div className="flex items-center error m-6 text-2xl">
+            <Image
+              src="/icons/noListings.svg"
+              width={100}
+              height={100}
+              alt="icon"
+            />
+            <div>No Listing Available</div>
+          </div>
+        )}
+      </div>
+      {data?.posts?.length && (
+        <Pagination
+          currentPage={Number(data?.cursor)}
+          totalPages={Number(data?.numOfPages)}
+        />
       )}
     </>
   )

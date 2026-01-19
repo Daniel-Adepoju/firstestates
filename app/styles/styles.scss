@@ -427,6 +427,8 @@ footer.hide {
       border-radius: 0 0 10px 10px;
     }
   }
+
+
   .body {
     z-index: 1;
     overflow: hidden;
@@ -434,8 +436,8 @@ footer.hide {
     background-color: #feffff;
     padding-inline: 12px;
     padding-top: 10px;
-    padding-bottom: 26px;
-    gap: 8px;
+    // padding-bottom: 26px;
+    gap: 2px;
     margin-top: 8px;
     border-radius: 20px;
     width: 96%;
@@ -447,8 +449,8 @@ footer.hide {
     }
     .address {
       position: relative;
-      margin-top: -6px;
-      width: 100%;
+      padding-left: 1px;
+      
       &:after {
         content: "";
         opacity: 100%;
@@ -482,6 +484,8 @@ footer.hide {
       @include mx.flex(row, center, flex-start);
     }
   }
+
+
   .tag {
     z-index: inherit;
     text-transform: capitalize;
@@ -674,8 +678,8 @@ footer.hide {
         top: 35%;
         @include mx.transition(300ms, ease-out);
         &:active {
-          transform: scale(0.9);
-          background: linear-gradient(to left, #f7b657, #f29829);
+          transform: scale(0.98);
+          background: linear-gradient(to left, #727272, #3434342a);
           @include mx.transition(300ms, ease-in, transform);
         }
         img {
@@ -711,6 +715,7 @@ footer.hide {
     }
     .location {
       padding-left: 6px;
+      margin-bottom: 2px;
       margin-top: 10px;
       font-size: 24px;
       font-weight: bold;
@@ -725,7 +730,6 @@ footer.hide {
       white-space: pre-wrap;
       position: relative;
       margin-top: 6px;
-      opacity: 60%;
     }
   }
   .body {

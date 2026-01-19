@@ -65,8 +65,8 @@ const ListingDetails = ({ listing }: Props) => {
       </div>
 
       <div>
-        <span className="font-medium text-xs text-gray-500 dark:text-gray-400">
-          This listing is will remain here for <strong>{daysLeft(listing?.validUntil)}</strong> days
+        <span className="font-medium tracking-wide text-xs text-gray-400">
+          This listing will remain here for <strong>{daysLeft(listing?.validUntil)}</strong> days
         </span>
       </div>
 
