@@ -75,8 +75,6 @@ const Filter = ({
     router.push(`?${searchParams.toString()}#listing`)
   }
 
-  console.log({ isSchoolFocus })
-
   return (
     <>
       {active.value && (

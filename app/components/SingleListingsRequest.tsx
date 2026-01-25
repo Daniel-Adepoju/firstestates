@@ -43,7 +43,7 @@ const ListingRequests = ({ requestType }: any) => {
               request={request}
               refValue={index === page.requests.length - 1 ? nextPageRef : null}
             />
-          ))
+          )),
         )
       : "No requests found"
 
@@ -51,9 +51,9 @@ const ListingRequests = ({ requestType }: any) => {
   const loadingMap = Array.from({ length: 9 }).map((_, i) => (
     <Skeleton
       key={i}
-      className="relative inline-block h-60 w-85 rounded-md bg-gray-500/20 mb-6"
+      className="relative inline-block h-60 w-85 rounded-md bg-gray-500/20 dark:bg-gray-500/40 mt-6"
     >
-      <Skeleton className="absolute z-1 bg-gray-300 dark:bg-darkGray w-70 h-40 left-7.5 bottom-[-40px] !animate-none" />
+      <Skeleton className="absolute z-1 bg-gray-300 dark:bg-gray-500 w-70 h-40 left-7.5 bottom-[-40px] !animate-none" />
     </Skeleton>
   ))
 
@@ -64,17 +64,23 @@ const ListingRequests = ({ requestType }: any) => {
       </h2>
       <Typewriter text="Note: Requests made by you will not be displayed here." />
 
-      <div className="flex items-center w-full pb-2">
+      <div className="flex items-center justify-end w-full pb-2">
         {!isLoading && <ScrollController scrollRef={scrollRef} />}
       </div>
 
       <section
         ref={scrollRef}
-        className={`grid grid-flow-col auto-cols-min ${
+        className={`mb-20 md:mb-8 bg-white dark:bg-darkGray ${isLoading && "h-90"} ${
           isLoading || data?.pages[0]?.requests?.length > 0
-            ? "h-90"
-            : "h-20 whitespace-nowrap mx-auto w-full flex items-center justify-center text-sm"
-        } gap-6 p-2 snap-x snap-mandatory overflow-x-scroll nobar`}
+            ? " grid grid-flow-col auto-cols-min pt-5"
+            : "h-20 whitespace-nowrap mx-auto  w-full text-sm flex items-center justify-center"
+        } gap-6 px-2  pb-0 snap-x snap-mandatory overflow-x-scroll nobar null outline-2 outline-gray-200 dark:outline-black/20 rounded-lg`}
+
+        // className={`grid grid-flow-col auto-cols-min ${
+        //       isLoading || data?.pages[0]?.requests?.length > 0
+        //         ? "h-90"
+        //         : "h-20 whitespace-nowrap mx-auto w-full flex items-center justify-center text-sm"
+        //     } gap-6 p-2 snap-x snap-mandatory overflow-x-scroll nobar`}
       >
         {!isLoading ? requestMap : loadingMap}
 

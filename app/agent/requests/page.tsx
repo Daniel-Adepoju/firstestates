@@ -129,11 +129,18 @@ const RequestsInAgent = () => {
         {/* pending requests container */}
         <section
           ref={scrollRef}
-          className={`dark:text-white grid grid-flow-col auto-cols-min ${
-            pendingRequests?.pages[0]?.requests?.length > 0 || pendingLoading
-              ? "h-100"
-              : "h-20 whitespace-nowrap mx-auto w-100 flex items-center justify-center text-sm"
-          } gap-6 p-2 snap-x snap-mandatory overflow-x-scroll nobar null`}
+
+           className={` bg-white dark:bg-darkGray ${pendingLoading && 'h-90'} ${
+       pendingRequests?.pages[0]?.requests?.length > 0 || pendingLoading
+        ? " grid grid-flow-col auto-cols-min pt-5"
+        : "h-20 whitespace-nowrap mx-auto  w-full text-sm flex items-center justify-center"
+    } gap-6 px-2  pb-0 snap-x snap-mandatory overflow-x-scroll nobar null`}
+
+          // className={`dark:text-white grid grid-flow-col auto-cols-min ${
+          //   pendingRequests?.pages[0]?.requests?.length > 0 || pendingLoading
+          //     ? "h-100"
+          //     : "h-20 whitespace-nowrap mx-auto w-100 flex items-center justify-center text-sm"
+          // } gap-6 p-2 snap-x snap-mandatory overflow-x-scroll nobar null`}
         >
           {!pendingLoading ? pendingMap : loadingMap(9, true)}
           {pendingIsFetchingNextPage && (
@@ -153,11 +160,19 @@ const RequestsInAgent = () => {
         {/* accepted requests container */}
         <section
           ref={scrollRef2}
-          className={`dark:text-white grid grid-flow-col auto-cols-min ${
-            acceptedRequests?.pages[0]?.requests?.length > 0 || acceptedLoading
-              ? "h-90"
-              : "h-20 whitespace-nowrap mx-auto w-100 flex items-center justify-center text-sm"
-          } gap-6 p-2 snap-x snap-mandatory overflow-x-scroll nobar null`}
+
+    className={` bg-white dark:bg-darkGray ${acceptedLoading && 'h-90'} ${
+       acceptedRequests?.pages[0]?.requests?.length > 0 || acceptedLoading
+        ? " grid grid-flow-col auto-cols-min pt-5"
+        : "h-20 whitespace-nowrap mx-auto  w-full text-sm flex items-center justify-center"
+    } gap-6 px-2  pb-0 snap-x snap-mandatory overflow-x-scroll nobar null`}
+
+          
+          // className={`dark:text-white grid grid-flow-col auto-cols-min ${
+          //   acceptedRequests?.pages[0]?.requests?.length > 0 || acceptedLoading
+          //     ? "h-90"
+          //     : "h-20 whitespace-nowrap mx-auto w-100 flex items-center justify-center text-sm"
+          // } gap-6 p-2 snap-x snap-mandatory overflow-x-scroll nobar null`}
         >
           {!acceptedLoading ? acceptedMap : loadingMap(9, true)}
           {acceptedIsFetchingNextPage && (

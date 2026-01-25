@@ -1,36 +1,24 @@
-import { CldImage } from "next-cloudinary"
-import {
-  AlertTriangle,
-  ArrowLeft,
-  ArrowRight,
-  Bookmark,
-  Check,
-  MapPin,
-  Mars,
-  MessageCircle,
-  Venus,
-  X,
-} from "lucide-react"
-import { useRef, useState } from "react"
-import Button from "@lib/Button"
-import { truncateText } from "@utils/truncateText"
-import Link from "next/link"
-import { useNextPage } from "@lib/useIntersection"
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
-import { useQueryClient, useMutation } from "@tanstack/react-query"
-import { axiosdata } from "@utils/axiosUrl"
-import { useToast } from "@utils/Toast"
-import { ReportModal } from "@components/Modals"
-import { useUser } from "@utils/user"
-import { daysLeft } from "@utils/date"
+"use client";
+
+import { useRef, useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useUser } from "@utils/user";
+import { useToast } from "@utils/Toast";
+import { axiosdata } from "@utils/axiosUrl";
+import { useNextPage } from "@lib/useIntersection";
+
+import RoommateAgentControls from "@components/roommate-card-components/RoommateAgentControls";
+import RoommateCardBody from "@components/roommate-card-components/RoommateCardBody";
+import { ReportModal } from "@components/Modals";
 
 interface RoommateCardProps {
-  request: Request
-  refValue?: ReturnType<typeof useNextPage> | null
-  firstItem?: boolean
-  lastItem?: boolean
-  isAgent?: boolean
+  request: Request;
+  refValue?: ReturnType<typeof useNextPage> | null;
+  firstItem?: boolean;
+  lastItem?: boolean;
+  isAgent?: boolean;
 }
+
 const RoommateCard = ({
   request,
   refValue,
@@ -38,362 +26,105 @@ const RoommateCard = ({
   lastItem,
   isAgent = false,
 }: RoommateCardProps) => {
-  const [showListing, setShowListing] = useState(false)
-  const queryClient = useQueryClient()
-  const { setToastValues } = useToast()
-  const [isOpen, setIsOpen] = useState(false)
-  const [isDeleteOpen, setIsDeleteOpen] = useState(false)
-  const reportRef = useRef<any>(null)
-  const { session } = useUser()
-  const userId = session?.user.id || ""
+  const [showListing, setShowListing] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
-  // console.log(request)
+  const reportRef = useRef<any>(null);
+  const queryClient = useQueryClient();
+  const { setToastValues } = useToast();
+  const { session } = useUser();
 
-  // bookmark requests
-  const handleBookmark = async (val: any) => {
-    try {
-      const res = await axiosdata.value.patch(`/api/requests`, val)
-      if (res.status === 200) {
-        setToastValues({
-          isActive: true,
-          message: res?.data.message,
-          status: "success",
-          duration: 2000,
-        })
-      } else {
-        setToastValues({
-          isActive: true,
-          message: "Request bookmarking failed",
-          status: "danger",
-          duration: 2000,
-        })
-      }
-    } catch (err) {
-      console.log(err)
-    }
-  }
+  const userId = session?.user.id || "";
+
+  // ─── Mutations (UNCHANGED) ─────────────────────────
 
   const bookmarkMutation = useMutation({
-    mutationFn: handleBookmark,
-    onSuccess: () => {
-      setIsOpen(false)
-      queryClient.invalidateQueries({ queryKey: ["requests"] })
+    mutationFn: (val: any) => axiosdata.value.patch(`/api/requests`, val),
+    onSuccess: (res: any) => {
+      setToastValues({
+        isActive: true,
+        message: res?.data?.message ?? "Success",
+        status: "success",
+        duration: 2000,
+      });
+      setIsOpen(false);
+      queryClient.invalidateQueries({ queryKey: ["requests"] });
     },
-  })
+  });
 
-  //  accepting requests
-  const handleAccept = async (val: any) => {
-    try {
-      const res = await axiosdata.value.patch(`/api/requests`, val)
-      if (res.status === 200) {
-        setToastValues({
-          isActive: true,
-          message: "Request accepted successfully",
-          status: "success",
-          duration: 2000,
-        })
-      } else {
-        setToastValues({
-          isActive: true,
-          message: "Request acceptance failed",
-          status: "danger",
-          duration: 2000,
-        })
-      }
-    } catch (err) {
-      console.log(err)
-    }
-  }
   const acceptMutation = useMutation({
-    mutationFn: handleAccept,
+    mutationFn: (val: any) => axiosdata.value.patch(`/api/requests`, val),
     onSuccess: () => {
-      setIsOpen(false)
-      queryClient.invalidateQueries({ queryKey: ["requests"] })
+      setToastValues({
+        isActive: true,
+        message: "Request accepted successfully",
+        status: "success",
+        duration: 2000,
+      });
+      setIsOpen(false);
+      queryClient.invalidateQueries({ queryKey: ["requests"] });
     },
-  })
+  });
 
-  // deleting requests
-  const handleDelete = async (val: any) => {
-    try {
-      const res = await axiosdata.value.delete(`/api/requests`, { data: { id: val.id } })
-      if (res.status === 200) {
-        setToastValues({
-          isActive: true,
-          message: "Request deleted successfully",
-          status: "success",
-          duration: 2000,
-        })
-      } else {
-        setToastValues({
-          isActive: true,
-          message: "Request deletion failed",
-          status: "danger",
-          duration: 2000,
-        })
-      }
-    } catch (err) {
-      console.log(err)
-    }
-  }
   const deleteMutation = useMutation({
-    mutationFn: handleDelete,
+    mutationFn: (val: any) =>
+      axiosdata.value.delete(`/api/requests`, { data: { id: val.id } }),
     onSuccess: () => {
-      setIsDeleteOpen(false)
-      queryClient.invalidateQueries({ queryKey: ["requests"] })
+      setToastValues({
+        isActive: true,
+        message: "Request deleted successfully",
+        status: "success",
+        duration: 2000,
+      });
+      setIsDeleteOpen(false);
+      queryClient.invalidateQueries({ queryKey: ["requests"] });
     },
-  })
+  });
 
   return (
     <div
       ref={refValue}
-      className={`w-90 snap-center ${firstItem ? "ml-10" : ""} ${lastItem ? "mr-10" : ""} `}
+      className={`
+        relative w-[90vw] max-w-[380px] mx-auto snap-center
+        ${firstItem ? "ml-6 md:ml-10" : ""}
+        ${lastItem ? "mr-6 md:mr-10" : ""}
+      `}
     >
       {isAgent && (
-        <div className="flex items-center justify-start gap-4 pl-1">
-          {/* Accept */}
-          <Popover
-            open={isOpen}
-            onOpenChange={setIsOpen}
-          >
-            <PopoverTrigger>
-              <div
-                className={`clickable flex items-center justify-center bg-${
-                  request?.requestType === "roommate" ? "goldPrimary" : "green-600"
-                } rounded-full w-10 h-10 mb-1  mt-[-7px] shadow-sm`}
-              >
-                <Check color="white" />
-              </div>
-            </PopoverTrigger>
-            <PopoverContent className="z-800 flex flex-col items-center gap-2 shadow-sm bg-gray-100 dark:bg-gray-700">
-              <div className="text-black dark:text-white">Accept this request</div>
-              <div
-                onClick={() =>
-                  acceptMutation.mutate({
-                    id: request?._id,
-                    status: "accepted",
-                    action: "acceptRequest",
-                  })
-                }
-                className={`clickable text-white font-bold ${
-                  request?.requestType === "roommate" ? "gold-gradient" : "bg-green-600"
-                } rounded-2xl cursor-pointer w-24 h-8 flex items-center justify-center`}
-              >
-                {acceptMutation.isPending ? "Accepting" : "Accept"}
-              </div>
-            </PopoverContent>
-          </Popover>
-
-          {/* Decline */}
-          <Popover
-            open={isDeleteOpen}
-            onOpenChange={setIsDeleteOpen}
-          >
-            <PopoverTrigger>
-              <div className="clickable flex items-center justify-center bg-red-600 dark:bg-red-700 rounded-full w-10 h-10 mb-1  mt-[-7px] shadow-sm">
-                <X color="white" />
-              </div>
-            </PopoverTrigger>
-            <PopoverContent className="flex flex-col items-center gap-2 shadow-sm bg-gray-100 dark:bg-gray-700">
-              <div className="text-black dark:text-white">Decline this request</div>
-              <div
-                onClick={() => deleteMutation.mutate({ id: request?._id })}
-                className="clickable text-white font-bold bg-red-700 dark:bg-red-800 rounded-2xl cursor-pointer w-24 h-8 flex items-center justify-center"
-              >
-                {deleteMutation.isPending ? "Deleting" : "Delete"}
-              </div>
-            </PopoverContent>
-          </Popover>
-        </div>
+        <RoommateAgentControls
+          request={request}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          isDeleteOpen={isDeleteOpen}
+          setIsDeleteOpen={setIsDeleteOpen}
+          acceptMutation={acceptMutation}
+          deleteMutation={deleteMutation}
+        />
       )}
 
-      {!showListing ? (
-        // ============== REQUEST ==============
-        <div
-          key={request._id}
-          className={`w-full h-60 rounded-sm p-2 mx-auto
-          
-              ${request?.preferredGender === "male" ? "green-gradient-vertical" : "pink-gradient-vertical" }
-            `}
-        >
-          <ReportModal
-            ref={reportRef}
-            userId={userId}
-            reportedUser={request?.requester?._id}
-            action={request?.requestType === "roommate" ? "roommate request" : "co-rent request"}
-          />
-          <div className="flex flex-col">
-            <Button
-              className="clickable directional font-medium text-sm  text-white  h-32 mb-2  mt-[-7px] shadow-md"
-              text="Show Listing"
-              functions={() => setShowListing(true)}
-            ></Button>
-            {!showListing && (
-              <CldImage
-                src={request?.requester?.profilePic}
-                alt="ee"
-                width={60}
-                height={60}
-                className="rounded-full w-12 h-12 mx-auto mb-1 outline-2 outline-gray-200"
-              />
-            )}
+      <RoommateCardBody
+        request={request}
+        showListing={showListing}
+        setShowListing={setShowListing}
+        bookmarkMutation={bookmarkMutation}
+        isAgent={isAgent}
+        userId={userId}
+        reportRef={reportRef}
+      />
 
-            {/* requester name */}
-            <div className="text-white text-sm font-card mx-auto py-0.5">
-              {request?.requester?.username}
-            </div>
-            {/* request type  */}
-            {isAgent && (
-              <div className="text-white text-sm font-bold font-head mx-auto py-1  px-6 rounded-lg border-2 border-gray-700/20 bg-black/10">
-                {request?.requestType === "roommate" ? "Roommate Request" : "Co-rent Request"}
-              </div>
-            )}
-
-            {/* options row for request */}
-
-            <div className="w-full flex flex-row justify-around mt-2 ">
-             
-              {/* CHAT */}
-              <Link href={`chat?recipientId=${request?.requester?._id}`}>
-                <div className="flex items-center gap-1 text-white font-bold">
-                  <MessageCircle
-                    size={30}
-                    color="white"
-                  />
-                  <span>Chat</span>
-                </div>
-              </Link>
-
-              {/* BOOKMARK */}
-              {!isAgent && (
-                <div
-                  onClick={() => {
-                    bookmarkMutation.mutate({
-                      requestId: request?._id,
-                      userId,
-                      action: "bookmarkRequest",
-                    })
-                  }}
-                  className="flex items-center gap-1 text-white font-bold cursor-pointer"
-                >
-                  <Bookmark
-                    size={30}
-                    color="white"
-                    fill={request?.isBookmarkedByUser ? "white" : "none"}
-                  />
-                  <span>Bookmark</span>
-                </div>
-              )}
-
-              {/* REPORT */}
-              <div
-                onClick={() => reportRef.current.showModal()}
-                className="flex items-center gap-1 text-white font-bold cursor-pointer"
-              >
-                <AlertTriangle
-                  size={30}
-                  color="white"
-                />
-                <span>Report</span>
-              </div>
-            </div>
-
-            {/* DESCRIPTION BOX */}
-            <div className={`w-full h-35 bg-white dark:bg-gray-700  shadow-md dark:shadow-black rounded-md mt-2.5 p-2 overflow-y-scroll bar-custom  border-1 border-black/30 dark:border-black
-              ${request?.preferredGender === "male" ? "green-bar" : "pink-bar"} 
-            `}>
-              {/* preferred gender */}
-              <div className="flex items-center gap-1 font-card bg-gray-300/40 dark:bg-black/20 rounded-sm w-full px-1 py-0.5">
-                {request?.preferredGender === "male" ? (
-                  <Mars className="text-green-400" />
-                ) : (
-                  <Venus className="text-pink-400" />
-                )}
-                <span className="text-sm text-gray-700 dark:text-white">
-                  Looking for a {request?.preferredGender === "male" ? "male" : "female"}{" "}
-                  {request?.requestType === "roommate" ? "roommate" : "co-renter"}
-                </span>
-              </div>
-
-              {/* preferred move-in date */}
-              {request?.moveInDate && (
-                <div className="pl-7 mt-1 flex items-center gap-1 font-medium font-card bg-gray-300/40  dark:bg-black/20 rounded-sm w-full px-1 py-0.5">
-                  <span className="text-xs text-gray-700 dark:text-white tracking-wide">
-                    Preferred Move-in Date: {new Date(request?.moveInDate).toLocaleDateString()} (in{" "}
-                    {daysLeft(request?.moveInDate)} days)
-                  </span>
-                </div>
-              )}
-
-              {/* main description */}
-              <p className="hyphen-auto mt-2 mb-2 text-[12px] font-medium text-gray-700 dark:text-white  whitespace-pre-wrap">
-                {request?.description}
-              </p>
-
-              {/* budget */}
-              {/* {request?.budget && (
-                <div className="flex items-center gap-1 font-head">
-                  <span className="text-sm text-gray-700 dark:text-white">
-                    Budget: <span>&#8358;</span> {request?.budget.toLocaleString()} /
-                    <span> &#8358;</span> {request?.listing?.price.toLocaleString()} (
-                    {((request?.budget / request?.listing?.price) * 100).toFixed(1)}%)
-                  </span>
-                </div>
-              )} */}
-            </div>
-          </div>
-        </div>
-      ) : (
-        // ============= LISTING ==============
-        <div
-          key={request?.listing?._id}
-          className={`w-90 h-80 rounded-sm p-2 mx-auto hover:shadow-md transition-shadow duration-300
-                          ${request?.preferredGender === "male" ? "green-gradient-vertical" : "pink-gradient-vertical" }
-            `}
-        >
-          <div className="flex flex-col w-full">
-            <Button
-              className="clickable directional font-medium text-sm text-white  h-32 mb-2  mt-[-7px] shadow-md"
-              text="Show Applicant"
-              functions={() => {
-                setShowListing(false)
-              }}
-            ></Button>
-            {request?.listing.mainImage && (
-              <CldImage
-                src={request?.listing.mainImage}
-                alt="ee"
-                width={150}
-                height={150}
-                gravity="center"
-                className="rounded-lg mx-auto w-full h-40 aspect-square object-fill object-center"
-              />
-            )}
-          </div>
-          {/* options row */}
-          <div className="w-full h-25 flex flex-col items-center  gap-1.5 mt-1.5 py-2 rounded-sm bg-white dark:bg-gray-700 border-1 border-black/30 dark:border-black">
-            <div className="text-lg font-bold self-start ml-8">{request?.listing.location}</div>
-            <p className="text-sm font-head flex items-center gap-1">
-              <MapPin
-                size={15}
-                className=" dark:text-white"
-              />
-              {truncateText(request?.listing.address, 38)}
-            </p>
-            <Link
-              href={`/listings/single_listing?id=${request?.listing._id}`}
-              className="flex items-center gap-1 font-bold cursor-pointer"
-            >
-              <ArrowRight
-                size={20}
-                className="dark:text-white"
-              />
-              <span>View Listing</span>
-            </Link>
-          </div>
-        </div>
-      )}
+      <ReportModal
+        ref={reportRef}
+        userId={userId}
+        reportedUser={request?.requester?._id}
+        action={
+          request?.requestType === "roommate"
+            ? "roommate request"
+            : "co-rent request"
+        }
+      />
     </div>
-  )
-}
+  );
+};
 
-export default RoommateCard
+export default RoommateCard;

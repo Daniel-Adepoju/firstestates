@@ -83,7 +83,7 @@ const AgentViewPage = () => {
             >
               <h2 className="subheading font-semibold mb-2">Report Agent</h2>
               <ChevronDown
-              strokeWidth={3}
+                strokeWidth={3}
                 className={`w-5 h-5 transition-transform duration-300 ${
                   isActive ? "rotate-180" : ""
                 }`}
@@ -120,40 +120,43 @@ const AgentViewPage = () => {
       </div>
 
       {listings?.pages[0]?.listings.length > 0 && (
-        <div className="w-full">
+        <div className="w-full mb-15 md:mb-0">
           <div className="subheading flex items-center gap-1 ml-4 my-2 overflow-clip [word-spacing:3px]">
             {isYou ? "Your Listings" : `Listings From ${agent?.username || ""}`}
             <ArrowRightCircle className="w-5 h-5" />
           </div>
           <div
-            className="w-[88%] md:w-[96%] mx-auto  flex flex-wrap justify-center items-center gap-6 my-6 p-4 dark:bg-darkGray rounded-lg
+            className="w-[88%] md:w-[96%] mx-auto   my-6 md:mb-2 p-4 dark:bg-darkGray rounded-lg
  custom-shadow
           "
           >
-            {isLoading
-              ? Array.from({ length: 10 }).map((_, i) => (
-                  <Skeleton
-                    key={i}
-                    className="w-40 h-40 py-4 bg-gray-500/20 dark:bg-gray-500/40"
-                  />
-                ))
-              : listings?.pages.flatMap((item) => {
-                  return item.listings.flatMap((listingItem: Listing, index: number) => {
-                    return (
-                      <PopularCard
-                        key={listingItem._id}
-                        listing={listingItem}
-                        isAnimation={true}
-                        refValue={index === item.listings.length - 1 ? useNextpageRef : null}
-                      />
-                    )
-                  })
-                })}
+            <div className="w-full flex flex-wrap justify-center items-center gap-6">
+              {isLoading
+                ? Array.from({ length: 10 }).map((_, i) => (
+                    <Skeleton
+                      key={i}
+                      className="w-40 h-40 py-4 bg-gray-500/20 dark:bg-gray-500/40"
+                    />
+                  ))
+                : listings?.pages.flatMap((item) => {
+                    return item.listings.flatMap((listingItem: Listing, index: number) => {
+                      return (
+                        <PopularCard
+                          key={listingItem._id}
+                          listing={listingItem}
+                          isAnimation={true}
+                          refValue={index === item.listings.length - 1 ? useNextpageRef : null}
+                        />
+                      )
+                    })
+                  })}
+            </div>
+
+            {isFetchingNextPage && hasNextPage && (
+              <Loader2 className="flex-1 justify-self-center animate-spin mx-auto text-gray-500 dark:text-white mt-6 mb-1" />
+            )}
           </div>
         </div>
-      )}
-      {isFetchingNextPage && hasNextPage && (
-        <Loader2 className="animate-spin mx-auto text-gray-500 dark:text-white my-4" />
       )}
     </>
   )

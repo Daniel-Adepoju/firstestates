@@ -19,13 +19,13 @@ const BookmarkedRequests = () => {
     useGetRequests({
       limit: 12,
       isBookmarked: "true",
-      // status: "accepted",
+      status: "accepted",
       requester: userId,
       enabled: Boolean(userId),
     })
   let hasContent = data?.pages?.[0]?.requests?.length > 0
 
-  console.log(data)
+  // console.log(data)
   const nextPageRef = useNextPage({ fetchNextPage, isFetchingNextPage, hasNextPage })
 
   const renderRequestCards = (requestData: any, nextRef: ReturnType<typeof useNextPage>) => {
@@ -73,20 +73,22 @@ const BookmarkedRequests = () => {
       )
     )
   return (
-    <div className="mt-20 w-[98%] mx-auto">
+    <div className="mt-14 w-[98%] mx-auto">
       <h2 className="headersFont mt-4 px-4 py-4 text-lg capitalize mx-auto text-center">
         Your Bookmarked Requests
       </h2>
-
-      {!isLoading && <ScrollController scrollRef={scrollRef} />}
-
+ <div className="flex w-[98%] justify-end mb-2">
+    {!isLoading && <ScrollController scrollRef={scrollRef} />}
+ </div>
+  
+{/* <ScrollController scrollRef={scrollRef} /> */}
       <section
         ref={scrollRef}
-        className={`mt-4  bg-white dark:bg-darkGray  ${
-          hasContent || isLoading
-            ? "h-90 grid grid-flow-col auto-cols-min pt-5"
-            : "h-20 whitespace-nowrap mx-auto  w-full text-sm flex items-center "
-        } gap-6 px-2  pb-0 snap-x snap-mandatory overflow-x-scroll nobar null outline-2 outline-gray-200 dark:outline-black/20 rounded-lg`}
+    className={`mb-30 md:mb-8 pb-2 bg-white dark:bg-darkGray ${isLoading && 'h-90'} ${
+      hasContent || isLoading
+        ? " grid grid-flow-col auto-cols-min pt-5"
+        : "h-20 whitespace-nowrap mx-auto  w-full text-sm flex items-center justify-center"
+    } gap-6 px-2  pb-0 snap-x snap-mandatory overflow-x-scroll nobar null outline-2 outline-gray-200 dark:outline-black/20 rounded-lg`}
       >
         {isLoading ? renderSkeletons(10, true) : renderRequestCards(data, nextPageRef)}
 

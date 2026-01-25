@@ -8,8 +8,8 @@ export const SectionHeader = ({
   isLoading: boolean
   scrollRef: React.RefObject<HTMLDivElement | null>
 }) => (
-  <div className="flex items-center w-[98%] mt-4.5 pb-2">
+  <div className="flex items-center justify-between w-[98%] mt-4.5 pb-2">
     <h2 className="headersFont w-120 px-4 text-lg">{title}</h2>
-    {!isLoading && <ScrollController scrollRef={scrollRef} />}
+    {!isLoading && <ScrollController  scrollRef={scrollRef} />}
   </div>
 )

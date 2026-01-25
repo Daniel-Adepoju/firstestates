@@ -132,17 +132,18 @@ const SingleListing = ({ listingId, isAgent }: { listingId: string; isAgent?: bo
 
       <div className="singleCardCon2 description bg-gray-50 dark:bg-gray-700/30 text-foreground">
         {/* Tags */}
-        <div className="singleCardSection">
-          <div className="single_card">
-            <div className="heading mx-auto self-center">Tags</div>
-            <div className="font-medium font-list w-[90%] md:w-[80%] lg:w-[70%] text-foreground text-sm tracking-wide text-justify description mx-auto whitespace-prewrap self-center">
-              <div className="flex items-center justify-start p-0 flex-wrap gap-2 mt-2 ml-0">
-                {listing?.tags &&
-                  listing?.tags.length > 0 &&
-                  listing?.tags?.map((tag: any) => (
-                    <span
-                      key={tag}
-                      className={`
+        {listing?.tags && listing.tags.length > 1 && (
+          <div className="singleCardSection">
+            <div className="single_card">
+              <div className="heading mx-auto self-center">Tags</div>
+              <div className="font-medium font-list w-[90%] md:w-[80%] lg:w-[70%] text-foreground text-sm tracking-wide text-justify description mx-auto whitespace-prewrap self-center">
+                <div className="flex items-center justify-start p-0 flex-wrap gap-2 mt-2 ml-0">
+                  {listing?.tags &&
+                    listing?.tags.length > 0 &&
+                    listing?.tags?.map((tag: any) => (
+                      <span
+                        key={tag}
+                        className={`
     px-6 py-2 rounded-lg text-xs font-semibold capitalize
     ${
       tag.includes("new") || tag.includes("free")
@@ -156,14 +157,15 @@ const SingleListing = ({ listingId, isAgent }: { listingId: string; isAgent?: bo
               : "bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200"
     }
   `}
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Description */}
         <div className="singleCardSection">

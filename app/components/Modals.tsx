@@ -279,7 +279,7 @@ export const ReportModal = ({
           <Button
             text="Proceed"
             functions={() => handleReport()}
-            className="darkblueBtn directional font-medium text-sm clickable"
+            className="w-40 darkblueBtn directional font-medium text-sm clickable"
           >
             {creating.value && (
               <Loader2
