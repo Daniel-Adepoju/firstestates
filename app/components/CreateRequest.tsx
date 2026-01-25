@@ -128,10 +128,10 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
 
   const selectConfig = [
     {
-      label: "Preferred Gender",
+      label: "Your Gender",
       name: "preferredGender",
       options: [
-        { value: "", label: "Pick Preferred Roommate Gender" },
+        { value: "", label: "Select Your Gender" },
         { value: "male", label: "Male" },
         { value: "female", label: "Female" },
       ],
