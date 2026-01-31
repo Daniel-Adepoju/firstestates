@@ -1,7 +1,7 @@
 "use client"
 import Image from "next/image"
 import Searchbar from "@components/Searchbar"
-import { Plus, Loader2, X } from "lucide-react"
+import { Plus, Loader2, X, Trash2 } from "lucide-react"
 import Link from "next/link"
 import { useState, useEffect } from "react"
 import { useGetSchools } from "@lib/customApi"
@@ -18,6 +18,7 @@ const Schools = () => {
   const [debounced, setDebounced] = useState("")
   const [showForm, setShowForm] = useState(false)
   const { setToastValues } = useToast()
+  const [deletingId, setDeletingId] = useState('')
   const [formValues, setFormValues] = useState({
     fullname: "",
     shortname: "",
@@ -50,9 +51,9 @@ const Schools = () => {
       const response = await axiosdata.value.post("/api/schools", val)
       setToastValues({
         isActive: true,
-        message: "School added successfully",
+        message: `${'Success'}`,
         status: "success",
-        duration: 2000,
+        duration: 4000,
       })
       return response.data
     } catch (err) {
@@ -68,6 +69,29 @@ const Schools = () => {
     },
   })
 
+  const deleteSchool = async (id: string) => {
+    try {
+      setDeletingId(id)
+      await axiosdata.value.delete(`/api/schools/${id}`)
+      setDeletingId('')
+      setToastValues({
+        isActive: true,
+        message: "School deleted successfully",
+        status: "success",
+        duration: 2000,
+      })
+    } catch (err) {
+      setDeletingId('')
+      throw new Error("Error deleting school")
+    }
+  }
+  const deleteSchoolMutation = useMutation({
+    mutationKey: ["deleteSchool"],
+    mutationFn: deleteSchool,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["schools"] })
+    },
+  })
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     addSchoolMutation.mutate(formValues)
@@ -80,6 +104,7 @@ const Schools = () => {
     setShowForm(false)
   }
 
+  
   return (
     <div className="w-full flex flex-col pb-3">
       <h2 className="otherHead mx-auto text-2xl font-bold mb-6">List of Available Schools</h2>
@@ -177,27 +202,45 @@ const Schools = () => {
           <>
             {data?.pages?.flatMap((items: any) => {
               return items.schools.map((school: any, index: number) => (
-                <Link
+                <div
                   key={school._id}
                   ref={index === items.schools.length - 1 ? ref : null}
-                  href={`/admin/schools/${school._id}`}
                   className="w-full md:w-150 lg:w-200 flex p-2 bg-white dark:bg-darkGray shadow-sm dark:shadow-black rounded-md hover:shadow-lg transition"
                 >
-                  <div className="schoolLogo">
-                    <Image
-                      src={school?.logo}
-                      width={60}
-                      height={60}
-                      alt="school logo"
-                      className="rounded-full border-2 border-gray-300"
-                    />
+                  <Link
+                    href={`/admin/schools/${school._id}`}
+                    className="w-full flex"
+                  >
+                    <div className="schoolLogo">
+                      <Image
+                        src={school?.logo}
+                        width={60}
+                        height={60}
+                        alt="school logo"
+                        className="rounded-full border-2 border-gray-300"
+                      />
+                    </div>
+                    <div className="flex flex-col ml-2">
+                      <h2 className="text-lg font-bold">{school?.shortname}</h2>
+                      <h3 className="text-sm">{school?.fullname}</h3>
+                      <p className="text-xs">{school?.address}</p>
+                    </div>
+                  </Link>
+
+                  <div className="flex self-end ml-auto">
+                    <button
+                      className="z-10 flex items-center justify-center darkblueBtn clickable directional font-medium text-sm w-12 p-1"
+                      onClick={() => deleteSchoolMutation.mutate(school._id)}
+                      disabled={deleteSchoolMutation.isPending}
+                    >
+                      {deleteSchoolMutation.isPending && school._id === deletingId ? (
+                        <Loader2 className="animate-spin" />
+                      ) : (
+                        <Trash2 />
+                      )}
+                    </button>
                   </div>
-                  <div className="flex flex-col ml-2">
-                    <h2 className="text-lg font-bold">{school?.shortname}</h2>
-                    <h3 className="text-sm">{school?.fullname}</h3>
-                    <p className="text-xs">{school?.address}</p>
-                  </div>
-                </Link>
+                </div>
               ))
             })}
             {isFetchingNextPage && (

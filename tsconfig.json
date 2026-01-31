@@ -65,7 +65,7 @@
     "app/api/listings/search/route.js",
     "app/lib/server/sendEmail.js",
     ".next/dev/types/**/*.ts"
-  ],
+, "app/utils/geocode.server.js"  ],
   "exclude": [
     "node_modules"
   ]

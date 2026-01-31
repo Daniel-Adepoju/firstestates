@@ -104,9 +104,13 @@ const SchoolView = () => {
       {/* school area */}
       <div
         onClick={() => setShowForm(!showForm)}
-        className="clickable  flex self-center-safe md:self-end mt-8 mr-8 cursor-pointer darkblue-gradient dark:bg-coffee text-white px-4 py-2 rounded-md smallScale"
+        className="clickable mx-auto flex items-center  
+         md:self-end mt-8 mr-8 cursor-pointer 
+        darkblue-gradient dark:bg-coffee
+         text-white px-4 py-2.5 
+        rounded-md smallScale"
       >
-        <span className="font-bold">Add School Area</span>
+        <span className="font-bold text-sm">Add School Area</span>
         {showForm ? <X className="ml-2" /> : <Plus className="ml-2" />}
       </div>
 

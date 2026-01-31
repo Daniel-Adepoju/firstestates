@@ -39,6 +39,7 @@
     "next": "^16.0.7",
     "next-auth": "^5.0.0-beta.27",
     "next-cloudinary": "^6.16.0",
+    "node-geocoder": "^4.4.1",
     "nodemailer": "^7.0.11",
     "number-to-words": "^1.2.4",
     "otp-generator": "^4.0.1",
