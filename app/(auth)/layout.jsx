@@ -1,39 +1,41 @@
-import "@styles";
+import "@styles"
 
-import Footer from '@components/Footer';
-import User from '@utils/user'
-import Provider from '@utils/sessionProvider'
-import ReactQueryProvider from '@utils/ReactQueryProvider';
-import Notification from '@lib/Notification'
-import {Suspense} from 'react'
-import Toast from "@utils/Toast";
-import Nav from "@components/Nav";
+import Footer from "@components/Footer"
+import User from "@utils/user"
+import Provider from "@utils/sessionProvider"
+import ReactQueryProvider from "@utils/ReactQueryProvider"
+import Notification from "@lib/Notification"
+import { Suspense } from "react"
+import Toast from "@utils/Toast"
+import Nav from "@components/Nav"
 export const metadata = {
   title: "FirstEstates",
   description: "",
-};
+  icons: {
+    icon: "/favicon/favicon.ico",
+  },
+}
 
-export default function RootLayout({children}) {
+export default function RootLayout({ children }) {
   return (
-      <>
-          <Suspense>
-               <ReactQueryProvider>
+    <>
+      <Suspense>
+        <ReactQueryProvider>
           <Provider>
-          <User>
-         <Notification>
-          <Toast>
-          {/* <Nav /> */}
-          {/* <main> */}
-         {children}
-          {/* </main> */}
-            </Toast>
-            </Notification>
-          {/* <Footer />    */}
-          </User>
+            <User>
+              <Notification>
+                <Toast>
+                  {/* <Nav /> */}
+                  {/* <main> */}
+                  {children}
+                  {/* </main> */}
+                </Toast>
+              </Notification>
+              {/* <Footer />    */}
+            </User>
           </Provider>
         </ReactQueryProvider>
-        </Suspense>
-      </>
-    
-  );
+      </Suspense>
+    </>
+  )
 }

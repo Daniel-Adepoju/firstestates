@@ -27,6 +27,7 @@ import {
 import { LogOutModal } from "./Modals"
 import { useRouter, usePathname } from "next/navigation"
 import NavToggleOptions from "@components/NavToggleOptions"
+import Image from "next/image"
 
 const Nav = () => {
   const { session } = useUser()
@@ -204,7 +205,14 @@ const Nav = () => {
       className={`nav relative ${navbarFixed && "fixedNav"} ${backdrop.isNavOpen && "activeNav"}`}
     >
       <Link href="/">
-        <div className="logo">LOGO</div>
+        {/* <div className="logo">LOGO</div> */}
+        <Image
+          src="/logo/logoWithoutText.png"
+          alt="logo"
+          width={50}
+          height={50}
+          className='logo'
+        />
       </Link>
 
       {/* test */}

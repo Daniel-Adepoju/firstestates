@@ -39,7 +39,26 @@ const Footer = () => {
   ]
   return (
     <footer className={`footer pb-20 md:pb-1`}>
-      <div className="logo">LOGO</div>
+      <div className="logo"></div>
+ <div className="flex flex-col items-center leading-none -mt-8">
+  <Image
+    src="/logo/logoWithText.png"
+    alt="logo"
+    width={90}
+    height={60}
+    className="block -mb-7 logo"
+  />
+
+  {/* <Image
+    src="/logo/wordmark.png"
+    alt="wordmark"
+    width={200}
+    height={30}
+    className="w-300 h-30 block border-2 rounded-full"
+  /> */}
+</div>
+
+     
       <div className="footer_items_container">
         {/* social media */}
         <div className="mx-auto w-full flex flex-col gap-1 items-center justify-center my-2">

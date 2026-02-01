@@ -18,7 +18,7 @@ export const metadata = {
   title: "Agent",
   description: "Manage listings, clients, and performance in the First Estates Agent Dashboard.",
   icons: {
-    icon: "/icons/edit.svg",
+    icon: "/favicon/favicon.ico",
   },
   openGraph: {
     title: "First Estates Agent Dashboard",
@@ -46,7 +46,7 @@ export default async function AdminLayout({ children }) {
     if (user.lastActivityDate === new Date().toLocaleDateString("en-GB")) return
     await user.updateOne(
       { lastActivityDate: new Date().toLocaleDateString("en-GB") },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     )
   })
 
