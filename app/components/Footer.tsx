@@ -40,12 +40,12 @@ const Footer = () => {
   return (
     <footer className={`footer pb-20 md:pb-1`}>
       <div className="logo"></div>
- <div className="flex flex-col items-center leading-none -mt-8">
+ <div className="flex flex-col items-center leading-none ">
   <Image
-    src="/logo/logoWithText.png"
+    src="/logo/logoWithoutText.png"
     alt="logo"
-    width={90}
-    height={60}
+    width={64}
+    height={50}
     className="block -mb-7 logo"
   />
 

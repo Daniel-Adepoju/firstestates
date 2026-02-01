@@ -12,7 +12,7 @@ export const metadata = {
   title: "FirstEstates",
   description: "",
   icons: {
-    icon: "/favicon/favicon.ico",
+    icon: "/logo/logoWithoutText.png",
   },
 }
 

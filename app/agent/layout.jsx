@@ -18,7 +18,7 @@ export const metadata = {
   title: "Agent",
   description: "Manage listings, clients, and performance in the First Estates Agent Dashboard.",
   icons: {
-    icon: "/favicon/favicon.ico",
+    icon: "/logo/logoWithoutText.png",
   },
   openGraph: {
     title: "First Estates Agent Dashboard",
