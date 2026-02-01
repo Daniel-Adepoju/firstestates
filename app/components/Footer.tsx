@@ -41,13 +41,13 @@ const Footer = () => {
     <footer className={`footer pb-20 md:pb-1`}>
       <div className="logo"></div>
  <div className="flex flex-col items-center leading-none ">
-  <Image
-    src="/logo/logoWithoutText.png"
-    alt="logo"
-    width={64}
-    height={50}
-    className="block -mb-7 logo"
-  />
+ <Image
+  src="/logo/logoWithoutText.png"
+  alt="logo"
+  width={1000}
+  height={1000}
+  className="block w-[80px] h-auto -mb-7"
+/>
 
   {/* <Image
     src="/logo/wordmark.png"

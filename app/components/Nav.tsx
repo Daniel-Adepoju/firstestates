@@ -209,9 +209,9 @@ const Nav = () => {
         <Image
           src="/logo/logoWithoutText.png"
           alt="logo"
-          width={50}
-          height={50}
-          className='logo'
+          width={1000}
+          height={1000}
+          className='w-[50px] h-auto'
         />
       </Link>
 
