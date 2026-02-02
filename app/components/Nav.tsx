@@ -204,7 +204,10 @@ const Nav = () => {
       id="nav"
       className={`nav relative ${navbarFixed && "fixedNav"} ${backdrop.isNavOpen && "activeNav"}`}
     >
-      <Link href="/">
+      <Link 
+      href="/"
+      className='flex items-center'
+      >
         {/* <div className="logo">LOGO</div> */}
         <Image
           src="/logo/logoWithoutText.png"
@@ -213,6 +216,15 @@ const Nav = () => {
           height={1000}
           className='w-[50px] h-auto'
         />
+<div className="flex items-center w-[100px] h-[16px] overflow-hidden -ml-[14px]">
+  <Image
+    src="/logo/wordmark.png"
+    alt="wordmark"
+    width={1000}
+    height={500}
+    className="w-full h-full object-cover"
+  />
+</div>
       </Link>
 
       {/* test */}

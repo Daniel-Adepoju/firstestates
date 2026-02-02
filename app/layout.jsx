@@ -15,7 +15,7 @@ export const metadata = {
   },
   description: "Find Your Perfect Student Home",
   icons: {
-    icon: "/logo/logoWithoutText.png",
+    icon: "/logo/favicon.png",
   },
   openGraph: {
     title: "First Estates",

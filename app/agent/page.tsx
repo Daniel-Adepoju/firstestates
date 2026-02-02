@@ -27,8 +27,10 @@ const AgentOnboarding = () => {
 
   return (
     <div className="w-full flex flex-col items-center gap-4">
+      
       {/* return to homepage */}
-      <Link
+
+      {/* <Link
         href="/"
         className="flex items-center gap-1 pl-2 md:pl-3 self-start text-sm gold-gradient-text font-medium font-head"
       >
@@ -38,7 +40,8 @@ const AgentOnboarding = () => {
           className="inline-block text-goldPrimary"
         />
         Go to Homepage
-      </Link>
+      </Link> */}
+
       {/* Agent Profile */}
       <Agent
         agent={session?.user}

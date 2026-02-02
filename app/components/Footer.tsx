@@ -46,18 +46,21 @@ const Footer = () => {
   alt="logo"
   width={1000}
   height={1000}
-  className="block w-[80px] h-auto -mb-7"
+  className="block w-[80px] h-auto -mb-3"
 />
 
-  {/* <Image
-    src="/logo/wordmark.png"
-    alt="wordmark"
-    width={200}
-    height={30}
-    className="w-300 h-30 block border-2 rounded-full"
-  /> */}
-</div>
+ <div className="flex items-center w-[100px] h-[16px] bg-gray-50 overflow-hidden pr-1 pt-1 rounded-xl">
+   <Image
+     src="/logo/wordmark.png"
+     alt="wordmark"
+     width={1000}
+     height={500}
+     className="w-full h-full object-cover"
+   />
+ </div>
 
+</div>
+ {/* <div className="text-[#0440c8] text-lg bg-gray-100 p-4">First Estates</div> */}
      
       <div className="footer_items_container">
         {/* social media */}
