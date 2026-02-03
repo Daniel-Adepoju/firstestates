@@ -49,9 +49,9 @@ const Footer = () => {
   className="block w-[80px] h-auto -mb-3"
 />
 
- <div className="flex items-center w-[100px] h-[16px] bg-gray-50 overflow-hidden pr-1 pt-1 rounded-xl">
+ <div className="flex items-center w-[100px] h-[16px] overflow-hidden pr-1 pt-1 rounded-xl">
    <Image
-     src="/logo/wordmark.png"
+     src="/logo/wordmarkDark.png"
      alt="wordmark"
      width={1000}
      height={500}

@@ -216,16 +216,19 @@ const Nav = () => {
           height={1000}
           className='w-[50px] h-auto'
         />
-<div className="flex items-center w-[100px] h-[16px] overflow-hidden -ml-[14px]">
+<div className="flex items-center w-[100px] h-[16px] overflow-hidden -ml-[14px]  rounded-xl">
   <Image
-    src="/logo/wordmark.png"
+    src={darkMode ? '/logo/wordmarkDark.png' : '/logo/wordmark.png'}
     alt="wordmark"
     width={1000}
     height={500}
-    className="w-full h-full object-cover"
+    className="w-full h-full object-cover contrast-more saturate-200"
   />
+
 </div>
+    
       </Link>
+  
 
       {/* test */}
 
