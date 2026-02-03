@@ -18,8 +18,14 @@ export const metadata = {
   title: "Agent",
   description: "Manage listings, clients, and performance in the First Estates Agent Dashboard.",
   icons: {
-    icon: "/logo/favicon.png",
+    icon: [
+      { url: "/logo/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/logo/favicon-48.png", sizes: "48x48", type: "image/png" },
+      { url: "/logo/favicon-96.png", sizes: "96x96", type: "image/png" },
+      { url: "/logo/favicon-128.png", sizes: "128x128", type: "image/png" },
+    ],
   },
+
   openGraph: {
     title: "First Estates Agent Dashboard",
     description: "Manage listings, clients, and performance in the First Estates Agent Dashboard.",
