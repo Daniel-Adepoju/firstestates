@@ -27,13 +27,24 @@ const Header = ({ session }: Session) => {
           className="w-[50px] h-auto"
         />
         <div className="flex items-center w-[100px] h-[16px] overflow-hidden -ml-[16px]">
-          <Image
-            src={darkMode ? "/logo/wordmarkDark.png" : "/logo/wordmark.png"}
-            alt="wordmark"
-            width={1000}
-            height={500}
-            className="w-full h-full object-cover contrast-more saturate-200"
-          />
+       <>
+  <Image
+    src="/logo/wordmark.png"
+    alt="wordmark"
+    width={1000}
+    height={500}
+    className="w-full h-full object-cover contrast-more saturate-200 dark:hidden"
+  />
+
+  <Image
+    src="/logo/wordmarkDark.png"
+    alt="wordmark"
+    width={1000}
+    height={500}
+    className="hidden w-full h-full object-cover contrast-more saturate-200 dark:block"
+  />
+</>
+
         </div>
       </Link>
       <div>
