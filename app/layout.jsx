@@ -15,12 +15,7 @@ export const metadata = {
   },
   description: "Find Your Perfect Student Home",
   icons: {
-    icon: [
-      { url: "/logo/favicon-32.png", sizes: "32x32", type: "image/png" },
-      { url: "/logo/favicon-48.png", sizes: "48x48", type: "image/png" },
-      { url: "/logo/favicon-96.png", sizes: "96x96", type: "image/png" },
-      { url: "/logo/favicon-128.png", sizes: "128x128", type: "image/png" },
-    ],
+    icon: [{ url: "/logo/favicon.png", sizes: "128x128", type: "image/png" }],
   },
 
   openGraph: {
