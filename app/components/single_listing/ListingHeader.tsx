@@ -3,9 +3,9 @@
 import Image from "next/image"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Pagination, Autoplay, A11y, EffectCoverflow } from "swiper/modules"
-import { CldImage } from "next-cloudinary"
+import { CldImage, CldVideoPlayer } from "next-cloudinary"
 import SwiperControls from "@utils/SwpierControls"
-import { MapPin, Bed, Bath, Toilet } from "lucide-react"
+import { MapPin, Bed, Bath, Toilet, PlaySquare, Images } from "lucide-react"
 import { useState } from "react"
 
 interface Props {
@@ -14,6 +14,7 @@ interface Props {
 
 const ListingHeader = ({ listing }: Props) => {
   const [isSwiperLoaded, setIsSwiperLoaded] = useState(false)
+  const [headerTab, setHeaderTab] = useState("gallery")
 
   const openInGoogleMap = (address?: string) => {
     if (!address) return
@@ -25,31 +26,71 @@ const ListingHeader = ({ listing }: Props) => {
     <>
       <div className="header">
         <div className="house">
-          <Swiper
-            className="house"
-            modules={[Pagination, Autoplay, A11y, EffectCoverflow]}
-            spaceBetween={0}
-            slidesPerView={1}
-            loop
-            autoplay={{ delay: 5000, disableOnInteraction: false }}
-            pagination={{ clickable: true, type: "bullets" }}
-            onSwiper={() => setIsSwiperLoaded(true)}
-          >
-            {listing?.gallery?.map((image: string) => (
-              <SwiperSlide
-                key={image}
-                className={`item ${!isSwiperLoaded && "itemHide"}`}
-              >
-                <CldImage
-                  alt="gallery picture"
-                  src={image || "firstestatesdefaultuserpicture"}
-                  fill
-                  preload
-                />
-              </SwiperSlide>
-            ))}
-            <SwiperControls />
-          </Swiper>
+          {listing.video && (
+            <div
+              onClick={() => setHeaderTab(headerTab === "gallery" ? "video" : "gallery")}
+              className="flex font-header darkblueBtn clickable rounded-full w-32 text-xs font-medium h-8 items-center gap-2 py-4 px-4 mb-4"
+            >
+              {headerTab === "gallery" ? (
+                <div className="flex items-center justify-center gap-2 w-full">
+                  Video Tour{" "}
+                  <PlaySquare
+                    className="text-gray-200"
+                    size={20}
+                  />
+                </div>
+              ) : (
+                <div className="flex items-center justify-center gap-2 w-full">
+                  Gallery{" "}
+                  <Images
+                    className="text-gray-200"
+                    size={20}
+                  />
+                </div>
+              )}
+            </div>
+          )}
+
+          {headerTab === "gallery" && (
+            <Swiper
+              className="house"
+              modules={[Pagination, Autoplay, A11y, EffectCoverflow]}
+              spaceBetween={0}
+              slidesPerView={1}
+              loop
+              autoplay={{ delay: 5000, disableOnInteraction: false }}
+              pagination={{ clickable: true, type: "bullets" }}
+              onSwiper={() => setIsSwiperLoaded(true)}
+            >
+              {listing?.gallery?.map((image: string) => (
+                <SwiperSlide
+                  key={image}
+                  className={`item ${!isSwiperLoaded && "itemHide"}`}
+                >
+                  <CldImage
+                    alt="gallery picture"
+                    src={image || "firstestatesdefaultuserpicture"}
+                    fill
+                    preload
+                  />
+                </SwiperSlide>
+              ))}
+              <SwiperControls />
+            </Swiper>
+          )}
+          {headerTab === "video" && (
+            <CldVideoPlayer
+              src={listing.video}
+              controls={true}
+              colors={{
+                accent: "#032679",
+                base: "black",
+                text: "#F29829",
+              }}
+              logo={false}
+              className="mt-4 rounded-md"
+            />
+          )}
         </div>
 
         <div className="heading location">{listing?.location}</div>

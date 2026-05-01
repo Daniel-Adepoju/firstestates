@@ -1,19 +1,25 @@
 "use client"
 
-
 import ListingTypes from "@components/agent/create_listing/ListingTiers"
+import { CldVideoPlayer } from "next-cloudinary"
 const Page = () => {
   return (
     <>
-      <div className="text-foreground w-full mt-20">
-        <h1>Test</h1>
-        {/* <ListingTypes />
-         */}
-     
-
-        <button className="block w-50 mt-40 mx-auto p-6 gold-gradient">
-          Test Button
-          </button>
+      <div className="w-[400px] aspect-video">
+        <CldVideoPlayer
+          src={"mixkit-black-ink-splashing-505-hd-ready_elc7t8"}
+          controls={true}
+          // autoPlay={true}
+          width="620"
+          height="520"
+          colors={{
+            accent: "#032679",
+            base: "black",
+            text: "#F29829",
+          }}
+          logo={false}
+          className="mt-4 rounded-md"
+        />
       </div>
     </>
   )
@@ -21,7 +27,3 @@ const Page = () => {
 
 export default Page
 //
-
-
-
-

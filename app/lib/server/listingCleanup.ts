@@ -5,7 +5,7 @@ import Wishlist from "@models/wishlist"
 import Appointment from "@models/appointment"
 import Inhabitant from "@models/inhabitant"
 import { sendNotification } from "./notificationFunctions"
-import { deleteImage, deleteMultipleImages } from "./deleteImage"
+import { deleteImage, deleteMultipleImages, deleteVideo } from "./deleteImage"
 
 import mongoose from "mongoose"
 
@@ -14,7 +14,7 @@ export async function cleanupListing(
   options?: {
     notify?: boolean
     reason?: "manual" | "expired" | "admin"
-  }
+  },
 ) {
   const listing = await Listing.findById(listingId)
   if (!listing) return
@@ -44,7 +44,9 @@ export async function cleanupListing(
   // External side-effects after transaction is safely committed
   await deleteImage(listing.mainImage)
   await deleteMultipleImages(listing.gallery)
-
+  if (listing.video) {
+    await deleteVideo(listing.video)
+  }
   if (options?.notify) {
     await sendNotification({
       type: "Listing_Deleted",

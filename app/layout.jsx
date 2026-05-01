@@ -1,5 +1,6 @@
 import "./globals.css"
 import "@styles"
+import 'next-cloudinary/dist/cld-video-player.css';
 import { DarkModeProvider } from "@lib/DarkModeProvider"
 import Script from "next/script"
 import Nav from "@components/Nav"
@@ -15,7 +16,7 @@ export const metadata = {
   },
   description: "Find Your Perfect Student Home",
   icons: {
-    icon: [{ url: "/logo/favicon.png", sizes: "128x128", type: "image/png" }],
+   icon: "/logo/favicon.png",
   },
 
   openGraph: {

@@ -69,8 +69,10 @@ const SingleListing = ({ listingId, isAgent }: { listingId: string; isAgent?: bo
 
   if (isError)
     return (
-      <div className="flex flex-col items-center justify-center text-red-600 text-xl w-full min-h-screen bg-black">
-        An error occurred due to network issues or because the page no longer exists.
+      <div className="flex flex-col text-sm p-6 items-center justify-center text-red-600 w-full min-h-screen bg-black">
+        <span>
+          An error occurred due to issues with your network or because the page no longer exists.
+          </span>
       </div>
     )
 

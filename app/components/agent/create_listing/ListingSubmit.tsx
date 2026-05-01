@@ -12,7 +12,7 @@ export default function ListingSubmit({ email, incomplete, creating, amount, han
       {email ? (
         incomplete ? (
           <div className="mx-auto font-semibold text-gray-700 dark:text-white text-center">
-            Fill The Form To Proceed
+            Fill all required fields to proceed
           </div>
         ) : (
           <PaystackBtn

@@ -214,7 +214,16 @@ const Form = () => {
         {/* side content */}
 
         <div className="w-[60%] lg:flex  flex-col items-center justify-center gap-4 hidden">
-          <span className="text-4xl font-bold text-gray-400">LOGO</span>
+          <div className="flex flex-col items-center justify-center">
+            <Image
+              src="/logo/logoWithoutText.png"
+              alt="logo"
+              width={100}
+              height={100}
+            />
+            <span className="text-lg font-bold text-gray-400 -mt-2.5">FIRST ESTATES</span>
+          </div>
+
           <span className="text-sm pl-3 w-[100%] text-center">
             {pathname.startsWith("/signup") &&
               (pathname === "/signup/agent" ? (
@@ -453,7 +462,7 @@ const Form = () => {
                 <Button
                   text="Continue With Google"
                   reverse={true}
-                  functions={() => {
+                  onClick={() => {
                     handleSignInWithGoogle()
                   }}
                   className="text-white directional font-medium text-sm clickable mb-2 rounded-md mx-auto gray-gradient w-80 h-10 p-6"

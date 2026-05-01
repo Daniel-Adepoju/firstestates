@@ -21,6 +21,9 @@ const ListingSchema = new Schema(
       type: [String],
       required: [true, "Gallery images are required"],
     },
+    video:{
+      type: String,
+    },
     address: {
       type: String,
       required: [true, "Address is required"],

@@ -3,7 +3,7 @@
 import { X } from "lucide-react"
 import { useSignals } from "@preact/signals-react/runtime"
 import { Signal } from "@preact/signals-react"
-import { KeyboardEvent } from "react"
+import { KeyboardEvent, useState, useEffect} from "react"
 import { tagsSuggestion } from "@lib/constants"
 
 interface TagsInputProps {
@@ -13,6 +13,15 @@ interface TagsInputProps {
 
 export default function TagsInput({ tagsSignal, maxTags = 6 }: TagsInputProps) {
   useSignals()
+const [randomTags, setRandomTags] = useState<string[]>([])
+
+useEffect(() => {
+  const shuffled = [...tagsSuggestion]
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 3)
+
+  setRandomTags(shuffled)
+}, [])
 
   const addTag = (tag: string, tagsSignal: Signal<string[]>, maxTags: number) => {
     const value = tag.trim()
@@ -83,8 +92,7 @@ export default function TagsInput({ tagsSignal, maxTags = 6 }: TagsInputProps) {
       <div className="w-full flex items-center gap-1">
         <span className="w-fit font-medium mr-2 text-xs text-foreground">Suggestions:</span>
         
-        {tagsSuggestion
-          .map((item) => (
+        {randomTags.map((item) => (
             <span
               key={item}
               onClick={() => addTag(item, tagsSignal, maxTags)}
@@ -93,8 +101,7 @@ export default function TagsInput({ tagsSignal, maxTags = 6 }: TagsInputProps) {
               {item}
             </span>
           ))
-          .sort(() => Math.random() - 0.5)
-          .slice(0, 3)}
+        }
       </div>
 
       <div className="w-full flex flex-wrap gap-1 border rounded-sm p-2 dark:bg-darkGray dark:text-white outline-2 outline-slate-200 dark:outline-gray-800">

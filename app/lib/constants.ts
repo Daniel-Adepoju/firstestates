@@ -117,40 +117,62 @@ export let dummyListing = {
 
 export const listingTierItems = [
   {
+    key: "standard",
     type: "Standard",
-    price: "₦1000/month",
+    amount: 4000,
+    durationDays: 31,
+    price: "₦4000/month",
+    color: "text-sky-500",
     border: "border-sky-500",
     benefits: ["Basic listing visibility", "Add up to 3 images"],
     link: "/agent/listings/add?type=standard",
+    maxImages: 3,
     rank: 1,
   },
   {
+    key: "gold",
     type: "Gold",
-    price: "₦2500/50 days",
-    border: "border-goldPrimary", // assuming `gold-primary` maps to yellow-500
+    amount: 8000,
+    durationDays: 55,
+    price: "₦8000/55 days",
+    color: "text-goldPrimary",
+    border: "border-goldPrimary",
     benefits: [
       "Ability to feature listings",
       "Greater visibility than standard listing",
       "Add up to 5 images",
     ],
     link: "/agent/listings/add?type=gold",
+    maxImages: 5,
     rank: 2,
   },
   {
+    key: "first",
     type: "First",
-    price: "₦5000/75 days",
+    amount: 12000,
+    durationDays: 70,
+    price: "₦12000/70 days",
+    color: "text-[#b647ff]",
     border: "border-[#b647ff]",
     benefits: [
-      "Enhanced listing visibility",
+      "Best listing visibility",
       "Priority display in search results",
-      "Add up to 8 images",
+      "Add up to 8 images and a video tour",
       "Automatic featured listing",
     ],
     link: "/agent/listings/add?type=first",
-    bonusClass: "md:col-span-2 md:mx-auto lg:col-span-1 lg:mx-0",
+    maxImages: 8,
+    maxVideo: 1,
     rank: 3,
   },
 ]
+
+export const getListingTier = (tier?: string) => {
+  return (
+    listingTierItems.find((t) => t.key === tier) || listingTierItems[0] // fallback to standard
+  )
+}
+
 export const listingTypes = [
   "Apartment",
   "Hostel",
@@ -165,11 +187,11 @@ export const listingTypes = [
 
 export const tagsSuggestion = [
   // Occupancy
-
   "Male Only",
   "Female Only",
-
   // Rent Duration
+
+  // Others
   "Walking Distance",
-  "Near Campus"
+  "Near Campus",
 ]

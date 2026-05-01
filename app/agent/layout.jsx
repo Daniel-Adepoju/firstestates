@@ -51,7 +51,7 @@ export default async function AdminLayout({ children }) {
     )
   })
 
-  //   if(!session) {
+  //   if(!session || session?.user?.role !== 'agent') {
   //       return <div className='unauthorized'>
   // <span> This Page Is Only Available To A Verified Agent</span>
   //       </div>

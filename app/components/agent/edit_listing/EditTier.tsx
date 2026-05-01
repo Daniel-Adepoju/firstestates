@@ -1,28 +1,25 @@
 "use client"
 import dynamic from "next/dynamic"
 import React from "react"
-import { listingTierItems } from "@lib/constants"
+import { getListingTier, listingTierItems } from "@lib/constants"
 import { daysLeft } from "@utils/date"
 import { useSignals, useSignal } from "@preact/signals-react/runtime"
 const PaystackBtn = dynamic(() => import("@components/PayStackButton"), { ssr: false })
 
 const EditTier = ({ data, editRanks, handleUpgrade, email }: any) => {
   useSignals()
-  const creating = useSignal(false)
+  const tier = getListingTier(data?.post.listingTier)
+
 
   return (
     <div className="w-full col-span-2 text-foreground text-sm">
       <div className="w-[90%] text-center mx-auto mb-4 capitalize">
         This listing is currently a
         <strong
-          className={`
-            ${data?.post.listingTier === "standard" && "text-sky-500"}
-            ${data?.post.listingTier === "gold" && "text-goldPrimary"}
-            ${data?.post.listingTier === "first" && "text-[#b647ff]"}
-          `}
+          className={tier?.color}
         >
           {" "}
-          {data?.post.listingTier}
+          {tier?.type}
         </strong>{" "}
         listing.
         <div>
@@ -38,9 +35,9 @@ const EditTier = ({ data, editRanks, handleUpgrade, email }: any) => {
 
           return (
             <div
-              key={listing.type}
+              key={listing?.key}
               className={` ${
-                listing.bonusClass && listing.bonusClass
+                listing?.color
               } gloss dark:bg-gray-700/50 text-gray-700 dark:text-gray-100 border-2 ${
                 listing.border
               } rounded-2xl p-6 shadow-md smallScale transition cursor-pointer flex flex-col`}
@@ -48,11 +45,8 @@ const EditTier = ({ data, editRanks, handleUpgrade, email }: any) => {
               <h2 className="text-2xl font-bold mb-2">{listing.type}</h2>
 
               <p
-                className={`text-xl font-semibold mb-4  ${
-                  listing.type === "First" && "text-[#b647ff]"
-                } ${listing.type === "Gold" && "text-goldPrimary"} ${
-                  listing.type === "Standard" && "text-sky-500"
-                }`}
+                className={`text-xl font-semibold mb-4  ${listing?.color}
+            `}
               >
                 {listing.price}
               </p>
@@ -70,15 +64,7 @@ const EditTier = ({ data, editRanks, handleUpgrade, email }: any) => {
 
               <PaystackBtn
                 email={email}
-                amount={
-                  listing.type === "Standard"
-                    ? 1000
-                    : listing.type === "Gold"
-                    ? 2500
-                    : listing.type === "First"
-                    ? 5000
-                    : 1000
-                }
+                amount={listing?.amount}
                 successFunction={() => handleUpgrade(listing.type.toLowerCase())}
                 className="w-full mt-auto py-3 darkblue-gradient text-white outline-1.5 dark:outline-black/40 rounded-lg font-bold hover:scale-99 transition"
                 text={

@@ -13,7 +13,15 @@ const SignUp = () => {
   return (
     <div className="board flex flex-col lg:flex-row items-center justify-center lg:justify-around  gap-20 shadow-sm mt-20 mx-auto">
       <div className="lg:flex  flex-col items-center justify-center gap-4 hidden">
-        <span className="text-4xl font-bold text-gray-400">LOGO</span>
+        <div className="flex flex-col items-center justify-center">
+          <Image
+            src="/logo/logoWithoutText.png"
+            alt="logo"
+            width={100}
+            height={100}
+          />
+          <span className="text-lg font-bold text-gray-400 -mt-2.5">FIRST ESTATES</span>
+        </div>
         <span className="text-sm">
           {" "}
           Discover the full <strong>First Estates</strong> experience, join today
@@ -51,7 +59,7 @@ const SignUp = () => {
         <Button
           text="Continue With Google"
           reverse={true}
-          functions={() => {
+          onClick={() => {
             handleSignInWithGoogle()
           }}
           className="text-white directional font-medium text-sm clickable py-6.5 mb-12 rounded-md mx-auto gray-gradient w-80 h-10"

@@ -170,7 +170,7 @@ const SetAppointmentForListing = () => {
         <div className="mx-auto text-sm text-red-500 font-medium">{warning}</div>
         <Button
           disabled={!appointmentType && !clientName}
-          functions={() => handleCreateAppointment()}
+          onClick={() => handleCreateAppointment()}
           text="Create Appointment"
           className="clickable directional font-medium text-sm darkblueBtn w-60 mx-auto py-6"
         >

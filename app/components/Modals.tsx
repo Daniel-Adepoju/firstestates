@@ -145,7 +145,7 @@ export const FeaturedModal = ({ ref, email, listingId, userId }: FeaturedProps) 
   const creating = useSignal(false)
   const notification = useNotification()
   const queryClient = useQueryClient()
- const featuredAmount = 1000
+  const featuredAmount = 1000
 
   const makeFeatured = async () => {
     try {
@@ -278,7 +278,7 @@ export const ReportModal = ({
         <div className="btnCover w-50 flex flex-row justify-center">
           <Button
             text="Proceed"
-            functions={() => handleReport()}
+            onClick={() => handleReport()}
             className="w-40 darkblueBtn directional font-medium text-sm clickable"
           >
             {creating.value && (
@@ -381,7 +381,7 @@ export const ReportListingModal = ({
         <div className="btnCover w-50 flex flex-row justify-center">
           <Button
             text="Proceed"
-            functions={() => handleReport()}
+            onClick={() => handleReport()}
             className="darkblueBtn directional font-medium text-sm clickable"
             disabled={makeReportMutation.isPending}
           >
@@ -427,18 +427,20 @@ export const InfoModal = ({ ref }: ModalProps) => {
         />
 
         <ul className="px-2 tracking-wide text-justify list-disc  flex flex-col gap-2 justify-start items-start">
-        <li>
-          You may select <strong>only one main image</strong>, which will be used as the cover photo
-          for your listing.
-        </li>
-        <li>
-         You can also select <strong>supplementary images</strong> determined by your listing tier.
-        </li>
-        <li>
-          A fee <strong>determined by your listing tier</strong> is required to complete and publish your listing.
-        </li>
+          <li>
+            You may select <strong>only one main image</strong>, which will be used as the cover
+            photo for your listing.
+          </li>
+          <li>
+            You can also select <strong>supplementary images</strong> determined by your listing
+            tier.
+          </li>
+          <li>
+            A fee <strong>determined by your listing tier</strong> is required to complete and
+            publish your listing.
+          </li>
         </ul>
-    </div>
+      </div>
     </dialog>
   )
 }

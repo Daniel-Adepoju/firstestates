@@ -19,6 +19,8 @@ import ListingSubmit from "./ListingSubmit"
 import LoadingBoard from "@components/LoadingBoard"
 import { Info, X } from "lucide-react"
 import TagsInput from "./TagsInput"
+import { getListingTier } from "@lib/constants"
+import ListingVideo from "./ListingVideo"
 
 // global signals
 export const listingDeets = {
@@ -29,6 +31,7 @@ export const listingDeets = {
   listingType: signal(""),
   gallery: signal<string[]>([]),
   mainImage: signal<string | null>(null),
+  video: signal<string | null>(null),
   amenities: signal<string[]>([]),
   address: signal(""),
   bedrooms: signal(""),
@@ -40,7 +43,7 @@ export const listingDeets = {
 export default function ListingForm({ listingTier }: { listingTier?: string }) {
   useSignals()
   const router = useRouter()
-  const { session } = useUser()
+  const  {session}  = useUser()
   const { setToastValues } = useToast()
   const queryClient = useQueryClient()
   const infoRef = useRef<HTMLDialogElement>(null)
@@ -55,17 +58,10 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
     .map((s: any) => s.schoolAreas)
     .flat()
 
-  const amount =
-    listingTier === "standard"
-      ? 1000
-      : listingTier === "gold"
-        ? 2500
-        : listingTier === "first"
-          ? 5000
-          : 1000
+  const tier = getListingTier(listingTier)
+  const amount = tier?.amount || 0
 
-  const listingTierWeight =
-    listingTier === "standard" ? 1 : listingTier === "gold" ? 2 : listingTier === "first" ? 3 : 3
+  const listingTierWeight = tier?.rank || 3
 
   // ============= Ensure filled fields =============
 
@@ -139,18 +135,8 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
     creating.value = true
     try {
       // handle valid until date based on listing tier
-      const now = new Date()
-      let validUntil = new Date()
-
-      if (listingTier === "standard") {
-        validUntil.setDate(now.getDate() + 31)
-      } else if (listingTier === "gold") {
-        validUntil.setDate(now.getDate() + 51)
-      } else if (listingTier === "first") {
-        validUntil.setDate(now.getDate() + 76)
-      } else {
-        validUntil.setDate(now.getDate() + 30)
-      }
+      const validUntil = new Date()
+      validUntil.setDate(validUntil.getDate() + tier?.durationDays || 30)
 
       // create listing
       const res = await createListing({
@@ -164,13 +150,14 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
         school,
         gallery: listingDeets.gallery.value,
         mainImage: listingDeets.mainImage.value,
+        video: tier?.rank === 3 ? listingDeets.video.value : undefined,
         address: listingDeets.address.value,
         bathrooms: listingDeets.bathrooms.value,
         bedrooms: listingDeets.bedrooms.value,
         toilets: listingDeets.toilets.value,
         listingTier,
         listingTierWeight,
-        isFeatured: listingTier === "first",
+        isFeatured: tier?.rank === 3,
         validUntil,
       })
       if (res.status === "success") {
@@ -211,16 +198,7 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
         <div className="title_heading">
           {" "}
           <div>
-            Create a{" "}
-            <span
-              className={`${listingTier === "standard" && "text-sky-500"}
-           ${listingTier === "gold" && "text-goldPrimary"} ${
-             listingTier === "first" && "text-[#b647ff]"
-           }`}
-            >
-              {listingTier}
-            </span>{" "}
-            listing
+            Create a <span className={`${tier?.color}`}>{listingTier}</span> listing
           </div>{" "}
           <p className="text-base">Fill in the form below to create a new listing</p>{" "}
           <p className="text-xs font-light text-gray-500 dark:text-gray-300">
@@ -246,10 +224,12 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
 
           <ListingPrice listingDeets={listingDeets} />
 
+          {tier?.rank === 3 && <ListingVideo listingDeets={listingDeets} />}
+
           <ListingMainImage listingDeets={listingDeets} />
 
           <ListingGallery
-            listingTier={listingTier}
+            maxImages={tier?.maxImages}
             listingDeets={listingDeets}
           />
 
@@ -266,7 +246,7 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
           />
 
           {/* Tags */}
-          
+
           <TagsInput
             tagsSignal={listingDeets.tags}
             maxTags={6}
