@@ -11,7 +11,7 @@ const ListingTiers = () => {
         <Link
           href={listing.link}
           key={listing.type}
-          className={` ${listing.bonusClass && listing.bonusClass} gloss  dark:bg-gray-700/50 text-gray-700 dark:text-gray-100  border-2 ${listing.border} rounded-2xl p-6 shadow-md smallScale transition cursor-pointer`}
+          className={` ${listing.color && listing.color} gloss  dark:bg-gray-700/50 text-gray-700 dark:text-gray-100  border-2 ${listing.border} rounded-2xl p-6 shadow-md smallScale transition cursor-pointer`}
         >
           <h2 className="text-2xl font-bold mb-2">{listing.type}</h2>
           <p className={`text-xl font-semibold mb-4  ${listing.type === "First" && "text-[#b647ff]"} ${listing.type === "Gold" && "text-goldPrimary"} ${listing.type === "Standard" && "text-sky-500"}`}>
