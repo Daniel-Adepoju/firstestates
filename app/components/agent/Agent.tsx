@@ -112,7 +112,8 @@ const Agent = ({ agent, isYou , handleReport, isActive,setIsActive, reporting,re
           <span className="break-all text-xs text-ellipsis opacity-90 text-foreground">lorem ipsum dolor{agent.address}</span>
         </div>
       </div>
-
+ 
+ 
 
 
            {/* report user */}
