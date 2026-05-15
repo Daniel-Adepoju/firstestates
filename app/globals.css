@@ -263,8 +263,8 @@ background: linear-gradient(
     @apply after:animate-none after:top-[-110%] after:left-[-550%] after:absolute hover:after:w-50 hover:after:h-8 hover:after:bg-gray-600 dark:hover:after:bg-white hover:after:rounded-sm;
   }
   .custom-shadow {
-    @apply shadow-[0_3px_3px_rgba(0,0,0,0.168),0_-1.69px_1.5px_rgba(0,0,0,0.1)]
-         dark:shadow-[0_3px_3px_rgba(0,0,0,0.8),0_-1.69px_1.5px_rgba(0,0,0,0.6)];
+    @apply shadow-[0_1px_2px_rgba(0,0,0,0.05)]
+dark:shadow-[0_1px_2px_rgba(0,0,0,0.3)]
   }
 }
 

@@ -11,7 +11,7 @@ import { useGetAgentListingsInfinite } from "@lib/customApi"
 import { useNextPage } from "@lib/useIntersection"
 import PopularCard from "@components/listing/PopularCard"
 import { Skeleton } from "@components/ui/skeleton"
-import { Loader2, ArrowRightCircle, ChevronDown } from "lucide-react"
+import { Loader2, ArrowRightCircle} from "lucide-react"
 
 const AgentViewPage = () => {
   const { id } = useParams()
@@ -67,70 +67,37 @@ const AgentViewPage = () => {
   }
 
   return (
-    <>
-      <div className="agentProfile w-[90%] md:w-[80%] mx-auto mb-6 mt-20 p-6 rounded-lg shadow-md dark:shadow-md-black/60">
+    <div className="w-full lg:h-[calc(100vh-2em)] flex flex-col lg:flex-row lg:gap-1 lg:mt-12 lg:items-stretch  lg:overflow-hidden">
+      <div className="bg-white dark:bg-darkGray w-[90%] md:w-[80%] mx-auto mb-6
+    mt-20 p-6 rounded-lg shadow-sm dark:shadow-black/30
+    lg:pb-2 lg:w-[70%] lg:mt-4 lg:p-4 lg:h-full lg:m-0 lg:mb-0 overflow-y-scroll bar-custom left-bar gold-bar"
+        >
         <Agent
           agent={agent}
           isYou={isYou}
+          handleReport={handleReport}
+          isActive={isActive}
+          setIsActive={setIsActive}
+          reportText={reportText}
+          setReportText={setReportText}
+          reporting={reporting}
         />
 
-        {/* report user */}
-        {!isLoading && !isYou && (
-          <div className="reportUser mt-4">
-            <div
-              className="flex items-center gap-3 cursor-pointer"
-              onClick={() => setIsActive(!isActive)}
-            >
-              <h2 className="subheading font-semibold mb-2">Report Agent</h2>
-              <ChevronDown
-                strokeWidth={3}
-                className={`w-5 h-5 transition-transform duration-300 ${
-                  isActive ? "rotate-180" : ""
-                }`}
-              />
-            </div>
-
-            {isActive && (
-              <>
-                <p>If you have any issues with this agent, please report them.</p>
-                <form
-                  onSubmit={handleReport}
-                  className="mt-4"
-                >
-                  <textarea
-                    required
-                    className="w-full resize-none p-2 outline-[1px] dark:outline-black border-none rounded-sm"
-                    rows={6}
-                    placeholder="Describe the issue..."
-                    value={reportText}
-                    onChange={(e) => setReportText(e.target.value)}
-                  ></textarea>
-                  <button
-                    type="submit"
-                    disabled={reporting}
-                    className="mt-2 px-4 py-2 bg-red-800 text-white outline-1.5 dark:outline-gray-500 rounded-sm hover:opacity-90"
-                  >
-                    {reporting ? "Sending..." : "Send Report"}
-                  </button>
-                </form>
-              </>
-            )}
-          </div>
-        )}
+   
       </div>
 
       {listings?.pages[0]?.listings.length > 0 && (
-        <div className="w-full mb-15 md:mb-0">
-          <div className="subheading flex items-center gap-1 ml-4 my-2 overflow-clip [word-spacing:3px]">
+        <div className="w-[90%] md:w-[80%] lg:w-[40%] lg:h-full lg:pt-6 bg-white dark:bg-darkGray mx-auto mb-15 md:mb-0 gold-bar bar-custom lg:overflow-y-auto">
+          <div className="subheading flex items-center gap-1 ml-4 my-2 lg:my-0 overflow-clip [word-spacing:3px]">
             {isYou ? "Your Listings" : `Listings From ${agent?.username || ""}`}
             <ArrowRightCircle className="w-5 h-5" />
           </div>
           <div
-            className="w-[88%] md:w-[96%] mx-auto   my-6 md:mb-2 p-4 dark:bg-darkGray rounded-lg
+            className="w-full md:w-[98%] mx-auto lg:my-2 lg:pt-1 my-6 md:mb-2 p-4 dark:bg-darkGray rounded-lg
  custom-shadow
           "
           >
-            <div className="w-full flex flex-wrap justify-center items-center gap-6">
+            <div className="w-full flex flex-wrap justify-center items-center gap-3 md:gap-8 md:gap-y-6 gap-y-4">
               {isLoading
                 ? Array.from({ length: 10 }).map((_, i) => (
                     <Skeleton
@@ -145,6 +112,7 @@ const AgentViewPage = () => {
                           key={listingItem._id}
                           listing={listingItem}
                           isAnimation={true}
+                          wAndH={"w-40 min-h-40"}
                           refValue={index === item.listings.length - 1 ? useNextpageRef : null}
                         />
                       )
@@ -158,7 +126,7 @@ const AgentViewPage = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   )
 }
 

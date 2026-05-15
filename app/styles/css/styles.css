@@ -1723,7 +1723,7 @@ html.dark .adminDashboard_content .banner .text::before {
 }
 
 .bar-custom::-webkit-scrollbar {
-  width: 4px;
+  width: 3.68px;
   height: 4px;
 }
 .bar-custom::-webkit-scrollbar-thumb {
@@ -1740,6 +1740,9 @@ html.dark .adminDashboard_content .banner .text::before {
 }
 .bar-custom.gold-bar::-webkit-scrollbar-thumb {
   background: #f29829;
+}
+.bar-custom.left-bar::-webkit-scrollbar {
+  direction: ltr;
 }
 
 body, main {
@@ -2835,14 +2838,14 @@ footer.hide {
   justify-content: center;
 }
 @media (min-width: 1200px) {
+  .form.listing .form_group.submit {
+    margin-top: -86px;
+  }
   .form.listing {
     display: grid;
     width: 100%;
     row-gap: 10px;
     grid-template-columns: repeat(2, 1fr);
-  }
-  .form.listing .form_group.submit {
-    margin-top: -86px;
   }
 }
 

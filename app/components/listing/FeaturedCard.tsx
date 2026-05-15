@@ -61,7 +61,7 @@ const FeaturedCard = ({ edit, listing, isAgentCard }: CardProps) => {
               <span>{truncateText(address, 30)}</span>
             </div>
             {/* listingType */}
-            <div className="mx-auto mt-2.5 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gray-50 dark:bg-gray-800/10 text-xs font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wide dark:shadow-black shadow-sm">
+            <div className="mx-auto mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gray-50 dark:bg-gray-800/10 text-xs font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wide dark:shadow-black/30 shadow-xs">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 x="0px"
@@ -79,7 +79,7 @@ const FeaturedCard = ({ edit, listing, isAgentCard }: CardProps) => {
             <div
               className=" headersFont mx-auto px-3 py-2 mt-1
                 bg-gray-50 dark:bg-gray-800/10 text-sm font-medium
-                 text-gray-700 dark:text-gray-200 shadow-sm dark:shadow-black  rounded-md"
+                 text-gray-700 dark:text-gray-200 shadow-xs dark:shadow-black/30  rounded-md"
             >
               {listing?.school}
             </div>

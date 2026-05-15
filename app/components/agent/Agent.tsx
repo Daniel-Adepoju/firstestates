@@ -2,19 +2,20 @@
 import Image from "next/image"
 import { CldImage } from "next-cloudinary"
 import { Skeleton } from "@components/ui/skeleton"
-import { MapPin, Phone, MessageCircle } from "lucide-react"
-import { useDarkMode } from "@lib/DarkModeProvider"
+import { MapPin, Phone, MessageCircle, ChevronDown} from "lucide-react"
 import Link from "next/link"
+
+import { useDarkMode } from "@lib/DarkModeProvider"
 import { useUser } from "@utils/user"
 
-const Agent = ({ agent, isYou }: any) => {
-  const { darkMode } = useDarkMode()
-  const { session } = useUser()
-  const userId = session?.user?.id
+const Agent = ({ agent, isYou , handleReport, isActive,setIsActive, reporting,reportText,setReportText}: any) => {
+  // const { darkMode } = useDarkMode()
+  // const { session } = useUser()
+  // const userId = session?.user?.id
 
   if (!agent) {
     return (
-      <div className="flex flex-col gap-4 w-full">
+      <div className="flex flex-col gap-4 w-full  ">
         <Skeleton className="w-25 h-25 rounded-[50%] bg-gray-500/20" />
         <Skeleton className="w-full h-10 rounded-md bg-gray-500/20" />
         <Skeleton className="w-full h-10 rounded-md bg-gray-500/20" />
@@ -22,11 +23,12 @@ const Agent = ({ agent, isYou }: any) => {
     )
   }
   return (
-    <>
+    <div className="w-full  flex flex-col gap-4">
       <div className="agentProfile dark:text-white">
-        <div className=" flex flex-col lg:flex-row lg:items-center">
+        <div className=" flex flex-col gap-3">
           <div className="w-full flex flex-col md:flex-row items-center md:items-start justify-between gap-6">
             <div className="flex flex-col md:flex-row items-center gap-4">
+              {/* Image */}
               <div className="flex flex-row justify-center lg:justify-end">
                 <Link
                   href={`/agent/edit-profile`}
@@ -47,6 +49,7 @@ const Agent = ({ agent, isYou }: any) => {
                 </Link>
               </div>
               <div className="text-center md:text-left">
+                {/* Checkmark and*/}
                 <div className="flex items-center gap-1">
                   <h1 className="text-2xl font-semibold">{agent.username}</h1>
                   {agent.isPremium && (
@@ -60,61 +63,103 @@ const Agent = ({ agent, isYou }: any) => {
                   )}
   
                 </div>
+                {/* email*/}
                 <p className="text-sm text-gray-400">{agent.email}</p>
               </div>
             </div>
           </div>
 
-          <div className="agentProfileInfo">
+          <div className="flex flex-col gap-3 py-2.5">
+          
+          {/* chat */}
             {!isYou && (
               <Link
                 href={`/chat?recipientId=${agent._id}`}
-                className="md:w-100 dark:bg-black/10 bg-gray-100/70 pt-2 pb-2.5 px-4 rounded-lg mt-6 font-bold flex flex-row items-center gap-2 cursor-pointer smallScale"
+                className="md:w-100 text-sm dark:bg-black/10 bg-gray-100/70 pt-2 pb-2.5 px-4 rounded-lg font-bold flex flex-row items-center gap-2 cursor-pointer duration-300 transition-all hover:opacity-80"
               >
                 <MessageCircle
-                  size={34}
+                  size={26}
                   className="text-goldPrimary"
                 />
                 <span>Chat With Agent</span>
               </Link>
             )}
+
+            {/* phone */}
             <div
               onClick={() => {
                 if (!isYou) return window.open(`tel:${agent?.phone}`)
               }}
-              className="md:w-100 dark:bg-black/10 bg-gray-100/70 pt-2 pb-2.5 px-4 rounded-lg mt-6 font-bold flex flex-row items-center gap-2"
+              className="md:w-100 text-sm dark:bg-black/10 bg-gray-100/70 pt-2 pb-2.5 px-4 rounded-lg font-bold flex flex-row items-center gap-2 duration-300 transition-all hover:opacity-80 cursor-pointer"
             >
               <Phone
-                size={34}
+                size={26}
                 className="text-goldPrimary"
               />
               <span>{agent.phone}</span>
             </div>
 
-            {userId !== agent?._id ||
-              (userId === agent.id && (
-                <div className="md:w-100 dark:bg-black/10 bg-gray-100/70 pt-2 pb-2.5 px-4 rounded-lg mt-6 font-bold flex flex-row gap-2 items-center">
-                  <MessageCircle
-                    size={34}
-                    className="text-goldPrimary"
-                  />
-                  <Link href={`/chat?recipientId=${agent._id}`}>Chat With Agent</Link>
-                </div>
-              ))}
           </div>
         </div>
       </div>
 
       <div className="agentProfile section_two">
-        <div className="mt-2 flex flex-row gap-2 items-center">
+        <div className="flex flex-row gap-2 items-center">
           <MapPin
-            size={34}
+            size={26}
             className="text-goldPrimary"
           />
-          <span className="break-all text-sm text-ellipsis opacity-70">{agent.address}</span>
+          <span className="break-all text-xs text-ellipsis opacity-90 text-foreground">lorem ipsum dolor{agent.address}</span>
         </div>
       </div>
-    </>
+
+
+
+           {/* report user */}
+              {!isYou && (
+             
+      <div className="reportUser  lg:mb-6 ">
+                  <div
+                    className="flex items-center gap-3 cursor-pointer"
+                    onClick={() => setIsActive(!isActive)}
+                  >
+                    <h2 className="subheading font-semibold mb-2">Report Agent</h2>
+                    <ChevronDown
+                      strokeWidth={3}
+                      className={`w-5 h-5 transition-transform duration-300 ${
+                        isActive ? "rotate-180" : ""
+                      }`}
+                    />
+                  </div>
+      
+                  {isActive && (
+                    <>
+                      <p className="text-sm">If you have any issues with this agent, please report them.</p>
+                      <form
+                        onSubmit={handleReport}
+                        className="mt-4 flex flex-col gap-1"
+                      >
+                        <textarea
+                          required
+                          className="w-full resize-none p-2 outline-[1px] dark:outline-black border-none rounded-sm"
+                          rows={6}
+                          placeholder="Describe the issue..."
+                          value={reportText}
+                          onChange={(e) => setReportText(e.target.value)}
+                        ></textarea>
+                        <button
+                          type="submit"
+                          disabled={reporting}
+                          className="block mt-2 px-4 py-2 lg:ml-auto bg-red-700 text-sm font-medium text-white outline-1.5 dark:outline-gray-500 rounded-xl hover:opacity-90"
+                        >
+                          {reporting ? "Sending..." : "Send Report"}
+                        </button>
+                      </form>
+                    </>
+                  )}
+                </div>
+              )}  
+    </div>
   )
 }
 

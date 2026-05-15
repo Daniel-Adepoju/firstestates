@@ -59,7 +59,7 @@
 }
 .bar-custom {
   &::-webkit-scrollbar {
-    width: 4px;
+    width: 3.68px;
     height: 4px;
   }
 
@@ -81,6 +81,10 @@
 
   &.gold-bar::-webkit-scrollbar-thumb  {
     background:fn.color("goldPrimary");
+  }
+
+  &.left-bar::-webkit-scrollbar {
+    direction: ltr;
   }
 
  
