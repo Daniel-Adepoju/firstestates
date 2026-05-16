@@ -36,7 +36,7 @@ const PopularCard = ({ listing, type, refValue,isAnimation=false,wAndH }: PopCar
           : `/listings/single_listing?id=${listing?._id}`
       }
       className={`popularCard agentPCard snap-center flex flex-col 
-      border ${wAndH ? wAndH : "w-[200px] min-h-50"} p-2 rounded-xl shadow-md
+      border ${wAndH ? wAndH : "w-[200px] md:w-[200px] min-h-50"} p-2 rounded-xl shadow-md
        dark:shadow-black bg-white`}
     >
       <div className={`w-[100%] ${wAndH ? 'h-26' : 'h-30'} relative`}>

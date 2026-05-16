@@ -2,16 +2,25 @@
 import Image from "next/image"
 import { CldImage } from "next-cloudinary"
 import { Skeleton } from "@components/ui/skeleton"
-import { MapPin, Phone, MessageCircle, ChevronDown} from "lucide-react"
+import { MapPin, Phone, MessageCircle, ChevronDown } from "lucide-react"
 import Link from "next/link"
 
 import { useDarkMode } from "@lib/DarkModeProvider"
 import { useUser } from "@utils/user"
 
-const Agent = ({ agent, isYou , handleReport, isActive,setIsActive, reporting,reportText,setReportText}: any) => {
+const Agent = ({
+  agent,
+  isYou,
+  handleReport,
+  isActive,
+  setIsActive,
+  reporting,
+  reportText,
+  setReportText,
+}: any) => {
   // const { darkMode } = useDarkMode()
-  // const { session } = useUser()
-  // const userId = session?.user?.id
+  const { session } = useUser()
+  const userId = session?.user?.id
 
   if (!agent) {
     return (
@@ -61,7 +70,6 @@ const Agent = ({ agent, isYou , handleReport, isActive,setIsActive, reporting,re
                       className="rounded-full"
                     />
                   )}
-  
                 </div>
                 {/* email*/}
                 <p className="text-sm text-gray-400">{agent.email}</p>
@@ -70,9 +78,8 @@ const Agent = ({ agent, isYou , handleReport, isActive,setIsActive, reporting,re
           </div>
 
           <div className="flex flex-col gap-3 py-2.5">
-          
-          {/* chat */}
-            {!isYou && (
+            {/* chat */}
+            {!isYou && userId && (
               <Link
                 href={`/chat?recipientId=${agent._id}`}
                 className="md:w-100 text-sm dark:bg-black/10 bg-gray-100/70 pt-2 pb-2.5 px-4 rounded-lg font-bold flex flex-row items-center gap-2 cursor-pointer duration-300 transition-all hover:opacity-80"
@@ -98,7 +105,6 @@ const Agent = ({ agent, isYou , handleReport, isActive,setIsActive, reporting,re
               />
               <span>{agent.phone}</span>
             </div>
-
           </div>
         </div>
       </div>
@@ -109,57 +115,55 @@ const Agent = ({ agent, isYou , handleReport, isActive,setIsActive, reporting,re
             size={26}
             className="text-goldPrimary"
           />
-          <span className="break-all text-xs text-ellipsis opacity-90 text-foreground">lorem ipsum dolor{agent.address}</span>
+          <span className="break-all text-xs text-ellipsis opacity-90 text-foreground">
+            lorem ipsum dolor{agent.address}
+          </span>
         </div>
       </div>
- 
- 
 
+      {/* report user */}
+      {!isYou && (
+        <div className="reportUser  lg:mb-6 ">
+          <div
+            className="flex items-center gap-3 cursor-pointer"
+            onClick={() => setIsActive(!isActive)}
+          >
+            <h2 className="subheading font-semibold mb-2">Report Agent</h2>
+            <ChevronDown
+              strokeWidth={3}
+              className={`w-5 h-5 transition-transform duration-300 ${
+                isActive ? "rotate-180" : ""
+              }`}
+            />
+          </div>
 
-           {/* report user */}
-              {!isYou && (
-             
-      <div className="reportUser  lg:mb-6 ">
-                  <div
-                    className="flex items-center gap-3 cursor-pointer"
-                    onClick={() => setIsActive(!isActive)}
-                  >
-                    <h2 className="subheading font-semibold mb-2">Report Agent</h2>
-                    <ChevronDown
-                      strokeWidth={3}
-                      className={`w-5 h-5 transition-transform duration-300 ${
-                        isActive ? "rotate-180" : ""
-                      }`}
-                    />
-                  </div>
-      
-                  {isActive && (
-                    <>
-                      <p className="text-sm">If you have any issues with this agent, please report them.</p>
-                      <form
-                        onSubmit={handleReport}
-                        className="mt-4 flex flex-col gap-1"
-                      >
-                        <textarea
-                          required
-                          className="w-full resize-none p-2 outline-[1px] dark:outline-black border-none rounded-sm"
-                          rows={6}
-                          placeholder="Describe the issue..."
-                          value={reportText}
-                          onChange={(e) => setReportText(e.target.value)}
-                        ></textarea>
-                        <button
-                          type="submit"
-                          disabled={reporting}
-                          className="block mt-2 px-4 py-2 lg:ml-auto bg-red-700 text-sm font-medium text-white outline-1.5 dark:outline-gray-500 rounded-xl hover:opacity-90"
-                        >
-                          {reporting ? "Sending..." : "Send Report"}
-                        </button>
-                      </form>
-                    </>
-                  )}
-                </div>
-              )}  
+          {isActive && (
+            <>
+              <p className="text-sm">If you have any issues with this agent, please report them.</p>
+              <form
+                onSubmit={handleReport}
+                className="mt-4 flex flex-col gap-1"
+              >
+                <textarea
+                  required
+                  className="w-full resize-none p-2 outline-[1px] dark:outline-black border-none rounded-sm"
+                  rows={6}
+                  placeholder="Describe the issue..."
+                  value={reportText}
+                  onChange={(e) => setReportText(e.target.value)}
+                ></textarea>
+                <button
+                  type="submit"
+                  disabled={reporting}
+                  className="block w-60 mt-2 px-4 py-2 mx-auto lg:mx-0 lg:ml-auto bg-red-700 text-sm font-medium text-white outline-1.5 dark:outline-gray-500 rounded-xl hover:opacity-90"
+                >
+                  {reporting ? "Sending..." : "Send Report"}
+                </button>
+              </form>
+            </>
+          )}
+        </div>
+      )}
     </div>
   )
 }
