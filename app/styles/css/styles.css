@@ -1745,6 +1745,10 @@ html.dark .adminDashboard_content .banner .text::before {
   direction: ltr;
 }
 
+html {
+  color-scheme: light dark;
+}
+
 body, main {
   -webkit-overflow-scrolling: touch;
   overflow-y: auto;

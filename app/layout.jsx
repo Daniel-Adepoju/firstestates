@@ -45,6 +45,7 @@ export default async function RootLayout({ children }) {
         lang="en"
         suppressHydrationWarning
       >
+        <meta name="color-scheme" content="light dark" />
         <body className="text-foreground whitespace-pre-wrap break-words">
           <div className="mx-auto mt-50">
             <h1 className="text-3xl font-bold mx-auto text-center">Access Denied</h1>
