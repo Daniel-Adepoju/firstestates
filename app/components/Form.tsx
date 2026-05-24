@@ -26,7 +26,7 @@ export const userDeets = {
 const Form = () => {
   useSignals()
   const { setToastValues } = useToast()
-  // const {status } = useUser()
+  const { status } = useUser()
   const pathname = usePathname()
   const router = useRouter()
   const [sending, setSending] = useState(false)
@@ -175,29 +175,40 @@ const Form = () => {
     }
   }
 
-  // if (status === 'authenticated') {
-  //   return (
-  //     <div className="mt-35 mx-auto flex flex-col gap-4 items-center justify-center">
-  //    <div className="otherHead  mt-5 text-2xl font-bold">
-  //    You're already logged in
-  //     </div>
-  //     <Link href='/' className="smallScale cursor-pointer dark:bg-black/20 darkblue-gradient text-white py-3 px-4 rounded-md"> Go Back To Homepage</Link>
-  //     </div>
-  //   )
-  // }
-  // if(status === 'loading') {
-  //   return <Loader className="my-45"/>
-  // }
+  if (status === "authenticated") {
+    return (
+      <div className="w-full h-[90vh] flex flex-col gap-4 items-center justify-center">
+        <div className="otherHead  mt-5 text-2xl font-bold">You're already logged in</div>
+        <Link
+          href="/"
+          className="smallScale cursor-pointer dark:bg-black/20 darkblue-gradient text-white text-sm py-3 px-6 font-medium rounded-xl"
+        >
+          {" "}
+          Go Back To Homepage
+        </Link>
+      </div>
+    )
+  }
 
-  // if(loggingIn) {
-  //   return (<div className="blackboard">
-  //     <div className='blackboardItems'>
-  //     <div className="subheading">Logging In</div>
-  //   <DotsLoader/>
-  //   </div>
-  //   </div>
-  //   )
-  // }
+  if (status === "loading") {
+    return (
+      <div className="w-full h-[90vh] flex flex-col items-center justify-center">
+        <DotsLoader className="dark:bg-white bg-gray-500" />
+      </div>
+    )
+  }
+
+  if (loggingIn) {
+    return (
+      <div className="blackboard">
+        <div className="blackboardItems">
+          <div className="subheading">Logging In</div>
+          <DotsLoader className="dark:bg-white bg-gray-500" />
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="w-full pb-8 min-h-screen">
       {pathname.startsWith("/signup") ? (

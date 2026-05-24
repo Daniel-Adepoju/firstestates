@@ -138,7 +138,7 @@ const Verify = () => {
       <div className="blackboard">
         <div className="blackboardItems">
           <div className="subheading">Signing You In</div>
-          <DotsLoader />
+          <DotsLoader className="dark:bg-white bg-gray-500"/>
         </div>
       </div>
     )

@@ -13,12 +13,14 @@ import { connectToDB } from "@utils/database"
 import Header from "@components/admin/Header"
 import { DarkModeProvider } from "@lib/DarkModeProvider"
 import Nav from "@components/Nav"
+import { ShieldCheck, LockKeyhole } from "lucide-react"
+import Link from "next/link"
 
 export const metadata = {
   title: "Agent",
   description: "Manage listings, clients, and performance in the First Estates Agent Dashboard.",
   icons: {
-   icon: "/logo/favicon.png",
+    icon: "/logo/favicon.png",
   },
 
   openGraph: {
@@ -51,11 +53,38 @@ export default async function AdminLayout({ children }) {
     )
   })
 
-  //   if(!session || session?.user?.role !== 'agent') {
-  //       return <div className='unauthorized'>
-  // <span> This Page Is Only Available To A Verified Agent</span>
+  // if (!session || session?.user?.role !== "agent") {
+  //   return (
+  //     <div className="flex min-h-[90vh] w-full items-center justify-center p-4 sm:p-6">
+  //       <div className="flex w-full max-w-md flex-col items-center gap-5 rounded-3xl border border-zinc-200 bg-white/80 p-6 text-center shadow backdrop-blur-sm dark:border-zinc-800 dark:bg-darkGray sm:p-8">
+  //         <div className="flex h-14 w-14 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/40">
+  //           <ShieldCheck className="h-7 w-7 text-red-600 dark:text-red-400" />
+  //         </div>
+
+  //         <div className="flex flex-col items-center">
+  //           <div className="flex items-center gap-2">
+  //             <LockKeyhole className="h-4 w-4 text-red-500" />
+
+  //             <h2 className="text-lg font-semibold tracking-wide text-goldPrimary">
+  //               Restricted Access
+  //             </h2>
+  //           </div>
+
+  //           <p className="mt-2 max-w-sm text-xs font-medium leading-relaxed text-zinc-600 dark:text-zinc-400">
+  //             This page is only accessible to verified agents.
+  //           </p>
+
+  //           <Link
+  //             href="/"
+  //             className="quickLink mt-3 text-sm"
+  //           >
+  //             Go back to the home page
+  //           </Link>
+  //         </div>
   //       </div>
-  //   }
+  //     </div>
+  //   )
+  // }
 
   return (
     <>

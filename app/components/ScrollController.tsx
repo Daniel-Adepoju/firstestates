@@ -46,7 +46,7 @@ const ScrollController = ({ scrollRef,className }: ScrollControllerProps) => {
           <div
             onClick={() => scroll("left")}
             className="w-10 h-10 flex items-center justify-center
-             cursor-pointer bg-white dark:bg-darkGray shadow-md dark:shadow-black
+             cursor-pointer bg-white dark:bg-darkGray shadow-xs dark:shadow-black
               p-2 rounded-full  smallScaleUp"
           >
             <ChevronLeft
@@ -61,7 +61,7 @@ const ScrollController = ({ scrollRef,className }: ScrollControllerProps) => {
           <div
             onClick={() => scroll("right")}
             className="w-10 h-10 flex items-center justify-center
-            cursor-pointer bg-white dark:bg-darkGray shadow-md dark:shadow-black 
+            cursor-pointer bg-white dark:bg-darkGray shadow-xs dark:shadow-black 
             p-2 rounded-full smallScaleUp"
           >
             <ChevronRight

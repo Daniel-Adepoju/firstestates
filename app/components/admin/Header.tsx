@@ -50,7 +50,7 @@ const Header = ({ session }: Session) => {
       <div>
         <h2 className="subheading">{session?.user.username}</h2>
         {pathname.includes("/agent") ? (
-          <p className="text-sm">
+          <p className="text-sm font-medium mt-0.5">
             Manage all of your <strong>listings</strong> {session?.user.isPremium && `and`}{" "}
             {session?.user.isPremium && <strong>residents</strong>} here
           </p>
