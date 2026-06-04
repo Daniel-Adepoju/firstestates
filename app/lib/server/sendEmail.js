@@ -154,17 +154,17 @@ export const sendEmail = async ({ to, subject, message }) => {
                   href="${process.env.BASE_URL}"
                   style="
                     display:inline-block;
-                    background:#0874c7;
+                    background:#032679;
                     color:#ffffff;
                     text-decoration:none;
                     padding:14px 28px;
                     border-radius:9999px;
-                    font-size:13px;
+                    font-size:12px;
                     font-weight:700;
                     line-height:1;
                   "
                 >
-                  Visit First Estates →
+                  Visit First Estates
                 </a>
               </td>
             </tr>
