@@ -23,112 +23,169 @@ export const sendEmail = async ({ to, subject, message }) => {
       from: `First Estates ${process.env.ZOHO_EMAIL}`,
       to: Array.isArray(to) ? to.join(",") : to,
       subject,
-      html: `
- <html lang="en">
-  <body style="margin:0; padding:0; font-family:'Segoe UI', Arial, sans-serif; background-color:#f4f4f4;">
-    <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f4f4; padding:40px 0;">
-      <tr>
-        <td align="center">
-          <table width="420" cellpadding="0" cellspacing="0" style="background-color:#ffffff; border-radius:18px; box-shadow:0 4px 14px rgba(0,0,0,0.08); overflow:hidden;">
-            
-            <!-- Header -->
-            <tr>
-              <td style="background-color:rgb(8,116,199); padding:22px; text-align:center; color:#fff;">
-                <h1 style="margin:0; font-size:15px;
-                font-weight:700; 
-                letter-spacing:0.3px;">
-                  ${subject}
-                </h1>
-              </td>
-            </tr>
+      html:`
+      <html lang="en">
 
-            <!-- Body / Brand + Message -->
-            <tr>
-              <td style="padding:36px 28px; color:#333; text-align:center;">
-                
-                <!-- Brand Section -->
-                <table align="center" cellpadding="0" cellspacing="0" style="margin-bottom:25px;">
-                  <tr>
-                    <!-- Logo -->
-                    <td style="width:46px; height:46px; border-radius:10px; background-color:rgba(8,116,199,0.1); text-align:center; vertical-align:middle;">
-                      <span style="font-size:20px; font-weight:900; color:rgb(8,116,199); line-height:46px; display:block;">FE</span>
-                    </td>
-                    <!-- Spacing -->
-                    <td width="12"></td>
-                    <!-- Brand Name -->
-                    <td style="vertical-align:middle; text-align:left;">
-                      <h2 style="margin:0; font-size:20px;
-                          font-family:Arial, Helvetica, sans-serif;
-                      font-weight:800; color:rgb(8,116,199); letter-spacing:0.5px; line-height:1.2;">
-                        First Estates
-                      </h2>
-                    </td>
-                  </tr>
+<body style="
+      margin:0;
+      padding:0;
+      background:#f6f8fb;
+      font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    ">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f6f8fb; padding:48px 16px;">
+        <tr>
+            <td align="center">
+                <table width="460" cellpadding="0" cellspacing="0" border="0" style="
+              background:#ffffff;
+              border-radius:28px;
+              overflow:hidden;
+              box-shadow:0 12px 40px rgba(15,23,42,0.08);
+            ">
+                    <!-- Brand -->
+                    <tr>
+                        <td style="
+                  padding:40px 36px 24px;
+                  text-align:center;
+                ">
+                            <img src="https://res-console.cloudinary.com/dbepfuktm/thumbnails/v1/image/upload/v1777511083/bG9nb1dpdGhvdXRUZXh0X2tzYXg2Yw==/drilldown" alt="First Estates" width="60" height="60" style="
+                    display:block;
+                    margin:0 auto 2px;
+                  " />
+
+                            <h2 style="
+                    margin:0;
+                    color:#0874c7;
+                    font-size:20px;
+                    font-weight:800;
+                    letter-spacing:-0.03em;
+                    line-height:1.2;
+                  ">
+                                First Estates
+                            </h2>
+                        </td>
+                    </tr>
+
+                    <!-- Subject -->
+                    <tr>
+                        <td style="
+                  padding:0 36px;
+                  text-align:center;
+                ">
+                            <h1 style="
+                    margin:0;
+                    color:#111827;
+                    font-size:20px;
+                    font-weight:700;
+                    line-height:1.3;
+                    letter-spacing:-0.03em;
+                  ">
+                                ${subject}
+                            </h1>
+                        </td>
+                    </tr>
+
+                    <!-- Message -->
+                    <tr>
+                        <td style="
+                  padding:28px 36px 12px;
+                ">
+                            <div style="
+                    text-align:center;
+                  ">
+                                <div style="
+                      display:inline-block;
+                      max-width:100%;
+                      text-align:left;
+                      color:#4b5563;
+                      font-size:14px;
+                      line-height:1.8;
+                      overflow-wrap:anywhere;
+                      word-break:break-word;
+                    ">
+                                    ${message}
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- CTA -->
+                    <tr>
+                        <td style="
+                  padding:24px 36px 16px;
+                  text-align:center;
+                ">
+                            <a href="${process.env.BASE_URL}" style="
+                    display:inline-block;
+                    background:#0874c7;
+                    color:#ffffff;
+                    text-decoration:none;
+                    padding:15px 30px;
+                    border-radius:9999px;
+                    font-size:14px;
+                    font-weight:700;
+                    letter-spacing:-0.01em;
+                  ">
+                                Visit First Estates →
+                            </a>
+                        </td>
+                    </tr>
+
+                    <!-- Help -->
+                    <tr>
+                        <td style="
+                  padding:0 36px 36px;
+                  text-align:center;
+                ">
+                            <p style="
+                    margin:0;
+                    font-size:13px;
+                    color:#6b7280;
+                    line-height:1.7;
+                  ">
+                                Need assistance?
+
+                                <a href="${process.env.BASE_URL}/help" style="
+                      color:#0874c7;
+                      text-decoration:none;
+                      font-weight:600;
+                    ">
+                                    Visit our Help Center →
+                                </a>
+                            </p>
+                        </td>
+                    </tr>
+
+                    <!-- Divider -->
+                    <tr>
+                        <td style="
+                  border-top:1px solid #eef2f7;
+                "></td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td style="
+                  padding:20px 24px;
+                  text-align:center;
+                ">
+                            <p style="
+                    margin:0;
+                    color:#94a3b8;
+                    font-size:11px;
+                    line-height:1.6;
+                  ">
+                                © 2026 First Estates. All rights reserved.
+                            </p>
+                        </td>
+                    </tr>
                 </table>
-
-                <!-- Message -->
-<div style="width:100%;text-align:center; margin-bottom:28px;">
-  <div
-    style="
-      display:inline-block;
-      max-width:100%;
-      text-align:left;
-      color:#374151;
-      font-size:13px;
-      line-height:1.6;
-      overflow-wrap:anywhere;
-      word-break:break-word;
-      <!--whitespace:pre-wrap;-->
-    "
-  >
-${message}
-  </div>
-</div>
-                <!-- Button -->
-              <div style="text-align:center; margin:32px 0;">
-  <a
-    href="${process.env.BASE_URL}"
-    style="
-      display:inline-block;
-      background:linear-gradient(135deg, #0874c7, #0a8df0);
-      color:#ffffff;
-      text-decoration:none;
-      padding:15px 36px;
-      border-radius:9999px;
-      font-size:12px;
-      font-weight:700;
-      font-family:Arial, Helvetica, sans-serif;
-      letter-spacing:0.3px;
-      box-shadow:0 2px 4px rgba(8,116,199,0.25);
-    "
-  >
-    Visit First Estates
-  </a>
-</div>
-
-                <!-- Help Info -->
-                <p style="font-size:12px; color:#666; text-align:center; margin:0;">
-                  If you have any questions, reply to this email or visit our 
-                  <a href="${process.env.BASE_URL}/help" style="color:rgb(8,116,199); text-decoration:none; font-weight:500;">
-                    Help Center
-                  </a>.
-                </p>
-              </td>
-            </tr>
-
-            <!-- Footer -->
-            <tr>
-              <td style="background-color:#f9fafb; padding:18px; text-align:center; font-size:10px; color:#999;">
-                &copy; 2026 <strong>First Estates</strong>. All rights reserved.
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr>
+            </td>
+        </tr>
     </table>
-  </body>
+</body>
+
 </html>
-`,
+      `
     }
 
     return transporter.sendMail(mailOptions)
