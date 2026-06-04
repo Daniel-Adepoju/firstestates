@@ -51,7 +51,7 @@ const ForgotPassword = () => {
     text-decoration:none;
     font-weight:600;
     display:block;
-    width:70%;
+    width:100%;
     text-align:center;
     margin-inline:auto;
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;

@@ -23,7 +23,7 @@ export const sendEmail = async ({ to, subject, message }) => {
       from: `First Estates ${process.env.ZOHO_EMAIL}`,
       to: Array.isArray(to) ? to.join(",") : to,
       subject,
-      html:`
+      html: `
       <html lang="en">
   <body
     style="
@@ -38,7 +38,7 @@ export const sendEmail = async ({ to, subject, message }) => {
       cellpadding="0"
       cellspacing="0"
       border="0"
-      style="background:#f6f8fb;padding:40px 12px;"
+      style="background:#f6f8fb;padding:32px 12px;"
     >
       <tr>
         <td align="center">
@@ -60,7 +60,7 @@ export const sendEmail = async ({ to, subject, message }) => {
               <td
                 align="center"
                 style="
-                  padding:36px 32px 20px;
+                  padding:32px 24px 16px;
                 "
               >
                 <img
@@ -72,7 +72,7 @@ export const sendEmail = async ({ to, subject, message }) => {
                     display:block;
                     width:64px;
                     height:64px;
-                    margin:0 auto 2px;
+                    margin:0 auto 4px;
                     border:0;
                     outline:none;
                     text-decoration:none;
@@ -98,7 +98,7 @@ export const sendEmail = async ({ to, subject, message }) => {
               <td
                 align="center"
                 style="
-                  padding:0 48px;
+                  padding:0 24px;
                 "
               >
                 <h1
@@ -120,14 +120,10 @@ export const sendEmail = async ({ to, subject, message }) => {
             <tr>
               <td
                 style="
-                  padding:24px 48px 12px;
+                  padding:20px 24px 8px;
                 "
               >
-                <div
-                  style="
-                    text-align:center;
-                  "
-                >
+                <div style="text-align:center;">
                   <div
                     style="
                       display:inline-block;
@@ -135,7 +131,7 @@ export const sendEmail = async ({ to, subject, message }) => {
                       text-align:left;
                       color:#4b5563;
                       font-size:13px;
-                      line-height:1.8;
+                      line-height:1.75;
                       overflow-wrap:break-word;
                       word-break:break-word;
                     "
@@ -151,7 +147,7 @@ export const sendEmail = async ({ to, subject, message }) => {
               <td
                 align="center"
                 style="
-                  padding:28px 48px 18px;
+                  padding:24px 24px 16px;
                 "
               >
                 <a
@@ -161,7 +157,7 @@ export const sendEmail = async ({ to, subject, message }) => {
                     background:#0874c7;
                     color:#ffffff;
                     text-decoration:none;
-                    padding:14px 30px;
+                    padding:14px 28px;
                     border-radius:9999px;
                     font-size:13px;
                     font-weight:700;
@@ -178,7 +174,7 @@ export const sendEmail = async ({ to, subject, message }) => {
               <td
                 align="center"
                 style="
-                  padding:0 48px 32px;
+                  padding:0 24px 28px;
                 "
               >
                 <p
@@ -190,7 +186,6 @@ export const sendEmail = async ({ to, subject, message }) => {
                   "
                 >
                   Need assistance?
-
                   <a
                     href="${process.env.BASE_URL}/help"
                     style="
@@ -219,7 +214,7 @@ export const sendEmail = async ({ to, subject, message }) => {
               <td
                 align="center"
                 style="
-                  padding:18px 24px;
+                  padding:16px 24px;
                 "
               >
                 <p
@@ -241,7 +236,8 @@ export const sendEmail = async ({ to, subject, message }) => {
   </body>
 </html>
 
-      `
+
+      `,
     }
 
     return transporter.sendMail(mailOptions)
