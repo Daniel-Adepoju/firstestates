@@ -33,8 +33,8 @@ export const sendEmail = async ({ to, subject, message }) => {
             
             <!-- Header -->
             <tr>
-              <td style="background-color:rgb(8,116,199); padding:15px; text-align:center; color:#fff;">
-                <h1 style="margin:0; font-size:20px;
+              <td style="background-color:rgb(8,116,199); padding:22px; text-align:center; color:#fff;">
+                <h1 style="margin:0; font-size:15px;
                 font-weight:700; 
                 letter-spacing:0.3px;">
                   ${subject}
