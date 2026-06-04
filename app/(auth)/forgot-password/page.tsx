@@ -57,7 +57,7 @@ const ForgotPassword = () => {
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
   "
 >
-  Reset Your Password →
+  Reset Your Password
 </a>`,
     })
   }

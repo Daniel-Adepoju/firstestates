@@ -72,7 +72,7 @@ export const sendEmail = async ({ to, subject, message }) => {
                     display:block;
                     width:64px;
                     height:64px;
-                    margin:0 auto 4px;
+                    margin:0 auto 2px;
                     border:0;
                     outline:none;
                     text-decoration:none;
@@ -82,7 +82,7 @@ export const sendEmail = async ({ to, subject, message }) => {
                 <div
                   style="
                     color:#0874c7;
-                    font-size:20px;
+                    font-size:13px;
                     font-weight:800;
                     line-height:1.2;
                     letter-spacing:-0.02em;
@@ -105,8 +105,8 @@ export const sendEmail = async ({ to, subject, message }) => {
                   style="
                     margin:0;
                     color:#111827;
-                    font-size:20px;
-                    font-weight:700;
+                    font-size:16px;
+                    font-weight:800;
                     line-height:1.35;
                     letter-spacing:-0.03em;
                   "
@@ -194,7 +194,7 @@ export const sendEmail = async ({ to, subject, message }) => {
                       font-weight:600;
                     "
                   >
-                    Visit our Help Center →
+                    Visit our Help Center
                   </a>
                 </p>
               </td>
