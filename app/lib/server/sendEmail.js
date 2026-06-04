@@ -25,166 +25,222 @@ export const sendEmail = async ({ to, subject, message }) => {
       subject,
       html:`
       <html lang="en">
-
-<body style="
+  <body
+    style="
       margin:0;
       padding:0;
       background:#f6f8fb;
       font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
-    ">
-    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f6f8fb; padding:48px 16px;">
-        <tr>
-            <td align="center">
-                <table width="460" cellpadding="0" cellspacing="0" border="0" style="
+    "
+  >
+    <table
+      width="100%"
+      cellpadding="0"
+      cellspacing="0"
+      border="0"
+      style="background:#f6f8fb;padding:40px 12px;"
+    >
+      <tr>
+        <td align="center">
+          <table
+            width="600"
+            cellpadding="0"
+            cellspacing="0"
+            border="0"
+            style="
+              width:600px;
+              max-width:100%;
               background:#ffffff;
-              border-radius:28px;
-              overflow:hidden;
-              box-shadow:0 12px 40px rgba(15,23,42,0.08);
-            ">
-                    <!-- Brand -->
-                    <tr>
-                        <td style="
-                  padding:40px 36px 24px;
-                  text-align:center;
-                ">
-                            <img src="https://res-console.cloudinary.com/dbepfuktm/thumbnails/v1/image/upload/v1777511083/bG9nb1dpdGhvdXRUZXh0X2tzYXg2Yw==/drilldown" alt="First Estates" width="60" height="60" style="
+              border-radius:24px;
+              border:1px solid #edf2f7;
+            "
+          >
+            <!-- Brand -->
+            <tr>
+              <td
+                align="center"
+                style="
+                  padding:36px 32px 20px;
+                "
+              >
+                <img
+                  src="https://res.cloudinary.com/dbepfuktm/image/upload/v1777511083/logoWithoutText_ksax6c.png"
+                  alt="First Estates"
+                  width="64"
+                  height="64"
+                  style="
                     display:block;
+                    width:64px;
+                    height:64px;
                     margin:0 auto 2px;
-                  " />
+                    border:0;
+                    outline:none;
+                    text-decoration:none;
+                  "
+                />
 
-                            <h2 style="
-                    margin:0;
+                <div
+                  style="
                     color:#0874c7;
                     font-size:20px;
                     font-weight:800;
-                    letter-spacing:-0.03em;
                     line-height:1.2;
-                  ">
-                                First Estates
-                            </h2>
-                        </td>
-                    </tr>
+                    letter-spacing:-0.02em;
+                  "
+                >
+                  First Estates
+                </div>
+              </td>
+            </tr>
 
-                    <!-- Subject -->
-                    <tr>
-                        <td style="
-                  padding:0 36px;
-                  text-align:center;
-                ">
-                            <h1 style="
+            <!-- Subject -->
+            <tr>
+              <td
+                align="center"
+                style="
+                  padding:0 48px;
+                "
+              >
+                <h1
+                  style="
                     margin:0;
                     color:#111827;
                     font-size:20px;
                     font-weight:700;
-                    line-height:1.3;
+                    line-height:1.35;
                     letter-spacing:-0.03em;
-                  ">
-                                ${subject}
-                            </h1>
-                        </td>
-                    </tr>
+                  "
+                >
+                  ${subject}
+                </h1>
+              </td>
+            </tr>
 
-                    <!-- Message -->
-                    <tr>
-                        <td style="
-                  padding:28px 36px 12px;
-                ">
-                            <div style="
+            <!-- Message -->
+            <tr>
+              <td
+                style="
+                  padding:24px 48px 12px;
+                "
+              >
+                <div
+                  style="
                     text-align:center;
-                  ">
-                                <div style="
+                  "
+                >
+                  <div
+                    style="
                       display:inline-block;
                       max-width:100%;
                       text-align:left;
                       color:#4b5563;
-                      font-size:14px;
+                      font-size:13px;
                       line-height:1.8;
-                      overflow-wrap:anywhere;
+                      overflow-wrap:break-word;
                       word-break:break-word;
-                    ">
-                                    ${message}
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
+                    "
+                  >
+                    ${message}
+                  </div>
+                </div>
+              </td>
+            </tr>
 
-                    <!-- CTA -->
-                    <tr>
-                        <td style="
-                  padding:24px 36px 16px;
-                  text-align:center;
-                ">
-                            <a href="${process.env.BASE_URL}" style="
+            <!-- CTA -->
+            <tr>
+              <td
+                align="center"
+                style="
+                  padding:28px 48px 18px;
+                "
+              >
+                <a
+                  href="${process.env.BASE_URL}"
+                  style="
                     display:inline-block;
                     background:#0874c7;
                     color:#ffffff;
                     text-decoration:none;
-                    padding:15px 30px;
+                    padding:14px 30px;
                     border-radius:9999px;
-                    font-size:14px;
-                    font-weight:700;
-                    letter-spacing:-0.01em;
-                  ">
-                                Visit First Estates →
-                            </a>
-                        </td>
-                    </tr>
-
-                    <!-- Help -->
-                    <tr>
-                        <td style="
-                  padding:0 36px 36px;
-                  text-align:center;
-                ">
-                            <p style="
-                    margin:0;
                     font-size:13px;
-                    color:#6b7280;
-                    line-height:1.7;
-                  ">
-                                Need assistance?
+                    font-weight:700;
+                    line-height:1;
+                  "
+                >
+                  Visit First Estates →
+                </a>
+              </td>
+            </tr>
 
-                                <a href="${process.env.BASE_URL}/help" style="
+            <!-- Help -->
+            <tr>
+              <td
+                align="center"
+                style="
+                  padding:0 48px 32px;
+                "
+              >
+                <p
+                  style="
+                    margin:0;
+                    color:#6b7280;
+                    font-size:12px;
+                    line-height:1.7;
+                  "
+                >
+                  Need assistance?
+
+                  <a
+                    href="${process.env.BASE_URL}/help"
+                    style="
                       color:#0874c7;
                       text-decoration:none;
                       font-weight:600;
-                    ">
-                                    Visit our Help Center →
-                                </a>
-                            </p>
-                        </td>
-                    </tr>
+                    "
+                  >
+                    Visit our Help Center →
+                  </a>
+                </p>
+              </td>
+            </tr>
 
-                    <!-- Divider -->
-                    <tr>
-                        <td style="
-                  border-top:1px solid #eef2f7;
-                "></td>
-                    </tr>
+            <!-- Divider -->
+            <tr>
+              <td
+                style="
+                  border-top:1px solid #edf2f7;
+                "
+              ></td>
+            </tr>
 
-                    <!-- Footer -->
-                    <tr>
-                        <td style="
-                  padding:20px 24px;
-                  text-align:center;
-                ">
-                            <p style="
+            <!-- Footer -->
+            <tr>
+              <td
+                align="center"
+                style="
+                  padding:18px 24px;
+                "
+              >
+                <p
+                  style="
                     margin:0;
                     color:#94a3b8;
                     font-size:11px;
                     line-height:1.6;
-                  ">
-                                © 2026 First Estates. All rights reserved.
-                            </p>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
+                  "
+                >
+                  © 2026 First Estates. All rights reserved.
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
     </table>
-</body>
-
+  </body>
 </html>
+
       `
     }
 
