@@ -43,7 +43,7 @@ const ForgotPassword = () => {
       to: email,
       subject: "Password Reset Request",
       message: `
-      <p> You requested a password reset. Click the link below to reset your password:</p>
+      <p> You requested a password reset. Click the link below to reset your password.</p>
       <a href="${url}/auth/forgot-password/reset?reset_id=${token}&email=${email}"
     href="#"
     style="
