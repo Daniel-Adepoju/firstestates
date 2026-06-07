@@ -121,8 +121,8 @@ export async function getOrCreateConversation(userAId: string, userBId: string) 
   const userIds = [userAId, userBId].sort()
 
   const existing = await database.listDocuments(DATABASE_ID, CONVERSATIONS_ID, [
-    Query.equal("userIds", [userIds[0]]),
-    Query.equal("userIds", [userIds[1]]),
+    Query.contains("userIds", [userIds[0]]),
+    Query.contains("userIds", [userIds[1]]),
   ])
 
   if (existing.total > 0) {
