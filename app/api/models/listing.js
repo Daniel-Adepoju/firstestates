@@ -124,14 +124,13 @@ const ListingSchema = new Schema(
 )
 
 // set priority based on tier
-ListingSchema.pre("save", function (next) {
+ListingSchema.pre("save", function () {
   const weightMap = { first: 1, gold: 2, standard: 3 }
   this.listingTierWeight = weightMap[this.listingTier] || 3
-  next()
 })
 
 // Validate Price
-// ListingSchema.pre("validate", function (next) {
+// ListingSchema.pre("validate", function () {
 //   if (this.listingType === "Shared Room" && this.priceUnit !== "per_person") {
 //     return next(new Error("Shared room price must be per person"))
 //   }
@@ -140,10 +139,10 @@ ListingSchema.pre("save", function (next) {
 //     ["Apartment", "House"].includes(this.listingType) &&
 //     this.priceUnit !== "entire_unit"
 //   ) {
-//     return next(new Error("Apartment/House price must be entire unit"))
+//     throw new Error("Apartment/House price must be entire unit")
 //   }
 
-//   next()
+//
 // })
 
 // Text index for search
