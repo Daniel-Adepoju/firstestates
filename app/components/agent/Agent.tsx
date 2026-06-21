@@ -116,7 +116,7 @@ const Agent = ({
             className="text-goldPrimary"
           />
           <span className="break-all text-xs text-ellipsis opacity-90 text-foreground">
-            lorem ipsum dolor{agent.address}
+            {agent.address}
           </span>
         </div>
       </div>
