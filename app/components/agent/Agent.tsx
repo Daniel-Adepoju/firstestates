@@ -4,8 +4,6 @@ import { CldImage } from "next-cloudinary"
 import { Skeleton } from "@components/ui/skeleton"
 import { MapPin, Phone, MessageCircle, ChevronDown } from "lucide-react"
 import Link from "next/link"
-
-import { useDarkMode } from "@lib/DarkModeProvider"
 import { useUser } from "@utils/user"
 
 const Agent = ({
@@ -18,7 +16,6 @@ const Agent = ({
   reportText,
   setReportText,
 }: any) => {
-  // const { darkMode } = useDarkMode()
   const { session } = useUser()
   const userId = session?.user?.id
 
@@ -59,8 +56,8 @@ const Agent = ({
               </div>
               <div className="text-center md:text-left">
                 {/* Checkmark and*/}
-                <div className="flex items-center gap-1">
-                  <h1 className="text-2xl font-semibold">{agent.username}</h1>
+                <div className="flex items-center justify-center gap-1">
+                  <h1 className="text-xl font-semibold">{agent.username}</h1>
                   {agent.isPremium && (
                     <Image
                       src={"/icons/gold-badge.svg"}
