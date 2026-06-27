@@ -1,6 +1,7 @@
 "use client"
 import Image from "next/image"
-import { logOut } from "@lib/server/auth"
+// import { logOut } from "@lib/server/auth"
+import { signOut } from "next-auth/react"
 import { deleteListing, markAsFeatured, reportListing } from "@lib/server/listing"
 import { useNotification } from "@lib/Notification"
 import { sendNotification } from "@lib/server/notificationFunctions"
@@ -10,6 +11,7 @@ import dynamic from "next/dynamic"
 import { useSignals, useSignal } from "@preact/signals-react/runtime"
 import Button from "@lib/Button"
 import useClickOutside from "@utils/useClickOutside"
+import { useRouter } from "next/navigation"
 const PaystackBtn = dynamic(() => import("./PayStackButton"), { ssr: false })
 
 interface DeleteModalProps {
@@ -100,9 +102,13 @@ export const DeleteModal = ({ ref, listingId, setDeleting }: DeleteModalProps) =
 }
 
 export const LogOutModal = ({ ref }: ModalProps) => {
+  const router = useRouter()
   useClickOutside(ref)
   const handleLogout = async () => {
-    await logOut()
+    await signOut({
+      redirect: false,
+    })
+    router.push("/logged-out")
   }
   return (
     <dialog
@@ -112,11 +118,11 @@ export const LogOutModal = ({ ref }: ModalProps) => {
       <div className="flex justify-center mb-4">
         <LogOut
           size={64}
-          className=""
+          className="text-gray-700 dark:text-white"
         />
       </div>
 
-      <p className="text-lg font-medium mb-6">Are you sure you want to log out?</p>
+      <p className="text-lg text-foreground font-medium mb-6">Are you sure you want to log out?</p>
 
       <div className="flex justify-evenly px-8">
         <X

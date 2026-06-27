@@ -2190,7 +2190,7 @@ footer.hide {
 }
 .card .body .address:after {
   content: "";
-  opacity: 100%;
+  opacity: 30%;
   position: absolute;
   width: 100%;
   height: 2px;

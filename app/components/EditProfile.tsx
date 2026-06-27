@@ -41,8 +41,8 @@ const EditProfile = () => {
     const updatedFields = { username, phone, whatsapp, school }
     const filteredFields = Object.fromEntries(
       Object.entries(updatedFields).filter(
-        ([key, value]) => value !== "" && value !== undefined && value !== null
-      )
+        ([key, value]) => value !== "" && value !== undefined && value !== null,
+      ),
     )
     try {
       await update({
@@ -78,7 +78,7 @@ const EditProfile = () => {
   }
 
   return (
-    <div className="dark:text-white w-full flex flex-col">
+    <div className="dark:text-white w-full flex flex-col lg:px-8">
       <div className="subheading mb-4 mx-auto">Edit Your Profile</div>
       {session?.user ? (
         <>
@@ -86,12 +86,11 @@ const EditProfile = () => {
             <div className="relative">
               <CldImage
                 src={session.user.profilePic}
-                width={100}
-                height={100}
-                gravity="auto"
-                crop={"auto"}
+                width={1080}
+                height={1000}
+                crop={"fill"}
                 alt="User Profile Picture"
-                className="rounded-full"
+                className="w-20 h-20 rounded-full"
               />
               <CldUploadWidget
                 options={{ sources: ["local", "camera", "google_drive"] }}
@@ -101,10 +100,10 @@ const EditProfile = () => {
                 {({ open }) => (
                   <Image
                     src="/icons/edit.svg"
-                    width={40}
-                    height={40}
+                    width={25}
+                    height={25}
                     alt="edit"
-                    className="clickable cursor-pointer rounded-full absolute bottom-0 right-0 bg-white p-2"
+                    className="clickable cursor-pointer rounded-full absolute bottom-0 right-0 bg-gray-500/80 p-1"
                     onClick={() => open()}
                   />
                 )}
@@ -133,25 +132,35 @@ const EditProfile = () => {
           >
             {/* Username */}
             <div className="form_item">
-              <label htmlFor="username">Username</label>
+              <label
+                className="text-sm font-semibold"
+                htmlFor="username"
+              >
+                Username
+              </label>
               <input
                 id="username"
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full border rounded p-2 dark:bg-darkGray dark:text-white"
+                className="w-full border rounded-lg p-3 dark:bg-darkGray dark:text-white"
               />
             </div>
 
             {/* School Select */}
             {session?.user.role === "client" && session?.user.school && (
               <div className="form_item">
-                <label htmlFor="school">School</label>
+                <label
+                  className="text-sm font-semibold"
+                  htmlFor="school"
+                >
+                  School
+                </label>
                 <select
                   id="school"
                   value={school}
                   onChange={(e) => setSchool(e.target.value)}
-                  className="w-full border rounded p-3 dark:bg-darkGray dark:text-white"
+                  className="w-full border rounded-lg p-3 dark:bg-darkGray dark:text-white"
                 >
                   <option value="">Select a school</option>
                   {schools.map((school: School) => (
@@ -171,47 +180,62 @@ const EditProfile = () => {
             {session?.user.role === "agent" && (
               <>
                 <div className="form_item">
-                  <label htmlFor="address">Office Address</label>
+                  <label
+                    className="text-sm font-semibold"
+                    htmlFor="address"
+                  >
+                    Office Address
+                  </label>
                   <input
                     id="address"
                     type="text"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     required
-                    className="w-full border rounded p-2 dark:bg-darkGray dark:text-white"
+                    className="w-full border rounded-lg p-3 dark:bg-darkGray dark:text-white"
                   />
                 </div>
                 <div className="form_item">
-                  <label htmlFor="phone">Phone Number</label>
+                  <label
+                    className="text-sm font-semibold"
+                    htmlFor="phone"
+                  >
+                    Phone Number
+                  </label>
                   <input
                     id="phone"
                     type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="w-full border rounded p-2 dark:bg-darkGray dark:text-white"
+                    className="w-full border rounded-lg p-3 dark:bg-darkGray dark:text-white"
                   />
                 </div>
 
                 {/* WhatsApp */}
                 <div className="form_item">
-                  <label htmlFor="whatsapp">WhatsApp Number</label>
+                  <label
+                    className="text-sm font-semibold"
+                    htmlFor="whatsapp"
+                  >
+                    WhatsApp Number
+                  </label>
                   <input
                     id="whatsapp"
                     type="tel"
                     value={whatsapp}
                     onChange={(e) => setWhatsapp(e.target.value)}
-                    className="w-full border rounded p-2 dark:bg-darkGray dark:text-white"
+                    className="w-full border rounded-lg p-3 dark:bg-darkGray dark:text-white"
                   />
                 </div>
               </>
             )}
 
             {/* Submit Button */}
-            <div className="md:w-70 w-60 flex justify-center">
+            <div className="col-span-2 mx-auto w-60 md:w-70 flex justify-center">
               <Button
                 type="submit"
                 text="Update Profile"
-                className="clickable darkblue-gradient text-white font-bold dark:gold-gradient directional font-medium text-sm rounded-lg w-full p-6"
+                className="text-white font-bold clickable gold-gradient directional text-sm rounded-lg w-full p-6"
               >
                 {" "}
                 {isUpdating && <WhiteLoader />}
@@ -221,9 +245,9 @@ const EditProfile = () => {
         </>
       ) : (
         <div className="flex flex-col gap-3">
-          <Skeleton className="animate-none rounded-full  bg-gray-500/20 mx-auto w-25 h-25" />
-          <Skeleton className="animate-none rounded-sm bg-gray-500/20 mx-auto w-80 h-10" />
-          <Skeleton className="animate-none  rounded-sm bg-gray-500/20 mx-auto w-80 h-10" />
+          <Skeleton className="rounded-full bg-gray-600 mx-auto w-20 h-20" />
+          <Skeleton className="rounded-md bg-gray-600 mx-auto w-100 h-10" />
+          <Skeleton className="rounded-md bg-gray-600 mx-auto w-100 h-10" />
         </div>
       )}
     </div>

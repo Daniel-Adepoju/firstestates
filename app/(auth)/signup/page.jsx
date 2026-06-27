@@ -32,45 +32,58 @@ const SignUp = () => {
         <div className="text-center text-xl text-gray-600 dark:text-gray-200 font-extrabold w-[90%] mx-auto">
           Select the account type you wish to create
         </div>
-        <div className="types">
-          <div>
-            <AgentIcon className="w-10 h-10 text-gray-700 dark:text-white rounded-full mb-2 mx-auto" />
+
+        <div className="flex flex-col items-center justify-center gap-6">
+          <div className="types">
             <Link href="/signup/agent">
               <Button
                 link={true}
                 href="/signup/agent"
                 text="Agent"
-                className={"directional font-medium text-sm clickable darkblueBtn"}
-              />
+                className={
+                  "flex items-center justify-between directional font-semibold text-sm text-gray-100 clickable darkblue-gradient rounded-xl"
+                }
+              >
+                <AgentIcon className="w-10 h-10 text-gray-100 rounded-full ml-auto" />
+              </Button>
             </Link>
-          </div>
-          <div>
-            <User2 className="w-10 h-10 text-gray-700 dark:text-white rounded-full mb-1 mx-auto" />
+
             <Link href="/signup/client">
               <Button
                 link={true}
                 href={"/signup/client"}
                 text="Client"
-                className={"directional font-medium text-sm clickable  blueBtn"}
-              />
+                className={
+                  "flex items-center justify-between directional font-semibold text-sm text-gray-100 clickable rounded-xl gold-gradient"
+                }
+              >
+                <User2 className="w-10 h-10 text-gray-100 rounded-full ml-auto" />
+              </Button>
             </Link>
           </div>
+
+          <div className="flex items-center">
+            <div className="flex-1 border-t border-gray-300 dark:border-gray-600 w-40 md:w-50" />
+            <span className="mx-4 text-sm text-gray-500 dark:text-gray-400">or</span>
+            <div className="flex-1 border-t border-gray-300 dark:border-gray-600 w-40 md:w-50" />
+          </div>
+
+          <Button
+            text="Continue With Google"
+            reverse={true}
+            onClick={() => {
+              handleSignInWithGoogle()
+            }}
+            className="text-white directional font-semibold text-sm clickable py-6.5 mb-12 rounded-xl mx-auto gray-gradient w-80 h-10"
+          >
+            <Image
+              width={25}
+              height={25}
+              src="/icons/google.svg"
+              alt="icon"
+            />
+          </Button>
         </div>
-        <Button
-          text="Continue With Google"
-          reverse={true}
-          onClick={() => {
-            handleSignInWithGoogle()
-          }}
-          className="text-white directional font-medium text-sm clickable py-6.5 mb-12 rounded-md mx-auto gray-gradient w-80 h-10"
-        >
-          <Image
-            width={25}
-            height={25}
-            src="/icons/google.svg"
-            alt="icon"
-          />
-        </Button>
       </div>
     </div>
   )
