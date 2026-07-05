@@ -118,7 +118,6 @@ const RoommateCardBody = ({
             <ArrowRight className="h-4 w-4" />
           </Link>
         )}
-
       </div>
 
       {/* ─── INFO SECTION ────────────────────────────────────────── */}
@@ -132,8 +131,7 @@ const RoommateCardBody = ({
             `}
           >
             {isMale ? <Mars size={14} /> : <Venus size={14} />}
-            Looking for a {' '}
-             {/* {isMale ? "male" : "female"}{" "} */}
+            Looking for a {/* {isMale ? "male" : "female"}{" "} */}
             {request?.requestType === "roommate" ? "roommate" : "co-renter"}
           </div>
 
@@ -161,7 +159,7 @@ const RoommateCardBody = ({
 
         {/* Action Buttons */}
         <div className="mt-5 flex justify-center gap-6">
-          <Link href={`chat?recipientId=${request?.requester?._id}`}>
+          <Link href={`chat?receiverId=${request?.requester?._id}`}>
             <button className="flex flex-col items-center gap-1 text-white transition hover:scale-105">
               <div className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-600 shadow-lg">
                 <MessageCircle size={26} />

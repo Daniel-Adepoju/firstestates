@@ -72,7 +72,7 @@ const SingleListing = ({ listingId, isAgent }: { listingId: string; isAgent?: bo
       <div className="flex flex-col text-sm p-6 items-center justify-center text-red-600 w-full min-h-screen bg-black">
         <span>
           An error occurred due to issues with your network or because the page no longer exists.
-          </span>
+        </span>
       </div>
     )
 
@@ -124,7 +124,7 @@ const SingleListing = ({ listingId, isAgent }: { listingId: string; isAgent?: bo
                   agent={listing?.agent}
                   session={session}
                   onPhone={() => window.open(`tel:${listing?.agent?.phone}`)}
-                  onChat={() => router.push(`/chat?recipientId=${listing?.agent?._id}`)}
+                  onChat={() => router.push(`/chat?receiverId=${listing?.agent?._id}`)}
                 />
               )
             )}

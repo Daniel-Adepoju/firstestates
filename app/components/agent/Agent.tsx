@@ -78,7 +78,7 @@ const Agent = ({
             {/* chat */}
             {!isYou && userId && (
               <Link
-                href={`/chat?recipientId=${agent._id}`}
+                href={`/chat?receiverId=${agent._id}`}
                 className="md:w-100 text-sm dark:bg-black/10 bg-gray-100/70 pt-2 pb-2.5 px-4 rounded-lg font-bold flex flex-row items-center gap-2 cursor-pointer duration-300 transition-all hover:opacity-80"
               >
                 <MessageCircle

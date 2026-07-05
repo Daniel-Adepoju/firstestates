@@ -1,5 +1,5 @@
 import ChatBubble from "./ChatBubble"
-import { Loader2, ArrowDown } from "lucide-react"
+import { Loader2, ArrowDown, FileX2 } from "lucide-react"
 
 export default function MessageList({
   groupedMessages,
@@ -16,7 +16,7 @@ export default function MessageList({
   userId,
   showId,
   setShowId,
-  recipientId
+  receiverId,
 }: any) {
   return (
     // <div
@@ -24,11 +24,12 @@ export default function MessageList({
     //   className="nobar null w-[98%] flex-1 flex flex-col overflow-y-auto space-y-2 mb-4"
     // >
     <>
-      
-
       {loadingMore && (
         <div className="text-center pt-2 py-4">
-          <Loader2 className="animate-spin mx-auto mb-1 text-gray-400 dark:text-gray-500" size={20} />
+          <Loader2
+            className="animate-spin mx-auto mb-1 text-gray-400 dark:text-gray-500"
+            size={20}
+          />
           <p className="text-xs text-gray-400 dark:text-gray-500">Loading older messages...</p>
         </div>
       )}
@@ -53,9 +54,7 @@ export default function MessageList({
                     </span>
                     <ArrowDown
                       size={26}
-                      onClick={() =>
-                        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-                      }
+                      onClick={() => messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })}
                       className="p-1 smallScale cursor-pointer rounded-full shadow-lg dark:shadow-black"
                     />
                   </div>
@@ -67,7 +66,7 @@ export default function MessageList({
                   userId={userId}
                   showId={showId}
                   setShowId={setShowId}
-                  recipientId={recipientId}
+                  receiverId={receiverId}
                 />
               </div>
             ))}
@@ -75,7 +74,15 @@ export default function MessageList({
         </div>
       ))}
 
-     
+      {Object.entries(groupedMessages).length < 0 && (
+        <div className="mt-46 flex flex-col items-center justify-center gap-2 text-center text-gray-500 dark:text-gray-300">
+          <FileX2
+            size={40}
+            className="text-goldPrimary"
+          />
+          <span className="text-sm">No message in this chat</span>
+        </div>
+      )}
     </>
   )
 }

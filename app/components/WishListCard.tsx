@@ -54,19 +54,19 @@ const WishListCard = ({ listing, wishlistId, refValue }: WishListProps) => {
         ref={refValue}
         className="w-full md:max-w-220 flex items-center justify-between gap-4 pr-3 shadow-sm rounded-md bg-white dark:bg-gray-700/50 dark:outline-black dark:outline-2"
       >
-        <Link href={`/listings/single_listing?id=${listing._id}`}>   
-        <CldImage
-          width={110}
-          height={90}
-          alt="post_img"
-          src={listing.mainImage}
-          crop={{
-            type: "auto",
-            source: true,
-          }}
-          gravity="center"
-          className="rounded-md object-fill ml-1"
-        /> 
+        <Link href={`/listings/single_listing?id=${listing._id}`}>
+          <CldImage
+            width={110}
+            height={90}
+            alt="post_img"
+            src={listing.mainImage}
+            crop={{
+              type: "auto",
+              source: true,
+            }}
+            gravity="center"
+            className="rounded-md object-fill ml-1"
+          />
         </Link>
         <div className="flex flex-col items-center">
           {/* address */}
@@ -74,12 +74,8 @@ const WishListCard = ({ listing, wishlistId, refValue }: WishListProps) => {
             className="
         address text-sm  font-semibold"
           >
-            <span className="md:hidden">
-              {truncateText(listing.address, 16)}
-              </span>
-              <span className="hidden md:block">
-              {truncateText(listing.address, 26)}
-              </span>
+            <span className="md:hidden">{truncateText(listing.address, 16)}</span>
+            <span className="hidden md:block">{truncateText(listing.address, 26)}</span>
           </div>
 
           {/* school */}
@@ -102,7 +98,7 @@ const WishListCard = ({ listing, wishlistId, refValue }: WishListProps) => {
               className="rounded-full"
             />
             <Link
-              href={`/chat?recipientId=${listing.agent._id}`}
+              href={`/chat?receiverId=${listing.agent._id}`}
               className="font-bold text-xs md:text-sm quickLink underline "
             >
               Chat With Agent{" "}

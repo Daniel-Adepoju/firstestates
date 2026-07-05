@@ -19,10 +19,22 @@ interface Config {
   status?: string
   requestType?: string
   requester?: string
-  agent?:string
-  date?:any
-  views?:string
-  isBookmarked?:string
+  agent?: string
+  date?: any
+  views?: string
+  isBookmarked?: string
+}
+type GetChatsProps = {
+  conversationId?: string | null
+  limit?: number
+  enabled?: boolean
+  senderId?: string | null
+  receiverId?: string | null
+}
+type GetConversationsProps = {
+  userId?: string
+  limit?: number
+  enabled?: boolean
 }
 
 // interface ListingParams {
@@ -78,7 +90,7 @@ export const useGetListings = ({
         `&location=${location}&school=${school}` +
         `&minPrice=${minPrice}&maxPrice=${maxPrice}` +
         `&beds=${beds}&baths=${baths}&toilets=${toilets}` +
-        `&status=${status}`
+        `&status=${status}`,
     )
 
     return res.data
@@ -109,12 +121,12 @@ export const useSearchListings = ({
   limit,
   agentName = "",
   search,
-  status="",
+  status = "",
   enabled = true,
 }: Config) => {
   const getListings = async (page: string) => {
     const res = await axiosdata.value.get(
-      `/api/listings/search?limit=${limit}&page=${page}&search=${search}&agentName=${agentName}&status=${status}`
+      `/api/listings/search?limit=${limit}&page=${page}&search=${search}&agentName=${agentName}&status=${status}`,
     )
     return res.data
   }
@@ -230,19 +242,19 @@ export const useGetAgentListings = ({
   location,
   school,
   status,
-  date='',
-  views='',
+  date = "",
+  views = "",
   enabled = false,
 }: Config) => {
   const getListings = async (page: string) => {
     const res = await axiosdata.value.get(
-      `/api/agent/listings?id=${id}&limit=${limit}&page=${page}&school=${school}&location=${location}&status=${status}&date=${date}&views=${views}`
+      `/api/agent/listings?id=${id}&limit=${limit}&page=${page}&school=${school}&location=${location}&status=${status}&date=${date}&views=${views}`,
     )
     return res.data
   }
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["agentListings", page, location, school,date,views,status],
+    queryKey: ["agentListings", page, location, school, date, views, status],
     queryFn: () => getListings(page ?? "1"),
     enabled,
   })
@@ -260,14 +272,14 @@ export const useGetAgentListingsInfinite = ({
 }: Config) => {
   const getListings = async (page: string) => {
     const res = await axiosdata.value.get(
-      `/api/agent/listings?id=${id}&limit=${limit}&page=${page}&school=${school}&location=${location}`
+      `/api/agent/listings?id=${id}&limit=${limit}&page=${page}&school=${school}&location=${location}`,
     )
     return res.data
   }
 
   const { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["agentListings", page, location, school,id],
+      queryKey: ["agentListings", page, location, school, id],
       initialPageParam: 1,
       getNextPageParam: (prevData: any) => {
         return prevData?.cursor && prevData?.cursor !== prevData.numOfPages
@@ -301,14 +313,10 @@ export const useGetAgentPayments = ({
   return { data, isLoading, isError }
 }
 
-
-export const useGetAgentsInSchoolFocus = ({
-  school,
-  limit = 10,
-}: Config) => {
+export const useGetAgentsInSchoolFocus = ({ school, limit = 10 }: Config) => {
   const getAgents = async (page: string) => {
     const res = await axiosdata.value.get(
-      `/api/listings/agents?school=${school}&limit=${limit}&page=${page}`
+      `/api/listings/agents?school=${school}&limit=${limit}&page=${page}`,
     )
     return res.data
   }
@@ -327,7 +335,6 @@ export const useGetAgentsInSchoolFocus = ({
 
   return { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage }
 }
-
 
 // Miscellaneous
 export const useGetNotifications = ({ limit }: Config) => {
@@ -354,7 +361,7 @@ export const useGetNotifications = ({ limit }: Config) => {
 export const useGetComments = ({ listingId, limit = 10 }: Config) => {
   const getComments = async (page: string) => {
     const res = await axiosdata.value.get(
-      `/api/listings/comments?listingId=${listingId}&limit=${limit}&page=${page}`
+      `/api/listings/comments?listingId=${listingId}&limit=${limit}&page=${page}`,
     )
     return res.data
   }
@@ -377,13 +384,13 @@ export const useGetComments = ({ listingId, limit = 10 }: Config) => {
 export const useGetSchools = ({ search }: { search: string }) => {
   const getSchools = async (page: string) => {
     const res = await axiosdata.value.get(
-      `/api/schools?page=${page}&limit=10&fullname=${search}&shortname=${search}`
+      `/api/schools?page=${page}&limit=10&fullname=${search}&shortname=${search}`,
     )
     return res.data
   }
   const { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["schools",search],
+      queryKey: ["schools", search],
       initialPageParam: 1,
       getNextPageParam: (prevData: any) => {
         return prevData?.cursor && prevData?.cursor !== prevData.numOfPages
@@ -395,29 +402,28 @@ export const useGetSchools = ({ search }: { search: string }) => {
   return { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage }
 }
 
-
 // Requests
 export const useGetRequests = ({
   limit,
-  requestType='',
-  school='',
-  requester='',
+  requestType = "",
+  school = "",
+  requester = "",
   enabled = false,
-  agent='',
-  status='',
-  listingId='',
-  isBookmarked='',
+  agent = "",
+  status = "",
+  listingId = "",
+  isBookmarked = "",
 }: Config) => {
   const getRequests = async (page: string) => {
     const res = await axiosdata.value.get(
-      `/api/requests?page=${page}&limit=${limit}&status=${status}&requestType=${requestType}&school=${school}&currentUser=${requester}&agent=${agent}&listing=${listingId}&isBookmarked=${isBookmarked}`
+      `/api/requests?page=${page}&limit=${limit}&status=${status}&requestType=${requestType}&school=${school}&currentUser=${requester}&agent=${agent}&listing=${listingId}&isBookmarked=${isBookmarked}`,
     )
     return res.data
   }
 
- const { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage } =
+  const { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["requests", school,requestType,requester,status,listingId],
+      queryKey: ["requests", school, requestType, requester, status, listingId],
       initialPageParam: 1,
       getNextPageParam: (prevData: any) => {
         return prevData?.cursor && prevData?.cursor !== prevData.numOfPages
@@ -428,24 +434,20 @@ export const useGetRequests = ({
       enabled,
     })
 
-    return { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage }
+  return { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage }
 }
 
 // Residents
-export const useGetInhabitants = ({
-  listingId,
-  agent='',
-  limit = 10,
-  search='',
-}: Config) => {
+export const useGetInhabitants = ({ listingId, agent = "", limit = 10, search = "" }: Config) => {
   const getInhabitants = async (page: string) => {
     const res = await axiosdata.value.get(
-      `/api/listings/inhabitants?listingId=${listingId}&limit=${limit}&page=${page}&agent=${agent}&search=${search}`
+      `/api/listings/inhabitants?listingId=${listingId}&limit=${limit}&page=${page}&agent=${agent}&search=${search}`,
     )
     return res.data
   }
-  const {data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage} = useInfiniteQuery({
-      queryKey: ["inhabitants", listingId,agent,search],
+  const { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage } =
+    useInfiniteQuery({
+      queryKey: ["inhabitants", listingId, agent, search],
       initialPageParam: 1,
       getNextPageParam: (prevData: any) => {
         return prevData?.cursor && prevData?.cursor !== prevData.numOfPages
@@ -453,7 +455,78 @@ export const useGetInhabitants = ({
           : undefined
       },
       queryFn: ({ pageParam = 1 }) => getInhabitants(String(pageParam)),
-  })
+    })
 
-  return {data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage}
+  return { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage }
+}
+
+// Chats
+
+export const useGetChats = ({ senderId, receiverId, limit = 30, enabled = true }: GetChatsProps) => {
+  const { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage } =
+    useInfiniteQuery({
+      queryKey: ["chats", senderId, receiverId],
+
+      enabled: enabled && !!senderId && !!receiverId,
+
+      initialPageParam: 1,
+
+      queryFn: async ({ pageParam }) => {
+        const params = new URLSearchParams({
+          page: pageParam.toString(),
+          limit: limit.toString(),
+          senderId,
+          receiverId,
+        })
+
+        const res = await axiosdata.value.get(`/api/chats?${params}`)
+
+        return res.data
+      },
+
+      getNextPageParam: (lastPage) => {
+        if (lastPage.cursor >= lastPage.numOfPages) {
+          return undefined
+        }
+
+        return lastPage.cursor + 1
+      },
+    })
+  return { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage }
+}
+
+export const useGetConversations = ({
+  userId,
+  limit = 10,
+  enabled = true,
+}: GetConversationsProps) => {
+  const { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage } =
+    useInfiniteQuery({
+      queryKey: ["conversations", userId],
+
+      enabled: enabled && !!userId,
+
+      initialPageParam: 1,
+
+      queryFn: async ({ pageParam }) => {
+        const params = new URLSearchParams({
+          senderId: userId!,
+          page: pageParam.toString(),
+          limit: limit.toString(),
+        })
+
+        const res = await axiosdata.value.get(`/api/conversations?${params}`)
+
+        return res.data
+      },
+
+      getNextPageParam: (lastPage) => {
+        if (lastPage.cursor >= lastPage.numOfPages) {
+          return undefined
+        }
+
+        return lastPage.cursor + 1
+      },
+    })
+  return { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage }
 }

@@ -27,7 +27,7 @@ export default function Chat() {
 
   const { session } = useUser()
   const userId = session?.user.id
-  const recipientId = useSearchParams().get("recipientId")
+  const receiverId = useSearchParams().get("receiverId")
 
   const [conversationId, setConversationId] = useState<string | null>(null)
   const [text, setText] = useState("")
@@ -79,7 +79,7 @@ export default function Chat() {
   const handleSendMessage = async () => {
     if (!text.trim() || !conversationId || !userId || sending) return
     setSending(true)
-    await sendMessage(text, userId, recipientId!, conversationId)
+    await sendMessage(text, userId, receiverId!, conversationId)
     setText("")
     setSending(false)
     await fetchUnreadCount()
@@ -116,7 +116,7 @@ export default function Chat() {
           loadMoreMessages()
         }
       },
-      { root: containerRef.current, threshold: 0.1 }
+      { root: containerRef.current, threshold: 0.1 },
     )
 
     observer.observe(topSentinelRef.current)
@@ -143,12 +143,12 @@ export default function Chat() {
 
   // setup conversation
   useEffect(() => {
-    if (!userId || !recipientId) return
+    if (!userId || !receiverId) return
 
     const setupConversation = async () => {
       setLoading(true)
       try {
-        const convo = await getOrCreateConversation(userId, recipientId)
+        const convo = await getOrCreateConversation(userId, receiverId)
         setConversationId(convo.$id)
         const msgs = await getMessages(convo.$id, chatMessageLimit) // ← first page
         setMessages(msgs)
@@ -162,7 +162,7 @@ export default function Chat() {
     }
 
     setupConversation()
-  }, [userId, recipientId])
+  }, [userId, receiverId])
 
   // update read status when last unread message is visible
   useEffect(() => {
@@ -181,7 +181,7 @@ export default function Chat() {
         await fetchUnreadCount()
         observer.disconnect()
       },
-      { threshold: 1.0 }
+      { threshold: 1.0 },
     )
 
     observer.observe(target)
@@ -230,7 +230,7 @@ export default function Chat() {
         if (res.events.some((e) => e.includes("delete"))) {
           setMessages((prev) => prev.filter((msg) => msg.$id !== newMsg.$id))
         }
-      }
+      },
     )
 
     return () => unsubscribe()
@@ -253,7 +253,7 @@ export default function Chat() {
     )
   }
 
-  if (userId === recipientId) {
+  if (userId === receiverId) {
     return (
       <div className="text-xl font-bold text-center mt-40 text-gray-600 dark:text-white">
         You can't chat with yourself
@@ -268,7 +268,6 @@ export default function Chat() {
       </div>
 
       <div className="md:h-[97.5%] flex-1 flex flex-col  w-full  border rounded-xl  p-4 mx-auto bg-white dark:bg-gray-700/40 nobar null">
-     
         <div
           ref={containerRef}
           className="nobar null w-[98%] flex-1 flex flex-col overflow-y-auto space-y-2 mb-4"
@@ -279,7 +278,6 @@ export default function Chat() {
             ref={topSentinelRef}
             className="h-1 text-blue-600"
           />
-        
 
           {loadingMore && (
             <div className="text-center py-4">
@@ -290,7 +288,7 @@ export default function Chat() {
               <p className="text-xs text-gray-400 dark:text-gray-500">Loading older messages...</p>
             </div>
           )}
-{/* 
+          {/* 
           {!hasMore && messages.length > 0 && (
             <div className="text-center py-2 text-sm text-gray-400 dark:text-gray-500">
               No more messages
@@ -330,7 +328,7 @@ export default function Chat() {
                       userId={userId}
                       showId={showId}
                       setShowId={setShowId}
-                      recipientId={recipientId}
+                      receiverId={receiverId}
                     />
                   </div>
                 ))}
@@ -342,20 +340,19 @@ export default function Chat() {
         </div>
 
         {/* Guidelines */}
-       <details className="mb-3">
-  <summary className="text-xs text-gray-600 dark:text-gray-300 cursor-pointer">
-    To avoid getting banned or permanently removed from First Estates, please use the chat
-    feature responsibly.
-  </summary>
+        <details className="mb-3">
+          <summary className="text-xs text-gray-600 dark:text-gray-300 cursor-pointer">
+            To avoid getting banned or permanently removed from First Estates, please use the chat
+            feature responsibly.
+          </summary>
 
-  <div className="mt-2 text-xs text-gray-600 dark:text-gray-300">
-    <ul className="list-disc pl-5 space-y-0.5">
-      <li>Treat others with kindness and respect</li>
-      <li>Avoid hate speech, harassment, or abusive language</li>
-    </ul>
-  </div>
-</details>
-
+          <div className="mt-2 text-xs text-gray-600 dark:text-gray-300">
+            <ul className="list-disc pl-5 space-y-0.5">
+              <li>Treat others with kindness and respect</li>
+              <li>Avoid hate speech, harassment, or abusive language</li>
+            </ul>
+          </div>
+        </details>
 
         {/* Input */}
         <div className="flex gap-2">

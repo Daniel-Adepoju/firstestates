@@ -22,7 +22,7 @@ export default function ChatLoading() {
         <div className="w-3 h-3 bg-gray-500 dark:bg-gray-300 rounded-full animate-pulse delay-300"></div>
       </div>
 
-      <p className="w-80 font-head mx-auto text-center text-gray-500 dark:text-gray-300 mt-3 text-sm md:text-md">
+      <p className="w-80 font-head  leading-8 font-semibold mx-auto text-center text-gray-500 dark:text-gray-300 mt-3 text-sm md:text-md">
         Loading ...
       </p>
     </div>

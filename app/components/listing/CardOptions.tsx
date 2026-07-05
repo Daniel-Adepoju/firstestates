@@ -25,20 +25,21 @@ const CardOptions = () => {
       }
     } else {
       alert("Sharing is not supported on your device or browser.")
-      navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_BASE_URL}/listings/single_listing?id=${backdrop.selectedData?._id}`)
+      navigator.clipboard.writeText(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/listings/single_listing?id=${backdrop.selectedData?._id}`,
+      )
       setBackdrop({ isOptionsOpen: false })
     }
   }
 
   const clientCardOptions = [
-
     // chat agent
     session?.user && session.user.id !== backdrop.selectedData?.agent._id
       ? {
           tag: "Link",
           text: "Chat With Agent",
           link: backdrop.selectedData
-            ? `${process.env.NEXT_PUBLIC_BASE_URL!}/chat?recipientId=${
+            ? `${process.env.NEXT_PUBLIC_BASE_URL!}/chat?receiverId=${
                 backdrop.selectedData?.agent._id
               }`
             : "",
@@ -49,7 +50,7 @@ const CardOptions = () => {
           },
         }
       : null,
-//  share
+    //  share
     {
       tag: "div",
       text: "Share",
@@ -63,7 +64,7 @@ const CardOptions = () => {
         setBackdrop({ isOptionsOpen: false })
       },
     },
-// view/report agent
+    // view/report agent
     session?.user.id === backdrop.selectedData?.agent._id
       ? null
       : {
@@ -78,15 +79,15 @@ const CardOptions = () => {
             setBackdrop({ isOptionsOpen: false })
           },
         },
-// requests handling
+    // requests handling
     session?.user && session?.user.id !== backdrop.selectedData?.agent._id
       ? {
           tag: "Link",
-          text: `${backdrop.selectedData?.status === 'rented' ? 'View Roomate Request' : 'View Co-Rent Requests'}`,
-          link: backdrop.selectedData?.status === 'rented'
-           ? 
-           `${process.env.NEXT_PUBLIC_BASE_URL!}/listings/roommate-request?listing=${backdrop.selectedData?._id}` 
-          : `${process.env.NEXT_PUBLIC_BASE_URL!}/listings/co-rent-request?listing=${backdrop.selectedData?._id}`,
+          text: `${backdrop.selectedData?.status === "rented" ? "View Roomate Request" : "View Co-Rent Requests"}`,
+          link:
+            backdrop.selectedData?.status === "rented"
+              ? `${process.env.NEXT_PUBLIC_BASE_URL!}/listings/roommate-request?listing=${backdrop.selectedData?._id}`
+              : `${process.env.NEXT_PUBLIC_BASE_URL!}/listings/co-rent-request?listing=${backdrop.selectedData?._id}`,
           className: "text-blue-500 block",
           icon: <UserPlus className="w-4 h-4 inline mb-1 mr-2" />,
           function: () => {
@@ -94,15 +95,15 @@ const CardOptions = () => {
           },
         }
       : null,
-      // adding requests
-      session?.user && session?.user.id !== backdrop.selectedData?.agent._id
+    // adding requests
+    session?.user && session?.user.id !== backdrop.selectedData?.agent._id
       ? {
           tag: "Link",
-          text: `${backdrop.selectedData?.status === 'rented' ? 'Make a Roommate Request' : 'Make a Co-Rent Request'}`,
-          link: backdrop.selectedData?.status === 'rented'
-           ? 
-           `${process.env.NEXT_PUBLIC_BASE_URL!}/listings/roommate-request/add?listing=${backdrop.selectedData?._id}` 
-          : `${process.env.NEXT_PUBLIC_BASE_URL!}/listings/co-rent-request/add?listing=${backdrop.selectedData?._id}`,
+          text: `${backdrop.selectedData?.status === "rented" ? "Make a Roommate Request" : "Make a Co-Rent Request"}`,
+          link:
+            backdrop.selectedData?.status === "rented"
+              ? `${process.env.NEXT_PUBLIC_BASE_URL!}/listings/roommate-request/add?listing=${backdrop.selectedData?._id}`
+              : `${process.env.NEXT_PUBLIC_BASE_URL!}/listings/co-rent-request/add?listing=${backdrop.selectedData?._id}`,
           className: "text-blue-500 block",
           icon: <UserPlus className="w-4 h-4 inline mb-1 mr-2" />,
           function: () => {

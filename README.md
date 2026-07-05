@@ -35,7 +35,7 @@ First Estates is a real estate listing and messaging platform built with **Next.
 | Zoho Mail       | Email service provider                        |
 | cron-job.org    | External cron job scheduling                  |
 | Lucide Icons    | Lightweight and beautiful icons               |
-
+| Ably            | Real-time communication platform              |
 ---
 
 ## 📁 Project Structure Highlights

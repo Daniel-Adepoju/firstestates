@@ -5,9 +5,10 @@ import { useUser } from "@utils/user"
 import { getUserConversations } from "@/lib/server/chats"
 import type { Models } from "appwrite"
 import { CldImage } from "next-cloudinary"
-import { MoreHorizontal } from "lucide-react"
+import { MoreHorizontal, FileX } from "lucide-react"
 import ConversationRow from "./ConversationRow"
 import { Skeleton } from "../ui/skeleton"
+import { useGetConversations } from "@lib/customApi"
 
 type InboxProps = {
   topMargin?: string
@@ -17,34 +18,17 @@ type InboxProps = {
 export default function Inbox({ topMargin, height }: InboxProps) {
   const { session } = useUser()
   const userId = session?.user.id
-  const [conversations, setConversations] = useState<Models.Document[]>([])
   const router = useRouter()
-  const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    if (!userId) return
-    setLoading(true)
-    const loadConversations = async () => {
-      const convos = await getUserConversations(userId)
-      setConversations(convos)
-      setLoading(false)
-    }
+  const { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage } =
+    useGetConversations({
+      userId,
+    })
 
-    loadConversations()
-  }, [userId])
+  const conversations = data?.pages.flatMap((data) => data.conversations) || []
 
-  const handleOpenChat = (recipientId: string) => {
-    router.push(`/chat?recipientId=${recipientId}`)
-  }
-
-  if (loading) {
-    return (
-      <MoreHorizontal
-        size={40}
-        color="grey"
-        className="animate-pulse mx-auto mt-40"
-      />
-    )
+  const openChat = (receiverId: string, userId: string) => {
+    router.push(`/chat?senderId=${userId}&receiverId=${receiverId}&`)
   }
 
   return (
@@ -67,23 +51,31 @@ export default function Inbox({ topMargin, height }: InboxProps) {
         <h2 className="otherHead  text-center text-lg lg:text-xl font-semibold">Chats</h2>
       </div>
       <div className="space-y-3 p-2 overflow-y-scroll h-full nobar null">
-        {conversations.map((convo) => (
-          <ConversationRow
-            key={convo.$id}
-            convo={{
-              $id: convo.$id,
-              userIds: convo.userIds,
-              lastMessage: convo.lastMessage,
-            }}
-            currentUserId={userId}
-            onClick={handleOpenChat}
-          />
-        ))}
+        {isLoading
+          ? Array.from({ length: 4 }).map((_, index) => (
+              <Skeleton
+                key={index}
+                className="w-[98%] h-18 rounded-lg animate-none bg-gray-500/20 p-3 
+            "
+              />
+            ))
+          : conversations.map((convo) => (
+              <ConversationRow
+                key={convo._id}
+                convo={convo}
+                currentUserId={userId}
+                handleOpenChat={(otherId: string) => openChat(otherId, userId)}
+              />
+            ))}
 
-        {!loading && userId && conversations.length === 0 && (
-          <p className="w-50 mt-45 text-center text-sm text-gray-400 mx-auto">
-            No conversations yet.
-          </p>
+        {!isLoading && userId && conversations.length === 0 && (
+          <div className="flex flex-col gap-1 items-center justify-center w-50 mt-40  text-gray-400 mx-auto">
+            <FileX
+              size={60}
+              className="text-goldPrimary text-lg"
+            />
+            <span className="text-md"> No conversations yet.</span>
+          </div>
         )}
       </div>
     </div>

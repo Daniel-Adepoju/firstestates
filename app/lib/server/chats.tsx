@@ -94,19 +94,7 @@ export const getMessages = async (
   return res.documents.reverse()
 }
 
-export const deleteMessage = async (chatId: string) => {
-  try {
-    const selectedChat = await database.getDocument(DATABASE_ID, MESSAGES_ID, chatId)
-    // selectedChat.delete()
-    await database.deleteDocument(DATABASE_ID, MESSAGES_ID, chatId)
-    // change conversation last message to deleted
-    await database.updateDocument(DATABASE_ID, CONVERSATIONS_ID, selectedChat.conversationId, {
-      lastMessage: "[Deleted Message]",
-    })
-  } catch (err) {
-    console.log(err, "Failed To Delete Chat")
-  }
-}
+
 
 export async function getUserConversations(senderId: string) {
   const res = await database.listDocuments(DATABASE_ID, CONVERSATIONS_ID, [
@@ -137,6 +125,20 @@ export async function getOrCreateConversation(userAId: string, userBId: string) 
 
   return conversation
 }
+export const deleteMessage = async (chatId: string) => {
+  try {
+    const selectedChat = await database.getDocument(DATABASE_ID, MESSAGES_ID, chatId)
+    // selectedChat.delete()
+    await database.deleteDocument(DATABASE_ID, MESSAGES_ID, chatId)
+    // change conversation last message to deleted
+    await database.updateDocument(DATABASE_ID, CONVERSATIONS_ID, selectedChat.conversationId, {
+      lastMessage: "[Deleted Message]",
+    })
+  } catch (err) {
+    console.log(err, "Failed To Delete Chat")
+  }
+}
+
 
 export async function updateReadStatus(senderId: string, conversationId: string) {
   const res = await database.listDocuments(DATABASE_ID, MESSAGES_ID, [
