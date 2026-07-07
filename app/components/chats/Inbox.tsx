@@ -8,6 +8,8 @@ import ConversationRow from "./ConversationRow"
 import { Skeleton } from "../ui/skeleton"
 import { useGetConversations } from "@lib/customApi"
 import { useNextPage } from "@lib/useIntersection"
+import { client as ably } from "@lib/AblyProvider"
+import { useQueryClient } from "@tanstack/react-query"
 
 type InboxProps = {
   topMargin?: string
@@ -18,6 +20,7 @@ export default function Inbox({ topMargin, height }: InboxProps) {
   const { session } = useUser()
   const userId = session?.user.id
   const router = useRouter()
+  const queryClient = useQueryClient()
 
   const { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useGetConversations({
@@ -30,6 +33,32 @@ export default function Inbox({ topMargin, height }: InboxProps) {
   const openChat = (receiverId: string, userId: string) => {
     router.push(`/chat?senderId=${userId}&receiverId=${receiverId}&`)
   }
+
+  useEffect(() => {
+    if (!userId) return
+ const ids = [userId]
+    const channel = ably.channels.get(`inbox:${userId}`)
+
+    const refreshInbox = () => {
+      queryClient.invalidateQueries({
+        queryKey: ["conversations", userId],
+      })
+
+      queryClient.invalidateQueries({
+        queryKey: ["unreadChats", userId],
+      })
+    }
+    channel.subscribe("conversation:read", refreshInbox)
+    channel.subscribe("conversation:create", refreshInbox)
+    channel.subscribe("conversation:update", refreshInbox)
+    channel.subscribe("conversation:delete", refreshInbox)
+
+    return () => {
+      channel.unsubscribe("conversation:create", refreshInbox)
+      channel.unsubscribe("conversation:update", refreshInbox)
+      channel.unsubscribe("conversation:delete", refreshInbox)
+    }
+  }, [ably, userId])
 
   return (
     <div

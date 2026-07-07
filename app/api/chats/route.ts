@@ -41,9 +41,11 @@ export async function POST(req: NextRequest) {
     )
 
     console.log("Created message:", message)
+    
+ const ids = [senderId, receiverId].sort().join("_")
 
     // Notify everyone viewing this chat
-    // await ably.channels.get(`chat:${senderId} ${receiverId}`).publish("message:create", message)
+    await ably.channels.get(`chat:${ids}`).publish("message:create", message)
 
     // Notify each user's inbox
     await Promise.all([
@@ -115,7 +117,7 @@ export async function GET(req: NextRequest) {
     const totalPages = Math.ceil(total / limit)
 
     const messages = await Chat.find(filter)
-      .sort({ createdAt: 1 })
+      .sort({ createdAt: -1 })
       .skip(skipNum)
       .limit(limit)
       .lean()

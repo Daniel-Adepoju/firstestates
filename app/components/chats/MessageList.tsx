@@ -31,48 +31,57 @@ export default function MessageList({
         </div>
       )}
 
-      {Object.entries(groupedMessages).map(([date, msgs]: any) => (
-        <div key={date}>
-          <h4 className="text-center text-sm text-gray-500 dark:text-gray-300 my-4">{date}</h4>
+      {groupedMessages.map((group: any) => (
+        <div key={group.date}>
+          <h4 className="text-center text-sm text-gray-500 dark:text-gray-300 my-4">
+            {group.date}
+          </h4>
 
           <div className="flex flex-col gap-4 mb-2 nobar null ">
-            {msgs.map((msg: any) => (
-              <div
-                key={msg?._id}
-                className={`w-full flex flex-col flex-1 flex-wrap items-center
+            {group.messages
+              .slice()
+              .reverse()
+              .map((msg: any) => (
+                <div
+                  key={msg?._id}
+                  className={`w-full flex flex-col flex-1 flex-wrap items-center
                 `}
-              >
+                >
+                  {msg?._id === firstUnreadId && unreadCount > 0 && (
+                    <div
+                      ref={unreadBannerRef}
+                      className="w-[100%] mt-6 mb-6 flex-1 flex flex-col !mx-auto !items-center gap-2 py-3 text-sm text-gray-500 dark:text-gray-300"
+                    >
+                      <span>
+                        {unreadCount} new {unreadCount === 1 ? "message" : "messages"}
+                      </span>
+                      <ArrowDown
+                        size={26}
+                        onClick={() =>
+                          messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+                        }
+                        className="p-1 smallScale cursor-pointer rounded-full shadow-lg dark:bg-gray-700 dark:shadow-black"
+                      />
+                    </div>
+                  )}
 
-                {msg?._id === firstUnreadId && (unreadCount) > 0 && (
-                  <div ref={unreadBannerRef} className="w-[100%] mt-6 mb-6 flex-1 flex flex-col !mx-auto !items-center gap-2 py-3 text-sm text-gray-500 dark:text-gray-300">
-                    <span>
-                      You have {unreadCount} unread {unreadCount === 1 ? "message" : "messages"}
-                    </span>
-                    <ArrowDown
-                      size={26}
-                      onClick={() => messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })}
-                      className="p-1 smallScale cursor-pointer rounded-full shadow-lg dark:shadow-black"
-                    />
-                  </div>
-                )}
-
-                <ChatBubble
-                  id={msg?._id}
-                  msg={msg}
-                  userId={userId}
-                  showId={showId}
-                  setShowId={setShowId}
-                  receiverId={receiverId}
-                  reply={reply}
-                  setReply={setReply}
-                />
-              </div>
-            ))}
+                  <ChatBubble
+                    id={msg?._id}
+                    msg={msg}
+                    userId={userId}
+                    showId={showId}
+                    setShowId={setShowId}
+                    receiverId={receiverId}
+                    reply={reply}
+                    setReply={setReply}
+                  />
+                </div>
+              ))}
           </div>
         </div>
       ))}
 
-      {Object.entries(groupedMessages).length < 0 && (
+      {groupedMessages.length < 0 && (
         <div className="mt-46 flex flex-col items-center justify-center gap-2 text-center text-gray-500 dark:text-gray-300">
           <FileX2
             size={40}

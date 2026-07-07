@@ -1,13 +1,10 @@
 "use client"
 import Link from "next/link"
-import { client } from "@lib/server/appwrite"
-import { Models } from "appwrite"
 import { useState, useEffect, useRef } from "react"
 import { useUser } from "@utils/user"
 import { CldImage } from "next-cloudinary"
 import { useBackdrop } from "@lib/Backdrop"
 import { useDarkMode } from "@lib/DarkModeProvider"
-import { getUnreadChats } from "@lib/server/chats"
 import {
   Heart,
   MessageSquare,
@@ -28,6 +25,7 @@ import { LogOutModal } from "./Modals"
 import { useRouter, usePathname } from "next/navigation"
 import NavToggleOptions from "@components/NavToggleOptions"
 import Image from "next/image"
+import { useGetUnreadCount } from "@lib/customApi"
 
 const Nav = () => {
   const { session } = useUser()
@@ -37,8 +35,8 @@ const Nav = () => {
   const scrollThreshold = 500
   const { backdrop, setBackdrop } = useBackdrop()
   const { darkMode, toggleDarkMode } = useDarkMode()
-  const [unreadMessages, setUnreadMessages] = useState<string>("0")
   const logOutRef = useRef<any>(null)
+  const { unreadCount } = useGetUnreadCount()
 
   const handleNavItemClick = () => {
     setBackdrop({ isNavOpen: false })
@@ -56,34 +54,7 @@ const Nav = () => {
     return () => window.removeEventListener("scroll", handleScroll)
   })
 
-  useEffect(() => {
-    const getUnread = async () => {
-      if (!session?.user) return
-      const unread = await getUnreadChats(session?.user.id)
-      setUnreadMessages(unread)
-    }
-    getUnread()
-    const unsubscribe = client.subscribe(
-      `databases.${process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID}.collections.${process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID}.documents`,
-      (res) => {
-        const newMsg = res.payload as Models.Document
-        if (newMsg?.senderId === session?.user.id) return
-
-        if (res.events.some((e) => e.includes("create"))) {
-          setUnreadMessages((prev) => (prev === "0" ? "1" : (parseInt(prev) + 1).toString()))
-        }
-
-        if (res.events.some((e) => e.includes("update"))) {
-          setUnreadMessages(unreadMessages)
-        }
-
-        if (res.events.some((e) => e.includes("delete"))) {
-          setUnreadMessages((prev) => (prev === "0" ? "0" : (parseInt(prev) - 1).toString()))
-        }
-      },
-    )
-    return () => unsubscribe()
-  }, [session?.user])
+  // check ably update to accurately push count
 
   const showNav = () => {
     setBackdrop({ isNavOpen: !backdrop.isNavOpen })
@@ -141,7 +112,7 @@ const Nav = () => {
           className="text-gray-700 dark:text-white"
         />
       ),
-      badge: unreadMessages,
+      badge: unreadCount,
       onClick: handleNavItemClick,
       className: "relative text-xs md:text-sm font-medium",
     },
@@ -300,9 +271,9 @@ const Nav = () => {
               {/* text */}
               <div className={` link_line ${item.className || ""}`}>{item.text}</div>
               {/* Optional unread badge */}
-              {item.text === "Chats" && unreadMessages && parseInt(unreadMessages) > 0 && (
-                <div className="flex items-center justify-center absolute w-6 h-6 top-[-16.5%] left-[0%] darkblue-gradient  dark:gold-gradient text-white rounded-full px-2 py-1 text-xs font-bold">
-                  {unreadMessages}
+              {item.text === "Chats" && unreadCount && parseInt(unreadCount) > 0 && (
+                <div className="flex items-center justify-center absolute w-2 h-2 top-[-2.5%] md:left-0 md:right-[202%] left-[-2.5%] darkblue-gradient  dark:gold-gradient text-white rounded-full text-xs font-bold">
+                  {/* {unreadCount} */}
                 </div>
               )}
             </Link>

@@ -7,6 +7,7 @@ import Nav from "@components/Nav"
 import { auth } from "@auth"
 import Image from "next/image"
 import Link from "next/link"
+import AblyClientProvider from "@lib/AblyProvider"
 
 export const metadata = {
   metadataBase: process.env.BASE_URL,
@@ -132,7 +133,15 @@ export default async function RootLayout({ children }) {
         </script>
       </head>
       <body>
-        <DarkModeProvider>{children}</DarkModeProvider>
+        
+          {/* <AblyClientProvider> */}
+            <DarkModeProvider>
+                {children}    
+            </DarkModeProvider>
+         
+          {/* </AblyClientProvider> */}
+       
+      
       </body>
     </html>
   )

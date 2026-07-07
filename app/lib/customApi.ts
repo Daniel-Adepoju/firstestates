@@ -1,4 +1,4 @@
-import { useQuery, useInfiniteQuery } from "@tanstack/react-query"
+import { useQuery, useInfiniteQuery, useMutation,useQueryClient } from "@tanstack/react-query"
 import { axiosdata } from "@utils/axiosUrl"
 
 interface Config {
@@ -529,4 +529,63 @@ export const useGetConversations = ({
       },
     })
   return { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage }
+}
+
+export const useGetUnreadCount = () => {
+  const {data} = useQuery({
+    queryKey: ["unreadCount"],
+    queryFn: async () => {
+      const { data } = await axiosdata.value.get(
+        `/api/chats/unread`
+      )
+      return data
+    },
+  })
+  return {unreadCount: data?.unread || 0}
+}
+
+export const useReadChat = () => {
+  const queryClient = useQueryClient()
+
+  const mutateRead = useMutation({
+    mutationFn: async ({
+      userId,
+      conversationId,
+    }: {
+      userId: string
+      conversationId: string
+    }) => {
+      const { data } = await axiosdata.value.patch("/api/chats/read", {
+        userId,
+        conversationId,
+      })
+
+      return data
+    },
+
+    // onSuccess: (_, variables:any) => {
+    //   queryClient.invalidateQueries({
+    //     queryKey: ["chats"],
+    //   })
+
+    //   queryClient.invalidateQueries({
+    //     queryKey: ["conversations", variables.userId],
+    //   })
+
+    //   queryClient.invalidateQueries({
+    //     queryKey: ["unread", variables.userId],
+    //   })
+
+    //   queryClient.invalidateQueries({
+    //     queryKey: [
+    //       "unread",
+    //       variables.userId,
+    //       variables.conversationId,
+    //     ],
+    //   })
+    // },
+
+  })
+
+  return mutateRead
 }

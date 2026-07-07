@@ -54,10 +54,11 @@ export default function ConversationRow({
           <h6 className="text-xs font-medium mb-1 text-amber-500 ">New</h6>
           <div
             className="
-       w-6 h-6 flex itemms-center justify-center
-      text-md font-semibold text-white gold-gradient rounded-full"
+       w-6 h-6 flex items-center justify-center
+      text-sm font-semibold text-white gold-gradient rounded-full"
           >
-            {parseInt(convo.unreadCount) > 9 ? "9+" : convo.unreadCount}
+            {convo.unreadCount}
+            {/* {parseInt(convo.unreadCount) > 9 ? "9+" : convo.unreadCount} */}
           </div>
         </div>
       )}

@@ -1,12 +1,13 @@
 import { connectToDB } from "@utils/database"
 import { NextRequest, NextResponse } from "next/server"
 import Chat from "@models/chat"
+import {auth} from '@auth'
 
 export async function GET(req: NextRequest) {
   try {
     await connectToDB()
-
-    const userId = req.nextUrl.searchParams.get("userId")
+  const session = await auth()
+  const userId = session?.user?.id
 
     const unread = await Chat.countDocuments({
       receiverId: userId,

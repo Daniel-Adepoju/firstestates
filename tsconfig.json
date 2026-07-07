@@ -61,7 +61,7 @@
     "app/agent/layout.jsx",
     "auth.js",
     "app/(root)/page.jsx",
-    "app/utils/date.js",
+    "app/utils/date.ts",
     "app/lib/server/getPost.jsx",
     "app/api/listings/search/route.js",
     "app/lib/server/sendEmail.js",

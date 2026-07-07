@@ -2,23 +2,27 @@
 import { useState, useRef, useEffect, useCallback } from "react"
 import { User2 } from "lucide-react"
 import { useUser } from "@utils/user"
-import type { Models } from "appwrite"
 import { useSearchParams } from "next/navigation"
 import Inbox from "./Inbox"
 import ChatLoading from "./ChatLoading"
 import { groupMessagesByDate } from "@utils/date"
 import MessageList from "./MessageList"
-import Guidelines from "./Guidelines"
 import ChatInput from "./ChatInput"
 import Link from "next/link"
 import { useGetChats } from "@lib/customApi"
 import { axiosdata } from "@utils/axiosUrl"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useAbly } from "ably/react"
+import { client as ably } from "@lib/AblyProvider"
+import { useReadChat } from "@lib/customApi"
 
 export default function Chat() {
+  // const ably = useAbly()
+  const mutateRead = useReadChat()
   const queryClient = useQueryClient()
+
   // users
-  const { session } = useUser()
+  const { session, status } = useUser()
   const userId = session?.user.id
   const conversationId = useSearchParams().get("conversationId")
   const receiverId = useSearchParams().get("receiverId")
@@ -48,12 +52,39 @@ export default function Chat() {
   })
 
   // Message mapping
-  const messages = data?.pages.flatMap((page) => page.messages) || []
+  const messages =
+    data?.pages.flatMap((page) => page.messages) || []
   const groupedMessages = groupMessagesByDate(messages)
-  const flatMessages = Object.values(groupedMessages).flat()
-  console.log({ data })
-  // Mutations
+  // console.log({ data })
 
+  //  Realtime Subcriptions
+  useEffect(() => {
+    if (!userId || !receiverId) return
+
+    const ids = [userId, receiverId].sort().join("_")
+
+    const channel = ably.channels.get(`chat:${ids}`)
+
+    const handler = (message: any) => {
+      queryClient.invalidateQueries({
+        queryKey: ["chats", userId, receiverId],
+      })
+    }
+
+    channel.subscribe("message:create", handler)
+    channel.subscribe("message:update", handler)
+    channel.subscribe("message:delete", handler)
+    channel.subscribe("message:read", handler)
+
+    return () => {
+      channel.unsubscribe("message:create", handler)
+      channel.unsubscribe("message:update", handler)
+      channel.unsubscribe("message:delete", handler)
+      channel.unsubscribe("message:read", handler)
+    }
+  }, [ably, userId, receiverId, queryClient])
+
+  // Mutations / Sending
   const sendMessageMutation = useMutation({
     mutationFn: async (data: any) => {
       await axiosdata.value.post("api/chats", data)
@@ -81,10 +112,8 @@ export default function Chat() {
       //   },
       // )
 
-      messagesEndRef.current?.scrollIntoView({
-        behavior: "smooth",
-      })
-      queryClient.invalidateQueries({ queryKey: ["chats"] })
+ 
+      queryClient.invalidateQueries({ queryKey: ["chats", userId, receiverId] })
     },
   })
 
@@ -101,39 +130,79 @@ export default function Chat() {
     setText("")
     setReply("")
   }
- console.log(data)
+
   // scrolling effects
 
-  useEffect(() => {
-    if (didInitialScroll.current) return
+  // useEffect(() => {
+  //   if (didInitialScroll.current) return
+  
+  //   if (!messages.length) return
 
+  //   if (data?.pages[0]?.firstUnreadId) {
+  //     unreadBannerRef.current?.scrollIntoView({
+  //       block: "center",
+  //     })
+  //   } else {
+  //     messagesEndRef.current?.scrollIntoView()
+  //   }
+
+  //   didInitialScroll.current = true
+  // }, [data])
+
+useEffect(() => {
+    if (didInitialScroll.current) return
     if (!messages.length) return
 
-    if (data?.pages[0]?.firstUnreadId) {
-      unreadBannerRef.current?.scrollIntoView({
-        block: "center",
-      })
-    } else {
-      messagesEndRef.current?.scrollIntoView()
-    }
+    requestAnimationFrame(() => {
 
-    didInitialScroll.current = true
-  }, [messages.length])
+        // if (data?.pages[0]?.firstUnreadId) {
+
+        //     unreadBannerRef.current?.scrollIntoView({
+        //         block:"center"
+        //     })
+
+        // } else {
+
+            messagesEndRef.current?.scrollIntoView({
+                block:"end"
+            })
+
+        // }
+
+        didInitialScroll.current = true
+
+          mutateRead.mutate({
+        conversationId:data?.pages[0]?.conversationId,
+        userId,
+    })
+
+    })
+
+}, [data])
 
   useEffect(() => {
     if (!shouldScrollToBottomRef.current) return
-
     messagesEndRef.current?.scrollIntoView({
       behavior: "smooth",
       block: "end",
     })
 
     shouldScrollToBottomRef.current = false
-  }, [messages.length])
+  }, [data])
 
-  // console.log({ groupedMessages, messages })
+
+  // Read Messages
+//   useEffect(() => {
+//     if (!conversationId) return
+//     if (!userId) return
+//     if (!messages.length) return
+
+ 
+
+// }, [data])
+
   // renders
-  if (isLoading) return <ChatLoading />
+  if (isLoading || status === "loading") return <ChatLoading />
 
   if (!userId || !session) {
     return (

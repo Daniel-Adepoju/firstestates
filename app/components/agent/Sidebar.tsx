@@ -1,12 +1,9 @@
 "use client"
 import Image from "next/image"
-import { client } from "@lib/server/appwrite"
-import { Models } from "appwrite"
 import { agentSidebarItems as sidebarItems } from "@lib/constants"
-import { getUnreadChats } from "@lib/server/chats"
 import { usePathname } from "next/navigation"
 import { CldImage } from "next-cloudinary"
-import { useGetNotifications, useGetRequests } from "@lib/customApi"
+import { useGetNotifications, useGetRequests, useGetUnreadCount } from "@lib/customApi"
 import { useEffect, useState } from "react"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 
@@ -25,7 +22,7 @@ const Sidebar = ({ session }: Session) => {
   const pathname = usePathname()
   const [hash, setHash] = useState("")
   const [isCollapse, setIsCollapse] = useState(false)
-  const [unreadMessages, setUnreadMessages] = useState<string>("0")
+  const {unreadCount} = useGetUnreadCount()
 
   useEffect(() => {
     const onHashChange = () => {
@@ -39,34 +36,7 @@ const Sidebar = ({ session }: Session) => {
     }
   }, [])
 
-  useEffect(() => {
-    const getUnreadMessages = async () => {
-      const unread = await getUnreadChats(session?.user.id)
-      setUnreadMessages(unread)
-    }
-    getUnreadMessages()
 
-    const unsubscribe = client.subscribe(
-      `databases.${process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID}.collections.${process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID}.documents`,
-      (res) => {
-        const newMsg = res.payload as Models.Document
-        if (newMsg?.senderId === session?.user.id) return
-        // console.log({newMsgId:newMsg.userId},{userId:session?.user.id})
-        if (res.events.some((e) => e.includes("create"))) {
-          setUnreadMessages((prev) => (prev === "0" ? "1" : (parseInt(prev) + 1).toString()))
-        }
-
-        if (res.events.some((e) => e.includes("update"))) {
-          setUnreadMessages(unreadMessages)
-        }
-
-        if (res.events.some((e) => e.includes("delete"))) {
-          setUnreadMessages((prev) => (prev === "0" ? "0" : (parseInt(prev) - 1).toString()))
-        }
-      }
-    )
-    return () => unsubscribe()
-  }, [session])
   const { data: requests, isLoading: requestsLoading } = useGetRequests({
     page: "1",
     limit: 1,
@@ -107,9 +77,9 @@ const Sidebar = ({ session }: Session) => {
                       </div>
                     )}
                   {/* unique to chats */}
-                  {item.name === "Chats" && unreadMessages !== "0" && (
+                  {item.name === "Chats" && unreadCount !== 0 && (
                     <div className="absolute flex items-center flex-center w-6 h-6 top-[-16.5%] left-[0%] bg-white  text-white rounded-full px-2 py-1 text-xs font-bold smallNum">
-                      {parseInt(unreadMessages) > 99 ? "99+" : unreadMessages}
+                      {parseInt(unreadCount) > 99 ? "99+" : unreadCount}
                     </div>
                   )}
                   {/* unique to requests */}
