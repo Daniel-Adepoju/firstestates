@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
 
     // Generate the Token Request object
     const tokenRequestData = await client.auth.createTokenRequest({
-      clientId: 'oiittt-uniques',
+      clientId: session?.user?.id,
     })
     console.log({ ablyAREturn: tokenRequestData })
     return NextResponse.json(tokenRequestData)

@@ -26,7 +26,7 @@ export const parseDate = (date: any) => {
   return dayjs(date).tz("Africa/Lagos").format("YYYY-MM-DD")
 }
 
-export const createdAt = (createdAt: any, onlyNum: any) => {
+export const createdAt = (createdAt: any, onlyNum=false) => {
   if (onlyNum) {
     return dayjs().diff(dayjs(createdAt), "day")
   }
