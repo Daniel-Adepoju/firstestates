@@ -4,19 +4,16 @@ import { Loader2, ArrowDown, FileX2 } from "lucide-react"
 export default function MessageList({
   groupedMessages,
   messagesEndRef,
-  topSentinelRef,
-  containerRef,
   loadingMore,
-  hasMore,
-  lastReadMessageId,
-  lastReadRef,
-  firstUnreadId,
-  unreadCountRef,
-  unreadCount,
   userId,
   showId,
   setShowId,
   receiverId,
+  reply,
+  setReply,
+  unreadBannerRef,
+  firstUnreadId,
+  unreadCount,
 }: any) {
   return (
     // <div
@@ -38,17 +35,16 @@ export default function MessageList({
         <div key={date}>
           <h4 className="text-center text-sm text-gray-500 dark:text-gray-300 my-4">{date}</h4>
 
-          <div className="flex flex-col gap-4 mb-2 nobar null">
+          <div className="flex flex-col gap-4 mb-2 nobar null ">
             {msgs.map((msg: any) => (
               <div
-                key={msg.$id}
+                key={msg?._id}
                 className={`w-full flex flex-col flex-1 flex-wrap items-center
-                  ${msg.userId === userId ? "justify-end" : "justify-start"}`}
+                `}
               >
-                {msg.$id === lastReadMessageId && <div ref={lastReadRef} />}
 
-                {msg.$id === firstUnreadId && (unreadCountRef.current as number) > 0 && (
-                  <div className="w-[100%] mt-6 mb-6 flex-1 flex flex-col !mx-auto !items-center gap-2 py-3 text-sm text-gray-500 dark:text-gray-300">
+                {msg?._id === firstUnreadId && (unreadCount) > 0 && (
+                  <div ref={unreadBannerRef} className="w-[100%] mt-6 mb-6 flex-1 flex flex-col !mx-auto !items-center gap-2 py-3 text-sm text-gray-500 dark:text-gray-300">
                     <span>
                       You have {unreadCount} unread {unreadCount === 1 ? "message" : "messages"}
                     </span>
@@ -61,12 +57,14 @@ export default function MessageList({
                 )}
 
                 <ChatBubble
-                  id={msg.$id}
+                  id={msg?._id}
                   msg={msg}
                   userId={userId}
                   showId={showId}
                   setShowId={setShowId}
                   receiverId={receiverId}
+                  reply={reply}
+                  setReply={setReply}
                 />
               </div>
             ))}

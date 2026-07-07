@@ -80,7 +80,7 @@ const Nav = () => {
         if (res.events.some((e) => e.includes("delete"))) {
           setUnreadMessages((prev) => (prev === "0" ? "0" : (parseInt(prev) - 1).toString()))
         }
-      }
+      },
     )
     return () => unsubscribe()
   }, [session?.user])
@@ -88,7 +88,7 @@ const Nav = () => {
   const showNav = () => {
     setBackdrop({ isNavOpen: !backdrop.isNavOpen })
   }
-  // falsify showNav on window size change 
+  // falsify showNav on window size change
 
   useEffect(() => {
     const handleResize = () => {
@@ -99,12 +99,11 @@ const Nav = () => {
     window.addEventListener("resize", handleResize)
     return () => window.removeEventListener("resize", handleResize)
   }, [])
-  
 
   const navItems = [
     // Non-client dashboard
     {
-      condition: session?.user && session.user.role !== "client",
+      condition: session?.user && session?.user?.role !== "client",
       link: session?.user?.role === "admin" ? "/admin" : "/agent",
       text: "Dashboard",
       icon: (
@@ -159,7 +158,7 @@ const Nav = () => {
         />
       ),
       onClick: handleNavItemClick,
-      className: "text-xs md:text-sm font-medium"
+      className: "text-xs md:text-sm font-medium",
     },
 
     // Login (only signed out)
@@ -204,9 +203,9 @@ const Nav = () => {
       id="nav"
       className={`nav relative ${navbarFixed && "fixedNav"} ${backdrop.isNavOpen && "activeNav"}`}
     >
-      <Link 
-      href="/"
-      className='flex items-center'
+      <Link
+        href="/"
+        className="flex items-center"
       >
         {/* <div className="logo">LOGO</div> */}
         <Image
@@ -214,32 +213,28 @@ const Nav = () => {
           alt="logo"
           width={1000}
           height={1000}
-          className='w-[50px] h-auto'
+          className="w-[50px] h-auto"
         />
-<div className="flex items-center w-[100px] h-[16px] overflow-hidden -ml-[16px] rounded-xl">
-<>
-  <Image
-    src="/logo/wordmark.png"
-    alt="wordmark"
-    width={1000}
-    height={500}
-    className="w-full h-full object-cover contrast-more saturate-200 dark:hidden"
-  />
+        <div className="flex items-center w-[100px] h-[16px] overflow-hidden -ml-[16px] rounded-xl">
+          <>
+            <Image
+              src="/logo/wordmark.png"
+              alt="wordmark"
+              width={1000}
+              height={500}
+              className="w-full h-full object-cover contrast-more saturate-200 dark:hidden"
+            />
 
-  <Image
-    src="/logo/wordmarkDark.png"
-    alt="wordmark"
-    width={1000}
-    height={500}
-    className="hidden w-full h-full object-cover contrast-more saturate-200 dark:block"
-  />
-</>
-
-
-</div>
-    
+            <Image
+              src="/logo/wordmarkDark.png"
+              alt="wordmark"
+              width={1000}
+              height={500}
+              className="hidden w-full h-full object-cover contrast-more saturate-200 dark:block"
+            />
+          </>
+        </div>
       </Link>
-  
 
       {/* test */}
 
@@ -287,7 +282,12 @@ const Nav = () => {
 
         {/*nav items  */}
         <div className={`nav_items relative  md:pr-3 md:pt-1`}>
-          {backdrop.isNavOpen && <NavToggleOptions toggleFunc={showNav} logOutRef={logOutRef} />}
+          {backdrop.isNavOpen && (
+            <NavToggleOptions
+              toggleFunc={showNav}
+              logOutRef={logOutRef}
+            />
+          )}
           {navItems.map((item, index) => (
             <Link
               key={index}

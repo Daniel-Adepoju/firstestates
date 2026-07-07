@@ -475,8 +475,8 @@ export const useGetChats = ({ senderId, receiverId, limit = 30, enabled = true }
         const params = new URLSearchParams({
           page: pageParam.toString(),
           limit: limit.toString(),
-          senderId,
-          receiverId,
+          senderId: senderId!,
+          receiverId: receiverId!,
         })
 
         const res = await axiosdata.value.get(`/api/chats?${params}`)

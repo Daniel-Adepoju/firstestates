@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
 
   const senderId = searchParams.get("senderId")
   const page = Number(searchParams.get("page") || 1)
-  const limit = Number(searchParams.get("limit") || 10)
+  const limit = Number(searchParams.get("limit") || 15)
 
   if (!senderId) {
     return NextResponse.json({ message: "senderId is required" }, { status: 400 })
@@ -158,7 +158,6 @@ export async function GET(req: NextRequest) {
       },
     ])
 
-    console.log({ conversations })
     const total = await Conversation.countDocuments({
       userIds: senderObjectId,
     })

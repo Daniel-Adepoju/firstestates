@@ -10,6 +10,7 @@ type ConversationRowProps = {
     participant: any
     unreadCount?: any
   }
+  refValue?:any
   currentUserId: string
   handleOpenChat: (otherId: string, conversationId: string) => void
 }
@@ -18,11 +19,13 @@ export default function ConversationRow({
   convo,
   currentUserId,
   handleOpenChat,
+  refValue,
 }: ConversationRowProps) {
   const otherId = convo.userIds.find((id) => id !== currentUserId)
 
   return (
     <div
+    ref={refValue}
       className="relative p-3 bg-black/5 dark:bg-gray-700/40 rounded-xl
       border-1 border-transparent border-t-gray-500/30 cursor-pointer
        hover:bg-gray-400/20 dark:hover:bg-gray-500/20"
@@ -46,13 +49,13 @@ export default function ConversationRow({
         {convo.lastMessage}
       </div>
 
-      {convo.unreadCount !== "0" && (
+      {convo.unreadCount > 0 && (
         <div className="absolute right-5 top-5 flex flex-col items-center">
           <h6 className="text-xs font-medium mb-1 text-amber-500 ">New</h6>
           <div
             className="
        w-6 h-6 flex itemms-center justify-center
-      text-md font-semibold text-white dark:gold-gradient darkblue-gradient rounded-full"
+      text-md font-semibold text-white gold-gradient rounded-full"
           >
             {parseInt(convo.unreadCount) > 9 ? "9+" : convo.unreadCount}
           </div>

@@ -82,7 +82,7 @@ const Fields = () => {
         <div className="flex flex-col items-center w-full gap-4">
           <div className="relative">
             <CldImage
-              src={session.user.profilePic}
+              src={session?.user.profilePic}
               width={1080}
               height={1000}
               crop={"fill"}

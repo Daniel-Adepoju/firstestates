@@ -7,17 +7,16 @@ import { AgentIcon } from "@components/custom-ui/Icons"
 const ContinueGoogle = () => {
   const { session } = useUser()
 
-  // if (!session?.user) {
-  //   return (
-  //     <MoreHorizontal
-  //       color="gray"
-  //       size={40}
-  //       className="mt-50 mx-auto animate-pulse"
-  //     />
-  //   )
-  // }
+  if (!session?.user) {
+    return (
+      <MoreHorizontal
+        size={40}
+        className="mt-50 mx-auto animate-pulse text-gray-500 dark:text-gray-400"
+      />
+    )
+  }
 
-  if (session?.user.isNewUser !== false) {
+  if (session?.user?.isNewUser === false) {
     return (
       <div className="w-[95%] lg:w-[90%] mx-auto mt-25 flex flex-col items-center justify-center min-h-[70vh] dark:bg-darkGray bg-white p-6 shadow rounded-lg">
         <CheckCircle2
@@ -28,10 +27,10 @@ const ContinueGoogle = () => {
           Successfully Signed In
         </h1>
         <Link
-          href={session.user.role === "client" ? "/" : "/agent"}
+          href={session?.user?.role === "client" ? "/" : "/agent"}
           className="text-center w-70 px-3 py-3 bg-darkblue dark:bg-goldPrimary shadow text-gray-100 rounded-xl text-md font-bold hover:opacity-80 duration-300 transition active:scale-[0.98]"
         >
-          {session.user.role === "client" ? "Go to Homepage" : "Go to Dashboard"}
+          {session?.user?.role === "client" ? "Go to Homepage" : "Go to Dashboard"}
         </Link>
       </div>
     )
@@ -41,7 +40,7 @@ const ContinueGoogle = () => {
         <h1 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
           Continue Your Registration
         </h1>
-        <h1 className="text-lg font-bold text-gray-800 dark:text-white mb-4">
+        <h1 className="text-md font-bold text-gray-800 dark:text-white mb-4">
           This is your first time signing up with this email
         </h1>
         <p className="text-lg dark:text-gray-400 text-gray-700 mb-8 text-center max-w-md">

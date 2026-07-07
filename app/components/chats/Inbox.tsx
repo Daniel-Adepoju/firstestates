@@ -2,13 +2,12 @@
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { useUser } from "@utils/user"
-import { getUserConversations } from "@/lib/server/chats"
-import type { Models } from "appwrite"
 import { CldImage } from "next-cloudinary"
-import { MoreHorizontal, FileX } from "lucide-react"
+import { Loader2, FileX } from "lucide-react"
 import ConversationRow from "./ConversationRow"
 import { Skeleton } from "../ui/skeleton"
 import { useGetConversations } from "@lib/customApi"
+import { useNextPage } from "@lib/useIntersection"
 
 type InboxProps = {
   topMargin?: string
@@ -24,6 +23,7 @@ export default function Inbox({ topMargin, height }: InboxProps) {
     useGetConversations({
       userId,
     })
+  const nextPageRef = useNextPage({ isLoading, fetchNextPage, hasNextPage })
 
   const conversations = data?.pages.flatMap((data) => data.conversations) || []
 
@@ -59,11 +59,12 @@ export default function Inbox({ topMargin, height }: InboxProps) {
             "
               />
             ))
-          : conversations.map((convo) => (
+          : conversations.map((convo, index: number) => (
               <ConversationRow
                 key={convo._id}
                 convo={convo}
                 currentUserId={userId}
+                refValue={index === conversations.length - 1 ? nextPageRef : null}
                 handleOpenChat={(otherId: string) => openChat(otherId, userId)}
               />
             ))}
@@ -76,6 +77,9 @@ export default function Inbox({ topMargin, height }: InboxProps) {
             />
             <span className="text-md"> No conversations yet.</span>
           </div>
+        )}
+        {isFetchingNextPage && (
+          <Loader2 className="mt-6 mx-auto text-gray-500 dark:text-gray-400 animate-spin" />
         )}
       </div>
     </div>

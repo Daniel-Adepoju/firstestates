@@ -54,7 +54,7 @@ const Appointment = () => {
 
   useEffect(() => {
     if (session?.user.id && !agentId) {
-      setAgentId(session.user.id)
+      setAgentId(session?.user.id)
     }
   }, [session, agentId])
 

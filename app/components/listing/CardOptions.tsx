@@ -34,7 +34,7 @@ const CardOptions = () => {
 
   const clientCardOptions = [
     // chat agent
-    session?.user && session.user.id !== backdrop.selectedData?.agent._id
+    session?.user && session?.user.id !== backdrop.selectedData?.agent._id
       ? {
           tag: "Link",
           text: "Chat With Agent",

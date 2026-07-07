@@ -16,7 +16,7 @@ const AgentOnboarding = () => {
 
   useEffect(() => {
     if (session?.user.id && !agentId) {
-      setAgentId(session.user.id)
+      setAgentId(session?.user.id)
     }
   }, [session, agentId])
 
@@ -27,7 +27,6 @@ const AgentOnboarding = () => {
 
   return (
     <div className="w-full flex flex-col items-center gap-4">
-      
       {/* return to homepage */}
 
       {/* <Link

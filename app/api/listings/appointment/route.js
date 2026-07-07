@@ -12,7 +12,7 @@ export const GET = async (req) => {
 
   try {
     const session = await auth()
-    const creatorID = session.user.id
+    const creatorID = session?.user.id
     const now = new Date()
     await connectToDB()
 
@@ -36,7 +36,9 @@ export const GET = async (req) => {
     const nextAppointment = nextAppointmentDoc ? nextAppointmentDoc.date : null
 
     // last appointment
-    const lastAppointmentDoc = await Appointment.findOne({ creatorID, date: { $lt: now } }).sort("-date").select("date")
+    const lastAppointmentDoc = await Appointment.findOne({ creatorID, date: { $lt: now } })
+      .sort("-date")
+      .select("date")
 
     const lastAppointment = lastAppointmentDoc?.date ?? null
 
@@ -44,7 +46,7 @@ export const GET = async (req) => {
 
     return NextResponse.json(
       { posts, cursor, numOfPages, numberOfAppointments, nextAppointment, lastAppointment },
-      { status: 200 }
+      { status: 200 },
     )
   } catch (err) {
     console.log(err)

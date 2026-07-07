@@ -1,14 +1,17 @@
 import { useRef, useState } from "react"
 import { Trash2, Reply, Check, CheckCheck, FlagTriangleLeft } from "lucide-react"
 import { ReportModal } from "../Modals"
-import { deleteMessage } from "@lib/server/chats"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { axiosdata } from "@utils/axiosUrl"
 
 interface Msg {
-  $id: string
+  _id: string
   senderId: string
   text: string
   createdAt: string | number | Date
   readBy: string[]
+  replyingTo?: string
+
 }
 
 interface ChatBubbleProps {
@@ -18,20 +21,43 @@ interface ChatBubbleProps {
   receiverId: string | null
   setShowId: (id: string) => void
   id?: string
+  setReply: (content: any) => void
+    reply?:string
 }
 
-const ChatBubble = ({ msg, userId, showId, setShowId, receiverId, id }: ChatBubbleProps) => {
+const ChatBubble = ({
+  msg,
+  userId,
+  showId,
+  setShowId,
+  receiverId,
+  id,
+  setReply,
+  reply,
+}: ChatBubbleProps) => {
+  const queryClient = useQueryClient()
   const [showOptions, setShowOptions] = useState(false)
   const reportRef = useRef<HTMLDialogElement>(null)
 
   const toggleOptions = () => {
-    setShowId(msg.$id)
+    setShowId(msg._id)
     setShowOptions((prev) => !prev)
   }
 
+  // Handle Delete Message
+
+  const deleteMutation = useMutation({
+    mutationFn: async () => {
+      await axiosdata.value.delete(`/api/chats/${msg._id}`)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["chats"] })
+    },
+  })
+
   const handleDelete = async (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation()
-    await deleteMessage(msg.$id)
+    deleteMutation.mutate()
     setShowOptions(false)
   }
   const handleReport = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -45,7 +71,7 @@ const ChatBubble = ({ msg, userId, showId, setShowId, receiverId, id }: ChatBubb
     setShowOptions(false)
   }
 
-  const handleReply = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, content: any) => {
+  const handleReply = (e: any, content: any) => {
     e.stopPropagation()
     setShowOptions(false)
     setReply(content)
@@ -58,10 +84,11 @@ const ChatBubble = ({ msg, userId, showId, setShowId, receiverId, id }: ChatBubb
     `}
     >
       {/* Replying To */}
-      <div className="w-[80%] text-gray-400 dark:text-gray-500 self-end text-sm pt-0.5 pb-1 px-2 rounded-md font-medium bg-gray-400/10">
-        {`replying to i dont know`}
-      </div>
-
+      {msg.replyingTo && (
+        <div className="w-[80%] text-gray-500 dark:text-gray-400 self-end text-sm pt-0.5 pb-1 px-2 rounded-md font-medium bg-gray-400/10">
+          {`replying to ${msg.replyingTo}`}
+        </div>
+      )}
       {/* Main Bubble */}
       <div
         id={id}
@@ -102,12 +129,12 @@ const ChatBubble = ({ msg, userId, showId, setShowId, receiverId, id }: ChatBubb
 
       {/* Chat Options */}
       <div className="m-0 flex items-center justify-start bg-black-gray-500/20  w-full">
-        {showOptions && showId === msg.$id && (
+        {showOptions && showId === msg._id && (
           <div className="flex flex-col items-end">
-            <div className="flex flex-row items-center justify-center">
+            <div className="flex flex-row  gap-1 items-center justify-center">
               <div
-                onClick={() => handleReply(e, msg.text)}
-                className="clickable flex gap-1 items-center bg-black/10 p-1 px-2 rounded cursor-pointer text-sm text-white"
+                onClick={(e) => handleReply(e, msg.text)}
+                className="clickable flex  items-center bg-gray-500/20 p-1 px-2 rounded-md cursor-pointer text-sm text-white"
               >
                 <Reply
                   size={20}
@@ -117,7 +144,7 @@ const ChatBubble = ({ msg, userId, showId, setShowId, receiverId, id }: ChatBubb
               {msg.senderId === userId ? (
                 <div
                   onClick={handleDelete}
-                  className="clickable flex gap-1 items-center bg-black/10 p-1 px-2 rounded cursor-pointer text-sm text-white"
+                  className="clickable flex gap-1 items-center bg-gray-500/20 p-1 px-2 rounded-md cursor-pointer text-sm text-white"
                 >
                   <Trash2
                     size={20}
@@ -127,7 +154,7 @@ const ChatBubble = ({ msg, userId, showId, setShowId, receiverId, id }: ChatBubb
               ) : (
                 <div
                   onClick={handleReport}
-                  className="clickable flex gap-1 items-center bg-black/10 p-1 px-2 rounded cursor-pointer text-sm text-white"
+                  className="clickable flex gap-1 items-center bg-gray-500/20 p-1 px-2 rounded-md cursor-pointer text-sm text-white"
                 >
                   <FlagTriangleLeft
                     size={20}

@@ -56,7 +56,7 @@ export const groupMessagesByDate = (messages) => {
   const groupedMessages = {};
  
   messages.forEach((msg) => {
-    const date = dayjs(msg.createdAt)
+    const date = dayjs(msg?.createdAt || Date.now())
       let label
     if (date.isToday()) {
       label = 'Today'

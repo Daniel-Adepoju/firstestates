@@ -23,7 +23,7 @@ export const GET = async (req, { params }) => {
     // check if user is an inhabitant
     if (session?.user?.id) {
       isUserResident = await Inhabitant.exists({
-        user: session.user.id,
+        user: session?.user.id,
         listing: listingId,
       })
     }
@@ -31,7 +31,7 @@ export const GET = async (req, { params }) => {
     // check if user has made a request
     if (session?.user?.id) {
       hasUserMadeRequest = await Request.exists({
-        requester: session.user.id,
+        requester: session?.user.id,
         listing: listingId,
       })
     }

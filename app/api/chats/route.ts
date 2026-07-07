@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
   try {
     await connectToDB()
 
-    const { text, senderId, receiverId, attachments = [] } = await req.json()
+    const { text, senderId, receiverId, replyingTo, attachments = [] } = await req.json()
 
     let conversation = await Conversation.findOne({
       userIds: {
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
       senderId,
       receiverId,
       text,
-      replyingTo: null,
+      replyingTo,
       attachments,
       readBy: [senderId],
     })
@@ -115,15 +115,43 @@ export async function GET(req: NextRequest) {
     const totalPages = Math.ceil(total / limit)
 
     const messages = await Chat.find(filter)
-      .sort({ createdAt: -1 })
+      .sort({ createdAt: 1 })
       .skip(skipNum)
       .limit(limit)
       .lean()
 
+const firstUnread = await Chat.findOne({
+  conversationId: conversation._id,
+  receiverId: senderId,
+  senderId: {
+    $ne: senderId,
+  },
+  readBy: {
+    $ne: senderId,
+  },
+})
+.sort({ createdAt: 1 }) // oldest unread
+.select("_id")
+.lean()
+
+const firstUnreadId = (firstUnread as any)?._id ?? null
+
+const unreadCount = await Chat.countDocuments({
+  conversationId: conversation._id,
+  receiverId: senderId,
+  senderId: {
+    $ne: senderId,
+  },
+  readBy: {
+    $ne: senderId,
+  },
+})
     return NextResponse.json(
       {
         conversationId: conversation?._id,
-        messages: messages.reverse(),
+        messages,
+        firstUnreadId,
+        unreadCount,
         total,
         numOfPages: totalPages,
         cursor: Math.min(page, Math.max(totalPages, 1)),

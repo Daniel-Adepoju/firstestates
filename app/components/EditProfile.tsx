@@ -85,7 +85,7 @@ const EditProfile = () => {
           <div className="flex flex-col items-center w-full gap-4">
             <div className="relative">
               <CldImage
-                src={session.user.profilePic}
+                src={session?.user.profilePic}
                 width={1080}
                 height={1000}
                 crop={"fill"}
@@ -148,7 +148,7 @@ const EditProfile = () => {
             </div>
 
             {/* School Select */}
-            {session?.user.role === "client" && session?.user.school && (
+            {session?.user?.role === "client" && session?.user.school && (
               <div className="form_item">
                 <label
                   className="text-sm font-semibold"
@@ -177,7 +177,7 @@ const EditProfile = () => {
 
             {/* Unique To Agents */}
             {/* Phone */}
-            {session?.user.role === "agent" && (
+            {session?.user?.role === "agent" && (
               <>
                 <div className="form_item">
                   <label

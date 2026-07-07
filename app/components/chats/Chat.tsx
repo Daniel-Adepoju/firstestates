@@ -32,16 +32,15 @@ export default function Chat() {
   const topSentinelRef = useRef<HTMLDivElement>(null)
 
   // solving unread states
-  const unreadObserver = useRef<IntersectionObserver | null>(null)
-  const messagesEndRef = useRef<HTMLDivElement | null>(null)
 
-  const unreadCountRef = useRef<number | null>(null)
-  const lastReadMessageId = ""
-  const lastReadRef = useRef<HTMLDivElement | null>(null)
+  const unreadBannerRef = useRef<HTMLDivElement | null>(null)
+  const didInitialScroll = useRef(false)
+
   const containerRef = useRef<HTMLDivElement | null>(null)
 
   // scroll on send
-  const newMessageRef = useRef<Models.Document | null>(null)
+  const messagesEndRef = useRef<HTMLDivElement | null>(null)
+  const shouldScrollToBottomRef = useRef(false)
 
   const { data, isLoading, isFetchingNextPage, hasNextPage } = useGetChats({
     receiverId: receiverId!,
@@ -59,24 +58,78 @@ export default function Chat() {
     mutationFn: async (data: any) => {
       await axiosdata.value.post("api/chats", data)
     },
-    onSuccess: () => {
+    onSuccess: (message) => {
       // setSending(false)
-      queryClient.invalidateQueries({ queryKey: ["chat"] })
+      // queryClient.setQueryData(
+      //   ["chats", userId, receiverId],
+      //   (old: any) => {
+      //     if (!old) return old
+
+      //     return {
+      //       ...old,
+      //       pages: old.pages.map((page: any, index: number) => {
+      //         // newest page is the last page because you're reversing before returning
+      //         if (index !== old.pages.length - 1) return page
+
+      //         return {
+      //           ...page,
+      //           messages: [...page.messages, message],
+      //           total: page.total + 1,
+      //         }
+      //       }),
+      //     }
+      //   },
+      // )
+
+      messagesEndRef.current?.scrollIntoView({
+        behavior: "smooth",
+      })
+      queryClient.invalidateQueries({ queryKey: ["chats"] })
     },
   })
 
   const handleSendMessage = async () => {
     if (!text.trim() || !userId) return
-    console.log("click btn")
+    shouldScrollToBottomRef.current = true
     sendMessageMutation.mutate({
       conversationId: conversationId!,
       text,
       senderId: userId,
       receiverId: receiverId,
-      reply: reply.trim().length > 0 ? reply : null,
+      replyingTo: reply.trim().length > 0 ? reply : null,
     })
     setText("")
+    setReply("")
   }
+ console.log(data)
+  // scrolling effects
+
+  useEffect(() => {
+    if (didInitialScroll.current) return
+
+    if (!messages.length) return
+
+    if (data?.pages[0]?.firstUnreadId) {
+      unreadBannerRef.current?.scrollIntoView({
+        block: "center",
+      })
+    } else {
+      messagesEndRef.current?.scrollIntoView()
+    }
+
+    didInitialScroll.current = true
+  }, [messages.length])
+
+  useEffect(() => {
+    if (!shouldScrollToBottomRef.current) return
+
+    messagesEndRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+    })
+
+    shouldScrollToBottomRef.current = false
+  }, [messages.length])
 
   // console.log({ groupedMessages, messages })
   // renders
@@ -105,7 +158,7 @@ export default function Chat() {
 
   if (userId === receiverId) {
     return (
-      <div className="text-xl font-bold text-center mt-40 text-gray-600 dark:text-white">
+      <div className="text-xl font-bold text-center mt-40 text-red-500">
         You can't chat with yourself
       </div>
     )
@@ -120,33 +173,29 @@ export default function Chat() {
       <div className=" flex-1 flex flex-col w-full border rounded-xl p-4 mx-auto bg-white dark:bg-black/20 nobar null">
         <div
           ref={containerRef}
-          className="nobar null w-[98%] flex-1 flex flex-col overflow-y-auto space-y-2 mb-4"
+          className="nobar null w-[99%] flex-1 flex flex-col overflow-y-auto space-y-2 mb-2"
         >
-          {/* {messages.length > 0 && !loading && !unreadLoading && Number(unreadCount) > 0 && ( */}
-          <div ref={topSentinelRef} />
-          {/* )} */}
           <MessageList
             groupedMessages={groupedMessages}
             messagesEndRef={messagesEndRef}
             topSentinelRef={topSentinelRef}
             containerRef={containerRef}
             loadingMore={isFetchingNextPage}
-            lastReadMessageId={lastReadMessageId}
-            lastReadRef={lastReadRef}
-            // firstUnreadId={firstUnreadId}
-            unreadCountRef={unreadCountRef}
-            // unreadCount={unreadCount}
+            unreadBannerRef={unreadBannerRef}
             userId={userId}
             showId={showId}
             setShowId={setShowId}
             receiverId={receiverId}
+            reply={reply}
+            setReply={setReply}
+            firstUnreadId={data?.pages[0]?.firstUnreadId}
+            unreadCount={data?.pages[0]?.unreadCount}
           />
           <div
             className="h-1"
             ref={messagesEndRef}
           />
         </div>
-        <Guidelines />
 
         <ChatInput
           text={text}
