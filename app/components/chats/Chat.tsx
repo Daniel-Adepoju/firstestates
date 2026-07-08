@@ -1,5 +1,5 @@
 "use client"
-import { useState, useRef, useEffect, useCallback } from "react"
+import { useState, useRef, useEffect, useCallback, useLayoutEffect } from "react"
 import { User2 } from "lucide-react"
 import { useUser } from "@utils/user"
 import { useSearchParams } from "next/navigation"
@@ -12,9 +12,9 @@ import Link from "next/link"
 import { useGetChats } from "@lib/customApi"
 import { axiosdata } from "@utils/axiosUrl"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { useAbly } from "ably/react"
 import { client as ably } from "@lib/AblyProvider"
 import { useReadChat } from "@lib/customApi"
+import { useNextPage } from "@lib/useIntersection"
 
 export default function Chat() {
   // const ably = useAbly()
@@ -27,35 +27,34 @@ export default function Chat() {
   const conversationId = useSearchParams().get("conversationId")
   const receiverId = useSearchParams().get("receiverId")
 
-  // loading states
   const [text, setText] = useState("")
   const [reply, setReply] = useState<any>("")
   const [showId, setShowId] = useState("")
 
   // fetching more states
+  const containerRef = useRef<HTMLDivElement>(null)
   const topSentinelRef = useRef<HTMLDivElement>(null)
-
+  const messagesEndRef = useRef<HTMLDivElement>(null)
+  const shouldScrollToBottomRef = useRef(false)
+  const didInitialScroll = useRef(false)
+  const anchorRef = useRef<any>(null) // Prevent multiple triggers
+  const isInitialLoad = useRef(true)
   // solving unread states
 
   const unreadBannerRef = useRef<HTMLDivElement | null>(null)
-  const didInitialScroll = useRef(false)
 
-  const containerRef = useRef<HTMLDivElement | null>(null)
-
-  // scroll on send
-  const messagesEndRef = useRef<HTMLDivElement | null>(null)
-  const shouldScrollToBottomRef = useRef(false)
-
-  const { data, isLoading, isFetchingNextPage, hasNextPage } = useGetChats({
+  const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage } = useGetChats({
     receiverId: receiverId!,
     senderId: userId!,
   })
+  const getNextPageRef = useNextPage(
+    { isLoading, isFetchingNextPage, hasNextPage, fetchNextPage },
+    true,
+  )
 
   // Message mapping
-  const messages =
-    data?.pages.flatMap((page) => page.messages) || []
+  const messages = data?.pages.flatMap((page) => page.messages) || []
   const groupedMessages = groupMessagesByDate(messages)
-  // console.log({ data })
 
   //  Realtime Subcriptions
   useEffect(() => {
@@ -90,29 +89,6 @@ export default function Chat() {
       await axiosdata.value.post("api/chats", data)
     },
     onSuccess: (message) => {
-      // setSending(false)
-      // queryClient.setQueryData(
-      //   ["chats", userId, receiverId],
-      //   (old: any) => {
-      //     if (!old) return old
-
-      //     return {
-      //       ...old,
-      //       pages: old.pages.map((page: any, index: number) => {
-      //         // newest page is the last page because you're reversing before returning
-      //         if (index !== old.pages.length - 1) return page
-
-      //         return {
-      //           ...page,
-      //           messages: [...page.messages, message],
-      //           total: page.total + 1,
-      //         }
-      //       }),
-      //     }
-      //   },
-      // )
-
- 
       queryClient.invalidateQueries({ queryKey: ["chats", userId, receiverId] })
     },
   })
@@ -133,55 +109,34 @@ export default function Chat() {
 
   // scrolling effects
 
-  // useEffect(() => {
-  //   if (didInitialScroll.current) return
-  
-  //   if (!messages.length) return
-
-  //   if (data?.pages[0]?.firstUnreadId) {
-  //     unreadBannerRef.current?.scrollIntoView({
-  //       block: "center",
-  //     })
-  //   } else {
-  //     messagesEndRef.current?.scrollIntoView()
-  //   }
-
-  //   didInitialScroll.current = true
-  // }, [data])
-
-useEffect(() => {
+  useEffect(() => {
     if (didInitialScroll.current) return
     if (!messages.length) return
+    // if (hasFetchedNewRef.current) return
 
     requestAnimationFrame(() => {
+      if (data?.pages[0]?.firstUnreadId) {
+        unreadBannerRef.current?.scrollIntoView({
+          block: "center",
+        })
+      } else {
+        messagesEndRef.current?.scrollIntoView({
+          block: "end",
+        })
+      }
 
-        // if (data?.pages[0]?.firstUnreadId) {
-
-        //     unreadBannerRef.current?.scrollIntoView({
-        //         block:"center"
-        //     })
-
-        // } else {
-
-            messagesEndRef.current?.scrollIntoView({
-                block:"end"
-            })
-
-        // }
-
-        didInitialScroll.current = true
-
-          mutateRead.mutate({
-        conversationId:data?.pages[0]?.conversationId,
+      didInitialScroll.current = true
+      isInitialLoad.current = false
+      mutateRead.mutate({
+        conversationId: data?.pages[0]?.conversationId,
         userId,
+      })
     })
-
-    })
-
-}, [data])
+  }, [data])
 
   useEffect(() => {
     if (!shouldScrollToBottomRef.current) return
+    // if (hasFetchedNewRef.current) return
     messagesEndRef.current?.scrollIntoView({
       behavior: "smooth",
       block: "end",
@@ -190,18 +145,17 @@ useEffect(() => {
     shouldScrollToBottomRef.current = false
   }, [data])
 
+  // Restore scroll position when new older messages are added
+  useEffect(() => {
+    const container = containerRef.current
+    if (isInitialLoad.current) return
 
-  // Read Messages
-//   useEffect(() => {
-//     if (!conversationId) return
-//     if (!userId) return
-//     if (!messages.length) return
+    if (!container) return
+    // if (!anchorRef) return
+    // getNextPageRef?.scrollIntoView()
+  }, [messages.length])
 
- 
-
-// }, [data])
-
-  // renders
+  // Renders
   if (isLoading || status === "loading") return <ChatLoading />
 
   if (!userId || !session) {
@@ -259,6 +213,8 @@ useEffect(() => {
             setReply={setReply}
             firstUnreadId={data?.pages[0]?.firstUnreadId}
             unreadCount={data?.pages[0]?.unreadCount}
+            getNextPageRef={getNextPageRef}
+            anchorRef={anchorRef}
           />
           <div
             className="h-1"

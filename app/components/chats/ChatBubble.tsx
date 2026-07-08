@@ -22,6 +22,7 @@ interface ChatBubbleProps {
   id?: string
   setReply: (content: any) => void
   reply?: string
+  nextPageRef?:any
 }
 
 const ChatBubble = ({
@@ -33,6 +34,7 @@ const ChatBubble = ({
   id,
   setReply,
   reply,
+  nextPageRef,
 }: ChatBubbleProps) => {
   const queryClient = useQueryClient()
   const [showOptions, setShowOptions] = useState(false)
@@ -78,6 +80,7 @@ const ChatBubble = ({
   }
   return (
     <div
+    ref={nextPageRef}
       className={`flex flex-col gap-1 w-56 md:w-100  max-w-xs
     
          ${msg.senderId === userId ? "self-end" : " self-start"}

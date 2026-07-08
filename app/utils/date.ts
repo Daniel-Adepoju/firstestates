@@ -91,5 +91,5 @@ export const groupMessagesByDate = (messages: any[]) => {
     groups[groups.length - 1].messages.push(message)
   }
 
-  return groups
+  return groups.reverse()
 }

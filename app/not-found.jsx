@@ -5,7 +5,7 @@ const page = () => {
   return (
   
    <div className="flex flex-col items-center justify-center gap-4 font-head w-[98%] mx-auto mt-30">
-     <h1 className='text-red-500 font-bold'>404 Not Found</h1>
+     <h1 className='text-red-600 font-bold'>404 Not Found</h1>
       <Image
       width={100}
       height={100}

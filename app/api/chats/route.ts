@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
     )
 
     console.log("Created message:", message)
-    
+
  const ids = [senderId, receiverId].sort().join("_")
 
     // Notify everyone viewing this chat
@@ -71,8 +71,8 @@ export async function GET(req: NextRequest) {
     const receiverId = searchParams.get("receiverId")
 
     const page = Number(searchParams.get("page") || 1)
-    const limit = Number(searchParams.get("limit") || 20)
-
+    const limit =  8
+// Number(searchParams.get("limit") || 20)
     if (!senderId || !receiverId) {
       return NextResponse.json(
         {

@@ -3,7 +3,7 @@ import { MessageSquare } from "lucide-react"
 
 export default function ChatLoading() {
   return (
-    <div className="w-full flex flex-col items-center justify-center h-[70vh]">
+    <div className="w-full flex flex-col items-center my-30  justify-center h-[50vh]">
       <div className="relative flex items-center justify-center mb-4">
         <div
           className="w-12 h-12 gold-gradient rounded-xl flex items-center justify-center shadow-lg dark:shadow-black
@@ -23,7 +23,7 @@ export default function ChatLoading() {
       </div>
 
       <div className="flex items-center justify-center gap-1.5 mx-auto w-80 font-head  leading-8 font-semibold text-gray-500 dark:text-gray-300 mt-3 text-md md:text-md">
-        <span>Loading</span> <span className='animate-pulse'>...</span>
+        {/* <span>Loading</span> <span className='animate-pulse'>...</span> */}
       </div>
     </div>
   )

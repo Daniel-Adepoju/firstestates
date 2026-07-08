@@ -2,6 +2,7 @@ import ChatBubble from "./ChatBubble"
 import { Loader2, ArrowDown, FileX2 } from "lucide-react"
 
 export default function MessageList({
+  topSentinelRef,
   groupedMessages,
   messagesEndRef,
   loadingMore,
@@ -14,13 +15,15 @@ export default function MessageList({
   unreadBannerRef,
   firstUnreadId,
   unreadCount,
+  getNextPageRef,
+  anchorRef,
 }: any) {
+
+   console.log(groupedMessages.length)
   return (
-    // <div
-    //   ref={containerRef}
-    //   className="nobar null w-[98%] flex-1 flex flex-col overflow-y-auto space-y-2 mb-4"
-    // >
+
     <>
+    <div ref={topSentinelRef} className='h-4'/>
       {loadingMore && (
         <div className="text-center pt-2 py-4">
           <Loader2
@@ -41,7 +44,7 @@ export default function MessageList({
             {group.messages
               .slice()
               .reverse()
-              .map((msg: any) => (
+              .map((msg: any,index:number) => (
                 <div
                   key={msg?._id}
                   className={`w-full flex flex-col flex-1 flex-wrap items-center
@@ -74,6 +77,7 @@ export default function MessageList({
                     receiverId={receiverId}
                     reply={reply}
                     setReply={setReply}
+                    nextPageRef={index === groupedMessages.length - 1 ? getNextPageRef : null}
                   />
                 </div>
               ))}
