@@ -129,7 +129,9 @@ export default function Chat() {
       }
 
       didInitialScroll.current = true
-      isInitialLoad.current = false
+      setTimeout(() => {
+        isInitialLoad.current = false
+    },1000)
       mutateRead.mutate({
         conversationId: data?.pages[0]?.conversationId,
         userId,
@@ -153,6 +155,9 @@ export default function Chat() {
     if (isInitialLoad.current) return
    if(isFetchingNextPage) return
    if(!didInitialScroll.current) return
+   if(isLoading) return
+   if(isFetchingNextPage) return
+   if (messages.length === 1) return
 
     const container = containerRef.current
     const anchor = anchorRef.current
@@ -164,7 +169,7 @@ export default function Chat() {
     container.scrollTop += newTop - 300
 
     anchorRef.current = null
-  }, [messages.length])
+  }, [isFetchingNextPage])
 
   // Renders
   if (isLoading || status === "loading") return <ChatLoading />
@@ -224,7 +229,7 @@ export default function Chat() {
             setReply={setReply}
             firstUnreadId={data?.pages[0]?.firstUnreadId}
             unreadCount={data?.pages[0]?.unreadCount}
-            getNextPageRef={getNextPageRef}
+            getNextPageRef={isInitialLoad.current ? null : getNextPageRef}
             anchorRef={anchorRef}
           />
           <div
