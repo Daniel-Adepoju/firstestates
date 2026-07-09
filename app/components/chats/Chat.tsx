@@ -21,6 +21,8 @@ export default function Chat() {
   const mutateRead = useReadChat()
   const queryClient = useQueryClient()
 
+  const listingId = useSearchParams().get("listingId")
+   const [showListing, setShowListing] = useState(true)
   // users
   const { session, status } = useUser()
   const userId = session?.user.id
@@ -105,9 +107,11 @@ export default function Chat() {
       senderId: userId,
       receiverId: receiverId,
       replyingTo: reply.trim().length > 0 ? reply : null,
+      listingId: listingId,
     })
     setText("")
     setReply("")
+    setShowListing(false)
   }
 
   // scrolling effects
@@ -245,6 +249,9 @@ export default function Chat() {
           sending={sendMessageMutation.isPending}
           reply={reply}
           setReply={setReply}
+          listingId={listingId}
+          showListing={showListing}
+          setShowListing={setShowListing}
         />
       </div>
     </div>

@@ -98,7 +98,7 @@ const WishListCard = ({ listing, wishlistId, refValue }: WishListProps) => {
               className="rounded-full"
             />
             <Link
-              href={`/chat?receiverId=${listing.agent._id}`}
+              href={`/chat?receiverId=${listing.agent._id}?listingId=${listing._id}`}
               className="font-bold text-xs md:text-sm quickLink underline "
             >
               Chat With Agent{" "}

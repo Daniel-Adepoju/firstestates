@@ -4,11 +4,15 @@ import Chat from "@models/chat"
 import Conversation from "@models/conversation"
 import { ably } from "@/lib/server/ably"
 
+import { sendEmail } from "@/lib/server/sendEmail"
+import User from "@models/user"
+import Listing from "@models/listing"
+
 export async function POST(req: NextRequest) {
   try {
     await connectToDB()
 
-    const { text, senderId, receiverId, replyingTo, attachments = [] } = await req.json()
+    const { text, senderId, receiverId, replyingTo, listingId, attachments = [] } = await req.json()
 
     let conversation = await Conversation.findOne({
       userIds: {
@@ -21,6 +25,31 @@ export async function POST(req: NextRequest) {
         userIds: [senderId, receiverId],
       })
     }
+
+    if (listingId) {
+      try {
+        // const [recipient, listing] = await Promise.all([
+        //   User.findById(receiverId).lean(),
+        //   Listing.findById(listingId).lean(),
+        // ])
+
+        const recipient: any = await User.findById(receiverId).lean()
+        const listing: any = await Listing.findById(listingId).lean()
+
+        if (recipient && recipient.email && listing) {
+          const subject = "Inquiry about a listing"
+          const message = `A client has chatted you regarding a listing at ${listing.location} ___ ${listing.address}. Check your inbox and respond to them.`
+
+          // sendEmail is non-blocking for the request flow; log any errors
+          sendEmail({ to: recipient.email, subject, message }).catch((err: any) => {
+            console.error("Failed to send listing inquiry email:", err)
+          })
+        }
+      } catch (err) {
+        console.error("Error while preparing/sending listing email:", err)
+      }
+    }
+
     const message = await Chat.create({
       conversationId: conversation._id,
       senderId,
@@ -29,6 +58,7 @@ export async function POST(req: NextRequest) {
       replyingTo,
       attachments,
       readBy: [senderId],
+      listingId,
     })
 
     await Conversation.findByIdAndUpdate(
@@ -42,7 +72,7 @@ export async function POST(req: NextRequest) {
 
     console.log("Created message:", message)
 
- const ids = [senderId, receiverId].sort().join("_")
+    const ids = [senderId, receiverId].sort().join("_")
 
     // Notify everyone viewing this chat
     await ably.channels.get(`chat:${ids}`).publish("message:create", message)
@@ -71,8 +101,8 @@ export async function GET(req: NextRequest) {
     const receiverId = searchParams.get("receiverId")
 
     const page = Number(searchParams.get("page") || 1)
-    const limit =  12
-// Number(searchParams.get("limit") || 20)
+    const limit = 112
+    // Number(searchParams.get("limit") || 20)
     if (!senderId || !receiverId) {
       return NextResponse.json(
         {
@@ -121,33 +151,34 @@ export async function GET(req: NextRequest) {
       .skip(skipNum)
       .limit(limit)
       .lean()
+      .populate("listingId")
 
-const firstUnread = await Chat.findOne({
-  conversationId: conversation._id,
-  receiverId: senderId,
-  senderId: {
-    $ne: senderId,
-  },
-  readBy: {
-    $ne: senderId,
-  },
-})
-.sort({ createdAt: 1 }) // oldest unread
-.select("_id")
-.lean()
+    const firstUnread = await Chat.findOne({
+      conversationId: conversation._id,
+      receiverId: senderId,
+      senderId: {
+        $ne: senderId,
+      },
+      readBy: {
+        $ne: senderId,
+      },
+    })
+      .sort({ createdAt: 1 }) // oldest unread
+      .select("_id")
+      .lean()
 
-const firstUnreadId = (firstUnread as any)?._id ?? null
+    const firstUnreadId = (firstUnread as any)?._id ?? null
 
-const unreadCount = await Chat.countDocuments({
-  conversationId: conversation._id,
-  receiverId: senderId,
-  senderId: {
-    $ne: senderId,
-  },
-  readBy: {
-    $ne: senderId,
-  },
-})
+    const unreadCount = await Chat.countDocuments({
+      conversationId: conversation._id,
+      receiverId: senderId,
+      senderId: {
+        $ne: senderId,
+      },
+      readBy: {
+        $ne: senderId,
+      },
+    })
     return NextResponse.json(
       {
         conversationId: conversation?._id,

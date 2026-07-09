@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { MapPin, Phone, MessageCircle } from "lucide-react"
 
-const AgentDetails = ({ agent, session, onPhone, onChat }: any) => {
+const AgentDetails = ({ agent, session, onPhone, onChat,listingId }: any) => {
   return (
     <div className="agent_details w-full">
       <div className="txt heading">Agent&apos;s Details</div>
@@ -45,7 +45,7 @@ const AgentDetails = ({ agent, session, onPhone, onChat }: any) => {
           </div>
           {session ? (
             <Link
-              href={`/chat?receiverId=${agent?._id}`}
+              href={`/chat?receiverId=${agent?._id}&listingId=${listingId}`}
               className="cursor-pointer"
             >
               Chat With Agent

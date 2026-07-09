@@ -54,7 +54,7 @@ const PopularCard = ({ listing, type, refValue,isAnimation=false,wAndH }: PopCar
           <CldImage
             fill={true}
             alt="post_img"
-            src={listing.mainImage}
+            src={listing?.mainImage || ""}
             crop={{
               type: "auto",
               source: true,

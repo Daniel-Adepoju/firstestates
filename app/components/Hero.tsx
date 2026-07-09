@@ -81,9 +81,9 @@ const HeroSection = () => {
                   <span className="w-full blue-gradient-text">Student Home</span>
                 </div>
 
-                <p className="dark:text-white text-lg md:text-xl text-gray-100 max-w-lg mx-auto lg:mx-0">
+                <p className="font-medium dark:text-white text-md md:text-lg text-gray-100 max-w-lg mx-auto lg:mx-0">
                   Affordable, safe, and verified apartments near your campus.
-                  <span className="block mt-2 font-medium">No hidden fees. No stress.</span>
+                  <span className="block mt-2 font-semibold">No hidden fees. No stress.</span>
                 </p>
 
                 <div className="text-gray-100 flex flex-wrap justify-center lg:justify-start items-center gap-4 pt-6">

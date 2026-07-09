@@ -1,6 +1,6 @@
 import { Schema, model, models } from "mongoose"
 import Conversation from "./conversation"
-
+import Listing from './listing'
 const attachmentSchema = new Schema(
   {
     url: String,
@@ -47,7 +47,10 @@ const chatSchema = new Schema(
       type: String,
       default: null,
     },
-
+listingId: {
+   type: Schema.Types.ObjectId,
+   ref:Listing.modelName,
+},
     readBy: [
       {
         type: Schema.Types.ObjectId,

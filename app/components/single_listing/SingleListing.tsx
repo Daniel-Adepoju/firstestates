@@ -121,6 +121,7 @@ const SingleListing = ({ listingId, isAgent }: { listingId: string; isAgent?: bo
             ) : (
               session?.user?.id !== listing?.agent?._id && (
                 <AgentDetails
+                listingId={listingId}
                   agent={listing?.agent}
                   session={session}
                   onPhone={() => window.open(`tel:${listing?.agent?.phone}`)}

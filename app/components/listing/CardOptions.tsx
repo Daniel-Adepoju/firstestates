@@ -41,7 +41,7 @@ const CardOptions = () => {
           link: backdrop.selectedData
             ? `${process.env.NEXT_PUBLIC_BASE_URL!}/chat?receiverId=${
                 backdrop.selectedData?.agent._id
-              }`
+              }&listingId=${backdrop.selectedData?._id}`
             : "",
           className: "",
           icon: <MessageCircle className="w-4 h-4 inline mb-1 mr-2" />,

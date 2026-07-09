@@ -3,6 +3,7 @@ import { Trash2, Reply, Check, CheckCheck, FlagTriangleLeft } from "lucide-react
 import { ReportModal } from "../Modals"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { axiosdata } from "@utils/axiosUrl"
+import PopularCard from "@components/listing/PopularCard"
 
 interface Msg {
   _id: string
@@ -11,6 +12,7 @@ interface Msg {
   createdAt: string | number | Date
   readBy: string[]
   replyingTo?: string
+ listingId?:any
 }
 
 interface ChatBubbleProps {
@@ -39,7 +41,7 @@ const ChatBubble = ({
   const queryClient = useQueryClient()
   const [showOptions, setShowOptions] = useState(false)
   const reportRef = useRef<HTMLDialogElement>(null)
-
+ 
   const toggleOptions = () => {
     setShowId(msg._id)
     setShowOptions((prev) => !prev)
@@ -78,9 +80,12 @@ const ChatBubble = ({
     setShowOptions(false)
     setReply(content)
   }
+
+ 
+
   return (
     <div
-    ref={nextPageRef}
+    // ref={nextPageRef}
       className={`flex flex-col gap-1 w-56 md:w-100  max-w-xs
     
          ${msg.senderId === userId ? "self-end" : " self-start"}
@@ -92,6 +97,16 @@ const ChatBubble = ({
           {`replying to: ${msg.replyingTo}`}
         </div>
       )}
+
+      {/* Listing Display */}
+      {msg.listingId && (
+      <div className={`${msg.senderId === userId ? "self-end" : " self-start"}`}>
+        <PopularCard 
+      listing={msg.listingId}
+      />
+      </div>
+      )}
+
       {/* Main Bubble */}
       <div
         id={id}
