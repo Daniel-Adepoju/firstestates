@@ -24,7 +24,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 //   )
 // }
 
-export const useNextPage = (queryName: any, isForChat = false) => {
+export const useNextPage = (queryName: any,anchorRef:any, isForChat = false) => {
   const observer = useRef<IntersectionObserver | null>(null)
   const cooldown = useRef(false)
 
@@ -40,8 +40,15 @@ export const useNextPage = (queryName: any, isForChat = false) => {
         if (!queryName.hasNextPage) return
         if (queryName.isFetchingNextPage) return
 
+        //  Chat Anchor
+        anchorRef.current = {
+          element: entry.target,
+          top: entry.target.getBoundingClientRect().top,
+        }
         // Chat cooldown
-  if (isForChat && cooldown.current) return
+        if (isForChat && cooldown.current) return
+
+        await queryName.fetchNextPage()
         if (isForChat) {
           cooldown.current = true
 
@@ -49,11 +56,6 @@ export const useNextPage = (queryName: any, isForChat = false) => {
             cooldown.current = false
           }, 2000)
         }
-
-      
-
-        await queryName.fetchNextPage()
-
         console.log(entry.target)
       })
 

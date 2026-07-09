@@ -71,7 +71,7 @@ export async function GET(req: NextRequest) {
     const receiverId = searchParams.get("receiverId")
 
     const page = Number(searchParams.get("page") || 1)
-    const limit =  8
+    const limit =  12
 // Number(searchParams.get("limit") || 20)
     if (!senderId || !receiverId) {
       return NextResponse.json(

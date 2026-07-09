@@ -37,7 +37,8 @@ export default function Chat() {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const shouldScrollToBottomRef = useRef(false)
   const didInitialScroll = useRef(false)
-  const anchorRef = useRef<any>(null) // Prevent multiple triggers
+  const anchorRef = useRef<any>(null)
+
   const isInitialLoad = useRef(true)
   // solving unread states
 
@@ -47,8 +48,10 @@ export default function Chat() {
     receiverId: receiverId!,
     senderId: userId!,
   })
+
   const getNextPageRef = useNextPage(
     { isLoading, isFetchingNextPage, hasNextPage, fetchNextPage },
+    anchorRef,
     true,
   )
 
@@ -146,13 +149,21 @@ export default function Chat() {
   }, [data])
 
   // Restore scroll position when new older messages are added
-  useEffect(() => {
-    const container = containerRef.current
+  useLayoutEffect(() => {
     if (isInitialLoad.current) return
+   if(isFetchingNextPage) return
+   if(!didInitialScroll.current) return
 
-    if (!container) return
-    // if (!anchorRef) return
-    // getNextPageRef?.scrollIntoView()
+    const container = containerRef.current
+    const anchor = anchorRef.current
+
+    if (!container || !anchor) return
+
+    const newTop = anchor.element.getBoundingClientRect().top
+
+    container.scrollTop += newTop - 300
+
+    anchorRef.current = null
   }, [messages.length])
 
   // Renders
@@ -188,7 +199,7 @@ export default function Chat() {
   }
 
   return (
-    <div className="flex gap-1 w-full h-screen  xl:h-screen overflow-hidden">
+    <div className="flex gap-1 w-full h-screen  xl:h-screen overflow-hidden scroll-auto">
       <div className="hidden md:block flex-1 w-[30%]">
         <Inbox topMargin="0" />
       </div>
@@ -196,7 +207,7 @@ export default function Chat() {
       <div className=" flex-1 flex flex-col w-full border rounded-xl p-4 mx-auto bg-white dark:bg-black/20 nobar null">
         <div
           ref={containerRef}
-          className="nobar null w-[99%] flex-1 flex flex-col overflow-y-auto space-y-2 mb-2"
+          className="nobar null w-[99%] h-[400px] flex-1 flex flex-col overflow-y-auto space-y-2 mb-2"
         >
           <MessageList
             groupedMessages={groupedMessages}
