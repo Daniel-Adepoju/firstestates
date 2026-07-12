@@ -36,7 +36,7 @@ const Nav = () => {
   const { backdrop, setBackdrop } = useBackdrop()
   const { darkMode, toggleDarkMode } = useDarkMode()
   const logOutRef = useRef<any>(null)
-  const { unreadCount } = useGetUnreadCount()
+  const { unreadCount, data } = useGetUnreadCount()
 
   const handleNavItemClick = () => {
     setBackdrop({ isNavOpen: false })
@@ -112,7 +112,7 @@ const Nav = () => {
           className="text-gray-700 dark:text-white"
         />
       ),
-      badge: unreadCount,
+      // badge: unreadCount,
       onClick: handleNavItemClick,
       className: "relative text-xs md:text-sm font-medium",
     },
@@ -169,6 +169,7 @@ const Nav = () => {
     return null
   }
 
+  console.log({ unreadCount, data })
   return (
     <header
       id="nav"
@@ -271,10 +272,12 @@ const Nav = () => {
               {/* text */}
               <div className={` link_line ${item.className || ""}`}>{item.text}</div>
               {/* Optional unread badge */}
-              {item.text === "Chats" && unreadCount && parseInt(unreadCount) > 0 && (
+              {item.text === "Chats" && unreadCount && parseInt(unreadCount) > 0 ? (
                 <div className="flex items-center justify-center absolute w-2 h-2 top-[-2.5%] md:left-0 md:right-[202%] left-[-2.5%] darkblue-gradient  dark:gold-gradient text-white rounded-full text-xs font-bold">
-                  {/* {unreadCount} */} 
+                  {/* {unreadCount} */}
                 </div>
+              ) : (
+                ""
               )}
             </Link>
           ))}

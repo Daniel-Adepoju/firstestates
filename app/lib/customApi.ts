@@ -541,7 +541,7 @@ export const useGetUnreadCount = () => {
       return data
     },
   })
-  return {unreadCount: data?.unread || 0}
+  return {unreadCount: data?.unread || 0, data: data?.data || []}
 }
 
 export const useReadChat = () => {
