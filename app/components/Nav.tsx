@@ -273,7 +273,7 @@ const Nav = () => {
               {/* Optional unread badge */}
               {item.text === "Chats" && unreadCount && parseInt(unreadCount) > 0 && (
                 <div className="flex items-center justify-center absolute w-2 h-2 top-[-2.5%] md:left-0 md:right-[202%] left-[-2.5%] darkblue-gradient  dark:gold-gradient text-white rounded-full text-xs font-bold">
-                  {/* {unreadCount} */}
+                  {/* {unreadCount} */} 
                 </div>
               )}
             </Link>
