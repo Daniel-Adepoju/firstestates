@@ -36,7 +36,7 @@ const Nav = () => {
   const { backdrop, setBackdrop } = useBackdrop()
   const { darkMode, toggleDarkMode } = useDarkMode()
   const logOutRef = useRef<any>(null)
-  const { unreadCount, data } = useGetUnreadCount()
+  const { unreadCount } = useGetUnreadCount()
 
   const handleNavItemClick = () => {
     setBackdrop({ isNavOpen: false })
@@ -169,7 +169,6 @@ const Nav = () => {
     return null
   }
 
-  console.log({ unreadCount, data })
   return (
     <header
       id="nav"

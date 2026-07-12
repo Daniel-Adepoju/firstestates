@@ -18,18 +18,8 @@ export async function GET(req: NextRequest) {
         $ne: userId,
       },
     })
-    const data = await Chat.find({
-      receiverId: userId,
-      senderId: {
-        $ne: userId,
-      },
-      readBy: {
-        $ne: userId,
-      },
-    })
-
+ 
     return NextResponse.json({
-      data,
       unread,
     })
   } catch (err) {

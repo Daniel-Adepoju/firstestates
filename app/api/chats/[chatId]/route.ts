@@ -36,7 +36,7 @@ export async function DELETE(
 
     // Notify everyone viewing this chat
     await ably.channels.get(`chat:${chatId}`).publish("message:delete", message)
-  console.log('yepikay ye')  
+  // console.log('yepikay ye')  
   return NextResponse.json({
       message: "Message deleted successfully",
     })
