@@ -14,7 +14,7 @@ import { axiosdata } from "@utils/axiosUrl"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { client as ably } from "@lib/AblyProvider"
 import { useReadChat } from "@lib/customApi"
-import { useNextPage } from "@lib/useIntersection"
+import { useChatNextPage } from "@lib/useIntersection"
 
 export default function Chat() {
   // const ably = useAbly()
@@ -46,13 +46,34 @@ export default function Chat() {
 
   const unreadBannerRef = useRef<HTMLDivElement | null>(null)
 
-  const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage } = useGetChats({
-    receiverId: receiverId!,
-    senderId: userId!,
-  })
+  // const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage } = useGetChats({
+  //   receiverId: receiverId!,
+  //   senderId: userId!,
+  // })
 
-  const getNextPageRef = useNextPage(
-    { isLoading, isFetchingNextPage, hasNextPage, fetchNextPage },
+  const {
+  data,
+  isLoading,
+  isFetchingNextPage,
+  // isFetchingPreviousPage,
+  hasNextPage,
+  // hasPreviousPage,
+  fetchNextPage,
+  // fetchPreviousPage,
+} = useGetChats({
+  receiverId: receiverId!,
+  senderId: userId!,
+})
+
+// data dependent vars
+
+    const initialPage = data?.pages.find((p) => p.firstUnreadId !== undefined)
+
+  const getNextPageRef = useChatNextPage(
+    { isLoading, isFetchingNextPage, hasNextPage, fetchNextPage,
+      // fetchPreviousPage,isFetchingPreviousPage,
+      // hasPreviousPage
+     },
     anchorRef,
     true,
   )
@@ -116,23 +137,21 @@ export default function Chat() {
 
   // scrolling effects
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (didInitialScroll.current) return
     if (!messages.length) return
-    // if (hasFetchedNewRef.current) return
-
-    requestAnimationFrame(() => {
-      if (data?.pages[0]?.firstUnreadId) {
-        unreadBannerRef.current?.scrollIntoView({
-          block: "center",
-        })
-      } else {
-        messagesEndRef.current?.scrollIntoView({
-          block: "end",
-        })
-      }
-
+  
+if (initialPage?.firstUnreadId) {
+    unreadBannerRef.current?.scrollIntoView({
+        block: "center",
+    })
+} else {
+    messagesEndRef.current?.scrollIntoView({
+        block: "end",
+    })
+}
       didInitialScroll.current = true
+
       setTimeout(() => {
         isInitialLoad.current = false
     },1000)
@@ -140,8 +159,7 @@ export default function Chat() {
         conversationId: data?.pages[0]?.conversationId,
         userId,
       })
-    })
-  }, [data])
+    }, [data])
 
   useEffect(() => {
     if (!shouldScrollToBottomRef.current) return
@@ -173,7 +191,8 @@ export default function Chat() {
     container.scrollTop += newTop - 300
 
     anchorRef.current = null
-  }, [isFetchingNextPage])
+  }, [isFetchingNextPage]) 
+  //  [isFetchingNextPage]
 
   // Renders
   if (isLoading || status === "loading") return <ChatLoading />
@@ -231,9 +250,12 @@ export default function Chat() {
             receiverId={receiverId}
             reply={reply}
             setReply={setReply}
-            firstUnreadId={data?.pages[0]?.firstUnreadId}
-            unreadCount={data?.pages[0]?.unreadCount}
-            getNextPageRef={isInitialLoad.current ? null : getNextPageRef}
+            firstUnreadId={initialPage?.firstUnreadId}
+unreadCount={initialPage?.unreadCount}
+            // firstUnreadId={data?.pages[0]?.firstUnreadId}
+            // unreadCount={data?.pages[0]?.unreadCount}
+            // getNextPageRef={isInitialLoad.current ? null : getNextPageRef}
+            getNextPageRef={getNextPageRef}
             anchorRef={anchorRef}
           />
           <div

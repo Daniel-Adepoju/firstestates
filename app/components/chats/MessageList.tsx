@@ -39,7 +39,7 @@ export default function MessageList({
       )}
       {groupedMessages.map((group: any, groupIndex: number) => {
         return (
-          <div key={group.date}>
+          <div key={group.date + groupIndex}>
             <h4 className="text-center text-sm text-gray-500 dark:text-gray-300 my-4">
               {group.date}
             </h4>

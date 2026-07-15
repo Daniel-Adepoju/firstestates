@@ -495,6 +495,80 @@ export const useGetChats = ({ senderId, receiverId, limit = 30, enabled = true }
   return { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage }
 }
 
+// export const useGetChats = ({
+//   senderId,
+//   receiverId,
+//   limit = 30,
+//   enabled = true,
+// }: GetChatsProps) => {
+//   const {
+//     data,
+//     isLoading,
+//     isError,
+//     isFetchingNextPage,
+//     isFetchingPreviousPage,
+//     fetchNextPage,
+//     fetchPreviousPage,
+//     hasNextPage,
+//     hasPreviousPage,
+//   } = useInfiniteQuery({
+//     queryKey: ["chats", senderId, receiverId],
+
+//     enabled: enabled && !!senderId && !!receiverId,
+
+//     initialPageParam: {
+//       before: null,
+//       after: null,
+//     },
+
+//     queryFn: async ({ pageParam }) => {
+//       const params = new URLSearchParams({
+//         senderId: senderId!,
+//         receiverId: receiverId!,
+//         limit: limit.toString(),
+//       })
+
+//       if (pageParam.before) {
+//         params.append("before", pageParam.before)
+//       }
+
+//       if (pageParam.after) {
+//         params.append("after", pageParam.after)
+//       }
+
+//       const res = await axiosdata.value.get(`/api/chats?${params}`)
+
+//       return res.data
+//     },
+
+//     // Older messages
+//     getNextPageParam: (lastPage) => {
+//       return lastPage.prevCursor
+//         ? { before: lastPage.prevCursor, after: null }
+//         : undefined
+//     },
+
+//     // Newer messages
+//     getPreviousPageParam: (firstPage) => {
+//       return firstPage.nextCursor
+//         ? { before: null, after: firstPage.nextCursor }
+//         : undefined
+//     },
+//   })
+
+//   return {
+//     data,
+//     isLoading,
+//     isError,
+//     isFetchingNextPage,
+//     isFetchingPreviousPage,
+//     fetchNextPage,
+//     fetchPreviousPage,
+//     hasNextPage,
+//     hasPreviousPage,
+//   }
+// }
+
 export const useGetConversations = ({
   userId,
   limit = 10,

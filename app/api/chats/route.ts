@@ -206,3 +206,167 @@ export async function GET(req: NextRequest) {
     )
   }
 }
+
+
+
+
+
+// export async function GET(req: NextRequest) {
+//   try {
+//     await connectToDB()
+
+//     const searchParams = req.nextUrl.searchParams
+
+//     const senderId = searchParams.get("senderId")
+//     const receiverId = searchParams.get("receiverId")
+
+//     const before = searchParams.get("before")
+//     const after = searchParams.get("after")
+
+//     // const limit = Number(searchParams.get("limit") || 20)
+//     const limit = 4
+
+//     if (!senderId || !receiverId) {
+//       return NextResponse.json(
+//         {
+//           message: "senderId and receiverId are required",
+//         },
+//         {
+//           status: 400,
+//         },
+//       )
+//     }
+
+//     const conversation: any = await Conversation.findOne({
+//       userIds: {
+//         $all: [senderId, receiverId],
+//       },
+//     }).lean()
+
+//     // First time chatting
+//     if (!conversation) {
+//       return NextResponse.json(
+//         {
+//           conversationId: null,
+//           messages: [],
+//           firstUnreadId: null,
+//           unreadCount: 0,
+//           prevCursor: null,
+//           nextCursor: null,
+//         },
+//         {
+//           status: 200,
+//         },
+//       )
+//     }
+
+//     const filter: any = {
+//       conversationId: conversation._id,
+//     }
+
+//     if (before) {
+//       filter._id = {
+//         $lt: before,
+//       }
+//     }
+
+//     if (after) {
+//       filter._id = {
+//         $gt: after,
+//       }
+//     }
+
+//     // Initial load and loading older messages:
+//     // fetch newest -> oldest then reverse
+//     let query = Chat.find(filter).populate("listingId").lean().sort('-createdAt')
+
+//     if (after) {
+//       query = query.sort({ _id: 1 })
+//     } else {
+//       query = query.sort({ _id: -1 })
+//     }
+
+//     let messages = await query.limit(limit)
+
+//     if (!after) {
+//       messages.reverse
+//     }
+
+//     let prevCursor: string | null = null
+//     let nextCursor: string | null = null
+
+//     if (messages.length) {
+//       const oldest = messages[0]
+//       const newest = messages[messages.length - 1]
+
+//       const olderExists = await Chat.exists({
+//         conversationId: conversation._id,
+//         _id: {
+//           $lt: oldest._id,
+//         },
+//       })
+
+//       const newerExists = await Chat.exists({
+//         conversationId: conversation._id,
+//         _id: {
+//           $gt: newest._id,
+//         },
+//       })
+
+//       prevCursor = olderExists ? oldest._id.toString() : null
+//       nextCursor = newerExists ? newest._id.toString() : null
+//     }
+
+//     const firstUnread = await Chat.findOne({
+//       conversationId: conversation._id,
+//       receiverId: senderId,
+//       senderId: {
+//         $ne: senderId,
+//       },
+//       readBy: {
+//         $ne: senderId,
+//       },
+//     })
+//       .sort({ createdAt: 1 })
+//       .select("_id")
+//       .lean()
+
+//     const firstUnreadId = (firstUnread as any)?._id ?? null
+
+//     const unreadCount = await Chat.countDocuments({
+//       conversationId: conversation._id,
+//       receiverId: senderId,
+//       senderId: {
+//         $ne: senderId,
+//       },
+//       readBy: {
+//         $ne: senderId,
+//       },
+//     })
+
+//     return NextResponse.json(
+//       {
+//         conversationId: conversation._id,
+//         messages,
+//         firstUnreadId,
+//         unreadCount,
+//         prevCursor,
+//         nextCursor,
+//       },
+//       {
+//         status: 200,
+//       },
+//     )
+//   } catch (err) {
+//     console.error(err)
+
+//     return NextResponse.json(
+//       {
+//         message: "Failed to fetch messages",
+//       },
+//       {
+//         status: 500,
+//       },
+//     )
+//   }
+// }

@@ -2,53 +2,100 @@ import { useRef, useCallback } from "react"
 import { markAsRead } from "@lib/server/notificationFunctions"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
-// export const useNextPage = (queryName:any,isForChat=false) => {
-//   const observer = useRef<any>(null)
+export const useNextPage = (queryName:any) => {
+  const observer = useRef<any>(null)
+
+  return useCallback(
+    (node:any) => {
+      if (observer.current) {
+        observer.current.disconnect()
+      }
+
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          queryName.fetchNextPage()
+            // console.log(entries[0].target.textContent)
+        }
+      })
+
+      if (node) return observer.current.observe(node)
+    },
+    [queryName.isLoading, queryName.hasNextPage]
+  )
+}
+
+// export const useChatNextPage = (queryName: any, anchorRef:any = null, isForChat = false) => {
+//   const observer = useRef<IntersectionObserver | null>(null)
+//   const cooldown = useRef(false)
 
 //   return useCallback(
-//     (node:any) => {
-//       if (observer.current) {
+//     (node: HTMLElement | null) => {
+//       if (observer.current && !isForChat) {
 //         observer.current.disconnect()
 //       }
 
-//       observer.current = new IntersectionObserver((entries) => {
-//         if (entries[0].isIntersecting) {
-//           queryName.fetchNextPage()
-//             console.log(entries[0].target.textContent)
+//       observer.current = new IntersectionObserver(async ([entry]) => {
+//         if (!entry.isIntersecting) return
+
+//         if (!queryName.hasPreviousPage) return
+//         if (queryName.isFetchingPreviousPage) return
+
+//         //  Chat Anchor
+//         anchorRef.current = {
+//           element: entry.target,
+//           top: entry.target.getBoundingClientRect().top,
 //         }
+//         // Chat cooldown
+//         if (isForChat && cooldown.current) return
+
+//         await queryName.fetchPreviousPage()
+//         if (isForChat) {
+//           cooldown.current = true
+
+//           setTimeout(() => {
+//             cooldown.current = false
+//           }, 2000)
+//         }
+//         console.log(entry.target)
 //       })
 
-//       if (node) return observer.current.observe(node)
+//       if (node) {
+//         observer.current.observe(node)
+//       }
 //     },
-//     [queryName.isLoading, queryName.hasNextPage]
+//     [queryName.fetchPreviousPage, queryName.hasPreviousPage, queryName.isFetchingPreviousPage, isForChat],
 //   )
 // }
-
-export const useNextPage = (queryName: any, anchorRef:any = null, isForChat = false) => {
+export const useChatNextPage = (
+  queryName: any,
+  anchorRef: any = null,
+  isForChat = false,
+) => {
   const observer = useRef<IntersectionObserver | null>(null)
   const cooldown = useRef(false)
 
   return useCallback(
     (node: HTMLElement | null) => {
-      if (observer.current && !isForChat) {
+      if (observer.current) {
         observer.current.disconnect()
       }
 
       observer.current = new IntersectionObserver(async ([entry]) => {
         if (!entry.isIntersecting) return
-
         if (!queryName.hasNextPage) return
         if (queryName.isFetchingNextPage) return
 
-        //  Chat Anchor
-        anchorRef.current = {
-          element: entry.target,
-          top: entry.target.getBoundingClientRect().top,
-        }
-        // Chat cooldown
         if (isForChat && cooldown.current) return
 
+        if (anchorRef?.current) {
+          anchorRef.current = {
+            element: entry.target,
+            top: entry.target.getBoundingClientRect().top,
+          }
+        }
+
         await queryName.fetchNextPage()
+
         if (isForChat) {
           cooldown.current = true
 
@@ -56,14 +103,19 @@ export const useNextPage = (queryName: any, anchorRef:any = null, isForChat = fa
             cooldown.current = false
           }, 2000)
         }
-        console.log(entry.target)
       })
 
       if (node) {
         observer.current.observe(node)
       }
     },
-    [queryName.fetchNextPage, queryName.hasNextPage, queryName.isFetchingNextPage, isForChat],
+    [
+      queryName.fetchNextPage,
+      queryName.hasNextPage,
+      queryName.isFetchingNextPage,
+      anchorRef,
+      isForChat,
+    ],
   )
 }
 
