@@ -103,13 +103,13 @@ export default function ListingGallery({ listingDeets, maxImages }: any) {
           listingDeets?.gallery.value.length < maxImages && (
             <Button
               text="Upload To Gallery"
-              className="flex flex-row-reverse items-center gap-1 clickable text-white darkblue-gradient hover:scale-99 outline-2 outline-black transition-all duration-300 gloss font-semibold py-3.5 px-8.5 rounded-md"
+              className="flex flex-row-reverse items-center gap-1 clickable text-white darkblue-gradient hover:scale-99 outline-2 outline-black transition-all duration-300 gloss font-semibold py-3.5 px-8.5 rounded-xl"
               onClick={() => open()}
             >
               <Images
-                size={16}
+                size={25}
                 color="white"
-                strokeWidth={3}
+                strokeWidth={2}
               />
             </Button>
           )
@@ -158,7 +158,7 @@ export default function ListingGallery({ listingDeets, maxImages }: any) {
         })}
       </div>
 
-      <p className="mx-auto text-center dark:text-white">
+      <p className="mx-auto text-center text-sm text-gray-500 dark:text-gray-300">
         A Maximum Of {maxImages} Images Can Be Uploaded To The Gallery
       </p>
 

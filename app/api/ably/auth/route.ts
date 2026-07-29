@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
     const tokenRequestData = await client.auth.createTokenRequest({
       clientId: session?.user?.id,
     })
-    console.log({ ablyAREturn: tokenRequestData })
+    // console.log({ ablyAREturn: tokenRequestData })
     return NextResponse.json(tokenRequestData)
   } catch (err) {
     console.log(err)

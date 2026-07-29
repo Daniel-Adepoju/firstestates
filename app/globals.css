@@ -68,11 +68,8 @@
   color-scheme: light dark;
   --radius: 0.625rem;
   --background: oklch(1 0 0);
-  --background-gradient: radial-gradient(
-      circle at 50% 0%,
-      rgba(0, 0, 0, 0.06),
-      rgba(0, 0, 0, 0) 70%
-    ),
+  --background-gradient:
+    radial-gradient(circle at 50% 0%, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0) 70%),
     linear-gradient(#ffffff, #ffffff);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -108,11 +105,8 @@
 
 .dark {
   --background: #1c1c1c;
-  --background-gradient: radial-gradient(
-      circle at 50% 0%,
-      rgba(255, 255, 255, 0.06),
-      rgba(255, 255, 255, 0) 70%
-    ),
+  --background-gradient:
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0) 70%),
     linear-gradient(#1c1c1c, #1c1c1c);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -169,12 +163,7 @@ body {
   background: linear-gradient(to bottom, #f7b657, #f29829);
 }
 @utility pink-gradient-vertical {
-background: linear-gradient(
-  to bottom,
-  oklch(72% 0.28 340),
-  oklch(48% 0.26 330)
-);
-
+  background: linear-gradient(to bottom, oklch(72% 0.28 340), oklch(48% 0.26 330));
 }
 @utility green-gradient-vertical {
   background: linear-gradient(to bottom, oklch(62.7% 0.194 149.214), oklch(42.7% 0.194 149.214));
@@ -265,7 +254,7 @@ background: linear-gradient(
   }
   .custom-shadow {
     @apply shadow-[0_1px_2px_rgba(0,0,0,0.05)]
-dark:shadow-[0_1px_2px_rgba(0,0,0,0.3)]
+dark:shadow-[0_1px_2px_rgba(0,0,0,0.3)];
   }
 }
 
@@ -308,5 +297,12 @@ dark:shadow-[0_1px_2px_rgba(0,0,0,0.3)]
   .scrollable-color::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background-color: rgba(96, 96, 96, 0.571);
+  }
+}
+
+@layer special{
+  .special-button {
+    @apply self-center my-3 flex items-center gap-2 text-white darkblue-gradient hover:scale-99 
+    outline-2 outline-black transition-all duration-300  font-bold py-3.5 px-8.5 rounded-xl;
   }
 }

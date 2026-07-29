@@ -73,12 +73,12 @@ const ListingVideo = ({ listingDeets }: any) => {
           {({ open }) => (
             <Button
               text="Upload Video (100MB max)"
-              className="flex flex-row-reverse items-center gap-1 clickable text-white darkblue-gradient hover:scale-99 dark:outline-black outline-2 outline-black transition-all duration-300 gloss font-semibold py-3.5 px-8.5 rounded-md"
+              className="flex flex-row-reverse items-center gap-1 clickable text-white darkblue-gradient hover:scale-99 dark:outline-black outline-2 outline-black transition-all duration-300 gloss font-semibold py-3.5 px-8.5 rounded-xl"
               onClick={() => open()}
             >
               <VideoIcon
-                size={16}
-                strokeWidth={3}
+                size={25}
+                strokeWidth={2}
                 color="white"
               />
             </Button>

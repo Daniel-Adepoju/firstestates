@@ -1,18 +1,18 @@
 "use client"
-import Image from "next/image"
-import React, { useRef, useState } from "react"
+import { useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { useBackdrop } from "@lib/Backdrop"
 import { useAnimation } from "@lib/useAnimation"
-import { DeleteModal } from "../Modals"
 import CardOptions from "./CardOptions"
-import { FeaturedBtn } from "./Featured"
+import { useToast } from "@utils/Toast"
 import { formatNumber } from "@utils/formatNumber"
 
 import CardImage from "./CardImage"
 import CardBody from "./CardBody"
 import CardMeta from "./CardMeta"
 import CardEditActions from "./CardEditActions"
+import { editListing } from "@lib/server/listing"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 export interface CardProps {
   edit?: boolean
@@ -20,11 +20,21 @@ export interface CardProps {
   listing: Listing
   isInWishList?: boolean
   blankSlate?: boolean
+  isAdmin?: boolean
 }
 
-const Card = ({ edit, listing, isAgentCard, isInWishList, blankSlate = false }: CardProps) => {
+const Card = ({
+  edit,
+  listing,
+  isAgentCard,
+  isAdmin = false,
+  isInWishList,
+  blankSlate = false,
+}: CardProps) => {
   const [address] = useState(listing?.address || "Nigeria")
   const router = useRouter()
+  const queryClient = useQueryClient()
+  const { setToastValues } = useToast()
   const deleteRef = useRef<HTMLDialogElement>(null)
   const [deleting, setDeleting] = useState(false)
   const [weeklyViews] = useState(formatNumber(listing?.weeklyViews ?? 0) || 0)
@@ -48,6 +58,28 @@ const Card = ({ edit, listing, isAgentCard, isInWishList, blankSlate = false }: 
     rootMargin: "0px 0px -30px 0px",
   })
 
+  const handleApproval = async () => {
+    const res = await editListing({
+      id: listing?._id,
+      status: "available",
+      isApproval: true,
+    })
+  }
+
+  const approvalMutation = useMutation({
+    mutationFn: handleApproval,
+    onSuccess: () => {
+      setToastValues({
+        isActive: true,
+        message: "Approved",
+        status: "success",
+        duration: 2000,
+      })
+
+      queryClient.invalidateQueries({ queryKey: ["searchListings"] })
+    },
+  })
+
   return (
     <>
       <div
@@ -62,6 +94,7 @@ const Card = ({ edit, listing, isAgentCard, isInWishList, blankSlate = false }: 
             listing={listing}
             blankSlate={blankSlate}
             isAgentCard={isAgentCard}
+            isAdminCard={isAdmin}
             isInWishList={isInWishList}
             backdrop={backdrop}
             setBackdrop={setBackdrop}
@@ -71,19 +104,21 @@ const Card = ({ edit, listing, isAgentCard, isInWishList, blankSlate = false }: 
             listing={listing}
             edit={edit}
             isAgentCard={isAgentCard}
+            isAdminCard={isAdmin}
             address={address}
             weeklyViews={weeklyViews}
             totalViews={totalViews}
           />
 
           {/* {!edit && ( */}
-            <CardMeta
-              isEdit={edit}
-              listing={listing}
-              showMore={showMore}
-              setShowMore={setShowMore}
-              isAgentCard={isAgentCard}
-            />
+          <CardMeta
+            isEdit={edit}
+            listing={listing}
+            showMore={showMore}
+            setShowMore={setShowMore}
+            isAgentCard={isAgentCard}
+            isAdminCard={isAdmin}
+          />
           {/* )} */}
         </div>
 
@@ -95,6 +130,8 @@ const Card = ({ edit, listing, isAgentCard, isInWishList, blankSlate = false }: 
             openDialog={openDialog}
             deleteRef={deleteRef}
             router={router}
+            isAdmin={isAdmin}
+            approveListing={() => approvalMutation.mutate()}
           />
         )}
       </div>

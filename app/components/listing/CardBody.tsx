@@ -15,7 +15,7 @@ const CardBody = ({ listing, edit, isAgentCard, address, weeklyViews, totalViews
         className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md 
   bg-gray-50/70 dark:bg-gray-800/10 
   text-[11px]  text-gray-700 dark:text-gray-200 
-  shadow-sm dark:shadow-black/80 backdrop-blur"
+  shadow-xs dark:shadow-black/80 backdrop-blur"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

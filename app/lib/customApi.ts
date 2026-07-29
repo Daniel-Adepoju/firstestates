@@ -23,6 +23,8 @@ interface Config {
   date?: any
   views?: string
   isBookmarked?: string
+  isAdmin?:boolean
+  isPendingSpecific?:boolean
 }
 type GetChatsProps = {
   conversationId?: string | null
@@ -37,9 +39,24 @@ type GetConversationsProps = {
   enabled?: boolean
 }
 
-// interface ListingParams {
-//    page: number,
-// }
+export const setParams = (
+  params: Record<string, unknown>
+): URLSearchParams => {
+  const searchParams = new URLSearchParams()
+
+  Object.entries(params).forEach(([key, value]) => {
+    if (value === undefined || value === null || value === "") return
+
+    if (Array.isArray(value)) {
+      value.forEach((item) => searchParams.append(key, String(item)))
+      return
+    }
+
+    searchParams.set(key, String(value))
+  })
+
+  return searchParams
+}
 
 // Users
 export const useGetUsers = ({ page, limit, search }: Config) => {
@@ -85,12 +102,20 @@ export const useGetListings = ({
   status = "",
 }: Config) => {
   const getListings = async (page: string) => {
+    const params = setParams({
+      limit,
+      page,
+      location,
+      school,
+      minPrice,
+      maxPrice,
+      beds,
+      baths,
+      toilets,
+      status,
+    })
     const res = await axiosdata.value.get(
-      `/api/listings?limit=${limit}&page=${page}` +
-        `&location=${location}&school=${school}` +
-        `&minPrice=${minPrice}&maxPrice=${maxPrice}` +
-        `&beds=${beds}&baths=${baths}&toilets=${toilets}` +
-        `&status=${status}`,
+      `/api/listings?${params.toString()}`,
     )
 
     return res.data
@@ -122,17 +147,26 @@ export const useSearchListings = ({
   agentName = "",
   search,
   status = "",
+  isAdmin=false,
+  isPendingSpecific=false,
   enabled = true,
 }: Config) => {
   const getListings = async (page: string) => {
+    const params = setParams({
+      search,
+      agentName,
+      status,
+      isAdmin,
+      isPending:isPendingSpecific,
+    })
     const res = await axiosdata.value.get(
-      `/api/listings/search?limit=${limit}&page=${page}&search=${search}&agentName=${agentName}&status=${status}`,
+      `/api/listings/search?${params.toString()}`,
     )
     return res.data
   }
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: !enabled ? [] : ["searchListings", { page, limit, search, agentName }],
+    queryKey: !enabled ? [] : ["searchListings", { page, limit, search, agentName,isPendingSpecific }],
     queryFn: () => getListings(page ?? "1"),
     enabled: enabled,
   })
@@ -271,8 +305,15 @@ export const useGetAgentListingsInfinite = ({
   enabled = false,
 }: Config) => {
   const getListings = async (page: string) => {
+    const params = setParams({
+      id,
+      limit,
+      page,
+      school,
+      location,
+    })
     const res = await axiosdata.value.get(
-      `/api/agent/listings?id=${id}&limit=${limit}&page=${page}&school=${school}&location=${location}`,
+      `/api/agent/listings?${params.toString()}`,
     )
     return res.data
   }

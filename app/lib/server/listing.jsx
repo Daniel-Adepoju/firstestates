@@ -7,12 +7,14 @@ import { revalidatePath } from "next/cache"
 import { deleteImage, deleteMultipleImages } from "./deleteImage"
 import { sendNotification } from "./notificationFunctions"
 import { cleanupListing } from "./listingCleanup"
+import { sendEmail } from "@lib/server/sendEmail"
 
 export const createListing = async (val) => {
   const session = await auth()
   const userId = session?.user.id
   const newVal = { ...val, agent: userId }
   await connectToDB()
+
   try {
     if (!userId) {
       return { message: "Unauthorized", status: "danger" }
@@ -20,6 +22,26 @@ export const createListing = async (val) => {
 
     const newListing = new Listing(newVal)
     await newListing.save()
+
+    if (val.status === "pending") {
+      const listing = await Listing.findOne({ _id: newListing._id }).populate("agent").lean()
+      await sendEmail({
+        to: "firstestatesng@gmail.com",
+        subject: "Confirm Payment",
+        message: `Confirm payment and approve this listing:
+        <p>
+         Location: <strong>${listing.location}.</strong> 
+         </p>
+         <p>
+         Address: <strong>${listing.address}.</strong>
+         </p>
+         <p>
+          Agent: <strong>${listing.agent.username}.</strong>
+          </p>
+          `,
+      })
+    }
+
     await sendNotification({
       type: "New_Listing",
       recipientRole: "agent",
@@ -39,6 +61,34 @@ export const createListing = async (val) => {
 export const editListing = async (val, userId, extras = false) => {
   try {
     await connectToDB()
+
+    if (val.isApproval) {
+      const listing = await Listing.findOne({ _id: val.id }).populate("agent").lean()
+      const agentEmail = listing.agent.email
+      await sendEmail({
+        to: agentEmail,
+        subject: " Payment Verified",
+        message: `
+        Your payment has been verified and your listing approved:
+        <p>
+         Location: <strong>${listing.location}.</strong> 
+         </p>
+         <p>
+         Address: <strong>${listing.address}.</strong>
+         </p>
+        `,
+      })
+      await Listing.findOneAndUpdate(
+        { _id: val.id },
+        { status: val.status },
+        {
+          new: true,
+          runValidators: true,
+        },
+      )
+      return { message: "Approved Successfully", status: "success" }
+    }
+
     const newVal = { ...val }
     const listing = await Listing.findOneAndUpdate({ _id: val.id }, newVal, {
       new: true,
@@ -53,8 +103,8 @@ export const editListing = async (val, userId, extras = false) => {
     //   thumbnail: val.mainImage,
     // })
     // }
-    console.log({newVal})
-    console.log("ta da!!!")
+    // console.log({newVal})
+    // console.log("ta da!!!")
     if (!extras) {
       await sendNotification({
         type: "Listing_Edited",
@@ -118,9 +168,8 @@ export const deleteListing = async (id) => {
 
     await cleanupListing(id, {
       notify: true,
-      reason:'manual',
+      reason: "manual",
     })
-
 
     revalidatePath("/agent/listings")
     return { message: "Deleted Successfully", status: "success" }

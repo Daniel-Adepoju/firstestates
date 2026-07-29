@@ -9,6 +9,7 @@ const CardImage = ({
   isAgentCard,
   isInWishList,
   backdrop,
+  isAdminCard,
   setBackdrop,
 }: any) => {
   return (
@@ -32,7 +33,7 @@ const CardImage = ({
         )}
 
         {/*actions ->> client */}
-        {!blankSlate && !isAgentCard ? (
+        {!blankSlate && !(isAgentCard || isAdminCard) ? (
           <div className="flex flex-col items-center justify-center gap-1 absolute top-2 right-3 z-10">
             <WishlistButton
               isInWishList={isInWishList || false}
@@ -51,20 +52,18 @@ const CardImage = ({
               />
             </div>
           </div>
-        ) : (
-          ""
-        )}
+        ) : null}
 
         {/* actions ->> agent */}
-        {!blankSlate && isAgentCard ? (
+        {!blankSlate && (isAgentCard || isAdminCard) ? (
           <div className="flex flex-col items-end justify-end gap-1 absolute top-2 right-3 z-10">
             <div className="outline-2 outline-black/10 capitalize font-head bg-white dark:bg-gray-700 px-2 py-1 rounded-md text-sm font-semibold text-gray-700 dark:text-gray-200 shadow-sm mb-1">
               <span
                 className={`
                   ${listing?.listingTier === "standard" && "text-sky-500"}
                   ${listing?.listingTier === "gold" && "text-goldPrimary"} ${
-                  listing?.listingTier === "first" && "text-[#b647ff]"
-                }`}
+                    listing?.listingTier === "first" && "text-[#b647ff]"
+                  }`}
               >
                 {listing?.listingTier}
               </span>
@@ -74,9 +73,7 @@ const CardImage = ({
               {/* <p>Created at {createdAt(listing?.createdAt)}</p> */}
             </div>
           </div>
-        ) : (
-          ""
-        )}
+        ) : null}
       </div>
     </>
   )

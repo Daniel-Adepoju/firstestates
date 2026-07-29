@@ -57,23 +57,13 @@ export default async function AdminLayout({ children }) {
   }
 
   return (
-    <ReactQueryProvider>
-      <Provider>
-        <User>
-          <Notification>
-            <Toast>
-              <div className="admin-container">
-                <Sidebar session={session} />
-                <div className="admin-content-container nobar null">
-                  {/* <Nav /> */}
-                  <Header session={session} />
-                  {children}
-                </div>
-              </div>
-            </Toast>
-          </Notification>
-        </User>
-      </Provider>
-    </ReactQueryProvider>
+    <div className="admin-container">
+      <Sidebar session={session} />
+      <div className="admin-content-container nobar null">
+        {/* <Nav /> */}
+        <Header session={session} />
+        {children}
+      </div>
+    </div>
   )
 }

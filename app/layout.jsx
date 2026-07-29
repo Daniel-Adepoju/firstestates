@@ -1,6 +1,6 @@
 import "./globals.css"
 import "@styles"
-import 'next-cloudinary/dist/cld-video-player.css';
+import "next-cloudinary/dist/cld-video-player.css"
 import { DarkModeProvider } from "@lib/DarkModeProvider"
 import Script from "next/script"
 import Nav from "@components/Nav"
@@ -8,6 +8,11 @@ import { auth } from "@auth"
 import Image from "next/image"
 import Link from "next/link"
 import AblyClientProvider from "@lib/AblyProvider"
+import User from "@utils/user"
+import Provider from "@utils/sessionProvider"
+import ReactQueryProvider from "@utils/ReactQueryProvider"
+import Notification from "@lib/Notification"
+import Toast from "@utils/Toast"
 
 export const metadata = {
   metadataBase: process.env.BASE_URL,
@@ -17,7 +22,7 @@ export const metadata = {
   },
   description: "Find Your Perfect Student Home",
   icons: {
-   icon: "/logo/favicon.png",
+    icon: "/logo/favicon.png",
   },
 
   openGraph: {
@@ -46,7 +51,10 @@ export default async function RootLayout({ children }) {
         lang="en"
         suppressHydrationWarning
       >
-        <meta name="color-scheme" content="light dark" />
+        <meta
+          name="color-scheme"
+          content="light dark"
+        />
         <body className="text-foreground whitespace-pre-wrap break-words">
           <div className="mx-auto mt-50">
             <h1 className="text-3xl font-bold mx-auto text-center">Access Denied</h1>
@@ -133,15 +141,22 @@ export default async function RootLayout({ children }) {
         </script>
       </head>
       <body>
-        
-          {/* <AblyClientProvider> */}
-            <DarkModeProvider>
-                {children}    
-            </DarkModeProvider>
-         
-          {/* </AblyClientProvider> */}
-       
-      
+        {/* <AblyClientProvider> */}
+        <DarkModeProvider>
+          <ReactQueryProvider>
+            <Provider>
+              <User>
+                <Notification>
+                  <Toast>
+                    {children}
+                    </Toast>
+                </Notification>
+              </User>
+            </Provider>
+          </ReactQueryProvider>
+        </DarkModeProvider>
+
+        {/* </AblyClientProvider> */}
       </body>
     </html>
   )

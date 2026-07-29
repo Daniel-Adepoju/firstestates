@@ -20,16 +20,17 @@ const AdminListings = () => {
   const searchParams = new URLSearchParams(params.toString())
   const [page, setPage] = params.get("page") || "1"
   const router = useRouter()
+  const [tab, setTab] = useState("all")
 
   const { data, isLoading } = useSearchListings({
     page,
     limit: 10,
     search: debounced,
     agentName: debounced,
+    isAdmin: true,
+    isPendingSpecific: tab === "pending",
     enabled: true,
   })
-
-  const { data: popularData, isLoading: loadingPopular } = useGetPopularListings()
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -43,18 +44,12 @@ const AdminListings = () => {
     return () => clearTimeout(timer)
   }, [search])
 
-  const mapRecent = popularData?.popularListings.map((listing: Listing) => (
-    <PopularCard
-      key={listing._id}
-      listing={listing}
-    />
-  ))
-
   const mapCards = data?.posts.map((listing: Listing) => (
     <Card
       key={listing._id}
       listing={listing}
       edit={true}
+      isAdmin={true}
     />
   ))
 
@@ -106,40 +101,31 @@ const AdminListings = () => {
           </div>
         </div>
 
-        <h1 className="mt-4 text-2xl font-bold mb-1 otherHead">Popular Listings</h1>
-        <div className="mt-4 w-full flex flex-row flex-wrap items-center justify-center gap-4">
-          {loadingPopular ? (
-            <div className="flex flex-row flex-wrap  gap-3 items-center justify-center w-full">
-              <LoaderComponent />
-            </div>
-          ) : mapRecent.length > 0 ? (
-            mapRecent
-          ) : (
-            <div className="flex flex-row items-center gap-1">
-              <Image
-                src="/icons/noListings.svg"
-                alt="No listings found"
-                width={60}
-                height={60}
-              />
-              <p className="text-gray-500 dark:text-gray-200">No listings found</p>
-            </div>
-          )}
-        </div>
-
-        <h1
-          id="listings"
-          className="mt-4 text-2xl font-bold mb-1 otherHead"
-        >
-          All Listings
-        </h1>
-
         <Searchbar
           placeholder="Search by school, location or agent"
           search={search}
           setSearch={(e) => setSearch(e.target.value)}
           className="mt-[10px] gap-1 w-full flex flex-row justify-center items-center  md:w-[60%]"
         />
+
+        <div
+          id="listings"
+          className="w-full flex  items-center justify-center gap-15 mt-1"
+        >
+          <span
+            onClick={() => setTab("all")}
+            className={`mt-4 text-md font-bold font-head text-foreground mb-1 cursor-pointer transition-colors ease-out duration-200 ${tab === "all" && "text-goldPrimary"}`}
+          >
+            All Listings
+          </span>
+          <span
+            onClick={() => setTab("pending")}
+            className={`mt-4 text-md font-bold font-head text-foreground mb-1 cursor-pointer transition-colors ease-out duration-200 ${tab === "pending" && "text-goldPrimary"}`}
+          >
+            Pending Listings
+          </span>
+        </div>
+
         <div className="mt-4 w-full flex flex-col items-center justify-center gap-4">
           {!isLoading ? (
             <div className="adminListingCard w-[97%] flex flex-wrap items-center justify-center gap-4">

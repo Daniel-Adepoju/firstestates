@@ -145,7 +145,7 @@ const SchoolFocus = () => {
   }
 
   return (
-    <div className="w-[98%] mt-20 mb-10 px-1.5">
+    <div className="w-[98%] mt-20 mb-20 md:mb-10 px-1.5">
       {schoolParam && (
         <h1 className="text-3xl font-bold text-center mb-1 headersFont capitalize">
           School Focus - {schoolParam}

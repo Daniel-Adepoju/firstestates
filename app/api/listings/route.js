@@ -10,6 +10,7 @@ export const GET = async (req) => {
   const skipNum = (page - 1) * limit
 
   const filters = [
+      { status: { $ne: "pending" } },
     searchParams.get("location") && {
       location: { $regex: searchParams.get("location"), $options: "i" },
     },

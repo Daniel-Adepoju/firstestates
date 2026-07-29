@@ -18,7 +18,7 @@ const [randomTags, setRandomTags] = useState<string[]>([])
 useEffect(() => {
   const shuffled = [...tagsSuggestion]
     .sort(() => Math.random() - 0.5)
-    .slice(0, 3)
+    .slice(0, 2)
 
   setRandomTags(shuffled)
 }, [])

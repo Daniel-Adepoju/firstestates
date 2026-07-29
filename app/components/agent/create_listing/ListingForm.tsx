@@ -1,6 +1,6 @@
 "use client"
 import { signal } from "@preact/signals-react"
-import { useSignals } from "@preact/signals-react/runtime"
+import { useSignals, useSignal } from "@preact/signals-react/runtime"
 import { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
 import { useToast } from "@utils/Toast"
@@ -16,6 +16,7 @@ import ListingGallery from "./ListingGallery"
 import ListingAmenities from "./ListingAmenities"
 import ListingLocation from "./ListingLocation"
 import ListingSubmit from "./ListingSubmit"
+import TransferModal from "./TransferModal"
 import LoadingBoard from "@components/LoadingBoard"
 import { Info, X } from "lucide-react"
 import TagsInput from "./TagsInput"
@@ -43,16 +44,17 @@ export const listingDeets = {
 export default function ListingForm({ listingTier }: { listingTier?: string }) {
   useSignals()
   const router = useRouter()
-  const  {session}  = useUser()
+  const { session } = useUser()
   const { setToastValues } = useToast()
+  const [isTransferOpen, setIsTransferOpen] = useState(false)
   const queryClient = useQueryClient()
   const infoRef = useRef<HTMLDialogElement>(null)
   const { schools } = useSchools()
   const [school, setSchool] = useState("")
   const [area, setArea] = useState("")
   const [areas, setAreas] = useState<string[]>([])
-  const [incomplete, setIncomplete] = useState(true)
-  const creating = signal(false)
+  const [incomplete, setIncomplete] = useState(false)
+  const creating = useSignal(false)
   const schoolArea = schools
     .filter((s: any) => s.shortname.toLocaleLowerCase() === school.toLocaleLowerCase())
     .map((s: any) => s.schoolAreas)
@@ -131,7 +133,7 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
   }, [school])
 
   // ========= Handle listing creation ==============
-  const handleCreateListing = async () => {
+  const handleCreateListing = async ({ typeOfPayment = "online" }: { typeOfPayment?: string }) => {
     creating.value = true
     try {
       // handle valid until date based on listing tier
@@ -140,6 +142,7 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
 
       // create listing
       const res = await createListing({
+        status: typeOfPayment === "transfer" ? "pending" : "available",
         description: listingDeets.description.value,
         price: listingDeets.price.value,
         priceUnit: listingDeets.priceUnit.value,
@@ -160,6 +163,7 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
         isFeatured: tier?.rank === 3,
         validUntil,
       })
+
       if (res.status === "success") {
         setToastValues({
           isActive: true,
@@ -168,19 +172,20 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
           duration: 2000,
         })
         resetFormFields()
+        setIsTransferOpen(false)
         router.push("/agent/listings")
       } else {
-        creating.value = false
         setToastValues({
           isActive: true,
           message: res.message || "An error occurred",
           status: "danger",
           duration: 4000,
         })
+        creating.value = false
       }
     } catch (err: any) {
       creating.value = false
-      console.log(err)
+      // console.log(err)
     }
   }
 
@@ -190,7 +195,12 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
   })
 
   if (creating.value) {
-    return <LoadingBoard text="Creating" />
+    return (
+      <LoadingBoard
+        type="listing"
+        text="Creating Listing"
+      />
+    )
   }
   return (
     <>
@@ -216,10 +226,16 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
           />
         </div>
 
-        <form
-          // onSubmit={handleMutate}
-          className="form listing"
-        >
+        <form className="form listing">
+          <TransferModal
+            isOpen={isTransferOpen}
+            onClose={() => setIsTransferOpen(false)}
+            amount={tier?.amount}
+            onClick={() => {
+              // setIsTransferOpen(false)
+              handleCreateListing({ typeOfPayment: "transfer" })
+            }}
+          />
           <ListingDescription listingDeets={listingDeets} />
 
           <ListingPrice listingDeets={listingDeets} />
@@ -253,11 +269,15 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
           />
 
           <ListingSubmit
+            isAdmin={session?.user?.role === "admin"}
             email={session?.user?.email || ""}
             incomplete={incomplete}
             creating={creating}
             amount={amount}
-            handleMutate={() => createListingMutation.mutate()}
+            setIsTransferOpen={() => setIsTransferOpen(true)}
+            handleMutate={(typeOfPayment: string) =>
+              createListingMutation.mutate({ typeOfPayment })
+            }
           />
         </form>
       </div>

@@ -27,7 +27,7 @@ const Button = ({
       type={type}
       disabled={disabled}
       onClick={onClick}
-      className={className}
+      className={`${className} text-sm`}
     >
       <div className="left"></div>
       {reverse && children}

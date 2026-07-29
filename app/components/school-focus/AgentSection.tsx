@@ -51,7 +51,7 @@ const AgentSection = ({ school }: { school: string }) => {
          cursor-pointer outline-3 outline-gray-300 dark:outline-gray-700 rounded-full p-1.5
       "
           >
-            <div className="status-ring p-3 z-1"></div>
+            <div className="status-ring w-2 h-2 rounded-full bg-gray-200 dark:bg-gray-700/20 z-1"></div>
             <CldImage
               src={agent?.profilePic}
               alt="Profile"
@@ -95,7 +95,7 @@ const AgentSection = ({ school }: { school: string }) => {
         {!isLoading && <ScrollController scrollRef={scrollRef} />}
       </div>
       <h6 className="pl-3 text-xs p-2 py-1 text-gray-700 dark:text-gray-200">
-        Agents with listing around Lasu
+        Agents with listings around Lasu
       </h6>
       <section
         ref={scrollRef}

@@ -86,7 +86,7 @@ const ListingSchema = new Schema(
     },
     status: {
       type: String,
-      enum: ["available", "rented"],
+      enum: ["available", "rented", "pending"],
       default: "available",
     },
     listingTier: {

@@ -1,18 +1,13 @@
 import "@styles"
 import "../globals.css"
 import Sidebar from "@components/agent/Sidebar"
-import User from "@utils/user"
 import UserModel from "@models/user"
-import Provider from "@utils/sessionProvider"
-import ReactQueryProvider from "@utils/ReactQueryProvider"
-import Notification from "@lib/Notification"
 import Toast from "@utils/Toast"
 import { after } from "next/server"
 import { auth } from "@auth"
 import { connectToDB } from "@utils/database"
 import Header from "@components/admin/Header"
 import { DarkModeProvider } from "@lib/DarkModeProvider"
-import Nav from "@components/Nav"
 import { ShieldCheck, LockKeyhole } from "lucide-react"
 import Link from "next/link"
 
@@ -88,29 +83,16 @@ export default async function AdminLayout({ children }) {
 
   return (
     <>
-      <DarkModeProvider>
-        <ReactQueryProvider>
-          <Provider>
-            <User>
-              {/* <Nav /> */}
-              <Notification>
-                <Toast>
-                  <div className="admin-container nobar null">
-                    <Sidebar session={session} />
-                    <div className="admin-content-container nobar null">
-                      <Header session={session} />
-                      <div className="agentDashboardContainer nobar null">{children}</div>
+    
+      {/* <Nav /> */}
 
-                      {/* {agent}
-  {listings} */}
-                    </div>
-                  </div>
-                </Toast>
-              </Notification>
-            </User>
-          </Provider>
-        </ReactQueryProvider>
-      </DarkModeProvider>
+      <div className="admin-container nobar null">
+        <Sidebar session={session} />
+        <div className="admin-content-container nobar null">
+          <Header session={session} />
+          <div className="agentDashboardContainer nobar null">{children}</div>
+        </div>
+      </div>
     </>
   )
 }

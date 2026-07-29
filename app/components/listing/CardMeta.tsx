@@ -2,7 +2,7 @@ import { ChevronDown, User2 } from "lucide-react"
 import { formatNumber } from "@utils/formatNumber"
 import { Bed, Home, User } from "lucide-react"
 
-const CardMeta = ({ listing, showMore, setShowMore, isAgentCard, isEdit }: any) => {
+const CardMeta = ({ listing, showMore, setShowMore, isAgentCard, isEdit, isAdminCard }: any) => {
   const priceUnitIconMap: any = {
     perPerson: User,
     perRoom: Bed,
@@ -15,7 +15,7 @@ const CardMeta = ({ listing, showMore, setShowMore, isAgentCard, isEdit }: any) 
     <>
       {/*more content --> listing availability status,school and price*/}
       <div className="capitalize absolute top-0 left-[1px] flex flex-col gap-1 px-2 z-2">
-        {isAgentCard && isEdit && (
+        {(isAgentCard || isAdminCard) && isEdit && (
           <div
             className={`tag no_absolute ${
               listing?.status === "rented" && "rented"
@@ -28,10 +28,12 @@ const CardMeta = ({ listing, showMore, setShowMore, isAgentCard, isEdit }: any) 
         {!isEdit && (
           <>
             {/* school*/}
-            <div className="hyphen-auto truncate self-start headersFont w-25
+            <div
+              className="hyphen-auto truncate self-start headersFont w-25
              inline-flex item-center justify-center
               px-3 py-2 bg-white dark:bg-gray-700
-               text-sm font-medium text-gray-700 dark:text-gray-200 rounded-md">
+               text-sm font-medium text-gray-700 dark:text-gray-200 rounded-md"
+            >
               {listing?.school}
             </div>
 

@@ -6,13 +6,17 @@ export const GET = async (req) => {
   const { searchParams } = new URL(req.url)
   const page = parseInt(searchParams.get("page") || "1")
   const limit = parseInt(searchParams.get("limit") || "10")
-  const search = searchParams.get("search" || "").trim()
+  const searchText = searchParams.get("search")
+  const search = searchText ? searchText.trim() : ""
   const location = searchParams.get("location") || ""
   const school = searchParams.get("school") || ""
   const agentName = searchParams.get("agentName") || ""
   const status = searchParams.get("status") || ""
   const skip = (page - 1) * limit
 
+  const isAdmin = searchParams.get("isAdmin") === "true"
+  const isPending = searchParams.get("isPending") === "true"
+ 
   try {
     await connectToDB()
 
@@ -70,13 +74,31 @@ export const GET = async (req) => {
       // ----------------------------
     ]
 
+    // Base match applied everywhere
+    const baseMatch = isPending
+      ? { status: "pending" }
+      : !isAdmin
+        ? { status: { $ne: "pending" } }
+        : {}
+
+    const defaultSort = isAdmin ? { createdAt: -1 } : { listingTierWeight: 1, createdAt: -1 }
+
     // === Hybrid search logic ===
     if (search) {
       if (search.length >= 4 && search.includes(" ")) {
         textStages = [
-          { $match: { $text: { $search: search } } },
+          {
+            $match: {
+              ...baseMatch,
+              $text: { $search: search },
+            },
+          },
           { $addFields: { score: { $meta: "textScore" } } },
-          { $sort: { listingTierWeight: 1, score: -1, createdAt: -1 } },
+          {
+            $sort: isAdmin
+              ? { score: -1, createdAt: -1 }
+              : { listingTierWeight: 1, score: -1, createdAt: -1 },
+          },
         ]
       } else {
         const regexConditions = [
@@ -85,31 +107,39 @@ export const GET = async (req) => {
           { "agent.username": { $regex: search, $options: "i" } },
         ]
 
-        postTextStages.push({ $match: { $or: regexConditions } })
         postTextStages.push({
-          $sort: { listingTierWeight: 1, createdAt: -1 },
+          $match: {
+            ...baseMatch,
+            $or: regexConditions,
+          },
+        })
+
+        postTextStages.push({
+          $sort: defaultSort,
         })
       }
     } else {
-      const matchConditions = []
-      if (school) matchConditions.push({ school: { $regex: school, $options: "i" } })
-      if (location) matchConditions.push({ location: { $regex: location, $options: "i" } })
-      if (agentName)
-        matchConditions.push({
-          "agent.username": { $regex: agentName, $options: "i" },
-        })
-      if (status)
-        matchConditions.push({
-          status: { $regex: status, $options: "i" },
-        })
+      const match = { ...baseMatch }
 
-      if (matchConditions.length > 0) {
-        postTextStages.push({ $match: { $or: matchConditions } })
+      if (school) {
+        match.school = { $regex: school, $options: "i" }
       }
 
-      postTextStages.push({
-        $sort: { listingTierWeight: 1, createdAt: -1 },
-      })
+      if (location) {
+        match.location = { $regex: location, $options: "i" }
+      }
+
+      if (agentName) {
+        match["agent.username"] = { $regex: agentName, $options: "i" }
+      }
+
+      if (status) {
+        match.status = { $regex: status, $options: "i" }
+      }
+
+      postTextStages.push({ $match: match })
+
+      postTextStages.push({ $sort: defaultSort })
     }
 
     // === Combine stages in correct order ===
@@ -144,7 +174,7 @@ export const GET = async (req) => {
         rentedListings,
         reportedListings,
       },
-      { status: 200 }
+      { status: 200 },
     )
   } catch (err) {
     console.error(err)

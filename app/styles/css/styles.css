@@ -1530,7 +1530,7 @@ html.dark .adminDashboard_content .banner .text::before {
 
 .sidebar {
   width: 220px;
-  background-color: var(--color-darkblue);
+  background-color: var(--color-goldPrimary);
   min-height: 100vh;
   position: sticky;
   top: 0;

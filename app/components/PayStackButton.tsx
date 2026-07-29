@@ -1,5 +1,5 @@
 "use client"
-
+import { CreditCard } from "lucide-react"
 import { axiosdata } from "@utils/axiosUrl"
 import Button from "@lib/Button"
 import { WhiteLoader } from "@utils/loaders"
@@ -86,17 +86,15 @@ const PaystackBtn = ({
   return (
     <Button
       text={text}
-      className={`${
-        className ||
-        "self-center clickable my-4 flex items-center gap-1 text-white darkblue-gradient hover:scale-99 outline-2 outline-black transition-all duration-300 gloss font-bold py-3.5 px-8.5 rounded-md"
-      }`}
+      reverse={true}
+      className={`${className || "clickable gloss special-button"}`}
       onClick={() => {
         otherFunc && otherFunc()
         creating.value = true
         handlePaystack()
       }}
     >
-      {creating.value && <WhiteLoader />}
+      {creating.value ? <WhiteLoader /> : <CreditCard size={25} />}
     </Button>
   )
 }
