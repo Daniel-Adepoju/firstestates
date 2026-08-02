@@ -1,6 +1,6 @@
 import React from "react"
 
-export default function ListingAmenities({ listingDeets, handleInputChange }: any) {
+export default function ListingAmenities({ listingDeets, handleInputChange, inputRef }: any) {
   if (!listingDeets) return null
 
   const fields = [
@@ -25,12 +25,13 @@ export default function ListingAmenities({ listingDeets, handleInputChange }: an
               {f.label}
             </label>
             <input
+              ref={inputRef}
               id={f.key}
               name={f.key}
               type="number"
               placeholder="0"
               value={listingDeets[f.key].value || ""}
-              onChange={(e) => listingDeets[f.key].value = e.target.value}
+              onChange={(e) => (listingDeets[f.key].value = e.target.value)}
               className="border rounded p-2 dark:text-white dark:bg-darkGray"
             />
           </div>

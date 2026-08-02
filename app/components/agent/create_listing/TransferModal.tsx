@@ -1,20 +1,35 @@
 import { Check, Copy, X } from "lucide-react"
 import { useState } from "react"
+import { useRemoveWheel } from "@utils/useRemoveWheel"
 
 type Props = {
   isOpen: boolean
   onClose: () => void
   onClick: () => void
   amount: any
+  accountNum: string
+  accountName: string
+  setAccountNum: (value: string) => void
+  setAccountName: (value: string) => void
 }
 
 const ACCOUNT_NUMBER = "8137955560"
 const ACCOUNT_NAME = "First Estates"
 const BANK_NAME = "MoniePoint"
 
-const TransferModal = ({ isOpen, onClose, onClick, amount }: Props) => {
+const TransferModal = ({
+  isOpen,
+  onClose,
+  onClick,
+  amount,
+  accountNum,
+  accountName,
+  setAccountNum,
+  setAccountName,
+}: Props) => {
   const [copied, setCopied] = useState(false)
-
+  const inputRef = useRemoveWheel()
+  const isDisabled = !accountNum && !accountName
   if (!isOpen) return null
 
   const handleCopy = async () => {
@@ -24,6 +39,16 @@ const TransferModal = ({ isOpen, onClose, onClick, amount }: Props) => {
     setTimeout(() => {
       setCopied(false)
     }, 2000)
+  }
+
+  const handleInput = (e: any) => {
+    const { value, name } = e.target
+    if (name === "accountNum") {
+      setAccountNum(value)
+    }
+    if (name === "accountName") {
+      setAccountName(value)
+    }
   }
 
   return (
@@ -79,10 +104,35 @@ const TransferModal = ({ isOpen, onClose, onClick, amount }: Props) => {
           </div>
         </div>
 
+        <div className="mt-4 text-xs text-foreground">
+          Provide your account number, account name, or both to make the verification process
+          easier.
+        </div>
+        <div className="flex gap-2 items-center  w-full">
+          <input
+            ref={inputRef}
+            type="number"
+            name="accountNum"
+            value={accountNum}
+            onChange={handleInput}
+            placeholder="Enter your account number"
+            className="mt-4 w-full rounded-md border bg-background px-3 py-2 text-[13px] text-foreground placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="text"
+            name="accountName"
+            value={accountName}
+            onChange={handleInput}
+            placeholder="Enter your account name"
+            className="mt-4 w-full rounded-md border bg-background px-3 py-2 text-[13px] text-foreground placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
         <button
           onClick={onClick}
-          className="block mt-6 w-[60%] text-sm  rounded-xl justify-self-center mx-auto darkblue-gradient py-3 
-          font-medium text-white transition gloss clickable"
+          disabled={isDisabled}
+          className={`block mt-6 w-[60%] text-sm  rounded-xl justify-self-center mx-auto darkblue-gradient py-3 
+          font-medium text-white transition gloss clickable ${isDisabled ? "opacity-40 cursor-not-allowed" : ""}`}
         >
           I've Made the Transfer
         </button>
@@ -93,7 +143,8 @@ const TransferModal = ({ isOpen, onClose, onClick, amount }: Props) => {
             confirmed.
           </li>
           <li>
-            You'll, however see your newly created listing in your dashboard with it's status marked as pending
+            You'll, however see your newly created listing in your dashboard with it's status marked
+            as pending
           </li>
         </ol>
       </div>

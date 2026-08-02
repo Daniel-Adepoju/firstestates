@@ -12,7 +12,11 @@ import { sendEmail } from "@lib/server/sendEmail"
 export const createListing = async (val) => {
   const session = await auth()
   const userId = session?.user.id
-  const newVal = { ...val, agent: userId }
+
+  const { accountNum, accountName, ...listingData } = val
+
+  const newVal = { ...listingData, agent: userId }
+
   await connectToDB()
 
   try {
@@ -38,6 +42,14 @@ export const createListing = async (val) => {
          <p>
           Agent: <strong>${listing.agent.username}.</strong>
           </p>
+            <p>
+          Account Number: <strong>${accountNum}.</strong>
+          </p>
+            <p>
+          Account Name: <strong>${accountName}.</strong>
+          </p>
+            <p>
+
           `,
       })
     }

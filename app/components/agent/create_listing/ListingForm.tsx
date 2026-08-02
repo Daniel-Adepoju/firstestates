@@ -18,10 +18,11 @@ import ListingLocation from "./ListingLocation"
 import ListingSubmit from "./ListingSubmit"
 import TransferModal from "./TransferModal"
 import LoadingBoard from "@components/LoadingBoard"
-import { Info, X } from "lucide-react"
+import { Info } from "lucide-react"
 import TagsInput from "./TagsInput"
 import { getListingTier } from "@lib/constants"
 import ListingVideo from "./ListingVideo"
+import { useRemoveWheel } from "@utils/useRemoveWheel"
 
 // global signals
 export const listingDeets = {
@@ -53,18 +54,18 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
   const [school, setSchool] = useState("")
   const [area, setArea] = useState("")
   const [areas, setAreas] = useState<string[]>([])
+  const removeWheelRef = useRemoveWheel()
   const [incomplete, setIncomplete] = useState(false)
   const creating = useSignal(false)
+  const tier = getListingTier(listingTier)
+  const amount = tier?.amount || 0
+  const listingTierWeight = tier?.rank || 3
+  const [accountNum, setAccountNum] = useState("")
+  const [accountName, setAccountName] = useState("")
   const schoolArea = schools
     .filter((s: any) => s.shortname.toLocaleLowerCase() === school.toLocaleLowerCase())
     .map((s: any) => s.schoolAreas)
     .flat()
-
-  const tier = getListingTier(listingTier)
-  const amount = tier?.amount || 0
-
-  const listingTierWeight = tier?.rank || 3
-
   // ============= Ensure filled fields =============
 
   useEffect(() => {
@@ -162,6 +163,8 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
         listingTierWeight,
         isFeatured: tier?.rank === 3,
         validUntil,
+        accountNum,
+        accountName,
       })
 
       if (res.status === "success") {
@@ -231,6 +234,10 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
             isOpen={isTransferOpen}
             onClose={() => setIsTransferOpen(false)}
             amount={tier?.amount}
+            accountNum={accountNum}
+            accountName={accountName}
+            setAccountNum={setAccountNum}
+            setAccountName={setAccountName}
             onClick={() => {
               // setIsTransferOpen(false)
               handleCreateListing({ typeOfPayment: "transfer" })
@@ -249,7 +256,10 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
             listingDeets={listingDeets}
           />
 
-          <ListingAmenities listingDeets={listingDeets} />
+          <ListingAmenities
+            inputRef={removeWheelRef}
+            listingDeets={listingDeets}
+          />
 
           <ListingLocation
             listingDeets={listingDeets}
