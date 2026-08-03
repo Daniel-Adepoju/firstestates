@@ -43,10 +43,10 @@ export const createListing = async (val) => {
           Agent: <strong>${listing.agent.username}.</strong>
           </p>
             <p>
-          Account Number: <strong>${accountNum}.</strong>
+          Account Number: <strong>${accountNum || 'Not Provided'}.</strong>
           </p>
             <p>
-          Account Name: <strong>${accountName}.</strong>
+          Account Name: <strong>${accountName || 'Not Provided'}.</strong>
           </p>
             <p>
 
