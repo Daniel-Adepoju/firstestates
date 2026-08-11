@@ -1,5 +1,5 @@
 import { useRef, useEffect } from "react"
-import { ArrowBigLeft, ArrowBigRight, ChevronRightCircle, Star } from "lucide-react"
+import { ChevronRightCircle, Star } from "lucide-react"
 import FeaturedCard from "./FeaturedCard"
 import { useGetFeaturedListings } from "@lib/customApi"
 import { Skeleton } from "../ui/skeleton"
@@ -64,10 +64,11 @@ const Featured = () => {
   if (isLoading) {
     return (
       <div className="w-full my-4">
-        <h1 className="subheading flex items-center gap-1 ml-4 mb-2 text-center">
-          Featured
-          <ChevronRightCircle className="relative w-6 h-6" />
-        </h1>
+        <div className="subheading flex items-center gap-2 ml-4 mb-2 text-center">
+         <Star className="relative w-6 h-6 text-goldPrimary" />
+          <span>Featured</span>
+          
+        </div>
 
         <div className="mx-auto featured_container w-90 md:w-181 xl:w-271 grid grid-flow-col auto-cols-auto gap-1 overflow-x-hidden">
           {[...Array(6)].map((_, i) => (
@@ -85,10 +86,11 @@ const Featured = () => {
     <>
       {data?.featuredListings.length > 0 && (
         <>
-          <h1 className="subheading flex items-center gap-1 ml-4  text-center">
-            Featured
-            <ChevronRightCircle className="relative w-6 h-6" />
-          </h1>
+          <div className="subheading flex items-center gap-2 ml-4  text-center">
+                <Star className="relative w-6 h-6 text-goldPrimary" />
+            <span>Featured</span>
+       
+          </div>
 
           {!isLoading && (
             <div className="featured darkblue-gradient-vertical w-[92%] md:w-[95%] lg:w-[98%] min-h-[20vh] mx-auto my-2 rounded-xl">

@@ -6,7 +6,11 @@ import Filter from "@/components/Filter"
 import CardList from "@components/listing/CardList"
 import PopularThisWeek from "@/components/PopularThisWeek"
 import Featured from "@components/listing/Featured"
-import { ArrowLeftFromLine, ChevronDownCircle, ChevronRightCircle } from "lucide-react"
+import {
+  ArrowLeftFromLine,
+  ChevronDownCircle,
+  MapPin,
+} from "lucide-react"
 import Link from "next/link"
 
 const HomePage = () => {
@@ -88,12 +92,12 @@ const HomePage = () => {
       )}
 
       {/* Section header */}
-      <div className="subheading ml-4 p-1 w-full">
+      <div className="subheading ml-3 p-1 w-full flex  gap-2 items-center">
+           <MapPin className='text-goldPrimary w-6 h-6'/>
         <div>
-          Recent Listings from {school.value ? "" : "all "}
+          Showing from {school.value ? "" : "all "}
           <span className="capitalize inline-flex items-center gap-1">
             {school.value || "schools"}
-            <ChevronRightCircle className="w-6 h-6" />
           </span>
         </div>
       </div>

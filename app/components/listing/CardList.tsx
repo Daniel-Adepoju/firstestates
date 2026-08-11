@@ -69,7 +69,7 @@ const CardList = ({ limit = 12, filters, page }: CardListProps) => {
   ))
 
   if (isError) {
-    return <div className="card">Failed to load listings</div>
+    return <div className="w-full h-40  text-red-500  flex justify-center items-center">Failed to load listings</div>
   }
 
   return (

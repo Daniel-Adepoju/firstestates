@@ -4,17 +4,18 @@ import { useGetPopularListings } from "@lib/customApi"
 import { Skeleton } from "./ui/skeleton"
 import PopularCard from "./listing/PopularCard"
 import ScrollController from "./ScrollController"
-import { ChevronRightCircle } from "lucide-react"
+import {ChartBarIncreasing} from "lucide-react"
 
 export default function PopularThisWeek() {
   const { data, isLoading } = useGetPopularListings()
   const scrollRef = useRef<HTMLDivElement>(null)
   return (
     <>
-      <div className="flex items-center w-[98%]">
-        <div className="mx-auto w-[90%]  subheading flex items-center gap-1 ml-4 py-1 text-xl font-semibold relative">
-         <span>Popular This Week</span> 
-          <ChevronRightCircle className="relative w-6 h-6" />
+      <div className="flex items-center w-[98%]"> 
+        <div className="mx-auto w-[90%]  subheading flex items-center gap-2 ml-4 py-1 text-xl font-semibold relative">
+         <ChartBarIncreasing className="relative w-6 h-6 text-goldPrimary"/>  
+           <span>Popular This Week</span> 
+      
         </div>
         <ScrollController scrollRef={scrollRef}  className='w-[30%]'/>
       </div>
