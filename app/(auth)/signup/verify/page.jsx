@@ -1,15 +1,18 @@
 "use client"
 
+import { useUser } from "@utils/user"
+import { signInClient } from "@lib/signInClient"
 import { useSignal, useSignals } from "@preact/signals-react/runtime"
 import { WhiteLoader, DotsLoader } from "@utils/loaders"
 import Button from "@lib/Button"
 import { useEffect, useState } from "react"
 import { useNotification } from "@lib/Notification"
 import { useRouter, useSearchParams } from "next/navigation"
-import { verifyOTP, sendOTP, signInWithCredentials } from "@lib/server/auth"
+import { verifyOTP, sendOTP } from "@lib/server/auth"
 
 const Verify = () => {
   useSignals()
+  const { update } = useUser()
   const notification = useNotification()
   const validTime = useSignal(60)
   const router = useRouter()
@@ -118,8 +121,7 @@ const Verify = () => {
       setVerifying(false)
       if (res.status === "success") {
         setLoggingIn(true)
-        await signInWithCredentials(email, password)
-        router.push("/")
+        await signInClient(email, password)
       }
     } catch (err) {
       console.log(err)
@@ -138,7 +140,7 @@ const Verify = () => {
       <div className="blackboard">
         <div className="blackboardItems">
           <div className="subheading">Signing You In</div>
-          <DotsLoader className="dark:bg-white bg-gray-500"/>
+          <DotsLoader className="dark:bg-white bg-gray-500" />
         </div>
       </div>
     )

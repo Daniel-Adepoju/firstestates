@@ -117,6 +117,7 @@ export const verifyOTP = async (val) => {
   }
 }
 
+// obsolete
 export const signInWithCredentials = async (email, password) => {
   const ip = (await headers()).get("x-forwarded-for") || "127.0.0.1"
   const { success } = await ratelimit.limit(ip)
@@ -159,6 +160,7 @@ export const signInWithGoogle = async () => {
   return
 }
 
+// obsolete
 export const logOut = async () => {
   await signOut({ redirect: false })
   redirect("/logged-out")

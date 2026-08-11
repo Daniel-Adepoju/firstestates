@@ -1,6 +1,7 @@
 "use client"
+import {useEffect} from "react"
 import Link from "next/link"
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useSignals } from "@preact/signals-react/runtime"
 import { signal } from "@preact/signals-react"
 import Button from "@lib/Button"
@@ -8,10 +9,12 @@ import { useUser } from "@utils/user"
 import { WhiteLoader, Loader, DotsLoader } from "@utils/loaders"
 import { useToast } from "@utils/Toast"
 import { useState } from "react"
-import { sendOTP, signInWithCredentials, signInWithGoogle } from "@lib/server/auth"
+import { signInClient } from "@lib/signInClient"
+import { sendOTP, signInWithGoogle } from "@lib/server/auth"
 import { useSchools } from "@lib/useSchools"
 import Image from "next/image"
 import { HelpCircle, EyeOff, Eye, ChevronRight, ChevronLeft } from "lucide-react"
+// import { removeSearchParams } from "@utils/removeSParams"
 
 export const userDeets = {
   email: signal(""),
@@ -26,6 +29,8 @@ export const userDeets = {
 const Form = () => {
   useSignals()
   const { setToastValues } = useToast()
+  const searchParams = useSearchParams()
+  const isError = searchParams.get("error")
   const { status } = useUser()
   const pathname = usePathname()
   const router = useRouter()
@@ -35,6 +40,20 @@ const Form = () => {
   const { schools } = useSchools()
   const [showPassword, setShowPassword] = useState(false)
   const [step, setStep] = useState(1)
+
+  // Remove the error from the URL after consuming it
+  useEffect(() => {
+    if (isError === "CredentialsSignin") {
+      setToastValues({
+        isActive: true,
+        message: "Invalid email or password",
+        status: "danger",
+        duration: 3000,
+      })
+
+      router.replace("/login", { scroll: false })
+    }
+  }, [isError, router, setToastValues])
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -123,34 +142,28 @@ const Form = () => {
   //Log In
   const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    //  removeSearchParams(searchParams, ["error"])
     setSending(true)
     try {
-      const res = await signInWithCredentials(userDeets.email.value, userDeets.password.value)
-      if (res.status === "success") {
-        setToastValues({
-          isActive: true,
-          message: res.message,
-          status: res.status,
-          duration: 2000,
-        })
-        setLoggingIn(true)
-        router.push("/")
-      } else {
-        setToastValues({
-          isActive: true,
-          message: res.message,
-          status: res.status,
-          duration: 2000,
-        })
+      const res = await signInClient(userDeets.email.value, userDeets.password.value)
+
+      if (res?.status === "rate_limited") {
+        router.push("/too-fast")
+        return
       }
-      setSending(false)
-      console.log(res.other)
+
+   
+      if (!isError) {
+        setLoggingIn(true)
+      }
+
+
     } catch (err) {
-      console.log(err)
       setSending(false)
+      console.log(err)
       setToastValues({
         isActive: true,
-        message: "An error occured, please try again",
+        message: "Something went wrong, please try again",
         status: "danger",
         duration: 2000,
       })
@@ -175,6 +188,17 @@ const Form = () => {
     }
   }
 
+  if (loggingIn) {
+    return (
+      <div className="blackboard">
+        <div className="blackboardItems">
+          <div className="subheading">Logging In</div>
+          <DotsLoader className="dark:bg-white bg-gray-500" />
+        </div>
+      </div>
+    )
+  }
+
   if (status === "authenticated") {
     return (
       <div className="w-full h-[90vh] flex flex-col gap-4 items-center justify-center">
@@ -190,21 +214,10 @@ const Form = () => {
     )
   }
 
-  if (status === "loading") {
+  if (status === "loading" && !isError) {
     return (
       <div className="w-full h-[90vh] flex flex-col items-center justify-center">
         <DotsLoader className="dark:bg-white bg-gray-500" />
-      </div>
-    )
-  }
-
-  if (loggingIn) {
-    return (
-      <div className="blackboard">
-        <div className="blackboardItems">
-          <div className="subheading">Logging In</div>
-          <DotsLoader className="dark:bg-white bg-gray-500" />
-        </div>
       </div>
     )
   }
