@@ -183,13 +183,13 @@ const CardBody = ({ listing, edit, isAgentCard, address, weeklyViews, totalViews
             <div className="w-full flex flex-col pt-1 gap-2 pl-3 font-semibold">
               <div className="text-gray-500 dark:text-gray-400 flex flex-row gap-3 items-center text-sm">
                 <Eye size={20} />
-                Past Week Views
+                Views this week
                 <span className="views smallNum text-gray-700 dark:text-white">{weeklyViews}</span>
               </div>
 
               <div className="text-gray-500 dark:text-gray-400 flex flex-row gap-3 items-center text-sm">
                 <Eye size={20} />
-                Total Views
+                All-time views
                 <span className="views smallNum">{totalViews}</span>
               </div>
             </div>

@@ -21,9 +21,9 @@ export const metadata = {
 
 export default async function AdminLayout({ children }) {
   const session = await auth()
-  // !session || session?.user?.role !== 'admin'
+  const isAdmin = !session || session?.user?.role !== 'admin'
 
-  if (!session) {
+  if (isAdmin) {
     return (
       <div className="flex min-h-[90vh] w-full items-center justify-center p-4 sm:p-6">
         <div className="flex w-full max-w-md flex-col items-center gap-5 rounded-3xl border border-zinc-200 bg-white/80 p-6 text-center shadow backdrop-blur-sm dark:border-zinc-800 dark:bg-darkGray sm:p-8">
