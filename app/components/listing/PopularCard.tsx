@@ -64,7 +64,7 @@ const PopularCard = ({ listing, type, refValue,isAnimation=false,wAndH }: PopCar
         )}
       </div>
 
-      <div className="text-md  text-gray-700 dark:text-white font-bold capitalize">
+      <div className="text-md  text-gray-700  dark:text-white font-bold capitalize">
         {listing?.school}
       </div>
 
