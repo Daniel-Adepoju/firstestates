@@ -199,7 +199,7 @@ const Faqs = () => {
               </div>
 
               <Link
-                href="/info/contact"
+                href="/info/contact-us"
                 className="text-gray-700 group inline-flex w-fit items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-semibold transition-all duration-300 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary-foreground focus:ring-offset-2 focus:ring-offset-primary"
               >
                 Contact Us
