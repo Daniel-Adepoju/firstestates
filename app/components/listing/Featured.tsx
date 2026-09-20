@@ -93,7 +93,7 @@ const Featured = () => {
           </div>
 
           {!isLoading && (
-            <div className="featured darkblue-gradient-vertical w-[92%] md:w-[95%] lg:w-[98%] min-h-[20vh] mx-auto my-2 rounded-xl">
+            <div className="featured dark-to-lightblue-gradient w-[92%] md:w-[95%] lg:w-[98%] min-h-[20vh] mx-auto my-2 rounded-xl">
               <Swiper
                 modules={[Pagination, Autoplay, A11y, EffectCoverflow]}
                 effect="coverflow"

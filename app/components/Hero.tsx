@@ -1,131 +1,165 @@
 import { useUser } from "@utils/user"
 import Link from "next/link"
-import { ArrowRightIcon } from "lucide-react"
+import Image from "next/image"
+import { CldImage } from "next-cloudinary"
+import { useGetFeaturedListings } from "@lib/customApi"
+import { ArrowRight, CheckCircle2, MapPin, Sparkles, Star } from "lucide-react"
 
 const HeroSection = () => {
   const { session } = useUser()
-  const role = session?.user?.role
+  const { data: featuredData, isLoading: featuredLoading } = useGetFeaturedListings()
+  const isAgent = session?.user?.role === "agent"
+  const featuredListing = featuredData?.featuredListings?.[0]
+  const hasFeaturedListing = Boolean(featuredListing)
+  const hasCloudinaryImage = Boolean(
+    featuredListing?.mainImage && !featuredListing.mainImage.startsWith("http"),
+  )
 
   return (
-    <section className="darkblue-gradient-vertical w-full dark:text-white rounded-b-4xl mx-auto mb-3 relative min-h-[30vh] flex items-center overflow-hidden">
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-0 left-0 w-full h-full bg-[url('/pattern-grid.svg')] bg-repeat"></div>
-      </div>
+    <section className="dark-to-lightblue-gradient relative isolate mb-3 w-full overflow-hidden rounded-b-[2.5rem] text-white shadow-[0_18px_45px_rgba(3,38,121,0.2)]">
+      <div className="absolute inset-0 -z-10 opacity-20 [background-image:linear-gradient(rgba(255,255,255,0.16)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.16)_1px,transparent_1px)] [background-size:42px_42px]" />
 
-      <div className="container mx-auto px-6 lg:px-12 py-24 pb-4 z-10">
-        <div className="writeName font-bold text-white text-3xl">First Estates</div>
-        <div className="flex flex-col lg:flex-row items-center gap-12">
-          <div className="space-y-6 text-center lg:text-left">
-            {role === "agent" ? (
+      <div className="mx-auto grid max-w-7xl items-center gap-10 px-6 pb-12 pt-24 sm:py-16 lg:grid-cols-[1.05fr_0.95fr] lg:px-12 lg:py-20 lg:pt-24">
+        <div className="animate-[fade-in-up_700ms_ease-out_both] text-center lg:text-left">
+          <div className="mb-7 flex items-center justify-center gap-2 text-sm font-semibold uppercase tracking-[0.2em] text-blue-100 lg:justify-start">
+            <Star
+              size={16}
+              className="text-[#f7b657]"
+            />
+            <span>First Estates</span>
+          </div>
+
+          <div className="font-head text-4xl font-bold leading-[0.98] sm:text-5xl lg:text-7xl">
+            {isAgent ? (
               <>
-                <div className="w-full flex flex-col  text-4xl md:text-5xl lg:text-6xl font-bold text-gray-100 leading-tight">
-                  <span className="gold-gradient-text">List Properties</span>
-                  <span className="blue-gradient-text">Confidently</span>
-                </div>
-
-                <p className="dark:text-white text-lg md:text-xl text-gray-100 max-w-lg mx-auto lg:mx-0">
-                  Easily reach students and renters actively searching for apartments.
-                  <span className="block mt-2 font-medium">
-                    Fast listings. Smart matches. Zero hassle.
-                  </span>
-                </p>
-                <Link
-                  href="/agent"
-                  className="smallScale w-60 flex items-center gap-1 clickable py-3 px-4
-         text-gray-100 bg-darkblue rounded-md shadow-md"
-                >
-                  <span>Proceed To Dashboard</span>
-                  <ArrowRightIcon size={25} />
-                </Link>
-                <div className="text-gray-100 flex flex-wrap justify-center lg:justify-start items-center gap-4 pt-6">
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-4 w-4 text-white"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </div>
-                    <span className="text-sm">Easy Listing Tools</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-4 w-4 text-white"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </div>
-                    <span className="text-sm">Targeted Exposure</span>
-                  </div>
-                </div>
+                <span className="block font-list text-[#f7b657]">List properties</span>
+                <span className="block text-white">with confidence.</span>
               </>
             ) : (
               <>
-                <div className="w-full flex flex-col  text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-                  <span className="w-full gold-gradient-text">Find Your Perfect</span>
-                  <span className="w-full blue-gradient-text">Student Home</span>
-                </div>
-
-                <p className="font-medium dark:text-white text-md md:text-lg text-gray-100 max-w-lg mx-auto lg:mx-0">
-                  Affordable, safe, and verified apartments near your campus.
-                  <span className="block mt-2 font-semibold">No hidden fees. No stress.</span>
-                </p>
-
-                <div className="text-gray-100 flex flex-wrap justify-center lg:justify-start items-center gap-4 pt-6">
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-4 w-4 text-white"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </div>
-                    <span className="text-sm">Verified Properties</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-4 w-4 text-white"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </div>
-                    <span className="text-sm">24/7 Support</span>
-                  </div>
-                </div>
+                <span className="block font-list text-[#f7b657]">Find Your Perfect</span>
+                <span className="block font-list text-white">Student Home.</span>
               </>
             )}
           </div>
+
+          <p className="mx-auto mt-7 max-w-xl text-base leading-7 text-blue-50 sm:text-lg lg:mx-0">
+            {isAgent
+              ? "Reach students and renters actively searching for a place to live. Fast listings, smart matches, zero hassle."
+              : "Affordable, safe, and verified apartments near your campus. No hidden fees. No stress."}
+          </p>
+
+          {isAgent && (
+            <Link
+              href="/agent"
+              className="group mt-8 inline-flex items-center gap-3 rounded-xl bg-white px-5 py-3.5 text-sm font-bold text-[#032679] shadow-lg transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f7b657]"
+            >
+              Open agent dashboard
+              <ArrowRight
+                size={18}
+                className="transition-transform group-hover:translate-x-1"
+              />
+            </Link>
+          )}
+
+          <div className="mt-9 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-blue-50 lg:justify-start">
+            <span className="inline-flex items-center gap-2">
+              <CheckCircle2
+                size={17}
+                className="text-[#7ee2a8]"
+              />
+              {isAgent ? "Easy listing tools" : "Verified properties"}
+            </span>
+            <span className="inline-flex items-center gap-2">
+              <CheckCircle2
+                size={17}
+                className="text-[#f7b657]"
+              />
+              {isAgent ? "Targeted exposure" : "Campus-friendly locations"}
+            </span>
+          </div>
         </div>
+
+        {!isAgent && hasFeaturedListing && (
+          <Link
+            href={
+              featuredListing?._id
+                ? `/listings/single_listing?id=${featuredListing._id}`
+                : "/search"
+            }
+            className="group relative mx-auto block aspect-[4/3] w-full max-w-xl overflow-hidden rounded-[2rem] border border-white/30 bg-white/10 p-2 shadow-2xl backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f7b657] lg:ml-auto"
+          >
+            <div className="relative h-full w-full overflow-hidden rounded-[1.5rem]">
+              {hasCloudinaryImage ? (
+                <CldImage
+                  src={featuredListing.mainImage}
+                  alt={featuredListing.address || "Featured home on First Estates"}
+                  fill
+                  priority
+                  crop="fill"
+                  className="object-cover transition-transform duration-700 group-hover:scale-101"
+                />
+              ) : (
+                <Image
+                  src="/images/house1.jpg"
+                  alt="A bright home listed on First Estates"
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 90vw, 40vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-101"
+                />
+              )}
+            </div>
+
+            <div className="absolute inset-x-6 bottom-6 flex items-center justify-between rounded-2xl border border-white/20 bg-[#032679]/85 px-4 py-3 text-left backdrop-blur-md">
+              <div>
+                <p className="text-sm font-medium text-blue-100">{featuredListing?.school}</p>
+                <p className="mt-1 flex items-center gap-1.5 text-sm font-semibold text-white">
+                  <MapPin
+                    size={14}
+                    className="text-[#f7b657]"
+                  />
+                  {featuredListing?.location || featuredListing?.school || "Near your campus"}
+                </p>
+              </div>
+              <div className="text-right">
+                <span className="flex items-center justify-end gap-1 text-xs font-semibold text-[#f7b657]">
+                  <Star
+                    size={13}
+                    fill="currentColor"
+                  />{" "}
+                  Featured
+                </span>
+                {featuredListing?.price && (
+                  <span className="mt-1 block text-xs font-semibold text-white">
+                    ₦{Number(featuredListing.price).toLocaleString()}
+                  </span>
+                )}
+              </div>
+            </div>
+          </Link>
+        )}
+
+        {!isAgent && !featuredLoading && !hasFeaturedListing && (
+          <Link
+            href="/search"
+            className="group relative mx-auto flex aspect-[4/3] w-full max-w-xl items-center justify-center overflow-hidden rounded-[2rem] border border-white/20 bg-[#032679]/45 p-8 text-center shadow-2xl backdrop-blur-sm transition-colors hover:bg-[#032679]/65 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f7b657] lg:ml-auto"
+          >
+            <div>
+              <Star
+                size={28}
+                className="mx-auto text-[#f7b657]"
+              />
+              <p className="mt-4 text-lg font-semibold text-white">No featured homes right now</p>
+              <p className="mt-2 text-sm leading-6 text-blue-100">
+                Browse all available listings and find a place near your campus.
+              </p>
+              {/* <span className="mt-5 inline-flex rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-[#032679] transition-transform group-hover:-translate-y-0.5">
+                Browse listings
+              </span> */}
+            </div>
+          </Link>
+        )}
       </div>
     </section>
   )

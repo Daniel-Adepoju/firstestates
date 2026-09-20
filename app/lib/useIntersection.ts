@@ -2,11 +2,11 @@ import { useRef, useCallback } from "react"
 import { markAsRead } from "@lib/server/notificationFunctions"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
-export const useNextPage = (queryName:any) => {
+export const useNextPage = (queryName: any) => {
   const observer = useRef<any>(null)
 
   return useCallback(
-    (node:any) => {
+    (node: any) => {
       if (observer.current) {
         observer.current.disconnect()
       }
@@ -14,13 +14,13 @@ export const useNextPage = (queryName:any) => {
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
           queryName.fetchNextPage()
-            // console.log(entries[0].target.textContent)
+          // console.log(entries[0].target.textContent)
         }
       })
 
       if (node) return observer.current.observe(node)
     },
-    [queryName.isLoading, queryName.hasNextPage]
+    [queryName.isLoading, queryName.hasNextPage],
   )
 }
 
@@ -66,11 +66,7 @@ export const useNextPage = (queryName:any) => {
 //     [queryName.fetchPreviousPage, queryName.hasPreviousPage, queryName.isFetchingPreviousPage, isForChat],
 //   )
 // }
-export const useChatNextPage = (
-  queryName: any,
-  anchorRef: any = null,
-  isForChat = false,
-) => {
+export const useChatNextPage = (queryName: any, anchorRef: any = null, isForChat = false) => {
   const observer = useRef<IntersectionObserver | null>(null)
   const cooldown = useRef(false)
 
@@ -191,4 +187,46 @@ export const useChangeHash = () => {
 
     if (node) return observer.current.observe(node)
   }, [])
+}
+
+type AnimationStyle = "fade" | "fade-up" | "slide-left" | "slide-right" | "burst"
+
+interface AnimationIntersectionOptions {
+  animation?: AnimationStyle
+  threshold?: number
+  rootMargin?: string
+  once?: boolean
+}
+
+export const useAnimationIntersection = ({
+  animation = "fade-up",
+  threshold = 0.16,
+  rootMargin = "0px 0px -8% 0px",
+  once = true,
+}: AnimationIntersectionOptions = {}) => {
+  const observer = useRef<IntersectionObserver | null>(null)
+
+  return useCallback(
+    (node: HTMLElement | null) => {
+      observer.current?.disconnect()
+
+      if (!node) return
+
+      node.classList.add("landing-reveal")
+      node.dataset.reveal = animation
+
+      observer.current = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return
+
+          entry.target.classList.add("landing-reveal-visible")
+          if (once) observer.current?.unobserve(entry.target)
+        },
+        { threshold, rootMargin },
+      )
+
+      observer.current.observe(node)
+    },
+    [animation, rootMargin, threshold, once],
+  )
 }

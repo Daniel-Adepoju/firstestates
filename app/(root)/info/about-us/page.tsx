@@ -1,8 +1,5 @@
 "use client"
 
-import HeroSection from "@components/Hero"
-
-
 const people = [
   {
     name: "David Disu",
@@ -27,20 +24,15 @@ const people = [
 const AboutUs = () => {
   return (
     <>
-      <HeroSection />
-
-      <main className="container mx-auto px-4 py-16 md:py-24">
+      <main className="container mx-auto mt-8 px-4 py-16 md:py-24">
         <div className="mx-auto max-w-5xl space-y-20">
-
           {/* About */}
           <section className="text-center">
             <span className="mb-4 inline-block text-sm font-semibold uppercase tracking-[0.2em] text-primary">
               Who we are
             </span>
 
-            <h1 className="subheading mb-8">
-              About Us
-            </h1>
+            <h1 className="subheading mb-8">About Us</h1>
 
             <div className="mx-auto max-w-3xl rounded-2xl border border-border/50 bg-secondary/60 p-6 shadow-sm backdrop-blur-sm md:p-10">
               <h2 className="mb-4 text-xl font-semibold md:text-2xl">
@@ -48,14 +40,13 @@ const AboutUs = () => {
               </h2>
 
               <p className="text-base leading-7 text-muted-foreground md:text-lg">
-                First Estates is a platform built to connect property owners,
-                agents, and people looking for a place to call home.
+                First Estates is a platform built to connect property owners, agents, and people
+                looking for a place to call home.
               </p>
 
               <p className="mt-4 text-base leading-7 text-muted-foreground md:text-lg">
-                Whether you are listing a property or searching for your next
-                home, First Estates makes the process simpler, more accessible,
-                and less stressful.
+                Whether you are listing a property or searching for your next home, First Estates
+                makes the process simpler, more accessible, and less stressful.
               </p>
             </div>
           </section>
@@ -67,15 +58,11 @@ const AboutUs = () => {
                 What drives us
               </span>
 
-              <h2 className="subheading mb-3">
-                Our Mission
-              </h2>
+              <h2 className="subheading mb-3">Our Mission</h2>
 
               <p className="text-base leading-8 text-muted-foreground md:text-lg">
-                Our mission is to take the stress out of finding and renting
-                properties. We want to make property discovery straightforward
-                for students and everyone in
-                between.
+                Our mission is to take the stress out of finding and renting properties. We want to
+                make property discovery straightforward for students and everyone in between.
               </p>
             </div>
 
@@ -92,9 +79,7 @@ const AboutUs = () => {
               Why First Estates
             </span>
 
-            <h2 className="subheading mb-10">
-              Built around people
-            </h2>
+            <h2 className="subheading mb-10">Built around people</h2>
 
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {[
@@ -118,21 +103,16 @@ const AboutUs = () => {
                   key={value.title}
                   className="rounded-2xl border border-border/50 bg-secondary/50 p-6 text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
                 >
-                  <h3 className="mb-3 text-lg font-semibold">
-                    {value.title}
-                  </h3>
+                  <h3 className="mb-3 text-lg font-semibold">{value.title}</h3>
 
-                  <p className="text-sm leading-6 text-muted-foreground">
-                    {value.description}
-                  </p>
+                  <p className="text-sm leading-6 text-muted-foreground">{value.description}</p>
                 </article>
               ))}
             </div>
           </section>
 
-
-       {/* Team */}
-   {/* <section className="space-y-6 w-full">
+          {/* Team */}
+          {/* <section className="space-y-6 w-full">
         <h2 className="subheading">Key People</h2>
 
         <div className="flex items-center justify-evenly gap-8 pb-6">

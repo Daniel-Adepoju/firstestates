@@ -56,14 +56,76 @@ const SingleListing = ({ listingId, isAgent }: { listingId: string; isAgent?: bo
 
   if (isLoading)
     return (
-      <div
-        className={`py-2 gap-[30px] flex flex-col items-center w-full min-h-screen ${
-          isAgentView ? "mt-[0px]" : "mt-18"
-        }`}
-      >
-        <Skeleton className="bg-gray-500/20 w-full h-[300px] rounded-4xl" />
-        <Skeleton className="bg-gray-500/20 w-[90%] h-[100px] rounded-xl" />
-        <Skeleton className=" bg-gray-500/20 w-[80%] h-[190px] rounded-xl" />
+      <div className={`w-full text-foreground ${isAgentView ? "mt-0" : "mt-16 lg:mt-20"}`}>
+        <div className="singleCardCon animate-pulse">
+          <div className="singleCardSection">
+            <div className="single_card">
+              <Skeleton className="h-7 w-28 rounded-full bg-gray-500/20" />
+              <Skeleton className="h-[clamp(240px,52vw,520px)] w-full rounded-2xl bg-gray-500/20" />
+              <Skeleton className="mt-5 h-7 w-2/5 rounded-md bg-gray-500/20" />
+              <Skeleton className="mt-3 h-5 w-4/5 rounded-md bg-gray-500/20" />
+
+              <div className="mt-7 flex flex-wrap items-center justify-center gap-4 border-y border-border/50 py-5 sm:justify-between sm:px-6">
+                {Array.from({ length: 3 }).map((_, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center gap-3"
+                  >
+                    <Skeleton className="h-8 w-8 rounded-lg bg-gray-500/20" />
+                    <Skeleton className="h-4 w-24 rounded-md bg-gray-500/20" />
+                  </div>
+                ))}
+              </div>
+
+              <Skeleton className="mt-5 h-12 w-full rounded-xl bg-gray-500/20" />
+            </div>
+          </div>
+
+          <div className="singleCardSection">
+            <div className="single_card">
+              <div className="flex flex-col items-start gap-4">
+                <Skeleton className="h-8 w-32 rounded-full bg-gray-500/20" />
+                <Skeleton className="h-12 w-52 rounded-md bg-gray-500/20" />
+                <Skeleton className="h-4 w-32 rounded-md bg-gray-500/20" />
+                <Skeleton className="h-4 w-24 rounded-md bg-gray-500/20" />
+              </div>
+
+              <div className="mt-7 flex items-center gap-3 border-t border-border/50 pt-5">
+                <Skeleton className="h-9 w-9 rounded-full bg-gray-500/20" />
+                <Skeleton className="h-4 w-40 rounded-md bg-gray-500/20" />
+              </div>
+
+              <div className="mt-7 border-t border-border/50 pt-6">
+                <Skeleton className="h-6 w-36 rounded-md bg-gray-500/20" />
+                <div className="mt-4 space-y-3">
+                  <Skeleton className="h-4 w-4/5 rounded-md bg-gray-500/20" />
+                  <Skeleton className="h-4 w-3/5 rounded-md bg-gray-500/20" />
+                  <Skeleton className="h-10 w-full rounded-xl bg-gray-500/20" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="singleCardCon2 bg-background text-foreground">
+          <div className="singleCardSection">
+            <div className="single_card">
+              <Skeleton className="mx-auto h-7 w-32 rounded-md bg-gray-500/20" />
+              <div className="mt-5 space-y-3">
+                <Skeleton className="h-4 w-full rounded-md bg-gray-500/20" />
+                <Skeleton className="h-4 w-11/12 rounded-md bg-gray-500/20" />
+                <Skeleton className="h-4 w-4/5 rounded-md bg-gray-500/20" />
+              </div>
+            </div>
+          </div>
+
+          <div className="singleCardSection">
+            <div className="single_card">
+              <Skeleton className="mx-auto h-7 w-28 rounded-md bg-gray-500/20" />
+              <Skeleton className="mt-5 h-24 w-full rounded-xl bg-gray-500/20" />
+            </div>
+          </div>
+        </div>
       </div>
     )
 
@@ -121,7 +183,7 @@ const SingleListing = ({ listingId, isAgent }: { listingId: string; isAgent?: bo
             ) : (
               session?.user?.id !== listing?.agent?._id && (
                 <AgentDetails
-                listingId={listingId}
+                  listingId={listingId}
                   agent={listing?.agent}
                   session={session}
                   onPhone={() => window.open(`tel:${listing?.agent?.phone}`)}

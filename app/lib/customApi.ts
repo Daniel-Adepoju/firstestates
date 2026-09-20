@@ -1,4 +1,4 @@
-import { useQuery, useInfiniteQuery, useMutation,useQueryClient } from "@tanstack/react-query"
+import { useQuery, useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { axiosdata } from "@utils/axiosUrl"
 
 interface Config {
@@ -23,8 +23,8 @@ interface Config {
   date?: any
   views?: string
   isBookmarked?: string
-  isAdmin?:boolean
-  isPendingSpecific?:boolean
+  isAdmin?: boolean
+  isPendingSpecific?: boolean
 }
 type GetChatsProps = {
   conversationId?: string | null
@@ -39,9 +39,7 @@ type GetConversationsProps = {
   enabled?: boolean
 }
 
-export const setParams = (
-  params: Record<string, unknown>
-): URLSearchParams => {
+export const setParams = (params: Record<string, unknown>): URLSearchParams => {
   const searchParams = new URLSearchParams()
 
   Object.entries(params).forEach(([key, value]) => {
@@ -114,9 +112,7 @@ export const useGetListings = ({
       toilets,
       status,
     })
-    const res = await axiosdata.value.get(
-      `/api/listings?${params.toString()}`,
-    )
+    const res = await axiosdata.value.get(`/api/listings?${params.toString()}`)
 
     return res.data
   }
@@ -147,8 +143,8 @@ export const useSearchListings = ({
   agentName = "",
   search,
   status = "",
-  isAdmin=false,
-  isPendingSpecific=false,
+  isAdmin = false,
+  isPendingSpecific = false,
   enabled = true,
 }: Config) => {
   const getListings = async (page: string) => {
@@ -157,18 +153,48 @@ export const useSearchListings = ({
       agentName,
       status,
       isAdmin,
-      isPending:isPendingSpecific,
+      isPending: isPendingSpecific,
     })
-    const res = await axiosdata.value.get(
-      `/api/listings/search?${params.toString()}`,
-    )
+    const res = await axiosdata.value.get(`/api/listings/search?${params.toString()}`)
     return res.data
   }
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: !enabled ? [] : ["searchListings", { page, limit, search, agentName,isPendingSpecific }],
+    queryKey: !enabled
+      ? []
+      : ["searchListings", { page, limit, search, agentName, isPendingSpecific }],
     queryFn: () => getListings(page ?? "1"),
     enabled: enabled,
+  })
+
+  return { data, isLoading, isError }
+}
+
+export const useAISearchListing = ({
+  query,
+  page = "1",
+  limit,
+  enabled = true,
+}: {
+  query: string
+  page?: string
+  limit: number
+  enabled?: boolean
+}) => {
+  const searchListings = async () => {
+    const res = await axiosdata.value.post("/api/ai/search", {
+      query: query.trim(),
+      page,
+      limit,
+    })
+
+    return res.data
+  }
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["aiSearchListings", { query, page, limit }],
+    queryFn: searchListings,
+    enabled: enabled && !!query.trim(),
   })
 
   return { data, isLoading, isError }
@@ -312,9 +338,7 @@ export const useGetAgentListingsInfinite = ({
       school,
       location,
     })
-    const res = await axiosdata.value.get(
-      `/api/agent/listings?${params.toString()}`,
-    )
+    const res = await axiosdata.value.get(`/api/agent/listings?${params.toString()}`)
     return res.data
   }
 
@@ -503,7 +527,12 @@ export const useGetInhabitants = ({ listingId, agent = "", limit = 10, search = 
 
 // Chats
 
-export const useGetChats = ({ senderId, receiverId, limit = 30, enabled = true }: GetChatsProps) => {
+export const useGetChats = ({
+  senderId,
+  receiverId,
+  limit = 30,
+  enabled = true,
+}: GetChatsProps) => {
   const { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
       queryKey: ["chats", senderId, receiverId],
@@ -647,29 +676,21 @@ export const useGetConversations = ({
 }
 
 export const useGetUnreadCount = () => {
-  const {data} = useQuery({
+  const { data } = useQuery({
     queryKey: ["unreadCount"],
     queryFn: async () => {
-      const { data } = await axiosdata.value.get(
-        `/api/chats/unread`
-      )
+      const { data } = await axiosdata.value.get(`/api/chats/unread`)
       return data
     },
   })
-  return {unreadCount: data?.unread || 0}
+  return { unreadCount: data?.unread || 0 }
 }
 
 export const useReadChat = () => {
   const queryClient = useQueryClient()
 
   const mutateRead = useMutation({
-    mutationFn: async ({
-      userId,
-      conversationId,
-    }: {
-      userId: string
-      conversationId: string
-    }) => {
+    mutationFn: async ({ userId, conversationId }: { userId: string; conversationId: string }) => {
       const { data } = await axiosdata.value.patch("/api/chats/read", {
         userId,
         conversationId,
@@ -699,7 +720,6 @@ export const useReadChat = () => {
     //     ],
     //   })
     // },
-
   })
 
   return mutateRead

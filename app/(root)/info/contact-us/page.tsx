@@ -1,6 +1,5 @@
 'use client'
 
-import HeroSection from "@components/Hero"
 import { Mail, Phone, ArrowUpRight, MessageCircle } from "lucide-react"
 
 const contactInfo = [
@@ -23,9 +22,7 @@ const contactInfo = [
 const ContactUs = () => {
   return (
     <>
-      <HeroSection />
-
-      <main className="container mx-auto px-4 py-16 md:py-24">
+      <main className="container mt-8 mx-auto px-4 py-16 md:py-24">
         <div className="mx-auto max-w-5xl space-y-20">
 
           {/* Header */}

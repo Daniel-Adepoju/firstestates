@@ -146,6 +146,68 @@ body {
   background-image: var(--color-background-gradient);
 }
 
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.landing-reveal {
+  opacity: 0;
+  transition:
+    opacity 700ms ease,
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.landing-reveal[data-reveal="fade"] {
+  transform: none;
+}
+
+.landing-reveal[data-reveal="fade-up"] {
+  transform: translateY(34px);
+}
+
+.landing-reveal[data-reveal="slide-left"] {
+  transform: translateX(42px);
+}
+
+.landing-reveal[data-reveal="slide-right"] {
+  transform: translateX(-42px);
+}
+
+.landing-reveal[data-reveal="burst"] {
+  transform: scale(0.92) rotate(1deg);
+}
+
+.landing-reveal-visible {
+  opacity: 1;
+  transform: translate(0) scale(1) rotate(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-reveal,
+  .landing-reveal-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 /* gradient utilities */
 
 @utility darkblue-gradient {
@@ -154,6 +216,10 @@ body {
 
 @utility darkblue-gradient-vertical {
   background: linear-gradient(to bottom, #0440c8, #032679);
+}
+
+@utility dark-to-lightblue-gradient {
+  background: linear-gradient(115deg, #032679 0%, #0440c8 58%, #0881a3 100%);
 }
 
 @utility gold-gradient {
@@ -300,7 +366,7 @@ dark:shadow-[0_1px_2px_rgba(0,0,0,0.3)];
   }
 }
 
-@layer special{
+@layer special {
   .special-button {
     @apply self-center my-3 flex items-center gap-2 text-white darkblue-gradient hover:scale-99 
     outline-2 outline-black transition-all duration-300  font-bold py-3.5 px-8.5 rounded-xl;

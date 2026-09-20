@@ -1,6 +1,4 @@
-'use client'
-
-import HeroSection from "@components/Hero"
+"use client"
 
 const policies = [
   {
@@ -43,20 +41,15 @@ const policies = [
 const Privacy = () => {
   return (
     <>
-      <HeroSection />
-
-      <main className="container mx-auto px-4 py-12 md:py-10">
+      <main className="container mt-8 mx-auto px-4 py-12 md:py-10">
         <div className="mx-auto max-w-5xl space-y-20">
-
           {/* Header */}
           <section className="mx-auto text-center">
             <span className="mb-4 inline-block text-sm font-semibold uppercase tracking-[0.2em] text-primary">
               Your privacy matters
             </span>
 
-            <h1 className="subheading mb-8">
-              Privacy Policy
-            </h1>
+            <h1 className="subheading mb-8">Privacy Policy</h1>
 
             <article className="mx-auto max-w-3xl rounded-2xl border border-border/50 bg-secondary/60 p-6 shadow-sm backdrop-blur-sm md:p-10">
               <p className="text-base leading-7 font-card font-medium md:text-lg">
@@ -64,7 +57,8 @@ const Privacy = () => {
               </p>
 
               <p className="mt-4 text-base leading-7 text-muted-foreground md:text-lg">
-                This policy explains how First Estates collects, uses, and protects your information.
+                This policy explains how First Estates collects, uses, and protects your
+                information.
               </p>
             </article>
           </section>
@@ -76,9 +70,7 @@ const Privacy = () => {
                 How we handle your data
               </span>
 
-              <h2 className="subheading">
-                Our Privacy Practices
-              </h2>
+              <h2 className="subheading">Our Privacy Practices</h2>
             </div>
 
             <div className="mx-auto max-w-4xl space-y-4">
@@ -104,7 +96,6 @@ const Privacy = () => {
               ))}
             </div>
           </section>
-
         </div>
       </main>
     </>

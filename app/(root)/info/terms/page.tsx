@@ -1,7 +1,5 @@
 'use client'
 
-import HeroSection from "@components/Hero"
-
 const terms = [
   {
     title: "Use of the Platform",
@@ -38,9 +36,7 @@ const terms = [
 const Terms = () => {
   return (
     <>
-      <HeroSection />
-
-      <main className="container mx-auto px-4 py-12 md:py-10">
+      <main className="container mt-8 mx-auto px-4 py-12 md:py-10">
         <div className="mx-auto max-w-5xl space-y-20">
 
           {/* Header */}

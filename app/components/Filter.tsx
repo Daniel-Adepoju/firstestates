@@ -1,7 +1,7 @@
 "use client"
 import Button from "@lib/Button"
 import { useEffect, useState } from "react"
-import { SlidersHorizontal, ListFilter, Sliders } from "lucide-react"
+import { SlidersHorizontal, ListFilter } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Signal } from "@preact/signals-react"
 import { useSignals } from "@preact/signals-react/runtime"
@@ -81,7 +81,7 @@ const Filter = ({
       {active.value && (
         <form
           onSubmit={handleSubmit}
-          className="dark:bg-darkGray bg-white mx-auto w-[88%] p-4 rounded-xl shadow space-y-4"
+          className="mb-4 dark:bg-darkGray bg-white mx-auto w-[88%] p-4 rounded-xl shadow space-y-4"
         >
           {/*  Header */}
           <header className="flex items-center gap-1 text-2xl capitalize font-extrabold text-center hyphen-auto tracking-wide">
@@ -106,7 +106,7 @@ const Filter = ({
                   name="school"
                   value={school}
                   onChange={(e) => setSchool(e.target.value)}
-                  className="dark:bg-darkGray w-full focus:outline-2 outline-slate-200 dark:outline-gray-800 rounded-sm p-2 py-3"
+                  className="dark:bg-darkGray w-full rounded-lg border border-slate-300 bg-transparent p-2.5 py-3 text-foreground outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20 dark:border-gray-600"
                 >
                   <option value="">All Schools</option>
                   {schools.map((school: School) => (
@@ -134,7 +134,7 @@ const Filter = ({
                 name="area"
                 value={area}
                 onChange={(e) => setArea(e.target.value)}
-                className="dark:bg-darkGray w-full focus:outline-2 outline-slate-200 dark:outline-gray-800 rounded-sm p-2 py-3"
+                className="dark:bg-darkGray w-full rounded-lg border border-slate-300 bg-transparent p-2.5 py-3 text-foreground outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20 dark:border-gray-600"
               >
                 <option value="">All Areas</option>
                 {areas.map((area) => (
@@ -216,7 +216,7 @@ const Filter = ({
                   value={bedsState}
                   placeholder="0"
                   onChange={(e) => setBedsState(e.target.value)}
-                  className="w-16 p-1 focus:outline-2 outline-slate-200 dark:outline-gray-800 rounded text-center dark:bg-darkGray"
+                  className="w-16 rounded-lg border border-slate-300 bg-transparent p-2 text-center text-foreground outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-darkGray"
                 />
               </div>
               <div className="flex flex-col items-center">
@@ -234,7 +234,7 @@ const Filter = ({
                   value={bathsState}
                   placeholder="0"
                   onChange={(e) => setBathsState(e.target.value)}
-                  className="w-16 p-1 focus:outline-2 outline-slate-200 dark:outline-gray-800 rounded text-center dark:bg-darkGray"
+                  className="w-16 rounded-lg border border-slate-300 bg-transparent p-2 text-center text-foreground outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-darkGray"
                 />
               </div>
               <div className="flex flex-col items-center">
@@ -252,19 +252,24 @@ const Filter = ({
                   value={toiletsState}
                   placeholder="0"
                   onChange={(e) => setToiletsState(e.target.value)}
-                  className="w-16 p-1 focus:outline-2 outline-slate-200 dark:outline-gray-800 rounded text-center dark:bg-darkGray"
+                  className="w-16 rounded-lg border border-slate-300 bg-transparent p-2 text-center text-foreground outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-darkGray"
                 />
               </div>
             </div>
           </div>
 
           {/* Submit */}
-          <div className="flex justify-end ">
+          <div className="flex justify-end border-t border-border/50 pt-4">
             <Button
               type="submit"
               text="Apply Filters"
-              className="darkblueBtn clickable font-list directional font-medium text-sm p-2 w-50"
-            ></Button>
+              className="darkblueBtn group clickable directional flex w-full items-center justify-center gap-2 rounded-lg px-5 py-3 font-list font-semibold text-sm shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 sm:w-52"
+            >
+              <SlidersHorizontal
+                size={17}
+                className="transition-transform duration-200 group-hover:rotate-12"
+              />
+            </Button>
           </div>
         </form>
       )}
