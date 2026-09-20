@@ -49,8 +49,8 @@ export default function AISearchPage() {
             <Bot size={17} />
             AI-powered search
           </div>
-          <h1 className="font-list text-4xl font-semibold leading-tight text-foreground sm:text-6xl">
-            Describe the home you want.
+          <h1 className="font-list text-2xl font-semibold leading-tight text-foreground sm:text-6xl">
+            Search for the home you want.
           </h1>
           <div className="mx-auto mt-4 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
             Mention a school, location, budget, or house details in your own words. We will turn it

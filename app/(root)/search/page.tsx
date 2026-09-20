@@ -60,8 +60,8 @@ const Search = () => {
           <SearchIcon size={17} />
           Find your next home
         </div>
-        <h1 className="font-list text-4xl font-semibold leading-tight text-foreground sm:text-6xl">
-          Describe the home you want.
+        <h1 className="font-list text-2xl font-semibold leading-tight text-foreground sm:text-6xl">
+          Search for the home you want
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
        The keyword will search across locations, schools, and agents 
