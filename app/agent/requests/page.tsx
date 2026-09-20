@@ -130,7 +130,7 @@ const RequestsInAgent = () => {
         <section
           ref={scrollRef}
 
-           className={` bg-white dark:bg-darkGray ${pendingLoading && 'h-90'} ${
+           className={`text-primary bg-white dark:bg-darkGray ${pendingLoading && 'h-90'} ${
        pendingRequests?.pages[0]?.requests?.length > 0 || pendingLoading
         ? " grid grid-flow-col auto-cols-min pt-5"
         : "h-20 whitespace-nowrap mx-auto  w-full text-sm flex items-center justify-center"
@@ -161,7 +161,7 @@ const RequestsInAgent = () => {
         <section
           ref={scrollRef2}
 
-    className={` bg-white dark:bg-darkGray ${acceptedLoading && 'h-90'} ${
+    className={`text-primary bg-white dark:bg-darkGray ${acceptedLoading && 'h-90'} ${
        acceptedRequests?.pages[0]?.requests?.length > 0 || acceptedLoading
         ? " grid grid-flow-col auto-cols-min pt-5"
         : "h-20 whitespace-nowrap mx-auto  w-full text-sm flex items-center justify-center"

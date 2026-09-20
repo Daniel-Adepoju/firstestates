@@ -86,17 +86,19 @@ const AgentSection = ({ school }: { school: string }) => {
   }
 
   return (
-    <>
-      <div className="flex">
-        <div className="headersFont px-4 w-120 capitalize text-lg font-medium mt-3 mb-1">
-          explore agents
+    <section className="flex flex-col gap-3">
+      <div className="flex flex-col gap-1 px-2 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary/70">
+            People who can help
+          </p>
+          <h2 className="font-list text-3xl font-semibold text-foreground">Explore agents</h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Connect with agents who have listings around <span className="font-bold capitalize">{school || "your school"}</span>.
+          </p>
         </div>
-
         {!isLoading && <ScrollController scrollRef={scrollRef} />}
       </div>
-      <h6 className="pl-3 text-xs p-2 py-1 text-gray-700 dark:text-gray-200">
-        Agents with listings around Lasu
-      </h6>
       <section
         ref={scrollRef}
         className={`${
@@ -111,7 +113,7 @@ const AgentSection = ({ school }: { school: string }) => {
         )}
         {isLoading && renderLoading()}
       </section>
-    </>
+    </section>
   )
 }
 

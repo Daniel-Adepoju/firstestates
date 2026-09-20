@@ -2,66 +2,51 @@
 import { usePathname } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
-import { useDarkMode } from "@lib/DarkModeProvider"
 
 interface Session {
-  session: [] & {
-    user: { username: string } & { isPremium?: boolean }
-  }
+  session?: {
+    user?: {
+      username?: string
+      role?: string
+      isPremium?: boolean
+    }
+  } | null
 }
 const Header = ({ session }: Session) => {
   const pathname = usePathname()
-  const { darkMode } = useDarkMode()
+  const isAgent = pathname.includes("/agent")
+  const workspace = isAgent ? "Agent workspace" : "Admin workspace"
+  const context = isAgent
+    ? session?.user?.isPremium
+      ? "Manage your listings, residents, and client relationships."
+      : "Manage your listings and client relationships."
+    : "Monitor First Estates users, agents, and platform activity."
+
   return (
-    <div className="admin-header">
+    <header className="mt-4 flex w-full items-center gap-1 px-1 pb-2 sm:gap-4 sm:px-2">
       <Link
         href="/"
-        className="flex items-center -mb-3"
+        aria-label="Go to First Estates home"
+        className="group flex shrink-0 items-center"
       >
-        {/* <div className="logo">LOGO</div> */}
         <Image
           src="/logo/logoWithoutText.png"
           alt="logo"
           width={1000}
           height={1000}
-          className="w-[50px] h-auto"
+          className="h-11 w-11 object-contain transition-transform group-hover:scale-105"
         />
-        <div className="flex items-center w-[100px] h-[16px] overflow-hidden -ml-[16px]">
-       <>
-  <Image
-    src="/logo/wordmark.png"
-    alt="wordmark"
-    width={1000}
-    height={500}
-    className="w-full h-full object-cover contrast-more saturate-200 dark:hidden"
-  />
-
-  <Image
-    src="/logo/wordmarkDark.png"
-    alt="wordmark"
-    width={1000}
-    height={500}
-    className="hidden w-full h-full object-cover contrast-more saturate-200 dark:block"
-  />
-</>
-
-        </div>
       </Link>
-      <div>
-        <h2 className="subheading">{session?.user.username}</h2>
-        {pathname.includes("/agent") ? (
-          <p className="text-sm font-medium mt-0.5">
-            Manage all of your <strong>listings</strong> {session?.user.isPremium && `and`}{" "}
-            {session?.user.isPremium && <strong>residents</strong>} here
-          </p>
-        ) : (
-          <p className="text-sm">
-            Monitor all of <strong>First Estates</strong> users and agents here{" "}
-          </p>
-        )}
+      <div className="min-w-0 flex-1">
+        <p className="text-xs font-card font-semibold uppercase tracking-[0.18em] text-primary/70">
+          {workspace}
+        </p>
+        <h2 className="mt-1 truncate font-list text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+          Welcome, {session?.user?.username || "there"}
+        </h2>
+        <p className="mt-1 max-w-2xl truncate text-sm leading-6 text-muted-foreground">{context}</p>
       </div>
-      {/* <p>Search</p> */}
-    </div>
+    </header>
   )
 }
 

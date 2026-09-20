@@ -7,6 +7,7 @@ import { useSearchListings } from "@lib/customApi"
 import { useEffect } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import Pagination from "@components/Pagination"
+import { Search as SearchIcon } from "lucide-react"
 
 const Search = () => {
   useSignals()
@@ -32,7 +33,7 @@ const Search = () => {
     limit: limit.value,
     page: page,
     location: debounced.value,
-    status: 'available', // only search available listings
+    status: "available", // only search available listings
     school: debounced.value,
     agentName: debounced.value,
     search: debounced.value,
@@ -53,10 +54,23 @@ const Search = () => {
     return <div className="card">Failed</div>
   }
   return (
-    <div className="w-full mb-20 md:mb-6 flex flex-col items-end pr-2">
+    <div className="mb-20 flex w-full flex-col items-center px-4 md:mb-6 md:px-6">
+      <div className="mt-20 w-full max-w-4xl text-center">
+        <div className="mb-4 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-primary">
+          <SearchIcon size={17} />
+          Find your next home
+        </div>
+        <h1 className="font-list text-4xl font-semibold leading-tight text-foreground sm:text-6xl">
+          Describe the home you want.
+        </h1>
+        <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
+       The keyword will search across locations, schools, and agents 
+        </p>
+      </div>
       <Searchbar
-        placeholder={"Search by school, location, or agent"}
+        placeholder={"Enter a keyword"}
         search={search.value}
+        className="mt-8 gap-1 w-full flex flex-row justify-center items-center md:w-[60%]"
         setSearch={(e) => (search.value = e.target.value)}
       />
       {isLoading ? (

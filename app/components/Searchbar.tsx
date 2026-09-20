@@ -1,6 +1,5 @@
 "use client"
 import { Search, Sparkles } from "lucide-react"
-import { useDarkMode } from "@lib/DarkModeProvider"
 
 interface SearchProps {
   search?: string
@@ -8,7 +7,8 @@ interface SearchProps {
   goToSearch?: () => void
   setSearch?: (e: React.ChangeEvent<HTMLInputElement>) => void
   className?: string
-  isAi?: boolean
+  isAI?: boolean
+  placeholderTextSize?: string
 }
 
 const Searchbar = ({
@@ -17,7 +17,8 @@ const Searchbar = ({
   goToSearch,
   setSearch,
   className,
-  isAi = false,
+  isAI = false,
+  placeholderTextSize = "",
 }: SearchProps) => {
   return (
     <div
@@ -27,7 +28,7 @@ const Searchbar = ({
       }
     >
       <div className="dark:bg-darkGray bg-white outline-2 outline-slate-200 dark:outline-gray-800 rounded-md p-2 flex items-center gap-2">
-        {isAi ? (
+        {isAI ? (
           <Sparkles
             size={32}
             className="text-goldPrimary"
@@ -40,14 +41,14 @@ const Searchbar = ({
         )}
       </div>
       <input
-        className="w-[80%] bg-white dark:bg-darkGray
+        className={`w-[80%] bg-white dark:bg-darkGray
      py-3.5 pr-2 pl-4
   outline-2 outline-slate-200 dark:outline-gray-800
   focus:outline-3 focus:scale-99
      font-medium text-gray-700 dark:text-gray-200 
-     placeholder-gray-400 dark:placeholder-gray-400
+     placeholder-gray-400 dark:placeholder-gray-400 ${placeholderTextSize}
     rounded-md
-     dark:caret-white caret-blue-300 transition-outline duration-200 ease-in-out"
+     dark:caret-white caret-blue-300 transition-outline duration-200 ease-in-out`}
         type="text"
         onClick={goToSearch && goToSearch}
         onChange={setSearch}

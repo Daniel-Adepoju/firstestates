@@ -39,7 +39,7 @@ const HomePage = () => {
 
           <Link
             href="/search"
-            className="w-[70%] mx-auto group flex flex-1 items-center gap-3 rounded-2xl
+            className="w-[90%] mx-auto group flex flex-1 items-center gap-3 rounded-2xl
             dark:bg-darkGray bg-white outline-2 outline-slate-200 dark:outline-gray-800
              border border-border/70 p-3
               text-left shadow-sm transition-all
@@ -50,7 +50,7 @@ const HomePage = () => {
             <span className="min-w-0 flex-1">
               <span className="block text-sm font-semibold text-foreground">Search listings</span>
               <span className="mt-0.5 block text-xs leading-5 text-muted-foreground">
-                Browse with standard filters.
+                Search with standard keywords
               </span>
             </span>
             <ArrowUpRight
@@ -61,7 +61,7 @@ const HomePage = () => {
 
             <Link
             href="/search/ai"
-            className="w-[70%] mx-auto group flex flex-1 items-center gap-3 rounded-2xl
+            className="w-[90%] mx-auto group flex flex-1 items-center gap-3 rounded-2xl
             dark:bg-darkGray bg-white outline-2 outline-slate-200 dark:outline-gray-800
              border border-border/70 p-3
               text-left shadow-sm transition-all
@@ -87,7 +87,7 @@ const HomePage = () => {
         {/* Filter toggle button */}
         <div
           onClick={() => (active.value = !active.value)}
-          className="dark:bg-darkGray bg-white flex items-center justify-center  w-80  outline-2 outline-slate-200 dark:outline-gray-800 py-4 px-2 shadow-xs my-4 cursor-pointer rounded-2xl"
+          className="dark:bg-darkGray bg-white flex items-center justify-center  w-80  outline-2 outline-slate-200 dark:outline-gray-800 py-4 px-4 md:mr-4 shadow-xs my-4 cursor-pointer rounded-2xl"
         >
           <span className="font-semibold text-gray-400 dark:text-gray-400 pl-2">
             Filter Listings

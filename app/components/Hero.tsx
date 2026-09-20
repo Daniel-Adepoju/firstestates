@@ -32,13 +32,13 @@ const HeroSection = () => {
           <div className="font-head text-4xl font-bold leading-[0.98] sm:text-5xl lg:text-7xl">
             {isAgent ? (
               <>
-                <span className="block font-list text-[#f7b657]">List properties</span>
+                <span className="block font-card text-[#f7b657]">List properties</span>
                 <span className="block text-white">with confidence.</span>
               </>
             ) : (
               <>
-                <span className="block font-list text-[#f7b657]">Find Your Perfect</span>
-                <span className="block font-list text-white">Student Home.</span>
+                <span className="block font-card text-[#f7b657]">Find Your Perfect</span>
+                <span className="block font-card text-white">Student Home.</span>
               </>
             )}
           </div>

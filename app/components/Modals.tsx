@@ -264,7 +264,7 @@ export const ReportModal = ({
     <dialog
       // onC
       ref={ref}
-      className="dark:bg-gray-700 dark:text-white bg-white mt-40 rounded-xl p-6 w-[90%] max-w-md mx-auto shadow-xl text-center border border-white dark:border-black"
+      className="dark:bg-gray-700 text-primary dark:text-white bg-white mt-40 rounded-xl p-6 w-[90%] max-w-md mx-auto shadow-xl text-center border border-white dark:border-black"
     >
       <div className="flex flex-col items-center justify-center mb-4">
         <AlertCircle

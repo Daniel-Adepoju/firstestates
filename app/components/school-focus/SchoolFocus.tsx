@@ -11,9 +11,8 @@ import { useNextPage } from "@lib/useIntersection"
 import { Skeleton } from "@components/ui/skeleton"
 import { RequestSection } from "./RequestSection"
 import { SectionHeader } from "./SectionHeader"
-import { useAnimation } from "@lib/useAnimation"
 import AgentSection from "./AgentSection"
-import { ChevronDownCircle, FileX2 } from "lucide-react"
+import { ChevronDownCircle, FileX2, Home, Search, UsersRound } from "lucide-react"
 import Link from "next/link"
 import Filter from "@components/Filter"
 import { useSignal } from "@preact/signals-react"
@@ -145,44 +144,71 @@ const SchoolFocus = () => {
   }
 
   return (
-    <div className="w-[98%] mt-20 mb-20 md:mb-10 px-1.5">
-      {schoolParam && (
-        <h1 className="text-3xl font-bold text-center mb-1 headersFont capitalize">
-          School Focus - {schoolParam}
-        </h1>
-      )}
+    <div className="mb-20 mt-16 w-full md:mb-10">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-10">
+        <section className="w-full dark-to-lightblue-gradient relative overflow-hidden rounded-br-[2rem] rounded-bl-[2rem] px-6 py-10 text-white shadow-xl sm:px-10 sm:py-14">
+          <div className="absolute -right-20 -top-24 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
+          <div className="relative max-w-3xl">
+            <div className="mb-4 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-blue-100">
+              <Search
+                size={16}
+                className="text-[#f7b657]"
+              />
+              School Focus
+            </div>
+            <h1 className={`${schoolParam && "uppercase"}  font-list text-4xl md:text-6xl font-semibold leading-tight capitalize`}>
+              {schoolParam || "Find your school community"}
+            </h1>
+            <p className="mt-4 max-w-2xl text-base leading-7 text-blue-50 sm:text-lg">
+             <strong>Welcome{displayName}. </strong>  Explore homes, meet active agents, and discover the people
+              looking for a better way to live near campus
+            </p>
+          </div>
+          <div className="relative mt-8 flex flex-wrap gap-3 text-sm">
+            <div className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-4 py-2.5 backdrop-blur-sm">
+              <Home
+                size={17}
+                className="text-[#f7b657]"
+              />{" "}
+              Listings near campus
+            </div>
+            <div className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-4 py-2.5 backdrop-blur-sm">
+              <UsersRound
+                size={17}
+                className="text-[#7ee2a8]"
+              />{" "}
+              Local agents and co-renters
+            </div>
+          </div>
+        </section>
 
-      <div className="text-center text-sm p-2 pb-0 text-gray-700 dark:text-gray-200">
-        Welcome to School Focus <strong>{displayName}</strong>.
-      </div>
-      <div className="text-center text-xs p-2 py-0 text-gray-700 dark:text-gray-200">
-        Here you can find <strong>listings</strong>, <strong>agents</strong>, and{" "}
-        <strong>roommate requests</strong> near your selected school.
-      </div>
+        <div className="flex flex-col gap-10 px-3">
+          {/* AGENTS */}
+          <section className="flex flex-col gap-3">
+            <AgentSection school={schoolParam} />
+          </section>
 
-      {/* AGENTS */}
+          {/* CO-RENT REQUESTS */}
+          <section className="flex flex-col gap-3">
+            <SectionHeader
+              title="Co-Rent Requests"
+              isLoading={coRent.isLoading}
+              scrollRef={coRentScrollRef}
+            />
 
-      <AgentSection school={schoolParam} />
+            <RequestSection
+              // animationRef={ref}
+              scrollRef={coRentScrollRef}
+              hasContent={coRent?.data?.pages?.[0]?.requests?.length}
+              isLoading={coRent.isLoading}
+              renderContent={() => renderRequestCards(coRent, coRentNextRef)}
+              renderLoading={() => renderSkeletons(9, true)}
+              isFetchingMore={coRent.isFetchingNextPage}
+            />
+          </section>
 
-      {/* CO-RENT REQUESTS */}
-      <SectionHeader
-        title="Co-Rent Requests"
-        isLoading={coRent.isLoading}
-        scrollRef={coRentScrollRef}
-      />
-
-      <RequestSection
-        // animationRef={ref}
-        scrollRef={coRentScrollRef}
-        hasContent={coRent?.data?.pages?.[0]?.requests?.length}
-        isLoading={coRent.isLoading}
-        renderContent={() => renderRequestCards(coRent, coRentNextRef)}
-        renderLoading={() => renderSkeletons(9, true)}
-        isFetchingMore={coRent.isFetchingNextPage}
-      />
-
-      {/* ============= ROOMMATE REQUESTS ============= */}
-      {/* <SectionHeader
+          {/* ============= ROOMMATE REQUESTS ============= */}
+          {/* <SectionHeader
         title="Roommate Requests"
         isLoading={roommate.isLoading}
         scrollRef={roommateScrollRef}
@@ -195,59 +221,78 @@ const SchoolFocus = () => {
         renderContent={() => renderRequestCards(roommate, roommateNextRef)}
         renderLoading={() => renderSkeletons(9, true)}
         isFetchingMore={roommate.isFetchingNextPage}
-      /> */}
+          /> */}
 
-      {/* LISTINGS */}
-      <h2 className="headersFont mt-4 px-4 text-lg capitalize mx-auto text-center">Listings</h2>
+          {/* LISTINGS */}
+          <section className="flex flex-col gap-4">
+            <div className="flex flex-col gap-1 px-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary/70">
+                  Stay close to what matters
+                </p>
+                <h2 className="font-list text-3xl font-semibold text-foreground">
+                  Listings near {schoolParam || "your school"}
+                </h2>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Filter by location, budget, and room details.
+              </p>
+            </div>
 
-      {/* ======= Filter Toogle =========== */}
-      <div
-        onClick={() => (active.value = !active.value)}
-        className="mx-auto dark:bg-darkGray bg-white flex items-center justify-center  w-80  outline-2 outline-slate-200 dark:outline-gray-800 py-3.5 px-2 shadow-xs my-4 cursor-pointer rounded-md"
-      >
-        <span className="font-semibold text-gray-400 dark:text-gray-400 pl-2">Filter Listings</span>
+            {/* ======= Filter Toogle =========== */}
+            <div
+              onClick={() => (active.value = !active.value)}
+              className="flex w-[97%] mx-auto md:w-[70%] md:mx-0 md:ml-auto cursor-pointer items-center justify-between rounded-xl border border-border/70 bg-secondary/55 px-4 py-3.5 text-foreground shadow-sm transition-colors hover:border-primary/40"
+            >
+              <span className="font-semibold text-gray-400 dark:text-gray-400 pl-2">
+                Filter Listings
+              </span>
 
-        <ChevronDownCircle
-          className={`w-6 h-6 text-gray-400 dark:text-gray-400 
+              <ChevronDownCircle
+                className={`w-6 h-6 text-gray-400 dark:text-gray-400 
               ml-auto ${active.value ? "rotate-180" : "rotate-0"} transition-all duration-250`}
-        />
-      </div>
-      {/* ========== Filter Dropdown ============== */}
-      <Filter
-        active={active}
-        selectedSchool={school}
-        selectedArea={location}
-        minPrice={minPrice}
-        maxPrice={maxPrice}
-        beds={beds}
-        baths={baths}
-        toilets={toilets}
-      />
-
-      <div className={`card_list`}>
-        {listingsLoading ? (
-          renderSkeletons(6)
-        ) : listings?.posts?.length > 0 ? (
-          listings.posts.map((listing: Listing) => (
-            <Card
-              key={listing._id}
-              listing={listing}
+              />
+            </div>
+            {/* ========== Filter Dropdown ============== */}
+            <Filter
+              active={active}
+              selectedSchool={school}
+              selectedArea={location}
+              minPrice={minPrice}
+              maxPrice={maxPrice}
+              beds={beds}
+              baths={baths}
+              toilets={toilets}
             />
-          ))
-        ) : (
-          <p className="py-4">
-            There are no listings near <span className="capitalize font-bold">{schoolParam}</span>
-          </p>
-        )}
-      </div>
 
-      {!listingsLoading && (
-        <Pagination
-          currentPage={Number(listings?.cursor)}
-          totalPages={Number(listings?.numOfPages)}
-          hashParams="#listing"
-        />
-      )}
+            <div className="card_list">
+              {listingsLoading ? (
+                renderSkeletons(6)
+              ) : listings?.posts?.length > 0 ? (
+                listings.posts.map((listing: Listing) => (
+                  <Card
+                    key={listing._id}
+                    listing={listing}
+                  />
+                ))
+              ) : (
+                <p className="py-4">
+                  There are no listings near{" "}
+                  <span className="capitalize font-bold">{schoolParam}</span>
+                </p>
+              )}
+            </div>
+
+            {!listingsLoading && (
+              <Pagination
+                currentPage={Number(listings?.cursor)}
+                totalPages={Number(listings?.numOfPages)}
+                hashParams="#listing"
+              />
+            )}
+          </section>
+        </div>
+      </div>
     </div>
   )
 }

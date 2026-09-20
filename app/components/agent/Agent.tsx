@@ -1,8 +1,7 @@
 "use client"
-import Image from "next/image"
 import { CldImage } from "next-cloudinary"
 import { Skeleton } from "@components/ui/skeleton"
-import { MapPin, Phone, MessageCircle, ChevronDown } from "lucide-react"
+import { MapPin, Phone, MessageCircle, ChevronDown, BadgeCheck, Pencil } from "lucide-react"
 import Link from "next/link"
 import { useUser } from "@utils/user"
 
@@ -21,7 +20,7 @@ const Agent = ({
 
   if (!agent) {
     return (
-      <div className="flex flex-col gap-4 w-full  ">
+      <div className="flex flex-col gap-4 w-full  flex-1">
         <Skeleton className="w-25 h-25 rounded-[50%] bg-gray-500/20" />
         <Skeleton className="w-full h-10 rounded-md bg-gray-500/20" />
         <Skeleton className="w-full h-10 rounded-md bg-gray-500/20" />
@@ -30,15 +29,15 @@ const Agent = ({
   }
   return (
     <div className="w-full  flex flex-col gap-4">
-      <div className="agentProfile dark:text-white">
-        <div className=" flex flex-col gap-3">
+      <div className="w-full rounded-3xl border border-border/60 bg-background/70 p-5 shadow-xs backdrop-blur-md sm:p-7">
+        <div className="flex flex-col gap-6">
           <div className="w-full flex flex-col md:flex-row items-center md:items-start justify-between gap-6">
             <div className="flex flex-col md:flex-row items-center gap-4">
               {/* Image */}
               <div className="flex flex-row justify-center lg:justify-end">
                 <Link
                   href={`/agent/edit-profile`}
-                  className="cursor-pointer relative"
+                  className="group relative cursor-pointer"
                 >
                   <CldImage
                     width={64}
@@ -49,37 +48,42 @@ const Agent = ({
                     }}
                     src={agent.profilePic}
                     alt="profilePic"
-                    className="w-full h-full rounded-full"
+                    className="h-24 w-24 rounded-full object-cover ring-4 ring-primary/10 transition-transform group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 rounded-full border-4 border-black/20 border-r-transparent  border-t-transparent  duration-[2000ms] ease-in animate-spin"></div>
+                  {isYou && (
+                    <span className="absolute bottom-0 right-0 flex h-8 w-8 items-center justify-center rounded-full border-4 border-background bg-primary text-primary-foreground">
+                      <Pencil size={13} />
+                    </span>
+                  )}
                 </Link>
               </div>
               <div className="text-center md:text-left">
-                {/* Checkmark and*/}
-                <div className="flex items-center justify-center gap-1">
-                  <h1 className="text-xl font-semibold">{agent.username}</h1>
+                <div className="flex items-center justify-center gap-2 md:justify-start">
+                  <h1 className="font-card text-2xl font-semibold tracking-tight text-foreground">
+                    {agent.username}
+                  </h1>
                   {agent.isPremium && (
-                    <Image
-                      src={"/icons/gold-badge.svg"}
-                      alt="badge"
-                      width={25}
-                      height={25}
-                      className="rounded-full"
+                    <BadgeCheck
+                      size={20}
+                      className="text-goldPrimary"
+                      aria-label="Premium agent"
                     />
                   )}
                 </div>
-                {/* email*/}
-                <p className="text-sm text-gray-400">{agent.email}</p>
+                <p className="mt-1 text-sm text-muted-foreground">{agent.email}</p>
+                {/* <p className="mt-2 text-xs font-semibold uppercase tracking-[0.16em] text-primary/70">
+                  First Estates agent
+                </p> */}
               </div>
             </div>
           </div>
 
-          <div className="flex flex-col gap-3 py-2.5">
+          <div className="flex flex-col gap-3 border-t border-border/50 pt-5">
             {/* chat */}
             {!isYou && userId && (
               <Link
                 href={`/chat?receiverId=${agent._id}`}
-                className="md:w-100 text-sm dark:bg-black/10 bg-gray-100/70 pt-2 pb-2.5 px-4 rounded-lg font-bold flex flex-row items-center gap-2 cursor-pointer duration-300 transition-all hover:opacity-80"
+                className="flex items-center gap-3 rounded-xl border border-border/60 bg-secondary/55 px-4 py-3 text-sm font-semibold text-foreground transition-colors hover:border-primary/40 hover:bg-secondary"
               >
                 <MessageCircle
                   size={26}
@@ -94,7 +98,7 @@ const Agent = ({
               onClick={() => {
                 if (!isYou) return window.open(`tel:${agent?.phone}`)
               }}
-              className="md:w-100 text-sm dark:bg-black/10 bg-gray-100/70 pt-2 pb-2.5 px-4 rounded-lg font-bold flex flex-row items-center gap-2 duration-300 transition-all hover:opacity-80 cursor-pointer"
+              className="flex cursor-pointer items-center gap-3 rounded-xl border border-border/60 bg-secondary/55 px-4 py-3 text-sm font-semibold text-foreground transition-colors hover:border-primary/40 hover:bg-secondary"
             >
               <Phone
                 size={26}
@@ -106,13 +110,13 @@ const Agent = ({
         </div>
       </div>
 
-      <div className="agentProfile section_two">
-        <div className="flex flex-row gap-2 items-center">
+      <div className="w-full rounded-2xl border border-border/60 bg-secondary/45 p-4">
+        <div className="flex items-start gap-3">
           <MapPin
             size={26}
             className="text-goldPrimary"
           />
-          <span className="break-all text-xs text-ellipsis opacity-90 text-foreground">
+          <span className="break-words text-sm leading-6 text-muted-foreground">
             {agent.address}
           </span>
         </div>
