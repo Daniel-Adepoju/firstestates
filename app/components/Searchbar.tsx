@@ -1,5 +1,5 @@
 "use client"
-import { Search } from "lucide-react"
+import { Search, Sparkles } from "lucide-react"
 import { useDarkMode } from "@lib/DarkModeProvider"
 
 interface SearchProps {
@@ -8,9 +8,17 @@ interface SearchProps {
   goToSearch?: () => void
   setSearch?: (e: React.ChangeEvent<HTMLInputElement>) => void
   className?: string
+  isAi?: boolean
 }
 
-const Searchbar = ({ search, placeholder, goToSearch, setSearch, className }: SearchProps) => {
+const Searchbar = ({
+  search,
+  placeholder,
+  goToSearch,
+  setSearch,
+  className,
+  isAi = false,
+}: SearchProps) => {
   return (
     <div
       className={
@@ -19,10 +27,17 @@ const Searchbar = ({ search, placeholder, goToSearch, setSearch, className }: Se
       }
     >
       <div className="dark:bg-darkGray bg-white outline-2 outline-slate-200 dark:outline-gray-800 rounded-md p-2 flex items-center gap-2">
-        <Search
-          size={32}
-          className="text-goldPrimary"
-        />
+        {isAi ? (
+          <Sparkles
+            size={32}
+            className="text-goldPrimary"
+          />
+        ) : (
+          <Search
+            size={32}
+            className="text-goldPrimary"
+          />
+        )}
       </div>
       <input
         className="w-[80%] bg-white dark:bg-darkGray

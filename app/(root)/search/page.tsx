@@ -53,7 +53,7 @@ const Search = () => {
     return <div className="card">Failed</div>
   }
   return (
-    <div className="w-full flex flex-col items-end pr-2">
+    <div className="w-full mb-20 md:mb-6 flex flex-col items-end pr-2">
       <Searchbar
         placeholder={"Search by school, location, or agent"}
         search={search.value}
