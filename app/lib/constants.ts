@@ -1,42 +1,54 @@
 "use client"
-import { CheckSquare } from "lucide-react"
+import {
+  Bell,
+  Building2,
+  CalendarDays,
+  CheckSquare,
+  Home,
+  LayoutDashboard,
+  List,
+  MessageCircle,
+  School,
+  Settings,
+  Users,
+} from "lucide-react"
 
 export const sidebarItems = [
   {
     name: "Dashboard",
     link: "/admin",
-    icon: "/icons/dashboard.svg",
+    iconLucide: LayoutDashboard,
   },
 
   {
     name: "Users",
     link: "/admin/users",
-    icon: "/icons/users.svg",
+    iconLucide: Users,
   },
   {
     name: "Listings",
     link: "/admin/listings",
-    icon: "/icons/listings.svg",
+    iconLucide: Building2,
   },
   {
     name: "Schoools",
     link: "/admin/schools",
-    icon: "/icons/campus.svg",
+    iconLucide: School,
   },
   {
     name: "Messages",
     link: "/admin/messages",
-    icon: "/icons/notification.svg",
+    iconLucide: Bell,
   },
   {
     name: "Chats",
     link: "/admin/inbox",
-    icon: "/icons/chat.svg",
+    iconLucide: MessageCircle,
   },
   {
     name: "Settings",
     link: "/admin/settings",
-    icon: "/icons/settings.svg",
+    iconLucide: Settings,
   },
 ]
 
@@ -44,38 +56,38 @@ export const agentSidebarItems = [
   {
     name: "Home",
     link: "/agent",
-    icon: "/icons/home.svg",
+    iconLucide: Home,
   },
 
   {
     name: "Listings",
     link: "/agent/listings",
-    icon: "/icons/listings.svg",
+    iconLucide: List,
   },
   {
     name: "Chats",
     link: "/agent/inbox",
-    icon: "/icons/chat.svg",
+    iconLucide: MessageCircle,
   },
   {
     name: "Messages",
     link: "/agent/messages",
-    icon: "/icons/notification.svg",
+    iconLucide: Bell,
   },
   {
     name: "Manage Requests",
     link: "/agent/requests",
-    iconLuicide: CheckSquare,
+    iconLucide: CheckSquare,
   },
   {
     name: "Appointments",
     link: "/agent/appointments",
-    icon: "/icons/calendar.svg",
+    iconLucide: CalendarDays,
   },
   {
     name: "Settings",
     link: "/agent/settings",
-    icon: "/icons/settings.svg",
+    iconLucide: Settings,
   },
 ]
 

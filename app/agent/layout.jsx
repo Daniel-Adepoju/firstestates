@@ -1,8 +1,5 @@
-import "@styles"
-import "../globals.css"
 import Sidebar from "@components/agent/Sidebar"
 import UserModel from "@models/user"
-import Toast from "@utils/Toast"
 import { after } from "next/server"
 import { auth } from "@auth"
 import { connectToDB } from "@utils/database"

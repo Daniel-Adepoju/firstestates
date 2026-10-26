@@ -60,19 +60,19 @@ const AnalyticsDashboard = ({
           <div className="content_item banner">
             <h3>Payments Made This Year</h3>
             <div className="text">
-              <span>&#8358;{formatNumber(typeof yearPayments === "number" ? yearPayments : 0)}</span>
+              <span>&#8358;{typeof yearPayments === "number" ? formatNumber(yearPayments) : "—"}</span>
             </div>
           </div>
           <div className="content_item banner">
             <h3>Payments Made Today</h3>
             <div className="text">
-              <span>&#8358;{formatNumber(typeof dayPayments === "number" ? dayPayments : 0)}</span>
+              <span>&#8358;{typeof dayPayments === "number" ? formatNumber(dayPayments) : "—"}</span>
             </div>
           </div>
            <div className="content_item banner">
             <h3>Payments Made This Week</h3>
             <div className="text">
-              <span>&#8358;{formatNumber(typeof weekPayments === "number" ? weekPayments : 0)}</span>
+              <span>&#8358;{typeof weekPayments === "number" ? formatNumber(weekPayments) : "—"}</span>
             </div>
           </div>
 

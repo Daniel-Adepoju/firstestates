@@ -5,7 +5,7 @@ import Agent from "@components/agent/Agent"
 import { useGetUser } from "@lib/customApi"
 import { useState } from "react"
 import { sendNotification } from "@lib/server/notificationFunctions"
-import { useNotification } from "@lib/Notification"
+import { useNotification } from "@utils/Toast"
 import { useUser } from "@utils/user"
 import { useGetAgentListingsInfinite } from "@lib/customApi"
 import { useNextPage } from "@lib/useIntersection"
@@ -117,6 +117,7 @@ const AgentViewPage = () => {
                     <PopularCard
                       key={listingItem._id}
                       listing={listingItem}
+                      showPopular={false}
                       isAnimation={true}
                       wAndH={"w-37 md:w-40 min-h-40"}
                       refValue={index === item.listings.length - 1 ? useNextpageRef : null}

@@ -25,11 +25,11 @@ const ListingHeader = ({ listing }: Props) => {
   return (
     <>
       <div className="header">
-        <div className="house">
-          {listing.video && (
-            <div
+        {/* mode button */}
+           {!listing.video && (
+            <button
               onClick={() => setHeaderTab(headerTab === "gallery" ? "video" : "gallery")}
-              className="flex font-header darkblueBtn clickable rounded-full w-32 text-xs font-medium h-8 items-center gap-2 py-4 px-4 mb-4"
+              className=" flex font-header text-white darkblue-gradient cursor-pointer clickable w-40 text-xs font-medium h-10 gloss items-center gap-2 py-4 px-4 ml-2 mb-3 mt-2 rounded-2xl"
             >
               {headerTab === "gallery" ? (
                 <div className="flex items-center justify-center gap-2 w-full">
@@ -48,8 +48,11 @@ const ListingHeader = ({ listing }: Props) => {
                   />
                 </div>
               )}
-            </div>
+            </button>
           )}
+          {/* main gallery header */}
+        <div className="house listing-gallery">
+       
 
           {headerTab === "gallery" && (
             <Swiper
@@ -65,6 +68,7 @@ const ListingHeader = ({ listing }: Props) => {
               {listing?.gallery?.map((image: string) => (
                 <SwiperSlide
                   key={image}
+
                   className={`item ${!isSwiperLoaded && "itemHide"}`}
                 >
                   <CldImage
@@ -75,19 +79,22 @@ const ListingHeader = ({ listing }: Props) => {
                   />
                 </SwiperSlide>
               ))}
+         
               <SwiperControls />
             </Swiper>
           )}
           {headerTab === "video" && (
             <CldVideoPlayer
               src={listing.video}
-              controls={true}
+              width="1920"
+              height="1080"
+              controls
+              logo={false}
               colors={{
                 accent: "#032679",
-                base: "black",
+                base: "#000000",
                 text: "#F29829",
               }}
-              logo={false}
               className="mt-4 rounded-md"
             />
           )}
@@ -133,7 +140,7 @@ const ListingHeader = ({ listing }: Props) => {
       </div>
 
       <div
-        className="darkblueBtn directional flex items-center justify-center py-6 px-12"
+        className="darkblueBtn directional listing-map-button flex items-center justify-center"
         onClick={() => openInGoogleMap(listing?.address)}
       >
         <Image

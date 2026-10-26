@@ -42,10 +42,7 @@ const Agent = ({
                   <CldImage
                     width={64}
                     height={64}
-                    crop={{
-                      type: "auto",
-                      source: true,
-                    }}
+                    crop="auto"
                     src={agent.profilePic}
                     alt="profilePic"
                     className="h-24 w-24 rounded-full object-cover ring-4 ring-primary/10 transition-transform group-hover:scale-105"

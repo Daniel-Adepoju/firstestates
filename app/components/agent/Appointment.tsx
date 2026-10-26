@@ -75,6 +75,7 @@ const Appointment = () => {
           key={listing._id}
           listing={listing}
           type={"appointment"}
+          showPopular={false}
           refValue={index === item.listings.length - 1 ? useNextPageRef : null}
         />
       )

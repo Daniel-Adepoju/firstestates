@@ -2,11 +2,10 @@
 
 smile id/dojah ->> finish agent auth
 
-##
-cross check listing form loading
-unlogged in shouldnt enter school focus
 
 
+## 
+- fix listing grid iin admin and agent so when there is space we can atleast display more than one on screen make it dynamic, also payattention to edit bar so they dont blend into a listing they dont belong to
 
 
 check the new cleanup edit a valid until then test cron job
@@ -16,6 +15,10 @@ confirm reports on request
 ## Chats
 4.Clear Chats
 5.Faux delete
+
+
+
+
 
 
 

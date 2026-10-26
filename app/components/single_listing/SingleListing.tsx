@@ -56,7 +56,7 @@ const SingleListing = ({ listingId, isAgent }: { listingId: string; isAgent?: bo
 
   if (isLoading)
     return (
-      <div className={`w-full text-foreground ${isAgentView ? "mt-0" : "mt-16 lg:mt-20"}`}>
+      <div className={`single-listing-page w-full text-foreground ${isAgentView ? "mt-0" : "mt-16 lg:mt-20"}`}>
         <div className="singleCardCon animate-pulse">
           <div className="singleCardSection">
             <div className="single_card">
@@ -107,7 +107,7 @@ const SingleListing = ({ listingId, isAgent }: { listingId: string; isAgent?: bo
           </div>
         </div>
 
-        <div className="singleCardCon2 bg-background text-foreground">
+        <div className="singleCardCon2 single-listing-page__lower bg-background text-foreground">
           <div className="singleCardSection">
             <div className="single_card">
               <Skeleton className="mx-auto h-7 w-32 rounded-md bg-gray-500/20" />
@@ -143,7 +143,7 @@ const SingleListing = ({ listingId, isAgent }: { listingId: string; isAgent?: bo
   return (
     <>
       <div
-        className={`text-foreground ${
+        className={`single-listing-page text-foreground ${
           isAgentView ? "singleCardCon -mt-10 lg:mt-[4px]" : "singleCardCon mt-16 lg:mt-20"
         }`}
       >
@@ -195,7 +195,7 @@ const SingleListing = ({ listingId, isAgent }: { listingId: string; isAgent?: bo
         </div>
       </div>
 
-      <div className="singleCardCon2 description bg-gray-50 dark:bg-gray-700/30 text-foreground">
+      <div className="singleCardCon2 description single-listing-page__lower bg-gray-50 dark:bg-gray-700/30 text-foreground">
         {/* Tags */}
         {listing?.tags && listing.tags.length > 1 && (
           <div className="singleCardSection">
@@ -214,7 +214,7 @@ const SingleListing = ({ listingId, isAgent }: { listingId: string; isAgent?: bo
       tag.includes("new") || tag.includes("free")
         ? "bg-green-200 dark:bg-green-300 text-green-700 dark:text-green-800 border border-green-200"
         : tag.includes("walk") || tag.includes("trek")
-          ? "bg-yellow-200 dark:bg-yellow-300 text-yellow-700 border border-yellow-200"
+          ? "bg-yellow-200 text-yellow-700 border border-yellow-200 dark:bg-amber-950/80 dark:text-amber-200 dark:border-amber-700/70"
           : tag.includes("female")
             ? "bg-pink-200 dark:bg-pink-300 text-pink-700 dark:text-pink-800 border border-pink-200"
             : tag.includes("male")

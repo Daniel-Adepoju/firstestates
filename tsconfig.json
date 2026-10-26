@@ -40,9 +40,6 @@
       "@utils/*": [
         "app/utils/*"
       ],
-      "@styles": [
-        "app/styles/css/styles.css"
-      ],
       "@models/*": [
         "app/api/models/*"
       ],

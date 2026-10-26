@@ -1,0 +1,302 @@
+# System Instructions: Implement Agent Referrals, Progressive Bonuses, and Dynamic Listing Discounts
+
+Implement a complete referral and bonus system in the existing application. Before making any changes, inspect the current user schema, authentication and signup flow, agent profile page, modal conventions, listing components, and pricing logic.
+
+**Critical requirement: Preserve all existing functionality.** Reuse the existing architecture, database conventions, authentication flow, components, modals, and notification system. Avoid unnecessary rewrites and ensure the feature integrates cleanly with the current codebase.
+
+## 1. Update the User Schema
+
+Extend the existing user schema with the following fields:
+
+- `referralId`: A unique identifier for the referring agent, suitable for use in referral links. Reuse an existing stable identifier if one already serves this purpose.
+- `referredBy`: Stores the identifier of the agent who referred the user. It should reference the referrer's `referralId`, not an unvalidated username string.
+- `hasReferred`: Boolean, defaulting to `false`, indicating whether the user has successfully referred at least one person.
+- `bonusType`: Identifies the bonus type. For this feature, use `"refer"`.
+- `bonusDuration`: Stores the applicable bonus duration, using a type consistent with the existing schema.
+
+Add any additional fields strictly necessary to support the implementation, such as bonus activation and expiry timestamps, or a referral count if it is appropriate for the existing architecture.
+
+Follow the existing database and ORM conventions, including foreign keys, indexes, constraints, and migrations.
+
+Ensure existing users remain valid after migration. Do not introduce duplicate user records or overwrite existing profile information.
+
+### Field responsibilities
+
+- `referralId` identifies an agent who can be referred by.
+- `referredBy` identifies the agent who referred a newly registered user.
+- `hasReferred` records whether the user has successfully referred someone.
+- `bonusType` identifies the bonus currently being tracked.
+- `bonusDuration` records the duration granted by the referral system.
+
+Do not confuse a user's own referral identifier with the identifier of the person who referred them.
+
+## 2. Add the Refer Button to the Agent Profile
+
+Add a **Refer** button to the existing agent profile interface.
+
+Only display this button when the authenticated agent has fewer than three successful referrals.
+
+When clicked, the button must open a modal using the application's existing modal or dialog conventions. Do not introduce a new modal library if the application already has one.
+
+### Referral modal requirements
+
+The modal should:
+
+- Explain the referral program briefly.
+- Show the number of successful referrals already completed.
+- Show how many referrals remain out of the maximum of three.
+- Provide a clear action to generate and copy the referral link.
+- Display success or error feedback using the existing notification conventions.
+- Include an appropriate close action and follow the existing dialog behavior, including outside-click handling where supported.
+
+For example, if the agent has completed one successful referral, the modal could display:
+
+**Refer a friend**
+
+"You have successfully referred 1 out of 3 people. You have 2 referrals remaining."
+
+Include a button such as `Copy Referral Link`.
+
+Calculate these numbers dynamically from the actual referral records or reliable referral count. Never hardcode the remaining count in the UI.
+
+If the agent has completed three successful referrals, hide the Refer button entirely. The server must enforce the same limit independently of the UI.
+
+### Referral link format
+
+Generate the link using the existing signup route and configured application URL.
+
+The link should contain the referring agent's `referralId` in a `referredBy` query parameter, for example:
+
+`https://your-domain.com/signup?referredBy={referralId}`
+
+Replace the example domain with the actual configured application URL and use the existing signup route.
+
+Use safe URL encoding and the project's existing URL-generation utilities. Copy the generated link to the clipboard only after the user explicitly selects the copy action.
+
+Generating or copying a referral link must not count as a successful referral or activate a bonus.
+
+## 3. Preserve Referral Attribution Throughout Signup
+
+Update the existing signup flow to support the optional `referredBy` query parameter.
+
+When a prospective user visits a referral link:
+
+1. Read the `referredBy` parameter.
+2. Validate its format and resolve the referring agent server-side.
+3. Preserve the referral attribution through the complete signup process, including intermediate forms, email verification, OAuth redirects, account confirmation, and profile creation wherever applicable.
+4. Persist the attribution reliably until signup is completed.
+5. Associate the newly created user with the referrer only when the required account-creation and confirmation conditions have been met.
+
+Use the existing authentication and profile-creation flow. Do not create a separate authentication process just for referrals.
+
+Do not rely solely on client-side state or a query parameter that can disappear during redirects. Use an appropriate secure mechanism compatible with the existing application.
+
+### Referral validation rules
+
+- A user cannot refer themselves.
+- An invalid or nonexistent `referralId` must not generate a bonus.
+- A newly registered user can have at most one referrer.
+- A signup must not count more than once.
+- A referrer cannot receive more than three successful referrals.
+- The three-referral limit must be enforced on the server or database, not only in the interface.
+- A failed or incomplete signup must not activate a bonus.
+- Referral attribution must not be arbitrarily replaced during later signup steps.
+- Repeated requests, confirmation callbacks, and retries must not award duplicate bonuses.
+
+Use database transactions, atomic updates, unique constraints, or equivalent mechanisms supported by the existing stack to prevent race conditions.
+
+If the application uses OAuth or email confirmation, ensure that referral attribution survives the relevant callback flow without compromising authentication security.
+
+## 4. Track Successful Referrals and Enforce the Three-Referral Limit
+
+Use the persisted `referredBy` relationship to count successful referrals for each agent.
+
+A successful referral should count only after the new user has completed the application's required signup and confirmation process and has been successfully associated with the referrer.
+
+The referral count must be derived from reliable persisted data or maintained atomically. Do not trust a client-provided count.
+
+The system must enforce:
+
+- Zero to three successful referrals per agent.
+- No duplicate counting for the same user.
+- No additional successful referral once the agent reaches three.
+- No bonus for self-referrals or invalid referral identifiers.
+
+When the agent reaches three successful referrals:
+
+- Hide the Refer button.
+- Prevent the referral modal from being opened through the normal interface.
+- Reject attempts to create or complete additional referral rewards on the server.
+- Preserve existing referral history and previously earned bonuses.
+
+Handle concurrent signups safely. If two referred users complete signup simultaneously when only one referral slot remains, the system must not award both referrals and exceed the limit.
+
+Do not delete valid referral history to enforce the limit.
+
+## 5. Implement Progressive Bonus Durations
+
+Each successful referral should grant or extend the referring agent's referral bonus.
+
+The bonus type must be `"refer"`, and its listing discount must be **12%** while the bonus is active.
+
+The bonus duration should increase as the agent completes more successful referrals, rather than allowing the agent to collect multiple independent bonuses by repeatedly triggering referral callbacks.
+
+Implement a clear, centralized duration rule that rewards additional successful referrals and discourages attempts to exploit the referral system.
+
+Use the following progression unless the existing application already defines a compatible bonus-duration policy:
+
+| Successful referrals | Total bonus duration earned |
+|---|---|
+| 1 | 1 month |
+| 2 | 2 months |
+| 3 | 3 months |
+
+The duration is cumulative from the bonus activation period, not three separate simultaneous discounts.
+
+### Bonus duration behavior
+
+- The first successful referral grants one month.
+- The second successful referral increases the total earned duration to two months.
+- The third successful referral increases the total earned duration to three months.
+- Repeated callbacks for an already processed referral must not increase the duration.
+- Copying referral links or starting signup must never increase the duration.
+- Only distinct, valid, successfully completed referrals may increase the bonus.
+
+Track the bonus's actual start and expiry dates. If a new valid referral is completed while a bonus is already active, extend the existing expiry according to the defined progression without accidentally shortening the current bonus.
+
+Use a consistent definition of a calendar month and handle month-end dates correctly. Do not treat one month as an arbitrary number of milliseconds if the application's date utilities support calendar-month calculations.
+
+If the existing bonus system uses a different duration representation, integrate with it while preserving these business rules.
+
+## 6. Apply a Dynamic 12% Discount to Eligible Listing Prices
+
+Update the agent listing section to show a small bonus badge and discounted price when the authenticated agent has an active referral bonus.
+
+The discount rate for this referral bonus is **12%**.
+
+For example, if a listing costs ₦100,000 before the referral bonus:
+
+- Original price: ₦100,000, displayed with a strikethrough.
+- Discounted price: ₦88,000.
+- Bonus badge: `12% Referral Discount`.
+
+Calculate the discounted price dynamically:
+
+`discountedPrice = originalPrice × 0.88`
+
+Use the application's existing currency-formatting and price-calculation utilities. Handle rounding consistently with the current pricing rules.
+
+Do not store hardcoded discounted prices in the UI. Derive the discount from the original listing price and the applicable bonus eligibility.
+
+### Listing UI requirements
+
+When a valid bonus is active, show:
+
+- The original price with a strikethrough.
+- The calculated price after the 12% discount.
+- A small badge or label identifying the referral bonus.
+- The bonus duration or remaining validity where appropriate and consistent with the existing interface.
+
+Follow the current agent listing design and avoid unnecessary layout changes.
+
+Ensure the referral discount integrates correctly with any existing listing discounts. Inspect the existing discount model and calculation order before implementing the new rule.
+
+Do not accidentally stack discounts or override existing promotions unless the application's current business rules explicitly permit that behavior.
+
+## 7. Centralize Bonus Eligibility and Expiry Checks
+
+Create or reuse a centralized bonus-eligibility function or service. Use it consistently wherever listing prices and referral bonus indicators are displayed or calculated.
+
+At a minimum, check:
+
+- Whether the user has an applicable bonus.
+- Whether `bonusType` is `"refer"`.
+- Whether the bonus has been activated.
+- Whether the current date is before its expiry.
+- Whether the bonus duration is valid.
+- Whether the listing qualifies for the discount.
+- Whether the discount can be applied alongside existing listing promotions.
+
+Do not use `hasReferred` alone to determine whether a discount is active. It indicates referral history, not necessarily current bonus availability.
+
+When a bonus is expired or otherwise unavailable:
+
+- Hide the referral bonus badge.
+- Hide the crossed-out price associated with the referral discount.
+- Remove the referral discount from the calculated listing price.
+- Display the normal price or the result of the existing pricing system.
+
+The bonus eligibility check must also be enforced server-side anywhere a discounted price affects a transaction, payment, booking, or other consequential operation.
+
+Never trust a client-supplied discounted price or client-supplied bonus status.
+
+## 8. Security and Backward Compatibility
+
+Before implementation, inspect the existing:
+
+- User schema and database relationships.
+- Authentication, signup, and account-confirmation flows.
+- Agent profile and listing interfaces.
+- Modal and notification conventions.
+- Pricing and discount calculations.
+- Bonus or subscription functionality.
+- Database migration and transaction patterns.
+- Authorization and server-side validation rules.
+
+Implement the smallest practical set of changes.
+
+Do not:
+
+- Replace the existing authentication system.
+- Break signup for users without referral links.
+- Change unrelated listing prices.
+- Create duplicate profiles or referral rewards.
+- Expose privileged credentials to the client.
+- Trust client-side referral counts or discount calculations.
+- Hardcode production URLs or bonus expiry dates.
+- Allow more than three successful referrals per agent.
+- Activate rewards before successful signup completion.
+- Remove or overwrite existing bonuses without following the application's rules.
+
+Ensure that the new fields have appropriate defaults or nullable behavior so existing accounts continue to function.
+
+## 9. Testing and Verification
+
+Test the complete referral lifecycle, including these scenarios:
+
+1. An eligible agent opens the Refer modal.
+2. The modal shows the correct successful-referral count and remaining referrals.
+3. The generated link contains the correct `referralId` in `referredBy`.
+4. A normal signup without a referral link still works.
+5. Referral attribution survives the required signup, confirmation, and OAuth flows.
+6. A successfully confirmed referred user is associated with the correct referrer.
+7. The referring agent receives the correct bonus duration.
+8. The listing discount is exactly 12%, subject to the existing currency-rounding rules.
+9. The bonus extends correctly after subsequent distinct successful referrals.
+10. Duplicate callbacks do not increase the referral count or bonus duration.
+11. Invalid identifiers and self-referrals are rejected.
+12. The Refer button disappears after three successful referrals.
+13. Server-side validation rejects attempts to exceed the three-referral limit.
+14. Concurrent signup completions cannot exceed the referral limit.
+15. Expired bonuses no longer affect listing prices.
+16. Existing listing discounts continue to behave correctly.
+17. Users without active bonuses see their normal applicable prices.
+18. Existing accounts remain valid after the schema migration.
+
+Run the available type checks, linting, tests, and production build. Fix regressions introduced by the implementation.
+
+## 10. Final Deliverables
+
+After implementation, summarize:
+
+- Schema changes and migrations.
+- Files and components modified.
+- How `referralId` and `referredBy` work together.
+- How the referral modal and remaining-referral count work.
+- How the three-referral limit is enforced.
+- How bonus durations increase with successful referrals.
+- How the 12% listing discount is calculated and validated.
+- How bonus expiry is handled.
+- Tests performed and any unresolved issues.
+
+**Final objective:** Deliver a secure, backward-compatible referral system that allows each agent to complete a maximum of three successful referrals, tracks referral attribution correctly, progressively grants up to three months of bonus duration, and applies a dynamic 12% discount to eligible listing prices only while the bonus is active.

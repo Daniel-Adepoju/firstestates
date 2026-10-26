@@ -2,6 +2,7 @@
 import dynamic from "next/dynamic"
 import React from "react"
 import { getListingTier, listingTierItems } from "@lib/constants"
+import { Check, Coins, Crown, Zap } from "lucide-react"
 import { daysLeft } from "@utils/date"
 import { useSignals, useSignal } from "@preact/signals-react/runtime"
 const PaystackBtn = dynamic(() => import("@components/PayStackButton"), { ssr: false })
@@ -9,11 +10,12 @@ const PaystackBtn = dynamic(() => import("@components/PayStackButton"), { ssr: f
 const EditTier = ({ data, editRanks, handleUpgrade, email }: any) => {
   useSignals()
   const tier = getListingTier(data?.post.listingTier)
+  const tierIcons: any = { Standard: Zap, Gold: Coins, First: Crown }
 
 
   return (
     <div className="w-full col-span-2 text-foreground text-sm">
-      <div className="w-[90%] text-center mx-auto mb-4 capitalize">
+      <div className="mx-auto mb-6 w-[90%] rounded-2xl border border-[#0881a3]/15 bg-slate-50 p-5 text-center capitalize dark:border-white/10 dark:bg-[#0d1b30]">
         This listing is currently a
         <strong
           className={tier?.color}
@@ -28,7 +30,7 @@ const EditTier = ({ data, editRanks, handleUpgrade, email }: any) => {
         </div>
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 ">
+      <div className="grid gap-5 p-2 md:grid-cols-2 lg:grid-cols-3">
         {listingTierItems.map((listing) => {
           const currentRank = editRanks[data?.post?.listingTier]
           const newRank = editRanks[listing.type.toLowerCase()]
@@ -36,13 +38,10 @@ const EditTier = ({ data, editRanks, handleUpgrade, email }: any) => {
           return (
             <div
               key={listing?.key}
-              className={` ${
-                listing?.color
-              } gloss dark:bg-gray-700/50 text-gray-700 dark:text-gray-100 border-2 ${
-                listing.border
-              } rounded-2xl p-6 shadow-md smallScale transition cursor-pointer flex flex-col`}
+              className={`tier-card ${listing.type === "Gold" ? "tier-card--gold" : listing.type === "First" ? "tier-card--first" : ""}`}
             >
-              <h2 className="text-2xl font-bold mb-2">{listing.type}</h2>
+              <div className="tier-card__icon"><>{(() => { const Icon = tierIcons[listing.type]; return <Icon size={24} /> })()}</></div>
+              <h2 className="mb-2 mt-5 text-2xl font-bold">{listing.type}</h2>
 
               <p
                 className={`text-xl font-semibold mb-4  ${listing?.color}
@@ -51,7 +50,7 @@ const EditTier = ({ data, editRanks, handleUpgrade, email }: any) => {
                 {listing.price}
               </p>
 
-              <ul className="space-y-2 mb-4">
+              <ul className="mb-4 space-y-3">
                 {listing.benefits.map((benefit, index) => (
                   <li
                     key={index}
@@ -66,7 +65,7 @@ const EditTier = ({ data, editRanks, handleUpgrade, email }: any) => {
                 email={email}
                 amount={listing?.amount}
                 successFunction={() => handleUpgrade(listing.type.toLowerCase())}
-                className="w-full mt-auto py-3 darkblue-gradient text-white outline-1.5 dark:outline-black/40 rounded-lg font-bold hover:scale-99 transition"
+                className="tier-action w-full mt-auto"
                 text={
                   currentRank === newRank
                     ? `Renew ${listing.type} listing`

@@ -103,6 +103,7 @@ const ChatBubble = ({
       <div className={`${msg.senderId === userId ? "self-end" : " self-start"}`}>
         <PopularCard 
       listing={msg.listingId}
+      showPopular={false}
       />
       </div>
       )}

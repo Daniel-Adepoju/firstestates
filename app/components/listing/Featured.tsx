@@ -64,19 +64,23 @@ const Featured = () => {
   if (isLoading) {
     return (
       <div className="w-full my-4">
-        <div className="subheading flex items-center gap-2 ml-4 mb-2 text-center">
-         <Star className="relative w-6 h-6 text-goldPrimary" />
-          <span>Featured</span>
-          
+        <div className="mx-auto flex w-[94%] items-end gap-3 border-b border-slate-200 pb-3 dark:border-white/10">
+          <Star className="h-6 w-6 text-goldPrimary" />
+          <div>
+           
+            <span className="subheading">Featured homes</span>
+          </div>
         </div>
 
-        <div className="mx-auto featured_container w-90 md:w-181 xl:w-271 grid grid-flow-col auto-cols-auto gap-1 overflow-x-hidden">
-          {[...Array(6)].map((_, i) => (
-            <Skeleton
-              key={i}
-              className="w-90 h-60 bg-gray-500/20 rounded-xl shadow-md"
-            />
-          ))}
+        <div className="featured dark-to-lightblue-gradient mx-auto my-4 min-h-[20vh] w-[94%] rounded-[1.75rem] p-2 pb-0 shadow-xl shadow-blue-950/20">
+          <div className="featured_container mx-auto grid w-full grid-flow-col auto-cols-[minmax(18rem,1fr)] gap-3 overflow-hidden rounded-xl p-3 md:auto-cols-[minmax(22rem,1fr)]">
+            {[...Array(3)].map((_, i) => (
+              <Skeleton
+                key={i}
+                className="h-60 w-full rounded-xl bg-white/15 shadow-md"
+              />
+            ))}
+          </div>
         </div>
       </div>
     )
@@ -86,14 +90,16 @@ const Featured = () => {
     <>
       {data?.featuredListings.length > 0 && (
         <>
-          <div className="subheading flex items-center gap-2 ml-4  text-center">
-                <Star className="relative w-6 h-6 text-goldPrimary" />
-            <span>Featured</span>
-       
+          <div className="mx-auto flex w-[94%] items-end gap-3 border-b border-slate-200 pb-3 dark:border-white/10">
+            <Star className="h-6 w-6 text-goldPrimary" />
+            <div>
+             
+              <span className="subheading">Featured homes</span>
+            </div>
           </div>
 
           {!isLoading && (
-            <div className="featured dark-to-lightblue-gradient w-[92%] md:w-[95%] lg:w-[98%] min-h-[20vh] mx-auto my-2 rounded-xl">
+            <div className="featured dark-to-lightblue-gradient mx-auto my-4 min-h-[20vh] w-[94%] rounded-[1.75rem] p-2 pb-0 shadow-xl shadow-blue-950/20">
               <Swiper
                 modules={[Pagination, Autoplay, A11y, EffectCoverflow]}
                 effect="coverflow"
@@ -137,7 +143,7 @@ const Featured = () => {
                 {data?.featuredListings.map((featured: CardProps["listing"]) => (
                   <SwiperSlide
                     key={featured._id}
-                    className="featured_container"
+                    className="featured_container mb-4"
                   >
                     <FeaturedCard
                       key={featured._id}
@@ -145,7 +151,7 @@ const Featured = () => {
                     />
                   </SwiperSlide>
                 ))}
-
+              
                 <SwpierControls className="w-full  mt--8 mb-6 flex items-center justify-center gap-6" />
               </Swiper>
             </div>

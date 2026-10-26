@@ -4,7 +4,7 @@ import { CircleCheck, InfoIcon, MailIcon } from "lucide-react"
 import { useMutation } from "@tanstack/react-query"
 import { axiosdata } from "@utils/axiosUrl"
 import { nanoid } from "nanoid"
-import { useNotification } from "@lib/Notification"
+import { useNotification } from "@utils/Toast"
 
 export type SendEmailParams = {
   to: string

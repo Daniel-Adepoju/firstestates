@@ -77,14 +77,14 @@ const AdminListings = () => {
           <div className="content_item banner">
             <h3>Total Listings</h3>
             <div className="text">
-              <span>{formatNumber(data?.totalListings ?? "0")}</span>
+                <span>{isLoading || data?.totalListings == null ? "-" : formatNumber(data.totalListings)}</span>
             </div>
           </div>
 
           <div className="content_item banner">
             <h3>Rented Listings</h3>
             <div className="text">
-              <span>{formatNumber(data?.rentedListings ?? "0")}</span>
+                <span>{isLoading || data?.rentedListings == null ? "-" : formatNumber(data.rentedListings)}</span>
             </div>
           </div>
 
@@ -92,7 +92,7 @@ const AdminListings = () => {
             <h3>Reported Listings</h3>
             <div className="w-full flex items-center justify-center gap-6">
               <div className="text">
-                <span>{formatNumber(data?.reportedListings ?? "0")}</span>
+                <span>{isLoading || data?.reportedListings == null ? "-" : formatNumber(data.reportedListings)}</span>
               </div>
               <Link href="/admin/listings/reported">
                 <ArrowRight className="bg-red-600 text-white w-10 h-10 p-2 rounded-full cursor-pointer smallScale" />

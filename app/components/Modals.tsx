@@ -3,7 +3,7 @@ import Image from "next/image"
 // import { logOut } from "@lib/server/auth"
 import { signOut } from "next-auth/react"
 import { deleteListing, markAsFeatured, reportListing } from "@lib/server/listing"
-import { useNotification } from "@lib/Notification"
+import { useNotification } from "@utils/Toast"
 import { sendNotification } from "@lib/server/notificationFunctions"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { LogOut, Trash, AlertCircle, Loader2, X, Check } from "lucide-react"
@@ -74,7 +74,7 @@ export const DeleteModal = ({ ref, listingId, setDeleting }: DeleteModalProps) =
   return (
     <dialog
       ref={ref}
-      className="dark:bg-gray-700 dark:text-white bg-white rounded-xl p-6 w-100 mt-30 mx-auto shadow-xl text-center"
+      className="modal-shell"
     >
       <Trash
         size={60}
@@ -83,17 +83,17 @@ export const DeleteModal = ({ ref, listingId, setDeleting }: DeleteModalProps) =
 
       <p className="text-lg font-medium mb-6">Are you sure you want to delete?</p>
 
-      <div className="flex justify-between px-8">
+      <div className="modal-shell__actions">
         <X
           width={35}
           height={35}
-          className="cursor-pointer text-white bg-red-600 p-1 rounded-full"
+          className="modal-action modal-action--danger"
           onClick={() => ref?.current?.close()}
         />
         <Check
           width={35}
           height={35}
-          className="cursor-pointer text-white bg-green-500 p-1 rounded-full"
+          className="modal-action modal-action--primary"
           onClick={() => mutation.mutate()}
         />
       </div>
@@ -113,7 +113,7 @@ export const LogOutModal = ({ ref }: ModalProps) => {
   return (
     <dialog
       ref={ref}
-      className="dark:bg-gray-700 dark:text-white bg-white mt-40 rounded-xl p-6 w-100 mx-auto shadow-xl text-center border-1 border-white dark:border-black"
+      className="modal-shell"
     >
       <div className="flex justify-center mb-4">
         <LogOut
@@ -177,7 +177,7 @@ export const FeaturedModal = ({ ref, email, listingId, userId }: FeaturedProps) 
   return (
     <dialog
       ref={ref}
-      className="dark:bg-gray-700 dark:text-white bg-white mt-40 rounded-xl p-6 w-[90%] max-w-md mx-auto shadow-xl text-center border border-white dark:border-black"
+      className="modal-shell"
     >
       <div className="flex justify-center mb-4">
         <h2 className="text-xl font-semibold">Make Listing Featured</h2>
@@ -264,7 +264,7 @@ export const ReportModal = ({
     <dialog
       // onC
       ref={ref}
-      className="dark:bg-gray-700 text-primary dark:text-white bg-white mt-40 rounded-xl p-6 w-[90%] max-w-md mx-auto shadow-xl text-center border border-white dark:border-black"
+      className="modal-shell"
     >
       <div className="flex flex-col items-center justify-center mb-4">
         <AlertCircle
@@ -359,7 +359,7 @@ export const ReportListingModal = ({
   return (
     <dialog
       ref={ref}
-      className=" dark:bg-gray-700 dark:text-white bg-white mt-20 rounded-xl p-6 w-[90%] max-w-md mx-auto shadow-xl text-center border border-white dark:border-black"
+      className="modal-shell"
     >
       <div className="flex flex-col items-center justify-center mb-4">
         <AlertCircle

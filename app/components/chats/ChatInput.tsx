@@ -39,6 +39,7 @@ export default function ChatInput({
             ) : (
               <PopularCard
                 listing={listing}
+                showPopular={false}
                 wAndH={"w-42 md:w-43 min-h-35"}
               />
             )}

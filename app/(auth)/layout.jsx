@@ -1,12 +1,8 @@
-import "@styles"
-
 import Footer from "@components/Footer"
 import User from "@utils/user"
 import Provider from "@utils/sessionProvider"
 import ReactQueryProvider from "@utils/ReactQueryProvider"
-import Notification from "@lib/Notification"
 import { Suspense } from "react"
-import Toast from "@utils/Toast"
 import Nav from "@components/Nav"
 export const metadata = {
   title: "FirstEstates",
@@ -23,14 +19,7 @@ export default function RootLayout({ children }) {
         <ReactQueryProvider>
           <Provider>
             <User>
-              <Notification>
-                <Toast>
-                  {/* <Nav /> */}
-                  {/* <main> */}
-                  {children}
-                  {/* </main> */}
-                </Toast>
-              </Notification>
+              {children}
               {/* <Footer />    */}
             </User>
           </Provider>

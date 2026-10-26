@@ -1,4 +1,3 @@
-import "@styles"
 import Nav from "@components/Nav"
 import Footer from "@components/Footer"
 import Backdrop from "@lib/Backdrop"

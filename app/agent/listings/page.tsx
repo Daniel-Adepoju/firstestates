@@ -96,6 +96,7 @@ const AgentListings = () => {
       <ListingStats
         data={data}
         formatNumber={formatNumber}
+        isLoading={isLoading}
       />
 
       {/* ADD LISTING + MANAGE RESIDENTS */}

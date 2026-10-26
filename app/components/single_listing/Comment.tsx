@@ -5,7 +5,7 @@ import Link from "next/link"
 import { Loader2, SendHorizonal } from "lucide-react"
 import { useDarkMode } from "@lib/DarkModeProvider"
 import { sendComment } from "@lib/server/listing"
-import { useNotification } from "@lib/Notification"
+import { useNotification } from "@utils/Toast"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useNextPage } from "@lib/useIntersection"
 import { parseDate } from "@utils/date"
@@ -60,7 +60,7 @@ export const WriteComment = ({ listingId, isAgent }: commentCardProps) => {
   const { session } = useUser()
   const { darkMode } = useDarkMode()
   const [content, setContent] = useState("")
-  const { notification } = useNotification()
+  const notification = useNotification()
   const [sending, setSending] = useState(false)
   const queryClient = useQueryClient()
 

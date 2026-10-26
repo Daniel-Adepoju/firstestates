@@ -3,6 +3,7 @@
 import { CldImage } from "next-cloudinary"
 import Link from "next/link"
 import { daysLeft } from "@utils/date"
+import { GraduationCap } from "lucide-react"
 
 interface Props {
   listing: any
@@ -21,7 +22,7 @@ const ListingDetails = ({ listing }: Props) => {
   }
 
   return (
-    <>
+    <div className="listing-detail-summary">
       {/* <div className="price">
         <span className="currency">&#8358;</span> {listing?.price?.toLocaleString()} {priceDuration[listing?.priceDuration]}
         
@@ -70,8 +71,14 @@ const ListingDetails = ({ listing }: Props) => {
         </span>
       </div>
 
-      <div className="font-head capitalize text-sm text-gray-600 dark:text-gray-200 font-semibold">
-        {listing?.school}
+      <div className="listing-school">
+        <span className="listing-school__icon">
+          <GraduationCap size={20} strokeWidth={2.2} />
+        </span>
+        <span className="listing-school__copy">
+          {/* <span className="listing-school__label">Closest campus</span> */}
+          <strong>{listing?.school || "Nearby campus"}</strong>
+        </span>
       </div>
 
       <div className="agent">
@@ -92,7 +99,7 @@ const ListingDetails = ({ listing }: Props) => {
           </Link>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

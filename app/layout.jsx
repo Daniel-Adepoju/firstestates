@@ -1,5 +1,4 @@
 import "./globals.css"
-import "@styles"
 import "next-cloudinary/dist/cld-video-player.css"
 import { DarkModeProvider } from "@lib/DarkModeProvider"
 import Script from "next/script"
@@ -11,8 +10,8 @@ import AblyClientProvider from "@lib/AblyProvider"
 import User from "@utils/user"
 import Provider from "@utils/sessionProvider"
 import ReactQueryProvider from "@utils/ReactQueryProvider"
-import Notification from "@lib/Notification"
 import Toast from "@utils/Toast"
+import { Toaster } from "sonner"
 
 export const metadata = {
   metadataBase: process.env.BASE_URL,
@@ -146,11 +145,8 @@ export default async function RootLayout({ children }) {
           <ReactQueryProvider>
             <Provider>
               <User>
-                <Notification>
-                  <Toast>
-                    {children}
-                    </Toast>
-                </Notification>
+                <Toast>{children}</Toast>
+                <Toaster position="top-right" closeButton richColors theme="system" />
               </User>
             </Provider>
           </ReactQueryProvider>

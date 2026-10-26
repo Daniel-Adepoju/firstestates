@@ -1,6 +1,6 @@
 "use client"
-import { useContext, useRef, createContext, useState, useEffect } from "react"
-import { useNotification } from "@lib/Notification"
+import { useContext, createContext, useState, useEffect } from "react"
+import { toast as sonnerToast } from "sonner"
 
 type ToastContextType = {
   isActive: boolean
@@ -25,7 +25,19 @@ export const ToastContext = createContext<ToastContextType>({
   setToastValues: () => {},
 })
 
+type NotificationBridge = {
+  setMessage: (message: string) => void
+  setIsActive: (active: boolean) => void
+  setType: (type: string) => void
+  setDuration: (duration?: number) => void
+}
+
+const NotificationContext = createContext<NotificationBridge>({
+  setMessage: () => {}, setIsActive: () => {}, setType: () => {}, setDuration: () => {},
+})
+
 export const useToast = () => useContext(ToastContext)
+export const useNotification = () => useContext(NotificationContext)
 
 const Toast = ({ children }: { children: React.ReactNode }) => {
   const [toastValues, setToastValues] = useState({
@@ -34,16 +46,17 @@ const Toast = ({ children }: { children: React.ReactNode }) => {
     status: "",
     duration: 2000,
   })
-  const notification = useNotification()
- 
+  const [notificationValues, setNotificationValues] = useState({
+    isActive: false,
+    message: "",
+    status: "success",
+    duration: 2000,
+  })
 
   useEffect(() => {
     if (toastValues.isActive) {
-      notification.setMessage(toastValues.message)
-      notification.setType(toastValues.status)
-      notification.setIsActive(true)
-      notification.setDuration(toastValues.duration)
-    
+      const notify = sonnerToast[toastValues.status as "success" | "error" | "warning" | "info"] || sonnerToast
+      notify(toastValues.message, { duration: toastValues.duration })
     }
     const timeout = setTimeout(() => {
       setToastValues((prev) => ({ ...prev, isActive: false }))
@@ -53,11 +66,27 @@ const Toast = ({ children }: { children: React.ReactNode }) => {
     }
   }, [toastValues.isActive, toastValues.message, toastValues.status])
 
+  useEffect(() => {
+    if (!notificationValues.isActive || !notificationValues.message) return
+    const notify = sonnerToast[notificationValues.status as "success" | "error" | "warning" | "info"] || sonnerToast
+    notify(notificationValues.message, { duration: notificationValues.duration })
+    setNotificationValues((prev) => ({ ...prev, isActive: false }))
+  }, [notificationValues])
+
+  const notificationBridge: NotificationBridge = {
+    setMessage: (message) => setNotificationValues((prev) => ({ ...prev, message })),
+    setIsActive: (isActive) => setNotificationValues((prev) => ({ ...prev, isActive })),
+    setType: (status) => setNotificationValues((prev) => ({ ...prev, status })),
+    setDuration: (duration = 2000) => setNotificationValues((prev) => ({ ...prev, duration })),
+  }
+
   return (
     //  @ts-ignore
-    <ToastContext.Provider value={{...toastValues, setToastValues }}>
-      {children}
-    </ToastContext.Provider>
+    <NotificationContext.Provider value={notificationBridge}>
+      <ToastContext.Provider value={{...toastValues, setToastValues }}>
+        {children}
+      </ToastContext.Provider>
+    </NotificationContext.Provider>
   )
 }
 

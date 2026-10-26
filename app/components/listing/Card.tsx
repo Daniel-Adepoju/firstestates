@@ -37,8 +37,8 @@ const Card = ({
   const { setToastValues } = useToast()
   const deleteRef = useRef<HTMLDialogElement>(null)
   const [deleting, setDeleting] = useState(false)
-  const [weeklyViews] = useState(formatNumber(listing?.weeklyViews ?? 0) || 0)
-  const [totalViews] = useState(formatNumber(listing?.totalViews ?? 0) || 0)
+  const weeklyViews = listing?.weeklyViews == null ? "-" : formatNumber(listing.weeklyViews)
+  const totalViews = listing?.totalViews == null ? "-" : formatNumber(listing.totalViews)
   const [showMore, setShowMore] = useState(false)
   const { backdrop, setBackdrop } = useBackdrop()
 
@@ -51,6 +51,18 @@ const Card = ({
       return router.push(`/agent/listings/single_listing?id=${listing?._id}`)
     }
     router.push(`/listings/single_listing?id=${listing?._id}`)
+  }
+
+  const handleCardClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.stopPropagation()
+
+    const target = event.target as Element | null
+    if (target?.closest("button, a, [role='button'], [data-card-action='true']")) {
+      event.preventDefault()
+      return
+    }
+
+    visitCard()
   }
 
   const { ref, className: animateClass } = useAnimation({
@@ -87,7 +99,7 @@ const Card = ({
         className={`${animateClass} cardContainer`}
       >
         <div
-          onClick={visitCard}
+          onClick={handleCardClick}
           className={`card font-card ${blankSlate && "blankSlate"} transition-all duration-200 ease-in hover:transition-all hover:duration-200 hover:ease-out`}
         >
           <CardImage
@@ -108,6 +120,8 @@ const Card = ({
             address={address}
             weeklyViews={weeklyViews}
             totalViews={totalViews}
+            showMore={showMore}
+            setShowMore={setShowMore}
           />
 
           {/* {!edit && ( */}

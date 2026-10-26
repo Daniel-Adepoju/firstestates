@@ -8,7 +8,7 @@ import { useSchools } from "@lib/useSchools"
 import Button from "@lib/Button"
 import { WhiteLoader } from "@utils/loaders"
 import { updateUser, updateProfilePic } from "@lib/server/auth"
-import { useNotification } from "@lib/Notification"
+import { useNotification } from "@utils/Toast"
 import { useRouter, useSearchParams } from "next/navigation"
 import { getSession } from "next-auth/react"
 

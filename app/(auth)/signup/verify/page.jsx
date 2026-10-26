@@ -6,7 +6,7 @@ import { useSignal, useSignals } from "@preact/signals-react/runtime"
 import { WhiteLoader, DotsLoader } from "@utils/loaders"
 import Button from "@lib/Button"
 import { useEffect, useState } from "react"
-import { useNotification } from "@lib/Notification"
+import { useNotification } from "@utils/Toast"
 import { useRouter, useSearchParams } from "next/navigation"
 import { verifyOTP, sendOTP } from "@lib/server/auth"
 

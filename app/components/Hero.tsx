@@ -4,6 +4,7 @@ import Image from "next/image"
 import { CldImage } from "next-cloudinary"
 import { useGetFeaturedListings } from "@lib/customApi"
 import { ArrowRight, CheckCircle2, MapPin, Sparkles, Star } from "lucide-react"
+import { Skeleton } from "@components/ui/skeleton"
 
 const HeroSection = () => {
   const { session } = useUser()
@@ -138,6 +139,19 @@ const HeroSection = () => {
               </div>
             </div>
           </Link>
+        )}
+
+        {!isAgent && featuredLoading && (
+          <div className="relative mx-auto aspect-[4/3] w-full max-w-xl overflow-hidden rounded-[2rem] border border-white/20 bg-white/10 p-2 shadow-2xl backdrop-blur-sm lg:ml-auto">
+            <Skeleton className="h-full w-full rounded-[1.5rem] bg-white/15" />
+            <div className="absolute inset-x-6 bottom-6 flex items-center justify-between rounded-2xl border border-white/15 bg-[#032679]/55 px-4 py-3 backdrop-blur-md">
+              <div className="space-y-2">
+                <Skeleton className="h-3 w-28 bg-white/20" />
+                <Skeleton className="h-4 w-36 bg-white/20" />
+              </div>
+              <Skeleton className="h-4 w-16 bg-white/20" />
+            </div>
+          </div>
         )}
 
         {!isAgent && !featuredLoading && !hasFeaturedListing && (
