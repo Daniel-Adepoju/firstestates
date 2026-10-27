@@ -1,7 +1,7 @@
 "use client"
 import { useState, useEffect } from "react"
 import { useUser } from "@utils/user"
-import { CldImage, CldUploadWidget, CloudinaryUploadWidgetResults } from "next-cloudinary"
+import { CldImage, CldUploadWidget, CldUploadWidgetResults } from "next-cloudinary"
 import Image from "next/image"
 import { Skeleton } from "@components/ui/skeleton"
 import { useSchools } from "@lib/useSchools"
@@ -62,7 +62,7 @@ const Fields = () => {
     }
   }
 
-  const updatePic = async (result: CloudinaryUploadWidgetResults) => {
+  const updatePic = async (result: CldUploadWidgetResults) => {
     const resultInfo = result.info as any
     await update({
       ...session?.user,
