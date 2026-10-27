@@ -2171,6 +2171,7 @@ footer.hide {
   content: "";
   position: absolute;
   inset: 0;
+  bottom:0;
   width: 100%;
   height: 30%;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.3), transparent);
