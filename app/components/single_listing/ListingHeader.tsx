@@ -26,7 +26,7 @@ const ListingHeader = ({ listing }: Props) => {
     <>
       <div className="header">
         {/* mode button */}
-           {!listing.video && (
+           {listing.video && (
             <button
               onClick={() => setHeaderTab(headerTab === "gallery" ? "video" : "gallery")}
               className=" flex font-header text-white darkblue-gradient cursor-pointer clickable w-40 text-xs font-medium h-10 gloss items-center gap-2 py-4 px-4 ml-2 mb-3 mt-2 rounded-2xl"

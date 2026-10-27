@@ -5,8 +5,8 @@ smile id/dojah ->> finish agent auth
 
 
 ## 
-- fix listing grid iin admin and agent so when there is space we can atleast display more than one on screen make it dynamic, also payattention to edit bar so they dont blend into a listing they dont belong to
-
+- fix listing grid in admin and agent so when there is space we can atleast display more than one on screen make it dynamic, also payattention to edit bar so they dont blend into a listing they dont belong to
+- in single liasting page count properly the number of amenities so we dont have a situation like 1 toilets instead of 1 toilet, do same for bathrooms and bedrooms
 
 check the new cleanup edit a valid until then test cron job
 confirm reports on request
