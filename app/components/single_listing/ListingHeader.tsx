@@ -26,34 +26,32 @@ const ListingHeader = ({ listing }: Props) => {
     <>
       <div className="header">
         {/* mode button */}
-           {listing.video && (
-            <button
-              onClick={() => setHeaderTab(headerTab === "gallery" ? "video" : "gallery")}
-              className=" flex font-header text-white darkblue-gradient cursor-pointer clickable w-40 text-xs font-medium h-10 gloss items-center gap-2 py-4 px-4 ml-2 mb-3 mt-2 rounded-2xl"
-            >
-              {headerTab === "gallery" ? (
-                <div className="flex items-center justify-center gap-2 w-full">
-                  Video Tour{" "}
-                  <PlaySquare
-                    className="text-gray-200"
-                    size={20}
-                  />
-                </div>
-              ) : (
-                <div className="flex items-center justify-center gap-2 w-full">
-                  Gallery{" "}
-                  <Images
-                    className="text-gray-200"
-                    size={20}
-                  />
-                </div>
-              )}
-            </button>
-          )}
-          {/* main gallery header */}
+        {listing.video && (
+          <button
+            onClick={() => setHeaderTab(headerTab === "gallery" ? "video" : "gallery")}
+            className=" flex font-header text-white darkblue-gradient cursor-pointer clickable w-40 text-xs font-medium h-10 gloss items-center gap-2 py-4 px-4 ml-2 mb-3 mt-2 rounded-2xl"
+          >
+            {headerTab === "gallery" ? (
+              <div className="flex items-center justify-center gap-2 w-full">
+                Video Tour{" "}
+                <PlaySquare
+                  className="text-gray-200"
+                  size={20}
+                />
+              </div>
+            ) : (
+              <div className="flex items-center justify-center gap-2 w-full">
+                Gallery{" "}
+                <Images
+                  className="text-gray-200"
+                  size={20}
+                />
+              </div>
+            )}
+          </button>
+        )}
+        {/* main gallery header */}
         <div className="house listing-gallery">
-       
-
           {headerTab === "gallery" && (
             <Swiper
               className="house"
@@ -68,7 +66,6 @@ const ListingHeader = ({ listing }: Props) => {
               {listing?.gallery?.map((image: string) => (
                 <SwiperSlide
                   key={image}
-
                   className={`item ${!isSwiperLoaded && "itemHide"}`}
                 >
                   <CldImage
@@ -79,7 +76,7 @@ const ListingHeader = ({ listing }: Props) => {
                   />
                 </SwiperSlide>
               ))}
-         
+
               <SwiperControls />
             </Swiper>
           )}
@@ -120,21 +117,27 @@ const ListingHeader = ({ listing }: Props) => {
               size={30}
               className="text-goldPrimary"
             />
-            <span>{listing?.bedrooms} bedrooms</span>
+            <span>
+              {listing?.bedrooms} {Number(listing?.bedrooms) === 1 ? "bedroom" : "bedrooms"}
+            </span>
           </div>
           <div>
             <Bath
               size={30}
               className="text-goldPrimary"
             />
-            <span>{listing?.bathrooms} bathrooms</span>
+            <span>
+              {listing?.bathrooms} {Number(listing?.bathrooms) === 1 ? "bathroom" : "bathrooms"}
+            </span>
           </div>
           <div>
             <Toilet
               size={30}
               className="text-goldPrimary"
             />
-            <span>{listing?.toilets} toilets</span>
+            <span>
+              {listing?.toilets} {Number(listing?.toilets) === 1 ? "toilet" : "toilets"}
+            </span>
           </div>
         </div>
       </div>

@@ -77,14 +77,20 @@ const AdminListings = () => {
           <div className="content_item banner">
             <h3>Total Listings</h3>
             <div className="text">
-                <span>{isLoading || data?.totalListings == null ? "-" : formatNumber(data.totalListings)}</span>
+              <span>
+                {isLoading || data?.totalListings == null ? "-" : formatNumber(data.totalListings)}
+              </span>
             </div>
           </div>
 
           <div className="content_item banner">
             <h3>Rented Listings</h3>
             <div className="text">
-                <span>{isLoading || data?.rentedListings == null ? "-" : formatNumber(data.rentedListings)}</span>
+              <span>
+                {isLoading || data?.rentedListings == null
+                  ? "-"
+                  : formatNumber(data.rentedListings)}
+              </span>
             </div>
           </div>
 
@@ -92,7 +98,11 @@ const AdminListings = () => {
             <h3>Reported Listings</h3>
             <div className="w-full flex items-center justify-center gap-6">
               <div className="text">
-                <span>{isLoading || data?.reportedListings == null ? "-" : formatNumber(data.reportedListings)}</span>
+                <span>
+                  {isLoading || data?.reportedListings == null
+                    ? "-"
+                    : formatNumber(data.reportedListings)}
+                </span>
               </div>
               <Link href="/admin/listings/reported">
                 <ArrowRight className="bg-red-600 text-white w-10 h-10 p-2 rounded-full cursor-pointer smallScale" />
@@ -128,7 +138,7 @@ const AdminListings = () => {
 
         <div className="mt-4 w-full flex flex-col items-center justify-center gap-4">
           {!isLoading ? (
-            <div className="adminListingCard w-[97%] flex flex-wrap items-center justify-center gap-4">
+            <div className="adminListingCard dashboardListingGrid grid w-full grid-cols-1 items-start gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {mapCards.length > 0 ? (
                 mapCards
               ) : (

@@ -60,7 +60,7 @@ const WishListCard = ({ listing, wishlistId, refValue }: WishListProps) => {
             height={90}
             alt="post_img"
             src={listing.mainImage}
-            crop="auto"
+            crop="fit"
             gravity="center"
             className="ml-0 rounded-xl object-cover transition duration-300 group-hover:brightness-90"
           />
@@ -88,7 +88,7 @@ const WishListCard = ({ listing, wishlistId, refValue }: WishListProps) => {
               height={30}
               alt="post_img"
               src={listing.agent.profilePic}
-              crop="auto"
+              crop="fit"
               gravity="center"
               className="rounded-full"
             />
@@ -210,8 +210,8 @@ export const WishlistButton = ({
           aria-pressed={liked}
           className={`group/heart relative flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-slate-950/55 p-2 shadow-lg backdrop-blur-md transition duration-300 hover:bg-slate-950/75 ${addToWishListMutation.isPending ? "cursor-wait" : ""}`}
         >
-          <Sparkles className="pointer-events-none absolute h-4 w-4 text-[#f7b657] opacity-0 transition duration-300 group-active/heart:animate-ping group-active/heart:opacity-100" />
-          <Heart size={23} className={`relative z-10 transition duration-300 group-active/heart:scale-125 ${liked ? "fill-red-500 text-red-300" : "fill-white/20 text-white"}`} />
+          <Sparkles className="pointer-events-none absolute h-4 w-4 text-red-500 opacity-0 transition duration-300 group-active/heart:animate-ping group-active/heart:opacity-100" />
+          <Heart size={23} className={`relative z-10 transition duration-300 group-active/heart:scale-125 ${liked ? "fill-red-600 text-red-500" : "fill-white/20 text-white"}`} />
         </button>
       </div>
     </>

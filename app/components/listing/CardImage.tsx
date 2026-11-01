@@ -21,7 +21,7 @@ const CardImage = ({
             fill={true}
             alt="post_img"
             src={"igy0tozve5oyjrsfmq3o"}
-            crop="auto"
+            crop="fit"
             className="pointer-events-none"
           />
         ) : (
@@ -29,7 +29,7 @@ const CardImage = ({
             fill
             alt="Post image"
             src={listing.mainImage}
-            crop="auto"
+            crop="fit"
             className="pointer-events-none"
           />
         )}

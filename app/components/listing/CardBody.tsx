@@ -5,15 +5,22 @@ import { truncateText } from "@utils/truncateText"
 import { Toilet, Bed, Bath, MapPin, Eye, Tag, X, ChevronDown } from "lucide-react"
 import { useState } from "react"
 
-const CardBody = ({ listing, edit, isAgentCard, address, weeklyViews, totalViews, showMore, setShowMore }: any) => {
+const CardBody = ({
+  listing,
+  edit,
+  isAgentCard,
+  address,
+  weeklyViews,
+  totalViews,
+  showMore,
+  setShowMore,
+}: any) => {
   const [isTagVisible, setIsTagVisible] = useState(false)
   return (
     <div className="body dark:bg-white gap-3 pb-5 pt-4">
       {/* Property type */}
 
-      <div
-        className="inline-flex w-fit items-center gap-1.5 rounded-full border border-[#0881a3]/15 bg-[#0881a3]/5 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-[#0874c7] shadow-sm dark:border-white/10 dark:bg-white/5 dark:text-sky-300"
-      >
+      <div className="inline-flex w-fit items-center gap-1.5 rounded-full border border-[#0881a3]/15 bg-[#0881a3]/5 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-[#0874c7] shadow-sm dark:border-white/10 dark:bg-white/5 dark:text-sky-300">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="14"
@@ -32,7 +39,10 @@ const CardBody = ({ listing, edit, isAgentCard, address, weeklyViews, totalViews
 
       {/* address */}
       <div className="address flex min-w-0 items-center gap-1.5 text-sm font-medium text-gray-600 dark:text-gray-300">
-        <MapPin size={17} className="shrink-0 text-goldPrimary" />
+        <MapPin
+          size={17}
+          className="shrink-0 text-goldPrimary"
+        />
         {/* text-goldPrimary dark:text-bluePrimary <<- text-goldPrimary */}
         <span className="truncate">{truncateText(address, 34)}</span>
       </div>
@@ -42,16 +52,31 @@ const CardBody = ({ listing, edit, isAgentCard, address, weeklyViews, totalViews
           {/* amenities */}
           <div className="home_details mb-1 grid grid-cols-3 gap-2 rounded-xl border border-slate-100 bg-slate-50/80 py-3 font-list dark:border-white/10 dark:bg-white/[0.03]">
             <div>
-              <Bed size={20} className="text-goldPrimary" />
-              <span className="text-xs text-gray-700 dark:text-white">{listing?.bedrooms} beds</span>
+              <Bed
+                size={20}
+                className="text-goldPrimary"
+              />
+              <span className="text-xs text-gray-700 dark:text-white">
+                {listing?.bedrooms} {Number(listing?.bedrooms) === 1 ? "bed" : "beds"}
+              </span>
             </div>
             <div>
-              <Bath size={20} className="text-goldPrimary" />
-              <span className="text-xs text-gray-700 dark:text-white">{listing?.bathrooms} baths</span>
+              <Bath
+                size={20}
+                className="text-goldPrimary"
+              />
+              <span className="text-xs text-gray-700 dark:text-white">
+                {listing?.bathrooms} {Number(listing?.bathrooms) === 1 ? "bath" : "baths"}
+              </span>
             </div>
             <div>
-              <Toilet size={20} className="text-goldPrimary" />
-              <span className="text-xs text-gray-700 dark:text-white">{listing?.toilets} toilets</span>
+              <Toilet
+                size={20}
+                className="text-goldPrimary"
+              />
+              <span className="text-xs text-gray-700 dark:text-white">
+                {listing?.toilets} {Number(listing?.toilets) === 1 ? "toilet" : "toilets"}
+              </span>
             </div>
           </div>
 
@@ -65,15 +90,23 @@ const CardBody = ({ listing, edit, isAgentCard, address, weeklyViews, totalViews
               className="flex w-full items-center justify-between px-3 py-2.5 text-left text-xs font-bold text-slate-600 transition hover:text-[#0874c7] dark:text-slate-300 dark:hover:text-sky-300"
             >
               <span>{showMore ? "Hide listing details" : "View listing details"}</span>
-              <ChevronDown size={16} className={`transition-transform duration-300 ${showMore ? "rotate-180" : ""}`} />
+              <ChevronDown
+                size={16}
+                className={`transition-transform duration-300 ${showMore ? "rotate-180" : ""}`}
+              />
             </button>
             {showMore && (
               <div className="flex flex-wrap items-center gap-2 border-t border-slate-200/70 px-3 py-3 text-xs font-semibold dark:border-white/10">
-                <span className={`rounded-full px-2.5 py-1 text-white capitalize ${listing?.status === "rented" ? "bg-goldPrimary" : "bg-emerald-600"}`}>
+                <span
+                  className={`rounded-full px-2.5 py-1 text-white capitalize ${listing?.status === "rented" ? "bg-goldPrimary" : "bg-emerald-600"}`}
+                >
                   {listing?.status}
                 </span>
                 <span className="rounded-full bg-slate-100 px-2.5 py-1 text-slate-600 dark:bg-white/10 dark:text-slate-300">
-                  {listing?.status === "rented" ? listing?.requestCounts?.roommate : listing?.requestCounts?.coRent} {listing?.status === "rented" ? "roommate" : "co-rent"} requests
+                  {listing?.status === "rented"
+                    ? listing?.requestCounts?.roommate
+                    : listing?.requestCounts?.coRent}{" "}
+                  {listing?.status === "rented" ? "roommate" : "co-rent"} requests
                 </span>
               </div>
             )}
@@ -84,7 +117,9 @@ const CardBody = ({ listing, edit, isAgentCard, address, weeklyViews, totalViews
           {/* agent */}
           {!isAgentCard && (
             <div className="flex w-full flex-col items-center gap-2 pt-3 font-list dark:border-white/10">
-              <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-400">Listed by</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-400">
+                Listed by
+              </span>
               <div className="flex min-w-0 max-w-full items-center justify-center gap-2 text-sm font-bold">
                 <Link
                   onClick={(e) => e.stopPropagation()}
@@ -94,7 +129,7 @@ const CardBody = ({ listing, edit, isAgentCard, address, weeklyViews, totalViews
                   <CldImage
                     width={30}
                     height={30}
-                    crop={"auto"}
+                    crop={"fit"}
                     gravity="center"
                     alt="agent pic"
                     className="h-8 w-8 rounded-full object-cover ring-2 ring-[#0881a3]/15"

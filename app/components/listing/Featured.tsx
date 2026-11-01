@@ -67,17 +67,16 @@ const Featured = () => {
         <div className="mx-auto flex w-[94%] items-end gap-3 border-b border-slate-200 pb-3 dark:border-white/10">
           <Star className="h-6 w-6 text-goldPrimary" />
           <div>
-           
             <span className="subheading">Featured homes</span>
           </div>
         </div>
 
         <div className="featured dark-to-lightblue-gradient mx-auto my-4 min-h-[20vh] w-[94%] rounded-[1.75rem] p-2 pb-0 shadow-xl shadow-blue-950/20">
-          <div className="featured_container mx-auto grid w-full grid-flow-col auto-cols-[minmax(18rem,1fr)] gap-3 overflow-hidden rounded-xl p-3 md:auto-cols-[minmax(22rem,1fr)]">
+          <div className="featured_container mx-auto grid w-full grid-cols-1 gap-3 overflow-hidden rounded-xl p-3 md:grid-cols-2 lg:grid-cols-3">
             {[...Array(3)].map((_, i) => (
               <Skeleton
                 key={i}
-                className="h-60 w-full rounded-xl bg-white/15 shadow-md"
+                className={`${i === 1 ? "hidden md:block" : i === 2 ? "hidden lg:block" : ""} min-h-[23rem] w-full rounded-xl bg-white/15 shadow-md`}
               />
             ))}
           </div>
@@ -93,7 +92,6 @@ const Featured = () => {
           <div className="mx-auto flex w-[94%] items-end gap-3 border-b border-slate-200 pb-3 dark:border-white/10">
             <Star className="h-6 w-6 text-goldPrimary" />
             <div>
-             
               <span className="subheading">Featured homes</span>
             </div>
           </div>
@@ -151,7 +149,7 @@ const Featured = () => {
                     />
                   </SwiperSlide>
                 ))}
-              
+
                 <SwpierControls className="w-full  mt--8 mb-6 flex items-center justify-center gap-6" />
               </Swiper>
             </div>

@@ -87,7 +87,7 @@ const AgentListings = () => {
 
   const openSelectOption = (index: number) => {
     setSelectedSortOpen((prev) =>
-      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index],
     )
   }
 
@@ -128,11 +128,11 @@ const AgentListings = () => {
         />
 
         {/* LISTINGS */}
-        
-       <div
+
+        <div
           ref={hashRef}
           id="listings"
-          className="availableLists shadow-md dark:shadow-black/80 shadow-gray-200"
+          className="availableLists mt-4 w-full"
         >
           <div className="header border-b-2 border-gray-500/20 dark:border-gray-500/50">
             <div
@@ -150,20 +150,20 @@ const AgentListings = () => {
           </div>
 
           {!agentId || isLoading ? (
-            <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="dashboardListingGrid mt-10 grid w-full grid-cols-1 justify-items-stretch gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {Array.from({ length: 8 }).map((_, i) => (
                 <Skeleton
                   key={i}
-                  className="w-60 h-60 bg-gray-500/20"
+                  className="min-h-[16rem] w-[90%] bg-gray-500/20"
                 />
               ))}
             </div>
           ) : (
-            mapCards
+            <div className="dashboardListingGrid mt-10 grid w-full grid-cols-1 items-start justify-items-stretch gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {mapCards}
+            </div>
           )}
         </div>
-
-
       </div>
 
       {/* PAGINATION */}
