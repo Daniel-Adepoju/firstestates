@@ -159,7 +159,7 @@ const AgentListings = () => {
               ))}
             </div>
           ) : (
-            <div className="adminListingCard dashboardListingGrid mt-10 grid w-full items-start justify-items-stretch gap-5 grid-cols-[repeat(auto-fit,minmax(min(100%,18rem),1fr))]">
+            <div className="adminListingCar dashboardListingGrid mt-10 grid w-[95%] items-start justify-items-stretch gap-5 grid-cols-[repeat(auto-fit,minmax(min(100%,18rem),1fr))]">
               {mapCards}
             </div>
           )}
