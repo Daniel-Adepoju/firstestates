@@ -2069,7 +2069,7 @@ footer.hide {
   width:100%;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   cursor: pointer;
-  border-radius: 18px 18px 20px 20px;
+ border-radius: 14px 14px 16px 16px;
   padding-top: 6px;
   padding-bottom: 10px;
   font-family: "Quicksand", sans-serif;
@@ -2144,7 +2144,7 @@ footer.hide {
 }
 .card .houseImg {
   position: relative;
-  width: 98%;
+  width: 100%;
   /* padding-top: 66.25%; */
   margin-top: -14px;
   margin-inline: auto;
