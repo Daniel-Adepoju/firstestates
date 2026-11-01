@@ -154,7 +154,7 @@ const AgentListings = () => {
               {Array.from({ length: 8 }).map((_, i) => (
                 <Skeleton
                   key={i}
-                  className="min-h-[16rem] w-[90%] bg-gray-500/20"
+                  className="min-h-[16rem] mx-auto w-[82%] bg-gray-500/20"
                 />
               ))}
             </div>
