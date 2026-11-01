@@ -32,8 +32,7 @@ const Payments = ({ data, isLoading = true, admin, type = "made-by-you" }: Payme
 
   if (isLoading) {
     return (
-      <div className="w-full flex-1 rounded-3xl border border-border/60 bg-background/70 p-5 shadow-sm backdrop-blur-md sm:p-7">
-        <div className="flex items-start justify-between gap-4">
+      <div className="h-96 w-full flex-1 rounded-3xl border border-border/60 bg-background/70 p-5 shadow-sm backdrop-blur-md sm:p-7">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary/70">
               Account activity
@@ -63,7 +62,7 @@ const Payments = ({ data, isLoading = true, admin, type = "made-by-you" }: Payme
 
   if (mappedData?.length < 1) {
     return (
-      <div className="w-full rounded-3xl border border-border/60 bg-background/70 p-5 shadow-xs backdrop-blur-md sm:p-7">
+      <div className="h-96 w-full rounded-3xl border border-border/60 bg-background/70 p-5 shadow-xs backdrop-blur-md sm:p-7">
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary/70">

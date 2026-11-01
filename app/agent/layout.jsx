@@ -88,7 +88,9 @@ export default async function AdminLayout({ children }) {
         <Sidebar session={session} />
         <div className="admin-content-container nobar null">
           <Header session={session} />
-          <div className="agentDashboardContainer nobar null">{children}</div>
+          <div className="agentDashboardContainer nobar null">
+            {children}
+            </div>
         </div>
       </div>
     </>

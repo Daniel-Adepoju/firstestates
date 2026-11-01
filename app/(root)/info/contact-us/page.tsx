@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 import { Mail, Phone, ArrowUpRight, MessageCircle } from "lucide-react"
 
@@ -24,16 +24,13 @@ const ContactUs = () => {
     <>
       <main className="container mt-8 mx-auto px-4 py-16 md:py-24">
         <div className="mx-auto max-w-5xl space-y-20">
-
           {/* Header */}
           <section className="text-center">
             <span className="mb-4 inline-block text-sm font-semibold uppercase tracking-[0.2em] text-primary">
               We&apos;re here to help
             </span>
 
-            <h1 className="subheading mb-8">
-              Contact Us
-            </h1>
+            <h1 className="subheading mb-8">Contact Us</h1>
 
             <article className="mx-auto max-w-3xl rounded-2xl border border-border/50 bg-secondary/60 p-6 shadow-sm backdrop-blur-sm md:p-10">
               <p className="text-base leading-7 font-card font-medium md:text-lg">
@@ -41,8 +38,8 @@ const ContactUs = () => {
               </p>
 
               <p className="mt-4 text-base leading-7 text-muted-foreground md:text-lg">
-                Whether you&apos;re a student looking for accommodation or a
-                property owner with questions, our team is here to help.
+                Whether you&apos;re a student looking for accommodation or a property owner with
+                questions, our team is here to help.
               </p>
             </article>
           </section>
@@ -54,17 +51,14 @@ const ContactUs = () => {
                 Reach out
               </span>
 
-              <h2 className="subheading">
-                Get in Touch
-              </h2>
+              <h2 className="subheading">Get in Touch</h2>
 
               <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-muted-foreground md:text-base">
-                Choose whichever option works best for you. Our team will be
-                happy to assist you.
+                Choose whichever option works best for you. Our team will be happy to assist you.
               </p>
             </div>
 
-            <div className="mx-auto grid max-w-3xl gap-5 sm:grid-cols-2">
+            <div className="mx-auto grid max-w-3xl gap-5 sm:grid-cols-1">
               {contactInfo.map((item) => {
                 const Icon = item.icon
 
@@ -85,17 +79,11 @@ const ContactUs = () => {
                       />
                     </div>
 
-                    <h3 className="mt-6 text-lg font-semibold">
-                      {item.title}
-                    </h3>
+                    <h3 className="mt-6 text-lg font-semibold">{item.title}</h3>
 
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      {item.description}
-                    </p>
+                    <p className="mt-2 text-sm text-muted-foreground">{item.description}</p>
 
-                    <p className="mt-4 break-all text-sm font-medium text-primary">
-                      {item.value}
-                    </p>
+                    <p className="mt-4 break-all text-sm font-medium text-primary">{item.value}</p>
                   </a>
                 )
               })}
@@ -111,20 +99,16 @@ const ContactUs = () => {
                 </div>
 
                 <div>
-                  <h2 className="text-xl font-semibold md:text-2xl">
-                    Need help with something?
-                  </h2>
+                  <h2 className="text-xl font-semibold md:text-2xl">Need help with something?</h2>
 
                   <p className="mt-2 max-w-xl text-sm leading-6 text-gray-200 md:text-base">
-                    Whether you need help finding a property, listing one, or
-                    understanding how First Estates works, don&apos;t hesitate
-                    to reach out.
+                    Whether you need help finding a property, listing one, or understanding how
+                    First Estates works, don&apos;t hesitate to reach out.
                   </p>
                 </div>
               </div>
             </div>
           </section>
-
         </div>
       </main>
     </>

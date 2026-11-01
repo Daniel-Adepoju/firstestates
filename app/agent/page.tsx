@@ -28,7 +28,7 @@ const AgentOnboarding = () => {
         </p>
       </div>
 
-      <div className="flex w-full flex-col items-stretch gap-6 lg:flex-row lg:items-start">
+      <div className="grid w-full items-start gap-6 lg:grid-cols-2">
         <Agent
           agent={session?.user}
           isYou={true}

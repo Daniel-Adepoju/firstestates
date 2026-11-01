@@ -104,6 +104,10 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
+/* * {
+  outline: 2px solid green;
+} */
+
 .dark {
   --background: #07111f;
   --background-gradient:
@@ -614,7 +618,7 @@ dark:shadow-[0_1px_2px_rgba(0,0,0,0.3)];
   }
 
   .card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-2px) scale(0.99);
   }
 
   .cardContainer {
@@ -637,7 +641,6 @@ dark:shadow-[0_1px_2px_rgba(0,0,0,0.3)];
     @apply relative isolate m-0 aspect-[4/3] w-full overflow-hidden rounded-t-2xl bg-slate-200 dark:bg-slate-800;
   }
 
-
   .agentDashboardContainer .availableLists {
     display: flex;
     width: 100%;
@@ -654,9 +657,6 @@ dark:shadow-[0_1px_2px_rgba(0,0,0,0.3)];
     width: 100%;
     padding: 0 0 0.625rem;
   }
-
-
- 
 
   .card .houseImg img {
     @apply pointer-events-none relative z-0 h-full w-full object-cover transition-[filter] duration-300;
@@ -712,7 +712,7 @@ dark:shadow-[0_1px_2px_rgba(0,0,0,0.3)];
       @apply -mt-3 w-[calc(100%-0.75rem)] gap-1.5 p-1.5;
     }
 
-    .agentDashboardContainer .availableLists .dashboardListingGrid .listing-edit-actions {
+    .agentDashboardContainer .availableLists .dashboardListingGrid  {
       margin-top: -12px;
     }
 

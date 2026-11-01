@@ -138,7 +138,7 @@ const AdminListings = () => {
 
         <div className="mt-4 w-full flex flex-col items-center justify-center gap-4">
           {!isLoading ? (
-            <div className="adminListingCard dashboardListingGrid grid w-full grid-cols-1 items-start gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="adminListingCard dashboardListingGrid grid w-full items-start gap-5 grid-cols-[repeat(auto-fit,minmax(min(100%,18rem),1fr))]">
               {mapCards.length > 0 ? (
                 mapCards
               ) : (

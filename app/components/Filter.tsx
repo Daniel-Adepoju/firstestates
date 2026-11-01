@@ -91,7 +91,7 @@ const Filter = ({
             />
             {isSchoolFocus ? `Filter ${selectedSchool.value} Listings` : "Filter Listings"}
           </header>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-1 gap-4">
             {/* School Select */}
             {!isSchoolFocus && (
               <div>

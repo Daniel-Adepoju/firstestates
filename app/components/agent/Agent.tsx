@@ -20,15 +20,25 @@ const Agent = ({
 
   if (!agent) {
     return (
-      <div className="flex flex-col gap-4 w-full  flex-1">
-        <Skeleton className="w-25 h-25 rounded-[50%] bg-gray-500/20" />
-        <Skeleton className="w-full h-10 rounded-md bg-gray-500/20" />
-        <Skeleton className="w-full h-10 rounded-md bg-gray-500/20" />
+      <div className="flex w-full flex-col gap-4 lg:flex-1">
+        <div className="w-full rounded-3xl border border-border/60 bg-background/70 p-5 shadow-xs sm:p-7">
+          <div className="flex flex-col gap-6">
+            <div className="flex flex-col items-center gap-4 md:flex-row md:items-start">
+              <Skeleton className="h-24 w-24 shrink-0 rounded-full bg-gray-500/20" />
+              <div className="flex w-full flex-col gap-3 pt-2">
+                <Skeleton className="h-7 w-40 rounded-md bg-gray-500/20" />
+                <Skeleton className="h-4 w-52 max-w-full rounded-md bg-gray-500/20" />
+              </div>
+            </div>
+            <Skeleton className="h-12 w-full rounded-xl bg-gray-500/20" />
+          </div>
+        </div>
+        <Skeleton className="h-20 w-full rounded-2xl bg-gray-500/20" />
       </div>
     )
   }
   return (
-    <div className="w-full  flex flex-col gap-4">
+    <div className="w-full flex flex-col gap-4 lg:flex-1">
       <div className="w-full rounded-3xl border border-border/60 bg-background/70 p-5 shadow-xs backdrop-blur-md sm:p-7">
         <div className="flex flex-col gap-6">
           <div className="w-full flex flex-col md:flex-row items-center md:items-start justify-between gap-6">
@@ -42,7 +52,7 @@ const Agent = ({
                   <CldImage
                     width={64}
                     height={64}
-                    crop="auto"
+                    crop="fit"
                     src={agent.profilePic}
                     alt="profilePic"
                     className="h-24 w-24 rounded-full object-cover ring-4 ring-primary/10 transition-transform group-hover:scale-105"

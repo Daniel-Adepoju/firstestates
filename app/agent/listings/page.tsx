@@ -150,7 +150,7 @@ const AgentListings = () => {
           </div>
 
           {!agentId || isLoading ? (
-            <div className="dashboardListingGrid mt-10 grid w-full grid-cols-1 justify-items-stretch gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="dashboardListingGrid mt-10 grid w-full items-center justify-items-stretch gap-5 grid-cols-[repeat(auto-fit,minmax(min(100%,18rem),1fr))]">
               {Array.from({ length: 8 }).map((_, i) => (
                 <Skeleton
                   key={i}
@@ -159,19 +159,21 @@ const AgentListings = () => {
               ))}
             </div>
           ) : (
-            <div className="dashboardListingGrid mt-10 grid w-full grid-cols-1 items-start justify-items-stretch gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="adminListingCard dashboardListingGrid mt-10 grid w-full items-start justify-items-stretch gap-5 grid-cols-[repeat(auto-fit,minmax(min(100%,18rem),1fr))]">
               {mapCards}
             </div>
           )}
         </div>
-      </div>
 
-      {/* PAGINATION */}
+             {/* PAGINATION */}
       <Pagination
         currentPage={Number(data?.cursor)}
         totalPages={Number(data?.numOfPages)}
         hashParams="#listings"
       />
+      </div>
+
+ 
     </>
   )
 }

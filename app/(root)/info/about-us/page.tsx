@@ -81,7 +81,7 @@ const AboutUs = () => {
 
             <h2 className="subheading mb-10">Built around people</h2>
 
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-3">
               {[
                 {
                   title: "Simple",

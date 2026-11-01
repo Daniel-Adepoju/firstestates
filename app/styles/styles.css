@@ -1175,7 +1175,6 @@ a:has(.clickable) {
   }
 }
 .agentDashboardContainer {
-  color: black;
   width: 100%;
   margin-bottom: 16px;
   gap: 20px;
@@ -1186,46 +1185,7 @@ a:has(.clickable) {
   align-items: center;
   justify-content: flex-start;
 }
-@media (max-width: 769px) {
-  .agentDashboardContainer .card,
-  .agentDashboardContainer .editSide {
-    transform: scale(0.9);
-  }
-}
-.agentDashboardContainer.aic .lists {
-  gap: 15px;
-  width: 97%;
-  background-color: white;
-  border-radius: 8px;
-}
-.agentDashboardContainer.aic .lists {
-  margin: 0;
-  padding: 20px;
-}
-.agentDashboardContainer.aic .lists {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-}
-.agentDashboardContainer.aic .lists {
-  box-shadow: 1px 1px 1.2px 1.2px rgba(116, 116, 116, 0.269);
-}
-.agentDashboardContainer.aic .lists a {
-  color: #0881a3;
-  text-decoration: none;
-}
-.agentDashboardContainer .listingHistory,
-.agentDashboardContainer .availableLists {
-  background-color: white;
-  width: 97%;
-  border-radius: 8px;
-}
-.agentDashboardContainer .listingHistory,
-.agentDashboardContainer .availableLists {
-  margin: 8px;
-  padding: 12px;
-}
+
 .agentDashboardContainer .agentProfile {
   background-color: white;
   border-radius: 20px;
@@ -2091,7 +2051,7 @@ footer.hide {
   justify-content: center;
   -moz-column-gap: 6px;
   column-gap: 20.6px;
-  row-gap:2.4em;
+  row-gap: 2.4em;
   justify-items: center;
   width: 98%;
   border-radius: 20px;
@@ -2150,9 +2110,6 @@ footer.hide {
 }
 .card::after {
   transition: all 300ms ease-out;
-}
-.card:hover {
-  transform: scale(0.99);
 }
 .card:hover::after {
   background-color: rgba(146, 146, 146, 0.462745098);
