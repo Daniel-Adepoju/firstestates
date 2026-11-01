@@ -92,7 +92,7 @@ const AdminSingleListing = () => {
                 alt={listing.post.agent.username}
                 width={35}
                 height={35}
-                crop={"auto"}
+                crop={"fit"}
                 gravity="center"
                 className="rounded-full"
               />

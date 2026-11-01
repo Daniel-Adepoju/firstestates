@@ -65,7 +65,7 @@ const AppointmentCard = ({ firstCard, data }: AppointmentCardProps) => {
               src={data.listingID.mainImage}
               width={150}
               height={100}
-              crop={"auto"}
+              crop={"fit"}
               gravity="center"
               alt="house"
               className="rounded-md mx-auto object-cover "
@@ -94,11 +94,15 @@ const AppointmentCard = ({ firstCard, data }: AppointmentCardProps) => {
         >
           <span className="font-bold text-xs hidde md:inline-block ">Remove Appointment</span>
           {!deleteAppointmentMutation.isPending ? (
-            <Trash size={18} className="text-white ml-auto" />
-          ) : (
-            <Loader2 
+            <Trash
               size={18}
-            className="text-white ml-auto animate-spin" />
+              className="text-white ml-auto"
+            />
+          ) : (
+            <Loader2
+              size={18}
+              className="text-white ml-auto animate-spin"
+            />
           )}
         </div>
       </div>

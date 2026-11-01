@@ -53,7 +53,7 @@ const Reported = () => {
       alt="reported listing"
       width={90}
       height={90}
-      crop='auto'
+      crop='fit'
       gravity='center'
       className="rounded-md"
       />

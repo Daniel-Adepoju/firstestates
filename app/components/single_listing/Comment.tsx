@@ -41,7 +41,7 @@ export const Comment = ({ comment, refValue }: commentCardProps) => {
             alt="user icon"
             width={30}
             height={30}
-            crop={"auto"}
+            crop={"fit"}
             gravity="center"
             className="rounded-full"
           />
@@ -108,7 +108,7 @@ export const WriteComment = ({ listingId, isAgent }: commentCardProps) => {
             alt="user icon"
             width={35}
             height={35}
-            crop={"auto"}
+            crop={"fit"}
             className=" rounded-full"
           />
           <input

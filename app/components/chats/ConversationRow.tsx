@@ -10,7 +10,7 @@ type ConversationRowProps = {
     participant: any
     unreadCount?: any
   }
-  refValue?:any
+  refValue?: any
   currentUserId: string
   handleOpenChat: (otherId: string, conversationId: string) => void
 }
@@ -25,7 +25,7 @@ export default function ConversationRow({
 
   return (
     <div
-    ref={refValue}
+      ref={refValue}
       className="relative p-3 bg-black/5 dark:bg-gray-700/40 rounded-xl
       border-1 border-transparent border-t-gray-500/30 cursor-pointer
        hover:bg-gray-400/20 dark:hover:bg-gray-500/20"
@@ -37,7 +37,7 @@ export default function ConversationRow({
           width={200}
           height={200}
           alt="profilePic"
-          crop={"auto"}
+          crop={"fit"}
           className="w-12 h-12 rounded-full"
         />
 

@@ -116,7 +116,7 @@ const NotifcationCard = ({ notification, refValue, page }: NotificationCardProps
                     <CldImage
                       width={60}
                       height={60}
-                      // crop={"auto"}
+                      // crop={"fit"}
                       alt="notification thumbnail"
                       src={notification.thumbnail}
                       onError={(e) => {
@@ -139,7 +139,9 @@ const NotifcationCard = ({ notification, refValue, page }: NotificationCardProps
           <div>
             <div className="whitespace-pre-wrap">{notification.message}</div>
             {notification?.chatContent && (
-              <div className="whitespace-pre-wrap">Content of reported chat: {notification.chatContent}</div>
+              <div className="whitespace-pre-wrap">
+                Content of reported chat: {notification.chatContent}
+              </div>
             )}
           </div>
         </div>
