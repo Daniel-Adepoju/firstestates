@@ -209,15 +209,15 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
     <>
       <div className="form_container listing">
         <div className="title_heading">
-          {" "}
-          <div>
+          <div className="text-sm md:text-md lg:text-lg my-0.5 font-bold">
             Create a <span className={`${tier?.color}`}>{listingTier}</span> listing
-          </div>{" "}
-          <p className="text-sm md:text-md my-1 font-bold">{`Fill in the form below to create a new listing`}</p>{" "}
-          <p className="text-xs font-light text-gray-500 dark:text-gray-300">
-            {" "}
+          </div>
+          <p className="text-xs md:text-sm lg:text-md my-1 font-bold">
+            {`Fill in the form below to create a new listing`}
+            </p>
+          <p className="text-xs font-light my-0.5 text-gray-500 dark:text-gray-300">
             Click the <strong>info icon</strong> to view our listing guide{" "}
-          </p>{" "}
+          </p>
         </div>
         {/* info btn */}
         <div className="text-white dark:text-black listingInfoTooltip relative tooltip-above w-6.5 h-6.5 flex flex-row rounded-full my-2 cursor-pointer items-center justify-center mx-auto gold-gradient">

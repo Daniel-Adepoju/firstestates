@@ -669,23 +669,27 @@ dark:shadow-[0_1px_2px_rgba(0,0,0,0.3)];
   }
 
   .form_container.listing {
-    @apply mx-auto w-full max-w-6xl rounded-[2rem] border border-slate-200/70 bg-white/75 p-4 shadow-xl shadow-slate-900/5 backdrop-blur-xl dark:border-white/10 dark:bg-[#0b1a30]/80 dark:shadow-black/20 sm:p-6 lg:p-8;
+    @apply mx-auto w-full max-w-6xl rounded-[2rem] border border-slate-200/70 bg-white/75 p-2 shadow-xl shadow-slate-900/5 backdrop-blur-xl dark:border-white/10 dark:bg-[#0b1a30]/80 dark:shadow-black/20 sm:p-6 lg:p-8;
   }
 
   .form_container.listing .title_heading {
-    @apply mb-3 items-start rounded-2xl border border-[#0881a3]/15 bg-gradient-to-br from-[#e8f6fa] to-white p-5 text-left dark:border-[#0881a3]/20 dark:from-[#123452] dark:to-[#0d1b30];
+    @apply mb-3 items-start rounded-2xl border border-[#0881a3]/15 bg-gradient-to-br from-[#e8f6fa] to-white p-3 text-left dark:border-[#0881a3]/20 dark:from-[#123452] dark:to-[#0d1b30] sm:p-5;
   }
 
   .form_container.listing .title_heading > div {
-    @apply font-head text-2xl font-bold tracking-tight sm:text-3xl;
+    @apply min-w-0 break-words font-head leading-tight font-bold tracking-tight sm:text-3xl;
+  }
+
+  .form_container.listing .title_heading > p:first-of-type {
+    @apply text-xs leading-snug sm:text-sm;
   }
 
   .form_container.listing .form {
-    @apply grid w-full grid-cols-1 gap-4 rounded-2xl bg-slate-50/70 p-3 dark:bg-white/[0.03] sm:p-5 lg:grid-cols-2;
+    @apply grid w-full grid-cols-1 gap-3 rounded-2xl bg-slate-50/70 p-2 dark:bg-white/[0.03] sm:gap-4 sm:p-5 lg:grid-cols-2;
   }
 
   .form_container.listing .form_group {
-    @apply rounded-2xl border border-slate-200/80 bg-white p-4 shadow-sm dark:border-white/10 dark:bg-[#10213b]/70;
+    @apply rounded-2xl border border-slate-200/80 bg-white p-3 shadow-sm dark:border-white/10 dark:bg-[#10213b]/70 sm:p-4;
   }
 
   .form_container.listing .form_group label {

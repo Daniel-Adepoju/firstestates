@@ -42,7 +42,7 @@ const Header = ({ session }: Session) => {
           {workspace}
         </p>
         <h2 className="mt-1 truncate font-list text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-          Welcome, {session?.user?.username || "there"}
+          Welcome<span className="hidden md:inline">, {session?.user?.username || "there"}</span>
         </h2>
         <p className="mt-1 max-w-2xl truncate text-sm leading-6 text-muted-foreground">{context}</p>
       </div>

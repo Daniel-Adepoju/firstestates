@@ -67,7 +67,7 @@ export default function ListingMainImage({ listingDeets }: any) {
           !listingDeets.mainImage.value && (
             <Button
               text="Upload Main Image"
-              className="flex flex-row-reverse items-center gap-1 clickable text-white darkblue-gradient hover:scale-99 dark:outline-black outline-2 outline-black transition-all duration-300 gloss font-semibold py-3.5 px-8.5 rounded-xl"
+              className="flex flex-row items-center gap-1 clickable text-white darkblue-gradient hover:scale-99 dark:outline-black outline-2 outline-black transition-all duration-300 gloss font-semibold py-3.5 px-8.5 rounded-xl"
               onClick={() => open()}
             >
               <ImagePlus

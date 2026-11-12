@@ -2714,10 +2714,10 @@ footer.hide {
   grid-template-columns: minmax(0, 1fr);
   align-items: stretch;
   justify-content: stretch;
-  gap: 12px;
+  gap: 8px;
   width: 100%;
   margin: 0;
-  padding: 10px;
+  padding: 8px;
 }
 
 .form_container.listing .form_group {
@@ -2789,7 +2789,11 @@ footer.hide {
 .form_container.listing .form_group.main_image > button,
 .form_container.listing .form_group.gallery > button {
   box-sizing: border-box;
+  width: fit-content;
   max-width: 100%;
+  align-self: center;
+  justify-content: center;
+  flex-direction: row;
   padding-inline: clamp(0.75rem, 4vw, 2rem);
 }
 
@@ -2803,6 +2807,13 @@ footer.hide {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px;
     padding: 16px;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 899px) {
+  .form_container.listing .form.listing {
+    gap: 12px;
+    padding: 12px;
   }
 }
 
