@@ -14,7 +14,10 @@ interface Session {
 }
 const Header = ({ session }: Session) => {
   const pathname = usePathname()
-  const isAgent = pathname.includes("/agent")
+  const route = pathname.replace(/\/+$/, "") || "/"
+  if (route !== "/agent" && route !== "/admin") return null
+
+  const isAgent = route === "/agent"
   const workspace = isAgent ? "Agent workspace" : "Admin workspace"
   const context = isAgent
     ? session?.user?.isPremium
