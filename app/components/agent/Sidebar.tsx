@@ -3,7 +3,7 @@
 import { agentSidebarItems as sidebarItems } from "@lib/constants"
 import { usePathname } from "next/navigation"
 import { CldImage } from "next-cloudinary"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useGetNotifications, useGetRequests, useGetUnreadCount } from "@lib/customApi"
 import { ArrowLeft, ArrowRight, ChevronRight } from "lucide-react"
 
@@ -13,7 +13,6 @@ interface Session {
 
 const Sidebar = ({ session }: Session) => {
   const pathname = usePathname()
-  const [hash, setHash] = useState("")
   const [isCollapse, setIsCollapse] = useState(false)
   const { unreadCount } = useGetUnreadCount()
   const { data: requests, isLoading: requestsLoading } = useGetRequests({
@@ -23,13 +22,6 @@ const Sidebar = ({ session }: Session) => {
     agent: session.user.id,
   })
   const { data, isLoading } = useGetNotifications({ page: "1", limit: 1 })
-
-  useEffect(() => {
-    const onHashChange = () => setHash(window.location.hash)
-    onHashChange()
-    window.addEventListener("hashchange", onHashChange)
-    return () => window.removeEventListener("hashchange", onHashChange)
-  }, [])
 
   return (
     <aside
@@ -59,9 +51,8 @@ const Sidebar = ({ session }: Session) => {
               strokeWidth?: number
             }>
             const isActive =
-              hash !== "#listings" &&
-              (pathname === item.link ||
-                (pathname.startsWith(item.link + "/") && item.link !== "/agent"))
+              pathname === item.link ||
+              (pathname.startsWith(item.link + "/") && item.link !== "/agent")
             const count =
               item.name === "Messages"
                 ? data?.pages[0]?.unreadNotifications

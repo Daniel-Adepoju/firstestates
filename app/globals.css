@@ -669,11 +669,11 @@ dark:shadow-[0_1px_2px_rgba(0,0,0,0.3)];
   }
 
   .form_container.listing {
-    @apply mx-auto w-full max-w-6xl rounded-[2rem] border border-slate-200/70 bg-white/75 p-2 shadow-xl shadow-slate-900/5 backdrop-blur-xl dark:border-white/10 dark:bg-[#0b1a30]/80 dark:shadow-black/20 sm:p-6 lg:p-8;
+    @apply mx-auto w-full max-w-6xl rounded-[2rem] border border-slate-200/70 bg-white/75 p-2 shadow-xl shadow-slate-900/5 backdrop-blur-xl dark:border-white/10 dark:bg-[#17191e]/90 dark:shadow-black/20 sm:p-6 lg:p-8;
   }
 
   .form_container.listing .title_heading {
-    @apply mb-3 items-start rounded-2xl border border-[#0881a3]/15 bg-gradient-to-br from-[#e8f6fa] to-white p-3 text-left dark:border-[#0881a3]/20 dark:from-[#123452] dark:to-[#0d1b30] sm:p-5;
+    @apply mb-3 items-start rounded-2xl border border-[#0881a3]/15 bg-gradient-to-br from-[#e8f6fa] to-white p-3 text-left dark:border-white/10 dark:from-[#26282d] dark:to-[#1b1d22] sm:p-5;
   }
 
   .form_container.listing .title_heading > div {
@@ -689,7 +689,7 @@ dark:shadow-[0_1px_2px_rgba(0,0,0,0.3)];
   }
 
   .form_container.listing .form_group {
-    @apply rounded-2xl border border-slate-200/80 bg-white p-3 shadow-sm dark:border-white/10 dark:bg-[#10213b]/70 sm:p-4;
+    @apply rounded-2xl border border-slate-200/80 bg-white p-3 shadow-sm dark:border-white/10 dark:bg-[#222429]/90 sm:p-4;
   }
 
   .form_container.listing .form_group label {
@@ -699,7 +699,7 @@ dark:shadow-[0_1px_2px_rgba(0,0,0,0.3)];
   .form_container.listing .form_group input,
   .form_container.listing .form_group select,
   .form_container.listing .form_group textarea {
-    @apply rounded-xl border border-slate-200 bg-slate-50 px-3 py-3 text-sm outline-none transition focus:border-[#0881a3] focus:ring-4 focus:ring-[#0881a3]/10 dark:border-white/10 dark:bg-[#09172a] dark:text-white;
+    @apply rounded-xl border border-slate-200 bg-slate-50 px-3 py-3 text-sm outline-none transition focus:border-[#0881a3] focus:ring-4 focus:ring-[#0881a3]/10 dark:border-white/10 dark:bg-[#17191e] dark:text-white;
   }
 
   .tier-card {
