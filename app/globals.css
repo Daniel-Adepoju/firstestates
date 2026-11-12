@@ -374,79 +374,15 @@ dark:shadow-[0_1px_2px_rgba(0,0,0,0.3)];
     @apply flex min-h-screen min-w-0 flex-1 flex-col overflow-x-hidden bg-[radial-gradient(circle_at_top,rgba(8,129,163,0.08),transparent_34rem)] px-3 pb-8 sm:px-5 lg:px-8;
   }
 
-  .sidebar {
-    @apply sticky top-0 z-40 flex min-h-screen w-[232px] shrink-0 flex-col justify-between bg-gradient-to-b from-[#0b1f45] via-[#032679] to-[#06132d] px-3 py-5 text-white shadow-2xl shadow-blue-950/20 transition-[width] duration-300;
-  }
-
-  .sidebar.agentbar {
-    @apply from-[#101827] via-[#172554] to-[#0b1220];
-  }
-
-  .sidebar.reduceBar {
-    @apply w-[72px];
-  }
-
-  .sidebar ul {
-    @apply m-0 flex w-full flex-1 list-none flex-col gap-2 p-0;
-  }
-
-  .sidebar ul .items {
-    @apply m-0 w-full rounded-xl p-0 transition-colors duration-200;
-  }
-
-  .sidebar ul .items:hover {
-    @apply bg-white/10;
-  }
-
-  .sidebar ul .items.active {
-    @apply bg-white/15 shadow-inner ring-1 ring-white/15;
-  }
-
-  .sidebar ul a {
-    @apply flex min-h-11 items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold text-white/75 no-underline transition-colors;
-  }
-
-  .sidebar ul .items.active a,
-  .sidebar ul a:hover {
-    @apply text-white;
-  }
-
-  .sidebar ul a img {
-    @apply h-6 w-6 shrink-0 object-contain opacity-80 transition-opacity;
-  }
-
-  .sidebar ul .items.active a img,
-  .sidebar ul a:hover img {
-    @apply opacity-100;
-  }
-
-  .sidebar.reduceBar li,
-  .sidebar.reduceBar .adminDetails {
-    @apply hidden;
-  }
-
-  .sidebar .adminLabel {
-    @apply flex w-full items-center gap-3 border-t border-white/10 px-2 pt-4;
-  }
-
-  .sidebar .adminLabel img {
-    @apply h-9 w-9 shrink-0 rounded-full object-cover ring-2 ring-white/20;
-  }
-
-  .sidebar .adminLabel .adminDetails {
-    @apply flex min-w-0 flex-col;
-  }
-
-  .sidebar .adminLabel .adminDetails span {
-    @apply max-w-full truncate text-xs text-white/90;
-  }
-
-  .sidebar .adminLabel .adminDetails span:nth-child(2) {
-    @apply text-[10px] text-white/50;
-  }
-
   .dashboard-sidebar {
-    @apply sticky top-0 z-40 flex min-h-screen w-[248px] shrink-0 flex-col overflow-hidden border-r border-white/10 bg-[#081225] px-3 py-5 text-white shadow-[18px_0_50px_rgba(2,12,32,0.22)] transition-[width] duration-300;
+    @apply sticky top-0 z-40 flex
+     min-h-screen
+      w-[12220px] md:w-[248px]
+       shrink-0 flex-col
+        overflow-hidden border-r
+         border-white/10 bg-[#081225]
+          px-0 md:px-3 py-5
+     text-white shadow-[18px_0_50px_rgba(2,12,32,0.22)] transition-[width] duration-300;
     background-image:
       radial-gradient(circle at 12% 0%, rgba(40, 130, 190, 0.3), transparent 32%),
       linear-gradient(165deg, #10254b 0%, #081225 42%, #050914 100%);
@@ -460,11 +396,11 @@ dark:shadow-[0_1px_2px_rgba(0,0,0,0.3)];
   }
 
   .dashboard-sidebar--collapsed {
-    @apply w-[88px] px-2;
+    @apply w-[20px] md:w-[88px] px-1 md:px-2;
   }
 
   .dashboard-sidebar__brand {
-    @apply mb-8 flex min-h-12 items-center gap-3 border-b border-white/10 px-2 pb-5;
+    @apply mb-8 flex min-h-12 items-center gap-3 border-b border-white/10 px-1 md:px-2 pb-5;
   }
 
   .dashboard-sidebar__mark {
@@ -484,7 +420,7 @@ dark:shadow-[0_1px_2px_rgba(0,0,0,0.3)];
   }
 
   .dashboard-sidebar__section {
-    @apply mb-2 px-3 text-[10px] font-bold uppercase tracking-[0.2em] text-white/35;
+    @apply mb-2 px-2 md:px-3 text-[10px] font-bold uppercase tracking-[0.2em] text-white/35;
   }
 
   .dashboard-sidebar__item {
@@ -568,7 +504,7 @@ dark:shadow-[0_1px_2px_rgba(0,0,0,0.3)];
 
   @media (max-width: 767px) {
     .dashboard-sidebar {
-      @apply w-[88px] px-2;
+      @apply w-[70px] px-2;
     }
 
     .dashboard-sidebar__brand,
@@ -691,7 +627,13 @@ dark:shadow-[0_1px_2px_rgba(0,0,0,0.3)];
   }
 
   .listing-edit-actions {
-    @apply relative z-20 mx-auto mt-2 sm:mt-1 flex min-h-14 w-[calc(100%-1rem)] max-w-[23rem] items-center justify-center gap-2 rounded-[1.25rem] border border-white/60 bg-white/80 p-2 -mt-4 shadow-[0_16px_36px_rgba(3,38,121,0.16)] backdrop-blur-xl dark:border-white/10 dark:bg-[#10213b]/90 dark:shadow-black/30;
+    @apply relative z-20 mx-auto mt-2 flex
+     min-h-14 w-[calc(100%-1rem)] max-w-[23rem] items-center justify-center 
+     gap-2 rounded-[1.25rem]
+     border border-white/60 bg-white/80 p-2
+     shadow-[0_16px_36px_rgba(3,38,121,0.16)]
+      backdrop-blur-xl dark:border-white/10 dark:bg-[#10213b]/90
+       dark:shadow-black/30;
   }
 
   .listing-edit-actions > button,
@@ -709,10 +651,10 @@ dark:shadow-[0_1px_2px_rgba(0,0,0,0.3)];
 
   @media (max-width: 420px) {
     .listing-edit-actions {
-      @apply -mt-3 w-[calc(100%-0.75rem)] gap-1.5 p-1.5;
+      @apply mt-1.5 w-[calc(100%-0.75rem)] gap-1.5 p-1.5;
     }
 
-    .agentDashboardContainer .availableLists .dashboardListingGrid  {
+    .agentDashboardContainer .availableLists .dashboardListingGrid {
       margin-top: -12px;
     }
 
@@ -833,25 +775,6 @@ dark:shadow-[0_1px_2px_rgba(0,0,0,0.3)];
 
   .form_container {
     @apply mx-auto w-full max-w-5xl;
-  }
-
-  @media (max-width: 767px) {
-    .sidebar {
-      @apply w-[72px] px-2;
-    }
-
-    .sidebar li,
-    .sidebar .adminDetails {
-      @apply hidden;
-    }
-
-    .sidebar ul a {
-      @apply justify-center px-2;
-    }
-
-    .sidebar .adminLabel {
-      @apply justify-center;
-    }
   }
 }
 

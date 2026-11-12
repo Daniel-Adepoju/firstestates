@@ -213,14 +213,14 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
           <div>
             Create a <span className={`${tier?.color}`}>{listingTier}</span> listing
           </div>{" "}
-          <p className="text-base">Fill in the form below to create a new listing</p>{" "}
+          <p className="text-sm md:text-md my-1 font-bold">{`Fill in the form below to create a new listing`}</p>{" "}
           <p className="text-xs font-light text-gray-500 dark:text-gray-300">
             {" "}
-            Click the info icon to view our listing guide{" "}
+            Click the <strong>info icon</strong> to view our listing guide{" "}
           </p>{" "}
         </div>
         {/* info btn */}
-        <div className="text-white dark:text-black listingInfoTooltip relative tooltip-above w-6.5 h-6.5 flex flex-row rounded-full mt-3 cursor-pointer items-center justify-center mx-auto gold-gradient">
+        <div className="text-white dark:text-black listingInfoTooltip relative tooltip-above w-6.5 h-6.5 flex flex-row rounded-full my-2 cursor-pointer items-center justify-center mx-auto gold-gradient">
           <Info
             onClick={() => infoRef?.current?.showModal()}
             size={30}

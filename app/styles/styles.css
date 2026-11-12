@@ -87,11 +87,7 @@ html:is(.dark) .form .bottom {
 html:is(.dark) .board {
   color: white;
 }
-html:is(.dark) .editSide {
-  background-color: #31363f;
-  color: white;
-  outline: 4px solid rgb(0, 0, 0);
-}
+
 html:is(.dark) .adminDashboard_content .content_item {
   background-color: #31363f;
 }
@@ -1325,39 +1321,6 @@ a:has(.clickable) {
   justify-content: flex-start;
 }
 
-.editSide {
-  width: 90%;
-  margin-top: -25px;
-  gap: 20px;
-  background-color: rgb(255, 255, 255);
-  padding: 4px 6px;
-  border-radius: 0 0px 20px 20px;
-}
-.editSide {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-.editSide {
-  box-shadow: 1px 1px 1px 1px rgba(116, 116, 116, 0.269);
-}
-.editSide {
-  transition: all 300ms ease-out;
-}
-@media (max-width: 768px) {
-  .editSide {
-    margin-top: -44px;
-  }
-}
-.editSide img:hover {
-  border: 1px solid transparent;
-  filter: grayscale(100%);
-  cursor: pointer;
-}
-.editSide img:hover {
-  transition: all 300ms ease-in;
-}
 
 .addListing {
   padding: 26px 0;
@@ -1365,12 +1328,14 @@ a:has(.clickable) {
   width: 100%;
   gap: 10px;
 }
+
 .addListing {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
 }
+
 .addListing .clickable {
   border-radius: 50%;
 }
@@ -1505,6 +1470,7 @@ html.dark .adminDashboard_content .banner .text::before {
 .admin-container {
   transition: all "ease-in" ease-in;
 }
+
 .admin-container {
   display: flex;
   flex-direction: row;
@@ -1518,131 +1484,6 @@ html.dark .adminDashboard_content .banner .text::before {
 .admin-header .subheading {
   color: rgba(0, 0, 0, 0.854);
   margin-left: -4px;
-}
-
-.sidebar {
-  width: 220px;
-  background-color: var(--color-goldPrimary);
-  min-height: 100vh;
-  position: sticky;
-  top: 0;
-  left: 0%;
-  font-family: "Quicksand", sans-serif;
-}
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-}
-.sidebar {
-  transition: all "ease-in" ease-in;
-}
-.sidebar.agentbar {
-  background-color: #292a2a;
-}
-.sidebar.reduceBar {
-  width: 60px;
-}
-.sidebar.reduceBar {
-  transition: all "ease-out" ease-in;
-}
-.sidebar.reduceBar li,
-.sidebar.reduceBar span {
-  display: none;
-}
-.sidebar ul {
-  min-width: 100%;
-  flex: 1;
-  list-style: none;
-  padding: 0;
-  padding-top: 12px;
-}
-.sidebar ul .items {
-  padding: 6px 10px;
-  margin-block: 20px;
-  margin-inline: auto;
-  width: 90%;
-}
-.sidebar ul .items {
-  transition: all 300ms ease-out;
-}
-.sidebar ul .items.active {
-  background-color: rgba(102, 195, 253, 0.217);
-  border-radius: 6px;
-}
-.sidebar ul .items.active {
-  transition: all 300ms ease-in;
-}
-.sidebar ul .items.active img {
-  filter: brightness(1.2) contrast(0.8) saturate(2.4) drop-shadow(0 0 4px rgba(0, 0, 0, 0.427));
-}
-.sidebar ul a {
-  gap: 14px;
-  color: white;
-  text-decoration: none;
-  font-weight: 500;
-}
-.sidebar ul a {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-}
-.sidebar ul:hover + .arrow {
-  display: flex;
-}
-@media (max-width: 768px) {
-  .sidebar ul:hover + .arrow {
-    display: none;
-  }
-}
-@media (max-width: 768px) {
-  .sidebar {
-    width: 60px;
-  }
-  .sidebar .arrow {
-    display: none;
-  }
-  .sidebar li,
-  .sidebar span {
-    display: none;
-  }
-}
-.sidebar .adminLabel {
-  gap: 10px;
-  width: 100%;
-  padding: 10px 8px;
-  border-top: 1px solid rgba(255, 255, 255, 0.142);
-}
-.sidebar .adminLabel {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-.sidebar .adminLabel img {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-}
-.sidebar .adminLabel .adminDetails {
-  width: 100%;
-  word-break: break-all;
-}
-.sidebar .adminLabel .adminDetails {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-}
-.sidebar .adminLabel .adminDetails span {
-  width: 100%;
-  font-size: 13px;
-  color: rgb(255, 255, 255);
-}
-.sidebar .adminLabel .adminDetails span:nth-child(2) {
-  font-size: 11px;
 }
 
 .admin-content-container {
@@ -2695,16 +2536,13 @@ footer.hide {
   font-size: 18px;
 }
 
+
 .galleryImagesContainer {
-  flex-wrap: wrap;
-  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, max-content));
   gap: 10px;
+  width: 100%;
   margin: 10px auto;
-}
-.galleryImagesContainer {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
   justify-content: center;
 }
 .galleryImagesContainer .galleryImages {
@@ -2723,10 +2561,11 @@ footer.hide {
 .galleryImages img {
   width: 100%;
   height: 100%;
-  -o-object-fit: cover;
   object-fit: cover;
   border-radius: 8px;
 }
+
+
 .mainImage .deleteLoader,
 .galleryImages .deleteLoader {
   position: absolute;

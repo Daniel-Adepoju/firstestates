@@ -6,7 +6,6 @@ import { deleteImage } from "@lib/server/deleteImage"
 import { DeleteLoader } from "@utils/loaders"
 import { useSignal } from "@preact/signals-react"
 import { ImagePlus, Loader, X } from "lucide-react"
-import { de } from "date-fns/locale"
 
 export default function ListingMainImage({ listingDeets }: any) {
   const deletingImage = useSignal(false)
@@ -85,7 +84,7 @@ export default function ListingMainImage({ listingDeets }: any) {
         {listingDeets.mainImage.value && (
           <>
             <div
-              className="right-0.5 top-0.5 p-1 absolute cursor-pointer border-1 border-gray-800 rounded-full"
+              className="right-1 top-1 p-1 absolute cursor-pointer border-1 border-gray-800 rounded-full"
               onClick={handleDeleteImage}
             >
               {!deletingImage.value && (
@@ -101,9 +100,11 @@ export default function ListingMainImage({ listingDeets }: any) {
             <CldImage
               src={listingDeets.mainImage.value}
               alt="Main Image"
-              width={100}
-              height={100}
+              width={1600}
+              height={900}
               crop={"fill"}
+              gravity="auto"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1600px"
             />
           </>
         )}

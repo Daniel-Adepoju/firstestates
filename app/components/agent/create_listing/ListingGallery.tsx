@@ -121,10 +121,10 @@ export default function ListingGallery({ listingDeets, maxImages }: any) {
           return (
             <div
               key={index}
-              className="galleryImages"
+              className="galleryImages h-40"
             >
               <div
-                className="right-0.5 top-0.5 p-1 absolute cursor-pointer border-1 border-gray-800 rounded-full"
+                className="right-1 top-1 p-1 absolute cursor-pointer border-1 border-gray-800 rounded-full"
                 onClick={() => handleDeleteFromGallery(imgSrc, index)}
               >
                 <X
@@ -137,10 +137,12 @@ export default function ListingGallery({ listingDeets, maxImages }: any) {
               <CldImage
                 src={imgSrc}
                 alt="Gallery Image"
-                width={100}
-                height={100}
+                width={1600}
+                height={900}
                 crop={"fill"}
-                className="mb-1.5"
+                gravity="auto"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1600px"
+                className="mb-1.5  object-cover rounded-md"
               />
               {index.toString() === selectedGalleryImageId.value ||
               deletingGallery.value === true ? (
@@ -159,7 +161,7 @@ export default function ListingGallery({ listingDeets, maxImages }: any) {
       </div>
 
       <p className="mx-auto text-center text-sm text-gray-500 dark:text-gray-300">
-        A Maximum Of {maxImages} Images Can Be Uploaded To The Gallery
+        A Maximum Of <strong>{maxImages} Images</strong> Can Be Uploaded To The Gallery
       </p>
 
       {listingDeets.gallery.value.length > 1 && (

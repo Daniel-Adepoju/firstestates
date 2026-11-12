@@ -17,7 +17,12 @@ const CardEditActions = ({
       {/* edit buttons */}
       <div className="listing-edit-actions text-sm font-medium">
         {listing?.status === "pending" && isAdmin && (
-          <button onClick={approveListing} aria-label="Approve listing" title="Approve listing" className="flex items-center justify-center gap-2">
+          <button
+            onClick={approveListing}
+            aria-label="Approve listing"
+            title="Approve listing"
+            className="flex items-center justify-center gap-2"
+          >
             <span>Approve</span>
             <Check
               size={20}
@@ -31,11 +36,14 @@ const CardEditActions = ({
           </span>
         )}
 
-        {(isAdmin || listing?.status !== "pending" ) && (
+        {(isAdmin || listing?.status !== "pending") && (
           <>
             <div
               onClick={() => router.push(`/agent/listings/edit?id=${listing?._id}`)}
-              role="button" tabIndex={0} aria-label="Edit listing" title="Edit listing"
+              role="button"
+              tabIndex={0}
+              aria-label="Edit listing"
+              title="Edit listing"
               className="cursor-pointer"
             >
               <EditIcon

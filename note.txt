@@ -45,3 +45,6 @@ demo dp
 
 demo Video
 "mixkit-black-ink-splashing-505-hd-ready_elc7t8"
+
+demo image
+https://res.cloudinary.com/demo/image/upload/sample.jpg

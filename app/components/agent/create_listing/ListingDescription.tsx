@@ -12,7 +12,7 @@ export default function ListingDescription({ listingDeets }: any) {
 
   return (
     <>
-      <div className="form_group relative">
+      <div className="form_group relative pb-3">
         {/* Listing Type */}
 
         <label
@@ -45,21 +45,16 @@ export default function ListingDescription({ listingDeets }: any) {
         >
           Description
         </label>
-        <div className="text-xs tracking-wide text-foreground break-words">
-          {" "}
-          Use the description to provide additional details, such as kitchen availability, whether a
-          roommate is required, any extra utility costs, and differences between the first year's
-          rent and subsequent years.{" "}
-        </div>
+  
         <textarea
           id="description"
           name="description"
           value={listingDeets.description.value}
           onChange={handleChange}
           placeholder="Enter description (max 600 chars)"
-          className="pb-5 placeholder-gray-400 nobar resize-none h-60 dark:bg-darkGray"
+          className="pb-5 placeholder-gray-400 nobar mb-8 resize-none h-60 rounded-sm dark:bg-darkGray"
         />
-        <div className="absolute bottom-0 right-[5%] text-sm font-bold dark:text-white">
+        <div className="absolute bottom-0 right-[5%] text-sm  my-2 font-bold dark:text-white">
           {descLength}/600
         </div>
       </div>

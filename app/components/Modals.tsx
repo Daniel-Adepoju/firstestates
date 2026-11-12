@@ -6,7 +6,7 @@ import { deleteListing, markAsFeatured, reportListing } from "@lib/server/listin
 import { useNotification } from "@utils/Toast"
 import { sendNotification } from "@lib/server/notificationFunctions"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { LogOut, Trash, AlertCircle, Loader2, X, Check } from "lucide-react"
+import { LogOut, Trash, AlertCircle, Loader2, X, Check, House } from "lucide-react"
 import dynamic from "next/dynamic"
 import { useSignals, useSignal } from "@preact/signals-react/runtime"
 import Button from "@lib/Button"
@@ -410,42 +410,184 @@ export const ReportListingModal = ({
   )
 }
 
+// export const InfoModal = ({ ref }: ModalProps) => {
+//   useClickOutside(ref)
+//   return (
+//     <dialog
+//       ref={ref}
+//       className="mt-30 dark:bg-gray-700 dark:text-white
+//         bg-white rounded-xl p-6 w-[90%] max-w-md mx-auto shadow-xl
+//        text-center border border-white dark:border-black"
+//     >
+//       <div className="flex flex-col gap-4 relative text-sm">
+//         <h2 className="otherHead text-md font-bold">How To List</h2>
+//         <div>Fill in the form below to list your property.</div>
+
+//         <X
+//           onClick={() => ref.current && ref.current.close()}
+//           size={35}
+//           className="
+//           text-red-500
+//          absolute right-0 top-[-8px]
+//          cursor-pointer dark:bg-black/30 bg-gray-500/20 rounded-full p-1"
+//         />
+
+//         <ul className="px-2 tracking-wide text-justify list-disc  flex flex-col gap-2 justify-start items-start">
+//           <li>
+//             You may select <strong>only one main image</strong>, which will be used as the cover
+//             photo for your listing.
+//           </li>
+//           <li>
+//             You can also select <strong>supplementary images</strong> determined by your listing
+//             tier.
+//           </li>
+//           <li>
+//             A fee <strong>determined by your listing tier</strong> is required to complete and
+//             publish your listing.
+//           </li>
+//         </ul>
+//       </div>
+//     </dialog>
+//   )
+// }
 export const InfoModal = ({ ref }: ModalProps) => {
   useClickOutside(ref)
+
+  const instructions = [
+    {
+      number: "01",
+      title: "Main image",
+      description: (
+        <>
+          Select <strong>only one main image</strong>. This will serve as the cover photo for your
+          property listing.
+        </>
+      ),
+    },
+    {
+      number: "02",
+      title: "Supplementary images",
+      description: (
+        <>
+          You can upload additional <strong>supplementary images</strong> depending on your selected
+          listing tier.
+        </>
+      ),
+    },
+    {
+      number: "03",
+      title: "Listing payment",
+      description: (
+        <>
+          A fee <strong>determined by your listing tier</strong> is required to complete and publish
+          your property listing.
+        </>
+      ),
+    },
+    {
+      number: "04",
+      title: "Description box",
+      description: (
+        <>
+          Use the <strong>description box</strong> to provide additional details, such as kitchen
+          availability, whether a roommate is required, any extra utility costs, and differences
+          between the first year's rent and subsequent years.
+        </>
+      ),
+    },
+  ]
+
   return (
     <dialog
       ref={ref}
-      className="mt-30 dark:bg-gray-700 dark:text-white
-        bg-white rounded-xl p-6 w-[90%] max-w-md mx-auto shadow-xl
-       text-center border border-white dark:border-black"
+      className="
+        m-auto mt-6 w-[calc(100%-2rem)] max-w-lg
+        rounded-2xl border border-gray-200/80
+        bg-white p-0 text-gray-800 shadow-2xl
+        backdrop:bg-black/50 backdrop:backdrop-blur-sm
+        dark:border-white/10 bar-custom gold-bar dark:bg-gray-900 dark:text-gray-100
+      "
     >
-      <div className="flex flex-col gap-4 relative text-sm">
-        <h2 className="otherHead text-md font-bold">How To List</h2>
-        <div>Fill in the form below to list your property.</div>
-
-        <X
-          onClick={() => ref.current && ref.current.close()}
-          size={35}
+      <div className="relative p-6 sm:p-8">
+        {/* Close button */}
+        <button
+          type="button"
+          onClick={() => ref.current?.close()}
+          aria-label="Close modal"
           className="
-          text-red-500
-         absolute right-0 top-[-8px]
-         cursor-pointer dark:bg-black/30 bg-gray-500/20 rounded-full p-1"
-        />
+            absolute right-5 top-5 flex size-9 items-center justify-center
+            rounded-full bg-gray-100 text-gray-500 transition-colors
+            hover:bg-red-50 hover:text-red-500
+            dark:bg-white/10 dark:text-gray-300 dark:hover:bg-red-500/20
+          "
+        >
+          <X size={19} />
+        </button>
 
-        <ul className="px-2 tracking-wide text-justify list-disc  flex flex-col gap-2 justify-start items-start">
-          <li>
-            You may select <strong>only one main image</strong>, which will be used as the cover
-            photo for your listing.
-          </li>
-          <li>
-            You can also select <strong>supplementary images</strong> determined by your listing
-            tier.
-          </li>
-          <li>
-            A fee <strong>determined by your listing tier</strong> is required to complete and
-            publish your listing.
-          </li>
-        </ul>
+        {/* Header */}
+        <div className="mb-7 pr-8">
+          <div className="mb-4 flex size-12 items-center justify-center rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400">
+            <House size={24} />
+          </div>
+
+          <h2 className="otherHead text-xl font-bold tracking-tight sm:text-2xl">
+            How to List Your Property
+          </h2>
+
+          <p className="mt-2 text-sm leading-relaxed text-gray-500 dark:text-gray-400">
+            A few things to know before publishing your property. Follow these steps to get your
+            listing ready.
+          </p>
+        </div>
+
+        {/* Instructions */}
+        <div className="flex flex-col gap-3">
+          {instructions.map((item) => (
+            <div
+              key={item.number}
+              className="
+                flex gap-4 rounded-xl border border-gray-100
+                bg-gray-50/80 p-4
+                dark:border-white/5 dark:bg-white/[0.03]
+              "
+            >
+              <div
+                className="
+                flex size-9 shrink-0 items-center justify-center
+                rounded-lg bg-blue-100 text-sm font-bold text-blue-700
+                dark:bg-blue-500/15 dark:text-blue-400
+              "
+              >
+                {item.number}
+              </div>
+
+              <div className="flex flex-col gap-1">
+                <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-100">
+                  {item.title}
+                </h3>
+
+                <p className="text-[13px] leading-relaxed text-gray-600 dark:text-gray-400">
+                  {item.description}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Footer */}
+        <div className="mt-6 border-t border-gray-100 pt-5 dark:border-white/10">
+          <button
+            type="button"
+            onClick={() => ref.current?.close()}
+            className="
+              w-full rounded-xl bg-blue-600 px-5 py-3
+              text-sm font-semibold text-white transition-all
+              hover:bg-blue-700 active:scale-[0.98]
+            "
+          >
+            Got it, Continue
+          </button>
+        </div>
       </div>
     </dialog>
   )

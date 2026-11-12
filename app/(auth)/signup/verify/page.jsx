@@ -154,7 +154,7 @@ const Verify = () => {
       <p className="my[-90px]">OTP is valid for 5 minutes.</p>
       {validTime.value > 0 && (
         <p className="verify_description">
-          You can resend in <strong className="timer">{validTime.value}</strong> seconds.
+          You can request a resend in <strong className="timer">{validTime.value}</strong> seconds.
         </p>
       )}
       {validTime.value === 0 && (
@@ -248,7 +248,7 @@ const Verify = () => {
         </div>
         <span className="text-xs px-4 text-center">
           If you haven't received the OTP in your inbox, please wait for the timer to expire before
-          resending. Also, be sure to check your spam or junk folder.
+          resending. Also, be sure to check your <strong>spam</strong> or <strong>junk</strong> folder.
         </span>
 
         <Button

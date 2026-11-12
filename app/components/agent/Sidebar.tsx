@@ -75,8 +75,9 @@ const Sidebar = ({ session }: Session) => {
                 key={item.name}
                 href={item.link}
                 aria-current={isActive ? "page" : undefined}
+                aria-label={item.name}
                 className={`dashboard-sidebar__item ${isActive ? "is-active" : ""}`}
-                title={isCollapse ? item.name : undefined}
+                title={item.name}
               >
                 <span className="dashboard-sidebar__icon">
                   <Icon
