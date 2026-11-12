@@ -209,7 +209,7 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
     <>
       <div className="form_container listing">
         <div className="title_heading">
-          <div className="text-sm md:text-md lg:text-lg my-0.5 font-bold">
+          <div className="text-md md:text-lg lg:text-xl my-0.5 font-bold">
             Create a <span className={`${tier?.color}`}>{listingTier}</span> listing
           </div>
           <p className="text-xs md:text-sm lg:text-md my-1 font-bold">
