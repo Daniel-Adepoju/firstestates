@@ -2687,14 +2687,122 @@ footer.hide {
   justify-content: center;
 }
 @media (min-width: 1200px) {
-  .form.listing .form_group.submit {
-    margin-top: -86px;
-  }
   .form.listing {
     display: grid;
     width: 100%;
     row-gap: 10px;
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.form_container.listing {
+  box-sizing: border-box;
+  height: auto;
+  min-height: 0;
+  margin: 0 auto;
+}
+
+.form_container.listing .title_heading {
+  box-sizing: border-box;
+  min-width: 0;
+  margin: 0 0 12px;
+}
+
+.form_container.listing .form.listing {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
+  justify-content: stretch;
+  gap: 12px;
+  width: 100%;
+  margin: 0;
+  padding: 10px;
+}
+
+.form_container.listing .form_group {
+  box-sizing: border-box;
+  min-width: 0;
+  width: 100%;
+  margin: 0;
+  align-items: stretch;
+}
+
+.form_container.listing .form_group > input,
+.form_container.listing .form_group > select,
+.form_container.listing .form_group > textarea {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+}
+
+.form_container.listing .form_group.amenities .items {
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: stretch;
+  gap: 12px;
+}
+
+.form_container.listing .form_group.amenities .items > div {
+  flex: 1 1 5rem;
+  min-width: 0;
+  width: auto;
+  align-items: stretch;
+}
+
+.form_container.listing .form_group.amenities input {
+  box-sizing: border-box;
+  min-width: 0;
+  width: 100%;
+}
+
+.form_container.listing .galleryImagesContainer {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  justify-content: stretch;
+}
+
+.form_container.listing .galleryImagesContainer .galleryImages {
+  box-sizing: border-box;
+  min-width: 0;
+  width: 100%;
+  height: 10rem;
+  overflow: hidden;
+}
+
+.form_container.listing .mainImage {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 32rem;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.form_container.listing .mainImage img,
+.form_container.listing .galleryImages img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.form_container.listing .form_group.main_image > button,
+.form_container.listing .form_group.gallery > button {
+  box-sizing: border-box;
+  max-width: 100%;
+  padding-inline: clamp(0.75rem, 4vw, 2rem);
+}
+
+.form_container.listing .form_group.submit {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+@media (min-width: 900px) {
+  .form_container.listing .form.listing {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    padding: 16px;
   }
 }
 

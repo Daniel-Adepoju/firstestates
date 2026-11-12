@@ -18,7 +18,7 @@ export default function ListingSubmit({
   useSignals()
 
   return (
-    <div className="form_group col-span-2 mx-auto my-6">
+    <div className="form_group submit col-span-full mx-auto my-2 sm:my-6">
       {email ? (
         incomplete ? (
           <div className="mx-auto font-semibold text-gray-700 dark:text-white text-center">

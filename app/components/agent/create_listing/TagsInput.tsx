@@ -89,14 +89,14 @@ useEffect(() => {
 
       {/* Tags Suggestion */}
 
-      <div className="w-full flex items-center gap-1">
-        <span className="w-fit font-medium mr-2 text-xs text-foreground">Suggestions:</span>
+      <div className="flex w-full flex-wrap items-center gap-1">
+        <span className="mr-2 w-fit font-medium text-xs text-foreground">Suggestions:</span>
         
         {randomTags.map((item) => (
             <span
               key={item}
               onClick={() => addTag(item, tagsSignal, maxTags)}
-              className="flex items-center gap-1 px-4 py-1 mb-0 text-center text-xs cursor-pointer bg-gray-400/20 font-medium text-foreground rounded-lg"
+              className="mb-0 flex max-w-full cursor-pointer items-center gap-1 rounded-lg bg-gray-400/20 px-3 py-1 text-center text-xs font-medium text-foreground sm:px-4"
             >
               {item}
             </span>
