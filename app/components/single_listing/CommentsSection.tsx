@@ -24,13 +24,13 @@ const demoComment = {
       <div className="single_card">
         <div className="heading mx-auto">Comments</div>
 
-        <div className="flex max-h-[32rem] w-full min-w-0 flex-col items-center gap-4 overflow-y-auto pt-6 pb-4 bar-custom gold-bar">
+        <div className="flex max-h-[32rem] w-full min-w-0 flex-col items-stretch gap-4 overflow-y-auto pt-6 pb-4 bar-custom gold-bar">
           {isLoading ? (
             <Skeleton className="bg-gray-200 w-full h-[100px] rounded-xl" />
           )  : (
             data?.pages.flatMap((page: any) =>
               page.comments.map((comment: CommentProps, index: number) => (
-                <div key={comment._id}>
+                <div key={comment._id} className="w-full min-w-0">
                   <Comment
                     comment={comment}
                     refValue={index === page.comments.length - 1 ? ref : null}
