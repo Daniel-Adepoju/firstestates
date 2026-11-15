@@ -32,8 +32,8 @@ interface commentCardProps {
 export const Comment = ({ comment, refValue }: commentCardProps) => {
   const defaultImage = "firstestatesdefaultuserpicture"
   return (
-    <div ref={refValue}>
-      <div className="w-full overflow-hidden border-b-1 border-b-gray-300 dark:border-b-gray-600 p-4 rounded-md flex flex-col gap-2">
+    <div ref={refValue} className="w-full min-w-0">
+      <div className="flex w-full min-w-0 flex-col gap-2 overflow-hidden rounded-md border-b border-b-gray-300 p-4 dark:border-b-gray-600">
         <div className="w-full rounded-full flex flex-row items-center gap-2">
           <CldImage
             // onError={() => setNoImage(true)}
@@ -41,13 +41,13 @@ export const Comment = ({ comment, refValue }: commentCardProps) => {
             alt="user icon"
             width={30}
             height={30}
-            crop={"fit"}
+            crop={"fill"}
             gravity="center"
             className="rounded-full"
           />
           <span className="username">{comment?.author.username}</span>
         </div>
-        <div className="text-sm whitespace-pre-wrap overflow-hidden break-words w-80 md:w-120 lg:w-150">
+        <div className="w-full min-w-0 overflow-hidden break-words whitespace-pre-wrap text-sm">
           {comment?.content}
         </div>
         <div className="self-end text-sm text-gray-400">{parseDate(comment?.createdAt)}</div>
@@ -99,8 +99,8 @@ export const WriteComment = ({ listingId, isAgent }: commentCardProps) => {
       
         ${isAgent ? "pb-2" : "pb-18.5 md:pb-4"}
         backdrop-blur-md bg-white/30 dark:bg-black/20
-        w-[90%] md:w-[70%] mx-auto
-        flex flex-row justify-center items-center gap-2
+        w-full min-w-0
+        flex flex-row items-center justify-center gap-2
            `}
         >
           <CldImage
@@ -108,11 +108,11 @@ export const WriteComment = ({ listingId, isAgent }: commentCardProps) => {
             alt="user icon"
             width={35}
             height={35}
-            crop={"fit"}
+            crop={"fill"}
             className=" rounded-full"
           />
           <input
-            className="flex-1 w-80 px-2 py-2.5  rounded-lg outline-2 outline-gray-200 dark:outline-gray-600/80 focus:outline-goldPrimary ease-in-out duration-200 dark:placeholder-gray-300"
+            className="w-full min-w-0 flex-1 rounded-lg bg-white px-3 py-2.5 outline-2 outline-gray-200 duration-200 ease-in-out focus:outline-goldPrimary dark:bg-[#17191e] dark:outline-gray-600/80 dark:placeholder-gray-300"
             type="text"
             value={content}
             required

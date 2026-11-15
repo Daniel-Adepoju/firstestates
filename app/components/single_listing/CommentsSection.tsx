@@ -20,11 +20,11 @@ const demoComment = {
    author: 'nonone'
 }
   return (
-    <div className="singleCardSection relative">
+    <div className="singleCardSection relative w-full min-w-0">
       <div className="single_card">
         <div className="heading mx-auto">Comments</div>
 
-        <div className="pt-6 pb-4 flex flex-col items-center gap-4 max-h-100 overflow-y-auto bar-custom gold-bar w-full">
+        <div className="flex max-h-[32rem] w-full min-w-0 flex-col items-center gap-4 overflow-y-auto pt-6 pb-4 bar-custom gold-bar">
           {isLoading ? (
             <Skeleton className="bg-gray-200 w-full h-[100px] rounded-xl" />
           )  : (

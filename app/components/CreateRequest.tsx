@@ -85,7 +85,7 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
         requestType === "co-rent"
           ? "Enter a description for your co-rent request"
           : "Enter a description for your roommate request",
-      className: "resize-none h-30 p-2 border rounded-md",
+      className: "min-h-40 w-full resize-y rounded-md border p-3 dark:border-white/10 dark:bg-[#17191e]",
       function: handleInputChange,
     },
     //  budget
@@ -256,8 +256,8 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
         Make a {titleMap[requestType]}
       </h1>
 
-      <div className=" mx-auto w-[96%] flex flex-col-reverse md:flex-row-reverse lg:flex-row items-center justify-center pb-16 md:pb-6 pt-4 mt-6 gap-4 md:gap-3">
-        <div className="flex flex-col items-center justify-center w-[50%] md:w-[31%] lg:w-[35%] md:pr-20 lg:pr-14 p-4">
+      <div className="mx-auto mt-6 flex w-[96%] max-w-7xl flex-col-reverse items-start justify-center gap-6 px-2 pb-16 pt-4 md:flex-row-reverse md:pb-6 lg:flex-row">
+        <div className="flex w-full flex-col items-center justify-center p-2 md:w-[40%]">
           <Card
             listing={listing?.post}
             blankSlate={true}
@@ -266,7 +266,7 @@ const CreateRequest = ({ requestType }: { requestType: "co-rent" | "roommate" })
 
         {/* requests container */}
 
-        <div className=" border-1 border-gray-500/30 dark:border-gray-600 flex flex-col md:mr-auto gap-4 p-4 w-[98%] md:w-[58%] lg:w-[60%] rounded-md bg-white dark:bg-gray-800/10 shadow-md">
+        <div className="flex w-full min-w-0 flex-col gap-4 rounded-md border border-gray-500/30 bg-white p-4 shadow-md dark:border-white/10 dark:bg-[#222429]/90 md:flex-1">
           <h2 className="headersFont px-4 text-lg">Create a {titleMap[requestType]}</h2>
 
 

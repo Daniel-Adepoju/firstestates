@@ -901,7 +901,7 @@ html:is(.dark) .single-listing-page .singleCardCon {
 
 .dark .single-listing-page .single_card {
   border-color: rgb(148 163 184 / 0.14);
-  background: rgb(13 27 48 / 0.92);
+  background: rgb(34 36 41 / 0.96);
   box-shadow: 0 18px 50px rgb(0 0 0 / 0.22);
 }
 
@@ -925,7 +925,7 @@ html:is(.dark) .single-listing-page .singleCardCon {
 }
 
 .dark .single-listing-page .listing-gallery {
-  background: rgb(30 41 59 / 0.8);
+  background: rgb(34 36 41 / 0.8);
 }
 
 .single-listing-page .listing-gallery .swiper-slide {
@@ -1030,7 +1030,7 @@ html:is(.dark) .single-listing-page .singleCardCon {
 
 .dark .single-listing-page .listing-detail-summary > .inline-flex {
   border-color: rgb(148 163 184 / 0.18);
-  background: rgb(30 41 59 / 0.75);
+  background: rgb(34 36 41 / 0.75);
 }
 
 .single-listing-page .listing-detail-summary .price {
@@ -1218,6 +1218,7 @@ html:is(.dark) .single-listing-page .singleCardCon {
 .single-listing-page__lower .singleCardSection {
   width: 100%;
   margin: 0 0 1rem;
+  overflow: visible;
 }
 
 .single-listing-page__lower .single_card {
