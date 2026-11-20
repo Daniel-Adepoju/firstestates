@@ -49,5 +49,13 @@ demo Video
 demo image
 https://res.cloudinary.com/demo/image/upload/sample.jpg
 
-listing card is too pressed in make a co-rent request page, give em space
-comment input and section dosent seem to be having enough space to expand too., also reduce the bluness of the darkmode in single listing page, and make the charcoal part like the changes that you made to listing form.
+
+- push notification with firebase
+- settings for push notification, can be on or off
+- remove footer from main homepage feed
+
+
+=== BUS Aspect ===
+- ways to improve the social aspect of the app
+- also we want to upgrade so the app is more than just student niche, how do we do this without breaking the app
+(i already though of makin a agents to bookmrk or something, so we should have a wishlist of agents of sorts)
