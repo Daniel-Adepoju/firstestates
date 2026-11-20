@@ -6,6 +6,8 @@ interface ListingLocationProps {
   setArea: (value: string) => void
   schools: any[]
   areas: string[]
+  category: "student" | "residential"
+  setCategory: (value: "student" | "residential") => void
 }
 
 export default function ListingLocation({
@@ -16,6 +18,8 @@ export default function ListingLocation({
   setArea,
   schools,
   areas,
+  category,
+  setCategory,
 }: ListingLocationProps) {
   return (
     <>
@@ -38,8 +42,17 @@ export default function ListingLocation({
         />
       </div>
 
-      {/* School Select */}
+      {/* Category Select */}
       <div className="form_group">
+        <label htmlFor="category" className="mb-1 font-semibold">Listing category</label>
+        <select id="category" value={category} onChange={(e) => setCategory(e.target.value as "student" | "residential")} className="w-full border rounded p-2 dark:bg-darkGray dark:text-white">
+          <option value="student">Student</option>
+          <option value="residential">Residential</option>
+        </select>
+      </div>
+
+      {/* School Select */}
+      {category === "student" && <div className="form_group">
         <label
           htmlFor="school"
           className="mb-1 font-semibold"
@@ -62,7 +75,7 @@ export default function ListingLocation({
             </option>
           ))}
         </select>
-      </div>
+      </div>}
 
       {/* Location Select */}
       <div className="form_group">

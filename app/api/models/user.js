@@ -52,6 +52,24 @@ const UserSchema = new Schema({
         type:Boolean,
         default:false
     },
+    referralId: { type: String, unique: true, sparse: true, index: true },
+    referralCount: { type: Number, default: 0, min: 0, max: 3 },
+    referralBonusMonths: { type: Number, default: 0, min: 0 },
+    referralBonusExpiresAt: { type: Date },
+    referredBy: { type: Schema.Types.ObjectId, ref: "User" },
+    referralCompletedAt: { type: Date },
+    settings: {
+      theme: { type: String, enum: ["light", "dark", "system"], default: "system" },
+      defaultFeed: { type: String, enum: ["all", "student", "residential"], default: "all" },
+      locationFeed: { type: Boolean, default: false },
+      preferredSchool: { type: String },
+      notifications: {
+        messages: { type: Boolean, default: true },
+        appointments: { type: Boolean, default: true },
+        comments: { type: Boolean, default: true },
+        listingActivity: { type: Boolean, default: true },
+      },
+    },
 },{timestamps: true})
 
 const User = models?.User || model("User",UserSchema)

@@ -20,6 +20,13 @@ const SchoolSchema = new Schema({
    },
     address: {
     type: String,
+    trim: true,
+  },
+  geocoding: {
+    latitude: { type: Number, min: -90, max: 90 },
+    longitude: { type: Number, min: -180, max: 180 },
+    sourceAddress: { type: String, trim: true },
+    geocodedAt: { type: Date },
   },
    
 },{timestamps: true});

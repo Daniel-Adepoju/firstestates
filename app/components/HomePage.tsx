@@ -7,13 +7,15 @@ import PopularThisWeek from "@/components/PopularThisWeek"
 import Featured from "@components/listing/Featured"
 import {
   ArrowLeftFromLine,
-  ChevronDownCircle,
   MapPin,
   Sparkles,
   Search,
   ArrowUpRight,
+  SlidersHorizontal,
 } from "lucide-react"
 import Link from "next/link"
+import { useUser } from "@utils/user"
+import { useEffect } from "react"
 
 const HomePage = () => {
   useSignals()
@@ -29,6 +31,16 @@ const HomePage = () => {
   const baths = useSignal("")
   const toilets = useSignal("")
   const active = useSignal(false)
+  const { session } = useUser()
+  const category = useSignal<"" | "student" | "residential">(session?.user?.school ? "student" : "")
+
+  useEffect(() => {
+    if (session?.user?.school && category.value === "") category.value = "student"
+  }, [session?.user?.school])
+
+  useEffect(() => {
+    if (category.value === "residential") school.value = ""
+  }, [category.value])
 
   return (
     <main className="w-full flex flex-col items-center">
@@ -93,11 +105,19 @@ const HomePage = () => {
             Filter Listings
           </span>
 
-          <ChevronDownCircle
+          <SlidersHorizontal
             className={`w-6 h-6 text-gray-400 dark:text-gray-400 
-              ml-auto ${active.value ? "rotate-180" : "rotate-0"} transition-all duration-250`}
+              ml-auto ${active.value ? "rotate-12" : "rotate-0"} transition-all duration-250`}
           />
         </div>
+      </div>
+
+      <div className="flex w-[92%] max-w-2xl gap-2 rounded-xl bg-muted/50 p-1" role="tablist" aria-label="Listing category">
+        {[{ value: "", label: "All" }, { value: "student", label: "Students" }, { value: "residential", label: "Residential" }].map((tab) => (
+          <button key={tab.value} type="button" role="tab" aria-selected={category.value === tab.value} onClick={() => { category.value = tab.value as typeof category.value }} className={`flex-1 rounded-lg px-3 py-2 text-sm font-semibold transition ${category.value === tab.value ? "bg-background text-foreground shadow-sm" : "text-muted-foreground"}`}>
+            {tab.label}
+          </button>
+        ))}
       </div>
 
       {/* Filter dropdown */}
@@ -110,6 +130,7 @@ const HomePage = () => {
         baths={baths}
         toilets={toilets}
         active={active}
+        category={category.value}
       />
 
       {/* Conditional sections */}
@@ -151,6 +172,7 @@ const HomePage = () => {
           beds: beds.value,
           baths: baths.value,
           toilets: toilets.value,
+          category: category.value,
         }}
       />
     </main>

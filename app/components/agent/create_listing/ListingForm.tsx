@@ -52,6 +52,7 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
   const infoRef = useRef<HTMLDialogElement>(null)
   const { schools } = useSchools()
   const [school, setSchool] = useState("")
+  const [category, setCategory] = useState<"student" | "residential">("student")
   const [area, setArea] = useState("")
   const [areas, setAreas] = useState<string[]>([])
   const removeWheelRef = useRemoveWheel()
@@ -82,7 +83,7 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
       listingDeets.mainImage.value &&
       listingDeets.gallery.value &&
       area &&
-      school
+      (category === "residential" || school)
     ) {
       setIncomplete(false)
     } else {
@@ -102,6 +103,7 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
     listingDeets.gallery.value,
     area,
     school,
+    category,
   ])
 
   //  ============= Reset Form Fields ==============
@@ -120,6 +122,7 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
     listingDeets.tags.value = []
     setArea("")
     setSchool("")
+    setCategory("student")
   }
 
   //  ============= Set Ares When School is selected ============
@@ -144,6 +147,7 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
       // create listing
       const res = await createListing({
         status: typeOfPayment === "transfer" ? "pending" : "available",
+        category,
         description: listingDeets.description.value,
         price: listingDeets.price.value,
         priceUnit: listingDeets.priceUnit.value,
@@ -266,6 +270,8 @@ export default function ListingForm({ listingTier }: { listingTier?: string }) {
             schools={schools}
             school={school}
             setSchool={setSchool}
+            category={category}
+            setCategory={setCategory}
             area={area}
             setArea={setArea}
             areas={areas}

@@ -1,9 +1,11 @@
 "use client"
 import { CldImage } from "next-cloudinary"
 import { Skeleton } from "@components/ui/skeleton"
-import { MapPin, Phone, MessageCircle, ChevronDown, BadgeCheck, Pencil } from "lucide-react"
+import { MapPin, Phone, MessageCircle, ChevronDown, BadgeCheck, Pencil, Heart, Loader2, Copy } from "lucide-react"
 import Link from "next/link"
 import { useUser } from "@utils/user"
+import { useEffect, useState } from "react"
+import { axiosdata } from "@utils/axiosUrl"
 
 const Agent = ({
   agent,
@@ -14,9 +16,36 @@ const Agent = ({
   reporting,
   reportText,
   setReportText,
+  activeListingCount = 0,
 }: any) => {
   const { session } = useUser()
   const userId = session?.user?.id
+  const [saved, setSaved] = useState(false)
+  const [saving, setSaving] = useState(false)
+  const [copied, setCopied] = useState(false)
+
+  useEffect(() => {
+    if (!userId || !agent?._id || isYou) return
+    axiosdata.value.get(`/api/agents/saved?agent=${agent._id}`).then((response) => setSaved(response.data.saved)).catch(() => {})
+  }, [userId, agent?._id, isYou])
+
+  const toggleSavedAgent = async () => {
+    if (!userId || !agent?._id) return
+    setSaving(true)
+    try {
+      const response = await axiosdata.value.post("/api/agents/saved", { agentId: agent._id })
+      setSaved(response.data.saved)
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const copyReferralLink = async () => {
+    const link = `${window.location.origin}/signup/client?referredBy=${encodeURIComponent(agent.referralId || "")}`
+    await navigator.clipboard.writeText(link)
+    setCopied(true)
+    window.setTimeout(() => setCopied(false), 1800)
+  }
 
   if (!agent) {
     return (
@@ -78,6 +107,7 @@ const Agent = ({
                   )}
                 </div>
                 <p className="mt-1 text-sm text-muted-foreground">{agent.email}</p>
+                <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">{activeListingCount} active listings</p>
                 {/* <p className="mt-2 text-xs font-semibold uppercase tracking-[0.16em] text-primary/70">
                   First Estates agent
                 </p> */}
@@ -86,6 +116,12 @@ const Agent = ({
           </div>
 
           <div className="flex flex-col gap-3 border-t border-border/50 pt-5">
+            {!isYou && userId && (
+              <button onClick={toggleSavedAgent} disabled={saving} className="flex items-center gap-3 rounded-xl border border-border/60 bg-secondary/55 px-4 py-3 text-sm font-semibold text-foreground transition-colors hover:border-primary/40 hover:bg-secondary">
+                {saving ? <Loader2 size={22} className="animate-spin text-goldPrimary" /> : <Heart size={22} className={saved ? "fill-red-500 text-red-500" : "text-goldPrimary"} />}
+                <span>{saved ? "Saved Agent" : "Save Agent"}</span>
+              </button>
+            )}
             {/* chat */}
             {!isYou && userId && (
               <Link
@@ -128,6 +164,14 @@ const Agent = ({
           </span>
         </div>
       </div>
+
+      {isYou && agent.role === "agent" && agent.referralId && Number(agent.referralCount || 0) < 3 && (
+        <div className="w-full rounded-2xl border border-primary/25 bg-primary/5 p-4">
+          <h2 className="font-semibold">Invite people to First Estates</h2>
+          <p className="mt-1 text-sm text-muted-foreground">{agent.referralCount || 0} of 3 successful referrals used. Earn a progressive listing bonus when people complete signup.</p>
+          <button onClick={copyReferralLink} className="mt-3 flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground"><Copy size={16} />{copied ? "Link copied" : "Copy referral link"}</button>
+        </div>
+      )}
 
       {/* report user */}
       {!isYou && (

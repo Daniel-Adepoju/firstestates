@@ -16,6 +16,7 @@ const SchoolView = () => {
   const [showForm, setShowForm] = useState(false)
   const [areaValue, setAreaValue] = useState("")
   const [selectedAreaIndex, setSelectedAreaIndex] = useState<number | null>(null)
+  const [editValues, setEditValues] = useState({ fullname: "", shortname: "", address: "" })
   const { setToastValues } = useToast()
   const fetchData = async () => {
     try {
@@ -30,6 +31,20 @@ const SchoolView = () => {
     queryKey: ["schools", schoolId],
     queryFn: fetchData,
     enabled: !!schoolId,
+  })
+
+  useEffect(() => {
+    if (data) {
+      setEditValues({ fullname: data.fullname || "", shortname: data.shortname || "", address: data.address || "" })
+    }
+  }, [data])
+
+  const editSchoolMutation = useMutation({
+    mutationFn: (values: typeof editValues) => axiosdata.value.patch(`/api/schools/${schoolId}`, values),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["schools", schoolId] })
+      setToastValues({ isActive: true, message: "School details updated successfully", status: "success", duration: 2000 })
+    },
   })
 
   const addArea = async (val: any) => {
@@ -99,6 +114,23 @@ const SchoolView = () => {
         )}
         <h1 className="otherHead text-lg font-bold">{data?.shortname}</h1>
         <h2 className="text-md">{data?.fullname}</h2>
+        <form
+          className="form mt-4 w-[90%] max-w-xl"
+          onSubmit={(event) => {
+            event.preventDefault()
+            editSchoolMutation.mutate(editValues)
+          }}
+        >
+          <label htmlFor="school-fullname">Full name</label>
+          <input id="school-fullname" value={editValues.fullname} onChange={(event) => setEditValues({ ...editValues, fullname: event.target.value })} required />
+          <label htmlFor="school-shortname">Short name</label>
+          <input id="school-shortname" value={editValues.shortname} onChange={(event) => setEditValues({ ...editValues, shortname: event.target.value })} required />
+          <label htmlFor="school-address">Physical address</label>
+          <input id="school-address" value={editValues.address} onChange={(event) => setEditValues({ ...editValues, address: event.target.value })} required />
+          <Button type="submit" text="Save school details" className="clickable darkblueBtn directional font-medium text-sm w-60 mt-4" disabled={editSchoolMutation.isPending}>
+            {editSchoolMutation.isPending && <Loader2 className="animate-spin mr-2" />}
+          </Button>
+        </form>
       </div>
 
       {/* school area */}

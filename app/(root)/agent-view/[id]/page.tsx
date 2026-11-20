@@ -74,14 +74,15 @@ const AgentViewPage = () => {
   ))
 
   return (
-    <div className="w-full lg:h-[calc(100vh-2em)] flex flex-col lg:flex-row lg:gap-1 lg:mt-12 lg:items-stretch  lg:overflow-hidden">
+    <div className="w-full flex flex-col lg:flex-row lg:gap-4 lg:mt-12 lg:items-stretch lg:min-h-[calc(100vh-2em)] lg:px-4">
       <div
         className="bg-white dark:bg-darkGray w-[90%] md:w-[80%] mx-auto mb-6
     mt-20 p-6 rounded-lg shadow-sm dark:shadow-black/30
-    lg:pb-2 lg:w-[70%] lg:mt-4 lg:p-4 lg:h-full lg:m-0 lg:mb-0 overflow-y-scroll bar-custom left-bar gold-bar"
+    lg:pb-6 lg:w-[60%] lg:mt-4 lg:p-6 lg:m-0 lg:mb-0 overflow-y-auto bar-custom left-bar gold-bar"
       >
         <Agent
           agent={agent}
+            activeListingCount={listings?.pages?.reduce((total, page) => total + (page.listings?.length || 0), 0) || 0}
           isYou={isYou}
           handleReport={handleReport}
           isActive={isActive}
@@ -92,7 +93,7 @@ const AgentViewPage = () => {
         />
       </div>
 
-      <div className="w-[90%] md:w-[80%] lg:w-[40%] lg:h-full lg:pt-6 bg-white dark:bg-darkGray mx-auto mb-15 md:mb-0 gold-bar bar-custom lg:overflow-y-auto">
+      <div className="w-[90%] md:w-[80%] lg:w-[40%] lg:pt-6 bg-white dark:bg-darkGray mx-auto mb-15 md:mb-0 gold-bar bar-custom lg:overflow-y-auto">
         <div className="subheading flex items-center gap-1 ml-4 my-2 lg:my-0 overflow-clip [word-spacing:3px]">
           {!agent ? (
             <MoreHorizontal className="animate-pulse  font-bold text-md" />

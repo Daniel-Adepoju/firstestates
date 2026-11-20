@@ -25,30 +25,28 @@ const ListingHeader = ({ listing }: Props) => {
   return (
     <>
       <div className="header">
-        {/* mode button */}
+        {/* Media actions: keep gallery and video as clear, separate choices. */}
         {listing.video && (
-          <button
-            onClick={() => setHeaderTab(headerTab === "gallery" ? "video" : "gallery")}
-            className=" flex font-header text-white darkblue-gradient cursor-pointer clickable w-40 text-xs font-medium h-10 gloss items-center gap-2 py-4 px-4 ml-2 mb-3 mt-2 rounded-2xl"
-          >
-            {headerTab === "gallery" ? (
-              <div className="flex items-center justify-center gap-2 w-full">
-                Video Tour{" "}
-                <PlaySquare
-                  className="text-gray-200"
-                  size={20}
-                />
-              </div>
-            ) : (
-              <div className="flex items-center justify-center gap-2 w-full">
-                Gallery{" "}
-                <Images
-                  className="text-gray-200"
-                  size={20}
-                />
-              </div>
-            )}
-          </button>
+          <div className="mx-2 mb-3 mt-2 flex w-[calc(100%-1rem)] flex-row gap-2 rounded-2xl border border-border/60 bg-background/80 p-1.5 shadow-sm backdrop-blur sm:w-fit">
+            <button
+              type="button"
+              aria-pressed={headerTab === "gallery"}
+              onClick={() => setHeaderTab("gallery")}
+              className={`flex min-w-0 flex-1 items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition sm:min-w-36 ${headerTab === "gallery" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:bg-muted"}`}
+            >
+              <Images size={18} aria-hidden="true" />
+              <span>Gallery</span>
+            </button>
+            <button
+              type="button"
+              aria-pressed={headerTab === "video"}
+              onClick={() => setHeaderTab("video")}
+              className={`flex min-w-0 flex-1 items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition sm:min-w-36 ${headerTab === "video" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:bg-muted"}`}
+            >
+              <PlaySquare size={18} aria-hidden="true" />
+              <span>Video tour</span>
+            </button>
+          </div>
         )}
         {/* main gallery header */}
         <div className="house listing-gallery">

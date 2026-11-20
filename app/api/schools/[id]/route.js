@@ -20,8 +20,8 @@ export const PATCH = async (req, { params }) => {
   const searchParams = new URL(req.url)
   const isDeleteArea = searchParams.searchParams.get("deleteArea") === "true"
   const schoolId = (await params).id
-  //   const { fullname, shortname, logo, address } = await req.json()
-  const { areaValue } = await req.json()
+  const body = await req.json()
+  const { areaValue, fullname, shortname, logo, address } = body
   try {
     await connectToDB()
 
@@ -31,12 +31,20 @@ export const PATCH = async (req, { params }) => {
         { $pull: { schoolAreas: areaValue } },
         { new: true, runValidators: true },
       )
-    } else {
+    } else if (areaValue) {
       await School.findOneAndUpdate(
         { _id: schoolId },
         { $push: { schoolAreas: areaValue } },
         { new: true, runValidators: true },
       )
+    } else {
+      const updates = {}
+      for (const [key, value] of Object.entries({ fullname, shortname, logo, address })) {
+        if (value !== undefined) updates[key] = typeof value === "string" ? value.trim() : value
+      }
+      const updateOperation = { $set: updates }
+      if (updates.address !== undefined) updateOperation.$unset = { geocoding: 1 }
+      await School.findOneAndUpdate({ _id: schoolId }, updateOperation, { new: true, runValidators: true })
     }
     const updatedSchool = await School.findById(schoolId)
     if (!updatedSchool) {

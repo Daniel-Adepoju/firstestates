@@ -11,7 +11,13 @@ const ListingSchema = new Schema(
 
     school: {
       type: String,
-      required: [true, "School is required"],
+      required: false,
+      trim: true,
+    },
+    category: {
+      type: String,
+      enum: ["student", "residential"],
+      default: "student",
     },
     mainImage: {
       type: String,
@@ -27,6 +33,13 @@ const ListingSchema = new Schema(
     address: {
       type: String,
       required: [true, "Address is required"],
+      trim: true,
+    },
+    geocoding: {
+      latitude: { type: Number, min: -90, max: 90 },
+      longitude: { type: Number, min: -180, max: 180 },
+      sourceAddress: { type: String, trim: true },
+      geocodedAt: { type: Date },
     },
     location: {
       type: String,

@@ -2,8 +2,9 @@
 import { useRouter } from "next/navigation"
 import { Sun, Moon, LogOut, User, ChevronRight, Settings2 } from "lucide-react"
 import { useDarkMode } from "@lib/DarkModeProvider"
-import { useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { LogOutModal } from "./Modals"
+import { axiosdata } from "@utils/axiosUrl"
 
 interface SettingProps {
   editProfile: string
@@ -13,6 +14,21 @@ export default function Settings({ editProfile }: SettingProps) {
   const router = useRouter()
   const { darkMode, toggleDarkMode } = useDarkMode()
   const logOutRef = useRef<HTMLDialogElement>(null)
+  const [feed, setFeed] = useState("all")
+  const [locationFeed, setLocationFeed] = useState(false)
+  const [saving, setSaving] = useState(false)
+
+  useEffect(() => {
+    axiosdata.value.get("/api/users/settings").then(({ data }) => {
+      setFeed(data.settings?.defaultFeed || "all")
+      setLocationFeed(Boolean(data.settings?.locationFeed))
+    }).catch(() => {})
+  }, [])
+
+  const saveDiscovery = async (next: { defaultFeed?: string; locationFeed?: boolean }) => {
+    setSaving(true)
+    try { await axiosdata.value.patch("/api/users/settings", next) } finally { setSaving(false) }
+  }
 
   const openDialog = () => {
     logOutRef.current?.showModal()
@@ -36,6 +52,14 @@ export default function Settings({ editProfile }: SettingProps) {
       </div>
 
       <div className="space-y-3">
+        <div className="rounded-2xl border border-border/50 bg-secondary/55 p-4">
+          <h3 className="text-sm font-semibold">Feed and discovery</h3>
+          <label className="mt-3 block text-xs text-muted-foreground" htmlFor="default-feed">Default listing category</label>
+          <select id="default-feed" value={feed} disabled={saving} onChange={(event) => { setFeed(event.target.value); saveDiscovery({ defaultFeed: event.target.value }) }} className="mt-1 w-full rounded-xl border border-border bg-background p-3 text-sm">
+            <option value="all">All listings</option><option value="student">Students</option><option value="residential">Residential</option>
+          </select>
+          <label className="mt-4 flex items-center gap-3 text-sm"><input type="checkbox" checked={locationFeed} disabled={saving} onChange={(event) => { setLocationFeed(event.target.checked); saveDiscovery({ locationFeed: event.target.checked }) }} /> Use location to personalize discovery when available</label>
+        </div>
         <button
           onClick={handleEditProfile}
           className="group flex w-full items-center gap-4 rounded-2xl border border-border/50 bg-secondary/55 px-4 py-4 text-left text-foreground transition-colors hover:border-primary/40 hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"

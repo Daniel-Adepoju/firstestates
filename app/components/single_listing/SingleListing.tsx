@@ -17,6 +17,7 @@ import UserOptions from "./UserOptions"
 import InhabitantsSection from "./InhabitantsSection"
 import AgentDetails from "./AgentDetails"
 import CommentsSection from "./CommentsSection"
+import ListingTourActionBar from "./ListingTourActionBar"
 
 const SingleListing = ({ listingId, isAgent }: { listingId: string; isAgent?: boolean }) => {
   const router = useRouter()
@@ -256,6 +257,7 @@ const SingleListing = ({ listingId, isAgent }: { listingId: string; isAgent?: bo
         reportedListing={listing?._id ?? ""}
         thumbnail={listing?.mainImage ?? ""}
       />
+      <ListingTourActionBar listing={listing} session={session} />
     </>
   )
 }

@@ -8,6 +8,7 @@ export const GET = async (req) => {
   const page = Number(searchParams.get("page") || 1)
   const limit = Number(searchParams.get("limit") || 10)
   const skipNum = (page - 1) * limit
+  const category = searchParams.get("category")
 
   const filters = [
       { status: { $ne: "pending" } },
@@ -21,6 +22,8 @@ export const GET = async (req) => {
     searchParams.get("baths") && { bathrooms: Number(searchParams.get("baths")) },
     searchParams.get("toilets") && { toilets: Number(searchParams.get("toilets")) },
     searchParams.get("status") && { status: searchParams.get("status").toLowerCase() },
+    category === "student" && { $or: [{ category: "student" }, { category: { $exists: false } }] },
+    category === "residential" && { category: "residential" },
   ].filter(Boolean)
 
   const TIER_BOOSTS = { first: 3000, gold: 2000, standard: 0 }

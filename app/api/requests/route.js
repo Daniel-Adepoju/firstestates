@@ -4,6 +4,7 @@ import { NextResponse } from "next/server"
 import { auth } from "@auth"
 import mongoose from "mongoose"
 import { sendEmail } from "@lib/server/sendEmail"
+import Listing from "@models/listing"
 
 export const GET = async (req) => {
   const { searchParams } = new URL(req.url)
@@ -207,6 +208,18 @@ export const POST = async (req) => {
     const session = await auth()
     await connectToDB()
     const { val } = await req.json()
+
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    }
+
+    const listing = await Listing.findById(val?.listing).select("category")
+    if (!listing) {
+      return NextResponse.json({ error: "Listing not found" }, { status: 404 })
+    }
+    if (val?.requestType === "co-rent" && listing.category !== "student") {
+      return NextResponse.json({ error: "Co-rent requests are only available for student listings" }, { status: 400 })
+    }
 
     const newRequest = new Request({
       ...val,

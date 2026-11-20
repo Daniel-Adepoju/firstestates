@@ -28,6 +28,7 @@ const EditForm = () => {
   const creating = useSignal(false)
   const [area, setArea] = useState("")
   const [school, setSchool] = useState("")
+  const [category, setCategory] = useState<"student" | "residential">("student")
   const [areas, setAreas] = useState<string[]>([])
   const { schools } = useSchools()
   const currentSchool = school || data?.post?.school
@@ -70,6 +71,7 @@ const EditForm = () => {
   useEffect(() => {
     if (data) {
       setSchool(data.post.school)
+      setCategory(data.post.category === "residential" ? "residential" : "student")
       setArea(data.post.location)
       setStatus(data.post.status)
       listingDeets.description.value = data.post.description
@@ -130,6 +132,7 @@ const EditForm = () => {
             price: listingDeets.price.value,
             location: area,
             school: school || data?.post.school,
+            category,
             address: listingDeets.address.value,
             bathrooms: listingDeets.bathrooms.value,
             bedrooms: listingDeets.bedrooms.value,
@@ -285,14 +288,25 @@ const EditForm = () => {
 
           {/* Details */}
           {currentTab === "Details" && (
-            <EditListingDetails
-              listingDeets={listingDeets}
-              descriptionLength={descriptionLength}
-              handleInputChange={handleInputChange}
-              areas={areas}
-              area={area}
-              setArea={setArea}
-            />
+            <>
+              <div className="form_group">
+                <label htmlFor="edit-category">Listing category</label>
+                <select id="edit-category" value={category} onChange={(event) => setCategory(event.target.value as "student" | "residential")}>
+                  <option value="student">Student</option>
+                  <option value="residential">Residential</option>
+                </select>
+              </div>
+              {category === "student" && (
+                <div className="form_group">
+                  <label htmlFor="edit-school">School</label>
+                  <select id="edit-school" value={school} onChange={(event) => setSchool(event.target.value)}>
+                    <option value="">Select a school</option>
+                    {schools.map((item: any) => <option key={item._id} value={item.shortname}>{item.shortname} ({item.fullname})</option>)}
+                  </select>
+                </div>
+              )}
+              <EditListingDetails listingDeets={listingDeets} descriptionLength={descriptionLength} handleInputChange={handleInputChange} areas={areas} area={area} setArea={setArea} />
+            </>
           )}
 
           {/* Tier */}

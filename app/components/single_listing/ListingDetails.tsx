@@ -3,7 +3,7 @@
 import { CldImage } from "next-cloudinary"
 import Link from "next/link"
 import { daysLeft } from "@utils/date"
-import { GraduationCap } from "lucide-react"
+import { GraduationCap, MapPin } from "lucide-react"
 
 interface Props {
   listing: any
@@ -80,6 +80,13 @@ const ListingDetails = ({ listing }: Props) => {
           <strong>{listing?.school || "Nearby campus"}</strong>
         </span>
       </div>
+
+      {listing?.category !== "residential" && Number.isFinite(listing?.schoolDistanceKm) && listing.schoolDistanceKm > 0 && (
+        <div className="flex items-center gap-2 text-sm font-semibold text-gray-500 dark:text-gray-300">
+          <MapPin size={17} aria-hidden="true" />
+          <span>{listing.schoolDistanceKm.toFixed(1)} km from school</span>
+        </div>
+      )}
 
       <div className="agent">
         <CldImage

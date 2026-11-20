@@ -40,6 +40,7 @@ const Form = () => {
   const { schools } = useSchools()
   const [showPassword, setShowPassword] = useState(false)
   const [step, setStep] = useState(1)
+  const referralId = searchParams.get("referredBy") || ""
 
   // Remove the error from the URL after consuming it
   useEffect(() => {
@@ -115,11 +116,11 @@ const Form = () => {
       })
       if (res.status === "success" && pathname === "/signup/agent") {
         router.push(
-          `/signup/verify?role=agent&username=${userDeets.username.value}&email=${userDeets.email.value}&password=${userDeets.password.value}&phone=${userDeets.phone.value}&address=${userDeets.address.value}`,
+          `/signup/verify?role=agent&username=${encodeURIComponent(userDeets.username.value)}&email=${encodeURIComponent(userDeets.email.value)}&password=${encodeURIComponent(userDeets.password.value)}&phone=${encodeURIComponent(userDeets.phone.value)}&address=${encodeURIComponent(userDeets.address.value)}&referredBy=${encodeURIComponent(referralId)}`,
         )
       } else if (res.status === "success" && pathname === "/signup/client") {
         router.push(
-          `/signup/verify?role=client&username=${userDeets.username.value}&email=${userDeets.email.value}&password=${userDeets.password.value}&school=${school}`,
+          `/signup/verify?role=client&username=${encodeURIComponent(userDeets.username.value)}&email=${encodeURIComponent(userDeets.email.value)}&password=${encodeURIComponent(userDeets.password.value)}&school=${encodeURIComponent(school)}&referredBy=${encodeURIComponent(referralId)}`,
         )
       }
       setSending(false)

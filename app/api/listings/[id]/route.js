@@ -6,6 +6,7 @@ import { auth } from "@auth"
 import Notification from "@api/models/notification"
 import { NextResponse } from "next/server"
 import { incrementView } from "@lib/server/incrementView"
+import { getSchoolDistance } from "@lib/server/schoolDistance"
 
 export const GET = async (req, { params }) => {
   const { searchParams } = new URL(req.url)
@@ -88,11 +89,13 @@ export const GET = async (req, { params }) => {
     })
 
     // attach counts
+    const schoolDistanceKm = await getSchoolDistance(post, Listing)
     const finalPost = {
       ...post.toObject(),
       requestCounts,
       isUserResident,
       hasUserMadeRequest,
+      schoolDistanceKm,
     }
 
     return NextResponse.json({ post: finalPost, reports }, { status: 200 })

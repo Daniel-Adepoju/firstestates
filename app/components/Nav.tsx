@@ -20,6 +20,7 @@ import {
   User,
   Headphones,
   Headset,
+  Users,
 } from "lucide-react"
 import { LogOutModal } from "./Modals"
 import { useRouter, usePathname } from "next/navigation"
@@ -72,6 +73,14 @@ const Nav = () => {
   }, [])
 
   const navItems = [
+    {
+      condition: true,
+      link: "/community",
+      text: "Community",
+      icon: <Users size={20} className="text-gray-700 dark:text-white" />,
+      onClick: handleNavItemClick,
+      className: "text-xs md:text-sm font-medium",
+    },
     // Non-client dashboard
     {
       condition: session?.user && session?.user?.role !== "client",

@@ -17,6 +17,7 @@ interface FilterProps {
   baths: Record<string, any>
   toilets: Record<string, any>
   active: Signal<boolean>
+  category: "student" | "residential" | ""
 }
 
 const Filter = ({
@@ -28,6 +29,7 @@ const Filter = ({
   beds,
   baths,
   toilets,
+  category,
 }: FilterProps) => {
   useSignals()
   const params = useSearchParams()
@@ -46,6 +48,10 @@ const Filter = ({
   const isSchoolFocus = params.get("school") !== null
 
   useEffect(() => {
+    if (category === "residential") {
+      setSchool("")
+      selectedSchool.value = ""
+    }
     if (selectedSchool.value && selectedSchool.value !== school) {
       setSchool(selectedSchool.value)
     }
@@ -60,7 +66,7 @@ const Filter = ({
     if (school) {
       setAreas(getSchoolArea)
     }
-  }, [school, schools])
+  }, [school, schools, category])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -93,7 +99,7 @@ const Filter = ({
           </header>
           <div className="grid grid-cols-1 sm:grid-cols-1 gap-4">
             {/* School Select */}
-            {!isSchoolFocus && (
+            {!isSchoolFocus && category !== "residential" && (
               <div>
                 <label
                   htmlFor="school"

@@ -205,11 +205,11 @@ const Schools = () => {
                 <div
                   key={school._id}
                   ref={index === items.schools.length - 1 ? ref : null}
-                  className="w-full md:w-150 lg:w-200 flex p-2 bg-white dark:bg-darkGray shadow-sm dark:shadow-black rounded-md hover:shadow-lg transition"
+                  className="w-full max-w-full md:w-150 lg:w-200 flex items-start gap-2 p-2 bg-white dark:bg-darkGray shadow-sm dark:shadow-black rounded-md hover:shadow-lg transition overflow-hidden"
                 >
                   <Link
                     href={`/admin/schools/${school._id}`}
-                    className="w-full flex"
+                    className="min-w-0 flex flex-1"
                   >
                     <div className="schoolLogo">
                       <Image
@@ -220,14 +220,14 @@ const Schools = () => {
                         className="rounded-full border-2 border-gray-300"
                       />
                     </div>
-                    <div className="flex flex-col ml-2">
-                      <h2 className="text-lg font-bold">{school?.shortname}</h2>
-                      <h3 className="text-sm">{school?.fullname}</h3>
-                      <p className="text-xs">{school?.address}</p>
+                    <div className="min-w-0 flex flex-col ml-2">
+                      <h2 className="text-lg font-bold break-words">{school?.shortname}</h2>
+                      <h3 className="text-sm break-words">{school?.fullname}</h3>
+                      <p className="text-xs break-words">{school?.address}</p>
                     </div>
                   </Link>
 
-                  <div className="flex self-end ml-auto">
+                  <div className="flex shrink-0 self-end ml-auto">
                     <button
                       className="z-10 flex items-center justify-center darkblueBtn clickable directional font-medium text-sm w-12 p-1"
                       onClick={() => deleteSchoolMutation.mutate(school._id)}

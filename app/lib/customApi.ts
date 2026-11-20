@@ -17,6 +17,7 @@ interface Config {
   listingId?: string
   agentName?: string
   status?: string
+  category?: "" | "student" | "residential"
   requestType?: string
   requester?: string
   agent?: string
@@ -98,6 +99,7 @@ export const useGetListings = ({
   baths = "",
   toilets = "",
   status = "",
+  category = "",
 }: Config) => {
   const getListings = async (page: string) => {
     const params = setParams({
@@ -111,6 +113,7 @@ export const useGetListings = ({
       baths,
       toilets,
       status,
+      category,
     })
     const res = await axiosdata.value.get(`/api/listings?${params.toString()}`)
 
@@ -130,6 +133,7 @@ export const useGetListings = ({
       baths,
       toilets,
       status,
+      category,
     ],
     queryFn: () => getListings(page ?? "1"),
   })

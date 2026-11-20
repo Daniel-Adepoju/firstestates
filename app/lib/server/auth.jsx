@@ -12,6 +12,7 @@ import ratelimit from "@lib/server/ratelimit"
 import { workflowClient } from "@lib/server/workflow"
 import { redirect } from "next/navigation"
 import { deleteImage } from "./deleteImage"
+import { nanoid } from "nanoid"
 
 export const sendOTP = async ({ email }) => {
   try {
@@ -94,13 +95,35 @@ export const verifyOTP = async (val) => {
         password,
         isNewUser: false,
         school: val.role === "client" ? val.school || null : undefined,
+        ...(val.role === "agent" && { referralId: nanoid(12) }),
         ...(val.role === "agent" && val.phone && { phone: val.phone }),
         ...(val.role === "agent" && val.whatsapp && { whatsapp: val.whatsapp }),
         ...(val.role === "agent" && val.address && { address: val.address }),
       }
 
-      const user = new User(newUser)
-      await user.save()
+      if (val.referralId) {
+        const referrer = await User.findOne({ referralId: String(val.referralId).trim(), role: "agent" }).select("_id email")
+        if (!referrer || (val.email && String(referrer.email).toLowerCase() === String(val.email).toLowerCase())) {
+          return { message: "Invalid referral link", status: "warning" }
+        }
+        newUser.referredBy = referrer._id
+      }
+
+      const user = await User.create(newUser)
+      if (newUser.referredBy) {
+        const now = new Date()
+        const updatedReferrer = await User.findOneAndUpdate(
+          { _id: newUser.referredBy, referralCount: { $lt: 3 } },
+          { $inc: { referralCount: 1 } },
+          { new: true },
+        )
+        if (!updatedReferrer) {
+          await user.deleteOne()
+          return { message: "This referral link has reached its limit", status: "warning" }
+        }
+        await updatedReferrer.updateOne({ referralBonusMonths: updatedReferrer.referralCount, referralBonusExpiresAt: new Date(now.getTime() + updatedReferrer.referralCount * 30 * 24 * 60 * 60 * 1000) })
+        await user.updateOne({ referralCompletedAt: now })
+      }
 
       await workflowClient.trigger({
         url: `${process.env.PROD_BASE_URL}/api/workflow/onboarding`,

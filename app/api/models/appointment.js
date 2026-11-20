@@ -34,6 +34,12 @@ const AppointmentSchema = new Schema({
         type: Boolean,
         default: false,
     },
+    status: {
+        type: String,
+        enum: ["requested", "accepted", "declined", "rescheduled", "completed"],
+        default: "requested",
+    },
+    notes: { type: String, maxlength: 1000 },
 },{timestamps:true})
 
 const Appointment = models?.Appointment || model('Appointment', AppointmentSchema);

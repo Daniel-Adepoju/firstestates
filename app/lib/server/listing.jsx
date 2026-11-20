@@ -20,9 +20,17 @@ export const createListing = async (val) => {
   await connectToDB()
 
   try {
-    if (!userId) {
+    if (!userId || !["agent", "admin"].includes(session?.user?.role)) {
       return { message: "Unauthorized", status: "danger" }
     }
+
+    if (!["student", "residential"].includes(newVal.category)) {
+      return { message: "Choose a valid listing category", status: "danger" }
+    }
+    if (newVal.category === "student" && !String(newVal.school || "").trim()) {
+      return { message: "Student listings require a school", status: "danger" }
+    }
+    if (newVal.category === "residential") newVal.school = undefined
 
     const newListing = new Listing(newVal)
     await newListing.save()
@@ -72,7 +80,16 @@ export const createListing = async (val) => {
 
 export const editListing = async (val, userId, extras = false) => {
   try {
+    const session = await auth()
+    if (!session?.user?.id) return { message: "Unauthorized", status: "danger" }
     await connectToDB()
+
+    const existingListing = await Listing.findById(val.id).select("agent")
+    const isOwner = existingListing?.agent?.toString() === session.user.id
+    const isAdmin = session.user.role === "admin"
+    if (!existingListing || (!isOwner && !isAdmin)) {
+      return { message: "You are not allowed to edit this listing", status: "danger" }
+    }
 
     if (val.isApproval) {
       const listing = await Listing.findOne({ _id: val.id }).populate("agent").lean()
@@ -102,6 +119,10 @@ export const editListing = async (val, userId, extras = false) => {
     }
 
     const newVal = { ...val }
+    if (newVal.category === "residential") newVal.school = undefined
+    if (newVal.category === "student" && !String(newVal.school || "").trim()) {
+      return { message: "Student listings require a school", status: "danger" }
+    }
     const listing = await Listing.findOneAndUpdate({ _id: val.id }, newVal, {
       new: true,
       runValidators: true,
@@ -166,12 +187,17 @@ export const markAsFeatured = async (val, userId) => {
 
 export const deleteListing = async (id) => {
   try {
+    const session = await auth()
+    if (!session?.user?.id) return { message: "Unauthorized", status: "danger" }
     await connectToDB()
 
     const listing = await Listing.findById(id)
 
     if (!listing) {
       throw new Error("Listing not found")
+    }
+    if (listing.agent.toString() !== session.user.id && session.user.role !== "admin") {
+      return { message: "You are not allowed to delete this listing", status: "danger" }
     }
 
     if (listing.status === "rented") {

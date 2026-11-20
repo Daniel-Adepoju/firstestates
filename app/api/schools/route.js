@@ -47,6 +47,9 @@ export const GET = async (req) => {
 
 export const POST = async (req) => {
   const { fullname, shortname, logo, address } = await req.json()
+    if (!String(address || "").trim()) {
+        return NextResponse.json({ message: "School address is required" }, { status: 400 })
+    }
     try {
         await connectToDB()
         const newSchool = new School({ fullname, shortname, logo, address })

@@ -20,6 +20,7 @@ type CardListProps = {
     beds: string
     baths: string
     toilets: string
+    category?: "student" | "residential" | ""
   }
   page: string
 }
@@ -38,6 +39,7 @@ const CardList = ({ limit = 12, filters, page }: CardListProps) => {
     baths: filters.baths,
     toilets: filters.toilets,
     status: "available", // only fetch available listings,
+    category: filters.category || undefined,
   })
 
   // check which listings are in wishlist

@@ -24,6 +24,7 @@ const Verify = () => {
   const whatsapp = useSearchParams().get("whatsapp")
   const address = useSearchParams().get("address")
   const school = useSearchParams().get("school")
+  const referredBy = useSearchParams().get("referredBy")
   const [verifying, setVerifying] = useState(false)
   const otpValues = {
     otp1: useSignal(""),
@@ -110,6 +111,7 @@ const Verify = () => {
         email,
         userPassword: password,
         school,
+        referralId: referredBy,
         ...(phone && { phone }),
         ...(whatsapp && { whatsapp }),
         ...(address && { address }),

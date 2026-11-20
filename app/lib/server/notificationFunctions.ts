@@ -2,6 +2,7 @@
 import { connectToDB } from "@utils/database"
 import Notification from "@models/notification"
 import {auth} from '@auth'
+import DeviceToken from '@models/deviceToken'
 
 type UserWithRole = {
   id: string;
@@ -90,6 +91,21 @@ export const sendNotification = async(val:any) => {
     ...val
   })
 await newNotification.save() 
+ if (val.userId && process.env.FCM_SERVER_KEY && val.push !== false) {
+   try {
+     const devices = await DeviceToken.find({ user: val.userId }).select("token").lean()
+     if (devices.length) {
+       const response = await fetch("https://fcm.googleapis.com/fcm/send", {
+         method: "POST",
+         headers: { "Content-Type": "application/json", Authorization: `key=${process.env.FCM_SERVER_KEY}` },
+         body: JSON.stringify({ registration_ids: devices.map((device) => device.token), notification: { title: "First Estates", body: val.message || "You have a new notification" }, data: { type: val.type || "notification", listingId: val.listingId || "" } }),
+       })
+       if (!response.ok) console.error("FCM delivery failed", response.status)
+     }
+   } catch (error) {
+     console.error("FCM delivery skipped", error)
+   }
+ }
   } catch(err) {
    console.log(err)
   }
