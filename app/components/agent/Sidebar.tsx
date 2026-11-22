@@ -103,8 +103,8 @@ const Sidebar = ({ session }: Session) => {
         <CldImage
           src={session.user.profilePic}
           alt="Profile"
-          width={40}
-          height={40}
+          width={100}
+          height={100}
           crop="fit"
           className="dashboard-sidebar__avatar"
         />

@@ -1,207 +1,26 @@
-import { useRef, useState } from "react"
-import { Trash2, Reply, Check, CheckCheck, FlagTriangleLeft } from "lucide-react"
-import { ReportModal } from "../Modals"
+"use client"
+import { useEffect, useRef, useState } from "react"
+import { AudioLines, Check, CheckCheck, Edit3, FlagTriangleLeft, Reply, Star, Trash2 } from "lucide-react"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { axiosdata } from "@utils/axiosUrl"
+import { ReportModal } from "../Modals"
 import PopularCard from "@components/listing/PopularCard"
+import VoiceMessageBubble from "./VoiceMessageBubble"
 
-interface Msg {
-  _id: string
-  senderId: string
-  text: string
-  createdAt: string | number | Date
-  readBy: string[]
-  replyingTo?: string
- listingId?:any
+export default function ChatBubble({ msg, userId, receiverId, setReply, id }: any) {
+  const queryClient = useQueryClient(); const reportRef = useRef<HTMLDialogElement>(null); const bubbleRef = useRef<HTMLDivElement>(null)
+  const [menu, setMenu] = useState(false); const [editing, setEditing] = useState(false); const [draft, setDraft] = useState(msg.text || ""); const [offset, setOffset] = useState(0); const startX = useRef<number | null>(null)
+  const chatId = [userId, receiverId].sort().join("_"); const outgoing = msg.senderId === userId; const starred = msg.starredBy?.some((value: string) => String(value) === userId)
+  const update = useMutation({ mutationFn: (payload: any) => axiosdata.value.patch(`/api/chats/${chatId}`, { bubbleId: msg._id, ...payload }), onSuccess: () => { setMenu(false); setEditing(false); queryClient.invalidateQueries({ queryKey: ["chats"] }) } })
+  const remove = useMutation({ mutationFn: (mode: string) => axiosdata.value.delete(`/api/chats/${chatId}`, { data: { bubbleId: msg._id, mode } }), onSuccess: () => { setMenu(false); queryClient.invalidateQueries({ queryKey: ["chats"] }) } })
+  useEffect(() => { const close = (event: MouseEvent) => { if (!bubbleRef.current?.contains(event.target as Node)) setMenu(false) }; document.addEventListener("mousedown", close); return () => document.removeEventListener("mousedown", close) }, [])
+  const begin = (event: React.PointerEvent) => { if (event.pointerType === "mouse" && event.button !== 0) return; startX.current = event.clientX; event.currentTarget.setPointerCapture(event.pointerId) }
+  const move = (event: React.PointerEvent) => { if (startX.current === null) return; setOffset(Math.max(0, Math.min(72, event.clientX - startX.current))) }
+  const end = () => { if (offset > 42) setReply({ _id: msg._id, text: msg.text, messageType: msg.messageType, audio: msg.audio }); setOffset(0); startX.current = null }
+  return <div ref={bubbleRef} className={`group relative flex w-full ${outgoing ? "justify-end" : "justify-start"}`}><div className="relative max-w-[min(82%,32rem)]" style={{ transform: `translateX(${offset}px)`, transition: startX.current === null ? "transform 180ms ease-out" : "none" }} onPointerDown={begin} onPointerMove={move} onPointerUp={end} onDoubleClick={() => setMenu(true)} onContextMenu={event => { event.preventDefault(); setMenu(true) }}>
+    {msg.replyTo && <div className="mb-1 flex items-center gap-1 rounded-lg border-l-2 border-primary px-2 py-1 text-xs opacity-75"><AudioLines size={13} />{msg.replyTo.messageType === "voice" ? "Replied to audio" : msg.replyTo.text || "Replied message"}</div>}
+    {msg.listingId && <PopularCard listing={msg.listingId} showPopular={false} />}
+    <div id={id} className={`rounded-2xl px-3 py-2 text-sm shadow-sm ${outgoing ? "rounded-br-md bg-primary text-primary-foreground" : "rounded-bl-md border border-border bg-card text-foreground"}`}>{msg.messageType === "voice" && msg.audio?.url ? <VoiceMessageBubble url={msg.audio.url} duration={msg.audio.duration} waveform={msg.audio.waveform} outgoing={outgoing} /> : editing ? <div className="flex gap-2"><input value={draft} onChange={event => setDraft(event.target.value)} className="min-w-0 rounded bg-white/20 px-2 py-1 text-inherit outline-none" autoFocus /><button type="button" onClick={() => { if (draft.trim()) update.mutate({ action: "edit", text: draft }) }}>Save</button></div> : msg.text}<div className="mt-1 flex items-center justify-end gap-1 text-[10px] opacity-70">{msg.editedAt && <span>edited</span>}<span>{new Date(msg.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span>{outgoing && (msg.readBy?.includes(receiverId) ? <CheckCheck size={13} /> : <Check size={13} />)}</div></div>
+    {menu && <div className={`absolute z-20 mt-2 flex min-w-36 flex-col rounded-xl border border-border bg-background p-1 shadow-xl ${outgoing ? "right-0" : "left-0"}`}><button type="button" className="chat-action" onClick={() => { setReply({ _id: msg._id, text: msg.text, messageType: msg.messageType, audio: msg.audio }); setMenu(false) }}><Reply size={14} />Reply</button><button type="button" className="chat-action" onClick={() => update.mutate({ action: "star" })}><Star size={14} className={starred ? "fill-current" : ""} />{starred ? "Unstar" : "Star"}</button>{outgoing && msg.messageType !== "voice" && <button type="button" className="chat-action" onClick={() => { setEditing(true); setMenu(false) }}><Edit3 size={14} />Edit</button>}<button type="button" className="chat-action" onClick={() => remove.mutate(outgoing ? "global" : "personal")}><Trash2 size={14} />{outgoing ? "Delete for everyone" : "Delete for me"}</button>{!outgoing && <button type="button" className="chat-action text-red-600" onClick={() => { setMenu(false); reportRef.current?.showModal() }}><FlagTriangleLeft size={14} />Report</button>}</div>}
+  </div><ReportModal ref={reportRef} userId={userId} chatContent={msg.text} reportedUser={msg.senderId} action="chat" /></div>
 }
-
-interface ChatBubbleProps {
-  msg: Msg
-  userId: string
-  showId: string
-  receiverId: string | null
-  setShowId: (id: string) => void
-  id?: string
-  setReply: (content: any) => void
-  reply?: string
-  nextPageRef?:any
-}
-
-const ChatBubble = ({
-  msg,
-  userId,
-  showId,
-  setShowId,
-  receiverId,
-  id,
-  setReply,
-  reply,
-  nextPageRef,
-}: ChatBubbleProps) => {
-  const queryClient = useQueryClient()
-  const [showOptions, setShowOptions] = useState(false)
-  const reportRef = useRef<HTMLDialogElement>(null)
- 
-  const toggleOptions = () => {
-    setShowId(msg._id)
-    setShowOptions((prev) => !prev)
-  }
-
-  // Handle Delete Message
-  const chatId = [userId, receiverId].sort().join("_")
-
-  const deleteMutation = useMutation({
-    mutationFn: async () => {
-      await axiosdata.value.delete(`/api/chats/${chatId}`, { data: { bubbleId: msg._id } })
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["chats"] })
-    },
-  })
-
-  const handleDelete = async (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.stopPropagation()
-    deleteMutation.mutate()
-    setShowOptions(false)
-  }
-  const handleReport = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.stopPropagation()
-    setShowOptions(false)
-    reportRef.current?.showModal()
-  }
-
-  const handleClickOutside = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.stopPropagation()
-    setShowOptions(false)
-  }
-
-  const handleReply = (e: any, content: any) => {
-    e.stopPropagation()
-    setShowOptions(false)
-    setReply(content)
-  }
-
- 
-
-  return (
-    <div
-    // ref={nextPageRef}
-      className={`flex flex-col gap-1 w-56 md:w-100  max-w-xs
-    
-         ${msg.senderId === userId ? "self-end" : " self-start"}
-    `}
-    >
-      {/* Replying To */}
-      {msg.replyingTo && (
-        <div className="w-[80%] text-gray-500 dark:text-gray-400 self-end text-sm pt-0.5 pb-1 px-2 rounded-md font-medium bg-gray-400/10">
-          {`replying to: ${msg.replyingTo}`}
-        </div>
-      )}
-
-      {/* Listing Display */}
-      {msg.listingId && (
-      <div className={`${msg.senderId === userId ? "self-end" : " self-start"}`}>
-        <PopularCard 
-      listing={msg.listingId}
-      showPopular={false}
-      />
-      </div>
-      )}
-
-      {/* Main Bubble */}
-      <div
-        id={id}
-        onClick={toggleOptions}
-        className={`
-                flex flex-col relative
-                text-white w-full  min-h-fit break-words whitespace-pre-wrap p-2 pb-1 rounded-xl 
- aftr:absolute after:conten  after:cursor-pointer after:w-6 after:h-3 after:bg-inherit shadow-md after:top-[97%] after:left-0 after:rounded-bl-4xl
-          ${
-            msg.senderId === userId
-              ? "rounded-br-none bg-goldPrimary self-end md:after:left-[93%] after:left-[90%] after:rounded-bl-none after:rounded-br-4xl"
-              : "rounded-bl-none bg-gray-600 self-start"
-          }`}
-      >
-        {msg.text}
-
-        <div className="self-end text-sm font-medium">
-          {new Date(msg.createdAt).toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: true,
-          })}
-        </div>
-
-        <div className="checks self-end">
-          {receiverId !== null && msg?.readBy?.includes(receiverId) ? (
-            <CheckCheck
-              color="white"
-              size={15}
-            />
-          ) : (
-            <Check
-              color="white"
-              size={15}
-            />
-          )}
-        </div>
-      </div>
-
-      {/* Chat Options */}
-      <div className="m-0 flex items-center justify-start bg-black-gray-500/20  w-full">
-        {showOptions && showId === msg._id && (
-          <div className="flex flex-col items-end">
-            <div className="flex flex-row  gap-1 items-center justify-center">
-              <div
-                onClick={(e) => handleReply(e, msg.text)}
-                className="clickable flex  items-center bg-gray-100  dark:bg-gray-500/20 p-1 px-2 rounded-md cursor-pointer text-sm text-white"
-              >
-                <Reply
-                  size={20}
-                  className="text-gray-700 dark:text-gray-200"
-                />
-              </div>
-              {msg.senderId === userId ? (
-                <div
-                  onClick={handleDelete}
-                  className="clickable flex gap-1 items-center bg-gray-100  dark:bg-gray-500/20 p-1 px-2 rounded-md cursor-pointer text-sm text-white"
-                >
-                  <Trash2
-                    size={20}
-                    className="text-red-500"
-                  />
-                </div>
-              ) : (
-                <div
-                  onClick={handleReport}
-                  className="clickable flex gap-1 items-center bg-gray-100  dark:bg-gray-500/20 p-1 px-2 rounded-md cursor-pointer text-sm text-white"
-                >
-                  <FlagTriangleLeft
-                    size={20}
-                    className="text-red-500"
-                  />
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-      </div>
-      {deleteMutation.isPending && (
-        <span
-          className={`${msg.senderId === userId ? "self-end" : " self-start"} text-xs font-semibold text-gray-500 dark:text-gray-400`}
-        >
-          Deleting...
-        </span>
-      )}
-      <ReportModal
-        ref={reportRef}
-        userId={userId}
-        chatContent={msg.text}
-        reportedUser={msg.senderId}
-        action="chat"
-      />
-    </div>
-  )
-}
-
-export default ChatBubble

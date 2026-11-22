@@ -20,13 +20,13 @@ const demoComment = {
    author: 'nonone'
 }
   return (
-    <div className="singleCardSection relative w-full min-w-0">
-      <div className="single_card">
-        <div className="heading mx-auto">Comments</div>
+    <div className="singleCardSection listing-soft-section relative w-full min-w-0">
+      <div className="single_card listing-soft-card">
+        <div className="heading listing-section-heading mx-auto">Comments</div>
 
-        <div className="flex max-h-[32rem] w-full min-w-0 flex-col items-stretch gap-4 overflow-y-auto pt-6 pb-4 bar-custom gold-bar">
+        <div className="flex max-h-[32rem] w-full min-w-0 flex-col items-stretch gap-3 overflow-y-auto py-5">
           {isLoading ? (
-            <Skeleton className="bg-gray-200 w-full h-[100px] rounded-xl" />
+            <Skeleton className="h-24 w-full rounded-2xl bg-primary/5" />
           )  : (
             data?.pages.flatMap((page: any) =>
               page.comments.map((comment: CommentProps, index: number) => (

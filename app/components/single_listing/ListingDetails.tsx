@@ -90,10 +90,11 @@ const ListingDetails = ({ listing }: Props) => {
 
       <div className="agent">
         <CldImage
-          width={20}
-          height={20}
+          width={200}
+          height={180}
+          className='w-20 h-20 rounded-full'
           alt="agent pic"
-          crop="auto"
+          crop="fit"
           src={listing?.agent?.profilePic}
         />
         <div>

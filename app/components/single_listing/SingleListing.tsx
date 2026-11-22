@@ -17,7 +17,7 @@ import UserOptions from "./UserOptions"
 import InhabitantsSection from "./InhabitantsSection"
 import AgentDetails from "./AgentDetails"
 import CommentsSection from "./CommentsSection"
-import ListingTourActionBar from "./ListingTourActionBar"
+import SingleListingNav from "./SingleListingNav"
 
 const SingleListing = ({ listingId, isAgent }: { listingId: string; isAgent?: boolean }) => {
   const router = useRouter()
@@ -57,7 +57,7 @@ const SingleListing = ({ listingId, isAgent }: { listingId: string; isAgent?: bo
 
   if (isLoading)
     return (
-      <div className={`single-listing-page w-full text-foreground ${isAgentView ? "mt-0" : "mt-16 lg:mt-20"}`}>
+      <div className={`single-listing-page p-24 w-full text-foreground ${isAgentView ? "mt-0" : "mt-4 lg:mt-6"}`}>
         <div className="singleCardCon animate-pulse">
           <div className="singleCardSection">
             <div className="single_card">
@@ -78,7 +78,6 @@ const SingleListing = ({ listingId, isAgent }: { listingId: string; isAgent?: bo
                 ))}
               </div>
 
-              <Skeleton className="mt-5 h-12 w-full rounded-xl bg-gray-500/20" />
             </div>
           </div>
 
@@ -127,6 +126,11 @@ const SingleListing = ({ listingId, isAgent }: { listingId: string; isAgent?: bo
             </div>
           </div>
         </div>
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border/60 bg-background/90 px-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] pt-2 backdrop-blur md:fixed md:bottom-5 md:left-1/2 md:top-auto md:w-[min(96%,1100px)] md:-translate-x-1/2 md:rounded-2xl md:border">
+          <div className="mx-auto flex max-w-6xl items-center gap-1 md:gap-2">
+            {Array.from({ length: 5 }).map((_, index) => <Skeleton key={index} className={`${index > 2 ? "h-11 flex-1" : "h-11 w-11"} rounded-2xl bg-gray-500/20`} />)}
+          </div>
+        </div>
       </div>
     )
 
@@ -142,10 +146,10 @@ const SingleListing = ({ listingId, isAgent }: { listingId: string; isAgent?: bo
   const listing = data?.post
 
   return (
-    <>
+    <div className="single-listing-shell box-border w-full px-1 sm:px-2 lg:px-3 pb-18 md:pb-30">
       <div
-        className={`single-listing-page text-foreground ${
-          isAgentView ? "singleCardCon -mt-10 lg:mt-[4px]" : "singleCardCon mt-16 lg:mt-20"
+        className={`single-listing-page pb-28 text-foreground md:pb-0 ${
+          isAgentView ? "singleCardCon -mt-2 lg:mt-2" : "singleCardCon mt-4 lg:mt-6"
         }`}
       >
         {/*  first singleCardSection */}
@@ -168,7 +172,6 @@ const SingleListing = ({ listingId, isAgent }: { listingId: string; isAgent?: bo
               session={session}
               listing={listing}
               router={router}
-              onReport={() => reportModalRef.current?.showModal()}
               onWishlist={() => wishListMutation.mutate({ listingId })}
             />
 
@@ -196,31 +199,31 @@ const SingleListing = ({ listingId, isAgent }: { listingId: string; isAgent?: bo
         </div>
       </div>
 
-      <div className="singleCardCon2 description single-listing-page__lower bg-gray-50 dark:bg-gray-700/30 text-foreground">
+      <div className="singleCardCon2 description single-listing-page__lower bg-transparent pb-28 text-foreground md:pb-40 lg:pb-48">
         {/* Tags */}
         {listing?.tags && listing.tags.length > 1 && (
-          <div className="singleCardSection">
-            <div className="single_card">
-              <div className="heading mx-auto self-center">Tags</div>
-              <div className="font-medium font-list w-[90%] md:w-[80%] lg:w-[70%] text-foreground text-sm tracking-wide text-justify description mx-auto whitespace-prewrap self-center">
-                <div className="flex items-center justify-start p-0 flex-wrap gap-2 mt-2 ml-0">
+          <div className="singleCardSection listing-soft-section">
+            <div className="single_card listing-soft-card">
+              <div className="heading listing-section-heading mx-auto self-center">Tags</div>
+              <div className="font-medium font-list w-full text-foreground text-sm tracking-wide description mx-auto whitespace-prewrap self-center">
+                <div className="flex items-center justify-start p-0 flex-wrap gap-2 mt-4 ml-0">
                   {listing?.tags &&
                     listing?.tags.length > 0 &&
                     listing?.tags?.map((tag: any) => (
                       <span
                         key={tag}
                         className={`
-    px-6 py-2 rounded-lg text-xs font-semibold capitalize
+    rounded-full border px-4 py-2 text-xs font-semibold capitalize tracking-wide
     ${
       tag.includes("new") || tag.includes("free")
-        ? "bg-green-200 dark:bg-green-300 text-green-700 dark:text-green-800 border border-green-200"
+        ? "border-emerald-500/20 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
         : tag.includes("walk") || tag.includes("trek")
-          ? "bg-yellow-200 text-yellow-700 border border-yellow-200 dark:bg-amber-950/80 dark:text-amber-200 dark:border-amber-700/70"
+          ? "border-amber-500/20 bg-amber-500/10 text-amber-700 dark:text-amber-300"
           : tag.includes("female")
-            ? "bg-pink-200 dark:bg-pink-300 text-pink-700 dark:text-pink-800 border border-pink-200"
+            ? "border-rose-500/20 bg-rose-500/10 text-rose-700 dark:text-rose-300"
             : tag.includes("male")
-              ? "bg-blue-200 dark:bg-blue-300 text-blue-700 dark:text-blue-800 border border-blue-200"
-              : "bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200"
+              ? "border-sky-500/20 bg-sky-500/10 text-sky-700 dark:text-sky-300"
+              : "border-primary/15 bg-primary/5 text-primary dark:text-sky-200"
     }
   `}
                       >
@@ -234,10 +237,10 @@ const SingleListing = ({ listingId, isAgent }: { listingId: string; isAgent?: bo
         )}
 
         {/* Description */}
-        <div className="singleCardSection">
-          <div className="single_card">
-            <div className="heading mx-auto self-center">Description</div>
-            <div className="font-medium font-list w-[90%] md:w-[80%] lg:w-[70%] text-foreground text-sm tracking-wide text-justify description mx-auto whitespace-prewrap self-center">
+        <div className="singleCardSection listing-soft-section">
+          <div className="single_card listing-soft-card">
+            <div className="heading listing-section-heading mx-auto self-center">Description</div>
+            <div className="font-medium font-list w-full text-foreground text-sm tracking-wide description mx-auto whitespace-pre-wrap self-center">
               {listing.description}
             </div>
           </div>
@@ -257,8 +260,8 @@ const SingleListing = ({ listingId, isAgent }: { listingId: string; isAgent?: bo
         reportedListing={listing?._id ?? ""}
         thumbnail={listing?.mainImage ?? ""}
       />
-      <ListingTourActionBar listing={listing} session={session} />
-    </>
+      <SingleListingNav listing={listing} session={session} router={router} reportModalRef={reportModalRef} />
+    </div>
   )
 }
 

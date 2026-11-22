@@ -5,6 +5,7 @@ import { useDarkMode } from "@lib/DarkModeProvider"
 import { useEffect, useRef, useState } from "react"
 import { LogOutModal } from "./Modals"
 import { axiosdata } from "@utils/axiosUrl"
+import PushNotificationSettings from "./PushNotificationSettings"
 
 interface SettingProps {
   editProfile: string
@@ -60,6 +61,7 @@ export default function Settings({ editProfile }: SettingProps) {
           </select>
           <label className="mt-4 flex items-center gap-3 text-sm"><input type="checkbox" checked={locationFeed} disabled={saving} onChange={(event) => { setLocationFeed(event.target.checked); saveDiscovery({ locationFeed: event.target.checked }) }} /> Use location to personalize discovery when available</label>
         </div>
+        <PushNotificationSettings />
         <button
           onClick={handleEditProfile}
           className="group flex w-full items-center gap-4 rounded-2xl border border-border/50 bg-secondary/55 px-4 py-4 text-left text-foreground transition-colors hover:border-primary/40 hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"

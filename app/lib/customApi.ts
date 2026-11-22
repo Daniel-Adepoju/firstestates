@@ -38,6 +38,7 @@ type GetConversationsProps = {
   userId?: string
   limit?: number
   enabled?: boolean
+  filter?: "all" | "read" | "unread" | "pinned"
 }
 
 export const setParams = (params: Record<string, unknown>): URLSearchParams => {
@@ -647,10 +648,11 @@ export const useGetConversations = ({
   userId,
   limit = 10,
   enabled = true,
+  filter = "all",
 }: GetConversationsProps) => {
   const { data, isLoading, isError, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: ["conversations", userId],
+      queryKey: ["conversations", userId, filter],
 
       enabled: enabled && !!userId,
 
@@ -659,6 +661,7 @@ export const useGetConversations = ({
       queryFn: async ({ pageParam }) => {
         const params = new URLSearchParams({
           senderId: userId!,
+          filter,
           page: pageParam.toString(),
           limit: limit.toString(),
         })

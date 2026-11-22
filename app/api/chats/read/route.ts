@@ -1,6 +1,7 @@
 import { connectToDB } from "@utils/database"
 import { NextRequest, NextResponse } from "next/server"
 import Chat from "@models/chat"
+import { auth } from "@auth"
 import {ably} from "@lib/server/ably"
 
 export async function PATCH(req: NextRequest) {
@@ -8,6 +9,8 @@ export async function PATCH(req: NextRequest) {
     await connectToDB()
 
     const { userId, conversationId } = await req.json()
+    const session = await auth()
+    if (!session?.user?.id || session.user.id !== userId) return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
 
     const result = await Chat.updateMany(
       {

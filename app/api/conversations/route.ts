@@ -6,11 +6,13 @@ import { connectToDB } from "@utils/database"
 import Conversation from "@models/conversation"
 import Chat from "@models/chat"
 import User from "@models/user"
+import { auth } from "@auth"
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
 
   const senderId = searchParams.get("senderId")
+  const filter = searchParams.get("filter") || "all"
   const page = Number(searchParams.get("page") || 1)
   const limit = Number(searchParams.get("limit") || 15)
 
@@ -20,6 +22,11 @@ export async function GET(req: NextRequest) {
 
   try {
     await connectToDB()
+
+    const session = await auth()
+    if (!session?.user?.id || session.user.id !== senderId) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
+    }
 
     const senderObjectId = new mongoose.Types.ObjectId(senderId)
     const skip = (page - 1) * limit
@@ -31,6 +38,8 @@ export async function GET(req: NextRequest) {
       {
         $match: {
           userIds: senderObjectId,
+          hiddenFor: { $ne: senderObjectId },
+          ...(filter === "pinned" ? { pinnedBy: senderObjectId } : {}),
         },
       },
 
@@ -112,6 +121,8 @@ export async function GET(req: NextRequest) {
                     {
                       $eq: ["$receiverId", senderObjectId],
                     },
+                    { $eq: ["$deletedAt", null] },
+                    { $not: { $in: [senderObjectId, "$deletedFor"] } },
                     {
                       $ne: ["$senderId", senderObjectId],
                     },
@@ -148,6 +159,9 @@ export async function GET(req: NextRequest) {
         },
       },
 
+      ...(filter === "unread" ? [{ $match: { unreadCount: { $gt: 0 } } }] : []),
+      ...(filter === "read" ? [{ $match: { unreadCount: 0 } }] : []),
+
       // -----------------------------
       // Cleanup
       // -----------------------------
@@ -160,6 +174,8 @@ export async function GET(req: NextRequest) {
 
     const total = await Conversation.countDocuments({
       userIds: senderObjectId,
+      hiddenFor: { $ne: senderObjectId },
+      ...(filter === "pinned" ? { pinnedBy: senderObjectId } : {}),
     })
 
     return NextResponse.json({

@@ -9,7 +9,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { LogOut, Trash, AlertCircle, Loader2, X, Check, House } from "lucide-react"
 import dynamic from "next/dynamic"
 import { useSignals, useSignal } from "@preact/signals-react/runtime"
-import Button from "@lib/Button"
 import useClickOutside from "@utils/useClickOutside"
 import { useRouter } from "next/navigation"
 const PaystackBtn = dynamic(() => import("./PayStackButton"), { ssr: false })
@@ -76,26 +75,16 @@ export const DeleteModal = ({ ref, listingId, setDeleting }: DeleteModalProps) =
       ref={ref}
       className="modal-shell"
     >
-      <Trash
-        size={60}
-        className="mx-auto mb-4 text-red-800"
-      />
-
-      <p className="text-lg font-medium mb-6">Are you sure you want to delete?</p>
-
-      <div className="modal-shell__actions">
-        <X
-          width={35}
-          height={35}
-          className="modal-action modal-action--danger"
-          onClick={() => ref?.current?.close()}
-        />
-        <Check
-          width={35}
-          height={35}
-          className="modal-action modal-action--primary"
-          onClick={() => mutation.mutate()}
-        />
+      <div className="modal-shell__content">
+        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-red-500/10 text-red-600 dark:bg-red-500/15 dark:text-red-300">
+          <Trash size={26} />
+        </div>
+        <h2 className="mt-5 text-xl font-bold tracking-tight">Delete this listing?</h2>
+        <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-300">This will remove the listing from your dashboard and it cannot be undone.</p>
+        <div className="modal-shell__actions">
+          <button type="button" className="modal-action modal-action--cancel" onClick={() => ref?.current?.close()}>Cancel</button>
+          <button type="button" disabled={mutation.isPending} className="modal-action modal-action--danger" onClick={() => mutation.mutate()}>{mutation.isPending ? <Loader2 className="animate-spin" size={18} /> : <Trash size={18} />} Delete</button>
+        </div>
       </div>
     </dialog>
   )
@@ -115,31 +104,16 @@ export const LogOutModal = ({ ref }: ModalProps) => {
       ref={ref}
       className="modal-shell"
     >
-      <div className="flex justify-center mb-4">
-        <LogOut
-          size={64}
-          className="text-gray-700 dark:text-white"
-        />
-      </div>
-
-      <p className="text-lg text-foreground font-medium mb-6">Are you sure you want to log out?</p>
-
-      <div className="flex justify-evenly px-8">
-        <X
-          size={30}
-          strokeWidth={3}
-          className=" text-white cursor-pointer bg-green-700 p-2 rounded-full"
-          onClick={() => ref?.current?.close()}
-        />
-        <LogOut
-          size={30}
-          strokeWidth={3}
-          className="text-white cursor-pointer  bg-red-700 p-2 rounded-full"
-          onClick={() => {
-            handleLogout()
-            ref?.current?.close()
-          }}
-        />
+      <div className="modal-shell__content">
+        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary dark:bg-primary/15">
+          <LogOut size={26} />
+        </div>
+        <h2 className="mt-5 text-xl font-bold tracking-tight">Log out of First Estates?</h2>
+        <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-300">You can sign back in whenever you are ready.</p>
+        <div className="modal-shell__actions">
+          <button type="button" className="modal-action modal-action--cancel" onClick={() => ref?.current?.close()}>Stay signed in</button>
+          <button type="button" className="modal-action modal-action--danger" onClick={() => { handleLogout(); ref?.current?.close() }}><LogOut size={18} /> Log out</button>
+        </div>
       </div>
     </dialog>
   )
@@ -179,23 +153,16 @@ export const FeaturedModal = ({ ref, email, listingId, userId }: FeaturedProps) 
       ref={ref}
       className="modal-shell"
     >
-      <div className="flex justify-center mb-4">
-        <h2 className="text-xl font-semibold">Make Listing Featured</h2>
-      </div>
-      <p className="text-sm leading-relaxed mb-6">
+      <div className="modal-shell__content">
+      <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-500/10 text-amber-600 dark:bg-amber-500/15 dark:text-amber-300"><House size={26} /></div>
+      <h2 className="mt-5 text-xl font-bold tracking-tight">Make listing featured</h2>
+      <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-300">
         Do you wish to <strong>boost the visibility</strong> of your listing?
-        <br />
-        Proceeding will require a payment of <strong className="currency">₦{featuredAmount}</strong>
-        <span className="text-shadow-red-600 font-medium">
-          Note: Only listings created within the last 30 days are eligible.
-        </span>
+        <span className="mt-2 block font-semibold text-foreground">Payment required: ₦{featuredAmount}</span>
       </p>
-
-      <div className="flex justify-center gap-4">
-        <div
-          className="btnCover w-50 h-10 flex flex-row justify-center"
-          onClick={() => ref.current?.close()}
-        >
+      <p className="mt-3 rounded-xl bg-amber-500/10 p-3 text-left text-xs leading-5 text-amber-800 dark:text-amber-200">Only listings created within the last 30 days are eligible.</p>
+      <div className="modal-shell__actions">
+        <div className="flex min-h-11 flex-1 items-center justify-center" onClick={() => ref.current?.close()}>
           {email && (
             <PaystackBtn
               text="Proceed"
@@ -205,12 +172,8 @@ export const FeaturedModal = ({ ref, email, listingId, userId }: FeaturedProps) 
             />
           )}
         </div>
-        <button
-          onClick={() => ref.current?.close()}
-          className="px-4 h-12 w-50 rounded-md bg-gray-300 text-black hover:bg-gray-400 dark:bg-darkGray dark:text-white dark:hover:bg-gray-800"
-        >
-          Cancel
-        </button>
+        <button type="button" onClick={() => ref.current?.close()} className="modal-action modal-action--cancel">Cancel</button>
+      </div>
       </div>
     </dialog>
   )
@@ -223,14 +186,10 @@ export const ReportModal = ({
   chatContent,
   action,
 }: ReportModalProps) => {
-  useSignals()
   useClickOutside(ref)
-  const creating = useSignal(false)
   const notification = useNotification()
-  const queryClient = useQueryClient()
   const actionText = action ? action.charAt(0).toUpperCase() + action.slice(1) : "chat"
   const makeReport = async (val: any) => {
-    creating.value = true
     try {
       await sendNotification(val)
       notification.setIsActive(true)
@@ -244,7 +203,6 @@ export const ReportModal = ({
   const makeReportMutation = useMutation({
     mutationFn: makeReport,
     onSuccess: () => {
-      creating.value = false
       ref.current?.close()
     },
   })
@@ -261,46 +219,16 @@ export const ReportModal = ({
   }
   // console.log(ref.current)
   return (
-    <dialog
-      // onC
-      ref={ref}
-      className="modal-shell"
-    >
-      <div className="flex flex-col items-center justify-center mb-4">
-        <AlertCircle
-          size={50}
-          color="gold"
-        />
-        <h2 className="text-xl font-semibold">Report {actionText}</h2>
-      </div>
-      <p className="text-sm leading-relaxed mb-6">
-        Do you wish to <strong>report this {action}</strong>?
-        <br />
-        <span className="text-shadow-red-600 font-medium">
-          Note: This action cannot be reversed.
-        </span>
-      </p>
-      <div className="flex justify-center gap-4">
-        <div className="btnCover w-50 flex flex-row justify-center">
-          <Button
-            text="Proceed"
-            onClick={() => handleReport()}
-            className="w-40 darkblueBtn directional font-medium text-sm clickable"
-          >
-            {creating.value && (
-              <Loader2
-                color="white"
-                className="animate-spin"
-              />
-            )}
-          </Button>
+    <dialog ref={ref} className="modal-shell">
+      <div className="modal-shell__content">
+        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-500/10 text-amber-600 dark:bg-amber-500/15 dark:text-amber-300"><AlertCircle size={27} /></div>
+        <h2 className="mt-5 text-xl font-bold tracking-tight">Report {actionText}</h2>
+        <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-300">Are you sure you want to report this {action?.toLowerCase() || "conversation"}?</p>
+        <p className="mt-3 rounded-xl bg-red-500/5 p-3 text-left text-xs leading-5 text-red-700 dark:text-red-200">Reports are reviewed by the First Estates team and cannot be withdrawn after submission.</p>
+        <div className="modal-shell__actions">
+          <button type="button" onClick={() => ref.current?.close()} className="modal-action modal-action--cancel">Cancel</button>
+          <button type="button" disabled={makeReportMutation.isPending} onClick={handleReport} className="modal-action modal-action--primary">{makeReportMutation.isPending ? <Loader2 size={18} className="animate-spin" /> : <AlertCircle size={18} />} Report</button>
         </div>
-        <button
-          onClick={() => ref.current?.close()}
-          className="px-4 py-2 rounded-md bg-gray-300 text-black hover:bg-gray-400 dark:bg-darkGray dark:text-white dark:hover:bg-gray-800"
-        >
-          Cancel
-        </button>
       </div>
     </dialog>
   )
@@ -318,7 +246,6 @@ export const ReportListingModal = ({
   const creating = useSignal(false)
   const message = useSignal("")
   const notification = useNotification()
-  const queryClient = useQueryClient()
 
   // message
 
@@ -357,54 +284,17 @@ export const ReportListingModal = ({
   }
 
   return (
-    <dialog
-      ref={ref}
-      className="modal-shell"
-    >
-      <div className="flex flex-col items-center justify-center mb-4">
-        <AlertCircle
-          size={50}
-          color="gold"
-        />
-        <h2 className="text-xl font-semibold">Report Listing</h2>
-      </div>
-      <p className="text-sm leading-relaxed mb-6">
-        Do you wish to <strong>report this listing</strong>?
-        <br />
-        <span className="text-shadow-red-600 font-medium">
-          Note: This action cannot be reversed.
-        </span>
-      </p>
-      <div>
-        <textarea
-          placeholder="What are the issues do you have with this listing?"
-          value={message.value}
-          onChange={(e) => (message.value = e.target.value)}
-          className="w-100 h-40 p-3 mx-auto rounded-md bg-gray-500/20 resize-none"
-        />
-      </div>
-      <div className="flex justify-center gap-4">
-        <div className="btnCover w-50 flex flex-row justify-center">
-          <Button
-            text="Proceed"
-            onClick={() => handleReport()}
-            className="darkblueBtn directional font-medium text-sm clickable"
-            disabled={makeReportMutation.isPending}
-          >
-            {makeReportMutation.isPending && (
-              <Loader2
-                color="white"
-                className="animate-spin"
-              />
-            )}
-          </Button>
+    <dialog ref={ref} className="modal-shell">
+      <div className="modal-shell__content">
+        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-red-500/10 text-red-600 dark:bg-red-500/15 dark:text-red-300"><AlertCircle size={27} /></div>
+        <h2 className="mt-5 text-xl font-bold tracking-tight">Report listing</h2>
+        <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-300">Tell us what needs attention. A clear description helps us review this listing faster.</p>
+        <label htmlFor="listing-report-message" className="sr-only">Reason for reporting this listing</label>
+        <textarea id="listing-report-message" required minLength={5} placeholder="Describe the issue..." value={message.value} onChange={(e) => (message.value = e.target.value)} className="mt-5 min-h-36 w-full resize-none rounded-2xl border border-border bg-secondary/40 p-4 text-sm leading-6 outline-none transition placeholder:text-muted-foreground focus:border-primary focus:ring-4 focus:ring-primary/10" />
+        <div className="modal-shell__actions">
+          <button type="button" onClick={() => ref.current?.close()} className="modal-action modal-action--cancel">Cancel</button>
+          <button type="button" disabled={makeReportMutation.isPending || message.value.trim().length < 5} onClick={handleReport} className="modal-action modal-action--danger disabled:cursor-not-allowed disabled:opacity-50">{makeReportMutation.isPending ? <Loader2 size={18} className="animate-spin" /> : <AlertCircle size={18} />} Report listing</button>
         </div>
-        <button
-          onClick={() => ref.current?.close()}
-          className="px-4 py-2 rounded-md bg-gray-300 text-black hover:bg-gray-400 dark:bg-darkGray dark:text-white dark:hover:bg-gray-800"
-        >
-          Cancel
-        </button>
       </div>
     </dialog>
   )

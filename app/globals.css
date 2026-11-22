@@ -11,6 +11,9 @@
 @import "swiper/css/navigation";
 @import "swiper/css/pagination";
 
+.chat-action { display: flex; align-items: center; gap: .5rem; border-radius: .6rem; padding: .5rem .65rem; text-align: left; font-size: .75rem; white-space: nowrap; }
+.chat-action:hover { background: color-mix(in srgb, var(--primary) 10%, transparent); }
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -49,7 +52,7 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --color-navBorderColor: #e5e7eb;
+  --color-navBorderColor: white;
   --color-background-gradient: var(--background-gradient);
   --color-coffee: #032679;
   --color-darkGray: #12151d;
@@ -143,7 +146,7 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
-  --color-navBorderColor: #4b5563;
+  --color-navBorderColor: black;
 }
 
 body {
@@ -474,7 +477,7 @@ dark:shadow-[0_1px_2px_rgba(0,0,0,0.3)];
   }
 
   .dashboard-sidebar__avatar {
-    @apply h-10 w-10 shrink-0 rounded-xl object-cover ring-2 ring-[#f7b657]/40;
+    @apply h-10 w-10 shrink-0 rounded-full object-cover ring-2 ring-[#f7b657]/40;
   }
 
   .dashboard-sidebar__details {
@@ -1219,6 +1222,31 @@ html:is(.dark) .single-listing-page .singleCardCon {
   width: 100%;
   margin: 0 0 1rem;
   overflow: visible;
+}
+
+.single-listing-page__lower .listing-soft-card {
+  border-color: rgb(8 129 163 / 0.14);
+  border-radius: 1.5rem;
+  background: rgb(248 250 252 / 0.58);
+  box-shadow: none;
+}
+
+.dark .single-listing-page__lower .listing-soft-card {
+  border-color: rgb(148 163 184 / 0.14);
+  background: rgb(30 41 59 / 0.34);
+  box-shadow: none;
+}
+
+.single-listing-page__lower .listing-section-heading {
+  width: 100%;
+  padding: 0;
+  color: rgb(3 38 121);
+  font-size: clamp(1.15rem, 2vw, 1.45rem);
+  text-align: left;
+}
+
+.dark .single-listing-page__lower .listing-section-heading {
+  color: rgb(186 230 253);
 }
 
 .single-listing-page__lower .single_card {

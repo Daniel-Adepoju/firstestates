@@ -14,6 +14,16 @@ const conversationSchema = new Schema(
       type: String,
       default: "",
     },
+
+    pinnedBy: [{
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    }],
+
+    hiddenFor: [{
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    }],
   },
   {
     timestamps: true, 
@@ -21,6 +31,8 @@ const conversationSchema = new Schema(
 )
 
 conversationSchema.index({ userIds: 1 })
+conversationSchema.index({ userIds: 1, hiddenFor: 1, updatedAt: -1 })
+conversationSchema.index({ userIds: 1, pinnedBy: 1 })
 
  const Conversation = models?.Conversation || model("Conversation", conversationSchema)
  export default Conversation

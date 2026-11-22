@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Pagination, Autoplay, A11y, EffectCoverflow } from "swiper/modules"
 import { CldImage, CldVideoPlayer } from "next-cloudinary"
@@ -15,12 +14,6 @@ interface Props {
 const ListingHeader = ({ listing }: Props) => {
   const [isSwiperLoaded, setIsSwiperLoaded] = useState(false)
   const [headerTab, setHeaderTab] = useState("gallery")
-
-  const openInGoogleMap = (address?: string) => {
-    if (!address) return
-    const encoded = encodeURIComponent(address)
-    window.open(`https://www.google.com/maps/search/?api=1&query=${encoded}`, "_blank")
-  }
 
   return (
     <>
@@ -61,16 +54,21 @@ const ListingHeader = ({ listing }: Props) => {
               pagination={{ clickable: true, type: "bullets" }}
               onSwiper={() => setIsSwiperLoaded(true)}
             >
-              {listing?.gallery?.map((image: string) => (
+              {listing?.gallery?.map((image: string, index: number) => (
                 <SwiperSlide
-                  key={image}
-                  className={`item ${!isSwiperLoaded && "itemHide"}`}
+                  key={`${image}-${index}`}
+                  className={`item !h-full !w-full !pt-0 ${!isSwiperLoaded && "itemHide"}`}
                 >
                   <CldImage
                     alt="gallery picture"
-                    src={image || "firstestatesdefaultuserpicture"}
+                    className="h-full w-full object-cover object-center"
+                    src={image}
                     fill
-                    preload
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1200px"
+                    quality="auto:best"
+                    format="auto"
+                    dpr="auto"
+                    priority={index === 0}
                   />
                 </SwiperSlide>
               ))}
@@ -109,10 +107,10 @@ const ListingHeader = ({ listing }: Props) => {
       </div>
 
       <div className="body">
-        <div className="home_details font-medium">
+        <div className="home_details mx-auto justify-center font-medium text-sm">
           <div>
             <Bed
-              size={30}
+              size={26}
               className="text-goldPrimary"
             />
             <span>
@@ -121,7 +119,7 @@ const ListingHeader = ({ listing }: Props) => {
           </div>
           <div>
             <Bath
-              size={30}
+              size={26}
               className="text-goldPrimary"
             />
             <span>
@@ -130,7 +128,7 @@ const ListingHeader = ({ listing }: Props) => {
           </div>
           <div>
             <Toilet
-              size={30}
+              size={26}
               className="text-goldPrimary"
             />
             <span>
@@ -140,18 +138,6 @@ const ListingHeader = ({ listing }: Props) => {
         </div>
       </div>
 
-      <div
-        className="darkblueBtn directional listing-map-button flex items-center justify-center"
-        onClick={() => openInGoogleMap(listing?.address)}
-      >
-        <Image
-          width={25}
-          height={25}
-          alt="mapBtn"
-          src={"/icons/map.svg"}
-        />
-        <span className="-ml-1 font-semibold text-sm">Open In Map</span>
-      </div>
     </>
   )
 }

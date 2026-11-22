@@ -85,8 +85,8 @@ const AddResident = ({ listingId }: { listingId?: string }) => {
       <CldImage
         src={user?.profilePic}
         alt={user?.username}
-        width={40}
-        height={40}
+        width={100}
+        height={100}
         className="w-10 h-10 rounded-full"
       />
       <div className="flex flex-col gap-1">

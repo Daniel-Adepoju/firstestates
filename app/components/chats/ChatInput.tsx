@@ -1,9 +1,9 @@
-import { useState } from "react"
-import { Eye, EyeClosed, Loader2, SendHorizonal, X } from "lucide-react"
+import { Eye, EyeClosed, Loader2, SendHorizonal, X, AudioLines } from "lucide-react"
 import Guidelines from "./Guidelines"
 import PopularCard from "@components/listing/PopularCard"
 import { useGetSingleListing } from "@lib/customApi"
 import { Skeleton } from "@components/ui/skeleton"
+import VoiceRecorder from "./VoiceRecorder"
 
 export default function ChatInput({
   text,
@@ -15,6 +15,7 @@ export default function ChatInput({
   listingId,
   showListing,
   setShowListing,
+  sendVoiceMessage,
 }: any) {
   const { data, isLoading } = useGetSingleListing(listingId)
 
@@ -82,33 +83,21 @@ export default function ChatInput({
           </div>
 
           <div className="mt-4 w-[99%] text-sm overflow-hidden whitespace-nowrap text-ellipsis">
-            {reply}
+            {typeof reply === "string" ? reply : <><AudioLines size={14} className="mr-1 inline" />Replied to audio</>}
           </div>
         </div>
       )}
       <div className="flex items-center gap-2">
-        <input
+        <textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleSendMessage()}
+          onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSendMessage() } }}
           placeholder="Type your message..."
-          className="flex-1 border-2 dark:border-gray-700 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all duration-300 resize-none"
+          rows={1}
+          className="max-h-28 min-h-11 flex-1 resize-none border-2 dark:border-gray-700 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all duration-300"
         />
 
-        <button
-          onClick={handleSendMessage}
-          disabled={sending || !text.trim()}
-          className="w-11 h-11 border-r-goldPrimary border-t-goldPrimary border-b-amber-400 border-l-amber-400 border-3 rounded-full gold-gradient text-white flex items-center justify-center hover:opacity-90 transition"
-        >
-          {sending ? (
-            <Loader2
-              className="animate-spin"
-              size={20}
-            />
-          ) : (
-            <SendHorizonal size={20} />
-          )}
-        </button>
+        {text.trim() ? <button onClick={handleSendMessage} disabled={sending} className="flex h-11 w-11 items-center justify-center rounded-full bg-primary text-primary-foreground disabled:opacity-60" aria-label="Send message">{sending ? <Loader2 className="animate-spin" size={20} /> : <SendHorizonal size={20} />}</button> : <VoiceRecorder onSend={sendVoiceMessage} disabled={sending} />}
       </div>
     </div>
   )

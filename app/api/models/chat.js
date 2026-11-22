@@ -43,6 +43,46 @@ const chatSchema = new Schema(
       trim: true,
     },
 
+    messageType: {
+      type: String,
+      enum: ["text", "voice"],
+      default: "text",
+      index: true,
+    },
+
+    audio: {
+      url: String,
+      duration: Number,
+      waveform: [Number],
+    },
+
+    replyTo: {
+      type: Schema.Types.ObjectId,
+      ref: "Chat",
+      default: null,
+      index: true,
+    },
+
+    editedAt: {
+      type: Date,
+      default: null,
+    },
+
+    deletedAt: {
+      type: Date,
+      default: null,
+    },
+
+    deletedFor: [{
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    }],
+
+    starredBy: [{
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    }],
+
     replyingTo: {
       type: String,
       default: null,
@@ -66,6 +106,8 @@ listingId: {
 )
 
 chatSchema.index({ conversationId: 1, createdAt: -1 })
+chatSchema.index({ conversationId: 1, deletedAt: 1, deletedFor: 1 })
+chatSchema.index({ conversationId: 1, starredBy: 1 })
 
 const Chat = models?.Chat || model("Chat", chatSchema)
 export default Chat

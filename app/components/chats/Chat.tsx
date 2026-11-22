@@ -1,6 +1,6 @@
 "use client"
 import { useState, useRef, useEffect, useCallback, useLayoutEffect } from "react"
-import { User2 } from "lucide-react"
+import { User2, ArrowLeft, MoreVertical } from "lucide-react"
 import { useUser } from "@utils/user"
 import { useSearchParams } from "next/navigation"
 import Inbox from "./Inbox"
@@ -15,10 +15,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { client as ably } from "@lib/AblyProvider"
 import { useReadChat } from "@lib/customApi"
 import { useChatNextPage } from "@lib/useIntersection"
+import { useRouter } from "next/navigation"
 
 export default function Chat() {
   // const ably = useAbly()
   const mutateRead = useReadChat()
+  const router = useRouter()
   const queryClient = useQueryClient()
 
   const listingId = useSearchParams().get("listingId")
@@ -127,12 +129,20 @@ export default function Chat() {
       text,
       senderId: userId,
       receiverId: receiverId,
-      replyingTo: reply.trim().length > 0 ? reply : null,
+      replyingTo: typeof reply === "string" ? reply : null,
+      replyTo: typeof reply === "object" ? reply?._id : null,
       listingId: listingId,
     })
     setText("")
     setReply("")
     setShowListing(false)
+  }
+
+  const handleSendVoice = async (audio: { url: string; duration: number; waveform: number[] }) => {
+    if (!userId || !receiverId) return
+    shouldScrollToBottomRef.current = true
+    await axiosdata.value.post("api/chats", { conversationId, senderId: userId, receiverId, messageType: "voice", audio, replyTo: typeof reply === "object" ? reply?._id : null })
+    setReply("")
   }
 
   // scrolling effects
@@ -233,6 +243,7 @@ if (initialPage?.firstUnreadId) {
       </div>
 
       <div className=" flex-1 flex flex-col w-full border rounded-xl p-4 mx-auto bg-white dark:bg-black/20 nobar null">
+        <header className="mb-3 flex items-center justify-between border-b border-border pb-3"><div className="flex items-center gap-2"><button type="button" onClick={() => router.push("/inbox")} className="rounded-full p-2 hover:bg-muted md:hidden" aria-label="Back to inbox"><ArrowLeft size={18} /></button><div><p className="text-sm font-semibold">Conversation</p><p className="text-xs text-muted-foreground">Messages are private to this conversation</p></div></div><button type="button" className="rounded-full p-2 hover:bg-muted" aria-label="Conversation actions"><MoreVertical size={18} /></button></header>
         <div
           ref={containerRef}
           className="nobar null w-[99%] h-[400px] flex-1 flex flex-col overflow-y-auto space-y-2 mb-2"
@@ -271,6 +282,7 @@ unreadCount={initialPage?.unreadCount}
           sending={sendMessageMutation.isPending}
           reply={reply}
           setReply={setReply}
+          sendVoiceMessage={handleSendVoice}
           listingId={listingId}
           showListing={showListing}
           setShowListing={setShowListing}

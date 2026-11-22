@@ -7,12 +7,33 @@ import { ably } from "@/lib/server/ably"
 import { sendEmail } from "@/lib/server/sendEmail"
 import User from "@models/user"
 import Listing from "@models/listing"
+import { auth } from "@auth"
+import mongoose from "mongoose"
+import { sendNotification } from "@lib/server/notificationFunctions"
 
 export async function POST(req: NextRequest) {
   try {
     await connectToDB()
 
-    const { text, senderId, receiverId, replyingTo, listingId, attachments = [] } = await req.json()
+    const session = await auth()
+    const authenticatedUserId = session?.user?.id
+    const { text = "", senderId, receiverId, replyTo, replyingTo, listingId, attachments = [], messageType = "text", audio } = await req.json()
+
+    if (!authenticatedUserId || !senderId || authenticatedUserId !== String(senderId)) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
+    }
+    if (!receiverId || senderId === receiverId || !mongoose.isValidObjectId(receiverId)) {
+      return NextResponse.json({ message: "A valid recipient is required" }, { status: 400 })
+    }
+    if (!(await User.exists({ _id: receiverId }))) {
+      return NextResponse.json({ message: "Recipient not found" }, { status: 404 })
+    }
+    if (messageType === "text" && !String(text).trim() && !listingId && !attachments.length) {
+      return NextResponse.json({ message: "Message cannot be empty" }, { status: 400 })
+    }
+    if (messageType === "voice" && (!audio?.url || !Number.isFinite(Number(audio?.duration)))) {
+      return NextResponse.json({ message: "Voice message audio is required" }, { status: 400 })
+    }
 
     let conversation = await Conversation.findOne({
       userIds: {
@@ -54,8 +75,15 @@ export async function POST(req: NextRequest) {
       conversationId: conversation._id,
       senderId,
       receiverId,
-      text,
-      replyingTo,
+      text: String(text || "").trim(),
+      replyingTo: replyingTo || null,
+      replyTo: replyTo && mongoose.isValidObjectId(replyTo) ? replyTo : null,
+      messageType,
+      audio: messageType === "voice" ? {
+        url: String(audio.url),
+        duration: Number(audio.duration),
+        waveform: Array.isArray(audio.waveform) ? audio.waveform.slice(0, 96).map(Number) : [],
+      } : undefined,
       attachments,
       readBy: [senderId],
       listingId,
@@ -64,7 +92,7 @@ export async function POST(req: NextRequest) {
     await Conversation.findByIdAndUpdate(
       conversation._id,
       {
-        lastMessage: message.text,
+        lastMessage: messageType === "voice" ? "Voice message" : message.text,
         updatedAt: new Date(),
       },
       { new: true },
@@ -83,6 +111,12 @@ export async function POST(req: NextRequest) {
 
       ably.channels.get(`inbox:${receiverId}`).publish("conversation:update", conversation),
     ])
+    await sendNotification({
+      userId: receiverId,
+      sentBy: senderId,
+      type: "chat_message",
+      message: messageType === "voice" ? "You received a voice message" : "You received a new message",
+    })
     return NextResponse.json(message, { status: 201 })
   } catch (err) {
     console.error(err)
@@ -103,7 +137,8 @@ export async function GET(req: NextRequest) {
     const page = Number(searchParams.get("page") || 1)
     const limit = 112
     // Number(searchParams.get("limit") || 20)
-    if (!senderId || !receiverId) {
+    const session = await auth()
+    if (!session?.user?.id || !senderId || session.user.id !== senderId || !receiverId) {
       return NextResponse.json(
         {
           message: "senderId and receiverId are required",
@@ -138,8 +173,10 @@ export async function GET(req: NextRequest) {
 
     const skipNum = (page - 1) * limit
 
-    const filter = {
+    const filter: any = {
       conversationId: conversation?._id,
+      deletedAt: null,
+      deletedFor: { $ne: new mongoose.Types.ObjectId(senderId) },
     }
 
     const total = await Chat.countDocuments(filter)
@@ -152,10 +189,13 @@ export async function GET(req: NextRequest) {
       .limit(limit)
       .lean()
       .populate("listingId")
+      .populate({ path: "replyTo", select: "text messageType audio senderId createdAt deletedAt" })
 
     const firstUnread = await Chat.findOne({
       conversationId: conversation._id,
       receiverId: senderId,
+      deletedAt: null,
+      deletedFor: { $ne: new mongoose.Types.ObjectId(senderId) },
       senderId: {
         $ne: senderId,
       },
@@ -172,6 +212,8 @@ export async function GET(req: NextRequest) {
     const unreadCount = await Chat.countDocuments({
       conversationId: conversation._id,
       receiverId: senderId,
+      deletedAt: null,
+      deletedFor: { $ne: new mongoose.Types.ObjectId(senderId) },
       senderId: {
         $ne: senderId,
       },

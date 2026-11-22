@@ -24,10 +24,10 @@ const Searchbar = ({
     <div
       className={
         className ||
-        "mt-[80px] gap-1 w-full flex flex-row justify-center items-center md:justify-end  md:w-[60%]"
+        "mt-[80px] min-w-0 gap-1 w-full flex flex-row justify-center items-center md:justify-end md:w-[60%]"
       }
     >
-      <div className="dark:bg-darkGray bg-white outline-2 outline-slate-200 dark:outline-gray-800 rounded-md p-2 flex items-center gap-2">
+      <div className="shrink-0 dark:bg-darkGray bg-white outline-2 outline-slate-200 dark:outline-gray-800 rounded-md p-2 flex items-center gap-2">
         {isAI ? (
           <Sparkles
             size={32}
@@ -41,7 +41,7 @@ const Searchbar = ({
         )}
       </div>
       <input
-        className={`w-[80%] bg-white dark:bg-darkGray
+        className={`min-w-0 flex-1 bg-white dark:bg-darkGray
      py-3.5 pr-2 pl-4
   outline-2 outline-slate-200 dark:outline-gray-800
   focus:outline-3 focus:scale-99

@@ -57,7 +57,7 @@ const AgentSection = ({ school }: { school: string }) => {
               alt="Profile"
               width={45}
               height={45}
-              crop="auto"
+              crop="fit"
               gravity="center"
               className="relative h-full w-full rounded-full object-fit z-40"
             />

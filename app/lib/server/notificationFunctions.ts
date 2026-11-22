@@ -3,6 +3,7 @@ import { connectToDB } from "@utils/database"
 import Notification from "@models/notification"
 import {auth} from '@auth'
 import DeviceToken from '@models/deviceToken'
+import User from '@models/user'
 
 type UserWithRole = {
   id: string;
@@ -90,20 +91,33 @@ export const sendNotification = async(val:any) => {
  const newNotification = new Notification({
     ...val
   })
-await newNotification.save() 
- if (val.userId && process.env.FCM_SERVER_KEY && val.push !== false) {
+await newNotification.save()
+ if (val.userId && val.push !== false) {
    try {
+     const recipient = await User.findById(val.userId).select("settings.notifications.messages").lean()
+     if (recipient?.settings?.notifications?.messages === false) return
      const devices = await DeviceToken.find({ user: val.userId }).select("token").lean()
      if (devices.length) {
-       const response = await fetch("https://fcm.googleapis.com/fcm/send", {
-         method: "POST",
-         headers: { "Content-Type": "application/json", Authorization: `key=${process.env.FCM_SERVER_KEY}` },
-         body: JSON.stringify({ registration_ids: devices.map((device) => device.token), notification: { title: "First Estates", body: val.message || "You have a new notification" }, data: { type: val.type || "notification", listingId: val.listingId || "" } }),
+       const { cert, getApps, initializeApp } = await import("firebase-admin/app")
+       const { getMessaging } = await import("firebase-admin/messaging")
+       const adminApp = getApps()[0] || initializeApp({ credential: cert({
+         projectId: process.env.FIREBASE_PROJECT_ID,
+         clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+         privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+       }) })
+       await getMessaging(adminApp).sendEachForMulticast({
+         tokens: devices.map((device) => device.token),
+         notification: { title: "First Estates", body: val.message || "You have a new notification" },
+         data: { type: String(val.type || "notification"), listingId: String(val.listingId || "") },
        })
-       if (!response.ok) console.error("FCM delivery failed", response.status)
      }
    } catch (error) {
-     console.error("FCM delivery skipped", error)
+     if (process.env.FCM_SERVER_KEY) {
+       try {
+         const devices = await DeviceToken.find({ user: val.userId }).select("token").lean()
+         if (devices.length) await fetch("https://fcm.googleapis.com/fcm/send", { method: "POST", headers: { "Content-Type": "application/json", Authorization: `key=${process.env.FCM_SERVER_KEY}` }, body: JSON.stringify({ registration_ids: devices.map((device) => device.token), notification: { title: "First Estates", body: val.message || "You have a new notification" }, data: { type: val.type || "notification", listingId: val.listingId || "" } }) })
+       } catch (fallbackError) { console.error("FCM legacy fallback failed", fallbackError) }
+     } else console.error("Firebase Admin push skipped", error)
    }
  }
   } catch(err) {

@@ -52,17 +52,17 @@ const WishListCard = ({ listing, wishlistId, refValue }: WishListProps) => {
     <>
       <div
         ref={refValue}
-        className="group flex w-full max-w-4xl items-center gap-3 rounded-2xl border border-slate-200/80 bg-white p-2 pr-3 shadow-sm transition hover:-translate-y-0.5 hover:border-[#0881a3]/35 hover:shadow-lg dark:border-white/10 dark:bg-slate-900/80"
+        className="group flex w-full items-center gap-3 rounded-2xl border border-slate-200/80 bg-white p-3 pr-4 shadow-sm transition hover:-translate-y-0.5 hover:border-[#0881a3]/35 hover:shadow-lg sm:gap-5 sm:p-4 dark:border-white/10 dark:bg-slate-900/80"
       >
         <Link href={`/listings/single_listing?id=${listing._id}`} className="relative shrink-0 overflow-hidden rounded-xl">
           <CldImage
-            width={110}
-            height={90}
+            width={300}
+            height={260}
             alt="post_img"
             src={listing.mainImage}
             crop="fit"
             gravity="center"
-            className="ml-0 rounded-xl object-cover transition duration-300 group-hover:brightness-90"
+            className="w-40 h-26 ml-0 rounded-xl object-cover transition duration-300 group-hover:brightness-90"
           />
         </Link>
         <div className="min-w-0 flex-1 space-y-1">
@@ -82,15 +82,15 @@ const WishListCard = ({ listing, wishlistId, refValue }: WishListProps) => {
           </div>
 
           {/* agent */}
-          <div className="flex items-center gap-2 pt-1">
+          <div className="flex items-center gap-1 pt-1">
             <CldImage
-              width={30}
-              height={30}
+              width={100}
+              height={100}
               alt="post_img"
               src={listing.agent.profilePic}
               crop="fit"
               gravity="center"
-              className="rounded-full"
+              className="w-8 h-8 rounded-full"
             />
             <Link
               href={`/chat?receiverId=${listing.agent._id}?listingId=${listing._id}`}
@@ -110,7 +110,7 @@ const WishListCard = ({ listing, wishlistId, refValue }: WishListProps) => {
               <div
                 className={`${
                   listing.status === "available" ? "bg-green-500" : "bg-amber-500"
-                } capitalize text-gray-100 text-center text-sm px-2 rounded-md`}
+                } capitalize text-gray-200 text-center text-xs px-2 rounded-md`}
               >
                 {listing.status}
               </div>
@@ -123,11 +123,11 @@ const WishListCard = ({ listing, wishlistId, refValue }: WishListProps) => {
             className="ml-auto pr-6 cursor-pointer smallScale"
           >
             {!deleteWishListMutation.isPending ? (
-              <Trash className="text-red-800 dark:text-white" />
+              <Trash className="text-red-800 dark:text-red-600" />
             ) : (
               <Loader2
                 className="text-red-800
-          dark:text-white animate-spin"
+          dark:text-red-600 animate-spin"
               />
             )}
           </div>

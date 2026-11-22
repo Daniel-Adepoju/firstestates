@@ -97,9 +97,12 @@ const HomePage = () => {
         </div>
 
         {/* Filter toggle button */}
-        <div
+        <button
+          type="button"
           onClick={() => (active.value = !active.value)}
-          className="dark:bg-darkGray bg-white flex items-center justify-center  w-80  outline-2 outline-slate-200 dark:outline-gray-800 py-4 px-4 md:mr-4 shadow-xs my-4 cursor-pointer rounded-2xl"
+          aria-expanded={active.value}
+          aria-controls="listing-filter-dialog"
+          className="dark:bg-darkGray bg-white flex items-center justify-center w-80 outline-2 outline-slate-200 dark:outline-gray-800 py-4 px-4 md:mr-4 shadow-xs my-4 cursor-pointer rounded-2xl"
         >
           <span className="font-semibold text-gray-400 dark:text-gray-400 pl-2">
             Filter Listings
@@ -109,7 +112,7 @@ const HomePage = () => {
             className={`w-6 h-6 text-gray-400 dark:text-gray-400 
               ml-auto ${active.value ? "rotate-12" : "rotate-0"} transition-all duration-250`}
           />
-        </div>
+        </button>
       </div>
 
       <div className="flex w-[92%] max-w-2xl gap-2 rounded-xl bg-muted/50 p-1" role="tablist" aria-label="Listing category">

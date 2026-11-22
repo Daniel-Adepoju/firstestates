@@ -1,8 +1,8 @@
 "use client"
 
-import { Flag, ScanSearch, HeartPlus, TriangleAlert } from "lucide-react"
+import { ScanSearch, HeartPlus } from "lucide-react"
 
-const UserOptions = ({ session, listing, router, onReport, onWishlist }: any) => {
+const UserOptions = ({ session, listing, router, onWishlist }: any) => {
   if (session?.user?.role === "admin") {
     return (
       <div
@@ -36,17 +36,6 @@ const UserOptions = ({ session, listing, router, onReport, onWishlist }: any) =>
     return (
       <>
         <div
-          onClick={onReport}
-          id="clientReport"
-          className="mt-2 w-60 smallScale rounded-md p-2 px-4 shadow-sm dark:shadow-black  dark:bg-darkGray cursor-pointer flex items-center justify-center gap-2"
-        >
-          <Flag
-            size={20}
-            className="text-red-700"
-          />
-          <span className="text-md font-extrabold">Report this listing</span>
-        </div>
-        <div
           onClick={onWishlist}
           className="w-60 smallScale rounded-md p-2 px-4 shadow-sm dark:shadow-black  dark:bg-darkGray cursor-pointer flex items-center justify-center gap-2"
         >
@@ -60,15 +49,7 @@ const UserOptions = ({ session, listing, router, onReport, onWishlist }: any) =>
     )
   }
 
-  return (
-    <div className="flex items-center">
-      <TriangleAlert
-        size={20}
-        className="text-red-700 mr-2 mt-1"
-      />
-      <span className="text-sm">Log in to report listing</span>
-    </div>
-  )
+  return null
 }
 
 export default UserOptions

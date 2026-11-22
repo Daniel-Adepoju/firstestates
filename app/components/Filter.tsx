@@ -1,7 +1,7 @@
 "use client"
 import Button from "@lib/Button"
 import { useEffect, useState } from "react"
-import { SlidersHorizontal, ListFilter } from "lucide-react"
+import { SlidersHorizontal, ListFilter, X } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Signal } from "@preact/signals-react"
 import { useSignals } from "@preact/signals-react/runtime"
@@ -68,6 +68,20 @@ const Filter = ({
     }
   }, [school, schools, category])
 
+  useEffect(() => {
+    if (!active.value) return
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") active.value = false
+    }
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    window.addEventListener("keydown", onKeyDown)
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener("keydown", onKeyDown)
+    }
+  }, [active.value])
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     active.value = false
@@ -85,19 +99,28 @@ const Filter = ({
   return (
     <>
       {active.value && (
+        <div className="fixed inset-0 z-[210] bg-slate-950/45 backdrop-blur-[2px]" onClick={() => (active.value = false)}>
         <form
           onSubmit={handleSubmit}
-          className="mb-4 dark:bg-darkGray bg-white mx-auto w-[88%] p-4 rounded-xl shadow space-y-4"
+          role="dialog"
+          aria-modal="true"
+          id="listing-filter-dialog"
+          aria-labelledby="listing-filter-title"
+          onClick={(event) => event.stopPropagation()}
+          className="absolute bottom-0 left-0 flex max-h-[88vh] w-full flex-col overflow-hidden rounded-t-3xl border border-border/70 bg-background p-4 shadow-2xl sm:max-h-[82vh] sm:p-6 lg:bottom-auto lg:left-0 lg:top-0 lg:h-full lg:max-h-none lg:w-[min(27rem,90vw)] lg:rounded-none lg:rounded-r-3xl"
         >
           {/*  Header */}
-          <header className="flex items-center gap-1 text-2xl capitalize font-extrabold text-center hyphen-auto tracking-wide">
+          <header className="flex shrink-0 items-center justify-between gap-3 border-b border-border/60 pb-4 text-left">
+            <div className="flex items-center gap-2 text-xl font-extrabold capitalize tracking-wide">
             <ListFilter
               className="inline-block w-6 h-6
              text-foreground"
             />
-            {isSchoolFocus ? `Filter ${selectedSchool.value} Listings` : "Filter Listings"}
+            <span id="listing-filter-title">{isSchoolFocus ? `Filter ${selectedSchool.value} Listings` : "Filter Listings"}</span>
+            </div>
+            <button type="button" aria-label="Close filters" onClick={() => (active.value = false)} className="rounded-full p-2 text-muted-foreground transition hover:bg-muted hover:text-foreground"><X size={20} /></button>
           </header>
-          <div className="grid grid-cols-1 sm:grid-cols-1 gap-4">
+          <div className="min-h-0 flex-1 space-y-4 overflow-y-auto py-4 pr-1">
             {/* School Select */}
             {!isSchoolFocus && category !== "residential" && (
               <div>
@@ -265,7 +288,7 @@ const Filter = ({
           </div>
 
           {/* Submit */}
-          <div className="flex justify-end border-t border-border/50 pt-4">
+          <div className="flex shrink-0 justify-end border-t border-border/50 pt-4">
             <Button
               type="submit"
               text="Apply Filters"
@@ -278,6 +301,7 @@ const Filter = ({
             </Button>
           </div>
         </form>
+        </div>
       )}
     </>
   )

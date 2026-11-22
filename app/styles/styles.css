@@ -2377,11 +2377,12 @@ footer.hide {
   flex: 1;
   gap: 4px;
 }
+
 .single_card .body .home_details div {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
 }
 @media (min-width: 500px) {
   .single_card .body .home_details div {

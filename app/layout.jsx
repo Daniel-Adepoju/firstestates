@@ -12,6 +12,7 @@ import Provider from "@utils/sessionProvider"
 import ReactQueryProvider from "@utils/ReactQueryProvider"
 import Toast from "@utils/Toast"
 import { Toaster } from "sonner"
+import PushNotificationRegistrar from "@components/PushNotificationRegistrar"
 
 export const metadata = {
   metadataBase: process.env.BASE_URL,
@@ -145,6 +146,7 @@ export default async function RootLayout({ children }) {
           <ReactQueryProvider>
             <Provider>
               <User>
+                <PushNotificationRegistrar />
                 <Toast>{children}</Toast>
                 <Toaster position="top-right" closeButton richColors theme="system" />
               </User>

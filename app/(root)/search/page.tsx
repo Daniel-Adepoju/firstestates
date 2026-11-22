@@ -8,6 +8,7 @@ import { useEffect } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import Pagination from "@components/Pagination"
 import { Search as SearchIcon } from "lucide-react"
+import { FileSearch } from "lucide-react"
 
 const Search = () => {
   useSignals()
@@ -86,7 +87,14 @@ const Search = () => {
             </div>
           )}
 
-          <div className="card_list">{mapCards}</div>
+          {debounced.value.trim() !== "" && !mapCards?.length && !isLoading ? (
+            <div className="mx-auto my-12 flex max-w-md flex-col items-center gap-3 rounded-2xl border border-dashed border-border/70 px-6 py-10 text-center">
+              <FileSearch className="text-primary" size={34} />
+              <h2 className="text-lg font-bold">No matching listings found</h2>
+              <p className="text-sm leading-6 text-muted-foreground">Try a broader location, school, agent name, or property keyword.</p>
+              <button type="button" onClick={() => { search.value = ""; debounced.value = ""; router.replace("/search") }} className="rounded-xl border border-border px-4 py-2 text-sm font-semibold">Clear search</button>
+            </div>
+          ) : <div className="card_list min-w-0 w-full">{mapCards}</div>}
         </>
       )}
       {data && !isLoading && (

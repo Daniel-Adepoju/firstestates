@@ -16,7 +16,7 @@ export const GET = async (req) => {
     return NextResponse.json({ saved: Boolean(saved) })
   }
   const savedAgents = await SavedAgent.find({ user: session.user.id }).sort("-createdAt").populate({ path: "agent", select: "username profilePic isPremium phone address" }).lean()
-  const agents = await Promise.all(savedAgents.map(async (item) => ({
+  const agents = await Promise.all(savedAgents.filter((item) => item.agent).map(async (item) => ({
     ...item.agent,
     savedAgentId: item._id,
     activeListingCount: await Listing.countDocuments({ agent: item.agent._id, status: "available" }),

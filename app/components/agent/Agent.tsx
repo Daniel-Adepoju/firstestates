@@ -4,8 +4,9 @@ import { Skeleton } from "@components/ui/skeleton"
 import { MapPin, Phone, MessageCircle, ChevronDown, BadgeCheck, Pencil, Heart, Loader2, Copy } from "lucide-react"
 import Link from "next/link"
 import { useUser } from "@utils/user"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { axiosdata } from "@utils/axiosUrl"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 const Agent = ({
   agent,
@@ -20,25 +21,30 @@ const Agent = ({
 }: any) => {
   const { session } = useUser()
   const userId = session?.user?.id
-  const [saved, setSaved] = useState(false)
-  const [saving, setSaving] = useState(false)
   const [copied, setCopied] = useState(false)
+  const queryClient = useQueryClient()
+  const savedAgentKey = ["saved-agent", userId, agent?._id]
+  const savedAgentQuery = useQuery({
+    queryKey: savedAgentKey,
+    queryFn: async () => {
+      const response = await axiosdata.value.get(`/api/agents/saved?agent=${agent._id}`)
+      return Boolean(response.data.saved)
+    },
+    enabled: Boolean(userId && agent?._id && !isYou),
+    staleTime: 30_000,
+  })
+  const saveAgentMutation = useMutation({
+    mutationFn: async () => {
+      if (!agent?._id) throw new Error("Agent is unavailable")
+      return axiosdata.value.post("/api/agents/saved", { agentId: agent._id })
+    },
+    onSuccess: (response) => {
+      queryClient.setQueryData(savedAgentKey, Boolean(response.data.saved))
+      queryClient.invalidateQueries({ queryKey: ["saved-agents", userId] })
+    },
+  })
 
-  useEffect(() => {
-    if (!userId || !agent?._id || isYou) return
-    axiosdata.value.get(`/api/agents/saved?agent=${agent._id}`).then((response) => setSaved(response.data.saved)).catch(() => {})
-  }, [userId, agent?._id, isYou])
-
-  const toggleSavedAgent = async () => {
-    if (!userId || !agent?._id) return
-    setSaving(true)
-    try {
-      const response = await axiosdata.value.post("/api/agents/saved", { agentId: agent._id })
-      setSaved(response.data.saved)
-    } finally {
-      setSaving(false)
-    }
-  }
+  const saved = savedAgentQuery.data === true
 
   const copyReferralLink = async () => {
     const link = `${window.location.origin}/signup/client?referredBy=${encodeURIComponent(agent.referralId || "")}`
@@ -79,9 +85,10 @@ const Agent = ({
                   className="group relative cursor-pointer"
                 >
                   <CldImage
-                    width={64}
-                    height={64}
+                    width={500}
+                    height={300}
                     crop="fit"
+                    gravity="auto"
                     src={agent.profilePic}
                     alt="profilePic"
                     className="h-24 w-24 rounded-full object-cover ring-4 ring-primary/10 transition-transform group-hover:scale-105"
@@ -107,6 +114,18 @@ const Agent = ({
                   )}
                 </div>
                 <p className="mt-1 text-sm text-muted-foreground">{agent.email}</p>
+
+
+        <div className="flex items-center gap-1 mt-2">
+          <MapPin
+            size={13}
+            className="text-goldPrimary"
+          />
+          <span className="break-words text-xs font-semibold tracking-wide text-muted-foreground">
+            {agent.address} lorem isum 98, st.
+          </span>
+        </div>
+
                 <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">{activeListingCount} active listings</p>
                 {/* <p className="mt-2 text-xs font-semibold uppercase tracking-[0.16em] text-primary/70">
                   First Estates agent
@@ -117,8 +136,8 @@ const Agent = ({
 
           <div className="flex flex-col gap-3 border-t border-border/50 pt-5">
             {!isYou && userId && (
-              <button onClick={toggleSavedAgent} disabled={saving} className="flex items-center gap-3 rounded-xl border border-border/60 bg-secondary/55 px-4 py-3 text-sm font-semibold text-foreground transition-colors hover:border-primary/40 hover:bg-secondary">
-                {saving ? <Loader2 size={22} className="animate-spin text-goldPrimary" /> : <Heart size={22} className={saved ? "fill-red-500 text-red-500" : "text-goldPrimary"} />}
+              <button onClick={() => saveAgentMutation.mutate()} disabled={savedAgentQuery.isLoading || saveAgentMutation.isPending} aria-pressed={saved} className="flex items-center gap-3 rounded-xl border border-border/60 bg-secondary/55 px-4 py-3 text-sm font-semibold text-foreground transition-colors hover:border-primary/40 hover:bg-secondary disabled:cursor-wait disabled:opacity-70">
+                {savedAgentQuery.isLoading || saveAgentMutation.isPending ? <Loader2 size={22} className="animate-spin text-goldPrimary" /> : <Heart size={22} className={saved ? "fill-red-500 text-red-500" : "text-goldPrimary"} />}
                 <span>{saved ? "Saved Agent" : "Save Agent"}</span>
               </button>
             )}
@@ -150,18 +169,6 @@ const Agent = ({
               <span>{agent.phone}</span>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div className="w-full rounded-2xl border border-border/60 bg-secondary/45 p-4">
-        <div className="flex items-start gap-3">
-          <MapPin
-            size={26}
-            className="text-goldPrimary"
-          />
-          <span className="break-words text-sm leading-6 text-muted-foreground">
-            {agent.address}
-          </span>
         </div>
       </div>
 
