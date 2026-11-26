@@ -6,7 +6,7 @@ import { deleteListing, markAsFeatured, reportListing } from "@lib/server/listin
 import { useNotification } from "@utils/Toast"
 import { sendNotification } from "@lib/server/notificationFunctions"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { LogOut, Trash, AlertCircle, Loader2, X, Check, House } from "lucide-react"
+import { LogOut, Trash, AlertCircle, Loader2, X, Check, House, CalendarDays } from "lucide-react"
 import dynamic from "next/dynamic"
 import { useSignals, useSignal } from "@preact/signals-react/runtime"
 import useClickOutside from "@utils/useClickOutside"
@@ -476,6 +476,56 @@ export const InfoModal = ({ ref }: ModalProps) => {
             "
           >
             Got it, Continue
+          </button>
+        </div>
+      </div>
+    </dialog>
+  )
+}
+
+export const AppointmentInfoModal = ({ ref }: ModalProps) => {
+  useClickOutside(ref)
+
+  return (
+    <dialog ref={ref} className="modal-shell">
+      <div className="modal-shell__content max-w-xl text-left">
+        <div className="flex size-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+          <CalendarDays size={24} />
+        </div>
+        <h2 className="mt-5 text-xl font-bold tracking-tight">How appointments work</h2>
+        <p className="mt-2 text-sm leading-6 text-muted-foreground">
+          Appointments keep property viewings organized for both agents and clients. They give
+          everyone a clear date to work toward, reduce scheduling conflicts, and make follow-up
+          easier after a viewing.
+        </p>
+
+        <div className="mt-5 grid gap-3">
+          <div className="rounded-2xl border bg-secondary/40 p-4">
+            <h3 className="font-semibold">Property tour</h3>
+            <p className="mt-1 text-sm leading-6 text-muted-foreground">
+              A client’s first request to see a property. Tours can be requested from a listing or
+              scheduled here by an agent.
+            </p>
+          </div>
+          <div className="rounded-2xl border bg-secondary/40 p-4">
+            <h3 className="font-semibold">Initial, revisit, and final visits</h3>
+            <p className="mt-1 text-sm leading-6 text-muted-foreground">
+              An initial visit is the first client meeting, a revisit is for follow-up questions or
+              a second look, and a final visit is used to close out the viewing process.
+            </p>
+          </div>
+          <div className="rounded-2xl border bg-secondary/40 p-4">
+            <h3 className="font-semibold">Reminders and cleanup</h3>
+            <p className="mt-1 text-sm leading-6 text-muted-foreground">
+              Appointment reminders are sent before the scheduled date. Expired appointments are
+              cleaned up on a weekly schedule so your workspace stays focused on active plans.
+            </p>
+          </div>
+        </div>
+
+        <div className="modal-shell__actions mt-6">
+          <button type="button" onClick={() => ref.current?.close()} className="modal-action modal-action--primary">
+            Got it
           </button>
         </div>
       </div>

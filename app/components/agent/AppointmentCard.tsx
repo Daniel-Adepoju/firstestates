@@ -1,113 +1,13 @@
-import { axiosdata } from "@utils/axiosUrl"
-import { parseDate } from "@utils/date"
-import { Loader2, Trash } from "lucide-react"
+"use client"
+import { useState } from "react"
+import { CalendarDays, ExternalLink, Loader2, Trash2, UserRound } from "lucide-react"
 import { CldImage } from "next-cloudinary"
 import Link from "next/link"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { axiosdata } from "@utils/axiosUrl"
+import { parseDate } from "@utils/date"
 import { useToast } from "@utils/Toast"
-import { useState } from "react"
-
-interface AppointmentCardProps {
-  firstCard: number
-  data: any
-}
-
-const AppointmentCard = ({ firstCard, data }: AppointmentCardProps) => {
-  const queryClient = useQueryClient()
-  const { setToastValues } = useToast()
-
-  const deleteFn = async (val: { appointmentId: string }) => {
-    try {
-      await axiosdata.value.delete("/api/listings/appointment", {
-        data: val,
-      })
-      setToastValues({
-        isActive: true,
-        message: "Appointment Deleted",
-        status: "success",
-        duration: 2000,
-      })
-    } catch (err) {
-      setToastValues({
-        isActive: true,
-        message: "Failed to delete appointment, try again",
-        status: "danger",
-        duration: 2000,
-      })
-    }
-  }
-
-  const deleteAppointmentMutation = useMutation({
-    mutationFn: deleteFn,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["appointments"] })
-    },
-  })
-
-  const handleDeleteAppointment = () => {
-    deleteAppointmentMutation.mutate({ appointmentId: data._id })
-  }
-
-  return (
-    <>
-      <div
-        className={`${firstCard === 0 && "mt-5"} appointment_item dark:text-white
-    grid grid-cols-4 items-center  p-2 self-start w-full gap-2 shadow-sm dark:shadow-gray-700 text-center break-words
-    `}
-      >
-        <div>
-          <Link
-            href={`/agent/listings/single_listing?id=${data.listingID._id}`}
-            target="_blank"
-            className="mx-auto block"
-          >
-            <CldImage
-              src={data.listingID.mainImage}
-              width={150}
-              height={100}
-              crop={"fit"}
-              gravity="center"
-              alt="house"
-              className="rounded-md mx-auto object-cover "
-            />
-          </Link>
-        </div>
-
-        <div>{parseDate(data.date)}</div>
-        <div> {data.clientName}</div>
-        <div
-          className={`
-      ${data.appointmentType === "final" && "bg-slate-600"}
-       ${data.appointmentType === "initial" && "bg-green-600"}
-      ${data.appointmentType == "revisit" && "bg-sky-600"}
-     w-full lg:w-[50%]  mx-auto capitalize text-white p-1 rounded-md`}
-        >
-          <span className="text-white  rounded-sm">{data.appointmentType}</span>
-        </div>
-
-        <div
-          onClick={handleDeleteAppointment}
-          className="bg-red-700/80 dark:bg-red-700 text-white
-   col-span-4 md:col-span-4 lg:col-span-4 flex items-center gap-1
-    p-2 rounded-md cursor-pointer clickable w-fit mx-auto gloss
-  "
-        >
-          <span className="font-bold text-xs hidde md:inline-block ">Remove Appointment</span>
-          {!deleteAppointmentMutation.isPending ? (
-            <Trash
-              size={18}
-              className="text-white ml-auto"
-            />
-          ) : (
-            <Loader2
-              size={18}
-              className="text-white ml-auto animate-spin"
-            />
-          )}
-        </div>
-      </div>
-    </>
-  )
-}
-
+import { Button } from "@components/ui/button"
+const statusStyles: Record<string, string> = { requested: "bg-amber-500/10 text-amber-700 dark:text-amber-300", accepted: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300", declined: "bg-red-500/10 text-red-700 dark:text-red-300", completed: "bg-slate-500/10 text-slate-700 dark:text-slate-300", rescheduled: "bg-blue-500/10 text-blue-700 dark:text-blue-300" }
+const AppointmentCard = ({ data }: { data: any }) => { const [confirming, setConfirming] = useState(false); const queryClient = useQueryClient(); const { setToastValues } = useToast(); const mutation = useMutation({ mutationFn: () => axiosdata.value.delete("/api/listings/appointment", { data: { appointmentId: data._id } }), onSuccess: () => { setConfirming(false); setToastValues({ isActive: true, message: "Appointment removed", status: "success", duration: 2000 }); queryClient.invalidateQueries({ queryKey: ["appointments"] }) }, onError: () => setToastValues({ isActive: true, message: "Unable to remove appointment", status: "danger", duration: 2500 }) }); const listing = data.listingID; return <article className="flex flex-col gap-4 rounded-2xl border bg-card p-4 shadow-sm transition hover:shadow-md sm:flex-row sm:items-center"><Link href={listing?._id ? `/agent/listings/single_listing?id=${listing._id}` : "#"} target="_blank" className="relative block shrink-0 overflow-hidden rounded-xl">{listing?.mainImage ? <CldImage src={listing.mainImage} width={150} height={96} crop="fill" gravity="center" alt="Property" className="h-24 w-full object-cover sm:w-36" /> : <div className="flex h-24 w-full items-center justify-center bg-muted text-xs text-muted-foreground sm:w-36">No image</div>}</Link><div className="min-w-0 flex-1"><div className="flex flex-wrap items-center gap-2"><span className={`rounded-full px-2.5 py-1 text-xs font-semibold capitalize ${statusStyles[data.status] || statusStyles.requested}`}>{data.status || "requested"}</span><span className="rounded-full bg-secondary px-2.5 py-1 text-xs font-semibold capitalize">{data.appointmentType || "initial"} visit</span></div><div className="mt-3 grid gap-2 text-sm text-muted-foreground sm:grid-cols-2"><span><CalendarDays className="mr-2 inline size-4 text-primary" />{parseDate(data.date)}</span><span><UserRound className="mr-2 inline size-4 text-primary" />{data.clientName || "Client"}</span></div>{listing?._id && <Link href={`/agent/listings/single_listing?id=${listing._id}`} target="_blank" className="mt-2 inline-flex items-center text-xs font-medium text-primary hover:underline">View listing <ExternalLink className="ml-1 size-3" /></Link>}</div><div className="flex shrink-0 justify-end">{confirming ? <div className="flex items-center gap-2"><Button variant="ghost" size="sm" onClick={() => setConfirming(false)}>Cancel</Button><Button variant="destructive" size="sm" disabled={mutation.isPending} onClick={() => mutation.mutate()}>{mutation.isPending ? <Loader2 className="size-4 animate-spin" /> : "Remove"}</Button></div> : <Button variant="ghost" size="icon" aria-label="Remove appointment" onClick={() => setConfirming(true)}><Trash2 className="size-4 text-muted-foreground" /></Button>}</div></article> }
 export default AppointmentCard

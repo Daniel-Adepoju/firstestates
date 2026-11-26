@@ -37,7 +37,7 @@ Add More Options(Cookies,faqs, etc)
 ##Later
 
 - remove tabbings/comment out category
-
+- tour push notif, normal notifs
 demo dp
 "sdo8zga0xm0lr895u374"
 

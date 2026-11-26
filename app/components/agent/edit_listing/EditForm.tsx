@@ -289,13 +289,14 @@ const EditForm = () => {
           {/* Details */}
           {currentTab === "Details" && (
             <>
-              <div className="form_group">
+            {/* category: dont delete this comment */}
+              {/* <div className="form_group">
                 <label htmlFor="edit-category">Listing category</label>
                 <select id="edit-category" value={category} onChange={(event) => setCategory(event.target.value as "student" | "residential")}>
                   <option value="student">Student</option>
                   <option value="residential">Residential</option>
                 </select>
-              </div>
+              </div> */}
               {category === "student" && (
                 <div className="form_group">
                   <label htmlFor="edit-school">School</label>

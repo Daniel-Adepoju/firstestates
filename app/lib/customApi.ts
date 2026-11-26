@@ -259,6 +259,22 @@ export const useGetAppointments = ({ page, limit }: Config) => {
 
   return { data, isLoading }
 }
+
+export const useGetAppointmentsInfinite = ({ limit }: Config) => {
+  const getAppointments = async (page: number) => {
+    const res = await axiosdata.value.get(`/api/listings/appointment?page=${page}&limit=${limit}`)
+    return res.data
+  }
+  return useInfiniteQuery({
+    queryKey: ["appointments", "infinite"],
+    initialPageParam: 1,
+    queryFn: ({ pageParam }) => getAppointments(pageParam),
+    getNextPageParam: (lastPage) => {
+      if (!lastPage?.cursor || lastPage.cursor >= lastPage.numOfPages) return undefined
+      return lastPage.cursor + 1
+    },
+  })
+}
 export const useGetWishLists = ({ limit }: Config) => {
   const getWishLists = async (page: string) => {
     const res = await axiosdata.value.get(`/api/listings/wishlists?page=${page}&limit=${limit}`)

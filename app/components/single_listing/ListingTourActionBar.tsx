@@ -32,7 +32,7 @@ export default function ListingTourActionBar({ listing, session, children }: any
       await axiosdata.value.post("/api/listings/appointment", {
         listingID: listing._id,
         date: `${format(date, "yyyy-MM-dd")}T${time}`,
-        appointmentType: "initial",
+        appointmentType: "tour",
       })
       setToastValues({
         isActive: true,

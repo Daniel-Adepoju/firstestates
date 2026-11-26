@@ -338,6 +338,22 @@ dark:shadow-[0_1px_2px_rgba(0,0,0,0.3)];
 @layer components {
   dialog.modal-shell {
     @apply m-auto w-[calc(100%-2rem)] max-w-md rounded-[1.75rem] border border-slate-200/80 bg-white p-6 text-center text-slate-900 shadow-2xl shadow-slate-950/20 backdrop:bg-slate-950/55 backdrop:backdrop-blur-sm sm:p-8 dark:border-white/10 dark:bg-[#0d1b30] dark:text-white;
+    scrollbar-width: thin;
+    scrollbar-color: #f29829 transparent;
+  }
+
+  dialog.modal-shell::-webkit-scrollbar {
+    width: 2.68px;
+    height: 4px;
+  }
+
+  dialog.modal-shell::-webkit-scrollbar-thumb {
+    border-radius: 30px;
+    background: #f29829;
+  }
+
+  dialog.modal-shell::-webkit-scrollbar-track {
+    background: transparent;
   }
 
   dialog.modal-shell::backdrop {

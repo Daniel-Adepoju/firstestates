@@ -27,8 +27,8 @@ const AppointmentSchema = new Schema({
     },
    appointmentType:{
         type: String,
-        enum:['initial','revisit','final'],
-        default:'Initial'
+        enum:['tour','initial','revisit','final'],
+        default:'tour'
     },
     reminderSent: {
         type: Boolean,

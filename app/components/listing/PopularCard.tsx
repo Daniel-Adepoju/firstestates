@@ -32,7 +32,7 @@ const PopularCard = ({
   return (
     <div
       ref={isAnimation ? (ref as React.RefObject<HTMLDivElement>) : null}
-      className={isAnimation ? animateClass : ""}
+      className={`${isAnimation ? animateClass : ""} shrink-0`}
     >
       <Link
         ref={refValue || null}
