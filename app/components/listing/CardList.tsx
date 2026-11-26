@@ -25,6 +25,33 @@ type CardListProps = {
   page: string
 }
 
+const NotFound = () => {
+  return (
+    <div className="flex flex-col items-center justify-center gap-4 px-6 pt-8 pb-16 text-center">
+      <div className="flex h-28 w-28 items-center justify-center rounded-full bg-gray-100 dark:bg-white/5">
+        <Image
+          src="/icons/noListings.svg"
+          width={80}
+          height={80}
+          alt="No listings available"
+          className="object-contain"
+        />
+      </div>
+
+      <div className="space-y-2">
+        <h3 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+          No Listings Available
+        </h3>
+
+        <p className="max-w-sm text-sm leading-relaxed text-gray-500 dark:text-gray-400">
+          We couldn't find any properties here just yet. Try adjusting your filters or check back
+          later for new listings.
+        </p>
+      </div>
+    </div>
+  )
+}
+
 const CardList = ({ limit = 12, filters, page }: CardListProps) => {
   useSignals()
 
@@ -71,27 +98,17 @@ const CardList = ({ limit = 12, filters, page }: CardListProps) => {
   ))
 
   if (isError) {
-    return <div className="w-full h-40  text-red-500  flex justify-center items-center">Failed to load listings</div>
+    return (
+      <div className="w-full h-40  text-red-500  flex justify-center items-center">
+        Failed to load listings
+      </div>
+    )
   }
 
   return (
     <>
       <div className="card_list">
-        {isLoading ? (
-          loadingCards
-        ) : data?.posts?.length ? (
-          <>{mapCards}</>
-        ) : (
-          <div className="flex items-center error m-6 text-2xl">
-            <Image
-              src="/icons/noListings.svg"
-              width={100}
-              height={100}
-              alt="icon"
-            />
-            <div>No Listing Available</div>
-          </div>
-        )}
+        {isLoading ? loadingCards : data?.posts?.length ? <>{mapCards}</> : <NotFound />}
       </div>
       {data?.posts?.length && (
         <Pagination

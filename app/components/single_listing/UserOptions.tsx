@@ -7,7 +7,7 @@ const UserOptions = ({ session, listing, router, onWishlist }: any) => {
     return (
       <div
         id="adminOptions"
-        className="flex flex-col items-center w-full text-gray-500 dark:text-gray-300 text-xs text-center font-medium py-4"
+        className="flex flex-col items-center w-full text-gray-500 dark:text-gray-300 text-xs text-center font-medium py-4 px-2"
       >
         You have admin priviledges, you can view reports and delete this listing
         <div

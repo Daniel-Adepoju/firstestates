@@ -160,6 +160,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json(
         {
           conversationId: null,
+          conversation: null,
           messages: [],
           total: 0,
           numOfPages: 0,
@@ -224,6 +225,10 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(
       {
         conversationId: conversation?._id,
+        conversation: {
+          _id: conversation?._id,
+          pinnedBy: conversation?.pinnedBy || [],
+        },
         messages,
         firstUnreadId,
         unreadCount,

@@ -1,6 +1,6 @@
 "use client"
 import { useState, useRef, useEffect, useCallback, useLayoutEffect } from "react"
-import { User2, ArrowLeft, MoreVertical } from "lucide-react"
+import { User2 } from "lucide-react"
 import { useUser } from "@utils/user"
 import { useSearchParams } from "next/navigation"
 import Inbox from "./Inbox"
@@ -9,13 +9,14 @@ import { groupMessagesByDate } from "@utils/date"
 import MessageList from "./MessageList"
 import ChatInput from "./ChatInput"
 import Link from "next/link"
-import { useGetChats } from "@lib/customApi"
+import { useGetChats, useGetUser } from "@lib/customApi"
 import { axiosdata } from "@utils/axiosUrl"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { client as ably } from "@lib/AblyProvider"
 import { useReadChat } from "@lib/customApi"
 import { useChatNextPage } from "@lib/useIntersection"
 import { useRouter } from "next/navigation"
+import ConversationHeader from "./ConversationHeader"
 
 export default function Chat() {
   // const ably = useAbly()
@@ -24,12 +25,16 @@ export default function Chat() {
   const queryClient = useQueryClient()
 
   const listingId = useSearchParams().get("listingId")
-   const [showListing, setShowListing] = useState(true)
+  const [showListing, setShowListing] = useState(true)
   // users
   const { session, status } = useUser()
   const userId = session?.user.id
   const conversationId = useSearchParams().get("conversationId")
   const receiverId = useSearchParams().get("receiverId")
+  const { data: receiver } = useGetUser({
+    id: receiverId ?? undefined,
+    enabled: Boolean(receiverId),
+  })
 
   const [text, setText] = useState("")
   const [reply, setReply] = useState<any>("")
@@ -54,28 +59,32 @@ export default function Chat() {
   // })
 
   const {
-  data,
-  isLoading,
-  isFetchingNextPage,
-  // isFetchingPreviousPage,
-  hasNextPage,
-  // hasPreviousPage,
-  fetchNextPage,
-  // fetchPreviousPage,
-} = useGetChats({
-  receiverId: receiverId!,
-  senderId: userId!,
-})
+    data,
+    isLoading,
+    isFetchingNextPage,
+    // isFetchingPreviousPage,
+    hasNextPage,
+    // hasPreviousPage,
+    fetchNextPage,
+    // fetchPreviousPage,
+  } = useGetChats({
+    receiverId: receiverId!,
+    senderId: userId!,
+  })
 
-// data dependent vars
+  // data dependent vars
 
-    const initialPage = data?.pages.find((p) => p.firstUnreadId !== undefined)
+  const initialPage = data?.pages.find((p) => p.firstUnreadId !== undefined)
 
   const getNextPageRef = useChatNextPage(
-    { isLoading, isFetchingNextPage, hasNextPage, fetchNextPage,
+    {
+      isLoading,
+      isFetchingNextPage,
+      hasNextPage,
+      fetchNextPage,
       // fetchPreviousPage,isFetchingPreviousPage,
       // hasPreviousPage
-     },
+    },
     anchorRef,
     true,
   )
@@ -83,6 +92,8 @@ export default function Chat() {
   // Message mapping
   const messages = data?.pages.flatMap((page) => page.messages) || []
   const groupedMessages = groupMessagesByDate(messages)
+  const conversationIdFromMessages = data?.pages[0]?.conversationId || conversationId
+  const conversationInfo = data?.pages[0]?.conversation
 
   //  Realtime Subcriptions
   useEffect(() => {
@@ -141,7 +152,14 @@ export default function Chat() {
   const handleSendVoice = async (audio: { url: string; duration: number; waveform: number[] }) => {
     if (!userId || !receiverId) return
     shouldScrollToBottomRef.current = true
-    await axiosdata.value.post("api/chats", { conversationId, senderId: userId, receiverId, messageType: "voice", audio, replyTo: typeof reply === "object" ? reply?._id : null })
+    await axiosdata.value.post("api/chats", {
+      conversationId,
+      senderId: userId,
+      receiverId,
+      messageType: "voice",
+      audio,
+      replyTo: typeof reply === "object" ? reply?._id : null,
+    })
     setReply("")
   }
 
@@ -150,26 +168,26 @@ export default function Chat() {
   useLayoutEffect(() => {
     if (didInitialScroll.current) return
     if (!messages.length) return
-  
-if (initialPage?.firstUnreadId) {
-    unreadBannerRef.current?.scrollIntoView({
-        block: "center",
-    })
-} else {
-    messagesEndRef.current?.scrollIntoView({
-        block: "end",
-    })
-}
-      didInitialScroll.current = true
 
-      setTimeout(() => {
-        isInitialLoad.current = false
-    },1000)
-      mutateRead.mutate({
-        conversationId: data?.pages[0]?.conversationId,
-        userId,
+    if (initialPage?.firstUnreadId) {
+      unreadBannerRef.current?.scrollIntoView({
+        block: "center",
       })
-    }, [data])
+    } else {
+      messagesEndRef.current?.scrollIntoView({
+        block: "end",
+      })
+    }
+    didInitialScroll.current = true
+
+    setTimeout(() => {
+      isInitialLoad.current = false
+    }, 1000)
+    mutateRead.mutate({
+      conversationId: data?.pages[0]?.conversationId,
+      userId,
+    })
+  }, [data])
 
   useEffect(() => {
     if (!shouldScrollToBottomRef.current) return
@@ -185,11 +203,11 @@ if (initialPage?.firstUnreadId) {
   // Restore scroll position when new older messages are added
   useLayoutEffect(() => {
     if (isInitialLoad.current) return
-   if(isFetchingNextPage) return
-   if(!didInitialScroll.current) return
-   if(isLoading) return
-   if(isFetchingNextPage) return
-   if (messages.length === 1) return
+    if (isFetchingNextPage) return
+    if (!didInitialScroll.current) return
+    if (isLoading) return
+    if (isFetchingNextPage) return
+    if (messages.length === 1) return
 
     const container = containerRef.current
     const anchor = anchorRef.current
@@ -201,7 +219,7 @@ if (initialPage?.firstUnreadId) {
     container.scrollTop += newTop - 300
 
     anchorRef.current = null
-  }, [isFetchingNextPage]) 
+  }, [isFetchingNextPage])
   //  [isFetchingNextPage]
 
   // Renders
@@ -243,7 +261,15 @@ if (initialPage?.firstUnreadId) {
       </div>
 
       <div className=" flex-1 flex flex-col w-full border rounded-xl p-4 mx-auto bg-white dark:bg-black/20 nobar null">
-        <header className="mb-3 flex items-center justify-between border-b border-border pb-3"><div className="flex items-center gap-2"><button type="button" onClick={() => router.push("/inbox")} className="rounded-full p-2 hover:bg-muted md:hidden" aria-label="Back to inbox"><ArrowLeft size={18} /></button><div><p className="text-sm font-semibold">Conversation</p><p className="text-xs text-muted-foreground">Messages are private to this conversation</p></div></div><button type="button" className="rounded-full p-2 hover:bg-muted" aria-label="Conversation actions"><MoreVertical size={18} /></button></header>
+        <ConversationHeader
+          receiver={receiver}
+          conversationId={conversationIdFromMessages}
+          isPinned={conversationInfo?.pinnedBy?.some((id: string) => String(id) === String(userId))}
+          userId={userId}
+          messages={messages}
+          onBack={() => router.push("/inbox")}
+          onDeleted={() => router.push("/inbox")}
+        />
         <div
           ref={containerRef}
           className="nobar null w-[99%] h-[400px] flex-1 flex flex-col overflow-y-auto space-y-2 mb-2"
@@ -262,7 +288,7 @@ if (initialPage?.firstUnreadId) {
             reply={reply}
             setReply={setReply}
             firstUnreadId={initialPage?.firstUnreadId}
-unreadCount={initialPage?.unreadCount}
+            unreadCount={initialPage?.unreadCount}
             // firstUnreadId={data?.pages[0]?.firstUnreadId}
             // unreadCount={data?.pages[0]?.unreadCount}
             // getNextPageRef={isInitialLoad.current ? null : getNextPageRef}

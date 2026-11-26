@@ -3,7 +3,7 @@ import Link from "next/link"
 import { useQuery } from "@tanstack/react-query"
 import { axiosdata } from "@utils/axiosUrl"
 import { useState } from "react"
-
+// use infinite loader for community, maybe an algorithm to boot
 export default function CommunityPage() {
   const [formOpen, setFormOpen] = useState(false)
   const [form, setForm] = useState({ title: "", content: "", category: "general" })

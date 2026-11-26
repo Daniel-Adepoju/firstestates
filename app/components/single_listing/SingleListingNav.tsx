@@ -134,7 +134,7 @@ const SingleListingNav = ({ listing, session, router, reportModalRef }: any) => 
 
   // Secondary actions retain their original visual treatment.
   const secondaryButton =
-    "flex min-h-11 min-w-11 items-center justify-center gap-1 rounded-xl border border-border/60 bg-background px-1 py-2 text-xs font-semibold text-foreground shadow-sm transition hover:border-primary/50 hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:gap-2 sm:px-3 sm:text-sm"
+    "flex min-h-11 min-w-11 items-center justify-center gap-1 rounded-xl border border-primary/20 dark:border-primary/50  px-1 py-2 text-xs font-semibold text-foreground shadow-sm transition hover:border-primary/90 hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:gap-2 sm:px-3 sm:text-sm"
 
   // Special actions retain the application's established button pattern.
   const specialButton =
@@ -147,22 +147,20 @@ const SingleListingNav = ({ listing, session, router, reportModalRef }: any) => 
         px-2 pt-2
         pb-[calc(0.5rem+env(safe-area-inset-bottom))]
         bg-background
+        dark:bg-slate-800
         border-t border-border/70
         shadow-2xl
         md:w-full
         md:inset-x-auto
-        md:bottom-5
         md:left-1/2
         md:w-[min(96%,1100px)]
         md:-translate-x-1/2
-        md:bg-black/70
+        md:bg-slate-900/45
+        md:dark:bg-slate-500/45
         md:p-2.5
         md:shadow-2xl
-        md:backdrop-blur-[20px]
-        md:backdrop-saturate-200
-
-        lg:bg-black/20
-        lg:backdrop-blur-[52px]
+        md:backdrop-blur-[2px]
+       md:pb-1.5
       "
     >
       {/* Inner navigation: independent from the outer glass container */}
@@ -173,10 +171,11 @@ const SingleListingNav = ({ listing, session, router, reportModalRef }: any) => 
           flex-nowrap items-center justify-center gap-1
           rounded-xl
           bg-background
+          dark:bg-slate-800
           p-1
           sm:gap-2
           md:rounded-xl
-          md:p-1
+          md:p-2
         "
       >
         {/* Back */}

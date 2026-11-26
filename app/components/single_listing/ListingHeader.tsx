@@ -65,10 +65,8 @@ const ListingHeader = ({ listing }: Props) => {
                     src={image}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1200px"
-                    quality="auto:best"
                     format="auto"
                     dpr="auto"
-                    priority={index === 0}
                   />
                 </SwiperSlide>
               ))}
@@ -95,9 +93,9 @@ const ListingHeader = ({ listing }: Props) => {
 
         <div className="heading location">{listing?.location}</div>
 
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1  mt-1">
           <MapPin
-            size={25}
+            size={20}
             className="text-goldPrimary"
           />
           <span className="text-sm text-medium text-gray-600 dark:text-gray-300">

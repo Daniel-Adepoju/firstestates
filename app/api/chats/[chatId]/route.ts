@@ -27,7 +27,7 @@ export async function PATCH(req: NextRequest) {
     if (result.error) return result.error
     const { message, conversation } = result
     if (action === "star") {
-      const starred = message.starredBy.some((id: any) => String(id) === userId)
+      const starred = (message.starredBy || []).some((id: any) => String(id) === userId)
       await Chat.updateOne({ _id: message._id }, starred ? { $pull: { starredBy: userId } } : { $addToSet: { starredBy: userId } })
     } else if (action === "edit") {
       if (String(message.senderId) !== userId || message.messageType !== "text") return NextResponse.json({ message: "Only your text messages can be edited" }, { status: 403 })

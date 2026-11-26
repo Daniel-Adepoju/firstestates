@@ -30,8 +30,16 @@ export default function ConversationRow({
   const otherId = convo.userIds.find((id) => id !== currentUserId)
   const [menu, setMenu] = useState(false)
   const queryClient = useQueryClient()
-  const action = async (type: "pin" | "unpin") => { await axiosdata.value.patch(`/api/conversations/${(convo as any)._id}`, { action: type }); setMenu(false); queryClient.invalidateQueries({ queryKey: ["conversations", currentUserId] }) }
-  const remove = async () => { await axiosdata.value.delete(`/api/conversations/${(convo as any)._id}`); setMenu(false); queryClient.invalidateQueries({ queryKey: ["conversations", currentUserId] }) }
+  const action = async (type: "pin" | "unpin") => {
+    await axiosdata.value.patch(`/api/conversations/${(convo as any)._id}`, { action: type })
+    setMenu(false)
+    queryClient.invalidateQueries({ queryKey: ["conversations", currentUserId] })
+  }
+  const remove = async () => {
+    await axiosdata.value.delete(`/api/conversations/${(convo as any)._id}`)
+    setMenu(false)
+    queryClient.invalidateQueries({ queryKey: ["conversations", currentUserId] })
+  }
 
   return (
     <div
@@ -48,15 +56,55 @@ export default function ConversationRow({
           height={200}
           alt="profilePic"
           crop={"fit"}
-          className="w-12 h-12 rounded-full"
+          className="w-8 h-8 rounded-full"
         />
 
-        <div className="rext-sm font-medium ml-1 dark:text-gray-300 text-gray-500">
+        <div className="text-sm font-medium ml-1 dark:text-gray-300 text-gray-500">
           {convo?.participant?.username}
         </div>
       </div>
-      <button type="button" aria-label="Conversation actions" onClick={(event) => { event.stopPropagation(); setMenu(value => !value) }} className="absolute right-2 top-2 rounded-lg p-1 text-muted-foreground hover:bg-muted"><MoreVertical size={17} /></button>
-      {(menu) && <div onClick={event => event.stopPropagation()} className="absolute right-2 top-9 z-10 flex min-w-32 flex-col rounded-xl border border-border bg-background p-1 shadow-xl"><button type="button" className="chat-action" onClick={() => action((convo as any).pinnedBy?.some((id: string) => String(id) === currentUserId) ? "unpin" : "pin")}><Pin size={14} />{(convo as any).pinnedBy?.some((id: string) => String(id) === currentUserId) ? "Unpin" : "Pin"}</button><button type="button" className="chat-action text-red-600" onClick={remove}><Trash2 size={14} />Delete</button></div>}
+      <button
+        type="button"
+        aria-label="Conversation actions"
+        onClick={(event) => {
+          event.stopPropagation()
+          setMenu((value) => !value)
+        }}
+        className="absolute right-2 top-2 rounded-lg p-1 text-muted-foreground hover:bg-muted"
+      >
+        <MoreVertical size={17} />
+      </button>
+      {menu && (
+        <div
+          onClick={(event) => event.stopPropagation()}
+          className="absolute right-2 top-9 z-10 flex min-w-32 flex-col rounded-xl border border-border bg-background p-1 shadow-xl"
+        >
+          <button
+            type="button"
+            className="chat-action"
+            onClick={() =>
+              action(
+                (convo as any).pinnedBy?.some((id: string) => String(id) === currentUserId)
+                  ? "unpin"
+                  : "pin",
+              )
+            }
+          >
+            <Pin size={14} />
+            {(convo as any).pinnedBy?.some((id: string) => String(id) === currentUserId)
+              ? "Unpin"
+              : "Pin"}
+          </button>
+          <button
+            type="button"
+            className="chat-action text-red-600 dark:text-red-500"
+            onClick={remove}
+          >
+            <Trash2 size={14} />
+            Delete
+          </button>
+        </div>
+      )}
       <div className="mt-2 text-sm text-gray-500 dark:text-gray-400 truncate">
         {convo.lastMessage}
       </div>
@@ -74,7 +122,12 @@ export default function ConversationRow({
           </div>
         </div>
       )}
-      {(convo as any).pinnedBy?.some((id: string) => String(id) === currentUserId) && <Pin size={13} className="absolute bottom-2 right-2 text-primary" />}
+      {(convo as any).pinnedBy?.some((id: string) => String(id) === currentUserId) && (
+        <Pin
+          size={13}
+          className="absolute bottom-2 right-2 text-primary"
+        />
+      )}
     </div>
   )
 }

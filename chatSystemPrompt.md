@@ -14,6 +14,21 @@ We already have an existing chat implementation, database schema, messaging infr
 
 The implementation must preserve existing functionality and reuse existing infrastructure wherever possible.
 
+## Current implementation baseline
+
+The existing implementation now includes the following completed chat-system work. Future changes should extend these behaviors instead of recreating them:
+
+- `ConversationHeader` is a separate component used by the active chat view. It displays the other participant and provides a three-dot menu for starred messages, shared listings, pin/unpin, reporting, and user-specific conversation deletion.
+- The chat API returns conversation metadata needed by the header, including the conversation ID and the current user's pin state.
+- Message context actions support reply, star/unstar, sender-owned edit, personal/global deletion according to ownership, and reporting. A single click or context-menu interaction opens the message actions, while swipe-right supports reply.
+- Reply previews must be type-aware: text replies show the original text with a reply icon; voice replies show an audio icon and the exact label **"Replied to audio"**. Never render the audio label for a text reply.
+- Voice recording is isolated in `VoiceRecorder` and supports idle, recording, paused, ready, uploading, and error states. Cancel releases the microphone and discards the unsent recording; failed uploads preserve the recording state for retry.
+- Voice playback is isolated in `VoiceMessageBubble`, uses the stored waveform and duration, supports waveform seeking, and prevents multiple chat voice messages from playing simultaneously.
+- Voice messages continue to use the existing Cloudinary upload flow and `/api/chats` message infrastructure. Do not introduce a second audio storage or message-submission path.
+- The composer includes an expandable user-facing guidelines panel explaining how to reply, use message actions, record/send voice messages, seek voice playback, load older messages, and follow safety rules. Keep these instructions concise and synchronized with the actual controls.
+
+When a future change conflicts with these behaviors, update the implementation and this baseline together.
+
 ---
 
 # PHASE 1: ARCHITECTURE INVESTIGATION AND SAFETY
@@ -184,7 +199,7 @@ This is a contextual navigation/action menu associated with an individual messag
 
 It must appear when:
 
-- The user double-clicks a message bubble.
+- The user clicks a message bubble once.
 - The user long-presses a message bubble on touch devices.
 
 The menu should contain:
@@ -229,7 +244,7 @@ On mobile, long-press must not unnecessarily trigger browser text selection or i
 
 Use suitable pointer/touch handling and clean up all event listeners.
 
-Double-click should not interfere with normal single-click behaviour.
+Single-click should open the message actions without interfering with buttons, links, audio controls, or swipe-to-reply.
 
 ---
 
@@ -259,7 +274,7 @@ The movement must follow the user's finger naturally.
 - Prevent horizontal swipe gestures from breaking vertical message-list scrolling.
 - Ensure the interaction works on touch devices and desktop where appropriate.
 - Respect reduced-motion preferences.
-- Prevent swipe gestures from conflicting with long-press and double-click interactions.
+- Prevent swipe gestures from conflicting with single-click and long-press interactions.
 
 Use a suitable animation approach already available in the project. Do not introduce a large gesture dependency unless genuinely necessary.
 
@@ -876,6 +891,20 @@ Avoid:
 
 Animations should communicate interaction, not distract from messaging.
 
+## 12.1 User-facing chat guidance
+
+The chat composer should provide an expandable, plain-language quick-tips panel. It must explain the interactions users are most likely to miss:
+
+- Click a message once to open its options and choose **Reply**.
+- Swipe a message right on touch devices to start a reply.
+- Text replies show the original text; voice replies show **Replied to audio**.
+- The message menu can expose star, edit, delete, and report actions according to message ownership.
+- The empty composer microphone starts recording; recording supports pause, resume, finish, cancel, and send.
+- Voice playback supports play/pause and dragging across the waveform to seek.
+- Listing conversations remain associated with their listing, and older messages load from the top of the message area.
+
+The guidance must not claim support for controls that are not implemented. Keep it visually secondary, accessible through a native expandable control, and readable in both light and dark themes.
+
 ---
 
 # PHASE 13: DATABASE AND MIGRATION REQUIREMENTS
@@ -928,7 +957,7 @@ Use two authenticated accounts to verify that shared conversation behaviour is c
 
 - Send and receive text messages.
 - Reply to messages.
-- Double-click a message.
+- Click a message once.
 - Long-press a message.
 - Swipe right to reply.
 - Edit an owned message.

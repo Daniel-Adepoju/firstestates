@@ -87,26 +87,6 @@ const ListingDetails = ({ listing }: Props) => {
           <span>{listing.schoolDistanceKm.toFixed(1)} km from school</span>
         </div>
       )}
-
-      <div className="agent">
-        <CldImage
-          width={200}
-          height={180}
-          className='w-20 h-20 rounded-full'
-          alt="agent pic"
-          crop="fit"
-          src={listing?.agent?.profilePic}
-        />
-        <div>
-          Listed by{" "}
-          <Link
-            className="font-head quickLink"
-            href={`/agent-view/${listing?.agent?._id}`}
-          >
-            {listing?.agent?.username}
-          </Link>
-        </div>
-      </div>
     </div>
   )
 }

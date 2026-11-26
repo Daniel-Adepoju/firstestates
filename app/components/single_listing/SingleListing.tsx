@@ -57,7 +57,7 @@ const SingleListing = ({ listingId, isAgent }: { listingId: string; isAgent?: bo
 
   if (isLoading)
     return (
-      <div className={`single-listing-page p-24 w-full text-foreground ${isAgentView ? "mt-0" : "mt-4 lg:mt-6"}`}>
+      <div className={`single-listing-page pb-24 w-full text-foreground ${isAgentView ? "mt-0" : "mt-4 lg:mt-6"}`}>
         <div className="singleCardCon animate-pulse">
           <div className="singleCardSection">
             <div className="single_card">
@@ -126,11 +126,11 @@ const SingleListing = ({ listingId, isAgent }: { listingId: string; isAgent?: bo
             </div>
           </div>
         </div>
-        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border/60 bg-background/90 px-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] pt-2 backdrop-blur md:fixed md:bottom-5 md:left-1/2 md:top-auto md:w-[min(96%,1100px)] md:-translate-x-1/2 md:rounded-2xl md:border">
+        {/* <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border/60 bg-background/90 px-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] pt-2 backdrop-blur md:fixed md:bottom-5 md:left-1/2 md:top-auto md:w-[min(96%,1100px)] md:-translate-x-1/2 md:rounded-2xl md:border">
           <div className="mx-auto flex max-w-6xl items-center gap-1 md:gap-2">
             {Array.from({ length: 5 }).map((_, index) => <Skeleton key={index} className={`${index > 2 ? "h-11 flex-1" : "h-11 w-11"} rounded-2xl bg-gray-500/20`} />)}
           </div>
-        </div>
+        </div> */}
       </div>
     )
 

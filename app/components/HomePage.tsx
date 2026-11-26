@@ -115,13 +115,14 @@ const HomePage = () => {
         </button>
       </div>
 
-      <div className="flex w-[92%] max-w-2xl gap-2 rounded-xl bg-muted/50 p-1" role="tablist" aria-label="Listing category">
+{/*Category Tabs*/}
+      {/* <div className="flex w-[92%] max-w-2xl gap-2 rounded-xl bg-muted/50 p-1" role="tablist" aria-label="Listing category">
         {[{ value: "", label: "All" }, { value: "student", label: "Students" }, { value: "residential", label: "Residential" }].map((tab) => (
           <button key={tab.value} type="button" role="tab" aria-selected={category.value === tab.value} onClick={() => { category.value = tab.value as typeof category.value }} className={`flex-1 rounded-lg px-3 py-2 text-sm font-semibold transition ${category.value === tab.value ? "bg-background text-foreground shadow-sm" : "text-muted-foreground"}`}>
             {tab.label}
           </button>
         ))}
-      </div>
+      </div> */}
 
       {/* Filter dropdown */}
       <Filter

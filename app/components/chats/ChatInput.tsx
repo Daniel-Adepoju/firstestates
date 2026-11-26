@@ -1,4 +1,4 @@
-import { Eye, EyeClosed, Loader2, SendHorizonal, X, AudioLines } from "lucide-react"
+import { AudioLines, Eye, EyeClosed, Loader2, Reply, SendHorizonal, X } from "lucide-react"
 import Guidelines from "./Guidelines"
 import PopularCard from "@components/listing/PopularCard"
 import { useGetSingleListing } from "@lib/customApi"
@@ -83,7 +83,7 @@ export default function ChatInput({
           </div>
 
           <div className="mt-4 w-[99%] text-sm overflow-hidden whitespace-nowrap text-ellipsis">
-            {typeof reply === "string" ? reply : <><AudioLines size={14} className="mr-1 inline" />Replied to audio</>}
+            {typeof reply === "string" ? reply : reply?.messageType === "voice" || reply?.audio?.url ? <><AudioLines size={14} className="mr-1 inline" />Replied to audio</> : <><Reply size={14} className="mr-1 inline" />{reply?.text || "Replied message"}</>}
           </div>
         </div>
       )}
